@@ -1,0 +1,4092 @@
+{
+  "title": "Wringy｜Whop 生意全图",
+  "language": "zh-CN",
+  "slides": [
+    {
+      "id": "S01",
+      "section": "整门生意",
+      "title": "Whop 生意全图",
+      "layout": "cover",
+      "takeaway": "看懂谁付钱、谁交付、谁赚钱",
+      "body": [
+        "Wringy 学习系列",
+        "12 个板块 · 168 项公开功能与边界",
+        "研究基准：2026 年 9 月 10 日"
+      ],
+      "example": "",
+      "visual_brief": "Wringy 中文主视觉，年轻创意但可信；大幅真实创作者工作照片，留白，避免伪造 Whop 界面。",
+      "speaker_notes_zh": "这是一份公开业务的中文入门地图。168 项是研究归纳的功能与边界，包括接口、计划和未知项，并非 Whop 宣布或全部实测的功能数。\n\n参考来源：\nWhop 官网：https://whop.com/",
+      "sources": [
+        {
+          "title": "Whop 官网",
+          "url": "https://whop.com/"
+        }
+      ],
+      "feature_ids": []
+    },
+    {
+      "id": "S02",
+      "section": "整门生意",
+      "title": "Whop 帮人把生意运转起来",
+      "layout": "flow",
+      "takeaway": "它连接经营、交易、交付、增长与资金",
+      "body": [
+        "经营者上架商品",
+        "买家付款并获得交付",
+        "推广和广告带来客户",
+        "奖励与销售款进入资金流程"
+      ],
+      "example": "例：导师卖课程，也可只用 Whop 收款，在原有工具上课。",
+      "visual_brief": "可编辑横向业务图：经营者—商品—买家—交付；下方一条资金线。",
+      "speaker_notes_zh": "开户有站内构建及仅支付处理两种路径。平台能力还能提供给外部软件，因此范围超过付费群。图表达商业关系，不表示 Whop 内部架构。\n\n参考来源：\nWhop 官网：https://whop.com/\n开户：https://docs.whop.com/launch-your-business\n管理商品：https://docs.whop.com/manage-your-business/products/manage-products",
+      "sources": [
+        {
+          "title": "Whop 官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "开户",
+          "url": "https://docs.whop.com/launch-your-business"
+        },
+        {
+          "title": "管理商品",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        }
+      ],
+      "feature_ids": [
+        "B01-F01",
+        "B01-F09"
+      ]
+    },
+    {
+      "id": "S03",
+      "section": "整门生意",
+      "title": "五种参与者，各有一笔账",
+      "layout": "compare",
+      "takeaway": "同一个人可以换角色，收入理由也会改变",
+      "body": [],
+      "example": "教学人物：Aina 做内容，Ben 推广商品，品牌 Nusa 发活动；三者均为虚构。",
+      "visual_brief": "五行角色图，用人物照片小裁切辅助，角色和钱的方向用可编辑文字。",
+      "speaker_notes_zh": "Creator 指内容创作者。Affiliate 指推广者，因带来合格销售而获佣金。开发者和外部平台可提供工具并另行约定服务费。角色可以重叠，但每笔报酬应标明原因。\n\n参考来源：\nWhop 卖家条款：https://whop.com/seller-terms/\nCR 主页：https://contentrewards.com/\nBe an Affiliate：https://docs.whop.com/affiliates/be-an-affiliate.md\n开发者收费示例：https://whop.com/blog/whop-app-store/",
+      "sources": [
+        {
+          "title": "Whop 卖家条款",
+          "url": "https://whop.com/seller-terms/"
+        },
+        {
+          "title": "CR 主页",
+          "url": "https://contentrewards.com/"
+        },
+        {
+          "title": "Be an Affiliate",
+          "url": "https://docs.whop.com/affiliates/be-an-affiliate.md"
+        },
+        {
+          "title": "开发者收费示例",
+          "url": "https://whop.com/blog/whop-app-store/"
+        }
+      ],
+      "feature_ids": [
+        "B06-F02",
+        "B07-F01",
+        "B11-F15"
+      ],
+      "table": {
+        "headers": [
+          "角色",
+          "提供什么",
+          "收付什么"
+        ],
+        "rows": [
+          [
+            "商家",
+            "商品或服务",
+            "收销售款"
+          ],
+          [
+            "买家",
+            "购买需求",
+            "付商品款"
+          ],
+          [
+            "品牌／创作者",
+            "活动需求／内容成果",
+            "付预算／收奖励"
+          ],
+          [
+            "推广者",
+            "合格客户",
+            "收销售佣金"
+          ],
+          [
+            "开发者／外部平台",
+            "工具和交易场所",
+            "依合同收服务费"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S04",
+      "section": "整门生意",
+      "title": "四条常见的付钱路径",
+      "layout": "flow",
+      "takeaway": "销售、内容采购、推荐佣金和广告各有触发条件",
+      "body": [],
+      "example": "例：视频很多人看过，可能形成内容奖励；是否卖出商品要另看订单。",
+      "visual_brief": "四条平行原生流程线，每条只有付款人、触发条件、收款人。",
+      "speaker_notes_zh": "内容奖励可以买内容或传播表现。推广按销售约定触发佣金。广告预算购买媒体交付，不能把一次点击当作创作者奖励或销售佣金。\n\n参考来源：\nCR 主页：https://contentrewards.com/\n运行指南：https://docs.whop.com/developer/bounties/run-a-bounty-program.md\nCustom Affiliates：https://docs.whop.com/affiliates/setup-custom.md\nWhop Ads：https://docs.whop.com/manage-your-business/growth-marketing/ads.md",
+      "sources": [
+        {
+          "title": "CR 主页",
+          "url": "https://contentrewards.com/"
+        },
+        {
+          "title": "运行指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        },
+        {
+          "title": "Custom Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-custom.md"
+        },
+        {
+          "title": "Whop Ads",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+        }
+      ],
+      "feature_ids": [
+        "B06-F02",
+        "B06-F09",
+        "B07-F04",
+        "B08-F02"
+      ],
+      "table": {
+        "headers": [
+          "付款人",
+          "为什么付",
+          "主要收款人"
+        ],
+        "rows": [
+          [
+            "买家",
+            "买商品或服务",
+            "商家"
+          ],
+          [
+            "品牌",
+            "合格内容或任务",
+            "创作者／执行者"
+          ],
+          [
+            "商家",
+            "推广带来合格销售",
+            "推广者"
+          ],
+          [
+            "广告主",
+            "媒体投放",
+            "媒体及适用服务方"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S05",
+      "section": "整门生意",
+      "title": "RM100 成交，钱怎样分开",
+      "layout": "chart",
+      "takeaway": "成交额、服务费与商家所得各是一个数字",
+      "body": [
+        "买家付款：RM100",
+        "假设交易服务费：RM5",
+        "商家剩余：RM95",
+        "服务方还要承担自己的成本"
+      ],
+      "example": "教学假设，非 Whop 报价或 MYR 实测；暂不计税、退款、佣金及准备金。",
+      "visual_brief": "可编辑横向堆积条，仅 RM95 与 RM5 两段；图上明确“教学假设”。",
+      "speaker_notes_zh": "算式是 RM100−RM5＝RM95。RM5 只是本例假设费用，不是 Whop 公布费率。服务费也不是净利润，因为支付合作方等成本尚未扣除。资金进入余额和以后提现，不会再次创造销售额。\n\n参考来源：\nWhop 官方定价：https://whop.com/network/pricing/\nWhop 卖家条款：https://whop.com/seller-terms/",
+      "sources": [
+        {
+          "title": "Whop 官方定价",
+          "url": "https://whop.com/network/pricing/"
+        },
+        {
+          "title": "Whop 卖家条款",
+          "url": "https://whop.com/seller-terms/"
+        }
+      ],
+      "feature_ids": [],
+      "chart": {
+        "type": "stacked_bar",
+        "unit": "RM",
+        "categories": [
+          "买家付款 RM100"
+        ],
+        "series": [
+          {
+            "name": "商家剩余",
+            "values": [
+              95
+            ]
+          },
+          {
+            "name": "假设服务费",
+            "values": [
+              5
+            ]
+          }
+        ],
+        "disclosure": "教学假设；非 Whop 费率或 MYR 实测"
+      }
+    },
+    {
+      "id": "S06",
+      "section": "整门生意",
+      "title": "Whop 的收入触发点",
+      "layout": "table",
+      "takeaway": "费用要按实际服务与承担方辨认",
+      "body": [],
+      "example": "例：品牌把 RM10,000 放入活动预算，预算本身仍不是平台营收。数字为教学假设。",
+      "visual_brief": "五行简表，金额不做真实营收占比图。",
+      "speaker_notes_zh": "公开价格说明成功收款及可选服务如何收费，无法证明净留存。资金业务、AI 媒体、公司成立及企业定制都有不同收费或商业入口。广告媒体费与 CR 公司费用须分清，未找到独立价格的功能不能补造月费。\n\n参考来源：\nWhop 官方定价：https://whop.com/network/pricing/\n提现设置：https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md\nWhop Cards：https://docs.whop.com/whop-finance/cards.md\n媒体资源：https://docs.whop.com/api-reference/beta/media/media.md\nLLC 公布及价格：https://whop.com/blog/register-llc/\n开发者收费示例：https://whop.com/blog/whop-app-store/",
+      "sources": [
+        {
+          "title": "Whop 官方定价",
+          "url": "https://whop.com/network/pricing/"
+        },
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "Whop Cards",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        },
+        {
+          "title": "媒体资源",
+          "url": "https://docs.whop.com/api-reference/beta/media/media.md"
+        },
+        {
+          "title": "LLC 公布及价格",
+          "url": "https://whop.com/blog/register-llc/"
+        },
+        {
+          "title": "开发者收费示例",
+          "url": "https://whop.com/blog/whop-app-store/"
+        }
+      ],
+      "feature_ids": [
+        "B09-F05",
+        "B09-F12",
+        "B12-F03",
+        "B12-F11",
+        "B11-F15"
+      ],
+      "table": {
+        "headers": [
+          "收入相关服务",
+          "触发或边界"
+        ],
+        "rows": [
+          [
+            "收款及账单",
+            "成功交易与已启用服务"
+          ],
+          [
+            "出款及金融服务",
+            "方式、资格及合作方约定"
+          ],
+          [
+            "广告与内容奖励",
+            "媒体、CR与Whop费用分辨主体"
+          ],
+          [
+            "AI媒体与公司成立",
+            "生成或付费申请"
+          ],
+          [
+            "企业定制",
+            "以具体报价和合同为准"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S07",
+      "section": "整门生意",
+      "title": "12 个板块的阅读地图",
+      "layout": "table",
+      "takeaway": "每个板块回答一个经营问题",
+      "body": [],
+      "example": "例：客户“付了钱看不到课”，需要同时查看收款和访问权益。",
+      "visual_brief": "四行阅读分组，每行三个或两个板块；不要做12个密集仪表板卡片。",
+      "speaker_notes_zh": "12 个板块是本研究的阅读分类。它们不是 Whop 的官方组织图，也不是 Wringy 已确定的建设清单。课程、社群、服务、商品及外部平台可使用其中不同组合。\n\n参考来源：\nWhop 官网：https://whop.com/\nWhop 开发者入口：https://docs.whop.com/developer/start.md",
+      "sources": [
+        {
+          "title": "Whop 官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "Whop 开发者入口",
+          "url": "https://docs.whop.com/developer/start.md"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "阅读分组",
+          "板块"
+        ],
+        "rows": [
+          [
+            "经营与交易",
+            "B01 开店 · B02 收款 · B03 交付 · B04 客服"
+          ],
+          [
+            "发现与增长",
+            "B05 商城 · B06 创作者 · B07 推广 · B08 广告"
+          ],
+          [
+            "资金与信任",
+            "B09 钱包出款 · B10 核验争议"
+          ],
+          [
+            "生态与创业",
+            "B11 开发者企业 · B12 AI与成长"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S08",
+      "section": "整门生意",
+      "title": "同一套能力，服务多种生意",
+      "layout": "image",
+      "takeaway": "行业方案是能力组合，责任仍属于对应服务方",
+      "body": [
+        "课程、教练与付费社群",
+        "服务、软件与实物商品",
+        "活动、零工及外部市场",
+        "医疗方案主要证据在付款层"
+      ],
+      "example": "例：实体商品由商家或外部仓配发货，不能只看收款成功。",
+      "visual_brief": "四张不同真实场景照片拼成单一画面：授课、拍摄、包装、软件工作；配简短标签。",
+      "speaker_notes_zh": "官网列九类企业方案。实物页不能证明完整仓库系统，服务页不能证明完整项目管理，医疗页不能证明病历和处方能力。不同场景复用收款等能力，不等于 Whop 自营所有行业。\n\n参考来源：\nWhop 医疗方案：https://whop.com/network/solutions/telehealth/\nWhop 官网：https://whop.com/\n机构方案：https://docs.whop.com/supported-business-models/agency-services\n实物方案：https://docs.whop.com/supported-business-models/dtc-ecommerce",
+      "sources": [
+        {
+          "title": "Whop 医疗方案",
+          "url": "https://whop.com/network/solutions/telehealth/"
+        },
+        {
+          "title": "Whop 官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "机构方案",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        },
+        {
+          "title": "实物方案",
+          "url": "https://docs.whop.com/supported-business-models/dtc-ecommerce"
+        }
+      ],
+      "feature_ids": [
+        "B03-F10",
+        "B03-F12"
+      ]
+    },
+    {
+      "id": "S09",
+      "section": "B01 开店",
+      "title": "B01：先说清楚卖什么",
+      "layout": "module",
+      "takeaway": "账号、经营空间、商品和团队权限各有用途",
+      "body": [
+        "账号代表一个人",
+        "商家空间代表一门生意",
+        "商品定义顾客会买到什么",
+        "团队按职责分权限"
+      ],
+      "example": "教学假设：Aina 卖 RM100 的四周剪辑课程，助理负责内容，客服处理咨询。",
+      "visual_brief": "可编辑四层关系图；可选真实商品编辑截图，标出标题、内容、价格关联。",
+      "speaker_notes_zh": "商品连接价格方案与交付体验。顾客购买权限和团队管理权限属于不同关系。公开资料没有证明按每个商品或每个席位独立收费。\n\n参考来源：\n开户：https://docs.whop.com/launch-your-business\n角色：https://docs.whop.com/manage-your-business/team-management/manage-team-roles\n创建商品：https://docs.whop.com/manage-your-business/products/create-product\n管理商品：https://docs.whop.com/manage-your-business/products/manage-products",
+      "sources": [
+        {
+          "title": "开户",
+          "url": "https://docs.whop.com/launch-your-business"
+        },
+        {
+          "title": "角色",
+          "url": "https://docs.whop.com/manage-your-business/team-management/manage-team-roles"
+        },
+        {
+          "title": "创建商品",
+          "url": "https://docs.whop.com/manage-your-business/products/create-product"
+        },
+        {
+          "title": "管理商品",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        }
+      ],
+      "feature_ids": [
+        "B01-F01",
+        "B01-F04",
+        "B01-F05",
+        "B01-F07",
+        "B01-F09"
+      ]
+    },
+    {
+      "id": "S10",
+      "section": "B01 开店",
+      "title": "商品下架后的老顾客",
+      "layout": "flow",
+      "takeaway": "停止新销售与处理已有购买，需要分别看",
+      "body": [
+        "资料与交付内容先对应",
+        "发布状态控制新买家入口",
+        "既有会员仍有历史记录",
+        "有相关记录时删除会受限"
+      ],
+      "example": "例：课程不再招生，客服仍需要查到老学员的购买。",
+      "visual_brief": "原生分叉图：商品下架，一支“新客入口”，一支“老客记录及权益”；不写自动撤销。",
+      "speaker_notes_zh": "当前商品删除接口列会员、评价、发票等关联限制。下架与已有权益分开是理解边界的方式；全部旧会员的访问变化仍须按实际规则核对。\n\n参考来源：\n创建商品：https://docs.whop.com/manage-your-business/products/create-product\n导航：https://docs.whop.com/manage-your-business/products/manage-products\n法律文件：https://docs.whop.com/manage-your-business/manage-business/legal-documents\n重复账号：https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts",
+      "sources": [
+        {
+          "title": "创建商品",
+          "url": "https://docs.whop.com/manage-your-business/products/create-product"
+        },
+        {
+          "title": "导航",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        },
+        {
+          "title": "法律文件",
+          "url": "https://docs.whop.com/manage-your-business/manage-business/legal-documents"
+        },
+        {
+          "title": "重复账号",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts"
+        }
+      ],
+      "feature_ids": [
+        "B01-F10",
+        "B01-F11",
+        "B01-F12",
+        "B01-F13"
+      ]
+    },
+    {
+      "id": "S11",
+      "section": "B02 收款",
+      "title": "B02：报价到扣款成功",
+      "layout": "module",
+      "takeaway": "收费方式决定买家何时付、付几次",
+      "body": [
+        "一次付清或周期收费",
+        "试用与固定次数分期",
+        "链接、网站或手机入口",
+        "付款方式取决于资格"
+      ],
+      "example": "教学假设：RM100 一次付清，与每月 RM100 订阅，是两种合同。",
+      "visual_brief": "真实结账截图愿望：金额、周期与支付方式；旁边仅三个中文指示。",
+      "speaker_notes_zh": "一次性付款不等于无限期访问，卖家条款要求明确期限。商家自行分期与融资方垫付是不同关系。本币显示、付款能力、融资资格要分别确认。\n\n参考来源：\nWhop 卖家条款：https://whop.com/seller-terms/\n创建结账链接：https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md\n一键按钮：https://docs.whop.com/payments/one-click-checkout-button.md\n当地支付方式：https://docs.whop.com/payments-and-billing/local-payment-methods.md\nAdaptive Pricing：https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md\n融资申请：https://docs.whop.com/payments-and-billing/financing/apply.md",
+      "sources": [
+        {
+          "title": "Whop 卖家条款",
+          "url": "https://whop.com/seller-terms/"
+        },
+        {
+          "title": "创建结账链接",
+          "url": "https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md"
+        },
+        {
+          "title": "一键按钮",
+          "url": "https://docs.whop.com/payments/one-click-checkout-button.md"
+        },
+        {
+          "title": "当地支付方式",
+          "url": "https://docs.whop.com/payments-and-billing/local-payment-methods.md"
+        },
+        {
+          "title": "Adaptive Pricing",
+          "url": "https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md"
+        },
+        {
+          "title": "融资申请",
+          "url": "https://docs.whop.com/payments-and-billing/financing/apply.md"
+        }
+      ],
+      "feature_ids": [
+        "B02-F01",
+        "B02-F02",
+        "B02-F04",
+        "B02-F05",
+        "B02-F11"
+      ]
+    },
+    {
+      "id": "S12",
+      "section": "B02 收款",
+      "title": "续费失败时会发生什么",
+      "layout": "flow",
+      "takeaway": "欠费、重试和取消是连续状态",
+      "body": [
+        "付款失败进入欠费",
+        "提醒客户更新付款方式",
+        "文档描述五天内自动重试",
+        "访问是否保留取决于设置"
+      ],
+      "example": "教学假设：本期 RM100 未扣成功，不能当作已收到 RM100。",
+      "visual_brief": "可编辑状态图：欠费—更新卡—重试；成功/仍失败分支；访问状态另列小注。",
+      "speaker_notes_zh": "官方文档说明五天重试后仍失败取消，但不应承诺所有渠道完全相同。暂停收费、期末取消、立即终止访问须分开理解。账单显示金额不等于现金到账。\n\n参考来源：\n保存支付方式：https://docs.whop.com/developer/guides/save-payment-methods.md\n失败续费：https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md\n管理会员：https://docs.whop.com/manage-your-business/manage-payments/manage-users.md\nBilling Portal：https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md",
+      "sources": [
+        {
+          "title": "保存支付方式",
+          "url": "https://docs.whop.com/developer/guides/save-payment-methods.md"
+        },
+        {
+          "title": "失败续费",
+          "url": "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md"
+        },
+        {
+          "title": "管理会员",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users.md"
+        },
+        {
+          "title": "Billing Portal",
+          "url": "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md"
+        }
+      ],
+      "feature_ids": [
+        "B02-F06",
+        "B02-F07",
+        "B02-F08",
+        "B02-F09"
+      ]
+    },
+    {
+      "id": "S13",
+      "section": "B03 交付",
+      "title": "B03：顾客真正买到的体验",
+      "layout": "module",
+      "takeaway": "交付可以是内容、交流、服务或商品",
+      "body": [
+        "课程、文件与内容页",
+        "聊天、论坛与外部社群",
+        "预约、直播与活动",
+        "外部服务或实物履约"
+      ],
+      "example": "教学假设：RM100 套餐包含四周课程、文件和讨论区。",
+      "visual_brief": "优先真实课程编辑截图，三个局部标注：章节、课时、解锁设置；不重画UI。",
+      "speaker_notes_zh": "体验是可被商品包含的交付空间。一个套餐可包含多个体验。第三方应用可能有自己的开发者与收费，不能全部称为 Whop 自研产品。\n\n参考来源：\n应用：https://docs.whop.com/whop-apps/what-are-whop-apps\n付费群活动：https://docs.whop.com/supported-business-models/paid-groups\n教育方案：https://docs.whop.com/supported-business-models/educational-programs\n消费者应用：https://docs.whop.com/whop-apps/consumer-apps\n预约配置：https://docs.whop.com/supported-business-models/agency-services\n实物方案：https://docs.whop.com/supported-business-models/dtc-ecommerce",
+      "sources": [
+        {
+          "title": "应用",
+          "url": "https://docs.whop.com/whop-apps/what-are-whop-apps"
+        },
+        {
+          "title": "付费群活动",
+          "url": "https://docs.whop.com/supported-business-models/paid-groups"
+        },
+        {
+          "title": "教育方案",
+          "url": "https://docs.whop.com/supported-business-models/educational-programs"
+        },
+        {
+          "title": "消费者应用",
+          "url": "https://docs.whop.com/whop-apps/consumer-apps"
+        },
+        {
+          "title": "预约配置",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        },
+        {
+          "title": "实物方案",
+          "url": "https://docs.whop.com/supported-business-models/dtc-ecommerce"
+        }
+      ],
+      "feature_ids": [
+        "B03-F01",
+        "B03-F03",
+        "B03-F05",
+        "B03-F07",
+        "B03-F08",
+        "B03-F09",
+        "B03-F12",
+        "B03-F14"
+      ]
+    },
+    {
+      "id": "S14",
+      "section": "B03 交付",
+      "title": "付了钱，却进不了群",
+      "layout": "flow",
+      "takeaway": "先定位账号、权益和外部连接哪一步出错",
+      "body": [
+        "核对购买所用邮箱",
+        "查看商品是否包含该群",
+        "确认会员权益有效",
+        "处理外部绑定或再同步"
+      ],
+      "example": "例：Aina 的学员登录了另一个邮箱，因此找不到购买。",
+      "visual_brief": "原生三道门图：正确账号、有效权益、外部连接；失败门下各写一条原因。",
+      "speaker_notes_zh": "找不到购买可能源于重复账号。Discord 或 TradingView 的再同步有公开接口，Telegram 邀请式接入不适用同一种再同步。支付成功只回答钱的状态。\n\n参考来源：\n概念：https://docs.whop.com/developer/concepts\n再同步：https://docs.whop.com/api-reference/beta/memberships/resync-membership-access\n找回：https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase",
+      "sources": [
+        {
+          "title": "概念",
+          "url": "https://docs.whop.com/developer/concepts"
+        },
+        {
+          "title": "再同步",
+          "url": "https://docs.whop.com/api-reference/beta/memberships/resync-membership-access"
+        },
+        {
+          "title": "找回",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase"
+        }
+      ],
+      "feature_ids": [
+        "B03-F02",
+        "B03-F11",
+        "B04-F05"
+      ]
+    },
+    {
+      "id": "S15",
+      "section": "B04 客服",
+      "title": "B04：把顾客与问题连起来",
+      "layout": "module",
+      "takeaway": "客服要同时看到购买、访问与沟通记录",
+      "body": [
+        "潜客与候补跟进",
+        "客户和多项会员分开显示",
+        "欢迎消息与欠费提醒",
+        "支持会话、报表与导出"
+      ],
+      "example": "例：一个客户买了两门课，客户是一人，会员关系有两项。",
+      "visual_brief": "真实客服详情截图愿望：会话与购买项目；隐藏个人资料，只作功能讲解。",
+      "speaker_notes_zh": "经营后台把不同业务状态集中显示，原始付款和访问结果仍要分别核对。客服收件箱与公开群聊是不同用途。\n\n参考来源：\n候补：https://docs.whop.com/manage-your-business/products/create-waitlist\n管理用户：https://docs.whop.com/manage-your-business/manage-payments/manage-users\n自动消息：https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging\n支持会话：https://docs.whop.com/developer/guides/chat/support-chats\n分析：https://docs.whop.com/manage-your-business/manage-business/analytics",
+      "sources": [
+        {
+          "title": "候补",
+          "url": "https://docs.whop.com/manage-your-business/products/create-waitlist"
+        },
+        {
+          "title": "管理用户",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users"
+        },
+        {
+          "title": "自动消息",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging"
+        },
+        {
+          "title": "支持会话",
+          "url": "https://docs.whop.com/developer/guides/chat/support-chats"
+        },
+        {
+          "title": "分析",
+          "url": "https://docs.whop.com/manage-your-business/manage-business/analytics"
+        }
+      ],
+      "feature_ids": [
+        "B04-F01",
+        "B04-F02",
+        "B04-F07",
+        "B04-F08",
+        "B04-F11"
+      ]
+    },
+    {
+      "id": "S16",
+      "section": "B04 客服",
+      "title": "一个客服问题怎样结案",
+      "layout": "flow",
+      "takeaway": "修复交付与批准退款，是不同处理路线",
+      "body": [
+        "先找到对应购买",
+        "判断是访问问题还是退款诉求",
+        "交付修复后确认能使用",
+        "退款诉求进入正式案件"
+      ],
+      "example": "例：修好 Discord 绑定可解决访问问题；顾客要求退款则另走售后。",
+      "visual_brief": "原生分叉流程：购买记录—问题诊断—访问修复/售后案件—通知客户。",
+      "speaker_notes_zh": "一般支持能联系客户、定位购买与发起操作。退款决定、执行退款和资金入账需要各自结果，关闭客服对话不能当作退款到账。\n\n参考来源：\n管理用户：https://docs.whop.com/manage-your-business/manage-payments/manage-users\n找回：https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase\n支持会话：https://docs.whop.com/developer/guides/chat/support-chats\nResolution Center：https://docs.whop.com/manage-your-business/manage-payments/resolution-center",
+      "sources": [
+        {
+          "title": "管理用户",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users"
+        },
+        {
+          "title": "找回",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase"
+        },
+        {
+          "title": "支持会话",
+          "url": "https://docs.whop.com/developer/guides/chat/support-chats"
+        },
+        {
+          "title": "Resolution Center",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/resolution-center"
+        }
+      ],
+      "feature_ids": [
+        "B04-F03",
+        "B04-F05",
+        "B04-F08",
+        "B04-F09"
+      ]
+    },
+    {
+      "id": "S17",
+      "section": "B05 商城",
+      "title": "B05：买家发现和判断商品",
+      "layout": "module",
+      "takeaway": "搜索带来候选，资料与评价帮助选择",
+      "body": [
+        "按关键词找商品",
+        "按类目和价格筛选",
+        "提交资料后接受商城审核",
+        "查看评价与付费标识"
+      ],
+      "example": "例：买家搜索剪辑课程，再对照收费周期与评论。",
+      "visual_brief": "真实 Discover 搜索结果及商品详情截图愿望；未取得时用原生搜索到比较流程，不能伪造搜索UI。",
+      "speaker_notes_zh": "公共商品查询和商家自己的目录有区别。公开接口有搜索、筛选与排序契约，不证明前台露出全部筛选器。当前发布接口要求审核，历史即时通过公告不能作为今天的保证。\n\n参考来源：\n筛选契约：https://docs.whop.com/api-reference/beta/products/list-products.md\n发布审核：https://docs.whop.com/api-reference/beta/products/publish-product.md\nReview：https://docs.whop.com/api-reference/reviews/review.md",
+      "sources": [
+        {
+          "title": "筛选契约",
+          "url": "https://docs.whop.com/api-reference/beta/products/list-products.md"
+        },
+        {
+          "title": "发布审核",
+          "url": "https://docs.whop.com/api-reference/beta/products/publish-product.md"
+        },
+        {
+          "title": "Review",
+          "url": "https://docs.whop.com/api-reference/reviews/review.md"
+        }
+      ],
+      "feature_ids": [
+        "B05-F01",
+        "B05-F02",
+        "B05-F03",
+        "B05-F05",
+        "B05-F06",
+        "B05-F08"
+      ]
+    },
+    {
+      "id": "S18",
+      "section": "B05 商城",
+      "title": "评价能证明到哪一步",
+      "layout": "compare",
+      "takeaway": "星级有帮助，付费标识和内容仍要一起看",
+      "body": [
+        "评价可显示付费、未付费或未知",
+        "平台规则要求真实体验",
+        "利益关系需要披露",
+        "公开活动流只展示有限资金信息"
+      ],
+      "example": "例：五星评价旁边若付费状态未知，不应称为已购认证。",
+      "visual_brief": "三列文字比较“付费/未付费/未知”；下方单句提醒；不用伪造评论截图。",
+      "speaker_notes_zh": "公开评价对象有三态付费信息。Pulse Feed 是匿名公开资金活动契约，不能用来对某个商家对账或计算广告成效。发现带来的流量与广告和推广佣金分别计价。\n\n参考来源：\nReview：https://docs.whop.com/api-reference/reviews/review.md\nList Reviews：https://docs.whop.com/api-reference/reviews/list-reviews.md\nCommunity Guidelines：https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/\nPulse Feed：https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md",
+      "sources": [
+        {
+          "title": "Review",
+          "url": "https://docs.whop.com/api-reference/reviews/review.md"
+        },
+        {
+          "title": "List Reviews",
+          "url": "https://docs.whop.com/api-reference/reviews/list-reviews.md"
+        },
+        {
+          "title": "Community Guidelines",
+          "url": "https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/"
+        },
+        {
+          "title": "Pulse Feed",
+          "url": "https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md"
+        }
+      ],
+      "feature_ids": [
+        "B05-F09",
+        "B05-F10",
+        "B05-F11",
+        "B05-F12"
+      ]
+    },
+    {
+      "id": "S19",
+      "section": "B06 品牌与创作者",
+      "title": "品牌找创作者：谁负责什么",
+      "layout": "compare",
+      "takeaway": "当前 CR 运营内容合作，Whop 提供相关支付服务",
+      "body": [],
+      "example": "教学情境：虚构品牌 Nusa 邀请 Aina 制作短视频。",
+      "visual_brief": "四列角色关系，品牌与创作者在上，CR与Whop在下；用“规则/内容/审核/资金”标注连线。",
+      "speaker_notes_zh": "Content Rewards 简称 CR。当前组织条款由 Content Rewards Inc 运营，Whop 是独立支付服务方。旧活动可能适用原先接受的条款。这一关系不证明股权或出售历史。\n\n参考来源：\n组织条款 §11：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms\nWhop 文档：https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+      "sources": [
+        {
+          "title": "组织条款 §11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        },
+        {
+          "title": "Whop 文档",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        }
+      ],
+      "feature_ids": [
+        "B06-F01",
+        "B06-F04"
+      ],
+      "table": {
+        "headers": [
+          "角色",
+          "负责的事"
+        ],
+        "rows": [
+          [
+            "品牌 Nusa",
+            "写要求、安排预算、审核成果"
+          ],
+          [
+            "创作者 Aina",
+            "制作内容、发帖并提交"
+          ],
+          [
+            "CR",
+            "活动、审核与奖励规则"
+          ],
+          [
+            "Whop及金融合作方",
+            "相关充值、余额、验证和提现"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S20",
+      "section": "B06 品牌与创作者",
+      "title": "内容形式与计酬方式",
+      "layout": "compare",
+      "takeaway": "拍什么和怎样计酬，是两项选择",
+      "body": [],
+      "example": "例：原创产品演示可按篇付款；剪辑活动可按有效观看计酬。具体看活动。",
+      "visual_brief": "左右各一组简洁原生列表：左“内容”，右“报酬”；配一张真实拍摄场景照片。",
+      "speaker_notes_zh": "Clipping 指把素材剪成短内容。UGC 在这里指创作者制作的原创品牌内容。CPM 在内容奖励里指每一千次符合活动规则的观看报价，别与广告买媒体的 CPM 混淆。活动还可能公开、申请制或私密。\n\n参考来源：\nContent Rewards 创作者条款：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms\nWhop 内嵌版说明：https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards\nCR 主页：https://contentrewards.com/",
+      "sources": [
+        {
+          "title": "Content Rewards 创作者条款",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        },
+        {
+          "title": "Whop 内嵌版说明",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        },
+        {
+          "title": "CR 主页",
+          "url": "https://contentrewards.com/"
+        }
+      ],
+      "feature_ids": [
+        "B06-F01",
+        "B06-F02",
+        "B06-F03"
+      ],
+      "table": {
+        "headers": [
+          "内容可怎么做",
+          "报酬可怎么算"
+        ],
+        "rows": [
+          [
+            "素材剪辑",
+            "按有效观看"
+          ],
+          [
+            "原创演示或体验",
+            "按单篇内容"
+          ],
+          [
+            "音乐或标识类活动",
+            "按合作周期"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S21",
+      "section": "B06 品牌与创作者",
+      "title": "一场内容活动的完整过程",
+      "layout": "flow",
+      "takeaway": "发帖、获批、计酬和到账有先后",
+      "body": [
+        "品牌先写规则并安排预算",
+        "创作者按需交草稿、修改、发帖",
+        "正式帖子接受人工审核",
+        "计酬与验证后才进入可用余额"
+      ],
+      "example": "当前 CR 的 CPM 条款：获批后计酬 7 天，再冻结 3 天；银行到账另算。",
+      "visual_brief": "可编辑双泳道：品牌规则与审核；创作者制作提交；底部奖励时间线7天+3天，标“当前CR CPM条款”。",
+      "speaker_notes_zh": "草稿认可不等于正式帖子获批。7天加3天属于当前 CR CPM 合同，不能套到按篇、Bounties 或所有旧活动。提现资格和银行处理时间独立。\n\n参考来源：\n创作者条款 §6–11：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms\n组织条款 §6–7：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms\nWhop 内嵌版说明：https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards\n隐私政策：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy",
+      "sources": [
+        {
+          "title": "创作者条款 §6–11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        },
+        {
+          "title": "组织条款 §6–7",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        },
+        {
+          "title": "Whop 内嵌版说明",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        },
+        {
+          "title": "隐私政策",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy"
+        }
+      ],
+      "feature_ids": [
+        "B06-F03",
+        "B06-F05",
+        "B06-F06",
+        "B06-F07"
+      ]
+    },
+    {
+      "id": "S22",
+      "section": "B06 品牌与创作者",
+      "title": "有效观看怎样变成奖励",
+      "layout": "chart",
+      "takeaway": "先算合格毛奖励，再看创作者扣费",
+      "body": [
+        "假设合格观看：20,000 次",
+        "假设每千次奖励：RM10",
+        "毛奖励：RM200",
+        "按当前 CR CPM 的10%费率示意：净额RM180"
+      ],
+      "example": "教学假设，非 MYR 实测：未触及预算、单片上限；不含税、汇兑和提现费。",
+      "visual_brief": "原生算式与200的堆积条：创作者180、CR创作者费20；右上角醒目“教学假设”。",
+      "speaker_notes_zh": "20,000÷1,000×RM10＝RM200。当前 CR 创作者 CPM 费率为10%，本例费用 RM20，扣后 RM180。有效观看必须符合审核和计酬窗口规则；这不是对所有平台观看直接付钱。创作者费属于 CR，不能写成 Whop 收入。\n\n参考来源：\n创作者条款 §6–11：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms\nCR 主页：https://contentrewards.com/\n隐私政策：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy",
+      "sources": [
+        {
+          "title": "创作者条款 §6–11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        },
+        {
+          "title": "CR 主页",
+          "url": "https://contentrewards.com/"
+        },
+        {
+          "title": "隐私政策",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy"
+        }
+      ],
+      "feature_ids": [
+        "B06-F02",
+        "B06-F06",
+        "B06-F07"
+      ],
+      "chart": {
+        "type": "stacked_bar",
+        "unit": "RM",
+        "categories": [
+          "假设毛奖励 RM200"
+        ],
+        "series": [
+          {
+            "name": "创作者扣费后",
+            "values": [
+              180
+            ]
+          },
+          {
+            "name": "CR创作者费",
+            "values": [
+              20
+            ]
+          }
+        ],
+        "disclosure": "教学假设；报价及观看数虚构；引用当前CR CPM 10%费率"
+      }
+    },
+    {
+      "id": "S23",
+      "section": "B06 品牌与创作者",
+      "title": "品牌预算、费用与版权",
+      "layout": "flow",
+      "takeaway": "预算、平台费和作品使用权要分别约定",
+      "body": [
+        "标准品牌费率与 Verified 费率不同",
+        "品牌费用和创作者费用分别计算",
+        "待审内容可能阻挡剩余预算退款",
+        "获批作品的使用权依适用条款"
+      ],
+      "example": "教学假设：奖励预算 RM10,000；若品牌费基数为此预算、费率10%，品牌费 RM1,000，另有支付处理费。",
+      "visual_brief": "三个原生金额区域但非UI卡片：奖励池10000、CR品牌费1000、Whop处理费待报价；旁边作品授权图标说明。",
+      "speaker_notes_zh": "当前 CR 定价标准10%、Verified 8%。本例明确假设品牌费基数，实际账单基数与税费须核。CR最低预算以美元标示，RM例子不证明当地活动资格。创作者按篇或周期费率另随美元预算门槛变化。旧 Whop Program 的10%费不可再叠加。未经批准草稿的使用权与获批作品不同。\n\n参考来源：\n组织条款 §9–12：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms\nContent Rewards 定价：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/pricing\nContent Rewards 创作者条款：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms\nWhop Content Rewards Program 条款：https://whop.com/content-rewards-terms-of-service/",
+      "sources": [
+        {
+          "title": "组织条款 §9–12",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        },
+        {
+          "title": "Content Rewards 定价",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/pricing"
+        },
+        {
+          "title": "Content Rewards 创作者条款",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        },
+        {
+          "title": "Whop Content Rewards Program 条款",
+          "url": "https://whop.com/content-rewards-terms-of-service/"
+        }
+      ],
+      "feature_ids": [
+        "B06-F04",
+        "B06-F08"
+      ]
+    },
+    {
+      "id": "S24",
+      "section": "B06 品牌与创作者",
+      "title": "Bounties：按获批任务发奖励",
+      "layout": "flow",
+      "takeaway": "任务赏金与观看计酬是两种机制",
+      "body": [
+        "目标可以是内容、互动或本地任务",
+        "按每份毛奖励乘名额安排资金",
+        "执行者提交证据，后台人工审批",
+        "有在途提交时，取消需先处理"
+      ],
+      "example": "教学假设：4 个名额 × RM50 毛奖励＝RM200 预算；实际到手还会扣适用费用或推荐份额。",
+      "visual_brief": "原生任务流程配真实本地拍摄场景；4个名额用文字不做假后台；注明“教学假设”。",
+      "speaker_notes_zh": "Bounties 公开指南说明审批仅在 Whop 后台，无公开批准拒绝接口或 Bounty webhook。外部系统不能据此承诺全自动审核打款。平台费率不能从接口例子推成统一报价。文档资金预锁不等于法律托管或 Whop 成为雇主。\n\n参考来源：\nWhop Earnings Terms：https://whop.com/earnings-terms/\n审核指南：https://docs.whop.com/developer/bounties/run-a-bounty-program.md\n取消：https://docs.whop.com/api-reference/beta/bounties/cancel.md\nBounty 金额字段：https://docs.whop.com/api-reference/beta/bounties/bounty.md",
+      "sources": [
+        {
+          "title": "Whop Earnings Terms",
+          "url": "https://whop.com/earnings-terms/"
+        },
+        {
+          "title": "审核指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        },
+        {
+          "title": "取消",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/cancel.md"
+        },
+        {
+          "title": "Bounty 金额字段",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/bounty.md"
+        }
+      ],
+      "feature_ids": [
+        "B06-F09",
+        "B06-F10",
+        "B06-F11",
+        "B06-F12",
+        "B06-F13",
+        "B06-F14",
+        "B06-F15"
+      ]
+    },
+    {
+      "id": "S25",
+      "section": "B07 推广",
+      "title": "B07：带来买家，或带来商家",
+      "layout": "compare",
+      "takeaway": "推荐对象不同，佣金基数也不同",
+      "body": [],
+      "example": "教学假设：Ben 带来 RM100 合格订单，若约定按成交额20%，毛佣金 RM20。",
+      "visual_brief": "原生双路线：Ben—买家—商家销售；伙伴—新商家—合格经营活动。",
+      "speaker_notes_zh": "Affiliate 通常推广商品，商家按约定承担佣金。Partners 帮 Whop 招募商家，按合格活动和有效关系计酬，不能把商家全部销售额乘宣传最高比例。Revenue share 是合作分成，可以不依赖推荐点击。\n\n参考来源：\nBe an Affiliate：https://docs.whop.com/affiliates/be-an-affiliate.md\nGlobal Affiliates：https://docs.whop.com/affiliates/setup-global.md\nCustom Affiliates：https://docs.whop.com/affiliates/setup-custom.md\nRevenue Share：https://docs.whop.com/affiliates/setup-rev-share.md\nPartners：https://docs.whop.com/developer/partners/overview.md",
+      "sources": [
+        {
+          "title": "Be an Affiliate",
+          "url": "https://docs.whop.com/affiliates/be-an-affiliate.md"
+        },
+        {
+          "title": "Global Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-global.md"
+        },
+        {
+          "title": "Custom Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-custom.md"
+        },
+        {
+          "title": "Revenue Share",
+          "url": "https://docs.whop.com/affiliates/setup-rev-share.md"
+        },
+        {
+          "title": "Partners",
+          "url": "https://docs.whop.com/developer/partners/overview.md"
+        }
+      ],
+      "feature_ids": [
+        "B07-F01",
+        "B07-F02",
+        "B07-F03",
+        "B07-F04",
+        "B07-F05",
+        "B07-F08",
+        "B07-F09",
+        "B07-F10"
+      ],
+      "table": {
+        "headers": [
+          "关系",
+          "报酬依据"
+        ],
+        "rows": [
+          [
+            "商品推广",
+            "合格订单及合作费率"
+          ],
+          [
+            "商家推荐伙伴",
+            "合格活动与关系期限"
+          ],
+          [
+            "合作分成",
+            "约定的扣费后交易金额"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S26",
+      "section": "B07 推广",
+      "title": "显示佣金，还要等待结算",
+      "layout": "flow",
+      "takeaway": "退款和争议可能改变最后所得",
+      "body": [
+        "合格销售产生佣金记录",
+        "等待期过后才可结算",
+        "退款、争议或欺诈可能追回",
+        "蓝图奖励另按 Whop 利润计算"
+      ],
+      "example": "教学假设：若某蓝图副本销售产生 Whop 利润 RM2，10% 奖励为 RM0.20；不是订单价的10%。",
+      "visual_brief": "原生佣金时间线加小算式；醒目标出“利润RM2是假设”。",
+      "speaker_notes_zh": "Affiliate 使用指南描述30天等待。Partners 自有状态和关系期限，不能套同一个固定周期。Blueprints 发布者取得副本站点销售产生 Whop 利润的10%；利润成本口径和结算周期仍未知。\n\n参考来源：\nBe an Affiliate：https://docs.whop.com/affiliates/be-an-affiliate.md\n收益接口：https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md\nBlueprints 正文：https://docs.whop.com/developer/websites/blueprints.md",
+      "sources": [
+        {
+          "title": "Be an Affiliate",
+          "url": "https://docs.whop.com/affiliates/be-an-affiliate.md"
+        },
+        {
+          "title": "收益接口",
+          "url": "https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md"
+        },
+        {
+          "title": "Blueprints 正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        }
+      ],
+      "feature_ids": [
+        "B07-F07",
+        "B07-F11",
+        "B07-F14",
+        "B12-F08"
+      ]
+    },
+    {
+      "id": "S27",
+      "section": "B08 广告",
+      "title": "B08：用预算购买媒体曝光",
+      "layout": "module",
+      "takeaway": "目标、人群、素材和付款配置一起决定能否投放",
+      "body": [
+        "活动确定目标和预算安排",
+        "分组设置受众与排期",
+        "广告放入素材和落地页",
+        "公开业务文档列 Meta 已上线"
+      ],
+      "example": "例：Nusa 将获授权的视频用于广告，媒体支出和创作者奖励分别记录。",
+      "visual_brief": "真实广告管理截图愿望；原生三层关系辅助：活动、分组、广告；不可伪造 Meta 成效。",
+      "speaker_notes_zh": "当前业务文档把其他多个网络标为 coming soon。能把事件传给 TikTok 不等于能从 Whop 投放 TikTok。部分受众和媒体接口已有契约，而业务界面仍标未来，需保留这一区别。\n\n参考来源：\n业务文档：https://docs.whop.com/manage-your-business/growth-marketing/ads.md\nAdvertising：https://docs.whop.com/developer/ads/overview.md\nAds API Overview：https://docs.whop.com/api-reference/beta/ads/overview.md\nAd Group：https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md\nAudience：https://docs.whop.com/api-reference/beta/audiences/audience.md",
+      "sources": [
+        {
+          "title": "业务文档",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+        },
+        {
+          "title": "Advertising",
+          "url": "https://docs.whop.com/developer/ads/overview.md"
+        },
+        {
+          "title": "Ads API Overview",
+          "url": "https://docs.whop.com/api-reference/beta/ads/overview.md"
+        },
+        {
+          "title": "Ad Group",
+          "url": "https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md"
+        },
+        {
+          "title": "Audience",
+          "url": "https://docs.whop.com/api-reference/beta/audiences/audience.md"
+        }
+      ],
+      "feature_ids": [
+        "B08-F02",
+        "B08-F03",
+        "B08-F04",
+        "B08-F05",
+        "B08-F06",
+        "B08-F07",
+        "B08-F08",
+        "B08-F09"
+      ]
+    },
+    {
+      "id": "S28",
+      "section": "B08 广告",
+      "title": "广告回报数字怎样读",
+      "layout": "chart",
+      "takeaway": "归因销售额除广告费，得到销售回报倍数",
+      "body": [
+        "教学假设：广告费 RM200",
+        "归因销售额 RM800",
+        "销售回报倍数＝4",
+        "还没扣商品、内容、退款等成本"
+      ],
+      "example": "全部数字为教学假设。ROAS 是归因销售额÷广告费，不是净利润。",
+      "visual_brief": "原生两根条形：200花费、800归因销售；大字4倍；下方可见“非净利润”。",
+      "speaker_notes_zh": "归因指按追踪规则把某笔订单与触点关联。Whop purchase/ROAS 只计 Whop 处理的付款。一次订单可能被其他平台归功，不能把各平台报告金额相加。事件储存成功也可能因缺少身份而无法归因。\n\n参考来源：\nPixel：https://docs.whop.com/developer/ads/pixel.md\nEvents API：https://docs.whop.com/developer/ads/events-api.md\nTracking People：https://docs.whop.com/elements/beta/tracking/people.md\nReporting：https://docs.whop.com/elements/beta/ads/reporting.md\nTracking Links：https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md\nTracking Integrations：https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md",
+      "sources": [
+        {
+          "title": "Pixel",
+          "url": "https://docs.whop.com/developer/ads/pixel.md"
+        },
+        {
+          "title": "Events API",
+          "url": "https://docs.whop.com/developer/ads/events-api.md"
+        },
+        {
+          "title": "Tracking People",
+          "url": "https://docs.whop.com/elements/beta/tracking/people.md"
+        },
+        {
+          "title": "Reporting",
+          "url": "https://docs.whop.com/elements/beta/ads/reporting.md"
+        },
+        {
+          "title": "Tracking Links",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+        },
+        {
+          "title": "Tracking Integrations",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md"
+        }
+      ],
+      "feature_ids": [
+        "B08-F10",
+        "B08-F11",
+        "B08-F12",
+        "B08-F13",
+        "B08-F14",
+        "B08-F15"
+      ],
+      "chart": {
+        "type": "bar",
+        "unit": "RM",
+        "categories": [
+          "广告费",
+          "归因销售额"
+        ],
+        "series": [
+          {
+            "name": "教学假设",
+            "values": [
+              200,
+              800
+            ]
+          }
+        ],
+        "disclosure": "ROAS=800/200=4；不代表净利润或真实效果"
+      }
+    },
+    {
+      "id": "S29",
+      "section": "B09 钱包出款",
+      "title": "B09：余额有不同用途",
+      "layout": "module",
+      "takeaway": "可见余额与可提现余额需要区分",
+      "body": [
+        "待结算款仍在等待",
+        "可提余额按方式办理出款",
+        "准备金按风险规则暂时保留",
+        "充值与内部转账各有记录"
+      ],
+      "example": "教学假设：总显示 RM1,000，其中可提600、待结算300、准备金100。",
+      "visual_brief": "可编辑1000堆积条；三个部分明确数字，醒目标“教学假设，非Whop截图”。",
+      "speaker_notes_zh": "普通银行提现及账户转账通常要求已结算资金，卡消费等可能按不同规则使用待结算资金。准备金是暂留的商家款项，不是平台收费。余额也不等于存款保险或收益承诺。\n\n参考来源：\nWhop 通用条款：https://whop.com/tos/\n提现设置：https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md\n财务报告：https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md\n充值指南：https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md\nPayout methods：https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md\n准备金：https://docs.whop.com/trust-and-safety/account-health/reserves.md",
+      "sources": [
+        {
+          "title": "Whop 通用条款",
+          "url": "https://whop.com/tos/"
+        },
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "财务报告",
+          "url": "https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md"
+        },
+        {
+          "title": "充值指南",
+          "url": "https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md"
+        },
+        {
+          "title": "Payout methods",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md"
+        },
+        {
+          "title": "准备金",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/reserves.md"
+        }
+      ],
+      "feature_ids": [
+        "B09-F01",
+        "B09-F02",
+        "B09-F03",
+        "B09-F04",
+        "B09-F05",
+        "B10-F07"
+      ]
+    },
+    {
+      "id": "S30",
+      "section": "B09 钱包出款",
+      "title": "获批奖励怎样到银行",
+      "layout": "flow",
+      "takeaway": "奖励义务、可用余额和银行到账是三个时点",
+      "body": [
+        "核验和资格满足",
+        "奖励进入可用余额",
+        "确认目的地、费用和出款",
+        "按结果区分成功、退回或待审"
+      ],
+      "example": "教学假设：可用 RM180，假设出款费 RM5，其他费用为零时净出 RM175。",
+      "visual_brief": "原生资金流程180—费用5—175；旁边退回分支；可选真实提现状态截图。",
+      "speaker_notes_zh": "本例出款费不是 Whop 报价。审核中出款可取消，处理中不可取消。卡、消费融资、数字资产钱包及余额收益各有独立资格和合同，不能看见提现入口就推断全部可用；收益产品目前只取得营销线索。\n\n参考来源：\nPayout methods：https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md\n提现设置：https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md\n报价：https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md\n创建 Transfer：https://docs.whop.com/api-reference/beta/transfers/create-transfer.md\n卡说明：https://docs.whop.com/whop-finance/cards.md\n融资目录：https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md\n企业钱包页：https://whop.com/network/products/payouts/\nWallet Terms：https://whop.com/wallet-terms/",
+      "sources": [
+        {
+          "title": "Payout methods",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md"
+        },
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "报价",
+          "url": "https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md"
+        },
+        {
+          "title": "创建 Transfer",
+          "url": "https://docs.whop.com/api-reference/beta/transfers/create-transfer.md"
+        },
+        {
+          "title": "卡说明",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        },
+        {
+          "title": "融资目录",
+          "url": "https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md"
+        },
+        {
+          "title": "企业钱包页",
+          "url": "https://whop.com/network/products/payouts/"
+        },
+        {
+          "title": "Wallet Terms",
+          "url": "https://whop.com/wallet-terms/"
+        }
+      ],
+      "feature_ids": [
+        "B09-F04",
+        "B09-F05",
+        "B09-F06",
+        "B09-F08",
+        "B09-F11",
+        "B09-F13",
+        "B09-F14",
+        "B09-F15"
+      ]
+    },
+    {
+      "id": "S31",
+      "section": "B10 核验争议",
+      "title": "B10：能登录，不代表能收款",
+      "layout": "module",
+      "takeaway": "身份核验与资金服务资格需要独立确认",
+      "body": [
+        "个人和企业有不同资料",
+        "不足时补件或人工审查",
+        "业务类别与国家影响资格",
+        "风险变化可能限制资金操作"
+      ],
+      "example": "例：创作者已经能查看活动，仍可能尚未完成提现核验。",
+      "visual_brief": "可编辑两道门：账号登录、资金资格；补件作为第二道门的回路。",
+      "speaker_notes_zh": "KYC 是个人身份核验，KYB 是企业身份核验。复用第三方核验需要协议允许且资料足够。并非一次通过就永久拥有所有卡、融资、转账和出款能力。\n\n参考来源：\n复用核验：https://docs.whop.com/developer/verification/overview.md\n补件：https://docs.whop.com/developer/verification/rfis.md\n禁止业务：https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md\nPayment health：https://docs.whop.com/trust-and-safety/account-health/payment-health.md\n控制：https://docs.whop.com/trust-and-safety/account-health/controls.md",
+      "sources": [
+        {
+          "title": "复用核验",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        },
+        {
+          "title": "补件",
+          "url": "https://docs.whop.com/developer/verification/rfis.md"
+        },
+        {
+          "title": "禁止业务",
+          "url": "https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md"
+        },
+        {
+          "title": "Payment health",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/payment-health.md"
+        },
+        {
+          "title": "控制",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/controls.md"
+        }
+      ],
+      "feature_ids": [
+        "B10-F01",
+        "B10-F02",
+        "B10-F03",
+        "B10-F04",
+        "B10-F05",
+        "B10-F06"
+      ]
+    },
+    {
+      "id": "S32",
+      "section": "B10 核验争议",
+      "title": "退款案件与银行拒付",
+      "layout": "compare",
+      "takeaway": "平台售后和发卡行争议走不同路线",
+      "body": [],
+      "example": "教学假设：一笔 RM100 订单发生纠纷，申请退款不等于款已回到买家。",
+      "visual_brief": "原生双泳道，平台案件/银行拒付；末端标实际资金结果；不堆规则期限。",
+      "speaker_notes_zh": "平台 Resolution Center 有证据、商家回应、升级和一次申诉的公开流程。银行拒付由发卡行决定，Whop 可整理和提交证据。税金、税务服务费与准备金又是不同款项；代算税不必然包含当地代缴。\n\n参考来源：\n退款：https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md\nResolution Center：https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md\nDispute fighter：https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md\n税务：https://docs.whop.com/payments-and-billing/fees/taxes.md\n举报：https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md\nGig economy：https://whop.com/network/solutions/gig-economy/",
+      "sources": [
+        {
+          "title": "退款",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md"
+        },
+        {
+          "title": "Resolution Center",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md"
+        },
+        {
+          "title": "Dispute fighter",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md"
+        },
+        {
+          "title": "税务",
+          "url": "https://docs.whop.com/payments-and-billing/fees/taxes.md"
+        },
+        {
+          "title": "举报",
+          "url": "https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md"
+        },
+        {
+          "title": "Gig economy",
+          "url": "https://whop.com/network/solutions/gig-economy/"
+        }
+      ],
+      "feature_ids": [
+        "B10-F08",
+        "B10-F09",
+        "B10-F10",
+        "B10-F12",
+        "B10-F13",
+        "B10-F14"
+      ],
+      "table": {
+        "headers": [
+          "路线",
+          "处理关系",
+          "结果看哪里"
+        ],
+        "rows": [
+          [
+            "平台退款案件",
+            "买家、商家与平台",
+            "决定后再看退款执行"
+          ],
+          [
+            "银行拒付",
+            "持卡人、发卡行与商家证据",
+            "发卡行决定及资金结果"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S33",
+      "section": "B11 开发者企业",
+      "title": "B11：Whop 也能放进别人的产品",
+      "layout": "compare",
+      "takeaway": "外部接入和站内安装服务不同客户",
+      "body": [],
+      "example": "例：Wringy 的假想网站保留自己的页面，使用外部支付能力；这只是理解接入方式。",
+      "visual_brief": "双向原生示意：外部网站嵌入Whop能力；Whop商家安装开发者应用。",
+      "speaker_notes_zh": "API 是软件调用功能的入口，嵌入组件是可放进自己页面的界面。开发者可以向商家收应用费用，收入不自动属于 Whop。授权安装也不等于已支付或拥有全部数据访问权。\n\n参考来源：\n接入模式：https://docs.whop.com/developer/start.md\nApp Store：https://docs.whop.com/whop-apps/whop-app-store.md\nApp Views：https://docs.whop.com/developer/guides/app-views.md\nPermissions：https://docs.whop.com/developer/guides/permissions.md\n凭证边界：https://docs.whop.com/developer/guides/auth-scoping.md\n支付接入：https://docs.whop.com/developer/guides/accept-payments.md\nWallet Elements：https://docs.whop.com/elements/beta/wallet/overview.md\n嵌入聊天：https://docs.whop.com/developer/guides/chat/quickstart.md\n开发者收费示例：https://whop.com/blog/whop-app-store/",
+      "sources": [
+        {
+          "title": "接入模式",
+          "url": "https://docs.whop.com/developer/start.md"
+        },
+        {
+          "title": "App Store",
+          "url": "https://docs.whop.com/whop-apps/whop-app-store.md"
+        },
+        {
+          "title": "App Views",
+          "url": "https://docs.whop.com/developer/guides/app-views.md"
+        },
+        {
+          "title": "Permissions",
+          "url": "https://docs.whop.com/developer/guides/permissions.md"
+        },
+        {
+          "title": "凭证边界",
+          "url": "https://docs.whop.com/developer/guides/auth-scoping.md"
+        },
+        {
+          "title": "支付接入",
+          "url": "https://docs.whop.com/developer/guides/accept-payments.md"
+        },
+        {
+          "title": "Wallet Elements",
+          "url": "https://docs.whop.com/elements/beta/wallet/overview.md"
+        },
+        {
+          "title": "嵌入聊天",
+          "url": "https://docs.whop.com/developer/guides/chat/quickstart.md"
+        },
+        {
+          "title": "开发者收费示例",
+          "url": "https://whop.com/blog/whop-app-store/"
+        }
+      ],
+      "feature_ids": [
+        "B11-F01",
+        "B11-F02",
+        "B11-F03",
+        "B11-F04",
+        "B11-F05",
+        "B11-F08",
+        "B11-F12",
+        "B11-F13",
+        "B11-F15"
+      ],
+      "table": {
+        "headers": [
+          "方式",
+          "谁使用",
+          "保留什么"
+        ],
+        "rows": [
+          [
+            "把Whop接入外部软件",
+            "企业及外部平台",
+            "自己的产品和用户入口"
+          ],
+          [
+            "把应用放进Whop",
+            "商家与其会员",
+            "开发者自己的应用业务"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S34",
+      "section": "B11 开发者企业",
+      "title": "谁先收钱，会改变责任",
+      "layout": "compare",
+      "takeaway": "连接账户直收和平台先收后转，承担方不同",
+      "body": [],
+      "example": "教学假设：订单 RM100，外部平台约定服务费 RM10；Whop 费用另算。",
+      "visual_brief": "两条可编辑资金线，统一100但明确费用未完整拆分；“外部平台费10≠Whop费”。",
+      "speaker_notes_zh": "连接账户指外部平台关联的商家或收款主体。公开指南中直收模式由连接账户承担原交易 Whop 费用、退款和争议。先收后转模式由平台承担原付款责任。RM10 是虚构外部平台收费，不是 Whop 报价；当地适用合同需另确认。\n\n参考来源：\n注册关联账户：https://docs.whop.com/developer/platforms/enroll-connected-accounts.md\n企业收款两路线：https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md\nVerification：https://docs.whop.com/developer/verification/overview.md",
+      "sources": [
+        {
+          "title": "注册关联账户",
+          "url": "https://docs.whop.com/developer/platforms/enroll-connected-accounts.md"
+        },
+        {
+          "title": "企业收款两路线",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "Verification",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        }
+      ],
+      "feature_ids": [
+        "B11-F09",
+        "B11-F10",
+        "B11-F11",
+        "B09-F07"
+      ],
+      "table": {
+        "headers": [
+          "收款方式",
+          "原付款费用及争议"
+        ],
+        "rows": [
+          [
+            "关联商家直接收",
+            "关联商家承担"
+          ],
+          [
+            "平台收后再转",
+            "平台承担"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S35",
+      "section": "B12 AI与成长",
+      "title": "B12：帮助经营者开始和迁入",
+      "layout": "module",
+      "takeaway": "网站、蓝图、迁移和学习是不同入口",
+      "body": [
+        "AI 对话和工具辅助经营",
+        "网站与蓝图建立销售入口",
+        "合资格 Stripe 订阅迁移",
+        "美国公司成立、创业教育与 WhopX"
+      ],
+      "example": "例：Aina 用蓝图建立课程站点，仍需确认内容、价格与实际交付。",
+      "visual_brief": "真实网站/蓝图库截图愿望；配可编辑四阶段文字：想法、店面、首笔交易、持续经营。",
+      "speaker_notes_zh": "蓝图复制商品、价格和网站配置，不复制原商家客户和资金。University 是 Whop 的创业教育渠道，WhopX 按经营收入资格提供社交成长权益。美国公司成立不是马来西亚注册服务。\n\n参考来源：\n官网：https://whop.com/\n媒体资源：https://docs.whop.com/api-reference/beta/media/media.md\nWebsites：https://docs.whop.com/developer/websites/overview.md\nBlueprints 正文：https://docs.whop.com/developer/websites/blueprints.md\nMigrations：https://whop.com/blog/migrations/\nLLC 公布及价格：https://whop.com/blog/register-llc/\nUniversity 介绍：https://whop.com/blog/what-is-whop-university/\nWhopX：https://whop.com/blog/whopx/",
+      "sources": [
+        {
+          "title": "官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "媒体资源",
+          "url": "https://docs.whop.com/api-reference/beta/media/media.md"
+        },
+        {
+          "title": "Websites",
+          "url": "https://docs.whop.com/developer/websites/overview.md"
+        },
+        {
+          "title": "Blueprints 正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        },
+        {
+          "title": "Migrations",
+          "url": "https://whop.com/blog/migrations/"
+        },
+        {
+          "title": "LLC 公布及价格",
+          "url": "https://whop.com/blog/register-llc/"
+        },
+        {
+          "title": "University 介绍",
+          "url": "https://whop.com/blog/what-is-whop-university/"
+        },
+        {
+          "title": "WhopX",
+          "url": "https://whop.com/blog/whopx/"
+        }
+      ],
+      "feature_ids": [
+        "B12-F01",
+        "B12-F03",
+        "B12-F07",
+        "B12-F08",
+        "B12-F10",
+        "B12-F11",
+        "B12-F12",
+        "B12-F13"
+      ]
+    },
+    {
+      "id": "S36",
+      "section": "B12 AI与成长",
+      "title": "AI 操作成功，要看业务结果",
+      "layout": "flow",
+      "takeaway": "预览、确认、实际结果分别有意义",
+      "body": [
+        "先选对要操作的生意",
+        "重要动作先预览再确认",
+        "生成媒体要等文件就绪",
+        "建议步骤记录不等于业务完成"
+      ],
+      "example": "例：记录“去设置商品价格”，不代表商品已经改价或成功收款。",
+      "visual_brief": "原生操作图：业务上下文—预览—确认—真实结果；旁边小支线“建议记录”到“尚需操作”。",
+      "speaker_notes_zh": "MCP 是 AI 连接工具的协议。读文档的连接与操作账户的连接不同。Whop API MCP 有重要动作确认机制；Recommended Action Chain 的 Execute 当前只记客户端分析事件，不在服务器执行商品或定价动作。\n\n参考来源：\nAI Chat：https://docs.whop.com/api-reference/ai-chats/ai-chat.md\n媒体资源：https://docs.whop.com/api-reference/beta/media/media.md\nAI Tools：https://docs.whop.com/developer/ai/overview.md\nMCP：https://docs.whop.com/developer/guides/ai_and_mcp.md\nCLI with Claude：https://docs.whop.com/developer/guides/cli-with-claude.md\nList chains：https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md",
+      "sources": [
+        {
+          "title": "AI Chat",
+          "url": "https://docs.whop.com/api-reference/ai-chats/ai-chat.md"
+        },
+        {
+          "title": "媒体资源",
+          "url": "https://docs.whop.com/api-reference/beta/media/media.md"
+        },
+        {
+          "title": "AI Tools",
+          "url": "https://docs.whop.com/developer/ai/overview.md"
+        },
+        {
+          "title": "MCP",
+          "url": "https://docs.whop.com/developer/guides/ai_and_mcp.md"
+        },
+        {
+          "title": "CLI with Claude",
+          "url": "https://docs.whop.com/developer/guides/cli-with-claude.md"
+        },
+        {
+          "title": "List chains",
+          "url": "https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md"
+        }
+      ],
+      "feature_ids": [
+        "B12-F02",
+        "B12-F03",
+        "B12-F04",
+        "B12-F05",
+        "B12-F06",
+        "B12-F14"
+      ]
+    },
+    {
+      "id": "S37",
+      "section": "综合理解",
+      "title": "内容、推广与广告可以接力",
+      "layout": "flow",
+      "takeaway": "一段视频可能参与三种业务，但每笔账要有理由",
+      "body": [
+        "品牌先采购合格内容",
+        "获授权后可用于广告",
+        "推广链接可能带来合格订单",
+        "奖励、媒体费、佣金分别记录"
+      ],
+      "example": "教学假设：内容奖励RM180、广告预算RM200、推广佣金RM20，是不同款项，不能推算Whop收入。",
+      "visual_brief": "原生接力图：内容制作—授权—投放/推广—订单；三条不同颜色资金线，标教学假设。",
+      "speaker_notes_zh": "创作者可同时兼任推广者，但活动审核与销售归因不自动相同。内容许可影响能否用于广告。这个组合是商业教学情境，不是所有活动都自带的一键流程。\n\n参考来源：\n组织条款 §9–12：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms\nCustom Affiliates：https://docs.whop.com/affiliates/setup-custom.md\nAds API Overview：https://docs.whop.com/api-reference/beta/ads/overview.md\nTracking Links：https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md",
+      "sources": [
+        {
+          "title": "组织条款 §9–12",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        },
+        {
+          "title": "Custom Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-custom.md"
+        },
+        {
+          "title": "Ads API Overview",
+          "url": "https://docs.whop.com/api-reference/beta/ads/overview.md"
+        },
+        {
+          "title": "Tracking Links",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+        }
+      ],
+      "feature_ids": [
+        "B06-F08",
+        "B07-F04",
+        "B08-F05",
+        "B08-F14"
+      ]
+    },
+    {
+      "id": "S38",
+      "section": "综合理解",
+      "title": "Whop 的经营循环与成本",
+      "layout": "flow",
+      "takeaway": "工具和分发可能吸引交易，成本与效果仍要另看",
+      "body": [
+        "网站、教育与迁移吸引经营者",
+        "商品与应用增加可售供给",
+        "发现、推广及广告连接客户",
+        "支付、审核和支持带来持续成本"
+      ],
+      "example": "教学分析：若更多经营者留用，可能带来更多交易；这里没有真实转化或利润数据。",
+      "visual_brief": "可编辑环形业务图，中心写“经营者持续成交”；下方只列支付合作方、审核客服、技术三类成本。",
+      "speaker_notes_zh": "这张图是商业分析，不是已证实的网络效应。公开资料没有足够净收入分部、成本和留存数据，不能靠功能数或宣传交易量估计利润。企业接入也是分发渠道，外部平台代付未必属于商城成交额。\n\n参考来源：\nWhop 官方定价：https://whop.com/network/pricing/\nWhop 官网：https://whop.com/\n开发者收费示例：https://whop.com/blog/whop-app-store/\nBlueprints 正文：https://docs.whop.com/developer/websites/blueprints.md\nMigrations：https://whop.com/blog/migrations/\nUniversity 介绍：https://whop.com/blog/what-is-whop-university/\nWhopX：https://whop.com/blog/whopx/",
+      "sources": [
+        {
+          "title": "Whop 官方定价",
+          "url": "https://whop.com/network/pricing/"
+        },
+        {
+          "title": "Whop 官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "开发者收费示例",
+          "url": "https://whop.com/blog/whop-app-store/"
+        },
+        {
+          "title": "Blueprints 正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        },
+        {
+          "title": "Migrations",
+          "url": "https://whop.com/blog/migrations/"
+        },
+        {
+          "title": "University 介绍",
+          "url": "https://whop.com/blog/what-is-whop-university/"
+        },
+        {
+          "title": "WhopX",
+          "url": "https://whop.com/blog/whopx/"
+        }
+      ],
+      "feature_ids": [
+        "B11-F15",
+        "B12-F08",
+        "B12-F10",
+        "B12-F12",
+        "B12-F13"
+      ]
+    },
+    {
+      "id": "S39",
+      "section": "综合理解",
+      "title": "马来西亚读者需要保留的边界",
+      "layout": "statement",
+      "takeaway": "能找到某个入口，不等于当地所有能力都可用",
+      "body": [
+        "马来西亚出现在提现国家名单",
+        "具体银行、MYR及即时资格仍待确认",
+        "未证实 FPX／DuitNow 支持",
+        "Whop 手机非接触收款名单未列马来西亚"
+      ],
+      "example": "本讲全部 RM 金额均为教学假设，非当地报价、支付记录或可用性承诺。",
+      "visual_brief": "简洁马来西亚实景照片配四行文字；不要作“已全面支持”地图或支付Logo墙。",
+      "speaker_notes_zh": "提现国家名单是有限证据。买家付款、商家提现、融资、卡、税务及公司成立是不同资格。税费公开材料存在冲突，实际账户报价和合同才可用于成本模型。\n\n参考来源：\n当地支付方式：https://docs.whop.com/payments-and-billing/local-payment-methods.md\nTap to Pay：https://docs.whop.com/payments-and-billing/tap-to-pay.md\nPayout methods：https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md\n提现设置：https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md\n税务：https://docs.whop.com/payments-and-billing/fees/taxes.md",
+      "sources": [
+        {
+          "title": "当地支付方式",
+          "url": "https://docs.whop.com/payments-and-billing/local-payment-methods.md"
+        },
+        {
+          "title": "Tap to Pay",
+          "url": "https://docs.whop.com/payments-and-billing/tap-to-pay.md"
+        },
+        {
+          "title": "Payout methods",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md"
+        },
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "税务",
+          "url": "https://docs.whop.com/payments-and-billing/fees/taxes.md"
+        }
+      ],
+      "feature_ids": [
+        "B02-F04",
+        "B02-F14",
+        "B09-F04",
+        "B09-F05",
+        "B10-F12"
+      ]
+    },
+    {
+      "id": "S40",
+      "section": "综合理解",
+      "title": "把一门生意讲清楚",
+      "layout": "closing",
+      "takeaway": "能回答这四问，就能读懂任何一个板块",
+      "body": [
+        "谁提供商品、内容或工具？",
+        "谁付钱，什么事件触发？",
+        "怎样才算真正交付和到账？",
+        "失败后谁处理、谁承担？"
+      ],
+      "example": "练习：Aina 获批视频奖励后申请提现。答：品牌买内容，CR按活动规则计酬，Whop处理相关资金，银行到账还要看出款结果。",
+      "visual_brief": "大字四问，一张创作者实际工作照片；末行“后附168项功能速查”。",
+      "speaker_notes_zh": "以当前 CR 合作为例，品牌审核和内容权利、CR奖励规则、Whop支付服务、金融合作方到账各有职责。后面的附录按12个板块列全168项功能与边界，适合带着具体问题查阅。\n\n参考来源：\n组织条款 §6–7：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms\n创作者条款 §6–11：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms\n提现设置：https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md",
+      "sources": [
+        {
+          "title": "组织条款 §6–7",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        },
+        {
+          "title": "创作者条款 §6–11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        },
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        }
+      ],
+      "feature_ids": [
+        "B06-F05",
+        "B06-F07",
+        "B09-F05"
+      ]
+    },
+    {
+      "id": "S41",
+      "section": "附录 B01",
+      "title": "B01 账户、团队与商品 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB01-F01 经营开户：创建商家、命名；选择站内构建交付或仅支付处理；后者允许没有内容应用。\nB01-F02 个人资料：修改邮箱、电话、用户名；控制近似位置展示。不能从“隐藏位置”推出删除位置数据。\nB01-F03 账号安全与退出：验证器或短信双重验证；全账号删除确认；删除前先取消会员。删除账号不等于删除一个商家。\nB01-F04 团队生命周期：邮箱邀请、待接受邀请、角色变更、移除、重新邀请；可要求团队双重验证。\nB01-F05 权限：Owner、Operations、Sales、Support、Advertiser 和自定义角色；不同角色对支付、提现、内容、分析的权限不同。截图有审计日志及角色修改确认。\nB01-F06 商家资料与多经营空间：个人可购买多个商家的商品并参与经营；商家与连接账户分清，避免把外部社交账号绑定误作子商家。API 允许更新经营资料/偏好。\nB01-F07 商品编辑：名称、标题、横幅、照片/视频、说明、功能、常见问题；名称与标题的 AI 辅助；商品归属商家。\n\n参考来源：\n开户：https://docs.whop.com/launch-your-business\n邮箱：https://docs.whop.com/account-settings/personal-details/update-email\n安全：https://docs.whop.com/account-settings/account-security/enable-2fa\n角色：https://docs.whop.com/manage-your-business/team-management/manage-team-roles\n概念：https://docs.whop.com/developer/concepts\n创建商品：https://docs.whop.com/manage-your-business/products/create-product",
+      "sources": [
+        {
+          "title": "开户",
+          "url": "https://docs.whop.com/launch-your-business"
+        },
+        {
+          "title": "邮箱",
+          "url": "https://docs.whop.com/account-settings/personal-details/update-email"
+        },
+        {
+          "title": "安全",
+          "url": "https://docs.whop.com/account-settings/account-security/enable-2fa"
+        },
+        {
+          "title": "角色",
+          "url": "https://docs.whop.com/manage-your-business/team-management/manage-team-roles"
+        },
+        {
+          "title": "概念",
+          "url": "https://docs.whop.com/developer/concepts"
+        },
+        {
+          "title": "创建商品",
+          "url": "https://docs.whop.com/manage-your-business/products/create-product"
+        }
+      ],
+      "feature_ids": [
+        "B01-F01",
+        "B01-F02",
+        "B01-F03",
+        "B01-F04",
+        "B01-F05",
+        "B01-F06",
+        "B01-F07"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B01-F01",
+            "经营开户",
+            "创建商家，选择站内交付或仅收款"
+          ],
+          [
+            "B01-F02",
+            "个人资料",
+            "修改联系方式及位置展示"
+          ],
+          [
+            "B01-F03",
+            "账号安全",
+            "双重验证，删除前先取消会员"
+          ],
+          [
+            "B01-F04",
+            "团队管理",
+            "邀请、改角色、移除成员"
+          ],
+          [
+            "B01-F05",
+            "操作权限",
+            "客服、运营、财务权限分开"
+          ],
+          [
+            "B01-F06",
+            "商家资料",
+            "管理经营资料与多个经营空间"
+          ],
+          [
+            "B01-F07",
+            "商品编辑",
+            "写名称、说明、图片与常见问题"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S42",
+      "section": "附录 B01",
+      "title": "B01 账户、团队与商品 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共6行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB01-F08 店面与私有销售：品牌标识、图文展示、类别；代理机构可隐藏客户专属商品并发私有结账链接。公开目录索引和排名交 B05。\nB01-F09 商品组合：一个商品关联多个价格方案与交付体验；免费/高级/VIP 通过商品分层和应用开关实现；纯支付商品可不绑定应用。方案金额与计费由 B02 持有。\nB01-F10 购买入口设置：限参与人数、售前问题、候补入口、购买后跳转；B01 保存展示/配置，候补个案由 B04、结账执行由 B02 管理。\nB01-F11 内容导航与目录生命周期：按商品预览、应用/分类重命名和排序；发布/取消发布；删除商品受关联记录限制，已有会员、候补、评价或发票不能直接删除。\nB01-F12 法律文件：服务条款、隐私、退货政策、软件许可协议的上传/查看/删除；强制勾选同意开关；结账呈现与凭证交 B02。\nB01-F13 消费者账号恢复及移动连续性：找回购买邮箱/识别重复账号；会员转移由 B03 执行、B04 提供操作入口；iOS/Android 或手机浏览器用同一邮箱访问 Your whops，外部服务仍可能需要独立步骤。\n\n参考来源：\n机构店面/客户门户：https://docs.whop.com/supported-business-models/agency-services\n导航：https://docs.whop.com/manage-your-business/products/manage-products\n创建商品：https://docs.whop.com/manage-your-business/products/create-product\n法律文件：https://docs.whop.com/manage-your-business/manage-business/legal-documents\n重复账号：https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts",
+      "sources": [
+        {
+          "title": "机构店面/客户门户",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        },
+        {
+          "title": "导航",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        },
+        {
+          "title": "创建商品",
+          "url": "https://docs.whop.com/manage-your-business/products/create-product"
+        },
+        {
+          "title": "法律文件",
+          "url": "https://docs.whop.com/manage-your-business/manage-business/legal-documents"
+        },
+        {
+          "title": "重复账号",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts"
+        }
+      ],
+      "feature_ids": [
+        "B01-F08",
+        "B01-F09",
+        "B01-F10",
+        "B01-F11",
+        "B01-F12",
+        "B01-F13"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B01-F08",
+            "店面展示",
+            "公开店面或客户专属私有链接"
+          ],
+          [
+            "B01-F09",
+            "商品套餐",
+            "组合价格方案与交付内容"
+          ],
+          [
+            "B01-F10",
+            "购买设置",
+            "名额、售前问题、候补及跳转"
+          ],
+          [
+            "B01-F11",
+            "目录管理",
+            "排序、发布、下架及受限删除"
+          ],
+          [
+            "B01-F12",
+            "法律文件",
+            "提供条款并设置同意入口"
+          ],
+          [
+            "B01-F13",
+            "购买找回",
+            "核对邮箱，在手机继续访问"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S43",
+      "section": "附录 B02",
+      "title": "B02 结账、订阅与账单 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共8行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB02-F01 收费计划：免费、一次性、周期收费、首次费用、试用、有限次数分期；逐期分期收款不同于融资方垫付\nB02-F02 结账入口：独立链接、网站嵌入、一键 Apple Pay/Google Pay/Whop Pay 按钮；品牌颜色、字体、边框与成功跳转\nB02-F03 结账管理：库存/名额、公开或私有链接、候补/购前问题入口、内部名称；调用 B03 权益到期及 B01 商品名额，审批资格由 B10 提供；高额链接另申请\nB02-F04 付款渠道资格矩阵：卡、银行转账、区域钱包、PayPal、crypto；按买家地区、币种、金额、一次性/续费能力及商家开关显示\nB02-F05 自适应币种：每链接启用、默认关闭、买家可切回原币种、不支持地区回退；只支持一次性；买家本币价格含换汇费\nB02-F06 支付方式保管与以后扣款：先保存再收费、追加认证、订阅绑定方式删除限制；创建扣款不等于扣款成功\nB02-F07 扣款故障与催收：失败原因、人工重试、自动五天重试、欠费访问开关、提醒、恢复或取消；费用明细接口列于索引，但正文未取得\nB02-F08 订阅收费后台：延期免费天数、折扣、暂停/恢复收费、期末取消；立即终止访问调用 B03，取消收费与移除访问不同\n\n参考来源：\n链接：https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md\n一键按钮：https://docs.whop.com/payments/one-click-checkout-button.md\n当地支付方式：https://docs.whop.com/payments-and-billing/local-payment-methods.md\nAdaptive Pricing：https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md\n保存支付方式：https://docs.whop.com/developer/guides/save-payment-methods.md\n失败续费：https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md\n管理会员：https://docs.whop.com/manage-your-business/manage-payments/manage-users.md",
+      "sources": [
+        {
+          "title": "链接",
+          "url": "https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md"
+        },
+        {
+          "title": "一键按钮",
+          "url": "https://docs.whop.com/payments/one-click-checkout-button.md"
+        },
+        {
+          "title": "当地支付方式",
+          "url": "https://docs.whop.com/payments-and-billing/local-payment-methods.md"
+        },
+        {
+          "title": "Adaptive Pricing",
+          "url": "https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md"
+        },
+        {
+          "title": "保存支付方式",
+          "url": "https://docs.whop.com/developer/guides/save-payment-methods.md"
+        },
+        {
+          "title": "失败续费",
+          "url": "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md"
+        },
+        {
+          "title": "管理会员",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users.md"
+        }
+      ],
+      "feature_ids": [
+        "B02-F01",
+        "B02-F02",
+        "B02-F03",
+        "B02-F04",
+        "B02-F05",
+        "B02-F06",
+        "B02-F07",
+        "B02-F08"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B02-F01",
+            "收费计划",
+            "免费、单次、订阅、试用及分期"
+          ],
+          [
+            "B02-F02",
+            "结账入口",
+            "链接、嵌入与快捷付款按钮"
+          ],
+          [
+            "B02-F03",
+            "结账管理",
+            "名额、私有链接与高额申请"
+          ],
+          [
+            "B02-F04",
+            "付款方式",
+            "按地区、币种和收费类型筛选"
+          ],
+          [
+            "B02-F05",
+            "本币显示",
+            "自适应换汇仅支持一次性付款"
+          ],
+          [
+            "B02-F06",
+            "保存支付方式",
+            "授权后用于以后扣款"
+          ],
+          [
+            "B02-F07",
+            "失败重试",
+            "催收与重试，费用明细接口待核"
+          ],
+          [
+            "B02-F08",
+            "订阅管理",
+            "暂停、恢复、折扣和期末取消"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S44",
+      "section": "附录 B02",
+      "title": "B02 结账、订阅与账单 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB02-F09 买家账单门户：续期信息、支付方式、历史账单及收据、自助取消；会员转移入口调用 B03，门户必须登录\nB02-F10 应收账单：新/现有客户、到期日、一次性或订阅、邮件与预览、PDF、筛选状态；逾期提醒、作废；API 支持站外付款标记及无法收回标记\nB02-F11 融资结账呈现：商家申请、合作方跳转审批、每链接选择、金额/国家/币种过滤、拒绝后回到其他方式；融资产品及准备金归 B09/B10\nB02-F12 Whop 自有 iOS 应用购买：低于 USD 700 一次性订单走 Apple 内购；文档列 30% Apple 费用及 42.86% 加价、最长 75 天待结算、Apple 退款\nB02-F13 外部 iOS Checkout SDK：实体商品/现实服务原生 Apple Pay，一次性成功/取消/失败处理；数字内容须按其 StoreKit 路径处理\nB02-F14 实体销售：iPhone Tap to Pay、产品列表/自定金额、收小费、邮件收据、QR/链接回退；只一次性，必须联网\nB02-F15 外部财务同步：QuickBooks 发票附 Whop 付款链接、付款回写、订阅及退款同步、补导、错误重试；与 B09 出款对账协作\n\n参考来源：\nBilling Portal：https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md\n发送账单：https://docs.whop.com/manage-your-business/manage-payments/send-invoice.md\n融资申请：https://docs.whop.com/payments-and-billing/financing/apply.md\n自有 iOS 内购：https://docs.whop.com/payments-and-billing/fees/in-app-ios-purchases.md\n外部 iOS 收款指南：https://docs.whop.com/developer/guides/ios/accept-one-time-payments.md\nTap to Pay：https://docs.whop.com/payments-and-billing/tap-to-pay.md\nQuickBooks：https://docs.whop.com/third-party-integrations/quickbooks.md",
+      "sources": [
+        {
+          "title": "Billing Portal",
+          "url": "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md"
+        },
+        {
+          "title": "发送账单",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/send-invoice.md"
+        },
+        {
+          "title": "融资申请",
+          "url": "https://docs.whop.com/payments-and-billing/financing/apply.md"
+        },
+        {
+          "title": "自有 iOS 内购",
+          "url": "https://docs.whop.com/payments-and-billing/fees/in-app-ios-purchases.md"
+        },
+        {
+          "title": "外部 iOS 收款指南",
+          "url": "https://docs.whop.com/developer/guides/ios/accept-one-time-payments.md"
+        },
+        {
+          "title": "Tap to Pay",
+          "url": "https://docs.whop.com/payments-and-billing/tap-to-pay.md"
+        },
+        {
+          "title": "QuickBooks",
+          "url": "https://docs.whop.com/third-party-integrations/quickbooks.md"
+        }
+      ],
+      "feature_ids": [
+        "B02-F09",
+        "B02-F10",
+        "B02-F11",
+        "B02-F12",
+        "B02-F13",
+        "B02-F14",
+        "B02-F15"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B02-F09",
+            "账单门户",
+            "买家查收据、改卡及取消续费"
+          ],
+          [
+            "B02-F10",
+            "发送账单",
+            "到期提醒、作废与站外付款标记"
+          ],
+          [
+            "B02-F11",
+            "融资结账",
+            "合资格买家申请合作方融资"
+          ],
+          [
+            "B02-F12",
+            "Whop内购",
+            "自有 iOS 路径按专门规则结算"
+          ],
+          [
+            "B02-F13",
+            "外部iOS收款",
+            "实体与现实服务走开发指南"
+          ],
+          [
+            "B02-F14",
+            "手机当收银机",
+            "联网非接触收款，未列马来西亚"
+          ],
+          [
+            "B02-F15",
+            "会计同步",
+            "QuickBooks 回写，Xero 待上线"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S45",
+      "section": "附录 B03",
+      "title": "B03 会员权益与交付 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB03-F01 交付容器：应用安装为体验，商品可引用多个体验；应用可重复安装、改名、分类；复制体验是一项 API 能力，不推断所有内容均被深复制。\nB03-F02 访问与找回：凭已购商品访问体验；购买所用邮箱和当前账号不一致时排查重复账号；Discord 连接与重新授权。\nB03-F03 聊天：实时群聊、按主题/会员群体分房；消息支持文字、附件、投票、回复；发言权限、禁词、媒体限制。\nB03-F04 论坛/公告/通讯：帖子、评论、附件、投票、置顶、付费墙；发帖/评论/邮件设置；通讯方案以论坛帖子邮件分发。\nB03-F05 课程编排：课程/模块 → 章节 → 课时；多媒体、视频、文字、PDF、知识检查、测验；顺序完成、视频水印、字幕语言、结业证书；删除课程连同学习进度。\nB03-F06 学习过程：视频上传/嵌入、附件、分时解锁；测验分数门槛与尝试次数；进度跟踪、提交评估。截图示例分数不是平台统一要求。\nB03-F07 富文本与文件：Content 页面作为入门、指南、FAQ；Files 提供模板、电子书、素材/项目文件；底层文件上传有上传目的地及 ready 状态，但底层文件 API 不是完整 Files 应用接口。\n\n参考来源：\n应用：https://docs.whop.com/whop-apps/what-are-whop-apps\n概念：https://docs.whop.com/developer/concepts\n付费群组：https://docs.whop.com/supported-business-models/paid-groups\n帖子：https://docs.whop.com/api-reference/forum-posts/create-forum-post\n教育方案：https://docs.whop.com/supported-business-models/educational-programs\n创建课程截图：https://mobbin.com/flows/db66e97a-c08e-48fa-9665-8b4fe611eadc\n内容应用：https://docs.whop.com/whop-apps/consumer-apps",
+      "sources": [
+        {
+          "title": "应用",
+          "url": "https://docs.whop.com/whop-apps/what-are-whop-apps"
+        },
+        {
+          "title": "概念",
+          "url": "https://docs.whop.com/developer/concepts"
+        },
+        {
+          "title": "付费群组",
+          "url": "https://docs.whop.com/supported-business-models/paid-groups"
+        },
+        {
+          "title": "帖子",
+          "url": "https://docs.whop.com/api-reference/forum-posts/create-forum-post"
+        },
+        {
+          "title": "教育方案",
+          "url": "https://docs.whop.com/supported-business-models/educational-programs"
+        },
+        {
+          "title": "创建课程截图",
+          "url": "https://mobbin.com/flows/db66e97a-c08e-48fa-9665-8b4fe611eadc"
+        },
+        {
+          "title": "内容应用",
+          "url": "https://docs.whop.com/whop-apps/consumer-apps"
+        }
+      ],
+      "feature_ids": [
+        "B03-F01",
+        "B03-F02",
+        "B03-F03",
+        "B03-F04",
+        "B03-F05",
+        "B03-F06",
+        "B03-F07"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B03-F01",
+            "交付空间",
+            "商品连接多个应用体验"
+          ],
+          [
+            "B03-F02",
+            "访问与找回",
+            "按购买权益访问并核对账号"
+          ],
+          [
+            "B03-F03",
+            "群组聊天",
+            "分房、附件、投票及发言管理"
+          ],
+          [
+            "B03-F04",
+            "论坛与通讯",
+            "帖子、公告、邮件和付费墙"
+          ],
+          [
+            "B03-F05",
+            "课程编排",
+            "章节、课时、测验与证书"
+          ],
+          [
+            "B03-F06",
+            "学习进度",
+            "分时解锁、测验门槛与评估"
+          ],
+          [
+            "B03-F07",
+            "文件与指南",
+            "交付模板、电子书和说明"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S46",
+      "section": "附录 B03",
+      "title": "B03 会员权益与交付 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB03-F08 活动与直播：活动安排、日历加入、提醒；线下/Zoom/Google Meet/站内直播；可按票收费；付费群指南称直播自动保存。尚未实测录像留存和权限。\nB03-F09 预约与辅导：可用日期/时段、时长、地点或会议链接、说明、每次预约价格；免费或收费一对一；教练申请入口接 B04。\nB03-F10 机构/专业服务：客户专属商品与私有门户；Chat/Files/Events/Content/Calendar 组合交付；也可只收款、在原有工具交付；项目一次付费或长期服务费。\nB03-F11 外部社群/SaaS/工具权限：Discord、TradingView 再同步；Telegram 是邀请式且不参与再同步；SaaS 指南含许可密钥与元数据示例，但旧 SDK/路径混杂。\nB03-F12 实物交付：商品及价格选项收集地址/尺寸/颜色；Webhook/Zapier 通知外部履约或第三方仓配；支付关联运单、运单号更新与重查。\nB03-F13 线下零售与周边：商家使用手机收款后给予顾客专属社群权益；官方方案链接 Merch Store 应用。仅证实组合方案，未核实周边应用开发者、仓配合同或库存能力。\nB03-F14 互动扩展：官方消费者应用页列直播答题、随机视频社交、匿名论坛、抽奖；商店类别还含 AI、交易工具、体育、购物、健康、旅行。视为可安装应用生态，不能全部认作 Whop 自研业务。\n\n参考来源：\n付费群活动：https://docs.whop.com/supported-business-models/paid-groups\n机构方案：https://docs.whop.com/supported-business-models/agency-services\n再同步：https://docs.whop.com/api-reference/beta/memberships/resync-membership-access\n实物方案：https://docs.whop.com/supported-business-models/dtc-ecommerce\n线下商家：https://docs.whop.com/supported-business-models/brick-and-mortar\n消费者应用：https://docs.whop.com/whop-apps/consumer-apps",
+      "sources": [
+        {
+          "title": "付费群活动",
+          "url": "https://docs.whop.com/supported-business-models/paid-groups"
+        },
+        {
+          "title": "机构方案",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        },
+        {
+          "title": "再同步",
+          "url": "https://docs.whop.com/api-reference/beta/memberships/resync-membership-access"
+        },
+        {
+          "title": "实物方案",
+          "url": "https://docs.whop.com/supported-business-models/dtc-ecommerce"
+        },
+        {
+          "title": "线下商家",
+          "url": "https://docs.whop.com/supported-business-models/brick-and-mortar"
+        },
+        {
+          "title": "消费者应用",
+          "url": "https://docs.whop.com/whop-apps/consumer-apps"
+        }
+      ],
+      "feature_ids": [
+        "B03-F08",
+        "B03-F09",
+        "B03-F10",
+        "B03-F11",
+        "B03-F12",
+        "B03-F13",
+        "B03-F14"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B03-F08",
+            "活动与直播",
+            "安排活动、提醒及直播访问"
+          ],
+          [
+            "B03-F09",
+            "预约辅导",
+            "设置时段、会议地点与价格"
+          ],
+          [
+            "B03-F10",
+            "服务交付",
+            "客户私有门户或外部工具履约"
+          ],
+          [
+            "B03-F11",
+            "外部访问",
+            "连接社群或软件，各自恢复权限"
+          ],
+          [
+            "B03-F12",
+            "实物物流",
+            "收地址并接外部发货与运单"
+          ],
+          [
+            "B03-F13",
+            "零售与周边",
+            "线下收款结合会员福利"
+          ],
+          [
+            "B03-F14",
+            "互动应用",
+            "游戏、社交等生态，归属各异"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S47",
+      "section": "附录 B04",
+      "title": "B04 客户、客服与分析 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共6行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB04-F01 潜客与候补：免费产品/申请收集线索；必答问题、批准/拒绝、批量准入、导出、DM/邮件联系。不要把候补批准直接当作付款已成功。\nB04-F02 顾客与会员双视图：用户只列一次、每项会员单列；邮箱/地区/总消费/加入与最近访问、产品方案/状态/取消日期；筛选、导出和联系。\nB04-F03 会员运营动作：转移链接、封禁、赠送天数、优惠码、暂停付款、期末取消、立即终止；动作送 B02/B03 执行，不能私改视图冒充完成。\nB04-F04 顾客自助：订单/会员详情、续期日、支付方式、历史发票收据、取消和转移；程序可取得需登录的管理链接。\nB04-F05 找回与迁移：按购买邮箱找会员、处理重复账号、生成/领取转移链接；Discord 每项会员一次只连一个账号，重复账号会妨碍绑定。\nB04-F06 欠费恢复界面：识别 Past due、提醒改卡、人工重试；官方说明五天重试后仍失败取消；欠费期间能否访问取决设置，成功后恢复。计费规则归 B02。\n\n参考来源：\n候补：https://docs.whop.com/manage-your-business/products/create-waitlist\n管理用户：https://docs.whop.com/manage-your-business/manage-payments/manage-users\n账单门户：https://docs.whop.com/payments-and-billing/manage-billing/billing-portal\n找回：https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase\n失败订阅：https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments",
+      "sources": [
+        {
+          "title": "候补",
+          "url": "https://docs.whop.com/manage-your-business/products/create-waitlist"
+        },
+        {
+          "title": "管理用户",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users"
+        },
+        {
+          "title": "账单门户",
+          "url": "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal"
+        },
+        {
+          "title": "找回",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase"
+        },
+        {
+          "title": "失败订阅",
+          "url": "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments"
+        }
+      ],
+      "feature_ids": [
+        "B04-F01",
+        "B04-F02",
+        "B04-F03",
+        "B04-F04",
+        "B04-F05",
+        "B04-F06"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B04-F01",
+            "候补与潜客",
+            "收申请、审批、导出及联系"
+          ],
+          [
+            "B04-F02",
+            "客户与会员",
+            "一个客户可对应多项会员"
+          ],
+          [
+            "B04-F03",
+            "会员运营",
+            "赠天数、转移、暂停或终止"
+          ],
+          [
+            "B04-F04",
+            "客户自助",
+            "查订单与管理账单入口"
+          ],
+          [
+            "B04-F05",
+            "购买恢复",
+            "按邮箱找回并处理重复账号"
+          ],
+          [
+            "B04-F06",
+            "欠费恢复",
+            "提醒改卡并显示重试结果"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S48",
+      "section": "附录 B04",
+      "title": "B04 客户、客服与分析 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共6行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB04-F07 加入/离开自动消息：开关、姓名/商家变量、媒体、DM 加可选邮件、指定发送团队身份；可用于欢迎、反馈、回流。\nB04-F08 商家客服收件箱：一位顾客与一个经营账户的官方会话；open/resolved、列表/筛选/排序，复用已有会话；与群聊和点对点私信不同。截图可见顾客详情及关闭入口。\nB04-F09 售后工作台（引用 B10）：接受/拒绝/索取信息、证据、自动小额退款阈值、商家回应、平台介入、一次申诉、邮件通知；每付款仅一案、120 天窗口及支付类型例外。裁定/证据/阈值政策归 B10；B02 执行退款，B09 记账。\nB04-F10 平台帮助入口（引用 B12）：Whop AI 可见账户相关信息、协助取消/Discord 问题、生成业务洞察；复杂问题转支持团队并通过邮件跟进。不是商家自建 AI 客服能力的证据。\nB04-F11 分析与导出：可排列指标卡，用户/付款/售后三类；新增/活跃/试用转化、时长/访问、收入/费用/流失/退款；接口支持描述指标结构、聚合及原始行。跨域 CSV 导出可选择单账户资源、列及过滤条件，列出任务并查询 pending/processing/completed/failed/expired 状态、进度与下载地址；文件保存 30 天。可列出/读取资源不等于可创建：ledger_lines、withdrawal_lines 出现在列表/响应资源枚举，但不在 Create 请求资源枚举。\nB04-F12 外部经营工具：HubSpot 商品同步/交易联系人/付款订阅记录；GoHighLevel 账户级支付连接；QuickBooks 同步、历史导入、模式选择与错误重试；Zapier 事件与动作；追踪平台连接。Xero 明确尚在开发。\n\n参考来源：\n自动消息：https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging\n支持会话：https://docs.whop.com/developer/guides/chat/support-chats\nResolution Center：https://docs.whop.com/manage-your-business/manage-payments/resolution-center\nWhop 支持：https://docs.whop.com/get-help/whop-support\n分析：https://docs.whop.com/manage-your-business/manage-business/analytics\nHubSpot：https://docs.whop.com/third-party-integrations/hubspot",
+      "sources": [
+        {
+          "title": "自动消息",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging"
+        },
+        {
+          "title": "支持会话",
+          "url": "https://docs.whop.com/developer/guides/chat/support-chats"
+        },
+        {
+          "title": "Resolution Center",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/resolution-center"
+        },
+        {
+          "title": "Whop 支持",
+          "url": "https://docs.whop.com/get-help/whop-support"
+        },
+        {
+          "title": "分析",
+          "url": "https://docs.whop.com/manage-your-business/manage-business/analytics"
+        },
+        {
+          "title": "HubSpot",
+          "url": "https://docs.whop.com/third-party-integrations/hubspot"
+        }
+      ],
+      "feature_ids": [
+        "B04-F07",
+        "B04-F08",
+        "B04-F09",
+        "B04-F10",
+        "B04-F11",
+        "B04-F12"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B04-F07",
+            "自动消息",
+            "加入欢迎及离开反馈消息"
+          ],
+          [
+            "B04-F08",
+            "客服收件箱",
+            "每客每商家的支持会话"
+          ],
+          [
+            "B04-F09",
+            "售后工作台",
+            "提证据与回应，引用退款决定"
+          ],
+          [
+            "B04-F10",
+            "平台帮助",
+            "Whop AI 支持，复杂问题转人工"
+          ],
+          [
+            "B04-F11",
+            "经营报表",
+            "分析与导出，金额口径需区分"
+          ],
+          [
+            "B04-F12",
+            "外部经营工具",
+            "连接客户及会计软件，Xero待上线"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S49",
+      "section": "附录 B05",
+      "title": "B05 商城、搜索与评价 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共6行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB05-F01 商家商品列表与公共商城查询分流；公共列表仅返回可见商品\nB05-F02 按标题、headline 搜索相关结果；不填查询时按新近收录浏览\nB05-F03 类目、一次性/续费方案、价格上下限、标签过滤；续费价作为展示价格口径\nB05-F04 游标翻页、升降序、创建/发现时间排序；搜索与显式排序不能并用\nB05-F05 上架前检查 logo、headline、至少一张图片或视频；缺项返回原因\nB05-F06 提交后进入 pending_review，平台审核通过才公开\n\n参考来源：\n排序契约：https://docs.whop.com/api-reference/beta/products/list-products.md\n发布审核：https://docs.whop.com/api-reference/beta/products/publish-product.md",
+      "sources": [
+        {
+          "title": "排序契约",
+          "url": "https://docs.whop.com/api-reference/beta/products/list-products.md"
+        },
+        {
+          "title": "发布审核",
+          "url": "https://docs.whop.com/api-reference/beta/products/publish-product.md"
+        }
+      ],
+      "feature_ids": [
+        "B05-F01",
+        "B05-F02",
+        "B05-F03",
+        "B05-F04",
+        "B05-F05",
+        "B05-F06"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B05-F01",
+            "公共商品列表",
+            "区分商家目录与可见商城"
+          ],
+          [
+            "B05-F02",
+            "商品搜索",
+            "按标题找商品或浏览新收录"
+          ],
+          [
+            "B05-F03",
+            "商品筛选",
+            "类目、价格、收费方式及标签"
+          ],
+          [
+            "B05-F04",
+            "排序与翻页",
+            "支持指定排序，有查询组合限制"
+          ],
+          [
+            "B05-F05",
+            "上架资料检查",
+            "检查标识、标题及图片视频"
+          ],
+          [
+            "B05-F06",
+            "商城审核",
+            "提交后待审，通过才公开"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S50",
+      "section": "附录 B05",
+      "title": "B05 商城、搜索与评价 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共6行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB05-F07 主动下架进入 not_available；下架不应被解释为取消已购权益\nB05-F08 评价含 1–5 星、标题、正文、附件、作者、商品、商家、加入/发布时间\nB05-F09 显示是否付费的三态信息：true/false/unknown；不能把所有评价称已购验证\nB05-F10 按商品、星级与时间读取评价、分页和详情；审核状态 pending/published/removed\nB05-F11 评价治理：真实体验、利益关系披露、禁止虚假激励评价；违规举报与执行\nB05-F12 Pulse Feed 公开平台资金活动流：匿名、无需认证，所有调用者得到相同公开载荷；类型、美元金额、粗略城市/国家及按分钟取整时间，事件来自 ledger_line.created。B05 公开发现/社会证明是分析归属，资金事件来源归 B09；不是账户对账或个体广告归因。\n\n参考来源：\nUnpublish Product：https://docs.whop.com/api-reference/beta/products/unpublish-product.md\nReview：https://docs.whop.com/api-reference/reviews/review.md\nList Reviews：https://docs.whop.com/api-reference/reviews/list-reviews.md\nCommunity Guidelines：https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/\nPulse Feed：https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md",
+      "sources": [
+        {
+          "title": "Unpublish Product",
+          "url": "https://docs.whop.com/api-reference/beta/products/unpublish-product.md"
+        },
+        {
+          "title": "Review",
+          "url": "https://docs.whop.com/api-reference/reviews/review.md"
+        },
+        {
+          "title": "List Reviews",
+          "url": "https://docs.whop.com/api-reference/reviews/list-reviews.md"
+        },
+        {
+          "title": "Community Guidelines",
+          "url": "https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/"
+        },
+        {
+          "title": "Pulse Feed",
+          "url": "https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md"
+        }
+      ],
+      "feature_ids": [
+        "B05-F07",
+        "B05-F08",
+        "B05-F09",
+        "B05-F10",
+        "B05-F11",
+        "B05-F12"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B05-F07",
+            "主动下架",
+            "退出公开发现，不代表撤销权益"
+          ],
+          [
+            "B05-F08",
+            "评价内容",
+            "星级、正文、附件及作者"
+          ],
+          [
+            "B05-F09",
+            "付费标识",
+            "评价可为付费、未付费或未知"
+          ],
+          [
+            "B05-F10",
+            "评价读取",
+            "筛选评价及查看审核状态"
+          ],
+          [
+            "B05-F11",
+            "评价治理",
+            "真实体验、利益披露与举报"
+          ],
+          [
+            "B05-F12",
+            "公开活动流",
+            "匿名资金活动，非个人对账"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S51",
+      "section": "附录 B06",
+      "title": "B06 品牌内容与任务 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共8行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB06-F01 CR 内容形式：Clipping、UGC；创作者页另展示 Music、Logo 活动；与计费模式分开\nB06-F02 CR CPM、按篇、周期合作；公开、申请制、私密机会；发现页比较活动\nB06-F03 活动名称、品牌类目、素材、规则、社交平台、预算、千次报价、最低审核门槛、单片上限及可叠固定奖励\nB06-F04 CR 品牌/代理多工作区和 Owner/Admin/Moderator/Member；私密活动隐藏\nB06-F05 可选发布前草稿、修改往返；正式帖子人工审核；草稿通过不等于帖子通过\nB06-F06 社交归属验证、表现抓取、风险标记、暂停收益、创作者申诉\nB06-F07 CR 审批后计酬/验证冻结/可用余额/提现分阶段；未结算逆转，暂停不抹除已批准应付\nB06-F08 CR 剩余预算退款、待审阻挡、处理费不可退；内容授权与底层素材权利区分\n\n参考来源：\nWhop 内嵌版说明：https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards\nCR 主页：https://contentrewards.com/\n组织条款 §9–12：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms\n隐私政策：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy\n创作者条款 §6–11：https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+      "sources": [
+        {
+          "title": "Whop 内嵌版说明",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        },
+        {
+          "title": "CR 主页",
+          "url": "https://contentrewards.com/"
+        },
+        {
+          "title": "组织条款 §9–12",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        },
+        {
+          "title": "隐私政策",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy"
+        },
+        {
+          "title": "创作者条款 §6–11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        }
+      ],
+      "feature_ids": [
+        "B06-F01",
+        "B06-F02",
+        "B06-F03",
+        "B06-F04",
+        "B06-F05",
+        "B06-F06",
+        "B06-F07",
+        "B06-F08"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B06-F01",
+            "内容形式",
+            "剪辑、原创及音乐标识类机会"
+          ],
+          [
+            "B06-F02",
+            "合作计酬",
+            "千次观看、按篇或周期合作"
+          ],
+          [
+            "B06-F03",
+            "活动规则",
+            "素材、预算、门槛及单片上限"
+          ],
+          [
+            "B06-F04",
+            "品牌工作区",
+            "代理多品牌与成员分工"
+          ],
+          [
+            "B06-F05",
+            "草稿与审稿",
+            "草稿认可不等于正式帖子获批"
+          ],
+          [
+            "B06-F06",
+            "表现与风控",
+            "核社交归属，异常可暂停收益"
+          ],
+          [
+            "B06-F07",
+            "奖励结算",
+            "审核、计酬、冻结、可用分阶段"
+          ],
+          [
+            "B06-F08",
+            "预算与版权",
+            "处理剩余款及作品使用授权"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S52",
+      "section": "附录 B06",
+      "title": "B06 品牌内容与任务 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB06-F09 Bounty 目标涵盖剪辑、互动、自有账号增长、UGC、本地活动、数据采集、其他\nB06-F10 按每份获批交付毛额×获胜名额预存；最低总额 $5；账号/个人资金；公开或私密 experience、国家限制\nB06-F11 立即/定时/重复任务；各期独立赏金池；发布后金额与名额冻结，个人中选上限\nB06-F12 链接/文件/说明投稿；数据采集与直播证据须在 Whop 内完成；不能由公司密钥冒充执行者\nB06-F13 投稿队列及拒绝原因；审批仅 Whop 后台、无公开审批 API；无 Bounty webhook，外部系统需轮询\nB06-F14 撤回自己的尝试；取消赏金时处理在途交付后退款；满额完成不能再取消；公开交付证明与讨论/直播关联\nB06-F15 毛奖励、平台费后报价、执行者推荐分成分别记录；实际锁定费率可使到手额不同\n\n参考来源：\n审核指南：https://docs.whop.com/developer/bounties/run-a-bounty-program.md\n取消：https://docs.whop.com/api-reference/beta/bounties/cancel.md\nBounty 金额字段：https://docs.whop.com/api-reference/beta/bounties/bounty.md",
+      "sources": [
+        {
+          "title": "审核指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        },
+        {
+          "title": "取消",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/cancel.md"
+        },
+        {
+          "title": "Bounty 金额字段",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/bounty.md"
+        }
+      ],
+      "feature_ids": [
+        "B06-F09",
+        "B06-F10",
+        "B06-F11",
+        "B06-F12",
+        "B06-F13",
+        "B06-F14",
+        "B06-F15"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B06-F09",
+            "任务目标",
+            "内容、互动、本地活动与数据"
+          ],
+          [
+            "B06-F10",
+            "赏金预算",
+            "每份毛奖励乘名额，先承诺资金"
+          ],
+          [
+            "B06-F11",
+            "任务排期",
+            "即时、定时或重复，逐期资金池"
+          ],
+          [
+            "B06-F12",
+            "任务投稿",
+            "提交链接文件，部分证据限站内"
+          ],
+          [
+            "B06-F13",
+            "投稿审核",
+            "仅后台审批，无公开审批接口"
+          ],
+          [
+            "B06-F14",
+            "任务退出",
+            "撤回或取消，先处理在途成果"
+          ],
+          [
+            "B06-F15",
+            "任务净额",
+            "毛奖励扣平台费与推荐份额"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S53",
+      "section": "附录 B07",
+      "title": "B07 推广、伙伴与分成 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB07-F01 Refer buyers 机会市场：商家、佣金、收入统计、加入、推广素材/专属链接\nB07-F02 Global 与 Member 推广费率；文档写全局默认 30%，商家可设置\nB07-F03 邀请特定用户；按邮箱/用户名/ID，限定产品/方案\nB07-F04 固定额/百分比，首次付款/每次续费；单独合作约定\nB07-F05 不依赖推荐链接的 revenue share，按交易扣 Whop 费用后的金额分配，支持产品覆盖率\nB07-F06 创建/查找 affiliate、归档恢复、逐方案/分成覆盖设置增删改查\nB07-F07 推荐收益看板、30 天等待、退款/争议/欺诈退回佣金\n\n参考来源：\nBe an Affiliate：https://docs.whop.com/affiliates/be-an-affiliate.md\nGlobal Affiliates：https://docs.whop.com/affiliates/setup-global.md\nCustom Affiliates：https://docs.whop.com/affiliates/setup-custom.md\nRevenue Share：https://docs.whop.com/affiliates/setup-rev-share.md\nAffiliate：https://docs.whop.com/api-reference/affiliates/affiliate.md",
+      "sources": [
+        {
+          "title": "Be an Affiliate",
+          "url": "https://docs.whop.com/affiliates/be-an-affiliate.md"
+        },
+        {
+          "title": "Global Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-global.md"
+        },
+        {
+          "title": "Custom Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-custom.md"
+        },
+        {
+          "title": "Revenue Share",
+          "url": "https://docs.whop.com/affiliates/setup-rev-share.md"
+        },
+        {
+          "title": "Affiliate",
+          "url": "https://docs.whop.com/api-reference/affiliates/affiliate.md"
+        }
+      ],
+      "feature_ids": [
+        "B07-F01",
+        "B07-F02",
+        "B07-F03",
+        "B07-F04",
+        "B07-F05",
+        "B07-F06",
+        "B07-F07"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B07-F01",
+            "推广机会",
+            "加入商品推广并取得专属链接"
+          ],
+          [
+            "B07-F02",
+            "默认推广规则",
+            "商家设置全局与会员佣金"
+          ],
+          [
+            "B07-F03",
+            "专属推广者",
+            "邀请某人推广指定商品方案"
+          ],
+          [
+            "B07-F04",
+            "佣金合同",
+            "固定额或比例，首付或每次续费"
+          ],
+          [
+            "B07-F05",
+            "合作分成",
+            "可不靠点击，按扣费后金额分配"
+          ],
+          [
+            "B07-F06",
+            "推广配置接口",
+            "归档恢复及逐方案覆盖"
+          ],
+          [
+            "B07-F07",
+            "佣金等待",
+            "看收益，退款争议可追回"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S54",
+      "section": "附录 B07",
+      "title": "B07 推广、伙伴与分成 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB07-F08 Partners 幂等报名、返回推荐链接、记录报名日期及权限\nB07-F09 商家/用户推荐关系，一、二级收益，商家 active/removed、开始/到期时间\nB07-F10 四种收益来源：产品销售毛利、Whop Ads 支出、余额转账毛利、卡 interchange 毛利\nB07-F11 逐笔收益、费率、结算前空值、取消/追回原因、可用时显示收入与成本行\nB07-F12 按日/月/年/近30日/全部排行，匿名榜单与自己的名次分开\nB07-F13 商家奖励链接：立即或达量奖励、有效期、兑换名额、进度，奖励类型含广告额度\nB07-F14 蓝图部署副本的发布者来源归因与佣金义务：通过副本 whop.site 网站发生的销售自动归因，发布者获得这些销售所产生 Whop 利润的 10%，由 Whop 的份额支付，不是 GMV 的 10%，也不额外扣商家销售款。B12 管蓝图/副本来源，B07 管归因及分成义务，B09 管资金结算。\n\n参考来源：\nPartners：https://docs.whop.com/developer/partners/overview.md\n收益接口：https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md\nLeaderboard：https://docs.whop.com/api-reference/beta/partners/retrieve-the-leaderboard.md\nPartner Reward Link：https://docs.whop.com/api-reference/beta/partners/retrieve-a-partner-reward-link.md\nBlueprints 官方正文：https://docs.whop.com/developer/websites/blueprints.md",
+      "sources": [
+        {
+          "title": "Partners",
+          "url": "https://docs.whop.com/developer/partners/overview.md"
+        },
+        {
+          "title": "收益接口",
+          "url": "https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md"
+        },
+        {
+          "title": "Leaderboard",
+          "url": "https://docs.whop.com/api-reference/beta/partners/retrieve-the-leaderboard.md"
+        },
+        {
+          "title": "Partner Reward Link",
+          "url": "https://docs.whop.com/api-reference/beta/partners/retrieve-a-partner-reward-link.md"
+        },
+        {
+          "title": "Blueprints 官方正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        }
+      ],
+      "feature_ids": [
+        "B07-F08",
+        "B07-F09",
+        "B07-F10",
+        "B07-F11",
+        "B07-F12",
+        "B07-F13",
+        "B07-F14"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B07-F08",
+            "伙伴报名",
+            "报名商家推荐计划并取链接"
+          ],
+          [
+            "B07-F09",
+            "商家推荐关系",
+            "一级二级、起止日期与状态"
+          ],
+          [
+            "B07-F10",
+            "伙伴收入来源",
+            "销售毛利、广告支出等各有基数"
+          ],
+          [
+            "B07-F11",
+            "逐笔伙伴收益",
+            "结算、费率及取消追回原因"
+          ],
+          [
+            "B07-F12",
+            "伙伴排行榜",
+            "按期间看名次与匿名榜单"
+          ],
+          [
+            "B07-F13",
+            "商家奖励链接",
+            "达量奖励、期限及兑换名额"
+          ],
+          [
+            "B07-F14",
+            "蓝图佣金",
+            "副本站点销售产生的Whop利润分成"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S55",
+      "section": "附录 B08",
+      "title": "B08 广告与营销归因 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共8行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB08-F01 站内搜索等广告位、每日预算、按点击计费、自动竞价\nB08-F02 外部网络代理账户；Meta 已上线，TikTok/Google/Snapchat/X/Reddit 标 coming soon\nB08-F03 Facebook Page/Instagram 授权，业务单一广告账户、Advertiser 限权、主/备用支付方法\nB08-F04 Campaign→Ad Group→Ad；目标/预算策略、受众/排期/版位、文案/素材/落地页分层\nB08-F05 图片/视频、自有素材、已有社交帖子推广；AI 生成媒体可单独收费，失败退款\nB08-F06 地区、人口、兴趣、设备、语言、版位、优化目标；可省略部分条件由网络优化\nB08-F07 CSV、自有 People 条件、视频/表单/Instagram/Facebook 互动受众，包含/排除\nB08-F08 相似受众、相似范围；People 可定期刷新或保持快照；异步进度/匹配率/部分失败\n\n参考来源：\nAds Terms：https://whop.com/whop-ads-terms/\n业务文档：https://docs.whop.com/manage-your-business/growth-marketing/ads.md\nAdvertising：https://docs.whop.com/developer/ads/overview.md\nAds API Overview：https://docs.whop.com/api-reference/beta/ads/overview.md\nAd Group：https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md\nAudience：https://docs.whop.com/api-reference/beta/audiences/audience.md",
+      "sources": [
+        {
+          "title": "Ads Terms",
+          "url": "https://whop.com/whop-ads-terms/"
+        },
+        {
+          "title": "业务文档",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+        },
+        {
+          "title": "Advertising",
+          "url": "https://docs.whop.com/developer/ads/overview.md"
+        },
+        {
+          "title": "Ads API Overview",
+          "url": "https://docs.whop.com/api-reference/beta/ads/overview.md"
+        },
+        {
+          "title": "Ad Group",
+          "url": "https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md"
+        },
+        {
+          "title": "Audience",
+          "url": "https://docs.whop.com/api-reference/beta/audiences/audience.md"
+        }
+      ],
+      "feature_ids": [
+        "B08-F01",
+        "B08-F02",
+        "B08-F03",
+        "B08-F04",
+        "B08-F05",
+        "B08-F06",
+        "B08-F07",
+        "B08-F08"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B08-F01",
+            "站内广告",
+            "合同列搜索等位置及点击收费"
+          ],
+          [
+            "B08-F02",
+            "外部广告网络",
+            "Meta 已列上线，其他网络待上线"
+          ],
+          [
+            "B08-F03",
+            "投放账户",
+            "社交授权、投手权限与付款方式"
+          ],
+          [
+            "B08-F04",
+            "广告层级",
+            "活动定目标，分组定人群，广告放素材"
+          ],
+          [
+            "B08-F05",
+            "广告素材",
+            "自有图视频、社交帖子及AI媒体"
+          ],
+          [
+            "B08-F06",
+            "人群条件",
+            "地区、语言、兴趣及设备等"
+          ],
+          [
+            "B08-F07",
+            "自有受众",
+            "客户名单或社交互动人群"
+          ],
+          [
+            "B08-F08",
+            "相似受众",
+            "接口有契约，后台开放另核"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S56",
+      "section": "附录 B08",
+      "title": "B08 广告与营销归因 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB08-F09 草稿、审核/拒绝、处理/排期/活跃/暂停/结束、缺分组/素材、支付失败；可编辑、复制、删除\nB08-F10 Whop Pixel 全漏斗页面、自定义/标准事件，外部 purchase 与 Whop 付款分开；event_id 去重\nB08-F11 服务端事件与浏览器身份关联，读取 _wuid、携带事件时间/页面及可用身份，传送 Meta CAPI\nB08-F12 People、原始事件、个人时间线；按来源/行为/设备/地区/购买状态过滤和跳转\nB08-F13 花费、展示、点击、结果、每结果成本、ROAS、日期/时区/层级筛选；首次/末次触点归因\nB08-F14 品牌追踪链接可指向商店/结账与方案，统计点击、销售额、转化人数/率\nB08-F15 外部分析与漏斗平台接入，事件输入/输出、Pixel 安装检查与故障诊断\n\n参考来源：\nAdvertising：https://docs.whop.com/developer/ads/overview.md\nPixel：https://docs.whop.com/developer/ads/pixel.md\nEvents API：https://docs.whop.com/developer/ads/events-api.md\nTracking People：https://docs.whop.com/elements/beta/tracking/people.md\nReporting：https://docs.whop.com/elements/beta/ads/reporting.md\nTracking Links：https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md\nTracking Integrations：https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md",
+      "sources": [
+        {
+          "title": "Advertising",
+          "url": "https://docs.whop.com/developer/ads/overview.md"
+        },
+        {
+          "title": "Pixel",
+          "url": "https://docs.whop.com/developer/ads/pixel.md"
+        },
+        {
+          "title": "Events API",
+          "url": "https://docs.whop.com/developer/ads/events-api.md"
+        },
+        {
+          "title": "Tracking People",
+          "url": "https://docs.whop.com/elements/beta/tracking/people.md"
+        },
+        {
+          "title": "Reporting",
+          "url": "https://docs.whop.com/elements/beta/ads/reporting.md"
+        },
+        {
+          "title": "Tracking Links",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+        },
+        {
+          "title": "Tracking Integrations",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md"
+        }
+      ],
+      "feature_ids": [
+        "B08-F09",
+        "B08-F10",
+        "B08-F11",
+        "B08-F12",
+        "B08-F13",
+        "B08-F14",
+        "B08-F15"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B08-F09",
+            "投放状态",
+            "草稿、审核、活跃、暂停及失败"
+          ],
+          [
+            "B08-F10",
+            "网页追踪",
+            "记录事件并避免重复购买计数"
+          ],
+          [
+            "B08-F11",
+            "服务器事件",
+            "补传事件并关联访客身份"
+          ],
+          [
+            "B08-F12",
+            "访客时间线",
+            "查看事件与行为，组件成熟度有限"
+          ],
+          [
+            "B08-F13",
+            "广告成效",
+            "花费、点击及归因销售回报"
+          ],
+          [
+            "B08-F14",
+            "追踪链接",
+            "统计点击和转化，不自动分佣"
+          ],
+          [
+            "B08-F15",
+            "外部分析连接",
+            "安装与排错，不等于能投该网络"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S57",
+      "section": "附录 B09",
+      "title": "B09 钱包、账务与出款 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共8行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB09-F01 个人/企业资金视图：可提、待结算、可用日期、准备金明细；银行卡消费与普通银行提现的可用余额规则不同\nB09-F02 账务活动与财务报告：按日期余额活动、收入表、余额汇总及明细；不是已知 Whop 内部会计分录模型\nB09-F03 补充资金：先保存支付方式，再平台充值，异步通知确认；充值非营业收入\nB09-F04 收款目的地管理：新增、多种方式、默认、国家与本币要求；银行、移动钱包、crypto 分渠道资格\nB09-F05 人工、定期与即时提现：最低金额、保留余额、待审核/处理中/成功/退回跟踪；即时不保证每账户可用\nB09-F06 出款报价及取消：短期合作方报价确认后才移动资金；审核中可取消，处理中不可取消，取消退本金及费用\nB09-F07 企业 connected accounts：子账户入驻、自助托管/嵌入出款门户；直收+应用费，或平台先收后转；佣金、奖励、团队付款的资金执行\nB09-F08 账户转账与领取链接：转出身份、接收身份、余额/审核条件、失败原因；普通账户是否获准使用须按合同确认\n\n参考来源：\n提现设置：https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md\n财务报告：https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md\n充值指南：https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md\nPayout methods：https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md\n报价：https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md\n企业收款两路线：https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md\n创建 Transfer：https://docs.whop.com/api-reference/beta/transfers/create-transfer.md",
+      "sources": [
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "财务报告",
+          "url": "https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md"
+        },
+        {
+          "title": "充值指南",
+          "url": "https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md"
+        },
+        {
+          "title": "Payout methods",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md"
+        },
+        {
+          "title": "报价",
+          "url": "https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md"
+        },
+        {
+          "title": "企业收款两路线",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "创建 Transfer",
+          "url": "https://docs.whop.com/api-reference/beta/transfers/create-transfer.md"
+        }
+      ],
+      "feature_ids": [
+        "B09-F01",
+        "B09-F02",
+        "B09-F03",
+        "B09-F04",
+        "B09-F05",
+        "B09-F06",
+        "B09-F07",
+        "B09-F08"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B09-F01",
+            "余额分类",
+            "可提、待结算与准备金分开"
+          ],
+          [
+            "B09-F02",
+            "账务报告",
+            "查看活动、余额及资金明细"
+          ],
+          [
+            "B09-F03",
+            "账户充值",
+            "补资金待确认，不是营业收入"
+          ],
+          [
+            "B09-F04",
+            "收款目的地",
+            "设置银行等方式及国家要求"
+          ],
+          [
+            "B09-F05",
+            "提现排程",
+            "人工、定期、即时及失败跟踪"
+          ],
+          [
+            "B09-F06",
+            "出款报价",
+            "确认费用，取消受处理状态限制"
+          ],
+          [
+            "B09-F07",
+            "企业代付",
+            "连接账户收款、分账及付款门户"
+          ],
+          [
+            "B09-F08",
+            "转账与领取",
+            "按业务资格转款或发领取链接"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S58",
+      "section": "附录 B09",
+      "title": "B09 钱包、账务与出款 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB09-F09 银行/链上入金：存款指示、crypto 地址/托管入口；crypto 入金最低 $10，入金与购买商品不同\nB09-F10 兑换：报价预览、法币账内中间价转换、钱包 token 兑换、crypto 异步结果；链/币/费用按实际报价\nB09-F11 发卡与团队预算：申请/批准后虚拟卡、持卡人、额度、PIN/冻结/取消、交易结果；Apple/Google Wallet 消费；实体及定制卡只获企业营销佐证\nB09-F12 卡奖励与交换费分享：指定商家 cashback；平台通过 API 发卡可获部分 interchange，即卡支付链路中的交换费\nB09-F13 消费融资接入：与商家自行分期分开；合作方批准、买家还款、商家结算/准备金；维护方法级地区及商品资格\nB09-F14 Treasury / Earn yield 收益产品候选：给用户余额赚取收益的入口，须独立标识资产、申赎、资格与风险\nB09-F15 自托管稳定币钱包及退出：Privy 钱包、USD/USDT 转换、USDT 换 cbBTC/XAU₮ 经 Relay、交易授权/撤销、私钥导出及相关账户禁用\n\n参考来源：\nDeposit：https://docs.whop.com/api-reference/beta/deposits/create-deposit.md\n兑换：https://docs.whop.com/api-reference/beta/swaps/create-swap.md\nWhop Cards：https://docs.whop.com/whop-finance/cards.md\n融资目录：https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md\n企业钱包页：https://whop.com/network/products/payouts/\nWallet Terms：https://whop.com/wallet-terms/",
+      "sources": [
+        {
+          "title": "Deposit",
+          "url": "https://docs.whop.com/api-reference/beta/deposits/create-deposit.md"
+        },
+        {
+          "title": "兑换",
+          "url": "https://docs.whop.com/api-reference/beta/swaps/create-swap.md"
+        },
+        {
+          "title": "Whop Cards",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        },
+        {
+          "title": "融资目录",
+          "url": "https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md"
+        },
+        {
+          "title": "企业钱包页",
+          "url": "https://whop.com/network/products/payouts/"
+        },
+        {
+          "title": "Wallet Terms",
+          "url": "https://whop.com/wallet-terms/"
+        }
+      ],
+      "feature_ids": [
+        "B09-F09",
+        "B09-F10",
+        "B09-F11",
+        "B09-F12",
+        "B09-F13",
+        "B09-F14",
+        "B09-F15"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B09-F09",
+            "银行链上入金",
+            "取入金指示，区别购买商品"
+          ],
+          [
+            "B09-F10",
+            "货币与资产兑换",
+            "预览报价、费用及异步结果"
+          ],
+          [
+            "B09-F11",
+            "卡与团队预算",
+            "申请、限额、冻结，实体卡仅营销"
+          ],
+          [
+            "B09-F12",
+            "卡奖励",
+            "合资格返现及交换费分享"
+          ],
+          [
+            "B09-F13",
+            "消费融资",
+            "合作方审批，结算和准备金各异"
+          ],
+          [
+            "B09-F14",
+            "余额收益入口",
+            "只有营销线索，产品细则待核"
+          ],
+          [
+            "B09-F15",
+            "自托管钱包",
+            "稳定币、代币兑换与私钥退出"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S59",
+      "section": "附录 B10",
+      "title": "B10 核验、风险与争议 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB10-F01 个人 KYC 与企业 KYB：托管核验页、预填、证件与自拍、状态查询；一个账户可有个人与企业核验\nB10-F02 核验补件与人工审查：RFI 的文件/文本/日期/电话/地址等要求，逐项补齐、驳回原因、重新提交、状态通知；敏感编号令牌化\nB10-F03 核验复用及权限：已有 Sumsub 核验可通过协议允许的 share token 导入；不足则补核，拒绝不能当已通过\nB10-F04 业务/国家准入政策：禁止或限制类别、制裁地域、按处理商条件审查；融资及卡消费还有独立限制\nB10-F05 支付健康：30 天窗口及按购买日期两种争议率，7/14/28 天观察窗、退款率、低数据/风险状态、原因分析\nB10-F06 风险控制生命周期：自动退款阈值、风险附加费、延迟可提、融资暂停、3DS、卡品牌限制，动态收紧/解除\nB10-F07 准备金政策：逐笔滚动、固定金额、融资方保留；展示持有来源及释放日期，金额降低/撤销规则\n\n参考来源：\n复用核验：https://docs.whop.com/developer/verification/overview.md\n补件：https://docs.whop.com/developer/verification/rfis.md\n禁止业务：https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md\nPayment health：https://docs.whop.com/trust-and-safety/account-health/payment-health.md\n控制：https://docs.whop.com/trust-and-safety/account-health/controls.md\n准备金：https://docs.whop.com/trust-and-safety/account-health/reserves.md",
+      "sources": [
+        {
+          "title": "复用核验",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        },
+        {
+          "title": "补件",
+          "url": "https://docs.whop.com/developer/verification/rfis.md"
+        },
+        {
+          "title": "禁止业务",
+          "url": "https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md"
+        },
+        {
+          "title": "Payment health",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/payment-health.md"
+        },
+        {
+          "title": "控制",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/controls.md"
+        },
+        {
+          "title": "准备金",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/reserves.md"
+        }
+      ],
+      "feature_ids": [
+        "B10-F01",
+        "B10-F02",
+        "B10-F03",
+        "B10-F04",
+        "B10-F05",
+        "B10-F06",
+        "B10-F07"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B10-F01",
+            "身份核验",
+            "个人与企业分别提交验证"
+          ],
+          [
+            "B10-F02",
+            "补件审查",
+            "按要求补文件并跟踪结果"
+          ],
+          [
+            "B10-F03",
+            "复用核验",
+            "经协议共享，不足仍须补核"
+          ],
+          [
+            "B10-F04",
+            "业务准入",
+            "国家、业务类别及合作方限制"
+          ],
+          [
+            "B10-F05",
+            "支付健康",
+            "观察退款、争议及风险状态"
+          ],
+          [
+            "B10-F06",
+            "风险限制",
+            "加强认证、延迟出款或暂停融资"
+          ],
+          [
+            "B10-F07",
+            "准备金政策",
+            "按规则暂留资金并安排释放"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S60",
+      "section": "附录 B10",
+      "title": "B10 核验、风险与争议 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB10-F08 退款规则与决定：全额/部分、低额自动退款、特定融资自动退；余额不足须补款；结果交 B02 执行、B09 记账\nB10-F09 平台 Resolution Center：买家按付款开案、附件与聊天、接受/拒绝/补证、七天升级、一次申诉、最终关闭与通知\nB10-F10 银行拒付处理：早期预警、自动退款防止转拒付、截止日、自动访问/政策证据、人工补证、提交、赢/输结果及资金返还\nB10-F11 发卡消费风控与信用风险政策：锁卡/限额/余额拒绝原因、受限商家类别、地址验证、3DS、实时频率限制；外部网络拒绝优先\nB10-F12 税务模式及政策：Discover 与直销分开；算税由商家缴、平台代收代缴、商家自理三模式；含税/未税、注册覆盖、退款调税、税务发票与免税材料处理\nB10-F13 举报、限制及退出后资金处理：举报入口、审查、停权、允许的申诉、资金留置/退款/抵扣；永久封禁与一般限制分开\nB10-F14 美国税表业务与行业合规候选：零工平台 1099 合规、税表收集/申报/更正操作的边界；医疗付款合规宣称单列\n\n参考来源：\n退款：https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md\nResolution Center：https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md\nDispute fighter：https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md\n卡拒绝：https://docs.whop.com/whop-finance/card-declines-and-risk-rules.md\n税务：https://docs.whop.com/payments-and-billing/fees/taxes.md\n举报：https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md\nGig economy：https://whop.com/network/solutions/gig-economy/",
+      "sources": [
+        {
+          "title": "退款",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md"
+        },
+        {
+          "title": "Resolution Center",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md"
+        },
+        {
+          "title": "Dispute fighter",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md"
+        },
+        {
+          "title": "卡拒绝",
+          "url": "https://docs.whop.com/whop-finance/card-declines-and-risk-rules.md"
+        },
+        {
+          "title": "税务",
+          "url": "https://docs.whop.com/payments-and-billing/fees/taxes.md"
+        },
+        {
+          "title": "举报",
+          "url": "https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md"
+        },
+        {
+          "title": "Gig economy",
+          "url": "https://whop.com/network/solutions/gig-economy/"
+        }
+      ],
+      "feature_ids": [
+        "B10-F08",
+        "B10-F09",
+        "B10-F10",
+        "B10-F11",
+        "B10-F12",
+        "B10-F13",
+        "B10-F14"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B10-F08",
+            "退款决定",
+            "全额部分退款，执行仍需资金"
+          ],
+          [
+            "B10-F09",
+            "平台售后案件",
+            "证据、商家回应、升级及申诉"
+          ],
+          [
+            "B10-F10",
+            "银行拒付",
+            "提交证据，由发卡行决定结果"
+          ],
+          [
+            "B10-F11",
+            "卡消费风控",
+            "类别、地址、额度及频率限制"
+          ],
+          [
+            "B10-F12",
+            "税务模式",
+            "算税与代缴分开，地域另核"
+          ],
+          [
+            "B10-F13",
+            "举报与停权",
+            "审查、申诉及退出后资金处理"
+          ],
+          [
+            "B10-F14",
+            "行业合规宣传",
+            "美国税表与医疗细则未证实"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S61",
+      "section": "附录 B11",
+      "title": "B11 开发者、应用与企业 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共8行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB11-F01 双接入模式与开发者工作台：外部产品使用自有域名／用户；站内应用供商家安装；创建应用及账户／应用密钥，环境分离，TypeScript／Python／Ruby SDK。\nB11-F02 应用发现与安装分发：应用商店浏览／搜索／趋势，直接安装链接，商家选择目标账户；消费型、经营型及混合型应用。安装一次不等于所有商家共用同一个内容实例。\nB11-F03 成员与商家双视图：Experience 面向成员，可生成多个 experience 实例；Dashboard 面向经营者；深链接、路径配置、预览环境及管理员访问检查。\nB11-F04 授权生命周期：必需／可选权限及用途说明；安装同意；增加权限后重新批准；Authorized apps 管理；未同意新权限时调用失败，可选权限拒绝时降级。\nB11-F05 身份集成与访问控制：账户密钥、跨安装应用密钥、账户限定用户令牌、iframe 身份、Sign in with Whop；OAuth 登录同意／刷新／撤销；已有用户映射和账户内头像／名称覆盖。\nB11-F06 站内运行与移动发行：iframe 与宿主通信、外链／个人资料／购买弹窗；Frosted UI；开发代理；React Native；上传发行包、审核后推广到生产。\nB11-F07 可靠 API 与事件交付：日期版本、当前／Legacy 资源区分、沙盒、重复请求去重、权限／限流错误；Webhook 配置、签名、测试、投递记录、重试、停用和补查。文件上传含分片与就绪状态。\nB11-F08 外部支付界面接入：托管／嵌入 checkout、独立支付字段、地址／税号／邮箱／品牌告知、快捷钱包按钮；原生 iOS 付费墙、购买及权益读取。业务成功由服务端支付结果确认。\n\n参考来源：\n接入模式：https://docs.whop.com/developer/start.md\nApp Store：https://docs.whop.com/whop-apps/whop-app-store.md\nApp Views：https://docs.whop.com/developer/guides/app-views.md\nPermissions：https://docs.whop.com/developer/guides/permissions.md\n凭证边界：https://docs.whop.com/developer/guides/auth-scoping.md\nIframe：https://docs.whop.com/developer/guides/iframe.md\n版本：https://docs.whop.com/developer/api/versioning.md\n支付接入：https://docs.whop.com/developer/guides/accept-payments.md",
+      "sources": [
+        {
+          "title": "接入模式",
+          "url": "https://docs.whop.com/developer/start.md"
+        },
+        {
+          "title": "App Store",
+          "url": "https://docs.whop.com/whop-apps/whop-app-store.md"
+        },
+        {
+          "title": "App Views",
+          "url": "https://docs.whop.com/developer/guides/app-views.md"
+        },
+        {
+          "title": "Permissions",
+          "url": "https://docs.whop.com/developer/guides/permissions.md"
+        },
+        {
+          "title": "凭证边界",
+          "url": "https://docs.whop.com/developer/guides/auth-scoping.md"
+        },
+        {
+          "title": "Iframe",
+          "url": "https://docs.whop.com/developer/guides/iframe.md"
+        },
+        {
+          "title": "版本",
+          "url": "https://docs.whop.com/developer/api/versioning.md"
+        },
+        {
+          "title": "支付接入",
+          "url": "https://docs.whop.com/developer/guides/accept-payments.md"
+        }
+      ],
+      "feature_ids": [
+        "B11-F01",
+        "B11-F02",
+        "B11-F03",
+        "B11-F04",
+        "B11-F05",
+        "B11-F06",
+        "B11-F07",
+        "B11-F08"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B11-F01",
+            "两种接入",
+            "外部软件使用或站内应用分发"
+          ],
+          [
+            "B11-F02",
+            "应用安装",
+            "商店或链接安装到指定商家"
+          ],
+          [
+            "B11-F03",
+            "两种应用视图",
+            "成员体验与经营后台分开"
+          ],
+          [
+            "B11-F04",
+            "权限同意",
+            "必需可选权限，增加后重新批准"
+          ],
+          [
+            "B11-F05",
+            "身份与授权",
+            "密钥、登录令牌与用户映射"
+          ],
+          [
+            "B11-F06",
+            "应用发行",
+            "站内运行、移动包及审核发布"
+          ],
+          [
+            "B11-F07",
+            "接口与通知",
+            "版本、测试、签名、重试及去重"
+          ],
+          [
+            "B11-F08",
+            "嵌入结账",
+            "在自己产品放付款与权益入口"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S62",
+      "section": "附录 B11",
+      "title": "B11 开发者、应用与企业 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB11-F09 平台／市场关联账户：个人或商家开户关联、外部 metadata、开户完成、面向关联账户创建收款、转账及手动付款，嵌入或托管提现门户。\nB11-F10 平台收费与费用承担配置：直接收款 application fee；fee markup 默认／覆盖／删除；平台代付提现费或收款人承担；明确费用、退款和争议归属。\nB11-F11 身份审核接入：个人 KYC／企业 KYB、托管会话、文档提交、已有 Sumsub 审核共享、审核状态、补资料 RFI、能力是否开通。拥有接入状态，不拥有审核规则。\nB11-F12 外部钱包与资金组件：余额／分类／结算中、流水／详情、存入／转出／提现／兑换、卡片和交易、收益及验证入口；组件事件交给宿主处理。组件存在不保证所有地区开通底层能力。\nB11-F13 外部社区与增长组件：频道、私信及列表、客服聊天、主题；应用 API 对接论坛／通知／课程／会员／联盟等；广告创建／报告／付款设置及像素受众／事件／个人轨迹嵌入。\nB11-F14 外部经营连接器：HubSpot 原生支付／订阅记录及报价收款；GoHighLevel 机构／子账户付款提供商；QuickBooks 双向商品／订阅／发票及提现对账；Zapier 触发器／动作／自动化；Xero 仅列候选，不计已上线。\nB11-F15 开发者商业化及企业服务：开发者可向商家售卖安装／订阅／分成方案（营销例子）；企业联系销售、按量／地区报价、专属账户经理与接入协助；第三方服务协议和 API 停用责任。\n\n参考来源：\n注册关联账户：https://docs.whop.com/developer/platforms/enroll-connected-accounts.md\n收款责任：https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md\nVerification：https://docs.whop.com/developer/verification/overview.md\nWallet Elements：https://docs.whop.com/elements/beta/wallet/overview.md\n嵌入聊天：https://docs.whop.com/developer/guides/chat/quickstart.md\nHubSpot：https://docs.whop.com/third-party-integrations/hubspot.md\n开发者收费示例：https://whop.com/blog/whop-app-store/",
+      "sources": [
+        {
+          "title": "注册关联账户",
+          "url": "https://docs.whop.com/developer/platforms/enroll-connected-accounts.md"
+        },
+        {
+          "title": "收款责任",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "Verification",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        },
+        {
+          "title": "Wallet Elements",
+          "url": "https://docs.whop.com/elements/beta/wallet/overview.md"
+        },
+        {
+          "title": "嵌入聊天",
+          "url": "https://docs.whop.com/developer/guides/chat/quickstart.md"
+        },
+        {
+          "title": "HubSpot",
+          "url": "https://docs.whop.com/third-party-integrations/hubspot.md"
+        },
+        {
+          "title": "开发者收费示例",
+          "url": "https://whop.com/blog/whop-app-store/"
+        }
+      ],
+      "feature_ids": [
+        "B11-F09",
+        "B11-F10",
+        "B11-F11",
+        "B11-F12",
+        "B11-F13",
+        "B11-F14",
+        "B11-F15"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B11-F09",
+            "连接账户",
+            "外部平台为卖家入驻并接收付款"
+          ],
+          [
+            "B11-F10",
+            "平台收费配置",
+            "应用费及出款费承担方分清"
+          ],
+          [
+            "B11-F11",
+            "核验接入",
+            "提交资料和展示审核进度"
+          ],
+          [
+            "B11-F12",
+            "嵌入钱包",
+            "余额与资金动作，资格另核"
+          ],
+          [
+            "B11-F13",
+            "嵌入社区增长",
+            "聊天、课程、广告及追踪入口"
+          ],
+          [
+            "B11-F14",
+            "经营连接器",
+            "接客户会计软件，Xero 待上线"
+          ],
+          [
+            "B11-F15",
+            "企业与应用收费",
+            "开发者独立收费，企业定制报价"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S63",
+      "section": "附录 B12",
+      "title": "B12 AI创业与经营支持 · 1/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB12-F01 Whop AI 创业入口：官网按创业方向进入；网站工作台通过对话描述业务、创建网站及关联商品／价格、再用对话编辑。官网的行业方向是用例，不是各自一套已验证系统。\nB12-F02 AI 会话管理：新建／列出／读取／改名／删除、切换关联业务上下文、通知偏好、general／support agent、消息数／token 使用字段；可选定时自动化在资源描述中出现，完整配置界面未证实。\nB12-F03 AI 媒体生产：提示词生成图片／视频、异步状态读取、就绪后输出文件供业务使用；按账户余额计费。\nB12-F04 编程助手资料接入：文档 MCP、完整文档索引、Markdown 正文和可安装技能目录，让外部助手查资料。MCP 是让 AI 连接工具的协议。\nB12-F05 AI 经营工具与确认机制：账户 API MCP 浏览器授权、多业务逐次选择上下文；财务／凭证／删除操作先预览再确认、参数绑定、重复请求去重；断开／重连及过期处理。Claude Code、Grok Build 插件包装此能力。\nB12-F06 Whop CLI 创业与发行：终端登录、创建／关联项目、本地开发、构建部署、管理业务资源；与 Claude 等助手组合；CLI 与 MCP 是并列操作渠道。\nB12-F07 Whop Websites 托管生命周期：独立 whop.site 地址，网站列表／编辑／设置／版本，构建发布和旧版恢复；密钥配置、服务端调用授权、运行日志；像素自动跟踪，另加自定义事件。\n\n参考来源：\n官网：https://whop.com/\nAI Chat：https://docs.whop.com/api-reference/ai-chats/ai-chat.md\n媒体资源：https://docs.whop.com/api-reference/beta/media/media.md\nAI Tools：https://docs.whop.com/developer/ai/overview.md\nMCP：https://docs.whop.com/developer/guides/ai_and_mcp.md\nCLI with Claude：https://docs.whop.com/developer/guides/cli-with-claude.md\nWebsites：https://docs.whop.com/developer/websites/overview.md",
+      "sources": [
+        {
+          "title": "官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "AI Chat",
+          "url": "https://docs.whop.com/api-reference/ai-chats/ai-chat.md"
+        },
+        {
+          "title": "媒体资源",
+          "url": "https://docs.whop.com/api-reference/beta/media/media.md"
+        },
+        {
+          "title": "AI Tools",
+          "url": "https://docs.whop.com/developer/ai/overview.md"
+        },
+        {
+          "title": "MCP",
+          "url": "https://docs.whop.com/developer/guides/ai_and_mcp.md"
+        },
+        {
+          "title": "CLI with Claude",
+          "url": "https://docs.whop.com/developer/guides/cli-with-claude.md"
+        },
+        {
+          "title": "Websites",
+          "url": "https://docs.whop.com/developer/websites/overview.md"
+        }
+      ],
+      "feature_ids": [
+        "B12-F01",
+        "B12-F02",
+        "B12-F03",
+        "B12-F04",
+        "B12-F05",
+        "B12-F06",
+        "B12-F07"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B12-F01",
+            "AI创业入口",
+            "对话描述业务并创建网站"
+          ],
+          [
+            "B12-F02",
+            "AI会话",
+            "切换业务、管理对话与通知"
+          ],
+          [
+            "B12-F03",
+            "AI图视频",
+            "异步生成，从账户余额计费"
+          ],
+          [
+            "B12-F04",
+            "AI查文档",
+            "让外部助手连接官方资料"
+          ],
+          [
+            "B12-F05",
+            "AI经营操作",
+            "账户授权，重要动作预览确认"
+          ],
+          [
+            "B12-F06",
+            "命令行工具",
+            "创建项目、开发并发布网站"
+          ],
+          [
+            "B12-F07",
+            "网站托管",
+            "独立地址、编辑、发布及版本恢复"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "S64",
+      "section": "附录 B12",
+      "title": "B12 AI创业与经营支持 · 2/2",
+      "layout": "catalog",
+      "takeaway": "每一项对应一类用途；计划、接口和未知边界保留在说明中",
+      "body": [],
+      "example": "",
+      "visual_brief": "原生可编辑三列表格，共7行；编号窄列，功能名短列，用途宽列；正文至少17pt，禁止为塞入内容缩字。",
+      "speaker_notes_zh": "这一页可按具体问题查阅。以下条目各自的用途和限制：\nB12-F08 Blueprints 业务蓝图与发布者归因：官方验证／社区发布、趋势／最新／使用排序、预览／使用说明；复制商品、价格、图片、商店样式和可收款网站；目标业务选择、源码克隆、发布者收益归因。\nB12-F09 已有网站接入：输入 URL 重建网站与商品；或只在既有网站安装像素、不迁托管；后续使用站点编辑／版本能力。\nB12-F10 Whop Migrations：Stripe 连接、迁移预览、支付方式转移协助、排除名单、确认、旧订阅周期末取消、未来续费接管、成功／失败 CSV、重跑跳过已迁移记录。\nB12-F11 美国公司成立服务：可继续个人经营；LLC 申请／共同创始人资料、付款、登记与 EIN；API 增加 C-Corp 及股权／职务字段；门户、CLI、API 入口；申请状态追踪。\nB12-F12 Whop University／创业教育：课程与资源、经营教学、公告、同行社群、支持和辅导；学校把真实创业作为教学活动。经营者学习与商家卖课是不同关系。\nB12-F13 WhopX 创始人成长社区：按 Whop 实际收入解锁分层聊天、实时排行、城市群／线下活动、较高档位每周交流与回放；登录自动检查资格。\nB12-F14 经营下一步建议链与客户端进度记录：按账户现状列建议步骤、读取链和已填输入；Execute 当前只写客户端已运行的分析事件及逐步 redirected 记录，不在服务器执行产品／定价／发布动作。\n\n参考来源：\nBlueprints 正文：https://docs.whop.com/developer/websites/blueprints.md\n网站四种路径：https://whop.com/blog/whop-blueprints/\nMigrations：https://whop.com/blog/migrations/\nLLC 公布及价格：https://whop.com/blog/register-llc/\nUniversity 介绍：https://whop.com/blog/what-is-whop-university/\nWhopX：https://whop.com/blog/whopx/\nList chains：https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md",
+      "sources": [
+        {
+          "title": "Blueprints 正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        },
+        {
+          "title": "网站四种路径",
+          "url": "https://whop.com/blog/whop-blueprints/"
+        },
+        {
+          "title": "Migrations",
+          "url": "https://whop.com/blog/migrations/"
+        },
+        {
+          "title": "LLC 公布及价格",
+          "url": "https://whop.com/blog/register-llc/"
+        },
+        {
+          "title": "University 介绍",
+          "url": "https://whop.com/blog/what-is-whop-university/"
+        },
+        {
+          "title": "WhopX",
+          "url": "https://whop.com/blog/whopx/"
+        },
+        {
+          "title": "List chains",
+          "url": "https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md"
+        }
+      ],
+      "feature_ids": [
+        "B12-F08",
+        "B12-F09",
+        "B12-F10",
+        "B12-F11",
+        "B12-F12",
+        "B12-F13",
+        "B12-F14"
+      ],
+      "table": {
+        "headers": [
+          "编号",
+          "功能",
+          "有什么用／边界"
+        ],
+        "rows": [
+          [
+            "B12-F08",
+            "业务蓝图",
+            "复制配置与网站，保留作者来源"
+          ],
+          [
+            "B12-F09",
+            "已有网站接入",
+            "重建网站或仅安装追踪像素"
+          ],
+          [
+            "B12-F10",
+            "订阅迁移",
+            "合资格 Stripe 卡订阅转入"
+          ],
+          [
+            "B12-F11",
+            "美国公司成立",
+            "LLC与C-Corp，非马来西亚注册"
+          ],
+          [
+            "B12-F12",
+            "创业教育",
+            "University资源、辅导与校园合作"
+          ],
+          [
+            "B12-F13",
+            "WhopX社群",
+            "按经营收入资格解锁交流"
+          ],
+          [
+            "B12-F14",
+            "下一步建议",
+            "记录客户端步骤，不自动办完业务"
+          ]
+        ]
+      }
+    }
+  ]
+}

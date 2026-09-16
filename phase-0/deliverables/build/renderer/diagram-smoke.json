@@ -1,0 +1,53 @@
+{
+  "title": "流程检查",
+  "language": "zh-CN",
+  "slides": [
+    {
+      "id": "flow",
+      "title": "内容发布流程",
+      "layout": "flow",
+      "takeaway": "每个阶段都有明确的交付物",
+      "body": [],
+      "diagram": {
+        "nodes": [
+          {
+            "id": "a",
+            "text": "梳理需求",
+            "x": 72,
+            "y": 340,
+            "width": 260,
+            "height": 80
+          },
+          {
+            "id": "b",
+            "text": "制作内容",
+            "x": 488,
+            "y": 340,
+            "width": 260,
+            "height": 80
+          },
+          {
+            "id": "c",
+            "text": "检查发布",
+            "x": 904,
+            "y": 340,
+            "width": 260,
+            "height": 80
+          }
+        ],
+        "edges": [
+          {
+            "from": "a",
+            "to": "b"
+          },
+          {
+            "from": "b",
+            "to": "c"
+          }
+        ]
+      },
+      "speaker_notes_zh": "示例流程。",
+      "sources": []
+    }
+  ]
+}

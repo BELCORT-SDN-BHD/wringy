@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-11",
+  "components": 103,
+  "state_entries": 660,
+  "categories": 8,
+  "source_features": 168,
+  "mapped_features": 168,
+  "unique_component_ids": 103,
+  "errors": [],
+  "spec_hashes": {
+    "catalog.json": "a08b2f043caaf4bb0b9adbf805d8d1c4d4b9d62a74643f87b3147d9e884ab1ee",
+    "components.md": "2bcb952d0ffca10bc2a91970d67719170eb0f1075ee9e0e6f68ec3980e52c0b7",
+    "domain-states.md": "b74a12bb70bf4b03b6d39cbb869866bbd146224598eb6edd6f7b555341f331a1",
+    "module-coverage.md": "3fc11c4583db2526793f8b7ea0a01e1122e9412124d78027a4a49a01f1b56855"
+  },
+  "scope": "Static specification/schema/link checks; not visual or production verification"
+}

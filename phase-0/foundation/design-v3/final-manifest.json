@@ -1,0 +1,88 @@
+{
+  "status": "draft deliverables complete; independent Wringy design, production approval pending",
+  "date": "2026-09-10",
+  "scope": "phase-0/foundation/design-v3/ only",
+  "referenceCaptureMembership": "unverified",
+  "files": [
+    {
+      "path": "tokens.json",
+      "bytes": 4137,
+      "sha256": "a1040e3316f01a0467a68bf3c023cf1975949d2fc3afe39136e33ab58bed5ab4"
+    },
+    {
+      "path": "tokens.css",
+      "bytes": 1954,
+      "sha256": "2111330270b3a63f0caf20a3c2d7fad0ae2f21cf9682c3cbb50ffc7ecc1b49bd"
+    },
+    {
+      "path": "brand-components-spec.md",
+      "bytes": 15349,
+      "sha256": "fe0d1cf1bb82f7e7b84bbff9151a23cae3efe9eae87d69d4f32fc099aec06e5b"
+    },
+    {
+      "path": "showcase.html",
+      "bytes": 30902331,
+      "sha256": "a45506e67d37509f64f9b16a2c65bb499229ad301058034dcec859042811f2e1"
+    },
+    {
+      "path": "Wringy-visual-guide-v3.pdf",
+      "bytes": 11493228,
+      "sha256": "e771cc1d35f32258868342c2318eef717d52cac6fe6e0577f6662d14d2ec952f"
+    },
+    {
+      "path": "pattern-references.json",
+      "bytes": 2984,
+      "sha256": "e379f5ad2e69273ad26011cdb3d8ee6d6d5a2952070f2007ed85709562c1dae5"
+    },
+    {
+      "path": "asset-origin-manifest.json",
+      "bytes": 4463,
+      "sha256": "bd86a735a1c1933da86d4ee3d0d08ce59533771a47ce6644d6acf04ca136ec68"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "bytes": 1564,
+      "sha256": "37cafb2226b211f0f83bc79eb08d727e75b630b4f561c08bbf35c19377abaa71"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 3307,
+      "sha256": "736af44e24e1d4f8094d764b495b1f38db42bdfcdc2358ddc2f9f29addc6ee2c"
+    },
+    {
+      "path": "contrast-report.json",
+      "bytes": 1955,
+      "sha256": "c78a749fef98e220d36ba033d36e36a2d2765e952b59e823727c9333ccbbaedb"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2125,
+      "sha256": "87e326e483460c9f713f60ac49445a6ed7737e2f58c767e2493bcc47b7c333eb"
+    },
+    {
+      "path": "assets/product-overview.png",
+      "bytes": 819180,
+      "sha256": "a0a4923dc54314a6ac661cd2cb39bb8536a9db436ed3ca446dc95424afae7d97"
+    },
+    {
+      "path": "assets/review-detail.png",
+      "bytes": 914955,
+      "sha256": "b5daeda252ec0b863bff57e1c153caa748a0bd1dfff22b4b669a9a1a38e0f894"
+    },
+    {
+      "path": "assets/creator-progress.png",
+      "bytes": 161163,
+      "sha256": "7d753c98aa06aaac424b03ecee804fb2fa36d213fb0d0192eb6a314838f96146"
+    },
+    {
+      "path": "assets/deck-activity-focus.png",
+      "bytes": 75610,
+      "sha256": "82153aecaacbb93ae1e8c902b927c3a48f15846afb2609a92eb94d83f29c5055"
+    },
+    {
+      "path": "assets/deck-review-focus.png",
+      "bytes": 70059,
+      "sha256": "6c5fc1ce654fe71bb0dd64faf048c9c0ec28eb610960d82f938b45e58fd144de"
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "gross_spend": 790000,
+  "buffer": 118500,
+  "minimum_raise": 908500,
+  "recommended_raise": 950000,
+  "ending_cash": 160000,
+  "currency": "MYR",
+  "horizon_months": 18,
+  "development_hours": 2400,
+  "development_rate": 130,
+  "development_cost": 312000,
+  "cpm_increment_included": 93600,
+  "founder_committed_capital": 0,
+  "verified_company_cash": 0,
+  "revenue_offset": 0,
+  "rounding_reserve": 41500,
+  "uses": [
+    {
+      "name": "Belcort开发费",
+      "amount": 312000
+    },
+    {
+      "name": "创办人津贴",
+      "amount": 108000
+    },
+    {
+      "name": "运营与审核",
+      "amount": 114000
+    },
+    {
+      "name": "维护",
+      "amount": 48000
+    },
+    {
+      "name": "云与基础数据",
+      "amount": 42000
+    },
+    {
+      "name": "获客试验",
+      "amount": 90000
+    },
+    {
+      "name": "法务与会计",
+      "amount": 40000
+    },
+    {
+      "name": "行政与工具",
+      "amount": 18000
+    },
+    {
+      "name": "交易试点直接费",
+      "amount": 18000
+    }
+  ],
+  "phases": [
+    {
+      "name": "M1–M6",
+      "spend": 412000
+    },
+    {
+      "name": "M7–M12",
+      "spend": 177000
+    },
+    {
+      "name": "M13–M18",
+      "spend": 201000
+    }
+  ],
+  "monthly": [
+    {
+      "month": 1,
+      "spend": 55800,
+      "ending_cash": 894200
+    },
+    {
+      "month": 2,
+      "spend": 39000,
+      "ending_cash": 855200
+    },
+    {
+      "month": 3,
+      "spend": 80600,
+      "ending_cash": 774600
+    },
+    {
+      "month": 4,
+      "spend": 59800,
+      "ending_cash": 714800
+    },
+    {
+      "month": 5,
+      "spend": 106600,
+      "ending_cash": 608200
+    },
+    {
+      "month": 6,
+      "spend": 70200,
+      "ending_cash": 538000
+    },
+    {
+      "month": 7,
+      "spend": 29500,
+      "ending_cash": 508500
+    },
+    {
+      "month": 8,
+      "spend": 29500,
+      "ending_cash": 479000
+    },
+    {
+      "month": 9,
+      "spend": 29500,
+      "ending_cash": 449500
+    },
+    {
+      "month": 10,
+      "spend": 29500,
+      "ending_cash": 420000
+    },
+    {
+      "month": 11,
+      "spend": 29500,
+      "ending_cash": 390500
+    },
+    {
+      "month": 12,
+      "spend": 29500,
+      "ending_cash": 361000
+    },
+    {
+      "month": 13,
+      "spend": 33500,
+      "ending_cash": 327500
+    },
+    {
+      "month": 14,
+      "spend": 33500,
+      "ending_cash": 294000
+    },
+    {
+      "month": 15,
+      "spend": 33500,
+      "ending_cash": 260500
+    },
+    {
+      "month": 16,
+      "spend": 33500,
+      "ending_cash": 227000
+    },
+    {
+      "month": 17,
+      "spend": 33500,
+      "ending_cash": 193500
+    },
+    {
+      "month": 18,
+      "spend": 33500,
+      "ending_cash": 160000
+    }
+  ],
+  "checks": [
+    {
+      "name": "independent gross spend",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    },
+    {
+      "name": "minimum raise",
+      "actual": 908500,
+      "expected": 908500,
+      "pass": true
+    },
+    {
+      "name": "rounded raise",
+      "actual": 950000,
+      "expected": 950000,
+      "pass": true
+    },
+    {
+      "name": "ending reserve",
+      "actual": 160000,
+      "expected": 160000,
+      "pass": true
+    },
+    {
+      "name": "rate edit propagates gross",
+      "actual": 814000,
+      "expected": 814000,
+      "pass": true
+    },
+    {
+      "name": "rate edit propagates minimum",
+      "actual": 936100,
+      "expected": 936100,
+      "pass": true
+    },
+    {
+      "name": "founder capital reduces ask",
+      "actual": 808500,
+      "expected": 808500,
+      "pass": true
+    },
+    {
+      "name": "package moved to M7",
+      "actual": 52000,
+      "expected": 52000,
+      "pass": true
+    },
+    {
+      "name": "period total unchanged",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    },
+    {
+      "name": "zero buffer",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    }
+  ],
+  "limitations": [
+    "All costs are internal planning assumptions, not vendor quotations.",
+    "Artifact Tool recalculation tested; native Microsoft Excel UI not tested.",
+    "Full scope, payment/data provider admission and first paying customers remain unverified."
+  ],
+  "verification": {
+    "artifact_tool_recalculation": "passed",
+    "all_tabs_visually_reviewed": [
+      "Summary",
+      "MonthlyCash",
+      "Inputs"
+    ],
+    "exported_xlsx_formula_errors": [],
+    "xlsx_formula_count": 358,
+    "native_excel_ui_tested": false
+  }
+}

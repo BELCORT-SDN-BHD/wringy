@@ -1,0 +1,93 @@
+{
+  "method": "sRGB relative luminance; independent Wringy proposal",
+  "pairs": [
+    {
+      "foreground": "ink",
+      "background": "canvas",
+      "ratio": 17.58,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "secondary",
+      "background": "canvas",
+      "ratio": 6.28,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "ink",
+      "background": "citron",
+      "ratio": 14.25,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "canvas",
+      "background": "forest",
+      "ratio": 12.09,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "secondary",
+      "background": "surface",
+      "ratio": 5.8,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "success",
+      "background": "canvas",
+      "ratio": 7.26,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "error",
+      "background": "canvas",
+      "ratio": 7.08,
+      "threshold": 4.5,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "focus",
+      "background": "canvas",
+      "ratio": 6.8,
+      "threshold": 3,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "secondary",
+      "background": "canvas",
+      "ratio": 6.28,
+      "threshold": 3,
+      "passes": true,
+      "use": "permitted"
+    },
+    {
+      "foreground": "line",
+      "background": "canvas",
+      "ratio": 1.29,
+      "threshold": 3,
+      "passes": false,
+      "use": "forbidden as text/essential boundary"
+    },
+    {
+      "foreground": "canvas",
+      "background": "citron",
+      "ratio": 1.23,
+      "threshold": 4.5,
+      "passes": false,
+      "use": "forbidden as text/essential boundary"
+    }
+  ]
+}

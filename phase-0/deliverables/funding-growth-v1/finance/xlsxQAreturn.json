@@ -1,0 +1,96 @@
+{
+  "status": "PASS_WITH_STATED_LIMITATIONS",
+  "join_ready": true,
+  "as_of": "2026-09-12",
+  "xlsx": "${WRINGY_WORKSPACE}/phase-0/deliverables/funding-growth-v1/finance/outputs/funding-growth/Wringy-18个月资金计划.xlsx",
+  "sha256": "31b7b14dacdc12e915134afb1a34575a1f696b2e100e827259fc4e13aa3b61b9",
+  "sheets": [
+    "Summary",
+    "MonthlyCash",
+    "Inputs"
+  ],
+  "recommended_raise_myr": 950000,
+  "gross_spend_myr": 790000,
+  "buffer_myr": 118500,
+  "minimum_raise_myr": 908500,
+  "ending_cash_myr": 160000,
+  "monthly_spend_m7_m12_myr": 29500,
+  "monthly_spend_m13_m18_myr": 33500,
+  "artifact_tool_recalculation": "passed in prior build; workbook unchanged in attribution correction",
+  "input_change_tests": [
+    {
+      "name": "independent gross spend",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    },
+    {
+      "name": "minimum raise",
+      "actual": 908500,
+      "expected": 908500,
+      "pass": true
+    },
+    {
+      "name": "rounded raise",
+      "actual": 950000,
+      "expected": 950000,
+      "pass": true
+    },
+    {
+      "name": "ending reserve",
+      "actual": 160000,
+      "expected": 160000,
+      "pass": true
+    },
+    {
+      "name": "rate edit propagates gross",
+      "actual": 814000,
+      "expected": 814000,
+      "pass": true
+    },
+    {
+      "name": "rate edit propagates minimum",
+      "actual": 936100,
+      "expected": 936100,
+      "pass": true
+    },
+    {
+      "name": "founder capital reduces ask",
+      "actual": 808500,
+      "expected": 808500,
+      "pass": true
+    },
+    {
+      "name": "package moved to M7",
+      "actual": 52000,
+      "expected": 52000,
+      "pass": true
+    },
+    {
+      "name": "period total unchanged",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    },
+    {
+      "name": "zero buffer",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    }
+  ],
+  "all_tabs_visually_reviewed": [
+    "Summary",
+    "MonthlyCash",
+    "Inputs"
+  ],
+  "exported_formula_errors": [],
+  "attribution_correction": "Two occurrences corrected to internal illustrative assumptions proposed by main agent, not approved by founder",
+  "future_amounts_scope": "finance-note appendix only; excluded from current workbook and raise",
+  "native_excel_ui_tested": false,
+  "limitations": [
+    "Internal cost assumptions, not Belcort quotation or founder commitment",
+    "Payment/data provider admission and customer revenue unverified",
+    "Native Microsoft Excel UI recalculation not tested"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "assets": [
+    {
+      "file": "assets/creator-studio.png",
+      "origin": "phase-0/deliverables/investor-v4/assets/creator-studio.png",
+      "authorization": "user explicitly allowed copy",
+      "type": "original AI concept image supplied by project",
+      "caption": "概念场景，非真实客户",
+      "sha256": "1d66c5eb05c9cd3383eaaf5ede475cc104343c624dd5836f5238dc95f79abedd"
+    },
+    {
+      "file": "assets/bottle-craft-detail.png",
+      "origin": "phase-0/deliverables/investor-v4/assets/bottle-craft-detail.png",
+      "authorization": "user explicitly allowed copy",
+      "type": "original AI concept image supplied by project",
+      "caption": "概念场景，非真实客户",
+      "sha256": "4fd81419d43a2e20ef3f2f0441bdc2bbfba3d43590d62db2b18f7df75f3bd247"
+    },
+    {
+      "file": "assets/NotoSansSC.ttf",
+      "origin": "phase-0/deliverables/brand/showcase/fonts/NotoSansSC.ttf",
+      "license": "assets/NotoSansSC-OFL.txt",
+      "use": "embedded Chinese font"
+    },
+    {
+      "file": "assets/search.svg",
+      "origin": "phase-0/foundation/design-v2/assets/search.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/chevron-down.svg",
+      "origin": "phase-0/foundation/design-v2/assets/chevron-down.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/x.svg",
+      "origin": "phase-0/foundation/design-v2/assets/x.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/arrow-right.svg",
+      "origin": "phase-0/foundation/design-v2/assets/arrow-right.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/plus.svg",
+      "origin": "phase-0/foundation/design-v2/assets/plus.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/check.svg",
+      "origin": "phase-0/foundation/design-v2/assets/check.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/alert-circle.svg",
+      "origin": "phase-0/foundation/design-v2/assets/alert-circle.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/clock.svg",
+      "origin": "phase-0/foundation/design-v2/assets/clock.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/list-check.svg",
+      "origin": "phase-0/foundation/design-v2/assets/list-check.svg",
+      "upstream": "https://github.com/tabler/tabler-icons/tree/v3.34.1/icons/outline",
+      "license": "MIT; THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "file": "assets/product-overview.png",
+      "origin": "original Wringy independent HTML composition in this folder",
+      "data": "mock local samples from tokens.json; no customer or transaction data"
+    },
+    {
+      "file": "assets/review-detail.png",
+      "origin": "original Wringy independent HTML composition in this folder",
+      "data": "mock local samples from tokens.json; no customer or transaction data"
+    },
+    {
+      "file": "assets/creator-progress.png",
+      "origin": "original Wringy independent HTML composition in this folder",
+      "data": "mock local samples from tokens.json; no customer or transaction data"
+    },
+    {
+      "file": "assets/deck-activity-focus.png",
+      "origin": "original Wringy independent HTML composition in this folder",
+      "data": "mock local samples from tokens.json; no customer or transaction data"
+    },
+    {
+      "file": "assets/deck-review-focus.png",
+      "origin": "original Wringy independent HTML composition in this folder",
+      "data": "mock local samples from tokens.json; no customer or transaction data"
+    }
+  ],
+  "mobbin_screenshots_downloaded": 0,
+  "reference_usage": "canonical links only"
+}

@@ -1,0 +1,86 @@
+{
+  "R1": {
+    "title": "Ramp · 留白与产品叙事",
+    "url": "https://mobbin.com/sites/sections/c224c647-a876-44fc-ad18-ac01acee3004",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "R2": {
+    "title": "Ramp · 深色编辑章节",
+    "url": "https://mobbin.com/sites/sections/18a650ac-b4bc-41cd-a13f-490d8760c778",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "R3": {
+    "title": "Ramp · 实景故事层级",
+    "url": "https://mobbin.com/sites/sections/8d5e762c-77e0-4cec-b386-4e285906f921",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "R4": {
+    "title": "Ramp · 整块品牌色",
+    "url": "https://mobbin.com/sites/sections/c81b8b72-d3eb-4319-af18-711417e238cb",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "R5": {
+    "title": "Ramp · 非卡片图标目录",
+    "url": "https://mobbin.com/sites/sections/bc483029-6ba0-43c1-b8b8-902ad8297853",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L1": {
+    "title": "Linear · 紧凑列表",
+    "url": "https://mobbin.com/screens/9ec39891-cdbb-4d57-b0c6-de43f82c5f4e",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L2": {
+    "title": "Linear · 完整对象详情",
+    "url": "https://mobbin.com/screens/6e105b56-a616-497c-87bc-70fdeaf31048",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L3": {
+    "title": "Linear · 限宽设置",
+    "url": "https://mobbin.com/screens/aa0b9e71-c5a0-4245-b30a-ee5059de6235",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L4": {
+    "title": "Linear · 属性浮层",
+    "url": "https://mobbin.com/screens/744b87f4-4e13-488a-9338-2ca18b39bef1",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L5": {
+    "title": "Linear · 创建弹窗",
+    "url": "https://mobbin.com/screens/9ae1ad02-5e59-4079-9eba-21589c0fe211",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L6": {
+    "title": "Linear · 无匹配结果",
+    "url": "https://mobbin.com/screens/90b0ca17-b70a-425c-b28b-ce934231b2b9",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L7": {
+    "title": "Linear · 首次空态",
+    "url": "https://mobbin.com/screens/5273571d-4f58-410a-97a0-f6018dc8b80f",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L8": {
+    "title": "Linear · 未选择对象",
+    "url": "https://mobbin.com/screens/18c6955a-c42f-4cc1-9aa2-0276456720fb",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  },
+  "L9": {
+    "title": "Linear · 字段错误",
+    "url": "https://mobbin.com/screens/5c68cc35-0d93-47ba-b27e-ed4efe90b75c",
+    "capture_family": "unknown",
+    "use": "pattern only; Wringy proposal"
+  }
+}

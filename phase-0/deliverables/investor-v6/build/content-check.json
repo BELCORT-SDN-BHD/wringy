@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "final_sha256": "bb2ae95511328bcc58423bfcd75ccbfe6f723c58763111f5159b90549978d041",
+  "slides": 18,
+  "native_charts": 3,
+  "native_tables": 2,
+  "cash_categories": "unique ordered M1-M36, all4series",
+  "cash_data": "all108scenario values match frozen results within RM0.01",
+  "content_constraints": "passed",
+  "finance_results_sha256": "9abeb207b4a01742c48c0e1fc26f767a04de7ac19a009c53b656403f0ed604db"
+}

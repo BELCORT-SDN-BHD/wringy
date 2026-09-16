@@ -1,0 +1,28 @@
+[
+  {
+    "role": "real-case",
+    "file": "assets/tjr-original.jpg",
+    "source": "https://pub-5d81aca719874567bd04db2d865626a0.r2.dev/TJR/thumb-mtbtb6f8-as94y1.jpg",
+    "page": "https://reachclipping.com/TJR",
+    "date": "2026-09-10",
+    "original": true,
+    "sha256": "dd1a6cd7b00a3adfc6cae2e02fd4bf950fd92d24d706a6647741edb0d5693d52"
+  },
+  {
+    "role": "cover",
+    "source": "phase-0/deliverables/investor-v4/assets/creator-studio.png",
+    "classification": "AI generated concept, not real customer"
+  },
+  {
+    "role": "icons",
+    "source": "phase-0/foundation/design-v2/assets",
+    "license": "MIT Tabler Icons",
+    "used": [
+      "inbox",
+      "adjustments-horizontal",
+      "users",
+      "external-link",
+      "file-text"
+    ]
+  }
+]

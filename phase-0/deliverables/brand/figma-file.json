@@ -1,0 +1,36 @@
+{
+  "file_key": "qw2UHml58nEnQLtUbC058Z",
+  "file_url": "https://www.figma.com/design/qw2UHml58nEnQLtUbC058Z",
+  "name": "Wringy — Brand & Design System v1",
+  "status": "blocked_figma_starter_mcp_call_limit",
+  "updated": "2026-09-10",
+  "completed": {
+    "collections": 4,
+    "variables": 130,
+    "textStyles": 0,
+    "effectStyles": 0,
+    "componentFamilies": 0,
+    "variants": 0,
+    "productScreens": 0,
+    "exports": 0
+  },
+  "blocker": "Figma MCP Starter plan call limit reached. Further use_figma rejected. Main must restore tool access; no workaround attempted.",
+  "upgrade_url": "https://www.figma.com/files/team/1564572283073170523/all-projects?upgrade=mcp_rate_limit_paywall",
+  "manifest": "figma-manifest.json",
+  "lastAccessCheck": {
+    "time": "2026-09-09T18:54:39.821638+00:00",
+    "result": "Rejected: Figma MCP Starter plan call limit. Read-only access still blocked."
+  },
+  "executionPriority": [
+    "Finish necessary foundations",
+    "Build minimum genuine reusable screen components",
+    "Build/export UI-BRAND-DESKTOP",
+    "Build/export UI-BRAND-MOBILE",
+    "Build/export UI-CREATOR-DESKTOP",
+    "Build/export UI-CREATOR-MOBILE",
+    "Complete remaining31-family scope and visual QA"
+  ],
+  "screenExportPaths": [],
+  "preferredLogoSource": "../assets/generated/brand-logo-concept.png",
+  "logoDerivativePolicy": "Transparent derivatives are review-only; preserve original concept as stable source."
+}

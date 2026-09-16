@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "final_sha256": "bb2ae95511328bcc58423bfcd75ccbfe6f723c58763111f5159b90549978d041",
+  "changed_slides_reviewed": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    18
+  ],
+  "preserved_layouts": "v5 source; no optional restyling",
+  "cash_chart": "unique M1-M36 ordered text categories, no folding, expansion ink color",
+  "sensitivity_spacing": "separate lines, no collision",
+  "limitations": [
+    "No PowerPoint desktop edit-save-reopen test",
+    "PDF raster preview",
+    "Noto Sans SC not embedded"
+  ]
+}

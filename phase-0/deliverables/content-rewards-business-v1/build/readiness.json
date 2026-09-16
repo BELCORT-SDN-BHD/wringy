@@ -1,0 +1,58 @@
+{
+  "status": "complete",
+  "date": "2026-09-12",
+  "owner": "slides worker; no delegation",
+  "write_scope": [
+    "build/**",
+    "output/**"
+  ],
+  "expected_slides": {
+    "main": 16,
+    "appendix": 2,
+    "provisional": false
+  },
+  "scope_from_current_instruction": [
+    "Content Rewards business plan first, future modules later",
+    "Prototype plus usable beta R&D cap RM50,000",
+    "Ground sales first",
+    "Second round for marketing"
+  ],
+  "narrative_source": "story.md final",
+  "numeric_sources": "finance/results.json verified",
+  "reused": [
+    "runtime.mjs",
+    "template.mjs",
+    "render.mjs",
+    "finalize.mjs"
+  ],
+  "excluded": [
+    "old builder",
+    "old RM950,000 funding narrative",
+    "old research",
+    "old finance"
+  ],
+  "native_diagrams": "diagrams.mjs exports businessDiagram and campaignFlow; no content supplied yet",
+  "palette": "runtime checks every palette entry against phase-0/foundation/design-system-v2/app/src/index.css",
+  "font": "Noto Sans SC",
+  "canvas": "1280x720; 12192000x6858000 EMU",
+  "markers_for_this_new_deck": {
+    "pptx_successful_count": 1,
+    "pdf_successful_count": 1,
+    "rule": "Both markers executed once; do not rerun."
+  },
+  "pdf_plan": "Same validated high-resolution PPTX render workflow; source PPTX remains native editable",
+  "validation_required": [
+    "native objects and chart workbooks",
+    "zero overflow or clipping",
+    "all slides rendered and visually checked",
+    "PDF rendered with Poppler",
+    "final contact sheet"
+  ],
+  "prior_native_table_fix": "Use sufficient row height and clearance from footnotes; previous 11-row table passed at y145, rowH42, font22px",
+  "final_output_stem_proposed": "Wringy-Content-Rewards-Business-Plan",
+  "source_link_pipeline": [
+    "links.mjs",
+    "add-pptx-links.py",
+    "pdf.py"
+  ]
+}

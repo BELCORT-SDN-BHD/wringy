@@ -1,0 +1,30 @@
+[
+  {
+    "name": "brand-source",
+    "source": "${HOME}/.codex/generated_images/01a09598-2fd9-7c03-a7e9-641401d26269/exec-82158c40-e9fd-494b-90e9-258df2a277a9.png",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v5/assets/brand-source.png",
+    "generator": "builtin image_gen",
+    "fictional": true
+  },
+  {
+    "name": "creator-filming",
+    "source": "${HOME}/.codex/generated_images/01a09598-2fd9-7c03-a7e9-641401d26269/exec-6929949f-ed95-4a97-abbf-92795df8128d.png",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v5/assets/creator-filming.png",
+    "generator": "builtin image_gen",
+    "fictional": true
+  },
+  {
+    "name": "published-content",
+    "source": "${HOME}/.codex/generated_images/01a09598-2fd9-7c03-a7e9-641401d26269/exec-a6ef0718-1c9e-4878-b629-13b5da6685fc.png",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v5/assets/published-content.png",
+    "generator": "builtin image_gen",
+    "fictional": true
+  },
+  {
+    "name": "founder-demo",
+    "source": "${HOME}/.codex/generated_images/01a09598-2fd9-7c03-a7e9-641401d26269/exec-224450ad-9994-47dd-bb15-614b6f0f413e.png",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v5/assets/founder-demo.png",
+    "generator": "builtin image_gen",
+    "fictional": true
+  }
+]

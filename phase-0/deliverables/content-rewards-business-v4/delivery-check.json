@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "date": "2026-09-13",
+  "pages": 15,
+  "main_slides": 12,
+  "appendix_slides": 3,
+  "native_charts": 4,
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ],
+    [
+      110000.0,
+      70000.0
+    ],
+    [
+      180.0,
+      90.0,
+      0.0,
+      -90.0
+    ]
+  ],
+  "embedded_chart_workbooks": 4,
+  "native_tables": 2,
+  "raster_pictures_in_pptx": 0,
+  "pptx_clickable_sources": 7,
+  "pdf_clickable_sources": 7,
+  "source_urls": [
+    "https://clipping.net/brands",
+    "https://contentrewards.com/brands-terms",
+    "https://whop.com/content-rewards-terms-of-service/",
+    "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+    "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx"
+  ],
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "visual_review": "All 15 slides individually reviewed at 1920x1080; Changed pages compared against v3. Final PDF rendered with Poppler.",
+  "native_office_execution_verified": false,
+  "pdf_format": "Raster reading copy with clickable source annotations; PPTX contains editable text, diagrams, charts and tables.",
+  "finance": "Canonical content-rewards-business-v1 model unchanged; 70k/110k unselected scenarios.",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 77792,
+      "sha256": "9c77efd9c63b7961eff11575636b22085c0ce1de03979ac14c223a7f8143dd0f"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 2277390,
+      "sha256": "dcba4010945065cc9e82320f969dd6baf4192ee70a0f680eb17a05a5361cf045"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 351095,
+      "sha256": "fbabbbeb0831d3641f5829350ec8f875e6fad76da17ac609443721b600c5d4be"
+    }
+  },
+  "notes_audit": {
+    "notes_count": 15,
+    "stale_v3_notes": 0,
+    "construction_instructions": 0,
+    "financial_pages_pixel_identical_to_v3": [
+      7,
+      9,
+      13,
+      14
+    ]
+  }
+}

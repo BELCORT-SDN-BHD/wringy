@@ -1,0 +1,219 @@
+{
+  "researched_at": "2026-09-10",
+  "scope": "Current Content Rewards product flows versus legacy Whop, public sources only; not PRD decisions",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Articles",
+      "url": "https://contentrewards.com/articles",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "Changelog。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S2",
+      "title": "V2 is here",
+      "url": "https://contentrewards.com/articles/v2-is-here",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": "2026-08-19",
+      "date_note": "2026-08-19",
+      "sections": "Roles that are actually yours / One brand, however many Whop installs / Retainers / Approve content before it gets posted / Campaign configuration / What is not here yet。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S3",
+      "title": "Content Rewards",
+      "url": "https://contentrewards.com/",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "Flexible / Teams / FAQs。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S4",
+      "title": "Organization Terms of Service",
+      "url": "https://contentrewards.com/brands-terms",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": "2026-09-03",
+      "date_note": "更新 2026-09-03",
+      "sections": "§§5–8、11。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S5",
+      "title": "For creators",
+      "url": "https://contentrewards.com/creators",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "Transparent / FAQs / Create Account。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S6",
+      "title": "Privacy Policy",
+      "url": "https://contentrewards.com/privacy-policy",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": "2026-09-03",
+      "date_note": "更新 2026-09-03",
+      "sections": "开头、§§3.2、4。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S7",
+      "title": "For agencies",
+      "url": "https://contentrewards.com/agencies",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "The platform for all your campaigns / FAQs。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S8",
+      "title": "Creator Terms of Service",
+      "url": "https://contentrewards.com/terms",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": "2026-09-03",
+      "date_note": "更新 2026-09-03",
+      "sections": "§§7–10。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S9",
+      "title": "Discover Campaigns",
+      "url": "https://contentrewards.com/discover",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "Featured campaigns。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S10",
+      "title": "How to set up Whop Content Rewards",
+      "url": "https://whop.com/blog/set-up-content-rewards/",
+      "publisher": "Whop / East，审核 Keisha Singleton",
+      "publication_or_update_date": "2025-05-14",
+      "date_note": "2025-05-14",
+      "sections": "Creating a content reward on Whop / Checking your content reward submissions / FAQ。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S11",
+      "title": "signup",
+      "url": "https://contentrewards.com/signup",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "重定向至 `https://contentrewards.com/?signin=1`。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S12",
+      "title": "Book a demo",
+      "url": "https://contentrewards.com/book-a-demo",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "首页 Launch a Campaign 的链接目标。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "S13",
+      "title": "Yomi Denzel campaign preview",
+      "url": "https://contentrewards.com/discover/14f743b2-c5ca-4f3e-8c0d-3010c485005d",
+      "publisher": "Content Rewards Inc.",
+      "publication_or_update_date": null,
+      "date_note": "日期未标注",
+      "sections": "Join Campaign。",
+      "accessed_at": "2026-09-10",
+      "evidence_type": "official_public_source_prose",
+      "actual_ui_verified_by_worker": false
+    },
+    {
+      "id": "MAIN-UI-20260910",
+      "publisher": "Main researcher",
+      "title": "Three public surfaces inspected with CUA",
+      "accessed_at": "2026-09-10",
+      "publication_or_update_date": null,
+      "evidence_type": "main_actual_ui_observation",
+      "actual_ui_verified_by_worker": false,
+      "urls": [
+        "https://contentrewards.com/",
+        "https://contentrewards.com/book-a-demo",
+        "https://contentrewards.com/discover",
+        "https://contentrewards.com/discover/ecbd7fec-6f39-4081-aa18-1756f0ae73e9",
+        "https://whop.com/experiences/exp_T1NluLUJL7I2lN/campaigns/ecbd7fec-6f39-4081-aa18-1756f0ae73e9",
+        "https://contentrewards.com/signup",
+        "https://contentrewards.com/?signin=1"
+      ],
+      "observations": [
+        "Both homepage campaign/demo CTAs lead to book-a-demo",
+        "Discover filters, sorting, search observed",
+        "Lovable public detail and Whop join href observed; not joined",
+        "Signup redirects to homepage email modal; no email entered or terms accepted"
+      ],
+      "limitations": [
+        "Worker received observations directly from main, did not re-inspect images",
+        "Three public screens inspected by main",
+        "Authenticated dashboard and self-service campaign setup unknown"
+      ]
+    }
+  ],
+  "search_audit": [
+    {
+      "url": "https://contentrewards.com/articles",
+      "result": "Visible changelog lists Aug 19 2026 V2; does not prove latest running build"
+    },
+    {
+      "query": "site:contentrewards.com/articles after:2026-08-19 \"changelog\"",
+      "result": "No result returned"
+    },
+    {
+      "query": "site:contentrewards.com \"API\" \"webhook\"",
+      "result": "No result returned; no evidence of customer-facing CR API"
+    },
+    {
+      "url": "https://contentrewards.com/help",
+      "result": "Web tool Internal Error, not proof of absence"
+    },
+    {
+      "url": "https://contentrewards.com/sitemap.xml",
+      "result": "Web tool Internal Error, not proof of absence"
+    }
+  ],
+  "conflicts": [
+    "Aug19 Owner-only appointment vs Sep3 Owner/Admin role management",
+    "Release-day missing bulk review and creator/submission CSV not reverified",
+    "Agency FAQ review-window wording versus manual Pending in organization terms"
+  ],
+  "prior_pointer": "phase-0/research/creator-rewards-official-flows.md"
+}

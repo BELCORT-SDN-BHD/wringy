@@ -1,0 +1,12 @@
+{
+  "status": "frozen",
+  "files": {
+    "outputs/financial-model/Wringy-36个月财务模型.xlsx": "54da5aa9be4a3c31cf4ac6feb8d2b2231bebff485cc29aa1daa7b1755ba74afc",
+    "assumptions.json": "4ac5af6180015e91be8045714ef49093db064ba4e85247dddd69d243e37c14cb",
+    "results.json": "9abeb207b4a01742c48c0e1fc26f767a04de7ac19a009c53b656403f0ed604db",
+    "财务模型说明.md": "1a932de8c2ba70e2a332b9c0d88e7e18692ac62a79dd72280ee4ba92ea9f7cf2",
+    "handoff-final.md": "8a75e787826330cbc54e47155950b1db57ac17c7467a427d6fec6ac3e4226486",
+    "cached-verification.json": "b35099fc7340de37bc20c6e740e444dbcda73ab33a7e0f1adcef33441a4318ea",
+    "README.md": "2aa7a2ba8510dd4c74149144ea67914535a78ced6286ccb89ade088e113275a0"
+  }
+}

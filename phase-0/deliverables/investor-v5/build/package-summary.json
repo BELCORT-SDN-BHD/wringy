@@ -1,0 +1,23 @@
+{
+  "slides": 12,
+  "pdf_pages": 12,
+  "pdf_type": "raster preview from final PPTX slide renders",
+  "native_charts": 2,
+  "limitations": [
+    "No PowerPoint desktop edit-save-reopen test"
+  ],
+  "files": {
+    "Wringy-Investor-v5.pptx": {
+      "bytes": 6856286,
+      "sha256": "aee72b26c18bf9350ab15521f773527394c9f889bc9cdc6b0b432e24e43a3add"
+    },
+    "Wringy-Investor-v5-Preview.pdf": {
+      "bytes": 3910440,
+      "sha256": "b869ad04521892ea898958aa8d91d953da1812507a28d995826458016d7d917b"
+    },
+    "contact-sheet.png": {
+      "bytes": 624961,
+      "sha256": "9ac0127dd0e5c828ecb416970c8c7888521ca8393ba7c28c053fffeb8d00b0f7"
+    }
+  }
+}

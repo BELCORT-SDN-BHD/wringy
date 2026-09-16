@@ -1,0 +1,25 @@
+{
+  "engine": "@oai/artifact-tool",
+  "independentChecks": [
+    {
+      "case": "保守",
+      "cumulative36": -325725,
+      "independent": -325725
+    },
+    {
+      "case": "基准",
+      "cumulative36": 596400,
+      "independent": 596400
+    },
+    {
+      "case": "扩张",
+      "cumulative36": 2256675,
+      "independent": 2256675
+    }
+  ],
+  "inputTests": [
+    "fee15→16→15: revenue1500→1600→1500",
+    "incremental dev0→10000→0: each cumulative36 declines10000 then restores"
+  ],
+  "nativeExcel": "未在桌面Excel运行；已验证库重算与导出缓存"
+}

@@ -1,0 +1,1133 @@
+{
+  "title": "Wringy品牌与设计系统",
+  "language": "zh-CN",
+  "explicitTotalSlideCount": 30,
+  "component_families": [
+    {
+      "id": "button",
+      "name_zh": "操作按钮"
+    },
+    {
+      "id": "input",
+      "name_zh": "文本输入"
+    },
+    {
+      "id": "form",
+      "name_zh": "表单"
+    },
+    {
+      "id": "select",
+      "name_zh": "选择器"
+    },
+    {
+      "id": "dropdown",
+      "name_zh": "操作菜单"
+    },
+    {
+      "id": "checkbox-radio-switch",
+      "name_zh": "选择与开关"
+    },
+    {
+      "id": "date-time",
+      "name_zh": "日期时间"
+    },
+    {
+      "id": "upload",
+      "name_zh": "文件上传"
+    },
+    {
+      "id": "table",
+      "name_zh": "数据表"
+    },
+    {
+      "id": "pagination",
+      "name_zh": "分页"
+    },
+    {
+      "id": "tabs",
+      "name_zh": "页签"
+    },
+    {
+      "id": "modal",
+      "name_zh": "对话框"
+    },
+    {
+      "id": "toast",
+      "name_zh": "短消息"
+    },
+    {
+      "id": "navigation",
+      "name_zh": "导航"
+    },
+    {
+      "id": "status",
+      "name_zh": "状态标签"
+    },
+    {
+      "id": "empty-state",
+      "name_zh": "空状态"
+    },
+    {
+      "id": "onboarding",
+      "name_zh": "入门流程"
+    },
+    {
+      "id": "campaign-card",
+      "name_zh": "活动卡片"
+    },
+    {
+      "id": "campaign-brief",
+      "name_zh": "活动简报"
+    },
+    {
+      "id": "submission",
+      "name_zh": "作品提交"
+    },
+    {
+      "id": "review",
+      "name_zh": "作品审核"
+    },
+    {
+      "id": "reward-ledger",
+      "name_zh": "报酬账本"
+    },
+    {
+      "id": "payout-flow",
+      "name_zh": "提现流程"
+    },
+    {
+      "id": "notification-center",
+      "name_zh": "通知中心"
+    },
+    {
+      "id": "profile-avatar",
+      "name_zh": "资料与头像"
+    },
+    {
+      "id": "search-filter",
+      "name_zh": "搜索筛选"
+    },
+    {
+      "id": "tooltip-popover",
+      "name_zh": "辅助说明"
+    },
+    {
+      "id": "accordion",
+      "name_zh": "折叠区"
+    },
+    {
+      "id": "skeleton-progress",
+      "name_zh": "加载与进度"
+    },
+    {
+      "id": "alert-support",
+      "name_zh": "持久提示与申诉"
+    },
+    {
+      "id": "chart",
+      "name_zh": "数据图表"
+    }
+  ],
+  "slides": [
+    {
+      "id": "BB-01",
+      "section": "品牌",
+      "title": "Wringy\n品牌与设计系统",
+      "layout": "cover",
+      "body": [
+        "品牌手册 v1",
+        "马来西亚品牌与创作者合作平台"
+      ],
+      "visual_brief": "大字标题与开放接点占据画面两端；Paper 底、Ink 字、Citron 接点。仅文字占位 Wringy，不伪装为最终 Logo。",
+      "speaker_notes_zh": "Wringy 品牌与设计系统 v1。身份与定位为提案，面向马来西亚品牌与创作者合作场景。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-02",
+      "section": "品牌",
+      "title": "年轻的表达，清楚的合作",
+      "layout": "statement",
+      "body": [
+        "作品可以大胆，合作要求需要清楚。",
+        "信任来自能理解的条款、具体的审核意见和可追踪的记录。"
+      ],
+      "visual_brief": "左侧创作画面槽位，右侧一张安静清晰的审核记录；不要模拟客户评价。",
+      "speaker_notes_zh": "本品牌不使用没有依据的客户 Logo、收入、转化率或行业第一。提出的是建立信任的方法，不是已有社会证明。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-03",
+      "section": "品牌",
+      "title": "品牌方向与验证边界",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "两组分区，“已确认”与“待验证”；明确标签，不用红绿暗示好坏。",
+      "speaker_notes_zh": "品牌名称、首发市场和创意可信的方向来自创始人输入。客户需求、付费意愿和政策仍属待验证假设。设计提案不能作为客户验证或产品上线证据。",
+      "sources": [
+        {
+          "title": "创始人输入",
+          "url": "${WRINGY_WORKSPACE}/phase-0/founder-inputs.md"
+        },
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "类别",
+          "当前状态"
+        ],
+        "rows": [
+          [
+            "品牌方向",
+            "马来西亚，品牌与创作者，年轻而可信"
+          ],
+          [
+            "客户需求",
+            "首批用户与付费意愿仍待验证"
+          ],
+          [
+            "功能范围",
+            "设计提案，不能视为生产功能承诺"
+          ],
+          [
+            "品牌与政策",
+            "名称权属、商标及支付政策需另行核验"
+          ]
+        ],
+        "columnWidths": [
+          568,
+          568
+        ]
+      }
+    },
+    {
+      "id": "BB-04",
+      "section": "品牌",
+      "title": "品牌与创作者的共同约定",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "品牌与创作者各一栏，中间用开放接点连接“同一份简报”。",
+      "speaker_notes_zh": "受众是假设，不推断规模或年龄。建议观察真实合作记录并访谈；年轻是一种表达性格。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "受众假设",
+          "优先验证"
+        ],
+        "rows": [
+          [
+            "品牌营销负责人",
+            "审核负担、预算与工具替代"
+          ],
+          [
+            "独立创作者",
+            "条款理解、改稿与款项预期"
+          ]
+        ],
+        "columnWidths": [
+          568,
+          568
+        ]
+      }
+    },
+    {
+      "id": "BB-05",
+      "section": "品牌",
+      "title": "定位提案",
+      "layout": "statement",
+      "body": [
+        "面向马来西亚品牌与创作者，把活动要求、作品提交、审核与报酬状态放进一段清楚的合作过程。",
+        "品牌承诺：把要求、下一步和报酬条件写清楚。"
+      ],
+      "visual_brief": "一条四站路径：简报、提交、审核、报酬。每站不超过一个图标和一个短语。",
+      "speaker_notes_zh": "Whop 是创始人提供的业务灵感，本页没有复制其界面，也不声称 Wringy 已具备所有流程。差异定位仍需客户验证。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-06",
+      "section": "品牌",
+      "title": "合作原则",
+      "layout": "statement",
+      "body": [
+        "创作有空间：必须遵守的要求与自由发挥分开写。",
+        "合作有依据：每条修改意见对应具体要求。",
+        "报酬有来由：批准、可提现和到账分别表达。"
+      ],
+      "visual_brief": "三个纵向短段落，给出微型实际文案例子；不要三张相同营销卡。",
+      "speaker_notes_zh": "例：必须出现产品使用场景，开场由创作者选择；退回理由写缺少产品特写；批准金额不要冒充到账金额。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-07",
+      "section": "品牌",
+      "title": "品牌个性",
+      "layout": "statement",
+      "body": [
+        "邀请时开放，作品展示可以大胆。",
+        "审核意见具体，钱款信息保持克制。"
+      ],
+      "visual_brief": "用四个动作动词做排版节奏；Citron 只强调“创作”，金额区域保持 Ink/Paper。",
+      "speaker_notes_zh": "营销变化较高，交易密度较高但装饰较少。不能用收益欢呼、倒计时或羞辱式文案催促操作。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-08",
+      "section": "品牌",
+      "title": "中英马三语表达",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "同一条消息的三语排版；保留相同金额样式。",
+      "speaker_notes_zh": "三语均为发布前草稿。马来西亚中文、英文及马来文母语编辑需复核；本页不可被当作已校对的正式产品翻译。 三语文案均为提案，金额是示例。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "语言",
+          "批准消息示例"
+        ],
+        "rows": [
+          [
+            "中文",
+            "报酬 MYR 150.00 已批准，尚不可提现。"
+          ],
+          [
+            "English",
+            "Reward of MYR 150.00 approved. Not yet available to withdraw."
+          ],
+          [
+            "Bahasa Melayu",
+            "Ganjaran MYR 150.00 telah diluluskan. Belum tersedia untuk pengeluaran."
+          ]
+        ],
+        "columnWidths": [
+          210,
+          926
+        ]
+      }
+    },
+    {
+      "id": "BB-09",
+      "section": "品牌",
+      "title": "具体而尊重的文案",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "两组用/不用对照；用词配解释，不靠叉号羞辱用户。",
+      "speaker_notes_zh": "错误文案说明保存情况和安全下一步。未核实费用和净额时不能显示成功模板。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "采用",
+          "避免"
+        ],
+        "rows": [
+          [
+            "请补充产品使用场景，再次提交。",
+            "你的作品不够好。"
+          ],
+          [
+            "提现未完成，查看原因和下一步。",
+            "出错了，请疯狂重试。"
+          ]
+        ],
+        "columnWidths": [
+          568,
+          568
+        ]
+      }
+    },
+    {
+      "id": "BB-10",
+      "section": "视觉语言",
+      "title": "标志概念 v1",
+      "layout": "statement",
+      "body": [
+        "双段 W 接点与定制字标。",
+        "概念图；尚非矢量生产母版。"
+      ],
+      "visual_brief": "只展示线段/字标方向文字 brief 的留白槽位，不在此阶段自动生成 Logo。",
+      "speaker_notes_zh": "原始 logo 概念由内置 imagegen 生成，1254×1254 PNG。保持完整比例。透明衍生版本仅供审阅，未用于本页。此处不作矢量、生产母版或商标核验声明。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": "LOGO-DIRECTION"
+    },
+    {
+      "id": "BB-11",
+      "section": "视觉语言",
+      "title": "标志的比例与识别",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "用空框示意保护区，不绘制未经确认的最终标志。",
+      "speaker_notes_zh": "尺寸是待实测的设计起点；印刷暂定字标24mm、符号6mm。最终须设计师测试并经名称/商标专业核查。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "保留",
+          "避免"
+        ],
+        "rows": [
+          [
+            "一色、足够对比、完整字形",
+            "拉伸、旋转、描边、渐变"
+          ],
+          [
+            "独立小尺寸检查",
+            "用大标志直接缩成 favicon"
+          ]
+        ],
+        "columnWidths": [
+          568,
+          568
+        ]
+      },
+      "takeaway": "建议保护区为 W 高度的一半，字标至少 96px，符号至少 24px"
+    },
+    {
+      "id": "BB-12",
+      "section": "视觉语言",
+      "title": "主色与阅读底色",
+      "layout": "statement",
+      "body": [
+        "Citron 让品牌被记住。",
+        "Ink 与 Paper 让内容被读懂。"
+      ],
+      "visual_brief": "三块不等比例色域；所有色值从 tokens.brandColors 解析，禁止手工另配。",
+      "speaker_notes_zh": "Light 的主按钮仍为 Ink/White；Citron 可做营销强调，不能表示支付成功。背景主题整页保持一致。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-13",
+      "section": "视觉语言",
+      "title": "次级强调与状态色",
+      "layout": "statement",
+      "body": [
+        "Iris 用于次级强调与链接。",
+        "成功、等待、失败、信息有独立语义色，并始终带文字。"
+      ],
+      "visual_brief": "左侧 Iris 作品边框，右侧状态文字样例；不把身份色铺满交易表格。",
+      "speaker_notes_zh": "同一页面可同时有审核成功和资金仍持有。色彩不能把不同对象的状态揉成一个结论。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-14",
+      "section": "视觉语言",
+      "title": "浅色与深色主题",
+      "layout": "statement",
+      "body": [
+        "浅色与深色分别定义，不靠反相。",
+        "正文目标 4.5:1，关键图形目标 3:1。"
+      ],
+      "visual_brief": "两张相同信息的明暗主题样本槽位；下方写“100 对 token 组合已计算”。",
+      "speaker_notes_zh": "对比要求来自 tokens.json 与设计规格。文字目标 4.5:1，关键非文字元素目标 3:1。色值组合的计算不能替代真实界面与辅助技术检查。",
+      "sources": [
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        },
+        {
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-15",
+      "section": "视觉语言",
+      "title": "字体与信息层级",
+      "layout": "statement",
+      "body": [
+        "Manrope：英文与马来文。",
+        "Noto Sans SC：简体中文。",
+        "保持中文舒展，不压缩字距。"
+      ],
+      "visual_brief": "中英马混排样张：“创意合作 / Creative work / Kerjasama”；大标题与正文形成层级。",
+      "speaker_notes_zh": "Manrope 与 Noto Sans SC 使用 SIL OFL 1.1 许可。中文、英文与马来文保留各自自然语序。幻灯片尺寸按演示用途调整，界面字级遵循 tokens.json。",
+      "sources": [
+        {
+          "title": "Manrope 许可",
+          "url": "https://github.com/google/fonts/blob/main/ofl/manrope/OFL.txt"
+        },
+        {
+          "title": "中文字体许可",
+          "url": "https://github.com/google/fonts/blob/main/ofl/notosanssc/OFL.txt"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-16",
+      "section": "视觉语言",
+      "title": "响应式版式",
+      "layout": "statement",
+      "body": [
+        "4px 节奏；控制圆角 8px，卡片 16px。",
+        "手机单列，桌面按任务展开。",
+        "关键金额和条件不被裁切。"
+      ],
+      "visual_brief": "390px 与 1440px 网格示意；边距和列数从 tokens.layout 读取。",
+      "speaker_notes_zh": "320px 也必须重排可读；桌面最大内容1280px。中文 PPT 不为塞字缩小正文；150字左右/页作为阅读指导。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-17",
+      "section": "视觉语言",
+      "title": "创作情境与影像",
+      "layout": "statement",
+      "body": [
+        "表现拍摄、讨论简报和制作作品的过程。",
+        "采用自然光与真实材质，呈现多元创作者。",
+        "示例影像由 AI 生成，人物与场景均为虚构。"
+      ],
+      "visual_brief": "预留两张工作情境照片槽位：拍摄作品、讨论简报；自然光与真实材质。",
+      "speaker_notes_zh": "使用有授权的真人素材或明确标识的生成素材；没有真实客户证据时不加公司 Logo、见证或身份认证徽章。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": "PHOTO-CREATIVE-COLLAB"
+    },
+    {
+      "id": "BB-18",
+      "section": "视觉语言",
+      "title": "动作与反馈节奏",
+      "layout": "statement",
+      "body": [
+        "短促反馈解释状态变化。",
+        "等待款项不庆祝，金额不滚动。",
+        "减少动态模式仍能看见完整信息。"
+      ],
+      "visual_brief": "四帧静态时序：按下、提交中、收到回执、查看详情；展示时间来自 tokens.motion。",
+      "speaker_notes_zh": "实际动态是后续实现，当前只规定行为。hover120ms、常规180ms、进入240ms、退出160ms；减少动态为即时切换。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-19",
+      "section": "设计系统",
+      "title": "31 类组件家族",
+      "layout": "statement",
+      "body": [
+        "按钮、输入、选择、表单、上传、表格、分页、页签、对话框。",
+        "每个交互都考虑焦点、禁用、加载和错误。"
+      ],
+      "visual_brief": "用基础组件矩阵槽位；每种不超过四个代表状态，完整矩阵留附录文件。",
+      "speaker_notes_zh": "完整 31 类家族的变体、状态、键盘行为、响应式和内容规则在 component-inventory.json。这里展示家族目录。静态设计样本与文档不代表已实现可运行的生产组件。",
+      "sources": [
+        {
+          "title": "组件目录",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/component-inventory.json"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "本地组件参考",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-20",
+      "section": "设计系统",
+      "title": "可理解的反馈",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "空/加载/失败/受限四种短例；用不同文字和图标，避免红色铺满。",
+      "speaker_notes_zh": "加载与空不能混用；未收到数据不能显示0。banned是账户状态，非资金失败；敏感原因不泄露检测规则或举报人。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "情境",
+          "用户看到的信息"
+        ],
+        "rows": [
+          [
+            "没有作品",
+            "暂无作品，可以查看活动要求"
+          ],
+          [
+            "上传中",
+            "说明进度，允许取消或重试"
+          ],
+          [
+            "提交失败",
+            "保留已填内容，解释原因与下一步"
+          ],
+          [
+            "账户受限",
+            "说明限制范围，提供申诉入口"
+          ]
+        ],
+        "columnWidths": [
+          280,
+          856
+        ]
+      }
+    },
+    {
+      "id": "BB-21",
+      "section": "设计系统",
+      "title": "品牌桌面：活动与简报",
+      "layout": "statement",
+      "body": [
+        "活动预算与单条报酬分别展示。",
+        "简报要求、创作空间与付款约定清楚分组。"
+      ],
+      "visual_brief": "桌面活动简报编辑示意；7/5双栏，右侧发布前检查，底部仅保存草稿可用。",
+      "speaker_notes_zh": "活动与数值均为设计示例，不代表真实客户或已上线功能。活动简报应说明作品要求、使用权、期限和审核条件。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": "UI-BRAND-DESKTOP"
+    },
+    {
+      "id": "BB-22",
+      "section": "设计系统",
+      "title": "品牌手机：待审核作品",
+      "layout": "statement",
+      "body": [
+        "先看待审核作品，再处理单份提交。",
+        "固定报酬与品牌直接付款说明持续可见。"
+      ],
+      "visual_brief": "390×844 手机视图，活动标题、截止、示例预算及审核入口按顺序排列。",
+      "speaker_notes_zh": "活动与预算均为虚构设计示例。预算总额与单件作品报酬需要区别表达。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": "UI-BRAND-MOBILE"
+    },
+    {
+      "id": "BB-23",
+      "section": "设计系统",
+      "title": "创作者桌面：报酬与付款记录",
+      "layout": "statement",
+      "body": [
+        "审核依据与报酬状态并列。",
+        "已批准，仍等待品牌付款。"
+      ],
+      "visual_brief": "桌面奖励详情 + 审核时间线；重点是金额与“尚不可提现”同时可见。",
+      "speaker_notes_zh": "本地设计示例。页面展示审核已批准、等待品牌付款及尚未确认到账日期。品牌直接付款，审核批准不能代表银行已到账。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": "UI-CREATOR-DESKTOP"
+    },
+    {
+      "id": "BB-24",
+      "section": "设计系统",
+      "title": "创作者手机：审核与付款回执",
+      "layout": "statement",
+      "body": [
+        "审核已批准，报酬 MYR 150.00。",
+        "品牌直接付款，到账状态单独确认。",
+        "回执与付款约定持续可查。"
+      ],
+      "visual_brief": "390×844 手机，金额、状态、要求清单、持久详情入口；提现按钮禁用原因常显。",
+      "speaker_notes_zh": "本地设计示例，首版采用品牌直接付款。本页的 MYR 150.00 是审核批准报酬，不代表银行已到账。付款记录与审核结果分别显示。不把未来支付流程与本页首版付款约定混淆。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": "UI-CREATOR-MOBILE"
+    },
+    {
+      "id": "BB-25",
+      "section": "设计系统",
+      "title": "未来支付流程的金额表达",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "三行金额对账，等号关系清楚；下方“示例，非实际费率”常显。",
+      "speaker_notes_zh": "独立的未来支付界面说明，非 首版钱包，也不是前页报酬已经释放的延续。假设扣减 MYR 150.00，示例费用 MYR 2.00，预计到账 MYR 148.00。150.00−2.00=148.00。数字不是实际费率，不表示平台已具备支付功能。",
+      "sources": [
+        {
+          "title": "组件目录",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/component-inventory.json"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "项目",
+          "示例金额"
+        ],
+        "rows": [
+          [
+            "账户扣减",
+            "MYR 150.00"
+          ],
+          [
+            "手续费",
+            "MYR 2.00"
+          ],
+          [
+            "预计到账",
+            "MYR 148.00"
+          ]
+        ],
+        "columnWidths": [
+          650,
+          486
+        ]
+      },
+      "takeaway": "独立的未来界面示例，非首版钱包或实际费率"
+    },
+    {
+      "id": "BB-26",
+      "section": "设计系统",
+      "title": "审核、报酬与提现状态",
+      "layout": "statement",
+      "body": [
+        "提交、报酬、提现是三个对象。",
+        "处理中不显示已到账；状态未知先核对，避免重复操作。"
+      ],
+      "visual_brief": "三个平行简短状态线：提交审核、报酬释放、提现处理。失败/未知在旁支标示。",
+      "speaker_notes_zh": "未来支付状态设计原则。提交审核、报酬释放、提现处理属于不同对象。未知结果先核对，避免重复发起。实际转换规则以设计规格和后续账本事实为准。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-27",
+      "section": "设计系统",
+      "title": "图表的信息规则",
+      "layout": "table",
+      "body": [],
+      "visual_brief": "四系列样例线图槽位 + 对应简短数据表，标“示例数据”；不生成收益增长曲线暗示业绩。",
+      "speaker_notes_zh": "本页给出图表的表达规范，不展示虚构经营趋势。缺数据应显示暂无数据，不应写零。无归因证据时不把播放量标为销售额。",
+      "sources": [
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null,
+      "table": {
+        "headers": [
+          "图表要素",
+          "表达规则"
+        ],
+        "rows": [
+          [
+            "金额与时间",
+            "写明币种、统计范围和时区"
+          ],
+          [
+            "数据来源",
+            "标明来源与计算口径"
+          ],
+          [
+            "缺失值",
+            "显示暂无数据，和 0 区分"
+          ],
+          [
+            "编码与基线",
+            "颜色配合标签，柱图从零开始"
+          ]
+        ],
+        "columnWidths": [
+          280,
+          856
+        ]
+      }
+    },
+    {
+      "id": "BB-28",
+      "section": "设计系统",
+      "title": "可访问与隐私",
+      "layout": "statement",
+      "body": [
+        "键盘能完成任务，焦点始终可见。",
+        "文字放大后，金额与条件仍完整可读。",
+        "敏感号码默认遮盖。权限与申诉入口明确。"
+      ],
+      "visual_brief": "键盘焦点实例与遮盖账户实例并列；内容来自规范，避免“已认证”印章。",
+      "speaker_notes_zh": "WCAG2.2AA为目标而非认证。上传扫描、服务端授权、隐私保留和地区法规须后续实现与专业核验。本页为设计原则，不是法律意见。",
+      "sources": [
+        {
+          "title": "WCAG 2.2",
+          "url": "https://www.w3.org/TR/WCAG22/"
+        },
+        {
+          "title": "ARIA 指南",
+          "url": "https://www.w3.org/WAI/ARIA/apg/"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-29",
+      "section": "设计系统",
+      "title": "品牌资产的共同源头",
+      "layout": "statement",
+      "body": [
+        "tokens.json 管颜色、字体与节奏。",
+        "组件、图片、品牌书和两份中文 PPT 读取同一套值。",
+        "修根源，再更新下游。"
+      ],
+      "visual_brief": "简单依赖图：品牌策略 → tokens → 组件/图片/两个PPT；不用复制十六进制构成第二份主题。",
+      "speaker_notes_zh": "视觉值在 brand/tokens.json 维护。组件、演示和品牌手册引用同一源头。品牌方向由 brand-strategy.md 定义，组件规则由 component-inventory.json 与设计规格定义。",
+      "sources": [
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        },
+        {
+          "title": "品牌来源",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    },
+    {
+      "id": "BB-30",
+      "section": "设计系统",
+      "title": "日常品牌使用原则",
+      "layout": "closing",
+      "body": [
+        "保持字形与比例，给标志足够留白。",
+        "用主色强调重点，让正文保持高对比。",
+        "让反馈说明当前状态，并给出下一步。",
+        "把概念、示例与真实证据明确区分。"
+      ],
+      "visual_brief": "四条可执行品牌使用原则，保留充足留白。",
+      "speaker_notes_zh": "使用品牌时先判断读者需要理解的内容。保持标志完整与文字可读，状态文案说明下一步。AI 概念图标注来源，真实客户证据需要授权和可追溯依据。",
+      "sources": [
+        {
+          "title": "品牌策略",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+        },
+        {
+          "title": "设计规范",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+        },
+        {
+          "title": "视觉参数",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+        }
+      ],
+      "feature_ids": [],
+      "asset_slot": null
+    }
+  ]
+}

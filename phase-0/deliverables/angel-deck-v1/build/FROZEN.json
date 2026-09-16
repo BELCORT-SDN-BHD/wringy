@@ -1,0 +1,112 @@
+{
+  "status": "frozen-main-visual-approved-discussion-draft",
+  "date": "2026-09-10",
+  "scope": "12 main slides + 5 appendix slides",
+  "canonical_story": "phase-0/foundation/angel-story-v1.md",
+  "validation": "build/validation-final.json",
+  "content_checks": {
+    "native_chart_parts": [
+      "ppt/slides/charts/chart1.xml",
+      "ppt/slides/charts/chart2.xml"
+    ],
+    "cash_curve_points_matched_frozen_source": 108,
+    "zero_line_points": 36,
+    "unique_months_per_series": 36,
+    "required_final_wording": true,
+    "pptx_slides": 17,
+    "full_pdf_pages": 17,
+    "main_pdf_pages": 12,
+    "pngs": 17,
+    "native_charts": 2,
+    "canonical_pptx_matches_finalizer_hash": true,
+    "all_outputs_same_build_revision": "final"
+  },
+  "visual_review": "All 17 rendered slides inspected; final changes on 6 and 13 rechecked. Main reviewed drafts and supplied corrections.",
+  "open_founder_inputs": [
+    "Founder name, relevant biography and actual customer evidence",
+    "Raise amount and quantified/timebound funding milestones"
+  ],
+  "files": {
+    "output/Wringy-Angel-Deck-v1.pptx": {
+      "bytes": 5728136,
+      "sha256": "0279c4b98db17c2f56989c85e3c62970525f28c17a70132015a52cf31329cbf5"
+    },
+    "output/Wringy-Angel-Deck-v1.pdf": {
+      "bytes": 8163808,
+      "sha256": "47c6a0bd78c5e68ccff5e4eeeb7d446f69b4d55fdff4a62098cfae288c1762cb"
+    },
+    "output/Wringy-Angel-Deck-v1-Main12.pdf": {
+      "bytes": 7461673,
+      "sha256": "042c8c4b9259bae8fee6ba09e54df84821acb9168ece369bfc8669a00cdc2501"
+    },
+    "output/slides/slide-01.png": {
+      "bytes": 1193999,
+      "sha256": "54276bd9346ed28933e5ab0594acc15a56b28cd90608073590a654a230ad1826"
+    },
+    "output/slides/slide-02.png": {
+      "bytes": 1061101,
+      "sha256": "fcea7362f043c7920c15da56424bca5b1ba75d5da4e0c7177e6958cab879bc46"
+    },
+    "output/slides/slide-03.png": {
+      "bytes": 176749,
+      "sha256": "6b29d325c6547166ed08d6d6a2921a5c79e2695c42c14ad4141404a95b16461b"
+    },
+    "output/slides/slide-04.png": {
+      "bytes": 172093,
+      "sha256": "436de02c5db6e704eea0326e3ba6b681890ad5cf2121ad07b408042456fecadb"
+    },
+    "output/slides/slide-05.png": {
+      "bytes": 1014433,
+      "sha256": "88e922ee488c8c8bbcb605b85723429842f8f1dd20ac8fe157c85a980f2670ab"
+    },
+    "output/slides/slide-06.png": {
+      "bytes": 151312,
+      "sha256": "a92d3f6db6a8662115a55eb0b536fc449d59e4bb92dde5a7c92f9fd71ca4434b"
+    },
+    "output/slides/slide-07.png": {
+      "bytes": 137943,
+      "sha256": "9b0c1da1fe65d0c10a1c7dee6ce017d513ab0f1a77c5543cb9fbd023c8cce5b7"
+    },
+    "output/slides/slide-08.png": {
+      "bytes": 199899,
+      "sha256": "97e0ecd672030cad2f9a457924ce3a0764835547c5a4a5382013ec1b62203696"
+    },
+    "output/slides/slide-09.png": {
+      "bytes": 173675,
+      "sha256": "0e42de20b62456231a1497a8374590070a75c609d42da8ad0e63acf5246bfa86"
+    },
+    "output/slides/slide-10.png": {
+      "bytes": 133561,
+      "sha256": "8bc7d31de8b4ad05c627bb3deefb1a6139c58126175ef4d37f106f34768c784f"
+    },
+    "output/slides/slide-11.png": {
+      "bytes": 145104,
+      "sha256": "77d6c744ad77ef0a57b009e8014097c9869bc72f9bc2d9cb945e75428aaf4e16"
+    },
+    "output/slides/slide-12.png": {
+      "bytes": 1090557,
+      "sha256": "65d01b55802a9c41e4b987ba89696ac70516c280eab8a4d2d9b55da60799db11"
+    },
+    "output/slides/slide-13.png": {
+      "bytes": 181243,
+      "sha256": "a788e4effee5a9a724d37a5d3dd419b13b54962c177f91a29706271b9da206b2"
+    },
+    "output/slides/slide-14.png": {
+      "bytes": 150687,
+      "sha256": "8e932704574e6ac23a3c13a4ac8db811d51e9a3a9232f715f7f07da8460432f4"
+    },
+    "output/slides/slide-15.png": {
+      "bytes": 183823,
+      "sha256": "dd5d2f03f555fa2d710bc022f544062f306f40bfdf4dbfb7745986c058d4acbf"
+    },
+    "output/slides/slide-16.png": {
+      "bytes": 177115,
+      "sha256": "e54e1d4351e83917b52dcba6e1a1895a434a4c39b6008fbf3dd61bf0e0dbfa6d"
+    },
+    "output/slides/slide-17.png": {
+      "bytes": 154487,
+      "sha256": "8545ee560f67c9fa2aa8c701ede72e52f3002cfecf0a4db5c56d02a415ec2f49"
+    }
+  },
+  "approval": "2026-09-10: Main inspected final corrections at full size and approved visuals; no more content changes."
+}

@@ -1,0 +1,59 @@
+{
+  "status": "内部暂定输入，研发上限由创办人指定，交付可行性未报价验证",
+  "as_of": "2026-09-12",
+  "currency": "MYR",
+  "months": 6,
+  "pilot_start_month": 3,
+  "rd_all_in_cap": 50000,
+  "rd_reserve_within_cap": 5000,
+  "rd_payment_weights": [
+    0.3,
+    0.4,
+    0.3,
+    0,
+    0,
+    0
+  ],
+  "non_rd_buffer_rate": 0.15,
+  "founder_allowance_base_monthly": 0,
+  "founder_allowance_sensitivity_monthly": 6000,
+  "founder_living_support_status": "零津贴假设创办人自行负担个人生活，尚未确认，不能隐去敏感性",
+  "ground_sales_monthly": 750,
+  "paid_operations_hours_per_pilot_month": 20,
+  "operations_hourly_rate": 30,
+  "cloud_tools_monthly": 200,
+  "maintenance_hours_per_pilot_month": 2,
+  "maintenance_hourly_rate": 130,
+  "maintenance_scope": "上线后依赖安全更新、监控和备份维护；排除开发验收、缺陷修复及保修，不作为研发超额通道",
+  "legal_setup": 2500,
+  "accounting_monthly": 250,
+  "trial_data_payment_pool_monthly": 120,
+  "rounding_step": 5000,
+  "committed_capital": 0,
+  "verified_company_cash": 0,
+  "revenue_offset": 0,
+  "reward_pool_company_cash": 0,
+  "example_campaigns_per_pilot_month": 4,
+  "campaign": {
+    "reward_budget": 2000,
+    "fee_rate_external": 0.15,
+    "paid_manual_hours": 1,
+    "unpaid_founder_manual_hours": 2,
+    "economic_hourly_rate": 30,
+    "data_cost": 20,
+    "payment_cost": 10,
+    "fee_scenario_rates": [
+      0.1,
+      0.15,
+      0.2
+    ],
+    "status": "全部演示假设；非Whop费率、非Wringy已认可定价、非已签活动；工时涵盖全部提交及异常",
+    "manual_hours_stress_multiplier": 2
+  },
+  "source_notes": {
+    "rd_cap": "本轮创办人指令：原型＋可用Content Rewards beta研发总额不超过RM50,000，含QA、交接与内部预备金。不是供应商报价。",
+    "other_costs": "代理内部数量×单价占位，尚无正式报价；维护RM130时薪来自既有内部假设，不证明研发工时可行。",
+    "cash_basis": "研发已内含预备金，不再加外部15%；外部15%仅用于非研发现金支出。奖励由品牌直接支付或经批准服务商，不设钱包。",
+    "scope": "复用设计系统资产假设；创办人辅助人工试点，无内部开发；报价超上限则删减非必要范围，不降低安全底线。"
+  }
+}

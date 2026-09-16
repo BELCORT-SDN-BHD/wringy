@@ -1,0 +1,109 @@
+{
+  "status": "passed",
+  "date": "2026-09-13",
+  "pages": 19,
+  "main": 16,
+  "appendix": 3,
+  "native_charts": 6,
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      0.0,
+      8.0,
+      18.0,
+      30.0,
+      40.0
+    ],
+    [
+      90.0,
+      20.0,
+      10.0,
+      180.0
+    ],
+    [
+      11.266,
+      22.532
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ],
+    [
+      180.0,
+      90.0,
+      0.0,
+      -90.0
+    ]
+  ],
+  "native_tables": 2,
+  "reused_generated_photo_assets": 4,
+  "new_images_generated": 0,
+  "photo_placements": 10,
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "all_pages_individually_reviewed": true,
+  "pdf_poppler_pages": 19,
+  "pdf_render_mean_pixel_difference": [
+    6.6374,
+    5.1471,
+    4.9371,
+    6.1228,
+    5.1108,
+    5.3657,
+    5.4601,
+    5.5319,
+    3.6947,
+    4.0321,
+    4.4433,
+    4.6552,
+    5.9088,
+    3.35,
+    3.4466,
+    4.6891,
+    2.6801,
+    9.2251,
+    6.4037
+  ],
+  "source_links": 8,
+  "source_urls": [
+    "https://clipping.net/brands",
+    "https://clipping.net/docs/clippers/campaign-detail",
+    "https://clipping.net/docs/clippers/payments",
+    "https://clipping.net/policies/clipper-terms-and-conditions",
+    "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "https://contentrewards.com/brands-terms",
+    "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx"
+  ],
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "salary_allowance_cash_confirmed": 0,
+  "proposed_funding": 70000,
+  "proposed_ask_approved": false,
+  "unpaid_founder_labor_economic_cost": 60,
+  "finance_source": "../content-rewards-business-v5/finance/results.json",
+  "finance_sha256": "05d51ee57242932437571ee4174ddf68980760140a8700fc561ed676b15c57cc",
+  "native_powerpoint_tested": false,
+  "pdf_format": "Raster reading copy with source link annotations",
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 12946503,
+      "sha256": "dc6c92c4ad81cd71eda808c73905d4bf15250fb370c9d4a211f02635da77966d"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 20694821,
+      "sha256": "7382187453a5780375e15616850bc88be251f66420e7cd06f6858885199192ff"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 463670,
+      "sha256": "60708b4f19e3c2b165c3c48c492e40b657fad828bd907cf2c8d34cc584d925ff"
+    }
+  }
+}

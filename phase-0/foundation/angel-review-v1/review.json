@@ -1,0 +1,109 @@
+{
+  "duration_api_ms": 108780,
+  "stop_reason": "end_turn",
+  "session_id": "32e532d5-569a-4cdc-82c5-880673cd0978",
+  "total_cost_usd": 0.10587880000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2512,
+    "cache_read_input_tokens": 3289,
+    "output_tokens": 9348,
+    "output_tokens_details": {
+      "thinking_tokens": 8501
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 2512,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 9348,
+        "cache_read_input_tokens": 3289,
+        "cache_creation_input_tokens": 2512,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2512
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1624,
+      "outputTokens": 13,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001689,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-sonnet-5": {
+      "inputTokens": 2,
+      "outputTokens": 9348,
+      "cacheReadInputTokens": 3289,
+      "cacheCreationInputTokens": 2512,
+      "webSearchRequests": 0,
+      "costUSD": 0.10418980000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "thinkingTokens": 8501,
+      "canonicalModel": "claude-sonnet-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "is_error": false,
+  "num_turns": 1,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "- **Payment cost omitted from headline math:** Main's \"Fulfil 600 + commission 150 → 750 contribution\" excludes any payment-processing fee. Appendix shows real processing cost is 3% on the full 11500 = 345, not the ~150 implied elsewhere. If applied per-campaign, the 750 contribution figure could shrink materially — add a one-line caveat that 750 excludes payment processing, addressed only in the appendix payback sensitivity.\n\n- **Rate inconsistency between illustrations:** Headline example (10000 reward / 1500 fee) establishes a 15% platform fee. But 150 commission on 600 fulfil implies 25% (150/600), not 15%. Either these are unrelated illustrative scales (say so explicitly) or the numbers need reconciling — as written it reads as one consistent rate applied twice, which it isn't.\n\n- **\"Commission\" double-count risk:** Appendix's commission 3000 (=150 Ă— 20 campaigns) is subtracted from GP as a cost in the operating calc. Confirm this isn't already embedded in the 30000 revenue line — if the 15% fee is both revenue-in and a deducted cost, operating income is understated/overstated depending on direction. This needs an explicit accounting-treatment note, not just \"NOT CAC.\"\n\n- **\"1500\" reused for two different concepts:** Main uses 1500 as the platform's fee on a 10000 campaign (margin). Appendix uses 1500 as average total revenue per campaign (30000/20, gross throughput including pass-through rewards). These are very different numbers conceptually; label them distinctly to avoid a reader conflating fee take-rate with gross volume.\n\n- **Main headline vs. appendix bottom line not cross-referenced:** Main's \"750 contribution before fixed/CAC\" and appendix's \"-2000 operating after fixed\" are arithmetically consistent (20Ă—750 = 15000; minus 17000 total fixed = -2000), but main never states this scenario nets negative before new-brand CAC. A reader who only sees the main slide could walk away thinking unit economics are net-positive; add one summary line linking the two.\n\n- **GP%/revenue figures contingent on unresolved accounting treatment:** 30000 revenue and 53.33% GP% assume gross (not net) service-fee revenue recognition, which the draft itself marks unresolved. If switched to net, both headline numbers change. This dependency should sit next to the GP% figure, not only in a footnote, since it's currently presented as if settled.",
+  "ttft_ms": 99660,
+  "type": "result",
+  "duration_ms": 107591,
+  "uuid": "49c90d33-a06f-478f-882e-203ef5cb29f9",
+  "ttft_stream_ms": 993,
+  "time_to_request_ms": 22,
+  "queued_turn_count": 0
+}

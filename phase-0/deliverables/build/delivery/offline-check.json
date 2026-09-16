@@ -1,0 +1,17 @@
+{
+  "offlineFileURL": true,
+  "families": 31,
+  "fontsLoaded": true,
+  "themeSwitch": true,
+  "localAnchors": true,
+  "routes": [
+    "UI-BRAND-DESKTOP",
+    "UI-BRAND-MOBILE",
+    "UI-CREATOR-DESKTOP",
+    "UI-CREATOR-MOBILE",
+    "UI-PAYOUT-CONFIRM"
+  ],
+  "errors": [],
+  "network": [],
+  "failed": []
+}

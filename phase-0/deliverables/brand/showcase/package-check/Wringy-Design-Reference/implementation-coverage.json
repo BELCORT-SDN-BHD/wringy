@@ -1,0 +1,618 @@
+[
+  {
+    "id": "button",
+    "name": "按钮",
+    "renderedStates": [
+      "default",
+      "hover",
+      "pressed",
+      "keyboard-focus",
+      "disabled",
+      "loading",
+      "error"
+    ],
+    "renderedVariants": [
+      "primary",
+      "secondary",
+      "ghost",
+      "accent-marketing",
+      "destructive"
+    ],
+    "interactions": [
+      "原生键盘激活",
+      "禁用与loading不执行动作",
+      "破坏性动作确认弹窗"
+    ]
+  },
+  {
+    "id": "input",
+    "name": "输入框",
+    "renderedStates": [
+      "default",
+      "filled",
+      "keyboard-focus",
+      "disabled",
+      "read-only",
+      "invalid"
+    ],
+    "renderedVariants": [
+      "text",
+      "email",
+      "number",
+      "money",
+      "textarea"
+    ],
+    "interactions": [
+      "可编辑/只读/禁用原生行为",
+      "标签、错误关联",
+      "邮箱和数字原生输入"
+    ]
+  },
+  {
+    "id": "form",
+    "name": "表单",
+    "renderedStates": [
+      "default",
+      "filled",
+      "validation-error",
+      "validated-local-demo"
+    ],
+    "renderedVariants": [
+      "single-column",
+      "responsive-two-column"
+    ],
+    "interactions": [
+      "错误摘要和逐字段验证",
+      "焦点到摘要",
+      "重置与成功演示"
+    ]
+  },
+  {
+    "id": "select",
+    "name": "选择器",
+    "renderedStates": [
+      "default",
+      "selected",
+      "disabled",
+      "no-results"
+    ],
+    "renderedVariants": [
+      "native-single",
+      "filtered-native",
+      "multi-select"
+    ],
+    "interactions": [
+      "原生键盘选择",
+      "多选",
+      "筛选与空结果"
+    ]
+  },
+  {
+    "id": "dropdown",
+    "name": "操作菜单",
+    "renderedStates": [
+      "closed",
+      "open",
+      "keyboard-focus",
+      "disabled-item"
+    ],
+    "renderedVariants": [
+      "row-actions",
+      "expanded-specimen"
+    ],
+    "interactions": [
+      "Enter打开并聚焦首项",
+      "方向键/Home/End移动",
+      "Escape关闭返回触发器",
+      "Tab关闭离开"
+    ]
+  },
+  {
+    "id": "checkbox-radio-switch",
+    "name": "选择与开关",
+    "renderedStates": [
+      "checked",
+      "unchecked",
+      "mixed",
+      "disabled",
+      "on",
+      "off"
+    ],
+    "renderedVariants": [
+      "checkbox",
+      "radio-group",
+      "switch"
+    ],
+    "interactions": [
+      "原生Space/方向键",
+      "混合勾选态",
+      "开关即时本地切换"
+    ]
+  },
+  {
+    "id": "date-time",
+    "name": "日期与时间",
+    "renderedStates": [
+      "default",
+      "filled",
+      "invalid-range"
+    ],
+    "renderedVariants": [
+      "date",
+      "range",
+      "deadline"
+    ],
+    "interactions": [
+      "原生日期与时间输入",
+      "可直接键入",
+      "日期范围演示校验"
+    ]
+  },
+  {
+    "id": "upload",
+    "name": "文件上传",
+    "renderedStates": [
+      "empty",
+      "selected-local-file",
+      "failed-validation",
+      "loading-specimen"
+    ],
+    "renderedVariants": [
+      "single",
+      "image",
+      "progress-specimen"
+    ],
+    "interactions": [
+      "文件名及类型大小本地验证",
+      "不发送文件",
+      "状态播报"
+    ]
+  },
+  {
+    "id": "table",
+    "name": "数据表",
+    "renderedStates": [
+      "ready",
+      "pending",
+      "approved",
+      "empty"
+    ],
+    "renderedVariants": [
+      "basic",
+      "financial",
+      "empty-specimen"
+    ],
+    "interactions": [
+      "原生表头/标题",
+      "横向滚动区域键盘可达",
+      "金额右对齐"
+    ]
+  },
+  {
+    "id": "pagination",
+    "name": "分页",
+    "renderedStates": [
+      "first-page",
+      "page-2",
+      "last-page-disabled"
+    ],
+    "renderedVariants": [
+      "numbered",
+      "load-more"
+    ],
+    "interactions": [
+      "本地页码及aria-current更新",
+      "加载更多本地演示"
+    ]
+  },
+  {
+    "id": "tabs",
+    "name": "页签",
+    "renderedStates": [
+      "active",
+      "inactive",
+      "keyboard-focus"
+    ],
+    "renderedVariants": [
+      "page-section"
+    ],
+    "interactions": [
+      "左右方向键/Home/End",
+      "选中态与tabpanel同步",
+      "焦点管理"
+    ]
+  },
+  {
+    "id": "modal",
+    "name": "对话框",
+    "renderedStates": [
+      "closed",
+      "open",
+      "confirm",
+      "error-specimen"
+    ],
+    "renderedVariants": [
+      "confirm",
+      "money-confirm",
+      "error-specimen"
+    ],
+    "interactions": [
+      "原生dialog模态焦点圈定",
+      "Escape关闭",
+      "返回触发器",
+      "金额确认说明"
+    ]
+  },
+  {
+    "id": "toast",
+    "name": "短消息",
+    "renderedStates": [
+      "success",
+      "info",
+      "error",
+      "dismissed"
+    ],
+    "renderedVariants": [
+      "success",
+      "info",
+      "error"
+    ],
+    "interactions": [
+      "礼貌live region播报",
+      "手动关闭",
+      "不自动抢焦点"
+    ]
+  },
+  {
+    "id": "navigation",
+    "name": "导航",
+    "renderedStates": [
+      "active",
+      "inactive",
+      "role-brand",
+      "role-creator"
+    ],
+    "renderedVariants": [
+      "topbar",
+      "breadcrumb",
+      "role-switcher",
+      "desktop-sidebar-in-screens",
+      "mobile-bottom-in-screens"
+    ],
+    "interactions": [
+      "真实本地页面导航",
+      "当前页语义",
+      "角色切换示例标签"
+    ]
+  },
+  {
+    "id": "status",
+    "name": "状态标签",
+    "renderedStates": [
+      "pending",
+      "approved",
+      "available-future",
+      "processing",
+      "paid",
+      "failed",
+      "banned",
+      "unknown"
+    ],
+    "renderedVariants": [
+      "neutral",
+      "info",
+      "success",
+      "warning",
+      "danger"
+    ],
+    "interactions": [
+      "文字冗余意义",
+      "独立对象命名"
+    ]
+  },
+  {
+    "id": "empty-state",
+    "name": "空状态",
+    "renderedStates": [
+      "first-use",
+      "no-results",
+      "no-permission",
+      "unavailable"
+    ],
+    "renderedVariants": [
+      "first-use",
+      "no-results",
+      "no-permission",
+      "unavailable"
+    ],
+    "interactions": [
+      "下一步动作",
+      "无权限不展示他方数据"
+    ]
+  },
+  {
+    "id": "onboarding",
+    "name": "入门流程",
+    "renderedStates": [
+      "not-started",
+      "in-progress",
+      "step-3-confirmation"
+    ],
+    "renderedVariants": [
+      "creator",
+      "brand-role-copy"
+    ],
+    "interactions": [
+      "三步本地循环",
+      "步骤名称可见",
+      "不创建真实账户"
+    ]
+  },
+  {
+    "id": "campaign-card",
+    "name": "活动卡片",
+    "renderedStates": [
+      "open",
+      "draft",
+      "closed"
+    ],
+    "renderedVariants": [
+      "discovery",
+      "brand-owned",
+      "closed-specimen"
+    ],
+    "interactions": [
+      "简报弹窗",
+      "草稿禁用说明"
+    ]
+  },
+  {
+    "id": "campaign-brief",
+    "name": "活动简报",
+    "renderedStates": [
+      "draft",
+      "changed"
+    ],
+    "renderedVariants": [
+      "creator-read",
+      "version-comparison"
+    ],
+    "interactions": [
+      "展开条款",
+      "版本差异常显",
+      "金额与付款方式独立"
+    ]
+  },
+  {
+    "id": "submission",
+    "name": "作品提交",
+    "renderedStates": [
+      "draft",
+      "submitted",
+      "reviewing",
+      "changes-requested",
+      "approved",
+      "rejected"
+    ],
+    "renderedVariants": [
+      "link",
+      "revision-status"
+    ],
+    "interactions": [
+      "状态选择实时渲染不同反馈",
+      "链接输入"
+    ]
+  },
+  {
+    "id": "review",
+    "name": "作品审核",
+    "renderedStates": [
+      "pending",
+      "changes-requested",
+      "approved",
+      "rejected"
+    ],
+    "renderedVariants": [
+      "single",
+      "checklist"
+    ],
+    "interactions": [
+      "核对项",
+      "具体反馈",
+      "审核对话框批准/退回",
+      "拒绝原因本地展示"
+    ]
+  },
+  {
+    "id": "reward-ledger",
+    "name": "报酬账本",
+    "renderedStates": [
+      "pending-review",
+      "approved",
+      "waiting-brand-payment",
+      "reversed-specimen"
+    ],
+    "renderedVariants": [
+      "creator-summary",
+      "entry-detail",
+      "brand-direct-pay"
+    ],
+    "interactions": [
+      "金额/币种/状态并列",
+      "独立冲正样本"
+    ]
+  },
+  {
+    "id": "payout-flow",
+    "name": "付款与未来提现",
+    "renderedStates": [
+      "pending",
+      "approved",
+      "available",
+      "processing",
+      "failed",
+      "paid",
+      "unknown",
+      "banned"
+    ],
+    "renderedVariants": [
+      "provider-status",
+      "future-integrated",
+      "failure-recovery"
+    ],
+    "interactions": [
+      "八种状态实时渲染",
+      "金额150−2=148",
+      "失败先核对，不再次付款"
+    ]
+  },
+  {
+    "id": "notification-center",
+    "name": "通知中心",
+    "renderedStates": [
+      "unread",
+      "read",
+      "delivery-failed",
+      "muted"
+    ],
+    "renderedVariants": [
+      "in-app",
+      "email-preference"
+    ],
+    "interactions": [
+      "标记已读",
+      "消息偏好本地切换",
+      "通知与业务状态分离"
+    ]
+  },
+  {
+    "id": "profile-avatar",
+    "name": "资料与头像",
+    "renderedStates": [
+      "initials",
+      "missing-image",
+      "restricted",
+      "verification-scope"
+    ],
+    "renderedVariants": [
+      "creator",
+      "brand-in-screens",
+      "initials"
+    ],
+    "interactions": [
+      "身份名称与头像等价信息"
+    ]
+  },
+  {
+    "id": "search-filter",
+    "name": "搜索与筛选",
+    "renderedStates": [
+      "empty",
+      "typing",
+      "applied",
+      "no-results"
+    ],
+    "renderedVariants": [
+      "campaign",
+      "inline-filter"
+    ],
+    "interactions": [
+      "实时本地筛选",
+      "结果数量播报",
+      "清除"
+    ]
+  },
+  {
+    "id": "tooltip-popover",
+    "name": "辅助说明",
+    "renderedStates": [
+      "closed",
+      "hover",
+      "keyboard-focus",
+      "open",
+      "dismissed"
+    ],
+    "renderedVariants": [
+      "tooltip",
+      "dialog-backed-details"
+    ],
+    "interactions": [
+      "hover/focus打开",
+      "Escape关闭",
+      "详细交互内容使用原生dialog"
+    ]
+  },
+  {
+    "id": "accordion",
+    "name": "折叠区",
+    "renderedStates": [
+      "expanded",
+      "collapsed"
+    ],
+    "renderedVariants": [
+      "brief-section",
+      "faq"
+    ],
+    "interactions": [
+      "原生details/summary键盘",
+      "关键要求默认展开"
+    ]
+  },
+  {
+    "id": "skeleton-progress",
+    "name": "加载与进度",
+    "renderedStates": [
+      "loading",
+      "determinate",
+      "indeterminate",
+      "failed"
+    ],
+    "renderedVariants": [
+      "skeleton",
+      "determinate",
+      "indeterminate"
+    ],
+    "interactions": [
+      "原生progress可访问值",
+      "未知不伪造百分比",
+      "静态骨架无闪动"
+    ]
+  },
+  {
+    "id": "alert-support",
+    "name": "持久提醒与申诉",
+    "renderedStates": [
+      "info",
+      "warning",
+      "error",
+      "banned",
+      "appeal-pending"
+    ],
+    "renderedVariants": [
+      "inline-alert",
+      "restriction",
+      "appeal"
+    ],
+    "interactions": [
+      "持久提示",
+      "申诉对话框",
+      "限制不等同付款失败"
+    ]
+  },
+  {
+    "id": "chart",
+    "name": "数据图表",
+    "renderedStates": [
+      "ready"
+    ],
+    "renderedVariants": [
+      "bar",
+      "accessible-table"
+    ],
+    "interactions": [
+      "图表等价数据表",
+      "直接标签/形状冗余",
+      "金额与提交数不混合"
+    ]
+  }
+]

@@ -1,0 +1,109 @@
+{
+  "duration_api_ms": 84675,
+  "stop_reason": "end_turn",
+  "session_id": "8818db3e-8832-4378-b092-6675ef9e2f85",
+  "total_cost_usd": 0.0884916,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1934,
+    "cache_read_input_tokens": 4358,
+    "output_tokens": 7780,
+    "output_tokens_details": {
+      "thinking_tokens": 5538
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1934,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 7780,
+        "cache_read_input_tokens": 4358,
+        "cache_creation_input_tokens": 1934,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1934
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2015,
+      "outputTokens": 13,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.00208,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-sonnet-5": {
+      "inputTokens": 2,
+      "outputTokens": 7780,
+      "cacheReadInputTokens": 4358,
+      "cacheCreationInputTokens": 1934,
+      "webSearchRequests": 0,
+      "costUSD": 0.0864116,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "thinkingTokens": 5538,
+      "canonicalModel": "claude-sonnet-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "is_error": false,
+  "num_turns": 1,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "```json\n{\n  \"verdict\": \"CONDITIONAL - math checks out (30000/14000/16000/15000/-2000/17000/750/23 all reconcile), but several definitional and policy-translation risks need explicit fixes before this is shown externally\",\n  \"financial_issues\": [\n    {\n      \"issue\": \"GM% (53.333%) is only valid under the net/agent revenue assumption (1500/campaign). Principal-vs-agent classification is TBD; under a gross/principal view, revenue=11500/campaign and COGS absorbs the 10000 creator-reward pass-through, collapsing GM% to ~6.96% while GP/operating profit stay identical.\",\n      \"fix\": \"Label every GM% figure as 'net/agent-basis, pending classification' and show the gross-basis GM% side-by-side so viewers don't read 53.3% as a settled number.\"\n    },\n    {\n      \"issue\": \"Payment fee is budgeted at 150/campaign (part of the 600 variable fulfillment) but the illustrative 3%-of-full-brand-spend test (345) implies payment cost could be >2x that line if fees are charged on the full 11500 rather than the 1500 platform fee.\",\n      \"fix\": \"Run this as an explicit sensitivity case (payment cost 150 vs 345/campaign) showing the worse operating loss and higher breakeven campaign count; do not leave 150 as an unstated best case.\"\n    },\n    {\n      \"issue\": \"At the 20-campaign/month scenario the business is operating-negative (-2000/mo), meaning cumulative payback of the 576,150 legacy build+launch spend is undefined/exceeds 36 months at this volume - this isn't stated anywhere in the figures given.\",\n      \"fix\": \"Add an explicit line: 'no cumulative payback within 36 months at 20 campaigns/month' rather than letting operating-profit and payback be conflated or left implicit.\"\n    },\n    {\n      \"issue\": \"CAC (if it appears elsewhere) and the new CPM/anti-fraud dev scope are both unpriced (0 in current model), but are treated as pending inputs rather than assumed-zero costs.\",\n      \"fix\": \"Tag both as 'incomplete anchor - not yet priced,' and if a CAC figure is later added, verify it is distinct from the 150 campaign referral commission and the one-time 50000 launch cost.\"\n    },\n    {\n      \"issue\": \"-2000 operating profit is being read as close to 'net result' but interest/tax are unpriced, so true net profit is unknown and could differ.\",\n      \"fix\": \"Explicitly label -2000 as 'operating profit, pre-interest/pre-tax' everywhere it's displayed, never as 'net loss.'\"\n    }\n  ],\n  \"policy_translation_issues\": [\n    {\n      \"issue\": \"Old 2025 Whop blog claim of 48h auto-approval is legacy-only and no longer true; current verified terms (2026-09-10) show manual brand-moderator approve/reject only, pending until acted on.\",\n      \"fix\": \"Remove/correct any reference to 48h auto-approval in current-state materials; state manual review with no default timeout.\"\n    },\n    {\n      \"issue\": \"BotScore (0-100) is being risked to be described as a 'fake views %' when it is actually a proprietary risk indicator with third-party weighting.\",\n      \"fix\": \"Describe BotScore strictly as a relative risk score, not a measured fraud percentage.\"\n    },\n    {\n      \"issue\": \"Automatic flagging is sometimes conflated with automatic rejection; per terms, a flag only pauses payout - final approve/reject is always a human/brand decision, and CR support cannot approve on the brand's behalf.\",\n      \"fix\": \"Any workflow copy must state: flag -> payout pause -> human review -> brand decision; CR support resolves/coordinates disputes but has no approval authority.\"\n    },\n    {\n      \"issue\": \"The 10-business-day flag-appeal window is a target, not a guaranteed SLA, and applies only to flagged-submission appeals - not to ordinary (non-flagged) brand rejections, which remain entirely the brand's call with no CR SLA.\",\n      \"fix\": \"State '10 business days is a target, not guaranteed' and scope it explicitly to flagged appeals only.\"\n    },\n    {\n      \"issue\": \"CPM 7-day-earning + 3-day-hold (present in both terms, adjustable for fraud pause) is being treated as the same clock as Whop's own withdrawal timing, which is a separate process.\",\n      \"fix\": \"Keep the CPM hold timeline and the Whop withdrawal timeline as two clearly separate clocks in any user-facing explanation.\"\n    },\n    {\n      \"issue\": \"Settled rewards are being implied as fully final/irreversible, but confirmed-fraud offset still applies to settled rewards through a mechanism separate from the standard unsettled-reward reversal-to-budget path.\",\n      \"fix\": \"Clarify: unsettled rewards can reverse into campaign budget; settled rewards don't use that path but confirmed fraud offset still applies via a separate process - don't say 'settled = final, no recourse.'\"\n    },\n    {\n      \"issue\": \"Homepage independent-verification claim is currently in beta for selected agencies only, with no accuracy guarantee - risk of overstating this as general/production or as a 100%-accuracy claim.\",\n      \"fix\": \"Any reference to independent verification must say 'beta, selected agencies, no accuracy guarantee.'\"\n    },\n    {\n      \"issue\": \"The Wringy-style separated content/measurement/reward/payment states, versioned public requirements, audit trail, and fixed SLA are a proposed future architecture, not current live behavior (current system has no fixed SLA and manual-only review).\",\n      \"fix\": \"Label this design explicitly as 'proposed/future state,' distinct from the current manual-review, no-fixed-SLA system.\"\n    },\n    {\n      \"issue\": \"Cost model's review line (300/campaign) must cover ALL submissions including rejected ones and appeals, not just approved/paid submissions; brand-side review time must not be booked as our own contractor labor/COGS.\",\n      \"fix\": \"Confirm and document that the 300 review-cost component is sized off total submission volume (approved+rejected+appealed), and excludes any brand-internal review labor.\"\n    },\n    {\n      \"issue\": \"No competitor-algorithm-cloning claim and no verified-OAuth-permissions claim should appear, since neither has been implemented or verified.\",\n      \"fix\": \"Keep proposal language conceptual only - no claims of replicating a specific competitor's proprietary scoring logic or of already-verified OAuth scopes.\"\n    }\n  ]\n}\n```",
+  "ttft_ms": 61970,
+  "type": "result",
+  "duration_ms": 83418,
+  "uuid": "6895d984-7cf1-4660-8e1a-43434006d197",
+  "ttft_stream_ms": 1729,
+  "time_to_request_ms": 24,
+  "queued_turn_count": 0
+}

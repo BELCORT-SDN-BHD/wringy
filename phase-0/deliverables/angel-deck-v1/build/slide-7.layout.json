@@ -1,0 +1,743 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/gnmp4jqx",
+    "id": "gnmp4jqx",
+    "slide": 7,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n6x0fqlo",
+      "id": "14",
+      "name": "从马来西亚的一个客户群体开始",
+      "bbox": [
+        52,
+        39,
+        1176,
+        85
+      ],
+      "geometry": "rect",
+      "text": "从马来西亚的一个客户群体开始",
+      "textPreview": "从马来西亚的一个客户群体开始",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "从马来西亚的一个客户群体开始"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "从马来西亚的一个客户群体开始",
+          "resolvedTextStyle": {
+            "fontSize": 51,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "从马来西亚的一个客户群体开始",
+              "fontSize": 51,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cb2tkvap",
+      "id": "2",
+      "name": "已有授权素材\n持续需要推广",
+      "bbox": [
+        55,
+        200,
+        704,
+        159
+      ],
+      "geometry": "rect",
+      "text": "已有授权素材\n持续需要推广",
+      "textPreview": "已有授权素材 | 持续需要推广",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "已有授权素材"
+          },
+          {
+            "index": 2,
+            "text": "持续需要推广"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "已有授权素材",
+          "resolvedTextStyle": {
+            "fontSize": 59,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "已有授权素材",
+              "fontSize": 59,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "持续需要推广",
+          "resolvedTextStyle": {
+            "fontSize": 59,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "持续需要推广",
+              "fontSize": 59,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dcbud0ra",
+      "id": "3",
+      "name": "候选：商家或内容品牌",
+      "bbox": [
+        59,
+        385,
+        725,
+        52
+      ],
+      "geometry": "rect",
+      "text": "候选：商家或内容品牌",
+      "textPreview": "候选：商家或内容品牌",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "候选：商家或内容品牌"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "候选：商家或内容品牌",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "候选：商家或内容品牌",
+              "fontSize": 30,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ydkbm5sv",
+      "id": "4",
+      "name": "首批垂直群体\n尚未选定",
+      "bbox": [
+        900,
+        238,
+        329,
+        113
+      ],
+      "geometry": "rect",
+      "text": "首批垂直群体\n尚未选定",
+      "textPreview": "首批垂直群体 | 尚未选定",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "首批垂直群体"
+          },
+          {
+            "index": 2,
+            "text": "尚未选定"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "首批垂直群体",
+          "resolvedTextStyle": {
+            "fontSize": 34,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "首批垂直群体",
+              "fontSize": 34,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "尚未选定",
+          "resolvedTextStyle": {
+            "fontSize": 34,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "尚未选定",
+              "fontSize": 34,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/zedcfa9g",
+      "id": "5",
+      "name": "聚焦一个客群",
+      "bbox": [
+        56,
+        514,
+        344,
+        95
+      ],
+      "geometry": "rect",
+      "fillColor": "#F6F6F3",
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kzmdova1",
+      "id": "6",
+      "name": "人工辅助付费试点",
+      "bbox": [
+        465,
+        514,
+        344,
+        95
+      ],
+      "geometry": "rect",
+      "fillColor": "#E4F222",
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/l0vuh0rm",
+      "id": "7",
+      "name": "检查交付与复购",
+      "bbox": [
+        873,
+        514,
+        351,
+        95
+      ],
+      "geometry": "rect",
+      "fillColor": "#F6F6F3",
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/eh0ba1sr",
+      "id": "8",
+      "name": "聚焦一个客群",
+      "bbox": [
+        73,
+        539,
+        325,
+        48
+      ],
+      "geometry": "rect",
+      "text": "聚焦一个客群",
+      "textPreview": "聚焦一个客群",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "聚焦一个客群"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "聚焦一个客群",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "聚焦一个客群",
+              "fontSize": 30,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fi9c369c",
+      "id": "9",
+      "name": "人工辅助付费试点",
+      "bbox": [
+        482,
+        539,
+        325,
+        48
+      ],
+      "geometry": "rect",
+      "text": "人工辅助付费试点",
+      "textPreview": "人工辅助付费试点",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "人工辅助付费试点"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "人工辅助付费试点",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "人工辅助付费试点",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/baxkjqlk",
+      "id": "10",
+      "name": "检查交付与复购",
+      "bbox": [
+        890,
+        539,
+        325,
+        48
+      ],
+      "geometry": "rect",
+      "text": "检查交付与复购",
+      "textPreview": "检查交付与复购",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "检查交付与复购"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "检查交付与复购",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "检查交付与复购",
+              "fontSize": 30,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q143ylov",
+      "id": "24",
+      "bbox": [
+        400,
+        561.5,
+        65,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#171A14",
+      "lineWidth": 2
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r2dkrq5g",
+      "id": "25",
+      "bbox": [
+        809,
+        561.5,
+        64,
+        0
+      ],
+      "geometry": "straightConnector1",
+      "lineColor": "#171A14",
+      "lineWidth": 2
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cbq1sv25",
+      "id": "13",
+      "name": "首发策略假设，非已确认客户、订单或已落地国家。",
+      "bbox": [
+        54,
+        670,
+        1173,
+        37
+      ],
+      "geometry": "rect",
+      "text": "首发策略假设，非已确认客户、订单或已落地国家。",
+      "textPreview": "首发策略假设，非已确认客户、订单或已落地国家。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "首发策略假设，非已确认客户、订单或已落地国家。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "首发策略假设，非已确认客户、订单或已落地国家。",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "typeface": "Noto Sans SC",
+            "color": "#5C6258"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "首发策略假设，非已确认客户、订单或已落地国家。",
+              "fontSize": 18,
+              "typeface": "Noto Sans SC",
+              "color": "#5C6258"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

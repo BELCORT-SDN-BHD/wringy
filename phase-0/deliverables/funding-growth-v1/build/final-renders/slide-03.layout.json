@@ -1,0 +1,874 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/ofy9wn61",
+    "id": "ofy9wn61",
+    "slide": 3,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FAFAFA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/83ulovat",
+      "id": "13",
+      "bbox": [
+        56,
+        44,
+        1168,
+        116
+      ],
+      "geometry": "rect",
+      "text": "马来西亚电商品牌切口的收入空间",
+      "textPreview": "马来西亚电商品牌切口的收入空间",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "马来西亚电商品牌切口的收入空间"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "马来西亚电商品牌切口的收入空间",
+          "resolvedTextStyle": {
+            "fontSize": 48,
+            "typeface": "Noto Sans SC",
+            "color": "#202124",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "马来西亚电商品牌切口的收入空间",
+              "fontSize": 48,
+              "typeface": "Noto Sans SC",
+              "color": "#202124",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cza94vmx",
+      "id": "2",
+      "bbox": [
+        59,
+        158,
+        1160,
+        68
+      ],
+      "geometry": "rect",
+      "text": "底层假设模型，尚待客户验证",
+      "textPreview": "底层假设模型，尚待客户验证",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "底层假设模型，尚待客户验证"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "底层假设模型，尚待客户验证",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "底层假设模型，尚待客户验证",
+              "fontSize": 25,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d0jax03i",
+      "id": "3",
+      "bbox": [
+        58,
+        664,
+        1094,
+        42
+      ],
+      "geometry": "rect",
+      "text": "DOSM 2022历史统计；80%活跃调整、10%适配、预算、15%费率及20%服务范围均为假设。",
+      "textPreview": "DOSM 2022历史统计；80%活跃调整、10%适配、预算、15%费率及20%服务范围均为假设。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "DOSM 2022历史统计；80%活跃调整、10%适配、预算、15%费率及20%服务范围均为假设。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "DOSM 2022历史统计；80%活跃调整、10%适配、预算、15%费率及20%服务范围均为假设。",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "DOSM 2022历史统计；80%活跃调整、10%适配、预算、15%费率及20%服务范围均为假设。",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/298ryl4v",
+      "id": "4",
+      "bbox": [
+        1164,
+        669,
+        62,
+        27
+      ],
+      "geometry": "rect",
+      "text": "03",
+      "textPreview": "03",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "03"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "03",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "03",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ah8rqlg",
+      "id": "5",
+      "bbox": [
+        56,
+        226,
+        1100,
+        114
+      ],
+      "geometry": "rect",
+      "text": "约 RM22.5m／年",
+      "textPreview": "约 RM22.5m／年",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "约 RM22.5m／年"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "约 RM22.5m／年",
+          "resolvedTextStyle": {
+            "fontSize": 76,
+            "typeface": "Noto Sans SC",
+            "color": "#173D2A",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "约 RM22.5m／年",
+              "fontSize": 76,
+              "typeface": "Noto Sans SC",
+              "color": "#173D2A",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/obq90bml",
+      "id": "6",
+      "bbox": [
+        60,
+        338,
+        780,
+        50
+      ],
+      "geometry": "rect",
+      "text": "目标客群的平台费容量",
+      "textPreview": "目标客群的平台费容量",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "目标客群的平台费容量"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "目标客群的平台费容量",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "目标客群的平台费容量",
+              "fontSize": 30,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/pcjqtg36",
+      "id": "7",
+      "bbox": [
+        58,
+        413,
+        1164,
+        1
+      ],
+      "geometry": "rect",
+      "fillColor": "#DEE0E3",
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m5cra54z",
+      "id": "8",
+      "bbox": [
+        57,
+        447,
+        740,
+        79.5
+      ],
+      "geometry": "rect",
+      "text": "约 RM4.5m／年",
+      "textPreview": "约 RM4.5m／年",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "约 RM4.5m／年"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "约 RM4.5m／年",
+          "resolvedTextStyle": {
+            "fontSize": 53,
+            "typeface": "Noto Sans SC",
+            "color": "#173D2A",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "约 RM4.5m／年",
+              "fontSize": 53,
+              "typeface": "Noto Sans SC",
+              "color": "#173D2A",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n6ls3alk",
+      "id": "9",
+      "bbox": [
+        61,
+        531,
+        765,
+        46
+      ],
+      "geometry": "rect",
+      "text": "首期服务范围的平台费容量",
+      "textPreview": "首期服务范围的平台费容量",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "首期服务范围的平台费容量"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "首期服务范围的平台费容量",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "首期服务范围的平台费容量",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n2l4fq98",
+      "id": "10",
+      "bbox": [
+        836,
+        229,
+        390,
+        149
+      ],
+      "geometry": "rect",
+      "text": "约 6,259 个适配采购方\n每年奖励预算 RM24,000\n演示外加平台费 15%",
+      "textPreview": "约 6,259 个适配采购方 | 每年奖励预算 RM24,000 | 演示外加平台费 15%",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "约 6,259 个适配采购方"
+          },
+          {
+            "index": 2,
+            "text": "每年奖励预算 RM24,000"
+          },
+          {
+            "index": 3,
+            "text": "演示外加平台费 15%"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "约 6,259 个适配采购方",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "约 6,259 个适配采购方",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "每年奖励预算 RM24,000",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "每年奖励预算 RM24,000",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "演示外加平台费 15%",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "演示外加平台费 15%",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m1c3mlsn",
+      "id": "11",
+      "bbox": [
+        839,
+        466,
+        382,
+        107
+      ],
+      "geometry": "rect",
+      "text": "首期假设服务其中 20%\n约 1,252 个采购方",
+      "textPreview": "首期假设服务其中 20% | 约 1,252 个采购方",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "首期假设服务其中 20%"
+          },
+          {
+            "index": 2,
+            "text": "约 1,252 个采购方"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "首期假设服务其中 20%",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "首期假设服务其中 20%",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "约 1,252 个采购方",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "约 1,252 个采购方",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/943mhgre",
+      "id": "12",
+      "bbox": [
+        58,
+        607,
+        1160,
+        60
+      ],
+      "geometry": "rect",
+      "text": "仅估算电商品牌切口，未覆盖 Wringy 全部长线业务",
+      "textPreview": "仅估算电商品牌切口，未覆盖 Wringy 全部长线业务",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "仅估算电商品牌切口，未覆盖 Wringy 全部长线业务"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "仅估算电商品牌切口，未覆盖 Wringy 全部长线业务",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "仅估算电商品牌切口，未覆盖 Wringy 全部长线业务",
+              "fontSize": 24,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

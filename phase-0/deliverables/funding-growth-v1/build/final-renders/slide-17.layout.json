@@ -1,0 +1,747 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/14bup87q",
+    "id": "14bup87q",
+    "slide": 17,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FAFAFA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jilcvq54",
+      "id": "8",
+      "bbox": [
+        56,
+        44,
+        1168,
+        116
+      ],
+      "geometry": "rect",
+      "text": "附录：未来资金规模如何再估",
+      "textPreview": "附录：未来资金规模如何再估",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "附录：未来资金规模如何再估"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "附录：未来资金规模如何再估",
+          "resolvedTextStyle": {
+            "fontSize": 48,
+            "typeface": "Noto Sans SC",
+            "color": "#202124",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "附录：未来资金规模如何再估",
+              "fontSize": 48,
+              "typeface": "Noto Sans SC",
+              "color": "#202124",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1c7e50ni",
+      "id": "2",
+      "bbox": [
+        59,
+        158,
+        1160,
+        68
+      ],
+      "geometry": "rect",
+      "text": "规划情景，非已核定预算或融资承诺",
+      "textPreview": "规划情景，非已核定预算或融资承诺",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "规划情景，非已核定预算或融资承诺"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "规划情景，非已核定预算或融资承诺",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "规划情景，非已核定预算或融资承诺",
+              "fontSize": 25,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gbedwfmx",
+      "id": "3",
+      "bbox": [
+        58,
+        664,
+        1094,
+        42
+      ],
+      "geometry": "rect",
+      "text": "尚无底层国家、人员或供应商预算，不是下一轮拟募资额；不能把三阶段相加为今天所需资金。",
+      "textPreview": "尚无底层国家、人员或供应商预算，不是下一轮拟募资额；不能把三阶段相加为今天所需资金。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "尚无底层国家、人员或供应商预算，不是下一轮拟募资额；不能把三阶段相加为今天所需资金。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "尚无底层国家、人员或供应商预算，不是下一轮拟募资额；不能把三阶段相加为今天所需资金。",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "尚无底层国家、人员或供应商预算，不是下一轮拟募资额；不能把三阶段相加为今天所需资金。",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/rm5czq50",
+      "id": "4",
+      "bbox": [
+        1164,
+        669,
+        62,
+        27
+      ],
+      "geometry": "rect",
+      "text": "17",
+      "textPreview": "17",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "17"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "17",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "17",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/7ilcj6d4",
+      "id": "9",
+      "bbox": [
+        56,
+        236,
+        1168,
+        267
+      ],
+      "text": "未来阶段假设 | 每月总支出 | 24个月毛支出\n种子阶段 | RM80k–120k | RM1.92m–2.88m\n区域阶段 | RM250k–400k | RM6.0m–9.6m",
+      "textPreview": "未来阶段假设 | 每月总支出 | 24个月毛支出 | 种子阶段 | RM80k–120k | RM1.92m–2.88m | 区域阶段 | RM250k–400k | RM6.0m–9.6m",
+      "rows": 3,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            236,
+            352,
+            89
+          ],
+          "text": "未来阶段假设",
+          "textPreview": "未来阶段假设",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "未来阶段假设",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "未来阶段假设",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            408,
+            236,
+            407,
+            89
+          ],
+          "text": "每月总支出",
+          "textPreview": "每月总支出",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "每月总支出",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "每月总支出",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            815,
+            236,
+            409,
+            89
+          ],
+          "text": "24个月毛支出",
+          "textPreview": "24个月毛支出",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "24个月毛支出",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "24个月毛支出",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            325,
+            352,
+            89
+          ],
+          "text": "种子阶段",
+          "textPreview": "种子阶段",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "种子阶段",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "种子阶段",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            408,
+            325,
+            407,
+            89
+          ],
+          "text": "RM80k–120k",
+          "textPreview": "RM80k–120k",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM80k–120k",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM80k–120k",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            815,
+            325,
+            409,
+            89
+          ],
+          "text": "RM1.92m–2.88m",
+          "textPreview": "RM1.92m–2.88m",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM1.92m–2.88m",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM1.92m–2.88m",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            414,
+            352,
+            89
+          ],
+          "text": "区域阶段",
+          "textPreview": "区域阶段",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "区域阶段",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "区域阶段",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            408,
+            414,
+            407,
+            89
+          ],
+          "text": "RM250k–400k",
+          "textPreview": "RM250k–400k",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM250k–400k",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM250k–400k",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            815,
+            414,
+            409,
+            89
+          ],
+          "text": "RM6.0m–9.6m",
+          "textPreview": "RM6.0m–9.6m",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM6.0m–9.6m",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM6.0m–9.6m",
+                  "fontSize": 29,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t8ne10n6",
+      "id": "6",
+      "bbox": [
+        59,
+        539,
+        1100,
+        50
+      ],
+      "geometry": "rect",
+      "text": "届时按范围重算",
+      "textPreview": "届时按范围重算",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "届时按范围重算"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "届时按范围重算",
+          "resolvedTextStyle": {
+            "fontSize": 33,
+            "typeface": "Noto Sans SC",
+            "color": "#173D2A",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "届时按范围重算",
+              "fontSize": 33,
+              "typeface": "Noto Sans SC",
+              "color": "#173D2A",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/snedsvml",
+      "id": "7",
+      "bbox": [
+        58,
+        607,
+        1160,
+        60
+      ],
+      "geometry": "rect",
+      "text": "支出加明确缓冲，再扣可核实的可用现金与可靠净收入",
+      "textPreview": "支出加明确缓冲，再扣可核实的可用现金与可靠净收入",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "支出加明确缓冲，再扣可核实的可用现金与可靠净收入"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "支出加明确缓冲，再扣可核实的可用现金与可靠净收入",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "支出加明确缓冲，再扣可核实的可用现金与可靠净收入",
+              "fontSize": 27,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

@@ -1,0 +1,8 @@
+{
+  "status": "unverified_timeout",
+  "timeout_seconds": 240,
+  "tools_enabled": false,
+  "mcp_enabled": false,
+  "finding": null,
+  "follow_up": "Main synthesis review and separate economics/MY domain rechecks completed; no cross-vendor verdict received."
+}

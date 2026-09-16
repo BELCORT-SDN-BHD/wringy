@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0-proposed",
+  "date": "2026-09-10",
+  "status": "complete-local-design-reference-v1",
+  "entrypoint": "index.html",
+  "portableArchive": "Wringy-Design-Reference-v1.zip",
+  "canonicalTokenSource": "../tokens.json",
+  "canonicalTokenSHA256": "f912ee370ef92e6bd17885e939b25dadf30ae4ce6a745f5e2ca6a6100b868e51",
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "componentFamilies": 31,
+  "coverage": "implementation-coverage.json",
+  "coverageClaim": "31 real HTML/CSS family references, not full Cartesian specification coverage or production backend behavior",
+  "exports": [
+    {
+      "slot": "BB21",
+      "id": "UI-BRAND-DESKTOP",
+      "role": "brand",
+      "meaning": "Draft blocked from publishing; no submissions",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png",
+      "portablePath": "screens/UI-BRAND-DESKTOP.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e6d8b683d72f22ab7bd06d66abab812e88eb29634e8e549e37b80dc68b55b1eb"
+    },
+    {
+      "slot": "BB22",
+      "id": "UI-BRAND-MOBILE",
+      "role": "brand",
+      "meaning": "Independent published campaign review queue",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-MOBILE.png",
+      "portablePath": "screens/UI-BRAND-MOBILE.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "afae8b2c706b785e8698f34a6f5e088b67b718fd45baf07d12f5958765542b3f"
+    },
+    {
+      "slot": "BB23",
+      "id": "UI-CREATOR-DESKTOP",
+      "role": "creator",
+      "meaning": "Approved MYR150.00 waiting brand direct payment, receipt unconfirmed",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-DESKTOP.png",
+      "portablePath": "screens/UI-CREATOR-DESKTOP.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "5a1c88989b1257f37e7615be178b986d3af4422ae92a33e30d4268204faec882"
+    },
+    {
+      "slot": "BB24",
+      "id": "UI-CREATOR-MOBILE",
+      "role": "creator",
+      "meaning": "Approved MYR150.00 waiting brand direct payment, no withdrawable balance",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png",
+      "portablePath": "screens/UI-CREATOR-MOBILE.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "df4b2a815562e61611f277cfffd3cdc1a062f20503fdc420340b1f995daecf56"
+    },
+    {
+      "slot": "BB25-optional",
+      "id": "UI-PAYOUT-CONFIRM",
+      "role": "creator",
+      "meaning": "Future integrated route, MYR150.00 minus MYR2.00 equals MYR148.00; not launch wallet",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-PAYOUT-CONFIRM.png",
+      "portablePath": "screens/UI-PAYOUT-CONFIRM.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "a43bcffb5ae958be7b0cd198979bc6df4e32a8301f64625a84ae1562e3aab0fa"
+    }
+  ],
+  "verificationReport": "verification-report.json",
+  "visualReview": {
+    "familyScreenshots": 62,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "workerInspection": "31 families in both themes inspected; updated control/metadata specimens rerendered; narrow catalog and four dark product screens inspected",
+    "mainReview": "Four main PNGs approved for visual/state handoff in live task; independent review not claimed"
+  },
+  "fonts": {
+    "local": true,
+    "licenses": [
+      "fonts/Manrope-OFL.txt",
+      "fonts/NotoSansSC-OFL.txt"
+    ],
+    "provenance": "fonts/provenance.json"
+  },
+  "figma": {
+    "url": "https://www.figma.com/design/qw2UHml58nEnQLtUbC058Z",
+    "status": "partial-quota-blocked",
+    "collections": 4,
+    "variablesReportedCreated": 130,
+    "variableFinalReadback": false,
+    "componentFamilies": 0,
+    "productScreens": 0
+  },
+  "limitations": [
+    "Static design reference only; no backend, account, publication, upload or money operation.",
+    "Unlisted variants/states remain specification-only.",
+    "No full screen-reader audit or WCAG certification.",
+    "Template advanced demo controllers need adaptation when cloned; not a production software library.",
+    "Original logo is bitmap concept, not native vector artwork."
+  ],
+  "packageVerification": "package-verification.json",
+  "canonicalSync": {
+    "date": "2026-09-10",
+    "files": [
+      "../design-system-spec.md",
+      "../brand-strategy.md",
+      "../component-inventory.json"
+    ],
+    "result": "Launch direct-pay and future integrated money models separated; delivery status and coverage updated; canonical tokens unchanged."
+  }
+}

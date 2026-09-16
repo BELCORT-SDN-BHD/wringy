@@ -1,0 +1,3034 @@
+{
+  "meta": {
+    "version": "1.0.0-proposed",
+    "date": "2026-09-10",
+    "tokenSource": "tokens.json",
+    "scope": "Complete proposed brand–creator baseline, not proof of implementation or approved business policy.",
+    "deliveryStatus": "31 local-reference-built families; native Figma components 0",
+    "coverageSource": "showcase/implementation-coverage.json"
+  },
+  "globalStateContracts": {
+    "keyboard-focus": "3px focus.ring with 2px focus.gap; visible and not obscured.",
+    "disabled": "Explain prerequisite nearby; disabled is not authorization. Use native disabled for controls; preserve explanation in reachable text.",
+    "loading": "Keep action label or specific progress, aria-busy, prevent repeat; do not show success prematurely.",
+    "error": "State what failed, whether work was saved, safe next step and support reference when available.",
+    "offline": "Preserve local input where appropriate; no offline approval or payout success; refresh server state on reconnect.",
+    "permission-denied": "Do not show another tenant’s names, totals, files or even existence.",
+    "pending": "Name the pending entity and what is known; never invent a promised completion time.",
+    "failed": "Name the operation; reconcile authoritative status before retry.",
+    "banned": "Account enforcement state distinct from failed payment; reason category, affected actions and appeal route.",
+    "notification": "Delivery state is separate from underlying business event."
+  },
+  "components": [
+    {
+      "id": "button",
+      "name_zh": "操作按钮",
+      "status": "local-reference-built",
+      "variants": [
+        "primary",
+        "secondary",
+        "ghost",
+        "destructive",
+        "icon-only",
+        "accent-marketing"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "success"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "Enter/Space 激活；禁用项不触发；loading 保留宽度与标签，aria-busy，阻止重复提交。图标按钮有可访问名称。",
+      "content_rules": "primary 用 action.primary；营销 accent 不用于打款确认；破坏性动作文字说明后果。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#button",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/button-light.png",
+          "../assets/ui/catalog/button-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error"
+        ],
+        "localBehavior": [
+          "原生键盘激活",
+          "禁用与loading不执行动作",
+          "破坏性动作确认弹窗"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "success"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "primary",
+          "secondary",
+          "ghost",
+          "accent-marketing",
+          "destructive"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "icon-only"
+        ]
+      }
+    },
+    {
+      "id": "input",
+      "name_zh": "文本输入",
+      "status": "local-reference-built",
+      "variants": [
+        "text",
+        "email",
+        "password",
+        "search",
+        "number",
+        "money",
+        "textarea"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "read-only",
+        "invalid",
+        "filled"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "使用原生 input、持续可见 label、关联错误与帮助；密码允许粘贴及显示切换；金额不靠浮点显示。",
+      "content_rules": "16px 输入字；错误保留内容；placeholder 不是标签；不把货币符号当唯一币种。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#input",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/input-light.png",
+          "../assets/ui/catalog/input-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "default",
+          "filled",
+          "keyboard-focus",
+          "disabled",
+          "read-only",
+          "invalid"
+        ],
+        "localBehavior": [
+          "可编辑/只读/禁用原生行为",
+          "标签、错误关联",
+          "邮箱和数字原生输入"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "hover",
+          "pressed",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "text",
+          "email",
+          "number",
+          "money",
+          "textarea"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "password",
+          "search"
+        ]
+      }
+    },
+    {
+      "id": "form",
+      "name_zh": "表单",
+      "status": "local-reference-built",
+      "variants": [
+        "single-column",
+        "multi-step",
+        "inline-filter"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "dirty",
+        "saving",
+        "saved",
+        "validation-error",
+        "conflict"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "提交后先聚焦错误摘要，链接定位各错误；保存冲突不覆盖用户输入；离开未保存内容时给选择。",
+      "content_rules": "每组 1 个标题；必填写明；可选项标注“选填”；服务端失败保留草稿。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#form",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/form-light.png",
+          "../assets/ui/catalog/form-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "default",
+          "filled",
+          "validation-error",
+          "validated-local-demo"
+        ],
+        "localBehavior": [
+          "错误摘要和逐字段验证",
+          "焦点到摘要",
+          "重置与成功演示"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "dirty",
+          "saving",
+          "saved",
+          "conflict"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "single-column",
+          "responsive-two-column"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "multi-step",
+          "inline-filter"
+        ]
+      }
+    },
+    {
+      "id": "select",
+      "name_zh": "选择器",
+      "status": "local-reference-built",
+      "variants": [
+        "native-single",
+        "searchable-single",
+        "multi-select"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "no-results",
+        "selected"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "简单选项优先原生 select；组合框方向键移动、Enter 选择、Escape 关闭、输入搜索；多选可逐项键盘移除。",
+      "content_rules": "选项文字完整；筛选无结果显示“清除筛选”；不使用 placeholder 当已选值。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#select",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/select-light.png",
+          "../assets/ui/catalog/select-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "default",
+          "selected",
+          "disabled",
+          "no-results"
+        ],
+        "localBehavior": [
+          "原生键盘选择",
+          "多选",
+          "筛选与空结果"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "native-single",
+          "filtered-native",
+          "multi-select"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "searchable-single"
+        ]
+      }
+    },
+    {
+      "id": "dropdown",
+      "name_zh": "操作菜单",
+      "status": "local-reference-built",
+      "variants": [
+        "row-actions",
+        "account",
+        "overflow"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "open",
+        "closed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "触发按钮 aria-expanded；方向键/Home/End 定位；Escape 关闭并回到触发器；Tab 离开菜单。",
+      "content_rules": "只放动作；页面导航用 link；不把重要金额确认藏在菜单。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#dropdown",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/dropdown-light.png",
+          "../assets/ui/catalog/dropdown-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "closed",
+          "open",
+          "keyboard-focus",
+          "disabled-item"
+        ],
+        "localBehavior": [
+          "Enter打开并聚焦首项",
+          "方向键/Home/End移动",
+          "Escape关闭返回触发器",
+          "Tab关闭离开"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "row-actions",
+          "expanded-specimen"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "account",
+          "overflow"
+        ]
+      }
+    },
+    {
+      "id": "checkbox-radio-switch",
+      "name_zh": "选择与开关",
+      "status": "local-reference-built",
+      "variants": [
+        "checkbox",
+        "checkbox-group",
+        "radio-group",
+        "switch"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "checked",
+        "unchecked",
+        "mixed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "checkbox 用 Space；radio 用方向键；switch 有固定可访问名称；混合态仅 checkbox。",
+      "content_rules": "不可即时生效的设置用保存表单，避免假开关；勾选条款不预选。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#checkbox-radio-switch",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/checkbox-radio-switch-light.png",
+          "../assets/ui/catalog/checkbox-radio-switch-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "checked",
+          "unchecked",
+          "mixed",
+          "disabled",
+          "on",
+          "off"
+        ],
+        "localBehavior": [
+          "原生Space/方向键",
+          "混合勾选态",
+          "开关即时本地切换"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "checkbox",
+          "radio-group",
+          "switch"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "checkbox-group"
+        ]
+      }
+    },
+    {
+      "id": "date-time",
+      "name_zh": "日期时间",
+      "status": "local-reference-built",
+      "variants": [
+        "date",
+        "range",
+        "deadline"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "invalid-range",
+        "timezone-unavailable"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "支持直接键入和可访问日历，焦点返回；校验截止先后；不只提供拖拽。",
+      "content_rules": "显示日期、时间及 MYT (UTC+08:00)；不单用“今天”或 09/10。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#date-time",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/date-time-light.png",
+          "../assets/ui/catalog/date-time-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "default",
+          "filled",
+          "invalid-range"
+        ],
+        "localBehavior": [
+          "原生日期与时间输入",
+          "可直接键入",
+          "日期范围演示校验"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "timezone-unavailable"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "date",
+          "range",
+          "deadline"
+        ],
+        "specificationOnlyNotClaimedBuilt": []
+      }
+    },
+    {
+      "id": "upload",
+      "name_zh": "文件上传",
+      "status": "local-reference-built",
+      "variants": [
+        "single",
+        "multiple",
+        "video",
+        "image",
+        "document"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "queued",
+        "uploading",
+        "paused",
+        "scanning",
+        "failed",
+        "rejected",
+        "cancelled"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "可键盘打开文件选择；拖放只是补充；进度可读、取消可用；校验类型大小与扫描结果；失败可重试原文件。",
+      "content_rules": "示例限制由活动策略传入，不写死 MB；未扫描完成不得显示提交完成；不自动公开。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#upload",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/upload-light.png",
+          "../assets/ui/catalog/upload-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "empty",
+          "selected-local-file",
+          "failed-validation",
+          "loading-specimen"
+        ],
+        "localBehavior": [
+          "文件名及类型大小本地验证",
+          "不发送文件",
+          "状态播报"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "offline",
+          "permission-denied",
+          "queued",
+          "uploading",
+          "paused",
+          "scanning",
+          "failed",
+          "rejected",
+          "cancelled"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "single",
+          "image",
+          "progress-specimen"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "multiple",
+          "video",
+          "document"
+        ]
+      }
+    },
+    {
+      "id": "table",
+      "name_zh": "数据表",
+      "status": "local-reference-built",
+      "variants": [
+        "basic",
+        "sortable",
+        "selectable",
+        "financial"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "sorted",
+        "filtered",
+        "partial-error",
+        "refreshing"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "原生表头与 caption；aria-sort；行操作独立命名；复选有行名称；不把普通表强做方向键 grid。",
+      "content_rules": "数字右对齐；标题标币种；保留稳定行 ID；大批量财务动作先确认条数与总额。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#table",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/table-light.png",
+          "../assets/ui/catalog/table-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "ready",
+          "pending",
+          "approved",
+          "empty"
+        ],
+        "localBehavior": [
+          "原生表头/标题",
+          "横向滚动区域键盘可达",
+          "金额右对齐"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "offline",
+          "permission-denied",
+          "sorted",
+          "filtered",
+          "partial-error",
+          "refreshing"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "basic",
+          "financial",
+          "empty-specimen"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "sortable",
+          "selectable"
+        ]
+      }
+    },
+    {
+      "id": "pagination",
+      "name_zh": "分页",
+      "status": "local-reference-built",
+      "variants": [
+        "numbered",
+        "cursor",
+        "load-more"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "first-page",
+        "last-page",
+        "fetching"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "当前页 aria-current；按钮有页码；加载后播报新条数，保留触发器或列表起点的可预期焦点。",
+      "content_rules": "明确总量是否未知；更改筛选回第一页；报酬记录不依赖无限滚动。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#pagination",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/pagination-light.png",
+          "../assets/ui/catalog/pagination-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "first-page",
+          "page-2",
+          "last-page-disabled"
+        ],
+        "localBehavior": [
+          "本地页码及aria-current更新",
+          "加载更多本地演示"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "last-page",
+          "fetching"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "numbered",
+          "load-more"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "cursor"
+        ]
+      }
+    },
+    {
+      "id": "tabs",
+      "name_zh": "页签",
+      "status": "local-reference-built",
+      "variants": [
+        "page-section",
+        "segmented-view"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "active",
+        "inactive"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "tablist/tab/tabpanel；左右方向键、Home/End；网络延迟面板 Enter 确认，不每移动就加载。",
+      "content_rules": "标题可读；页面路由导航使用链接而非伪 tab；移动横向滚动时露出可继续的提示。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#tabs",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/tabs-light.png",
+          "../assets/ui/catalog/tabs-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "active",
+          "inactive",
+          "keyboard-focus"
+        ],
+        "localBehavior": [
+          "左右方向键/Home/End",
+          "选中态与tabpanel同步",
+          "焦点管理"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "page-section"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "segmented-view"
+        ]
+      }
+    },
+    {
+      "id": "modal",
+      "name_zh": "对话框",
+      "status": "local-reference-built",
+      "variants": [
+        "confirm",
+        "destructive",
+        "form",
+        "money-confirm"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "open",
+        "submitting",
+        "failed",
+        "closed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "打开移入焦点；圈定 Tab；Escape 关闭（提交中状态另明示）；关闭回触发器；背景 inert。",
+      "content_rules": "移动全屏适配；金额确认显示总额、费用、净额和收款目标；不嵌套 modal。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#modal",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/modal-light.png",
+          "../assets/ui/catalog/modal-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "closed",
+          "open",
+          "confirm",
+          "error-specimen"
+        ],
+        "localBehavior": [
+          "原生dialog模态焦点圈定",
+          "Escape关闭",
+          "返回触发器",
+          "金额确认说明"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "submitting",
+          "failed"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "confirm",
+          "money-confirm",
+          "error-specimen"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "destructive",
+          "form"
+        ]
+      }
+    },
+    {
+      "id": "toast",
+      "name_zh": "短消息",
+      "status": "local-reference-built",
+      "variants": [
+        "success",
+        "info",
+        "error"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "visible",
+        "dismissed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "普通 role=status 礼貌播报；紧急错误才 alert；无自动焦点跳转；错误与含动作消息持续到关闭。",
+      "content_rules": "成功消息建议至少 6 秒；关键财务结果同时落到持久详情，不依赖 toast。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#toast",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/toast-light.png",
+          "../assets/ui/catalog/toast-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "success",
+          "info",
+          "error",
+          "dismissed"
+        ],
+        "localBehavior": [
+          "礼貌live region播报",
+          "手动关闭",
+          "不自动抢焦点"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "visible"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "success",
+          "info",
+          "error"
+        ],
+        "specificationOnlyNotClaimedBuilt": []
+      }
+    },
+    {
+      "id": "navigation",
+      "name_zh": "导航",
+      "status": "local-reference-built",
+      "variants": [
+        "desktop-sidebar",
+        "topbar",
+        "mobile-bottom",
+        "breadcrumb",
+        "role-switcher"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "active",
+        "collapsed",
+        "expanded"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "skip link 到主内容；aria-current；移动菜单有关闭和焦点返回；角色切换保持组织名称可见。",
+      "content_rules": "最多 4 个移动底部主入口 + 更多；品牌角色与创作者角色明确；切换清除不适用数据。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#navigation",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/navigation-light.png",
+          "../assets/ui/catalog/navigation-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "active",
+          "inactive",
+          "role-brand",
+          "role-creator"
+        ],
+        "localBehavior": [
+          "真实本地页面导航",
+          "当前页语义",
+          "角色切换示例标签"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "collapsed",
+          "expanded"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "topbar",
+          "breadcrumb",
+          "role-switcher",
+          "desktop-sidebar-in-screens",
+          "mobile-bottom-in-screens"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "desktop-sidebar",
+          "mobile-bottom"
+        ]
+      }
+    },
+    {
+      "id": "status",
+      "name_zh": "状态标签",
+      "status": "local-reference-built",
+      "variants": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "pending",
+        "failed",
+        "banned",
+        "approved",
+        "paid"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "用文字 + 图标表达；状态变化由合适 live region 播报；标签不伪装按钮。",
+      "content_rules": "提交状态、奖励状态、提现状态独立；banned 显示“账户已封禁”，提供政策原因与申诉入口，不写“已失败”。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#status",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/status-light.png",
+          "../assets/ui/catalog/status-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "pending",
+          "approved",
+          "available-future",
+          "processing",
+          "paid",
+          "failed",
+          "banned",
+          "unknown"
+        ],
+        "localBehavior": [
+          "文字冗余意义",
+          "独立对象命名"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "neutral",
+          "info",
+          "success",
+          "warning",
+          "danger"
+        ],
+        "specificationOnlyNotClaimedBuilt": []
+      },
+      "moneyScope": "Launch: brand direct pay, no platform wallet. All withdrawal/available/release/reserve specifications refer only to future integrated route; see design-system-spec.md §6."
+    },
+    {
+      "id": "empty-state",
+      "name_zh": "空状态",
+      "status": "local-reference-built",
+      "variants": [
+        "first-use",
+        "no-results",
+        "no-permission",
+        "unavailable"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "标题说明真实原因；1 个主要下一步；筛选为空提供清除；无权限不泄露隐藏数据数量。",
+      "content_rules": "首次没有活动不写“出错了”；缺数据不画虚构图表或 0 收入。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#empty-state",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/empty-state-light.png",
+          "../assets/ui/catalog/empty-state-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "first-use",
+          "no-results",
+          "no-permission",
+          "unavailable"
+        ],
+        "localBehavior": [
+          "下一步动作",
+          "无权限不展示他方数据"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "first-use",
+          "no-results",
+          "no-permission",
+          "unavailable"
+        ],
+        "specificationOnlyNotClaimedBuilt": []
+      }
+    },
+    {
+      "id": "onboarding",
+      "name_zh": "入门流程",
+      "status": "local-reference-built",
+      "variants": [
+        "creator",
+        "brand",
+        "team-invite"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "not-started",
+        "in-progress",
+        "resumable",
+        "verification-pending",
+        "failed",
+        "completed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "步骤有名称和当前位置；支持回退；可选步骤可跳过；保存失败明确；身份核验只在必要时提出。",
+      "content_rules": "解释为何收集数据；不把开户/核验完成等同于可以提现；记录同意版本。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#onboarding",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/onboarding-light.png",
+          "../assets/ui/catalog/onboarding-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "not-started",
+          "in-progress",
+          "step-3-confirmation"
+        ],
+        "localBehavior": [
+          "三步本地循环",
+          "步骤名称可见",
+          "不创建真实账户"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "resumable",
+          "verification-pending",
+          "failed",
+          "completed"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "creator",
+          "brand-role-copy"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "brand",
+          "team-invite"
+        ]
+      },
+      "moneyScope": "Launch: brand direct pay, no platform wallet. All withdrawal/available/release/reserve specifications refer only to future integrated route; see design-system-spec.md §6."
+    },
+    {
+      "id": "campaign-card",
+      "name_zh": "活动卡片",
+      "status": "local-reference-built",
+      "variants": [
+        "discovery",
+        "joined",
+        "brand-owned",
+        "compact"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "draft",
+        "open",
+        "paused",
+        "closed",
+        "expired",
+        "budget-exhausted"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "标题是唯一主链接；收藏等次级动作不嵌套链接；进度信息给文字等价。",
+      "content_rules": "展示发布品牌、交付类型、截止时间、报酬机制和资格；预算池不是每人收入；无伪剩余名额。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#campaign-card",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/campaign-card-light.png",
+          "../assets/ui/catalog/campaign-card-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "open",
+          "draft",
+          "closed"
+        ],
+        "localBehavior": [
+          "简报弹窗",
+          "草稿禁用说明"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "paused",
+          "expired",
+          "budget-exhausted"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "discovery",
+          "brand-owned",
+          "closed-specimen"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "joined",
+          "compact"
+        ]
+      }
+    },
+    {
+      "id": "campaign-brief",
+      "name_zh": "活动简报",
+      "status": "local-reference-built",
+      "variants": [
+        "creator-read",
+        "brand-edit",
+        "version-comparison"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "draft",
+        "published",
+        "changed",
+        "acceptance-required",
+        "closed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "长内容有标题锚点；条款可访问；版本变更摘要可读；加入前查看要求及费用条件。",
+      "content_rules": "明确交付数、语言、平台、使用权期限、广告披露、修改轮次、审核规则、报酬和截止；待定值不得发布。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#campaign-brief",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/campaign-brief-light.png",
+          "../assets/ui/catalog/campaign-brief-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "draft",
+          "changed"
+        ],
+        "localBehavior": [
+          "展开条款",
+          "版本差异常显",
+          "金额与付款方式独立"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "published",
+          "acceptance-required",
+          "closed"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "creator-read",
+          "version-comparison"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "brand-edit"
+        ]
+      }
+    },
+    {
+      "id": "submission",
+      "name_zh": "作品提交",
+      "status": "local-reference-built",
+      "variants": [
+        "link",
+        "file",
+        "revision"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "draft",
+        "uploading",
+        "submitted",
+        "reviewing",
+        "changes-requested",
+        "resubmitted",
+        "approved",
+        "rejected",
+        "withdrawn"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "链接与文件有等价提交路径（若活动允许）；完成后进入持久回执；重复网络重试不制造双份记录。",
+      "content_rules": "显示活动版本、作品版本和时间；链接不支持时给原因；删除或撤回影响先说明。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#submission",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/submission-light.png",
+          "../assets/ui/catalog/submission-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "draft",
+          "submitted",
+          "reviewing",
+          "changes-requested",
+          "approved",
+          "rejected"
+        ],
+        "localBehavior": [
+          "状态选择实时渲染不同反馈",
+          "链接输入"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "uploading",
+          "resubmitted",
+          "withdrawn"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "link",
+          "revision-status"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "file",
+          "revision"
+        ]
+      }
+    },
+    {
+      "id": "review",
+      "name_zh": "作品审核",
+      "status": "local-reference-built",
+      "variants": [
+        "single",
+        "comparison",
+        "bulk-safe-preview"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "pending",
+        "in-review",
+        "changes-requested",
+        "approved",
+        "rejected",
+        "conflict"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "视频有播放控制、字幕和时间点评论；审核快捷键可关闭；批准/退回按钮明确；并发版本变化要求刷新确认。",
+      "content_rules": "意见对应简报要求；拒绝必须原因；批量批准列出对象、数量、总额；批准是否产生义务由业务规格定义。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#review",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/review-light.png",
+          "../assets/ui/catalog/review-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "pending",
+          "changes-requested",
+          "approved",
+          "rejected"
+        ],
+        "localBehavior": [
+          "核对项",
+          "具体反馈",
+          "审核对话框批准/退回",
+          "拒绝原因本地展示"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "in-review",
+          "conflict"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "single",
+          "checklist"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "comparison",
+          "bulk-safe-preview"
+        ]
+      }
+    },
+    {
+      "id": "reward-ledger",
+      "name_zh": "报酬账本",
+      "status": "local-reference-built",
+      "variants": [
+        "creator-summary",
+        "entry-detail",
+        "brand-liability",
+        "export"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "estimated",
+        "pending-review",
+        "approved-held",
+        "available",
+        "reserved-for-payout",
+        "paid",
+        "reversed",
+        "disputed",
+        "unknown"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "表格或带标签卡片；金额可复制；导出有范围和权限；状态变更可追溯且不靠颜色。",
+      "content_rules": "每条记录金额、币种、原因、活动、时间和 reference；冲正单独一条，原记录保留；预计收入不并入可提现。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#reward-ledger",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/reward-ledger-light.png",
+          "../assets/ui/catalog/reward-ledger-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "pending-review",
+          "approved",
+          "waiting-brand-payment",
+          "reversed-specimen"
+        ],
+        "localBehavior": [
+          "金额/币种/状态并列",
+          "独立冲正样本"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "estimated",
+          "approved-held",
+          "available",
+          "reserved-for-payout",
+          "paid",
+          "reversed",
+          "disputed",
+          "unknown"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "creator-summary",
+          "entry-detail",
+          "brand-direct-pay"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "brand-liability",
+          "export"
+        ]
+      },
+      "moneyScope": "Launch: brand direct pay, no platform wallet. All withdrawal/available/release/reserve specifications refer only to future integrated route; see design-system-spec.md §6."
+    },
+    {
+      "id": "payout-flow",
+      "name_zh": "提现流程",
+      "status": "local-reference-built",
+      "variants": [
+        "request",
+        "confirmation",
+        "receipt",
+        "failure-recovery"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "unavailable",
+        "verification-required",
+        "available",
+        "confirming",
+        "submitted",
+        "processing",
+        "paid",
+        "failed",
+        "cancelled",
+        "unknown"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "键盘完整确认；提交后不可重复发起；超时先查状态再决定是否可重试；聚焦持久结果标题。",
+      "content_rules": "显示扣减总额、费用、净额、收款账户末四位及预计时间或尚未提供；只有已核实到账才写已到账。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#payout-flow",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/payout-flow-light.png",
+          "../assets/ui/catalog/payout-flow-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "pending",
+          "approved",
+          "available",
+          "processing",
+          "failed",
+          "paid",
+          "unknown",
+          "banned"
+        ],
+        "localBehavior": [
+          "八种状态实时渲染",
+          "金额150−2=148",
+          "失败先核对，不再次付款"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "unavailable",
+          "verification-required",
+          "confirming",
+          "submitted",
+          "cancelled"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "provider-status",
+          "future-integrated",
+          "failure-recovery"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "request",
+          "confirmation",
+          "receipt"
+        ]
+      },
+      "moneyScope": "Launch: brand direct pay, no platform wallet. All withdrawal/available/release/reserve specifications refer only to future integrated route; see design-system-spec.md §6."
+    },
+    {
+      "id": "notification-center",
+      "name_zh": "通知中心",
+      "status": "local-reference-built",
+      "variants": [
+        "in-app",
+        "email-preference",
+        "push-preference"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "unread",
+        "read",
+        "pending",
+        "delivery-failed",
+        "muted"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "每条有标题、时间与目的地；批量已读可键盘；通知角标读出未读数；用户控制类别。",
+      "content_rules": "敏感信息不出现在锁屏预览；通知发送失败不改变实际审核或提现状态。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#notification-center",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/notification-center-light.png",
+          "../assets/ui/catalog/notification-center-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "unread",
+          "read",
+          "delivery-failed",
+          "muted"
+        ],
+        "localBehavior": [
+          "标记已读",
+          "消息偏好本地切换",
+          "通知与业务状态分离"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "pending"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "in-app",
+          "email-preference"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "push-preference"
+        ]
+      },
+      "moneyScope": "Launch: brand direct pay, no platform wallet. All withdrawal/available/release/reserve specifications refer only to future integrated route; see design-system-spec.md §6."
+    },
+    {
+      "id": "profile-avatar",
+      "name_zh": "资料与头像",
+      "status": "local-reference-built",
+      "variants": [
+        "creator",
+        "brand",
+        "team-member"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "missing-image",
+        "verified-scope",
+        "restricted"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "姓名为主要可读识别；装饰头像空 alt；实际身份图片 alt 描述用途；徽章有核验范围说明。",
+      "content_rules": "不使用未授权真人或客户 Logo；核验身份不等于质量担保。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#profile-avatar",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/profile-avatar-light.png",
+          "../assets/ui/catalog/profile-avatar-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "initials",
+          "missing-image",
+          "restricted",
+          "verification-scope"
+        ],
+        "localBehavior": [
+          "身份名称与头像等价信息"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "verified-scope"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "creator",
+          "brand-in-screens",
+          "initials"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "brand",
+          "team-member"
+        ]
+      }
+    },
+    {
+      "id": "search-filter",
+      "name_zh": "搜索筛选",
+      "status": "local-reference-built",
+      "variants": [
+        "campaign",
+        "submission",
+        "ledger"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "typing",
+        "fetching",
+        "no-results",
+        "applied",
+        "failed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "搜索有 label；筛选数量播报；结果更新不抢焦点；清除全部可用。",
+      "content_rules": "保留筛选摘要；不把用户检索词暴露给其他组织；金额区间标币种。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#search-filter",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/search-filter-light.png",
+          "../assets/ui/catalog/search-filter-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "empty",
+          "typing",
+          "applied",
+          "no-results"
+        ],
+        "localBehavior": [
+          "实时本地筛选",
+          "结果数量播报",
+          "清除"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "offline",
+          "permission-denied",
+          "fetching",
+          "failed"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "campaign",
+          "inline-filter"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "submission",
+          "ledger"
+        ]
+      }
+    },
+    {
+      "id": "tooltip-popover",
+      "name_zh": "辅助说明",
+      "status": "local-reference-built",
+      "variants": [
+        "tooltip",
+        "nonmodal-popover"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "open",
+        "closed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "tooltip 聚焦及悬停均可触发，Escape 关闭；重要信息常显；交互 popover 管理焦点并有关闭按钮。",
+      "content_rules": "手续费与报酬条件不可只藏在 tooltip。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#tooltip-popover",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/tooltip-popover-light.png",
+          "../assets/ui/catalog/tooltip-popover-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "closed",
+          "hover",
+          "keyboard-focus",
+          "open",
+          "dismissed"
+        ],
+        "localBehavior": [
+          "hover/focus打开",
+          "Escape关闭",
+          "详细交互内容使用原生dialog"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "pressed",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "tooltip",
+          "dialog-backed-details"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "nonmodal-popover"
+        ]
+      }
+    },
+    {
+      "id": "accordion",
+      "name_zh": "折叠区",
+      "status": "local-reference-built",
+      "variants": [
+        "faq",
+        "brief-section"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "expanded",
+        "collapsed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "标题内 button，aria-expanded/controls；Enter/Space；关闭时不藏住当前焦点。",
+      "content_rules": "报酬和必须交付条件默认展开；长简报允许折叠辅助细节。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#accordion",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/accordion-light.png",
+          "../assets/ui/catalog/accordion-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "expanded",
+          "collapsed"
+        ],
+        "localBehavior": [
+          "原生details/summary键盘",
+          "关键要求默认展开"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "brief-section",
+          "faq"
+        ],
+        "specificationOnlyNotClaimedBuilt": []
+      }
+    },
+    {
+      "id": "skeleton-progress",
+      "name_zh": "加载与进度",
+      "status": "local-reference-built",
+      "variants": [
+        "skeleton",
+        "determinate",
+        "indeterminate"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "stalled",
+        "completed",
+        "failed"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "区域 aria-busy；有进度才显示百分比；减少动态时静态文字；骨架不进入 Tab 顺序。",
+      "content_rules": "保持最终布局防跳动；超过实际超时策略显示下一步，不伪造 99%。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#skeleton-progress",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/skeleton-progress-light.png",
+          "../assets/ui/catalog/skeleton-progress-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "loading",
+          "determinate",
+          "indeterminate",
+          "failed"
+        ],
+        "localBehavior": [
+          "原生progress可访问值",
+          "未知不伪造百分比",
+          "静态骨架无闪动"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "error",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "stalled",
+          "completed"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "skeleton",
+          "determinate",
+          "indeterminate"
+        ],
+        "specificationOnlyNotClaimedBuilt": []
+      }
+    },
+    {
+      "id": "alert-support",
+      "name_zh": "持久提示与申诉",
+      "status": "local-reference-built",
+      "variants": [
+        "inline-alert",
+        "service-banner",
+        "restriction",
+        "appeal"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "info",
+        "warning",
+        "submitted",
+        "pending",
+        "resolved",
+        "banned"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "错误与字段关联；申诉进度可查看；紧急全局事项最多一次 alert；关闭不丢失持久记录。",
+      "content_rules": "说明受影响能力、可公开原因、下一步及参考编号；封禁仍提供允许的账户记录访问与支持路线。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#alert-support",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/alert-support-light.png",
+          "../assets/ui/catalog/alert-support-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "info",
+          "warning",
+          "error",
+          "banned",
+          "appeal-pending"
+        ],
+        "localBehavior": [
+          "持久提示",
+          "申诉对话框",
+          "限制不等同付款失败"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "ready",
+          "empty",
+          "offline",
+          "permission-denied",
+          "submitted",
+          "pending",
+          "resolved"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "inline-alert",
+          "restriction",
+          "appeal"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "service-banner"
+        ]
+      }
+    },
+    {
+      "id": "chart",
+      "name_zh": "数据图表",
+      "status": "local-reference-built",
+      "variants": [
+        "bar",
+        "line",
+        "stacked-status",
+        "metric"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "no-data",
+        "partial-data",
+        "stale"
+      ],
+      "stateApplicability": "hover/pressed/focus/disabled apply to interactive controls inside this component; static container must not become focusable merely to satisfy inventory.",
+      "keyboard_accessibility": "图表标题与文字总结、等价数据表；tooltip 可键盘访问；图例形状与线型冗余。",
+      "content_rules": "token chart.1–4；不把估算当实收；数据更新时间、时区、币种和口径同屏。",
+      "tokens": [
+        "bg.surface",
+        "text.primary",
+        "text.secondary",
+        "border.default",
+        "focus.ring",
+        "focus.gap"
+      ],
+      "responsive": "<768 单列、44px 点击目标、16px 边距；表格采用带标签记录卡或明确标识的横向滚动区；>=1024 可多栏；DOM 阅读顺序不变。",
+      "verification": [
+        "键盘完成主任务且焦点可见",
+        "明暗主题及 320px 宽度检查",
+        "加载/空/错误/无权限有可理解下一步",
+        "200% 文字和 400% 页面缩放无关键信息丢失",
+        "金额及权限相关数据不泄露到无权角色"
+      ],
+      "implementationRefs": {
+        "catalog": "showcase/index.html#chart",
+        "template": "showcase/catalog.js",
+        "styles": "showcase/styles.css",
+        "behavior": "showcase/app.js",
+        "coverage": "showcase/implementation-coverage.json",
+        "screenshots": [
+          "../assets/ui/catalog/chart-light.png",
+          "../assets/ui/catalog/chart-dark.png"
+        ]
+      },
+      "stateCoverage": {
+        "renderedOrLocallyReachable": [
+          "ready"
+        ],
+        "localBehavior": [
+          "图表等价数据表",
+          "直接标签/形状冗余",
+          "金额与提交数不混合"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "default",
+          "hover",
+          "pressed",
+          "keyboard-focus",
+          "disabled",
+          "loading",
+          "error",
+          "empty",
+          "offline",
+          "permission-denied",
+          "no-data",
+          "partial-data",
+          "stale"
+        ],
+        "note": "Exact names conservative; static specimens and local interactions, not backend behavior. Original states list remains a specification."
+      },
+      "variantCoverage": {
+        "rendered": [
+          "bar",
+          "accessible-table"
+        ],
+        "specificationOnlyNotClaimedBuilt": [
+          "line",
+          "stacked-status",
+          "metric"
+        ]
+      }
+    }
+  ],
+  "moneyExample": {
+    "illustrativeOnly": true,
+    "currency": "MYR",
+    "approvedReward": "150.00",
+    "requestGross": "150.00",
+    "fee": "2.00",
+    "netRecipientAmount": "148.00",
+    "ratePolicy": "Illustrative fixed fee only; not Wringy pricing. Must be replaced with confirmed policy before production.",
+    "arithmetic": "150.00 - 2.00 = 148.00",
+    "display": {
+      "zh": "账户扣减 MYR 150.00；手续费 MYR 2.00；预计到账 MYR 148.00。",
+      "en": "Account debit MYR 150.00; fee MYR 2.00; expected receipt MYR 148.00.",
+      "ms": "Potongan akaun MYR 150.00; fi MYR 2.00; jangkaan jumlah diterima MYR 148.00."
+    },
+    "scope": "Future integrated route only; distinct from launch MYR150.00 brand direct payment."
+  },
+  "moneyModel": {
+    "source": "design-system-spec.md §6; 2026-09-10 live intent",
+    "launch": "Brand direct payment; approved → awaiting-brand-payment → paid-confirmed with appropriate receipt evidence; no platform wallet or withdrawable balance.",
+    "launchExample": {
+      "currency": "MYR",
+      "approvedReward": "150.00",
+      "paymentStatus": "awaiting-brand-payment",
+      "receiptStatus": "unconfirmed",
+      "platformFee": null
+    },
+    "futureIntegrated": "available/held/reserved/withdrawal states apply only to separately labeled future integration after provider/authoritative ledger confirms conditions."
+  }
+}

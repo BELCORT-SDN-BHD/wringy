@@ -1,0 +1,143 @@
+{
+  "date": "2026-09-10",
+  "task_intent": "Redesign Wringy using Ramp brand styling and Linear application patterns.",
+  "palette_provenance": "Wringy independent adaptation; not official extracted Ramp or Linear tokens",
+  "sources": [
+    {
+      "id": "ramp-exact",
+      "url": "https://mobbin.com/sites/ramp-ce5fe5e7-4dd5-4bf7-bd90-a4cd4945b4de/c7bdc9b7-d439-4c61-a13a-c35688970d1f/sections",
+      "inspection": "Main-session observed, passed explicitly to worker; worker did not independently capture this page",
+      "observations": [
+        "white/warm off-white hero",
+        "near-black Time is money. Save Both. heading",
+        "yellow-chartreuse CTA",
+        "warm-gray composition",
+        "thin rules and whitespace"
+      ],
+      "applied_to": [
+        "brand hero",
+        "warm monochrome palette",
+        "accent CTA",
+        "composition surface"
+      ],
+      "excluded": "Older Ramp blue gradient version; Ramp logo"
+    },
+    {
+      "id": "linear-detail-worker",
+      "url": "https://mobbin.com/screens/beb9d6b3-ec34-46d7-9332-320fcb32a338",
+      "inspection": "Worker inspected inline image returned by mcp__mobbin__search_screens",
+      "query": "Linear issue detail with properties sidebar and status select menu",
+      "observations": [
+        "compact left sidebar",
+        "middle inbox list and selected issue",
+        "main activity area",
+        "right properties with status/priority/assignee",
+        "thin separators"
+      ],
+      "applied_to": [
+        "app-shell",
+        "sidebar",
+        "detail",
+        "properties",
+        "activity"
+      ]
+    },
+    {
+      "id": "linear-menu-worker",
+      "url": "https://mobbin.com/screens/73891735-c12b-4ed3-bd7f-fc6bc3c52228",
+      "inspection": "Worker inspected inline image returned by mcp__mobbin__search_screens",
+      "observations": [
+        "compact comment context menu",
+        "small icon plus text rows",
+        "light border and elevated surface",
+        "top tabs and right properties"
+      ],
+      "applied_to": [
+        "filter popover density",
+        "tabs",
+        "secondary actions"
+      ],
+      "adaptation": "Wringy filter radio popover is independently implemented; reference was a comment action menu"
+    },
+    {
+      "id": "linear-list-main",
+      "url": "https://mobbin.com/screens/ed670cda-0527-4716-a1a6-0159f12c4f42",
+      "inspection": "Main-session observation supplied by main session; not independently inspected by worker",
+      "observations": [
+        "compact left sidebar",
+        "grouped dense issue list",
+        "thin rules",
+        "filter popover"
+      ],
+      "applied_to": [
+        "grouped queue",
+        "filter structure"
+      ]
+    },
+    {
+      "id": "linear-properties-main",
+      "url": "https://mobbin.com/screens/d1d26f7d-e1e5-490f-ab4f-c96dd12854c1",
+      "inspection": "Main-session observation supplied by main session; not independently inspected by worker",
+      "observations": [
+        "tabs",
+        "list",
+        "right properties panel"
+      ],
+      "applied_to": [
+        "queue and detail relation"
+      ]
+    },
+    {
+      "id": "tabler",
+      "url": "https://github.com/tabler/tabler-icons/tree/v3.34.1",
+      "inspection": "Selected original SVG assets and LICENSE downloaded directly from pinned GitHub release",
+      "applied_to": [
+        "all UI icons"
+      ],
+      "license": "MIT; see THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "id": "brand-design-v1.md",
+      "path": "../brand-design-v1.md",
+      "sha256": "28ae4b0acce846255f23980feda2f80159c9010f59640f5487cc690ea1e78868",
+      "inspection": "Read locally by worker",
+      "applied_to": [
+        "retained positioning",
+        "historical rejected style",
+        "role and state boundaries"
+      ]
+    },
+    {
+      "id": "design-tokens-v1.json",
+      "path": "../design-tokens-v1.json",
+      "sha256": "9b0cbfc828dac0ea9f8f771623afcfead68102febe88945af008f8ccc9626047",
+      "inspection": "Read locally by worker",
+      "applied_to": [
+        "schema continuity only; cobalt not reused"
+      ]
+    },
+    {
+      "id": "prd-v1.md",
+      "path": "../prd-v1.md",
+      "sha256": "855229cb943e1445ddaa587c869817dbb5e0ddc127f3be77f24986d80df1e5b8",
+      "inspection": "Read locally by worker",
+      "applied_to": [
+        "invitation-only",
+        "fixed-post proposed not approved",
+        "preapproval distinct from finalapproval and money",
+        "roles"
+      ]
+    },
+    {
+      "id": "product-thesis.md",
+      "path": "../product-thesis.md",
+      "sha256": "0329d012e43eb464d5f4a582604e4963172a31df866f93ad0e061e8fdab63869",
+      "inspection": "Read locally by worker",
+      "applied_to": [
+        "unapproved candidate model",
+        "sample-only prototype",
+        "no verified customers"
+      ]
+    }
+  ]
+}

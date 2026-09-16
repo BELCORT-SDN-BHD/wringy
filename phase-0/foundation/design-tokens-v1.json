@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "name": "Wringy brand foundation",
+    "version": "1.0.0-draft",
+    "date": "2026-09-10",
+    "status": "建议草案，未经创始人批准；不是生产规格",
+    "canonical": "phase-0/foundation/design-tokens-v1.json",
+    "preview": "design-preview.html 中 GENERATED TOKENS 区域为此文件的生成快照；不得单独修改",
+    "scope": "共享视觉基础与 Creator Rewards 候选链路，不代表12板块全部界面已设计",
+    "upstream": "phase-0/foundation/prd-v1.md（建议草案，未批准）"
+  },
+  "color": {
+    "canvas": "#FAFAF7",
+    "surface": "#FFFFFF",
+    "ink": "#171A20",
+    "muted": "#565B65",
+    "line": "#D9DBE1",
+    "controlBorder": "#797F8B",
+    "accent": "#2457E6",
+    "accentHover": "#1836AC",
+    "accentSoft": "#EAF0FF",
+    "onAccent": "#FFFFFF",
+    "positive": "#246448",
+    "positiveSoft": "#EAF3ED",
+    "warning": "#79500C",
+    "warningSoft": "#FFF3D9",
+    "negative": "#A62D35",
+    "negativeSoft": "#FCEDEF",
+    "neutralSoft": "#ECEEF1",
+    "disabledInk": "#656A73",
+    "disabledSurface": "#ECEEF1",
+    "focus": "#2457E6"
+  },
+  "semantic": {
+    "page": "color.canvas",
+    "panel": "color.surface",
+    "textPrimary": "color.ink",
+    "textSecondary": "color.muted",
+    "borderDecorative": "color.line",
+    "borderInteractive": "color.controlBorder",
+    "actionPrimary": "color.accent",
+    "actionPrimaryHover": "color.accentHover",
+    "actionText": "color.onAccent",
+    "focusRing": "color.focus",
+    "infoText": "color.accent",
+    "infoSurface": "color.accentSoft",
+    "successText": "color.positive",
+    "successSurface": "color.positiveSoft",
+    "attentionText": "color.warning",
+    "attentionSurface": "color.warningSoft",
+    "errorText": "color.negative",
+    "errorSurface": "color.negativeSoft",
+    "disabledText": "color.disabledInk",
+    "disabledFill": "color.disabledSurface"
+  },
+  "font": {
+    "sans": "\"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans CJK SC\", system-ui, sans-serif",
+    "display": "\"Avenir Next\", \"PingFang SC\", \"Microsoft YaHei\", system-ui, sans-serif"
+  },
+  "fontSize": {
+    "caption": "12px",
+    "small": "14px",
+    "body": "16px",
+    "lead": "20px",
+    "h3": "24px",
+    "h2": "32px",
+    "h1": "48px",
+    "display": "72px"
+  },
+  "fontWeight": {
+    "regular": 400,
+    "medium": 500,
+    "semibold": 600,
+    "bold": 700
+  },
+  "lineHeight": {
+    "display": 1.12,
+    "heading": 1.3,
+    "body": 1.65
+  },
+  "space": {
+    "1": "4px",
+    "2": "8px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "8": "32px",
+    "10": "40px",
+    "12": "48px",
+    "16": "64px",
+    "20": "80px"
+  },
+  "radius": {
+    "control": "8px",
+    "panel": "16px",
+    "pill": "999px"
+  },
+  "border": {
+    "thin": "1px",
+    "focus": "3px",
+    "focusOffset": "3px"
+  },
+  "layout": {
+    "maxWidth": "1200px",
+    "readingWidth": "720px",
+    "sidebar": "240px",
+    "controlMinHeight": "44px",
+    "pageGutter": "32px",
+    "mobileGutter": "16px"
+  },
+  "breakpoint": {
+    "mobileMax": "639px",
+    "tabletMax": "1023px"
+  },
+  "motion": {
+    "fast": "120ms",
+    "standard": "180ms",
+    "easing": "cubic-bezier(0.2, 0, 0, 1)",
+    "reduced": "0ms"
+  },
+  "state": {
+    "content": {
+      "draft": "草稿",
+      "submitted": "已提交",
+      "reviewing": "最终作品审核中",
+      "changes_requested": "需修改",
+      "approved": "最终作品审核通过",
+      "rejected": "未通过",
+      "disputed": "申诉处理中"
+    },
+    "money": {
+      "unconfirmed": "待确认奖励",
+      "pending": "待结算",
+      "ready": "符合付款条件，待安排付款",
+      "processing": "付款处理中",
+      "paid": "已付款",
+      "failed": "付款失败",
+      "unknown": "付款结果待核实",
+      "held": "暂停结算",
+      "reversed": "已冲正"
+    },
+    "draft": {
+      "draft": "原稿草稿",
+      "submitted": "原稿已提交",
+      "reviewing": "原稿预审中",
+      "changes_requested": "原稿需修改",
+      "approved_for_publish": "原稿预审通过，可按约定发布",
+      "rejected": "原稿未通过"
+    }
+  },
+  "format": {
+    "currency": "MYR；界面示例写 RM 120.00（示例），不得混合币种求和",
+    "date": "YYYY-MM-DD HH:mm（马来西亚时间，UTC+8）；全为示例时必须有可见标记",
+    "moneyRule": "整数最小货币单位为后续工程建议；UI 不负责结算计算",
+    "empty": "—，并解释未取得；不能以0冒充未知"
+  },
+  "example": {
+    "campaign": "晨间咖啡原创短片",
+    "brand": "示例咖啡品牌",
+    "creator": "创作者 A",
+    "rewardMinor": 10000,
+    "currency": "MYR",
+    "rule": "邀请制；单活动单平台；原稿预审后发布，每条最终审核通过的已发布原创内容固定奖励；建议试点默认，未获批准",
+    "label": "示例，非真实活动或收入"
+  },
+  "print": {
+    "fontSize-small": "8pt",
+    "fontSize-body": "10pt",
+    "fontSize-lead": "12pt",
+    "fontSize-h3": "14pt",
+    "fontSize-h2": "18pt",
+    "space-2": "4pt",
+    "space-3": "6pt",
+    "space-4": "8pt",
+    "space-5": "10pt",
+    "space-6": "12pt",
+    "space-8": "16pt",
+    "space-10": "20pt",
+    "space-12": "24pt",
+    "space-16": "32pt",
+    "space-20": "40pt"
+  }
+}

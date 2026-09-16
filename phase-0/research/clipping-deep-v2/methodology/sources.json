@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-09-13",
+  "timezone": "Asia/Kuala_Lumpur",
+  "scope": "公开文件机制重建与Wringy自有测试环境；不实施平台私有路径探测；不委派",
+  "auth_onboarding_status": "paused_pending_user; principal reports no agreement accepted; no further authenticated Clipping exploration",
+  "execution_status": "documentation_research_only; all proposed API/account/payment experiments unexecuted",
+  "sources": [
+    {
+      "id": "T01",
+      "title": "TikTok Query Videos",
+      "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-query",
+      "publisher": "TikTok",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "授权用户作品归属检查、video.list、20个ID/请求、view_count。",
+      "limitations": "不支持任意公开视频查询；不证明Wringy用途已获批。"
+    },
+    {
+      "id": "T02",
+      "title": "TikTok Video Object",
+      "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-object",
+      "publisher": "TikTok",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "view_count、create_time等字段；已列字段无逐帖观看国家。",
+      "limitations": "不排除其他特殊商业产品；不承诺真人或延迟。"
+    },
+    {
+      "id": "T03",
+      "title": "TikTok App Review Guidelines",
+      "url": "https://developers.tiktok.com/docs/en/app-review-guidelines",
+      "publisher": "TikTok",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "search_excerpt",
+      "verified_claims": "应用及所请求产品/权限需要演示与审核。",
+      "limitations": "未实测Wringy申请；非地区可用或奖励用途许可保证。"
+    },
+    {
+      "id": "T04",
+      "title": "TikTok Research API FAQ",
+      "url": "https://developers.tiktok.com/docs/en/research-api-faq",
+      "publisher": "TikTok",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "商业用户不符合资格；Research归档数据有延迟。",
+      "limitations": "Research的48小时/10天不能套用Display。"
+    },
+    {
+      "id": "T05",
+      "title": "TikTok Research API getting started",
+      "url": "https://developers.tiktok.com/docs/en/research-api-get-started",
+      "publisher": "TikTok",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "研究批准前置；示例用region_code查美国/加拿大创作内容。",
+      "limitations": "不是观看者地区字段或商业许可。"
+    },
+    {
+      "id": "T06",
+      "title": "TikTok Business creator discovery search pointer",
+      "url": "https://business-api.tiktok.com/gateway/docs/index?doc_id=1825017307843585&language=ENGLISH",
+      "publisher": "TikTok",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "search_excerpt",
+      "verified_claims": "搜索摘要出现major_audience_country_code与creator discovery。",
+      "limitations": "没有验证逐帖地区播放、权限、可用地区；不纳入已证实能力。"
+    },
+    {
+      "id": "I01",
+      "title": "Instagram API with Facebook Login",
+      "url": "https://www.postman.com/meta/instagram/folder/u4g5a2a/instagram-api-with-facebook-login",
+      "publisher": "Meta official Postman workspace",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "专业Business/Creator、关联Page、排除consumer账号；其他专业账号有限元数据/指标。",
+      "limitations": "不是任意公开媒体views或Insights字段表。"
+    },
+    {
+      "id": "I02",
+      "title": "Instagram User Insights reference",
+      "url": "https://developers.facebook.com/docs/instagram-platform/api-reference/instagram-user/insights/",
+      "publisher": "Meta",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "blocked_429",
+      "verified_claims": "本轮读取返回429；仅记录缺口。",
+      "limitations": "不支持country、粉丝门槛、时间窗等具体事实断言。"
+    },
+    {
+      "id": "I03",
+      "title": "Instagram Business Discovery reference",
+      "url": "https://developers.facebook.com/docs/instagram-platform/instagram-api-with-facebook-login/business-discovery/",
+      "publisher": "Meta",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "blocked_429",
+      "verified_claims": "本轮读取失败；不能补成已验证字段清单。",
+      "limitations": "未证实任意公开clip可取得views。"
+    },
+    {
+      "id": "I04",
+      "title": "Instagram Login Insights guide",
+      "url": "https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/insights/",
+      "publisher": "Meta",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "blocked_fetch",
+      "verified_claims": "工具无法读取；不重试绕过。",
+      "limitations": "登录路线权限及最新字段仍待核。"
+    },
+    {
+      "id": "I05",
+      "title": "Official Instagram API workspace",
+      "url": "https://www.postman.com/meta/instagram/overview",
+      "publisher": "Meta",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "search_excerpt",
+      "verified_claims": "工作区自述Official Instagram API workspace，用于确认I01来源归属。",
+      "limitations": "来源归属不代表collection涵盖全部现行字段。"
+    },
+    {
+      "id": "Y01",
+      "title": "YouTube Data API overview",
+      "url": "https://developers.google.com/youtube/v3/getting-started",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "项目凭证、公共数据与授权数据的访问区别。",
+      "limitations": "不是Wringy具体用途批准。"
+    },
+    {
+      "id": "Y02",
+      "title": "YouTube Videos resource",
+      "url": "https://developers.google.com/youtube/v3/docs/videos",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "statistics.viewCount与snippet.channelId；计数需保留当前定义。",
+      "limitations": "不提供任意公开视频国家观看或真人保证。"
+    },
+    {
+      "id": "Y03",
+      "title": "YouTube Analytics Reports Query",
+      "url": "https://developers.google.com/youtube/analytics/reference/reports/query",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "只读分析权限、授权频道、响应截止至全部所请求指标可用的日期。",
+      "limitations": "不保证当天数据完整或商业审核通过。"
+    },
+    {
+      "id": "Y04",
+      "title": "YouTube Analytics Channel Reports",
+      "url": "https://developers.google.com/youtube/analytics/channel_reports",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "country报告及video过滤的支持组合。",
+      "limitations": "不是任意维度均可组合；不保证MY行存在。"
+    },
+    {
+      "id": "Y05",
+      "title": "YouTube Analytics Dimensions",
+      "url": "https://developers.google.com/youtube/analytics/dimensions",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "country国家码与ZZ未知；报表日期按Pacific时区并含夏令时变化。",
+      "limitations": "地理关联不是国籍、公民身份或真人证明。"
+    },
+    {
+      "id": "Y06",
+      "title": "Understand limited data in YouTube Analytics",
+      "url": "https://support.google.com/youtube/answer/9101241",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "低流量、隐私/系统限制与过滤可能造成缺行及总数不等于行之和。",
+      "limitations": "未披露可通用的具体隐藏门槛；不推断被隐藏观众。"
+    },
+    {
+      "id": "Y07",
+      "title": "YouTube API Services Developer Policies",
+      "url": "https://developers.google.com/youtube/terms/developer-policies",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "III.E.4存储/删除和派生指标限制，III.E.6抓取，III.F.3奖励互动限制。",
+      "limitations": "互动奖励条款不能直接推出禁止创作者绩效报酬；Wringy具体奖励触发及API数据用途需单独解释核实。本来源不是个别许可或法律意见。"
+    },
+    {
+      "id": "Y08",
+      "title": "YouTube Videos List",
+      "url": "https://developers.google.com/youtube/v3/docs/videos/list",
+      "publisher": "Google / YouTube",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "按ID请求视频及parts的正式入口。",
+      "limitations": "未实际调用；配额和授权以应用实际配置核对。"
+    },
+    {
+      "id": "C03",
+      "title": "For creators | Content Rewards",
+      "url": "https://contentrewards.com/creators",
+      "publisher": "Content Rewards",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "发现/发布/收益步骤、收益估算输入框可见。",
+      "limitations": "另一个产品；未提交、不证明Clipping实现、算法或付款。"
+    },
+    {
+      "id": "C04",
+      "title": "CLIPPING Terms of Service §4",
+      "url": "https://clipping.net/policies/terms-of-service",
+      "publisher": "CLIPPING",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "read",
+      "verified_claims": "页面标示2026-01-01；§4禁止自动工具、逆向/反编译及竞争分析。",
+      "limitations": "不判断合同成立、适用法律或责任；认证探索维持暂停。"
+    },
+    {
+      "id": "C05",
+      "title": "主审Clipping入门与导航记录",
+      "url": "../browser/observations.md",
+      "publisher": "local primary observation record",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "local_read",
+      "verified_claims": "B01/B03及方法边界；原始可访问文本已局部核对。",
+      "limitations": "worker没有执行原操作；未看完整后台；Client Access仅主审摘要。"
+    },
+    {
+      "id": "C06",
+      "title": "Clipping公开品牌成本FAQ记录",
+      "url": "../browser/05-brands-cost-faq-ax.txt",
+      "publisher": "local primary UI text",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "local_read",
+      "verified_claims": "已保存公开页面关于预算、费率和支出上限的文字。",
+      "limitations": "不能证明并发算法、账本或费率所有默认值。"
+    },
+    {
+      "id": "C07",
+      "title": "Clipping公开品牌核验FAQ记录",
+      "url": "../browser/06-brands-verification-faq-ax.txt",
+      "publisher": "local primary UI text",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "local_read",
+      "verified_claims": "公开声明自动追踪、过滤虚增与实时表现；另有daily更新文字。",
+      "limitations": "不是独立审计、算法实测或API许可证据。"
+    },
+    {
+      "id": "L01",
+      "title": "Whop-Wringy prior report",
+      "url": "../../whop-wringy-blueprint-v1/report.md",
+      "publisher": "local research",
+      "accessed_on": "2026-09-13",
+      "evidence_type": "pointer_only",
+      "verified_claims": "用于定位问题与原始来源。",
+      "limitations": "旧报告不是本轮事实证明。"
+    }
+  ],
+  "excluded_sources": [
+    {
+      "url": "https://www.clipping.io/",
+      "reason": "初始搜索读到同名不同域；与clipping.net关系未证实，不作目标产品证据。"
+    },
+    {
+      "url": "https://www.clipping.io/terms-of-use",
+      "reason": "不替代clipping.net当前条款；未使用其规则解释目标产品。"
+    }
+  ],
+  "change_register": [
+    {
+      "date": "2026-09-13",
+      "authority": "user live clarification",
+      "decision": "记录Clipping §4及主审暂停状态；将所有竞争平台认证流程试验改为公开资料分析/Wringy自有模型；methodology不解释为反编译要求。"
+    },
+    {
+      "date": "2026-09-13",
+      "authority": "user main review",
+      "decision": "删除未经研究的RM48,000分配、RM8,000停损及固定逐周计划；沿用RM50,000/2–4个月，以证据和待报价关卡判断可行性。保留Content Rewards观看奖励意图；全球合格播放试验需品牌同意及用途核实，按帖UGC仅为范围外明确选项。观众互动奖励条款不直接推出禁止创作者绩效报酬。"
+    }
+  ]
+}

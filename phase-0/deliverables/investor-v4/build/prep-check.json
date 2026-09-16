@@ -1,0 +1,42 @@
+{
+  "status": "waiting-for-main-canonical-visual-handoff",
+  "artifactToolESM": true,
+  "slides": 10,
+  "nativeChartSlides": [
+    7,
+    10
+  ],
+  "budget": {
+    "currency": "MYR",
+    "periodMonths": 18,
+    "buildMonths": 4,
+    "operationsMonths": 14,
+    "revenueAssumption": 0,
+    "labels": [
+      "首版开发（含预备金）",
+      "商业与运营（18个月）",
+      "上线后技术（14个月）",
+      "获客试验与启动",
+      "非开发支出缓冲"
+    ],
+    "values": [
+      189750,
+      216000,
+      70000,
+      50000,
+      50400
+    ],
+    "source": "phase-0/foundation/belcort-handoff-v1.md"
+  },
+  "budgetTotal": 576150,
+  "market": {
+    "videoShare": 0.25,
+    "otherShare": 0.75,
+    "year": 2025,
+    "malaysiaEcommerceUSDBillion": 20,
+    "regionalSource": "https://blog.google/company-news/inside-google/around-the-globe/google-asia/sea-economy-2025/",
+    "malaysiaSource": "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/"
+  },
+  "noPaletteFrozen": true,
+  "noDeckExported": true
+}

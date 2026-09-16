@@ -1,0 +1,55 @@
+{
+  "tokenSource": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/tokens.json",
+  "tokenHash": "a1040e3316f01a0467a68bf3c023cf1975949d2fc3afe39136e33ab58bed5ab4",
+  "slides": [
+    {
+      "slide": 1,
+      "title": ""
+    },
+    {
+      "slide": 2,
+      "title": "品牌需要分发，创作者需要收入"
+    },
+    {
+      "slide": 3,
+      "title": "Wringy 的业务与经济流"
+    },
+    {
+      "slide": 4,
+      "title": "马来西亚商家的剪辑推广活动"
+    },
+    {
+      "slide": 5,
+      "title": "真实机制：TJR 剪辑奖励活动"
+    },
+    {
+      "slide": 6,
+      "title": "单场收入：奖励之外收取平台费"
+    },
+    {
+      "slide": 7,
+      "title": "单场贡献：平台收入减直接成本"
+    },
+    {
+      "slide": 8,
+      "title": "复购品牌与持续参与的创作者"
+    },
+    {
+      "slide": 9,
+      "title": "视频电商的市场背景"
+    },
+    {
+      "slide": 10,
+      "title": "收入规模的算式"
+    },
+    {
+      "slide": 11,
+      "title": "第一阶段 Rewards，随后扩展商业工具"
+    },
+    {
+      "slide": 12,
+      "title": "资金规划参考：RM576,150"
+    }
+  ],
+  "budgetTotal": 576150
+}

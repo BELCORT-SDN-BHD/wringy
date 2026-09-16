@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "references": 18,
+  "characters": 9056,
+  "sha256": "65007c3d8045bb29d940964668d4da4ec58b03c935c1a8c840cb8f6bd6a9c9fb",
+  "review": "main source spot-check + sealed cross-vendor consistency review of underlying notes",
+  "limitations": "No authenticated private workflow or real funds tested; latest numbered release found is not a proven deployed build."
+}

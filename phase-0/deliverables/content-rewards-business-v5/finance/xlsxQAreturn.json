@@ -1,0 +1,24 @@
+{
+  "join_ready": true,
+  "status": "QA_PASS_WITH_STATED_LIMITATIONS",
+  "canonical": "content-rewards-business-v5/finance",
+  "xlsx": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v5/finance/output/Wringy-首轮资金与单场经济.xlsx",
+  "confirmed_founder_cash_salary_allowance": 0,
+  "proposed_raise": 70000,
+  "raise_approved": false,
+  "verification": {
+    "all_tabs_visually_reviewed": [
+      "Summary",
+      "Cash",
+      "Campaign",
+      "Inputs"
+    ],
+    "formula_recalculation": "passed",
+    "exported_formula_errors": [],
+    "salary_scenario_removed_from_workbook": true,
+    "monthly_spend_and_campaign_unchanged": true,
+    "historical_v1_unchanged": true,
+    "native_excel_ui_tested": false,
+    "sha256": "8ea0af93dbfa53599e7f3c0a7975053758d516b75f6a8448d8c74a61e701e20f"
+  }
+}

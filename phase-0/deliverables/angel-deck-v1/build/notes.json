@@ -1,0 +1,159 @@
+[
+  {
+    "slide": 1,
+    "note": "商业定位概念样稿。画面不是客户记录，也不是上线界面。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/deliverables/angel-deck-v1/assets/cover-hero.png"
+    ]
+  },
+  {
+    "slide": 2,
+    "note": "待验证痛点假设，非访谈原话或真实客户证据。品牌有授权内容时仍需协调素材、多人发布及结果。创作者需要任务、计酬规则与进度。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/business-model-v2.md",
+      "${WRINGY_WORKSPACE}/phase-0/deliverables/angel-deck-v1/assets/problem-distribution.png"
+    ]
+  },
+  {
+    "slide": 3,
+    "note": "2025年估算：视频电商占东南亚电商交易额25%。其他75%为算术余项。马来西亚全部电商GMV约US$20 billion，即US$200亿。两项地域与分母不同，不相乘，不是Wringy可获得市场或收入。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "https://blog.google/company-news/inside-google/around-the-globe/google-asia/sea-economy-2025/",
+      "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/"
+    ]
+  },
+  {
+    "slide": 4,
+    "note": "拟议业务关系，非托管或实际支付路径。合格结果以活动规则和核验为准。算例：RM10,000已确认创作者奖励，奖励之外加收假设15%平台服务费RM1,500，品牌支出RM11,500未计税。平台费不是从创作者奖励再扣除；奖励不计平台服务收入。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md"
+    ]
+  },
+  {
+    "slide": 5,
+    "note": "三个产品时刻为概念说明，未上线。品牌设定预算与活动规则；创作者选择任务并发布；合格播放按规则核验后计算奖励。奖励确认不等于银行到账。主任务提供 product-triptych.png，50,000合格播放按RM5/千次核算为RM250，金额仅为示例。产品概念图内的文字是图片组成，页标题与概念说明保持原生可编辑。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/deliverables/angel-deck-v1/assets/product-triptych.png"
+    ]
+  },
+  {
+    "slide": 6,
+    "note": "统一说明算例。RM10,000已确认奖励外加15%服务费为RM1,500收入。减变动履约600和活动佣金150，贡献750。贡献未扣固定成本和独立品牌获客费；15%是外加服务费率，非毛利率。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/results.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/assumptions.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/outputs/financial-model/Wringy-36个月财务模型.xlsx"
+    ]
+  },
+  {
+    "slide": 7,
+    "note": "马来西亚首发客户群仍是提案，未确定首批客户。候选商家或内容品牌有已获授权素材及持续推广需求。先聚焦单一垂直客户群，以人工辅助付费试点验证交付与复购。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/business-model-v2.md"
+    ]
+  },
+  {
+    "slide": 8,
+    "note": "组织方式的概括，不是逐项功能审计或费用比较。Whop/Content Rewards为已有平台方案；代理商和自行协调存在不同约定方式。Wringy方案尚未上线，拟从本地客户开发与服务流程切入，支付和数据待验证。地域本身不是壁垒。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/research/angel-deck-v1/claims.md",
+      "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+      "https://docs.whop.com/developer/guides/accept-payments",
+      "https://contentrewards.com/",
+      "https://gushcloud.com/",
+      "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/",
+      "https://www.partipost.com/"
+    ]
+  },
+  {
+    "slide": 9,
+    "note": "验证计划，无已完成访谈、付费客户、复购或创作者留存证据。本轮应逐阶段收集付款/复购、合格内容交付、实际审核计量成本，是否扩展取决于证据。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/business-model-v2.md"
+    ]
+  },
+  {
+    "slide": 10,
+    "note": "创始人负责产品与商业。Belcort为创始人自有开发公司，负责技术交付方向。未提供创始人姓名/经历/资源，不编造团队人数或业绩。具体交付范围、报价与资源承诺尚需确认。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/belcort-handoff-v1.md"
+    ]
+  },
+  {
+    "slide": 11,
+    "note": "本轮融资额尚未确认。建议用途为首版开发、品牌与创作者试点、数据与审核验证、运营缓冲。活动数和日程未定。新计量与反作弊开发未报价，旧RM576,150并非本轮融资额。公司现金回本不等于投资人退出。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/belcort-handoff-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/results.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/assumptions.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/outputs/financial-model/Wringy-36个月财务模型.xlsx"
+    ]
+  },
+  {
+    "slide": 12,
+    "note": "第一阶段为Rewards，连接品牌活动与创作者合格结果。之后可探索店铺、课程、会员和交易工具。未来范围是假设分期，非上线承诺或已验证网络效应。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/business-model-v2.md",
+      "${WRINGY_WORKSPACE}/phase-0/deliverables/angel-deck-v1/assets/vision-commerce.png"
+    ]
+  },
+  {
+    "slide": 13,
+    "note": "20场月度说明算例。平台服务收入30000；履约销售成本14000包括变动12000及固定2000；毛利16000，53.33%。再扣活动佣金3000和其他固定经营15000，新增品牌获客费前经营-2000。固定履约不重复扣除。净服务费规划口径，非会计判断或税后净利。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/results.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/assumptions.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/outputs/financial-model/Wringy-36个月财务模型.xlsx"
+    ]
+  },
+  {
+    "slide": 14,
+    "note": "36个月完整融资前累计现金，含4个月建设。保守36个月内未回本、基准M25、扩张M18。公司累计现金首次非负不同于首次单月盈利，更不是投资人退出期。全部活动路径和成本为条件假设。新增计量与反作弊开发当前0占位为尚未报价。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/results.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/assumptions.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/outputs/financial-model/Wringy-36个月财务模型.xlsx"
+    ]
+  },
+  {
+    "slide": 15,
+    "note": "基准现金情景峰值缺口326850。各敏感性单独改变条件，不叠加。支付费按品牌全额11500的3%替代150/场，即345/场，基准公司回本M31。仅延迟一月收服务费，基准M28。新计量反作弊开发追加0只是未报价占位，基准缺口不是完整融资需要。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/results.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/assumptions.json",
+      "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/outputs/financial-model/Wringy-36个月财务模型.xlsx"
+    ]
+  },
+  {
+    "slide": 16,
+    "note": "2026-09-10核验。品牌人工批准或拒绝内容；CR处理风险与核算，Whop处理充值/身份核验/提现。无自动内容通过；草稿批准不等于公开帖终审。当前CPM为批准后7天计酬，再等待3天；可调整或风险暂停，非银行到账时限。旧48小时自动批准教程不可套用当前条款。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "https://contentrewards.com/brands-terms",
+      "https://contentrewards.com/terms",
+      "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/pricing/creators"
+    ]
+  },
+  {
+    "slide": 17,
+    "note": "Wringy设计提案，未上线。内容、计量、奖励、付款独立状态。此处同一作品示例为内容最终通过、计量已核验、奖励待结算、付款未发起。规则版本、计入播放快照、证据与处理人可追溯。所有投稿、拒稿、风险与复核的人工分钟进入成本，而非只计已付款稿件。",
+    "sources": [
+      "phase-0/foundation/angel-story-v1.md",
+      "phase-0/foundation/review-design-v1.md"
+    ]
+  }
+]

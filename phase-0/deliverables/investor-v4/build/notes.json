@@ -1,0 +1,79 @@
+[
+  {
+    "slide": 1,
+    "text": "Wringy以马来西亚为起点，长期目标覆盖完整创作者商业平台。Creator Rewards为讨论中的首发方向，尚未批准具体产品范围。概念图片不代表真实客户或已上线产品。",
+    "sources": [
+      "phase-0/founder-inputs.md",
+      "phase-0/foundation/product-map.md"
+    ]
+  },
+  {
+    "slide": 2,
+    "text": "品牌与创作者反复核对要求、作品、审核与付款的场景为问题假设，尚无本项目客户访谈或采购记录验证。示例不是真实客户对话。",
+    "sources": [
+      "phase-0/foundation/product-thesis.md"
+    ]
+  },
+  {
+    "slide": 3,
+    "text": "Creator Rewards为候选首发概念，具体计酬、邀请和资金路径尚未批准。活动界面是概念，所有示例状态不代表实际交易。审核通过与银行到账必须分开。",
+    "sources": [
+      "phase-0/foundation/product-thesis.md",
+      "phase-0/founder-inputs.md"
+    ]
+  },
+  {
+    "slide": 4,
+    "text": "产品演示为虚构场景。每条合格帖子获得固定奖励及邀请制均为代理提出的讨论方案。原稿预审、获准发布、最终获批、实际付款为不同阶段。照片为概念场景，非真实客户。",
+    "sources": [
+      "phase-0/foundation/product-thesis.md"
+    ]
+  },
+  {
+    "slide": 5,
+    "text": "同一合作记录能否支持重复采购是产品判断，效果尚未测量。没有已核验收入、采用、客户增长或复购数据。未声称竞争者缺少审核、付款或记录能力，也未证明独占渠道或网络效应。",
+    "sources": [
+      "phase-0/foundation/product-thesis.md"
+    ]
+  },
+  {
+    "slide": 6,
+    "text": "拟按活动向品牌收取服务费，创作者不另付平台服务费，尚未批准价格或抽成。创作者报酬不计入平台收入。支付等直接成本仅在实际承担时计入，具体承担方依资金方案确定。单场贡献扣除直接履约成本，尚未扣公司固定经营费用，不等于净利润。图示说明经济归属，不代表已确定银行、托管或代收路径。",
+    "sources": [
+      "phase-0/foundation/product-thesis.md"
+    ]
+  },
+  {
+    "slide": 7,
+    "text": "2025年估算：东南亚视频电商占电商交易额25%，其余75%为100%减25%的算术余项。马来西亚电商交易额预计US$20 billion，即US$200亿。两项地域口径不同，不相乘。两者都是市场背景，不是创作者奖励总额或Wringy可服务收入空间。",
+    "sources": [
+      "https://blog.google/company-news/inside-google/around-the-globe/google-asia/sea-economy-2025/",
+      "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/"
+    ]
+  },
+  {
+    "slide": 8,
+    "text": "长期方向覆盖完整Whop参考范围，店铺、会员、数字产品只是概括举例，不代表已上线或一次建设全部能力。首发活动服务收入公式尚无经核验品牌数、频次与价格，未填入猜测市场总额。后续国家及扩展日期未确定。",
+    "sources": [
+      "phase-0/founder-inputs.md",
+      "phase-0/foundation/product-map.md",
+      "phase-0/foundation/product-thesis.md"
+    ]
+  },
+  {
+    "slide": 9,
+    "text": "创始人确认Belcort为其自有公司，开发由Belcort承接，Wringy不自聘工程团队。具体资源、报价与交付协议未落实。未提供可核验创始人履历或团队历史，不以图标代表实际人数。",
+    "sources": [
+      "phase-0/founder-inputs.md",
+      "phase-0/foundation/belcort-handoff-v1.md"
+    ]
+  },
+  {
+    "slide": 10,
+    "text": "18个月零收入基准规划：开发189750＋商业运营216000＋上线后技术70000＋启动50000＋非开发缓冲50400＝576150令吉。4个月建设、14个月运营为规划，不是交期承诺。商业运营费用覆盖18个月。开发含其预备金，非开发缓冲为(216000+70000+50000)×15%。不是正式融资额或Belcort报价。真实交易成本、税费、资金缓冲及创始人投入尚需确认。融资金额与结构另行确定。首版预算不覆盖同时建设完整Whop。",
+    "sources": [
+      "phase-0/foundation/belcort-handoff-v1.md",
+      "phase-0/foundation/product-thesis.md"
+    ]
+  }
+]

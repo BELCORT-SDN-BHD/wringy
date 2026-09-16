@@ -1,0 +1,79 @@
+{
+  "status": "complete",
+  "date": "2026-09-13",
+  "slides": 18,
+  "native_charts": 5,
+  "native_chart_owner_slides": [
+    4,
+    5,
+    6,
+    12
+  ],
+  "native_tables": 2,
+  "native_table_owner_slides": [
+    17
+  ],
+  "graph_dominant_slides": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "raster_picture_count_in_pptx": 0,
+  "layout_warnings": 0,
+  "layout_findings": 0,
+  "slides_visually_checked": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "pdf_rendered_pages": 18,
+  "pdf_links": 6,
+  "pptx_links": 6,
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "native_powerpoint_open_verified": false,
+  "pdf_format": "Raster slide pages with clickable source annotations",
+  "finance_source": "content-rewards-business-v1/finance/results.json, unchanged",
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "sha256": "06051a1ea0f484e4137a85eea8b3f28bb544c2064f2f602ee931a7a0efe3aa44",
+      "bytes": 109424
+    },
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "sha256": "9cfc0ad878e8e91f426cf48f86c182c33e99a2bd2f4137f95768b71353abe435",
+      "bytes": 2628650
+    },
+    "contact-sheet.jpg": {
+      "sha256": "5186c920ad0152245a3202407495452502703171814a0b8f109f5be93330c592",
+      "bytes": 412137
+    }
+  }
+}

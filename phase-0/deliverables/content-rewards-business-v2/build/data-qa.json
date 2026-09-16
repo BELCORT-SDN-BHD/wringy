@@ -1,0 +1,44 @@
+{
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      90.0,
+      20.0,
+      10.0,
+      180.0
+    ],
+    [
+      180.0,
+      90.0,
+      0.0,
+      -90.0
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ],
+    [
+      110000.0,
+      70000.0
+    ]
+  ],
+  "chart_count": 5,
+  "all_match": true,
+  "layout_warnings": 0,
+  "layout_findings": 0,
+  "native_slide_picture_count": 0,
+  "finance_model_unchanged": true,
+  "slide_count": 18,
+  "funding_uplift_check": 40000,
+  "hours_contribution_check": [
+    180,
+    90,
+    0,
+    -90
+  ],
+  "native_powerpoint_open_verified": false
+}

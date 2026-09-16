@@ -1,0 +1,542 @@
+{
+  "surface": {
+    "level": "visual",
+    "statesVisual": [
+      "default"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "shell": {
+    "level": "visual",
+    "statesVisual": [
+      "default",
+      "loading",
+      "restricted"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "workspace-switcher": {
+    "level": "visual",
+    "statesVisual": [
+      "default",
+      "hover",
+      "focus",
+      "open",
+      "selected",
+      "loading",
+      "error"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "rich-editor": {
+    "level": "visual",
+    "statesVisual": [
+      "empty",
+      "focus",
+      "editing",
+      "saving",
+      "saved",
+      "error",
+      "readonly"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "list-detail": {
+    "level": "visual",
+    "statesVisual": [
+      "loading",
+      "empty",
+      "no-results",
+      "unselected",
+      "selected",
+      "error",
+      "stale"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "property-list": {
+    "level": "visual",
+    "statesVisual": [
+      "default",
+      "empty",
+      "unknown",
+      "editing",
+      "saving",
+      "error",
+      "readonly"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "image": {
+    "level": "visual",
+    "statesVisual": [
+      "loading",
+      "ready",
+      "error",
+      "restricted"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "annotation": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "posting",
+      "posted",
+      "resolved",
+      "error",
+      "readonly"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "asset-library": {
+    "level": "visual",
+    "statesVisual": [
+      "loading",
+      "empty",
+      "selected",
+      "uploading",
+      "error",
+      "expired-rights"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "bounty": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "scheduled",
+      "open",
+      "closed-to-new",
+      "reviewing",
+      "completed",
+      "canceled",
+      "underfunded"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "worklog": {
+    "level": "visual",
+    "statesVisual": [
+      "idle",
+      "running",
+      "paused",
+      "recorded",
+      "missing",
+      "corrected",
+      "error"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "product-editor": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "preview",
+      "published",
+      "unpublished",
+      "incomplete",
+      "conflict",
+      "readonly"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "price-plan": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "active",
+      "retired",
+      "invalid",
+      "readonly"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "subscription": {
+    "level": "visual",
+    "statesVisual": [
+      "active",
+      "past-due",
+      "paused",
+      "cancel-scheduled",
+      "canceled",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "invoice": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "open",
+      "overdue",
+      "paid",
+      "partially-paid",
+      "void",
+      "uncollectible",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "entitlement": {
+    "level": "visual",
+    "statesVisual": [
+      "checking",
+      "granted",
+      "locked",
+      "expired",
+      "pending-sync",
+      "failed",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "conversation": {
+    "level": "visual",
+    "statesVisual": [
+      "loading",
+      "empty",
+      "draft",
+      "sending",
+      "sent",
+      "failed",
+      "unread",
+      "resolved",
+      "restricted"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "schedule": {
+    "level": "visual",
+    "statesVisual": [
+      "available",
+      "selected",
+      "reserving",
+      "booked",
+      "full",
+      "rescheduled",
+      "canceled",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "fulfillment": {
+    "level": "visual",
+    "statesVisual": [
+      "awaiting-details",
+      "queued",
+      "in-progress",
+      "shipped",
+      "delivered",
+      "exception",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "customer-record": {
+    "level": "visual",
+    "statesVisual": [
+      "loading",
+      "empty",
+      "invited",
+      "waiting",
+      "approved",
+      "denied",
+      "restricted"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "review-rating": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "pending",
+      "published",
+      "removed",
+      "paid",
+      "unpaid",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "referral": {
+    "level": "visual",
+    "statesVisual": [
+      "invited",
+      "active",
+      "expired",
+      "archived",
+      "revoked",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "commission": {
+    "level": "visual",
+    "statesVisual": [
+      "estimating",
+      "pending",
+      "available",
+      "reversed",
+      "unknown",
+      "qualified",
+      "redeemed"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "ad-editor": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "incomplete",
+      "in-review",
+      "rejected",
+      "scheduled",
+      "active",
+      "paused",
+      "ended",
+      "error"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "audience": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "validating",
+      "processing",
+      "ready",
+      "partial",
+      "failed",
+      "stale"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "attribution": {
+    "level": "visual",
+    "statesVisual": [
+      "waiting",
+      "receiving",
+      "duplicate",
+      "delayed",
+      "partial",
+      "unknown",
+      "error"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "ledger": {
+    "level": "visual",
+    "statesVisual": [
+      "loading",
+      "empty",
+      "posted",
+      "pending",
+      "adjusted",
+      "unmatched",
+      "unknown",
+      "error"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "transfer": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "quoted",
+      "expired",
+      "confirming",
+      "processing",
+      "unknown",
+      "completed",
+      "failed"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "financial-product": {
+    "level": "visual",
+    "statesVisual": [
+      "unverified",
+      "unavailable",
+      "eligible",
+      "application-pending",
+      "active",
+      "restricted",
+      "closed"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "verification": {
+    "level": "visual",
+    "statesVisual": [
+      "not-started",
+      "in-progress",
+      "submitted",
+      "needs-info",
+      "verified",
+      "rejected",
+      "expired",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "credential": {
+    "level": "visual",
+    "statesVisual": [
+      "masked",
+      "revealed",
+      "creating",
+      "active",
+      "expired",
+      "revoked",
+      "error"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "event-log": {
+    "level": "visual",
+    "statesVisual": [
+      "queued",
+      "processing",
+      "delivered",
+      "failed",
+      "retrying",
+      "rate-limited",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "import-export": {
+    "level": "visual",
+    "statesVisual": [
+      "configuring",
+      "preview",
+      "queued",
+      "processing",
+      "partial",
+      "completed",
+      "failed",
+      "expired",
+      "canceled"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "action-preview": {
+    "level": "visual",
+    "statesVisual": [
+      "proposed",
+      "reviewing",
+      "confirmed",
+      "executing",
+      "expired",
+      "unknown",
+      "failed",
+      "completed"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "site-lifecycle": {
+    "level": "visual",
+    "statesVisual": [
+      "draft",
+      "building",
+      "preview-ready",
+      "publishing",
+      "live",
+      "failed",
+      "rollback-pending"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "blueprint": {
+    "level": "visual",
+    "statesVisual": [
+      "selecting",
+      "preview",
+      "blocked",
+      "confirmed",
+      "running",
+      "partial",
+      "completed",
+      "failed"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "service-application": {
+    "level": "visual",
+    "statesVisual": [
+      "unverified",
+      "available",
+      "applying",
+      "needs-info",
+      "under-review",
+      "qualified",
+      "not-qualified",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "tax-document": {
+    "level": "visual",
+    "statesVisual": [
+      "missing",
+      "draft",
+      "submitted",
+      "validated",
+      "needs-correction",
+      "expired",
+      "unavailable"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  },
+  "reserve": {
+    "level": "visual",
+    "statesVisual": [
+      "active",
+      "partially-released",
+      "released",
+      "extended",
+      "unknown"
+    ],
+    "statesContractOnly": [],
+    "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+  }
+}

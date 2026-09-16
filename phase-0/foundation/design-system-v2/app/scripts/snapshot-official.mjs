@@ -1,0 +1,7 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
+const files=fs.readdirSync('src/components/ui').filter(f=>f.endsWith('.tsx')).sort();
+if(fs.existsSync('provenance/official-snapshot.json'))throw Error('Baseline already exists; do not overwrite it.');
+fs.mkdirSync('provenance/official-ui',{recursive:true});const hashes={};for(const f of files){const data=fs.readFileSync(path.join('src/components/ui',f));fs.writeFileSync(path.join('provenance/official-ui',f),data);hashes['src/components/ui/'+f]=crypto.createHash('sha256').update(data).digest('hex');}
+fs.copyFileSync('src/index.css','provenance/official-index.css');
+fs.writeFileSync('provenance/official-snapshot.json',JSON.stringify({createdAt:new Date().toISOString(),cli:'4.21.0',base:'radix',style:'radix-nova',source:'https://ui.shadcn.com/r/styles/radix-nova/{name}.json',commands:['npx shadcn@latest init --template vite --base radix --preset nova --name app --no-monorepo --yes','npx shadcn@latest add --all --yes','npx shadcn@latest add form --yes (empty registry item; no source file)','npx shadcn@latest view @shadcn/questionnaire'],nativeCount:files.length,hashes,registryDiscrepancy:'Uninitialized search lists legacy form, but radix-nova form is an empty registry item. Actual CLI installation contains questionnaire instead. No form.tsx was authored.'},null,2)+'\n');
+console.log('Captured',files.length,'untouched official UI sources');

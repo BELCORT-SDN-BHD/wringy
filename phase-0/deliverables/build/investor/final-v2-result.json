@@ -1,0 +1,199 @@
+{
+  "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pptx",
+  "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pdf",
+  "previewDir": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/render-SzKw1b/slides",
+  "slideCount": 38,
+  "slideMap": [
+    {
+      "number": 1,
+      "id": "INV01",
+      "feature_ids": []
+    },
+    {
+      "number": 2,
+      "id": "INV02",
+      "feature_ids": []
+    },
+    {
+      "number": 3,
+      "id": "INV03",
+      "feature_ids": []
+    },
+    {
+      "number": 4,
+      "id": "INV04",
+      "feature_ids": []
+    },
+    {
+      "number": 5,
+      "id": "INV05",
+      "feature_ids": []
+    },
+    {
+      "number": 6,
+      "id": "INV06",
+      "feature_ids": []
+    },
+    {
+      "number": 7,
+      "id": "INV07",
+      "feature_ids": []
+    },
+    {
+      "number": 8,
+      "id": "INV08",
+      "feature_ids": []
+    },
+    {
+      "number": 9,
+      "id": "INV09",
+      "feature_ids": []
+    },
+    {
+      "number": 10,
+      "id": "INV10",
+      "feature_ids": []
+    },
+    {
+      "number": 11,
+      "id": "INV11",
+      "feature_ids": []
+    },
+    {
+      "number": 12,
+      "id": "INV12",
+      "feature_ids": []
+    },
+    {
+      "number": 13,
+      "id": "INV13",
+      "feature_ids": []
+    },
+    {
+      "number": 14,
+      "id": "INV14",
+      "feature_ids": []
+    },
+    {
+      "number": 15,
+      "id": "INV15",
+      "feature_ids": []
+    },
+    {
+      "number": 16,
+      "id": "INV16",
+      "feature_ids": []
+    },
+    {
+      "number": 17,
+      "id": "INV17",
+      "feature_ids": []
+    },
+    {
+      "number": 18,
+      "id": "INV18",
+      "feature_ids": []
+    },
+    {
+      "number": 19,
+      "id": "INV19",
+      "feature_ids": []
+    },
+    {
+      "number": 20,
+      "id": "INV20",
+      "feature_ids": []
+    },
+    {
+      "number": 21,
+      "id": "INV21",
+      "feature_ids": []
+    },
+    {
+      "number": 22,
+      "id": "INV22",
+      "feature_ids": []
+    },
+    {
+      "number": 23,
+      "id": "INV23",
+      "feature_ids": []
+    },
+    {
+      "number": 24,
+      "id": "INV24",
+      "feature_ids": []
+    },
+    {
+      "number": 25,
+      "id": "INV25",
+      "feature_ids": []
+    },
+    {
+      "number": 26,
+      "id": "INV26",
+      "feature_ids": []
+    },
+    {
+      "number": 27,
+      "id": "INV27",
+      "feature_ids": []
+    },
+    {
+      "number": 28,
+      "id": "INV28",
+      "feature_ids": []
+    },
+    {
+      "number": 29,
+      "id": "APP01",
+      "feature_ids": []
+    },
+    {
+      "number": 30,
+      "id": "APP02",
+      "feature_ids": []
+    },
+    {
+      "number": 31,
+      "id": "APP03",
+      "feature_ids": []
+    },
+    {
+      "number": 32,
+      "id": "APP04",
+      "feature_ids": []
+    },
+    {
+      "number": 33,
+      "id": "APP05",
+      "feature_ids": []
+    },
+    {
+      "number": 34,
+      "id": "APP06",
+      "feature_ids": []
+    },
+    {
+      "number": 35,
+      "id": "APP07",
+      "feature_ids": []
+    },
+    {
+      "number": 36,
+      "id": "APP08",
+      "feature_ids": []
+    },
+    {
+      "number": 37,
+      "id": "APP09",
+      "feature_ids": []
+    },
+    {
+      "number": 38,
+      "id": "APP10",
+      "feature_ids": []
+    }
+  ],
+  "validation": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/render-SzKw1b/validation.json"
+}

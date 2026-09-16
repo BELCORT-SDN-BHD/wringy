@@ -1,0 +1,186 @@
+{
+  "verified_on": "2026-09-10",
+  "scope": "资金、版本、公开合同；非法律意见；无交易测试",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "How to set up Whop Content Rewards",
+      "publisher": "Whop",
+      "url": "https://whop.com/blog/set-up-content-rewards/",
+      "date": "2025-05-14",
+      "sections": [
+        "Creating a content reward",
+        "Content rewards F.A.Q."
+      ],
+      "summary_zh": "旧教程写充值后上线、无最低预算、AI检查后48小时未处理自动批准。仅作2025文档证据。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "page publication/update; M1 main-reported capture month",
+      "evidence_type": "historical tutorial"
+    },
+    {
+      "id": "S2",
+      "title": "V2 is here",
+      "publisher": "Content Rewards Inc",
+      "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/articles/v2-is-here",
+      "date": "2026-08-19",
+      "sections": [
+        "Retainers",
+        "For creators",
+        "What costs more",
+        "Improved"
+      ],
+      "summary_zh": "V2发布说明：周期预留、钱包状态；旧费率和时效与9月条款不同。2.7%+$0.37的万元示例约$307存在算术不一致。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "page publication/update; M1 main-reported capture month",
+      "evidence_type": "dated release note"
+    },
+    {
+      "id": "S3",
+      "title": "Pricing | Content Rewards",
+      "publisher": "Content Rewards Inc",
+      "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/pricing",
+      "date": null,
+      "sections": [
+        "Get verified and save",
+        "Before you ask"
+      ],
+      "summary_zh": "品牌标准10%、Verified 8%、最低$1000；页面无其他费的措辞与条款另列处理费不一致。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "No page date observed",
+      "evidence_type": "current public page"
+    },
+    {
+      "id": "S4",
+      "title": "Creator Pricing | Content Rewards",
+      "publisher": "Content Rewards Inc",
+      "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/pricing/creators",
+      "date": null,
+      "sections": [
+        "How much of my earnings do I keep?",
+        "Are there withdrawal fees?",
+        "When do I get paid?"
+      ],
+      "summary_zh": "CPM创作者费10%；按篇/周期预算>=5000美元免创作者费，否则10%。转至Whop余额无最低限额和CR提现费；CPM 7天计酬+3天等待。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "No page date observed",
+      "evidence_type": "current public page"
+    },
+    {
+      "id": "S5",
+      "title": "Organization Terms of Service",
+      "publisher": "Content Rewards Inc",
+      "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+      "date": "2026-09-03",
+      "sections": [
+        "Scope; legacy experience",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "9",
+        "10"
+      ],
+      "summary_zh": "新旧合同分开；预充值与预算预留、人工审批、草稿与成稿审批分开；先清待审和应付，退款审核5–7工作日，可酌留未花预算最多20%，处理费不退。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "page publication/update; M1 main-reported capture month",
+      "evidence_type": "published contract"
+    },
+    {
+      "id": "S6",
+      "title": "Creator Terms of Service",
+      "publisher": "Content Rewards Inc",
+      "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+      "date": "2026-09-03",
+      "sections": [
+        "3–8",
+        "9–11",
+        "13.4",
+        "16",
+        "31"
+      ],
+      "summary_zh": "验证后记CR可提现余额，Whop负责付款；标记申诉与品牌拒绝复核不同；未结算可逆转，已结算不走该逆转机制，另有抵扣例外；新Web条款不替换旧嵌入体验合同。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "page publication/update; M1 main-reported capture month",
+      "evidence_type": "published contract"
+    },
+    {
+      "id": "S7",
+      "title": "Whop Content Rewards Terms and Conditions",
+      "publisher": "Whop",
+      "url": "https://whop.com/content-rewards-terms-of-service/",
+      "date": null,
+      "sections": [
+        "Introduction",
+        "For Sellers: Offers / Review and approve requests / Payment",
+        "For Participants: Payment"
+      ],
+      "summary_zh": "Whop项目合同：发布余额须覆盖最高奖励及费用；向参与者实际支付额另计卖家10%费用；允许平台自动审批/拒绝；上限或截止先到即停止计酬。不能叠加为新CR收费。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "No page date observed",
+      "evidence_type": "published contract"
+    },
+    {
+      "id": "S8",
+      "title": "Articles | Content Rewards",
+      "publisher": "Content Rewards Inc",
+      "url": "https://contentrewards.com/articles",
+      "date": null,
+      "sections": [
+        "Changelog"
+      ],
+      "summary_zh": "本次返回的Changelog只列2026-08-19 V2；定向检索未找到更晚官方更新。不证明没有更晚构建。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "No page date observed",
+      "evidence_type": "current public page"
+    },
+    {
+      "id": "S9",
+      "title": "Content Rewards",
+      "publisher": "Content Rewards Inc",
+      "url": "https://contentrewards.com/",
+      "date": null,
+      "sections": [
+        "How do I pay for a campaign?"
+      ],
+      "summary_zh": "当前FAQ列支付方式，卡即时、银行转账须先清算。仅为公开说明，不是实测交易。",
+      "accessed_at": "2026-09-10",
+      "access": "Live web open; public text",
+      "date_kind": "No page date observed",
+      "evidence_type": "current public page"
+    },
+    {
+      "id": "M1",
+      "title": "Content rewards",
+      "publisher": "Mobbin",
+      "url": "https://mobbin.com/flows/83ac1dc0-5a6f-4ed0-9cce-0812939f69a9",
+      "date": null,
+      "sections": [
+        "Main-reported preview inspection"
+      ],
+      "summary_zh": "主研究者提供：Whop嵌入式UI预览有估算奖励、最低观看、投稿状态。画面可见2026-03-03数据，但采集日期与产品版本未知；不能据此推断当时费率或到账。",
+      "access": "main-reported; not independently opened in this worker",
+      "accessed_at": "2026-09-10",
+      "date_kind": "Collection date and product version unknown; visible data date is not capture date",
+      "evidence_type": "reported UI preview",
+      "visible_data_date": "2026-03-03"
+    }
+  ],
+  "searches": [
+    {
+      "queries": [
+        "site.contentrewards.com (changelog OR \"V3\" OR \"September\" OR \"release\")",
+        "site.b4e0vdqv6zgqeqj4pfgm.apps.whop.com/articles \"2026\" \"September\""
+      ],
+      "result": "未找到更新官方公告；官方Articles返回仅有Aug19 V2 changelog；不推断无后续构建"
+    }
+  ]
+}

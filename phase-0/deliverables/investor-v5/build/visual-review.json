@@ -1,0 +1,35 @@
+{
+  "status": "pass",
+  "date": "2026-09-10",
+  "final_sha256": "aee72b26c18bf9350ab15521f773527394c9f889bc9cdc6b0b432e24e43a3add",
+  "reviewed_final_slides": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "checks": [
+    "All final PPTX renders individually inspected at full size",
+    "Contact sheet inspected",
+    "No visible clipping or unintended overlaps",
+    "Native slide3 economic diagram has 20 editable shapes and 3 Tabler icons",
+    "Slides9/12 remain native charts with embedded editable data snapshots",
+    "TJR original art discrepancy disclosed",
+    "Final story and notes use canonical business-model-v2",
+    "No old Belcort execution slide"
+  ],
+  "limitations": [
+    "PowerPoint desktop edit-save-reopen not performed",
+    "PDF is raster preview",
+    "Noto Sans SC font not embedded"
+  ],
+  "remaining_content_gaps": []
+}

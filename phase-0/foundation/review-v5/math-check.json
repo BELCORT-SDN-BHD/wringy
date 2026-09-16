@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "all_values_are_scenarios_not_actuals": true,
+  "results": {
+    "creator_rewards": 10000,
+    "eligible_views": 2000000.0,
+    "single_creator_50000_views_reward": 250.0,
+    "platform_revenue": 1500.0,
+    "brand_total_before_tax": 11500.0,
+    "contribution_before_fixed_cost_tax": 900.0,
+    "monthly_campaigns": 200,
+    "monthly_rewards": 2000000,
+    "monthly_revenue": 300000.0,
+    "monthly_eligible_views": 400000000.0,
+    "historic_budget": 576150
+  }
+}

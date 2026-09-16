@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {GlobalFonts} from '@napi-rs/canvas';
+import {Presentation,PresentationFile,FileBlob} from '@oai/artifact-tool';
+import {finalizePresentation,applyPresentationChartFont} from '${HOME}/.codex/plugins/cache/openai-primary-runtime/presentations/26.909.12148/skills/presentations/container_tools/artifact_tool_utils.mjs';
+export {fs,path,Presentation,PresentationFile,FileBlob,finalizePresentation,applyPresentationChartFont};
+export const BUILD=import.meta.dirname,ROOT=path.resolve(BUILD,'..');
+export const DEP='${HOME}/.cache/codex-runtimes/codex-primary-runtime/dependencies';
+export const SKILL='${HOME}/.codex/plugins/cache/openai-primary-runtime/presentations/26.909.12148/skills/presentations';
+export const PY=path.join(DEP,'python/bin/python3'),FONT='Noto Sans SC';
+process.env.RUNTIME_NODE_MODULES=path.join(DEP,'node/node_modules');
+GlobalFonts.registerFromPath(path.resolve(ROOT,'../brand/showcase/fonts/NotoSansSC.ttf'),FONT);
+const source=path.resolve(ROOT,'../../foundation/design-system-v2/app');
+export const C=JSON.parse(await fs.readFile(path.join(source,'provenance/palette.json'),'utf8')).colors;
+const css=(await fs.readFile(path.join(source,'src/index.css'),'utf8')).split(':root {')[1].split('\n}')[0];
+for(const [name,color] of Object.entries(C))if(!css.includes(`--${name}: ${color};`))throw Error(`Palette/CSS mismatch: ${name}`);
+export const box=(left,top,width,height)=>({left,top,width,height});

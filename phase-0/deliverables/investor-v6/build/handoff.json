@@ -1,0 +1,23 @@
+{
+  "status": "complete",
+  "slides": 18,
+  "pptx": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v6/output/Wringy-Investor-v6.pptx",
+  "pdf": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v6/output/Wringy-Investor-v6-Preview.pdf",
+  "contact_sheet": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v6/output/contact-sheet.png",
+  "png_directory": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v6/output/slides",
+  "sha256": "bb2ae95511328bcc58423bfcd75ccbfe6f723c58763111f5159b90549978d041",
+  "checks": [
+    "package integrity passed",
+    "layout passed",
+    "3 native charts + 2 native tables",
+    "all108cash values match frozen source within RM0.01",
+    "key constraints passed",
+    "changed-page visual review passed"
+  ],
+  "remaining": [],
+  "limitations": [
+    "No PowerPoint desktop edit-save-reopen test",
+    "PDF raster preview",
+    "Noto Sans SC not embedded"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "errors": [],
+  "checks": [
+    "31 named families rendered",
+    "Form error summary/focus + valid local submission",
+    "Dialog opens, Escape closes, focus restored",
+    "Menu arrow navigation + Escape",
+    "Tabs keyboard switch visible panel",
+    "Search no-results and clear",
+    "Upload invalid type preserves honest local-only status",
+    "8 payout and6 submission states switched and separately rendered",
+    "No duplicate live IDs; template content inert",
+    "Reduced motion removes transitions",
+    "No external requests and no JS runtime errors",
+    "Visible control labels, image alt, local fonts, switch Space/focus, valid file selection and onboarding step3"
+  ],
+  "screenshots": [
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/button-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/input-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/form-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/select-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/dropdown-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/checkbox-radio-switch-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/date-time-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/upload-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/table-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/pagination-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/tabs-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/modal-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/toast-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/navigation-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/status-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/empty-state-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/onboarding-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/campaign-card-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/campaign-brief-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/submission-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/review-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/reward-ledger-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/payout-flow-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/notification-center-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/profile-avatar-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/search-filter-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/tooltip-popover-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/accordion-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/skeleton-progress-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/alert-support-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/chart-light.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/button-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/input-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/form-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/select-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/dropdown-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/checkbox-radio-switch-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/date-time-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/upload-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/table-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/pagination-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/tabs-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/modal-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/toast-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/navigation-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/status-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/empty-state-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/onboarding-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/campaign-card-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/campaign-brief-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/submission-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/review-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/reward-ledger-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/payout-flow-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/notification-center-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/profile-avatar-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/search-filter-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/tooltip-popover-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/accordion-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/skeleton-progress-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/alert-support-dark.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/catalog/chart-dark.png"
+  ],
+  "responsive": [
+    {
+      "view": "catalog",
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "view": "catalog",
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "view": "catalog",
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "view": "catalog",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "view": "UI-BRAND-DESKTOP",
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "view": "UI-BRAND-DESKTOP",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "view": "UI-BRAND-MOBILE",
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "view": "UI-BRAND-MOBILE",
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "view": "UI-CREATOR-DESKTOP",
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "view": "UI-CREATOR-DESKTOP",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "view": "UI-CREATOR-MOBILE",
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "view": "UI-CREATOR-MOBILE",
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "view": "UI-PAYOUT-CONFIRM",
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "view": "UI-PAYOUT-CONFIRM",
+      "width": 390,
+      "scrollWidth": 390
+    }
+  ],
+  "externalNetworkRequests": [],
+  "limitations": [
+    "Automated browser checks are not WCAG certification or full screen-reader testing.",
+    "Specification-only combinations remain distinct from implementation coverage."
+  ],
+  "additionalAccessibilitySmoke": {
+    "unlabelled": [],
+    "missingImageAlt": 0,
+    "fonts": true,
+    "switchKeyboard": true,
+    "visibleFocus": {
+      "style": "solid",
+      "width": "3px"
+    },
+    "uploadFilenameOnly": true,
+    "onboardingStep3": true
+  }
+}

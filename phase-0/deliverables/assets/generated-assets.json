@@ -1,0 +1,252 @@
+{
+  "created_date": "2026-09-10",
+  "generation_mode": "built-in image_gen__imagegen; sequential",
+  "provenance": {
+    "type": "AI-generated conceptual illustration, not real customer evidence"
+  },
+  "canonical_brand_sources": [
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+  ],
+  "palette_source": "brand/tokens.json primitive.color ink, paper, citron, iris; black logo treatment explicitly requested",
+  "asset_count": 6,
+  "total_generation_calls": 9,
+  "all_files_nonempty": true,
+  "all_sha256_distinct": true,
+  "no_programmatic_image_generation_or_editing": true,
+  "dimensions_note": "Logo requested 2048x2048, returned 1254x1254. Landscape images requested 16:9 ideally 2048x1152, returned 1672x941 (approximately 16:9). No resizing, upscaling or cropping performed.",
+  "attempt_log": [
+    {
+      "asset": "brand-logo-concept",
+      "attempt": 1,
+      "status": "rejected",
+      "reason": "Displayed background did not meet opaque warm-white requirement; W appeared split into three strokes.",
+      "prompt": "Use case: logo-brand. Generate ONE fresh original raster logo concept source, 2048x2048 square. Clean flat vector-style solid black on warm white Paper #F7F8F2. Center one complete custom wordmark with exact text 'Wringy' (W r i n g y), with a matching separate abstract W mark above. Bold rounded geometric precision, bespoke letterforms, clearly readable r i n g, distinctive OPEN connection detail extending from g terminal. W symbol formed from TWO equal-weight strokes, simple silhouette intended for recognition at 24px. Youthful creative and trustworthy Malaysian brand/creator collaboration brand; motif an open slightly offset connection. Lots of negative space. Only text is Wringy; W symbol above. No shields, coins, handshakes, infinity symbols, gradients, shadows, mockups, extra words, logo grids or generic typed Manrope. This is a conceptual PNG source, not SVG and not a claim of trademark originality clearance."
+    },
+    {
+      "asset": "brand-logo-concept",
+      "attempt": 2,
+      "status": "saved_with_resolution_limitation"
+    },
+    {
+      "asset": "learning-hero",
+      "attempt": 1,
+      "status": "saved"
+    },
+    {
+      "asset": "investor-hero",
+      "attempt": 1,
+      "status": "saved"
+    },
+    {
+      "asset": "brand-editorial",
+      "attempt": 1,
+      "status": "saved"
+    },
+    {
+      "asset": "logo-lockup-transparent",
+      "attempt": 1,
+      "status": "selected_review_only",
+      "reason": "Genuine alpha but nonuniform RGB and foreground opacity; exact contours unverified"
+    },
+    {
+      "asset": "logo-lockup-transparent",
+      "attempt": 2,
+      "status": "rejected",
+      "reason": "Opaque baked checkerboard background"
+    },
+    {
+      "asset": "logo-symbol-transparent",
+      "attempt": 1,
+      "status": "not_selected",
+      "reason": "Nonuniform fill and foreground opacity"
+    },
+    {
+      "asset": "logo-symbol-transparent",
+      "attempt": 2,
+      "status": "selected_review_only",
+      "reason": "Genuine alpha but nonuniform RGB and foreground opacity; exact contours unverified"
+    }
+  ],
+  "assets": [
+    {
+      "name": "brand-logo-concept",
+      "source_path": "${HOME}/.codex/generated_images/01a0876b-c91a-74e0-93de-7996b57d922b/exec-c485146e-f3ef-4017-b777-6861d1fa54eb.png",
+      "local_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-logo-concept.png",
+      "prompt": "Use case: logo-brand. Generate ONE fresh original raster logo concept source, 2048x2048 square. Clean flat vector-style solid black on warm white Paper #F7F8F2. Center one complete custom wordmark with exact text 'Wringy' (W r i n g y), with a matching separate abstract W mark above. Bold rounded geometric precision, bespoke letterforms, clearly readable r i n g, distinctive OPEN connection detail extending from g terminal. W symbol formed from TWO equal-weight strokes, simple silhouette intended for recognition at 24px. Youthful creative and trustworthy Malaysian brand/creator collaboration brand; motif an open slightly offset connection. Lots of negative space. Only text is Wringy; W symbol above. No shields, coins, handshakes, infinity symbols, gradients, shadows, mockups, extra words, logo grids or generic typed Manrope. This is a conceptual PNG source, not SVG and not a claim of trademark originality clearance. CRITICAL: fully OPAQUE warm-white background covering the entire canvas, no transparency or black backdrop. Exactly 2048 by 2048 pixels. Two continuous bent strokes form the standalone W, not three disconnected diagonal bars. Pure flat solid black lettering without shading.",
+      "attempts": 2,
+      "provenance": {
+        "type": "AI-generated conceptual illustration, not real customer evidence",
+        "tool": "image_gen__imagegen",
+        "date": "2026-09-10"
+      },
+      "status": "generated",
+      "inspection": "Actual generated image displayed and visually inspected",
+      "width_px": 1254,
+      "height_px": 1254,
+      "bytes": 903489,
+      "sha256": "8af59c467cb22012bef263f708b7718bd4d2d39605cfc26da921604c0fdcf950",
+      "visible_elements": "Complete readable Wringy wordmark with rounded custom-looking letter shapes, separate two-part W above, black on warm-white background, ample margins.",
+      "limitations": "Logo concept source only, not SVG. Requested 2048 square not delivered by tool after two attempts. Small-size 24px recognition and exact flat color fidelity not objectively validated; g connection refinement remains a designer review item.",
+      "original_output_preserved": true,
+      "reuse": "Distinct new generation for this asset; do not substitute the other hero",
+      "recommended_use_zh": "品牌标志概念来源"
+    },
+    {
+      "name": "learning-hero",
+      "source_path": "${HOME}/.codex/generated_images/01a0876b-c91a-74e0-93de-7996b57d922b/exec-d5815aad-6ac1-4d3a-9695-1b87c6a09ed9.png",
+      "local_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/learning-hero.png",
+      "prompt": "Use case: photorealistic-natural. Create ONE fresh editorial photographic conceptual hero image for a Chinese educational presentation about Wringy, a young creative trusted Malaysian brand-and-creator collaboration concept. Wide 16:9, ideally 2048x1152. Contemporary Malaysian creative workspace, tabletop smartphone camera on small support, partially visible laptop with no legible UI, notebooks. Two Southeast Asian ADULTS naturally focused making content on the RIGHT side, unstaged-looking collaboration, comfortable contemporary casual clothes. Warm natural daylight, authentic tactile textures. LEFT HALF is clean warm Paper #F7F8F2 negative space for later native Chinese title, no objects or faces intruding. Ink #182521 dark details, small Citron #D5F34A props. No text, lettering, logos, watermark, readable screens or real customer claims. This depicts fictional people and a conceptual scene, not an actual event. Photographic realism, not illustration/cartoon; avoid corporate stock-photo handshakes.",
+      "attempts": 1,
+      "provenance": {
+        "type": "AI-generated conceptual illustration, not real customer evidence",
+        "tool": "image_gen__imagegen",
+        "date": "2026-09-10"
+      },
+      "status": "generated",
+      "inspection": "Actual generated image displayed and visually inspected",
+      "width_px": 1672,
+      "height_px": 941,
+      "bytes": 1709128,
+      "sha256": "5de33ae68505f052435a2c38fd2cca363040ab9ff5db56192840235a33f261c8",
+      "visible_elements": "Two fictional adults on right creating content with a smartphone tripod, partial laptop, notebooks and ceramics; bright warm workspace; large paper-like left title area.",
+      "limitations": "Objects enter lower-left-half near center; safest text area is left 40%. Background contains tiny indistinct marks, no legible UI.",
+      "original_output_preserved": true,
+      "reuse": "Distinct new generation for this asset; do not substitute the other hero",
+      "recommended_use_zh": "中文学习演示封面"
+    },
+    {
+      "name": "investor-hero",
+      "source_path": "${HOME}/.codex/generated_images/01a0876b-c91a-74e0-93de-7996b57d922b/exec-255b76b8-3d7c-4f2b-874f-89f0e4f792cc.png",
+      "local_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/investor-hero.png",
+      "prompt": "Use case: photorealistic-natural. Generate ONE fresh separate investor-presentation hero for Wringy, concept-stage Malaysian brand/creator collaboration platform. 16:9 wide landscape ideally 2048x1152. A wider atmospheric contemporary Malaysian independent production studio: two Malaysian ADULTS, a brand operator and a creator, reviewing a physical product brief and an unbranded physical consumer product across a workbench, all on the RIGHT side. Different scene from a bright tabletop content-making photo: wider studio perspective, dark Ink #182521 background and workbench, restrained Citron #D5F34A accent prop, filming camera and lighting gear, practical materials, grounded editorial photography. The LEFT HALF must be generous uninterrupted dark Ink negative space for a native Chinese investor title. People focused on the physical brief rather than camera, authentic cooperation, no corporate handshake or boardroom. Papers have no readable text; no text/logos anywhere, no readable UI or screens, no watermarks. Natural directional studio light with believable skin and hands. Fictional conceptual scene, NOT real customers, real traction or an actual recorded event.",
+      "attempts": 1,
+      "provenance": {
+        "type": "AI-generated conceptual illustration, not real customer evidence",
+        "tool": "image_gen__imagegen",
+        "date": "2026-09-10"
+      },
+      "status": "generated",
+      "inspection": "Actual generated image displayed and visually inspected",
+      "width_px": 1672,
+      "height_px": 941,
+      "bytes": 1594124,
+      "sha256": "8a2143b8b811c315b637a8ab218b87afe8564a41ae86c8887291e2388294218d",
+      "visible_elements": "Two fictional adults on right review a ceramic product and physical papers; filming camera and softbox; dark studio with citron product accents.",
+      "limitations": "Camera and studio gear reach into center-left; safest title area is left 30–35%. Malaysian context was prompted, not verifiable from appearance.",
+      "original_output_preserved": true,
+      "reuse": "Distinct new generation for this asset; do not substitute the other hero",
+      "recommended_use_zh": "中文投资演示封面"
+    },
+    {
+      "name": "brand-editorial",
+      "source_path": "${HOME}/.codex/generated_images/01a0876b-c91a-74e0-93de-7996b57d922b/exec-dab36fc8-cbc2-4478-aee6-e481927b4409.png",
+      "local_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-editorial.png",
+      "prompt": "Use case: photorealistic-natural. Generate ONE fresh original 16:9 landscape brand editorial still life, ideally 2048x1152, for Wringy Chinese brand presentation. Very different from people/studio hero photographs. True TOP-DOWN tactile creative workspace on warm Paper #F7F8F2 surface: sculptural folded paper, a matte Citron #D5F34A ribbon with an open connection fold (not infinity), Iris #5944B8 notebook with completely blank cover, raw brushed aluminium smartphone filming grip (no screen), a small restrained Ink #182521 detail. Objects composed on right and lower-right with deliberate breathing room; lots of clean left and upper-left space for native caption added later. Diagonal natural sunlight shadow, fine real paper fibres, matte ribbon and brushed metal, tasteful editorial photography, young creative trusted feel. No people, no text, no UI, no letters, no logos, no watermark, no rendered typography, no digital gradients. Conceptual still life, not real customer evidence.",
+      "attempts": 1,
+      "provenance": {
+        "type": "AI-generated conceptual illustration, not real customer evidence",
+        "tool": "image_gen__imagegen",
+        "date": "2026-09-10"
+      },
+      "status": "generated",
+      "inspection": "Actual generated image displayed and visually inspected",
+      "width_px": 1672,
+      "height_px": 941,
+      "bytes": 2340658,
+      "sha256": "7de4a82bcdc4105f2499b4633e4171516c1b63ab8e44dcefcbba7fce2187b2c4",
+      "visible_elements": "Top-down paper folds, citron ribbon, blank iris notebook, metal grip-like object, small dark bowl and dried stem; diagonal sunlight shadows; clear upper-left caption area.",
+      "limitations": "Metal object is a conceptual grip-like form, not a verified functional phone accessory.",
+      "original_output_preserved": true,
+      "reuse": "Distinct new generation for this asset; do not substitute the other hero",
+      "recommended_use_zh": "品牌章节编辑视觉"
+    },
+    {
+      "name": "logo-lockup-transparent",
+      "source_path": "${HOME}/.codex/generated_images/01a0876b-c91a-74e0-93de-7996b57d922b/exec-eecee271-6f96-477c-9900-addd0cd53bbe.png",
+      "local_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/logo-lockup-transparent.png",
+      "prompt": "EDIT the supplied Wringy logo concept, do not design a new identity. Extract and preserve EXACT original W symbol contours, two strokes, negative cuts, curves and proportions; preserve EXACT wordmark letterforms and spacing 'Wringy', including g terminal and y. Only change arrangement: horizontal lockup with the existing symbol SMALL on LEFT and existing complete wordmark on RIGHT, vertically aligned, comfortable gap. Uniform scaling and translation only for each existing element, no redrawing or reinterpretation. Change all foreground to perfectly uniform solid brand Ink #182521. Remove warm-white background completely: genuine transparent alpha PNG, including all negative cuts and letter counters. NO background, no white rectangle, no checkerboard drawn into pixels, no texture, gradient, shadow, outlines or new letters. Wide canvas with modest transparent padding. Exact faithful derivative, not a variant.",
+      "other_attempt_prompt": "Repair the FIRST supplied image (horizontal transparent Wringy lockup). SECOND image is original identity reference only. Keep the horizontal arrangement, EXACT existing symbol and wordmark contours, negative-space cuts and proportions. Only fix fill: EVERY interior foreground pixel must be fully opaque alpha 255 and EXACT RGB (24,37,33), hex #182521. Absolutely NO texture, tonal variation, lighting, gradient or partial transparency inside strokes. Only outer contour antialiasing may be partly transparent. All background and counters remain alpha zero. Treat as a flat solid spot-color logo, not photographed material. No redesign or new glyphs. Preserve the full word Wringy, W symbol left and wordmark right. Output genuine RGBA PNG.",
+      "attempts": 2,
+      "selected_attempt": 1,
+      "edit_source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-logo-concept.png",
+      "status": "review_only_not_exact_identity_master",
+      "production_ready": false,
+      "identity_verification": {
+        "exact_identity_preserved": "unverified",
+        "visual_review": "Recognizable original motif and wordmark retained, but generation is not deterministic extraction; contour and terminal fidelity cannot be certified."
+      },
+      "provenance": {
+        "type": "AI-generated conceptual illustration, not real customer evidence",
+        "tool": "image_gen__imagegen",
+        "mode": "edit",
+        "date": "2026-09-10"
+      },
+      "width_px": 2172,
+      "height_px": 724,
+      "bytes": 337770,
+      "sha256": "7a69a8b3d54f97c4a0928d14e750bfd565e37bb049f2f973a0b93e7a923ee0a6",
+      "alpha_verification": {
+        "method": "Read-only Pillow RGBA pixel histogram; no image writes",
+        "true_transparent_background": true,
+        "fully_transparent_pixels": 1279763,
+        "fully_opaque_pixels": 3094,
+        "partially_transparent_pixels": 289671,
+        "corners_alpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "foreground_unique_rgb_colors": 934,
+        "exact_ink_rgb_pixels": 0,
+        "solid_ink_requirement_pass": false
+      },
+      "limitations": "Real transparent background verified. Foreground contains many RGB values and partial opacity; not perfectly solid #182521. Exact original contours/letterforms unverified. Do not use as canonical component logo without further identity-preserving cleanup by the owning designer."
+    },
+    {
+      "name": "logo-symbol-transparent",
+      "source_path": "${HOME}/.codex/generated_images/01a0876b-c91a-74e0-93de-7996b57d922b/exec-57730c6d-0e2e-4760-b53f-94d7656a90b8.png",
+      "local_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/logo-symbol-transparent.png",
+      "prompt": "Edit supplied original logo concept: precisely extract ONLY the upper W symbol, discard wordmark. Preserve its exact two-piece silhouette and curved negative cuts, no redesign. Make it a plain flat vector-style cutout with one uniform dark ink color #182521, solid opaque interior. Remove ALL background to real alpha transparency, no drawn checkerboard, no texture, no shadows, no gradients. It must be a transparent PNG of just the original W symbol with modest empty padding. The shape is the invariant. No letters.",
+      "other_attempt_prompt": "EDIT the supplied Wringy concept source, extraction only. Output ONLY the existing standalone W SYMBOL from the upper half, removing the entire lower wordmark. Preserve EXACT original symbol silhouette, two strokes, distinctive curved negative cuts, terminals, widths and proportions. No redesign, no smoothing, no changed junctions. Center the isolated symbol with modest transparent padding, uniformly scale only if necessary. Recolor symbol to perfectly flat solid brand Ink #182521, no texture/shadow/gradient. TRUE transparent alpha PNG background everywhere outside the symbol including internal negative spaces, no white or checkerboard pixels. No letters, no wordmark, no other objects. This must be an exact identity-preserving derivative of the original upper W mark.",
+      "attempts": 2,
+      "selected_attempt": 2,
+      "edit_source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-logo-concept.png",
+      "status": "review_only_not_exact_identity_master",
+      "production_ready": false,
+      "identity_verification": {
+        "exact_identity_preserved": "unverified",
+        "visual_review": "Recognizable original motif and wordmark retained, but generation is not deterministic extraction; contour and terminal fidelity cannot be certified."
+      },
+      "provenance": {
+        "type": "AI-generated conceptual illustration, not real customer evidence",
+        "tool": "image_gen__imagegen",
+        "mode": "edit",
+        "date": "2026-09-10"
+      },
+      "width_px": 1774,
+      "height_px": 887,
+      "bytes": 373364,
+      "sha256": "2a0cb910ba60b8826876f09cb8b95a8917e401cd032f84dfb18a11ace09a86b1",
+      "alpha_verification": {
+        "method": "Read-only Pillow RGBA pixel histogram; no image writes",
+        "true_transparent_background": true,
+        "fully_transparent_pixels": 1194471,
+        "fully_opaque_pixels": 1545,
+        "partially_transparent_pixels": 377522,
+        "corners_alpha": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "foreground_unique_rgb_colors": 906,
+        "exact_ink_rgb_pixels": 1659,
+        "solid_ink_requirement_pass": false
+      },
+      "limitations": "Real transparent background verified. Foreground contains many RGB values and partial opacity; not perfectly solid #182521. Exact original contours/letterforms unverified. Do not use as canonical component logo without further identity-preserving cleanup by the owning designer."
+    }
+  ],
+  "derivative_note": "Two requested edit derivatives saved non-destructively for review only. Neither meets the exact identity + perfectly solid Ink requirement. Both selected files have genuine alpha transparency. Lockup repair rejected because checkerboard was baked into opaque pixels. Maximum two attempts per derivative exhausted. No programmatic image editing or vector tracing performed."
+}

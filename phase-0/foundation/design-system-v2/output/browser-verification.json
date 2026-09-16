@@ -1,0 +1,202 @@
+{
+  "checkedAt": "2026-09-11T02:39:01.398Z",
+  "result": "passed",
+  "browser": "Project Playwright 1.62.1 / chrome",
+  "nativeUI": 61,
+  "guidePatterns": 3,
+  "checks": [
+    {
+      "name": "64 entries / each renders its own real component or documented pattern",
+      "passed": true,
+      "evidence": {
+        "native": 61,
+        "patterns": 3,
+        "rendered": 64
+      }
+    },
+    {
+      "name": "navigation / search and no-match recovery",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "button / official variants disabled and real loading state",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "checkbox / actual mixed checked disabled invalid semantics",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "input / readonly cannot change, invalid associates visible message",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "field / required focus and invalid email, failure preserves input, retry succeeds",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "switch radio slider / state changes with actual keyboard",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "accordion / actual expanded content and disabled trigger",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "dialog / initial focus, cycle Tab, Escape and return focus",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "select / keyboard open choice Escape and disabled option",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "tabs / actual roving focus and panel selection",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "questionnaire / required gating and completion",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "data-table / filter no-results recovery sort and pagination",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "review regression / one main landmark and malformed hash recovery",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "review regression / Command opens filters selects and restores focus",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "review regression / navigation links preserve gallery route",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "320px / all 64 gallery entries have no page overflow",
+      "passed": true,
+      "evidence": {
+        "checked": 64,
+        "width": 320
+      }
+    },
+    {
+      "name": "mobile navigation / official sheet open Escape and component select",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "screenshots / desktop and narrow compositions",
+      "passed": true,
+      "evidence": [
+        "desktop-button.png",
+        "desktop-field.png",
+        "desktop-data-table.png",
+        "desktop-questionnaire.png",
+        "mobile-320-field.png",
+        "mobile-390-button.png",
+        "tablet-dialog.png",
+        "offline-file.png"
+      ]
+    },
+    {
+      "name": "palette / computed text pairs and actual 50% ring blended contrast",
+      "passed": true,
+      "evidence": {
+        "pairs": [
+          {
+            "pair": "foreground/background",
+            "ratio": 15.423919985385067
+          },
+          {
+            "pair": "primary-foreground/primary",
+            "ratio": 12.08728730332328
+          },
+          {
+            "pair": "accent-foreground/accent",
+            "ratio": 13.373690763003014
+          },
+          {
+            "pair": "muted-foreground/background",
+            "ratio": 5.688656096161458
+          },
+          {
+            "pair": "muted-foreground/muted",
+            "ratio": 5.2972686187418985
+          }
+        ],
+        "focusRing50Percent": 3.1591232884735883,
+        "inputBoundary": 4.191650998045863,
+        "caveat": "Official destructive variant has separate low-opacity error rings, unmodified; not a blanket WCAG certification"
+      }
+    },
+    {
+      "name": "offline / self-contained file renders all entries, bundled fonts, no network",
+      "passed": true,
+      "evidence": {
+        "rendered": 64,
+        "fontFaces": [
+          {
+            "family": "Geist Variable",
+            "status": "unloaded"
+          },
+          {
+            "family": "Geist Variable",
+            "status": "unloaded"
+          },
+          {
+            "family": "Geist Variable",
+            "status": "unloaded"
+          },
+          {
+            "family": "Geist Variable",
+            "status": "unloaded"
+          },
+          {
+            "family": "Geist Variable",
+            "status": "loaded"
+          }
+        ]
+      }
+    },
+    {
+      "name": "runtime / no React or browser uncaught errors",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "uncaughtErrors": [],
+  "screenshots": [
+    "desktop-button.png",
+    "desktop-field.png",
+    "desktop-data-table.png",
+    "desktop-questionnaire.png",
+    "mobile-320-field.png",
+    "mobile-390-button.png",
+    "tablet-dialog.png",
+    "offline-file.png"
+  ],
+  "limitations": [
+    "Only Chrome automated tests, no screen reader or real mobile device certification",
+    "Official upstream motion and state styling retained, including transition-all where shipped",
+    "This is documentation and local examples, not production auth/API/payment integration",
+    "No claim to exhaust every upstream prop or combined state"
+  ]
+}

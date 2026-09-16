@@ -1,0 +1,268 @@
+{
+  "title": "Wringy financing and growth plan - market research inputs",
+  "research_date": "2026-09-12",
+  "timezone": "Asia/Kuala_Lumpur",
+  "source_limit": 8,
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Google e-Conomy report hub",
+      "publisher": "Google",
+      "url": "https://economysea.withgoogle.com/",
+      "published_date": null,
+      "published_date_note": "Publication date not shown; current download is 2025 report",
+      "accessed_date": "2026-09-12",
+      "reference_period": "2025 edition",
+      "region": "SEA",
+      "currency": null,
+      "unit": "edition",
+      "claims": [
+        "Latest formal edition verified in report hub: 2025; no official 2026 edition found during this research."
+      ],
+      "verification": "Direct official HTML read",
+      "source_type": "primary"
+    },
+    {
+      "id": "S2",
+      "title": "e-Conomy SEA 2025",
+      "publisher": "Google, Temasek, Bain & Company",
+      "url": "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf",
+      "published_date": "2025-11",
+      "published_date_note": "Month precision; exact release day not verified in PDF",
+      "accessed_date": "2026-09-12",
+      "reference_period": "2025 estimate/projection",
+      "region": "SEA-6 and report ASEAN-10; page 15 SEA-6 video indicators",
+      "currency": "USD",
+      "unit": "billion; percent",
+      "claims": [
+        "p12: ecommerce GMV 181 SEA-6 / 185 ASEAN-10; ecommerce revenue 40 / 41, respectively.",
+        "p15: video commerce approximately 25% of ecommerce GMV in 2025; not creator earnings."
+      ],
+      "verification": "Official PDF downloaded; pages 12 and 15 extracted, rendered and visually verified",
+      "source_type": "primary"
+    },
+    {
+      "id": "S3",
+      "title": "Malaysia e-Conomy SEA 2025 launch",
+      "publisher": "Google Malaysia",
+      "url": "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+      "published_date": "2025-11-28",
+      "published_date_note": "Page publication 28 November; event dateline 25 November 2025",
+      "accessed_date": "2026-09-12",
+      "reference_period": "2025 estimate/projection",
+      "region": "Malaysia",
+      "currency": "USD",
+      "unit": "billion; percent",
+      "claims": [
+        "Ecommerce GMV 20 billion; 21% YoY."
+      ],
+      "verification": "Direct official HTML read; English and Chinese figures consistent",
+      "source_type": "primary"
+    },
+    {
+      "id": "S4",
+      "title": "Malaysia Digital Economy 2024",
+      "publisher": "Department of Statistics Malaysia",
+      "url": "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+      "published_date": "2024-12-19",
+      "published_date_note": "Date explicitly listed on official release page",
+      "accessed_date": "2026-09-12",
+      "reference_period": "2022 establishment census reference year",
+      "region": "Malaysia",
+      "currency": null,
+      "unit": "establishments",
+      "claims": [
+        "78236 establishments engaged in ecommerce out of 1091867 total establishments.",
+        "Establishments are not necessarily unique companies, brands or buying centres; count is not 2026 active entities."
+      ],
+      "verification": "Official search-index full text; direct HTML fetch timed out; corresponding official DOSM release PDF independently read",
+      "source_type": "primary"
+    },
+    {
+      "id": "S5",
+      "title": "National E-Commerce Strategic Roadmap achievements",
+      "publisher": "Malaysia Digital Economy Corporation",
+      "url": "https://www.mdec.my/nesr",
+      "published_date": null,
+      "published_date_note": "Page date not shown",
+      "accessed_date": "2026-09-12",
+      "reference_period": "2016-2024 cumulative adoption",
+      "region": "Malaysia",
+      "currency": null,
+      "unit": "cumulative MSME adoption records",
+      "claims": [
+        "2425874 cumulative adoption records.",
+        "Includes registered and informal businesses; official footnote explicitly permits one MSME appearing in multiple programmes.",
+        "Not usable as unique active prospective customer count."
+      ],
+      "verification": "Direct official HTML including methodology footnote",
+      "source_type": "primary"
+    },
+    {
+      "id": "S6",
+      "title": "Malaysian Digital Adex FY2025",
+      "publisher": "MSA with MAA and MDA; hosted by MDA",
+      "url": "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+      "published_date": "2026-08-19",
+      "published_date_note": "Publication date confirmed in S7 resource directory",
+      "accessed_date": "2026-09-12",
+      "reference_period": "FY2025",
+      "region": "Malaysia",
+      "currency": "MYR",
+      "unit": "million; billion; percent",
+      "claims": [
+        "Total estimated digital adex MYR2959.40 million.",
+        "21 contributing agencies report approximately MYR1775.64 million, representing about 60% coverage.",
+        "Reported spending grew 24.8% YoY; social 46.3% does not establish creator marketing budget."
+      ],
+      "verification": "Direct official report summary HTML; quarterly reported amounts sum checked",
+      "source_type": "primary"
+    },
+    {
+      "id": "S7",
+      "title": "MDA official resource directory",
+      "publisher": "Malaysian Digital Association",
+      "url": "https://malaysiandigitalassociation.org.my/resources/",
+      "published_date": "2026-08-19",
+      "published_date_note": "Date applies to FY2025 report entry, not overall webpage",
+      "accessed_date": "2026-09-12",
+      "reference_period": "FY2025 report publication",
+      "region": "Malaysia",
+      "currency": null,
+      "unit": "publication date",
+      "claims": [
+        "FY2025 report directory entry dated 19 Aug 2026."
+      ],
+      "verification": "Direct official HTML",
+      "source_type": "primary"
+    },
+    {
+      "id": "S8",
+      "title": "Usage of ICT and E-Commerce by Establishment 2025",
+      "publisher": "Department of Statistics Malaysia",
+      "url": "https://www.dosm.gov.my/portal-main/release-content/usage-of-ict-and-e-commerce-by-establishment2025",
+      "published_date": "2026-06-30",
+      "published_date_note": "Explicit latest release date",
+      "accessed_date": "2026-09-12",
+      "reference_period": "2024",
+      "region": "Malaysia",
+      "currency": "MYR",
+      "unit": "billion",
+      "claims": [
+        "Ecommerce transaction income 1288.1; B2B 879.6; B2C 374.7; B2G 33.8.",
+        "Broad establishment transaction definition; not comparable to Google consumer ecommerce GMV and not Wringy fee TAM."
+      ],
+      "verification": "Official release page full text returned in live web search",
+      "source_type": "primary"
+    }
+  ],
+  "product_facts_basis": "Current task instruction; sources directory was empty on read-only inspection",
+  "critical_boundaries": [
+    "Malaysia first; SEA long term; Creator Rewards first.",
+    "Belcort is founder-related development company; related-party use is not independent market validation.",
+    "No external customers or supplier admission established.",
+    "15% surcharge is demonstration only, not validated pricing.",
+    "GMV, digital ad spend, creator reward pools and Wringy fees are distinct; do not sum or equate them."
+  ],
+  "illustrative_model": {
+    "status": "UNVALIDATED SCENARIO - not third-party market size or approved business plan",
+    "currency": "MYR",
+    "N": {
+      "value": 78236,
+      "unit": "2022 establishments",
+      "source_id": "S4",
+      "status": "historical statistic"
+    },
+    "assumptions": {
+      "independent_active_buyer_adjustment": 0.8,
+      "creator_rewards_fit_rate": 0.1,
+      "annual_effective_reward_budget_per_brand": 24000,
+      "reward_surcharge_fee_rate": 0.15,
+      "current_serviceable_fraction": 0.2
+    },
+    "formula": "fee_TAM=N*d*a*B*f; fee_SAM=fee_TAM*s",
+    "outputs": {
+      "target_buyers": 6258.880000000001,
+      "annual_reward_pool_TAM": 150213120.00000003,
+      "annual_fee_TAM": 22531968.000000004,
+      "serviceable_buyers": 1251.7760000000003,
+      "annual_reward_pool_SAM": 30042624.000000007,
+      "annual_fee_SAM": 4506393.600000001
+    },
+    "sensitivity": {
+      "fit_rate_5pct_annual_fee_TAM": 11265984.000000002,
+      "annual_budget_12000_annual_fee_TAM": 11265984.000000002,
+      "fee_rate_10pct_annual_fee_TAM": 15021312.000000004
+    },
+    "som_scenarios": [
+      {
+        "active_paying_brands": 40,
+        "monthly_reward_budget_per_brand": 1000,
+        "monthly_fee": 6000.0,
+        "annualised_fee_run_rate": 72000.0,
+        "status": "24-36 month scale scenario; not current 18-month revenue forecast; annualised run rate is not actual annual revenue",
+        "horizon_months": [
+          24,
+          36
+        ]
+      },
+      {
+        "active_paying_brands": 100,
+        "monthly_reward_budget_per_brand": 2000,
+        "monthly_fee": 30000.0,
+        "annualised_fee_run_rate": 360000.0,
+        "status": "24-36 month scale scenario; not current 18-month revenue forecast; annualised run rate is not actual annual revenue",
+        "horizon_months": [
+          24,
+          36
+        ],
+        "monthly_reward_pool": 200000,
+        "supply_requirement": {
+          "eligible_monthly_views": 40000000,
+          "formula": "200000 / 5 * 1000",
+          "reward_MYR_per_1000_eligible_views": 5,
+          "parameter_source": "Project demonstration parameter supplied in current conversation, 2026-09-12; not market research or verified industry pricing",
+          "assumption": "Entire monthly reward pool paid at flat demo rate; caps, invalid views or other reward mechanisms require recalculation",
+          "unverified": [
+            "Creator supply",
+            "Sustainable eligible view volume",
+            "Approval rate",
+            "Campaign fulfilment capacity"
+          ]
+        }
+      },
+      {
+        "active_paying_brands": 200,
+        "monthly_reward_budget_per_brand": 3000,
+        "monthly_fee": 90000.0,
+        "annualised_fee_run_rate": 1080000.0,
+        "status": "24-36 month scale scenario; not current 18-month revenue forecast; annualised run rate is not actual annual revenue",
+        "horizon_months": [
+          24,
+          36
+        ]
+      }
+    ],
+    "sea_fee_TAM": null,
+    "sea_fee_TAM_reason": "Missing comparable unique active brand counts, annual creator reward budgets and validated local fee rates.",
+    "scope": "Malaysia ecommerce-brand target cohort only; non-ecommerce content brands are excluded; NOT whole-Wringy TAM",
+    "display_labels": {
+      "annual_fee_TAM": "马来西亚电商品牌目标客群年费容量（假设）",
+      "annual_fee_SAM": "首期服务范围年费容量（假设）",
+      "som_scale_base": "24–36个月规模情景：100活跃品牌；RM200k月奖励池；按项目演示RM5/千次需约4,000万次月合格播放；RM30k月fee，年化RM360k；非当前18个月收入预测"
+    },
+    "label_confirmation": {
+      "date": "2026-09-12",
+      "basis": "Current conversation instruction confirms scope and labels; does not validate numeric assumptions."
+    }
+  },
+  "gaps": [
+    "Current unique buying-centre count by target category",
+    "Brand willingness to fund recurring reward budgets",
+    "Independent paying pilot and repeat-purchase evidence",
+    "External customer, creator and platform admission",
+    "Validated fee, refund and billable-base rules",
+    "Comparable SEA country-level inputs",
+    "Primary MY/SEA Creator Rewards total expenditure statistic"
+  ]
+}

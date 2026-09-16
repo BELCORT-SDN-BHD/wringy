@@ -1,0 +1,1397 @@
+{
+  "schema_version": "1.0",
+  "report": "mechanism-audit.md",
+  "language": "zh",
+  "research_date": "2026-09-13",
+  "timezone": "Asia/Kuala_Lumpur",
+  "scope": "Official public materials only; read-only official contact pages are permitted, sending messages or submitting forms is prohibited. Main task directly read the partnership form and supplied observations; this research worker did not repeat that open. No authenticated browsing, signup, submissions or payment tests by this worker. Local public-page records supplied by main task read only.",
+  "evidence_policy": {
+    "official_claims_are_independently_verified": false,
+    "verified_scope": "Existence and wording of retrieved public materials plus arithmetic; no backend or transaction verification",
+    "current_changes": "Same-day prior reports; discoveries/corrections do not establish a product release between research rounds",
+    "negative_claims": "Unknown/not found means within listed sources and queries, not universal nonexistence",
+    "copyright": "Paraphrases and compact locators, no full-page copies"
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "citation_number": 1,
+      "title": "For Brands",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/brands",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_marketing",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Managed flow; AI and manual review; daily updates; sample dashboard",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C03",
+        "C07",
+        "C08",
+        "C21",
+        "C25",
+        "C27",
+        "C33",
+        "C38"
+      ]
+    },
+    {
+      "id": "S02",
+      "citation_number": 2,
+      "title": "Enterprise",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/enterprise",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_marketing",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Enterprise capabilities; team seats; custom volume pricing",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C03",
+        "C07",
+        "C08",
+        "C21",
+        "C33"
+      ]
+    },
+    {
+      "id": "S03",
+      "citation_number": 3,
+      "title": "Payments",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/payments",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Payment methods; earnings; final review; payout restrictions",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C07",
+        "C16",
+        "C17",
+        "C26",
+        "C27",
+        "C29",
+        "C30",
+        "C31",
+        "C36"
+      ]
+    },
+    {
+      "id": "S04",
+      "citation_number": 4,
+      "title": "Acceptable Use Policy",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/policies/acceptable-use-policy",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": "2026-01-01",
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_policy",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Sections 1–5, especially Appeals Process",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C01",
+        "C10",
+        "C13",
+        "C27",
+        "C28"
+      ]
+    },
+    {
+      "id": "S05",
+      "citation_number": 5,
+      "title": "Teams",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/teams",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Member/captain; commission; referral; roster changes",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C02",
+        "C07",
+        "C17",
+        "C32",
+        "C37"
+      ]
+    },
+    {
+      "id": "S06",
+      "citation_number": 6,
+      "title": "Welcome",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/introduction",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "How campaigns work; thresholds; view tracking",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C03",
+        "C14",
+        "C16",
+        "C17",
+        "C23",
+        "C29",
+        "C36"
+      ]
+    },
+    {
+      "id": "S07",
+      "citation_number": 7,
+      "title": "Submit",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/campaign-detail",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Reading campaign; bounties; submitting; statuses; eligibility",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C04",
+        "C07",
+        "C12",
+        "C16",
+        "C17",
+        "C27",
+        "C31"
+      ]
+    },
+    {
+      "id": "S08",
+      "citation_number": 8,
+      "title": "Run a Clipping Campaign",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/campaigns",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_marketing",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Budget cap; rate; analytics; Cancel anytime",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C05",
+        "C12",
+        "C19",
+        "C31",
+        "C33"
+      ]
+    },
+    {
+      "id": "S09",
+      "citation_number": 9,
+      "title": "Terms of Service",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/policies/terms-of-service",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": "2026-01-01",
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_terms",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Sections 3–6: responsibilities, IP, payments, liability",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C03",
+        "C05",
+        "C07",
+        "C13",
+        "C31",
+        "C33"
+      ]
+    },
+    {
+      "id": "S10",
+      "citation_number": 10,
+      "title": "Partnership contact entry",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/contact?type=partnership",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_public_form_observed_by_main",
+      "access_method": "Main task direct public web open; supplied exact URL, line range and observed wording to research worker on 2026-09-13",
+      "access_status": "direct_public_text_observed_by_main",
+      "locator": "Main web open lines 108–137: minimum partnership intake budget and brand intake fields",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C06",
+        "C39"
+      ],
+      "verification_scope": "Direct observation by main task, not independently repeated by this worker; no field input or send; no server validation test"
+    },
+    {
+      "id": "S11",
+      "citation_number": 11,
+      "title": "Accounts",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/accounts",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Verification code; multiple accounts; deleting account",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C07",
+        "C10"
+      ]
+    },
+    {
+      "id": "S12",
+      "citation_number": 12,
+      "title": "Clips",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/clips",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Status meanings; primary and supplementary labels",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C07",
+        "C26",
+        "C27"
+      ]
+    },
+    {
+      "id": "S13",
+      "citation_number": 13,
+      "title": "Introducing the CLIPPING Web Dashboard",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/blog/welcome-to-clipping-bot",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": "2026-01-08",
+      "last_updated_date": null,
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_announcement",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Client Request Campaign/Request Bounty; legacy payment options",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C08",
+        "C30"
+      ]
+    },
+    {
+      "id": "S14",
+      "citation_number": 14,
+      "title": "Clipper Terms & Conditions",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/policies/clipper-terms-and-conditions",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": "2026-05-27",
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_terms",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Sections 1–7: eligibility, standards, cycle, payouts, fraud",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C09",
+        "C10",
+        "C11",
+        "C17",
+        "C20",
+        "C24",
+        "C27",
+        "C28",
+        "C29",
+        "C30",
+        "C31",
+        "C32"
+      ]
+    },
+    {
+      "id": "S15",
+      "citation_number": 15,
+      "title": "Campaigns documentation",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/campaigns",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Catalog; duration; private campaigns",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C11",
+        "C17",
+        "C19"
+      ]
+    },
+    {
+      "id": "S16",
+      "citation_number": 16,
+      "title": "Clipping homepage",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_marketing",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Join and payment copy; example cards",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C11",
+        "C29",
+        "C32"
+      ]
+    },
+    {
+      "id": "S17",
+      "citation_number": 17,
+      "title": "Dashboard",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/dashboard-home",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Current-cycle active versus past grouping",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C18"
+      ]
+    },
+    {
+      "id": "S18",
+      "citation_number": 18,
+      "title": "Rules",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/rules",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation_all_eight_accordions_observed",
+      "access_method": "Initial public web extraction plus main-task public UI expansion; research worker read sanitized saved accessibility text",
+      "access_status": "all_eight_rule_bodies_read",
+      "locator": "Saved AX lines 61,174,287,400,513,627,740,821",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C23",
+        "C27"
+      ],
+      "verification_scope": "All eight public Rules accordion bodies, not all site rules or backend enforcement"
+    },
+    {
+      "id": "S19",
+      "citation_number": 19,
+      "title": "Privacy Policy",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/policies/privacy-policy",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": "2026-01-01",
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_policy",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Data categories, security claims, rights",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C28",
+        "C34",
+        "C35"
+      ]
+    },
+    {
+      "id": "S20",
+      "citation_number": 20,
+      "title": "Data Processing Agreement",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/policies/data-processing-agreement",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": "2026-01-01",
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_policy",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Parties; purposes; response commitments",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C34",
+        "C35"
+      ]
+    },
+    {
+      "id": "S21",
+      "citation_number": 21,
+      "title": "Settings",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/settings",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Profile, read-only fields, activity history",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C35"
+      ]
+    },
+    {
+      "id": "S22",
+      "citation_number": 22,
+      "title": "How Much Do Clippers Make?",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/blog/how-much-do-clippers-make",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": "2026-02-14",
+      "last_updated_date": null,
+      "date_note": "Date displayed by official page; not inferred from search relative date",
+      "evidence_type": "official_blog",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Minimum views; team commission; legacy payment options",
+      "independent_backend_verification": false,
+      "claim_ids": [
+        "C12",
+        "C30",
+        "C36",
+        "C37"
+      ]
+    },
+    {
+      "id": "S23",
+      "citation_number": 23,
+      "title": "Get Paid to Clip",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/clip",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_marketing",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Earnings calculator is illustrative; marketing payment copy",
+      "independent_backend_verification": false,
+      "claim_ids": []
+    },
+    {
+      "id": "S24",
+      "citation_number": 24,
+      "title": "Documentation home",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_navigation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Navigation to public clipper documentation and policy footer",
+      "independent_backend_verification": false,
+      "claim_ids": []
+    },
+    {
+      "id": "S25",
+      "citation_number": 25,
+      "title": "Getting Started for Clippers",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/clippers/getting-started",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_documentation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Verification; external publication; review before payment",
+      "independent_backend_verification": false,
+      "claim_ids": []
+    },
+    {
+      "id": "S26",
+      "citation_number": 26,
+      "title": "Quick Start",
+      "publisher": "CLIPPING / Clipping.net",
+      "url": "https://clipping.net/docs/getting-started",
+      "access_date": "2026-09-13",
+      "access_timezone": "Asia/Kuala_Lumpur",
+      "published_date": null,
+      "last_updated_date": null,
+      "date_note": "No visible publication/update date",
+      "evidence_type": "official_navigation",
+      "access_method": "public web retrieval; may use recent cached extraction",
+      "access_status": "retrieved",
+      "locator": "Supplementary entry point; no unique mechanism finding",
+      "independent_backend_verification": false,
+      "claim_ids": []
+    }
+  ],
+  "claim_mapping": [
+    {
+      "id": "C01",
+      "label_zh": "处罚申诉窗口",
+      "source_ids": [
+        "S04"
+      ],
+      "evidence_type": "official_policy",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C02",
+      "label_zh": "团队佣金与推荐归属",
+      "source_ids": [
+        "S05"
+      ],
+      "evidence_type": "official_documentation",
+      "report_section": "八、团队佣金与数据责任",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C03",
+      "label_zh": "采样与界面刷新说法",
+      "source_ids": [
+        "S06",
+        "S01",
+        "S02",
+        "S09"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "四、播放门槛、计量与所有关键时间",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C04",
+      "label_zh": "投稿阻断与未知时间算法",
+      "source_ids": [
+        "S07"
+      ],
+      "evidence_type": "official_documentation_with_unknowns",
+      "report_section": "三、准入、账号与内容资格",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C05",
+      "label_zh": "取消宣传与退款缺口",
+      "source_ids": [
+        "S08",
+        "S09"
+      ],
+      "evidence_type": "marketing_plus_bounded_gap",
+      "report_section": "七、结算、失败、退款与追缴",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C06",
+      "label_zh": "合作申请入口最低预算",
+      "source_ids": [
+        "S10"
+      ],
+      "evidence_type": "direct_official_public_form_observation_by_main",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false,
+      "scope_note": "Minimum partnership intake budget only; not a universal minimum for all contracts or all campaigns."
+    },
+    {
+      "id": "C07",
+      "label_zh": "角色责任整理",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S05",
+        "S07",
+        "S09",
+        "S11",
+        "S12"
+      ],
+      "evidence_type": "analyst_synthesis_of_official_sources",
+      "report_section": "二、谁承担什么责任",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C08",
+      "label_zh": "全托管与客户席位权限张力",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S13"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "二、谁承担什么责任",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C09",
+      "label_zh": "身份地区账号与受众条件",
+      "source_ids": [
+        "S14"
+      ],
+      "evidence_type": "official_terms",
+      "report_section": "三、准入、账号与内容资格",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C10",
+      "label_zh": "代码验证与授权方式未衔接",
+      "source_ids": [
+        "S11",
+        "S04",
+        "S14"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "三、准入、账号与内容资格",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C11",
+      "label_zh": "私有活动与无申请营销边界",
+      "source_ids": [
+        "S15",
+        "S16",
+        "S14"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "三、准入、账号与内容资格",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C12",
+      "label_zh": "赏金与普通稿的选择",
+      "source_ids": [
+        "S07",
+        "S08",
+        "S22"
+      ],
+      "evidence_type": "official_documentation_plus_copy_comparison",
+      "report_section": "三、准入、账号与内容资格",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C13",
+      "label_zh": "知识产权责任与授权链缺口",
+      "source_ids": [
+        "S09",
+        "S04"
+      ],
+      "evidence_type": "official_policy_with_unknowns",
+      "report_section": "三、准入、账号与内容资格",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C14",
+      "label_zh": "奖励结构、双门槛与YouTube口径",
+      "source_ids": [
+        "S06"
+      ],
+      "evidence_type": "official_documentation",
+      "report_section": "四、播放门槛、计量与所有关键时间",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C15",
+      "label_zh": "费率换算假设算例",
+      "source_ids": [],
+      "evidence_type": "independent_arithmetic_not_vendor_price",
+      "report_section": "四、播放门槛、计量与所有关键时间",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C16",
+      "label_zh": "累计和份额边界未披露",
+      "source_ids": [
+        "S03",
+        "S06",
+        "S07"
+      ],
+      "evidence_type": "bounded_gap",
+      "report_section": "四、播放门槛、计量与所有关键时间",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C17",
+      "label_zh": "多时间点和未披露的边界",
+      "source_ids": [
+        "S05",
+        "S07",
+        "S06",
+        "S15",
+        "S14",
+        "S03"
+      ],
+      "evidence_type": "analyst_synthesis_with_unknowns",
+      "report_section": "四、播放门槛、计量与所有关键时间",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C18",
+      "label_zh": "个人过去活动不等于活动结束",
+      "source_ids": [
+        "S17"
+      ],
+      "evidence_type": "official_documentation",
+      "report_section": "四、播放门槛、计量与所有关键时间",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C19",
+      "label_zh": "预算硬上限及活动状态",
+      "source_ids": [
+        "S08",
+        "S15"
+      ],
+      "evidence_type": "official_marketing_and_documentation",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C20",
+      "label_zh": "封顶层次与算法未知",
+      "source_ids": [
+        "S14"
+      ],
+      "evidence_type": "official_terms_with_unknowns",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C21",
+      "label_zh": "报价示例不是平台费表",
+      "source_ids": [
+        "S01",
+        "S02"
+      ],
+      "evidence_type": "analyst_interpretation_of_marketing",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C22",
+      "label_zh": "未取得独立定价正文",
+      "source_ids": [],
+      "evidence_type": "retrieval_gap_not_nonexistence_claim",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C23",
+      "label_zh": "八项公开规则完整展开正文",
+      "source_ids": [
+        "S18",
+        "S06"
+      ],
+      "evidence_type": "official_documentation_observed_by_main_and_saved_text_read_by_worker",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C24",
+      "label_zh": "作弊禁止项与处罚权",
+      "source_ids": [
+        "S14"
+      ],
+      "evidence_type": "official_terms",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C25",
+      "label_zh": "AI宣传无独立准确率证据",
+      "source_ids": [
+        "S01"
+      ],
+      "evidence_type": "marketing_claim_not_independent_validation",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C26",
+      "label_zh": "状态标签与审批不能混同",
+      "source_ids": [
+        "S12",
+        "S03"
+      ],
+      "evidence_type": "official_documentation_with_interpretation",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C27",
+      "label_zh": "审核证据与时限缺口",
+      "source_ids": [
+        "S01",
+        "S03",
+        "S04",
+        "S07",
+        "S12",
+        "S14",
+        "S18"
+      ],
+      "evidence_type": "bounded_gap",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C28",
+      "label_zh": "最终决定与申诉条款关系未明",
+      "source_ids": [
+        "S14",
+        "S04",
+        "S19"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "六、审核、反作弊与申诉",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C29",
+      "label_zh": "周期关闭和结算条件",
+      "source_ids": [
+        "S14",
+        "S16",
+        "S03",
+        "S06"
+      ],
+      "evidence_type": "official_terms_and_copy_comparison",
+      "report_section": "七、结算、失败、退款与追缴",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C30",
+      "label_zh": "支付方法与旧方式兼容",
+      "source_ids": [
+        "S03",
+        "S13",
+        "S14",
+        "S22"
+      ],
+      "evidence_type": "official_documentation_and_version_comparison",
+      "report_section": "七、结算、失败、退款与追缴",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C31",
+      "label_zh": "失败、退款与追缴场景缺口",
+      "source_ids": [
+        "S03",
+        "S07",
+        "S14",
+        "S09",
+        "S08"
+      ],
+      "evidence_type": "analyst_failure_matrix_with_bounded_unknowns",
+      "report_section": "七、结算、失败、退款与追缴",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C32",
+      "label_zh": "手续费、团队扣佣与税",
+      "source_ids": [
+        "S14",
+        "S16",
+        "S05"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "七、结算、失败、退款与追缴",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C33",
+      "label_zh": "退款与资金保管未证明",
+      "source_ids": [
+        "S09",
+        "S08",
+        "S01",
+        "S02"
+      ],
+      "evidence_type": "bounded_gap",
+      "report_section": "七、结算、失败、退款与追缴",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C34",
+      "label_zh": "数据角色与安全承诺未独立审计",
+      "source_ids": [
+        "S19",
+        "S20"
+      ],
+      "evidence_type": "official_policy_not_certification",
+      "report_section": "八、团队佣金与数据责任",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C35",
+      "label_zh": "设置与数据留存权限缺口",
+      "source_ids": [
+        "S19",
+        "S20",
+        "S21"
+      ],
+      "evidence_type": "official_documentation_with_unknowns",
+      "report_section": "八、团队佣金与数据责任",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C36",
+      "label_zh": "收益博客与当前门槛口径不同",
+      "source_ids": [
+        "S22",
+        "S06",
+        "S03"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "九、带日期的不一致与解释限度",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C37",
+      "label_zh": "队长费率下限口径不同",
+      "source_ids": [
+        "S22",
+        "S05"
+      ],
+      "evidence_type": "cross_source_comparison",
+      "report_section": "九、带日期的不一致与解释限度",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C38",
+      "label_zh": "营销仪表盘口径限定与FAQ补证",
+      "source_ids": [
+        "S01"
+      ],
+      "evidence_type": "independent_arithmetic_conditional_on_unproven_common_basis",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false
+    },
+    {
+      "id": "C39",
+      "label_zh": "品牌合作申请公开字段与企业邮箱要求",
+      "source_ids": [
+        "S10"
+      ],
+      "evidence_type": "direct_official_public_form_observation_by_main",
+      "report_section": "五、预算、封顶与定价",
+      "as_of": "2026-09-13",
+      "backend_verified": false,
+      "scope_note": "Public intake fields only; not authenticated brand onboarding, automatic approval or tested server validation."
+    }
+  ],
+  "unresolved_questions": [
+    {
+      "id": "U01",
+      "question_zh": "Malaysia 服务资格、MYR 与本地银行支持",
+      "checked_source_ids": [
+        "S14",
+        "S03"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U02",
+      "question_zh": "品牌收费完整基数、最低合同预算范围",
+      "checked_source_ids": [
+        "S01",
+        "S02",
+        "S10"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U03",
+      "question_zh": "预付后付、资金持有人与独立托管",
+      "checked_source_ids": [
+        "S09",
+        "S03"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U04",
+      "question_zh": "活动编辑权限、规则锁定及追溯变更",
+      "checked_source_ids": [
+        "S01",
+        "S02",
+        "S07"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U05",
+      "question_zh": "越界预算排序与多层上限计算",
+      "checked_source_ids": [
+        "S08",
+        "S14"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U06",
+      "question_zh": "跨周期计量和未达标收益结转",
+      "checked_source_ids": [
+        "S06",
+        "S14",
+        "S17"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U07",
+      "question_zh": "发布时间截止、初始播放基线及时区",
+      "checked_source_ids": [
+        "S07",
+        "S06"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U08",
+      "question_zh": "数据源权限、采样失败补数与延迟",
+      "checked_source_ids": [
+        "S01",
+        "S06",
+        "S11"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U09",
+      "question_zh": "音乐肖像等转授权与二次投放范围",
+      "checked_source_ids": [
+        "S09",
+        "S04"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U10",
+      "question_zh": "风控模型、阈值与独立准确率",
+      "checked_source_ids": [
+        "S01",
+        "S14"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U11",
+      "question_zh": "审核批准时限与申诉裁决补偿",
+      "checked_source_ids": [
+        "S04",
+        "S03",
+        "S14"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U12",
+      "question_zh": "付款拒收退回重试与防重付",
+      "checked_source_ids": [
+        "S03",
+        "S14"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U13",
+      "question_zh": "品牌取消退款和已赚未付优先级",
+      "checked_source_ids": [
+        "S08",
+        "S09"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U14",
+      "question_zh": "追回程序及队长佣金回冲",
+      "checked_source_ids": [
+        "S14",
+        "S05"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U15",
+      "question_zh": "团队退出、同意、归因与旧周期佣金",
+      "checked_source_ids": [
+        "S05"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    },
+    {
+      "id": "U16",
+      "question_zh": "数据留存期限、子处理商及角色字段权限",
+      "checked_source_ids": [
+        "S19",
+        "S20",
+        "S21"
+      ],
+      "status": "unresolved_public_evidence",
+      "backend_inference_allowed": false
+    }
+  ],
+  "local_supplementary_evidence": [
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/research/clipping-deep-v2/browser/02-brands-public-ax.txt",
+      "url": "https://clipping.net/brands",
+      "access_date": "2026-09-13",
+      "evidence_type": "main_worker_saved_public_page_accessibility_text_read_by_research_worker",
+      "locator": "lines 30–49; daily update line 387",
+      "claim_ids": [
+        "C38",
+        "C25",
+        "C21",
+        "C03"
+      ],
+      "note": "No browser interaction by this research worker; PNG not visually inspected."
+    },
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/research/clipping-deep-v2/browser/05-brands-cost-faq-ax.txt",
+      "url": "https://clipping.net/brands",
+      "access_date": "2026-09-13",
+      "evidence_type": "main_worker_saved_public_page_accessibility_text_read_by_research_worker",
+      "locator": "lines 445–449",
+      "claim_ids": [
+        "C38",
+        "C25",
+        "C21",
+        "C03"
+      ],
+      "note": "No browser interaction by this research worker; PNG not visually inspected."
+    },
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/research/clipping-deep-v2/browser/06-brands-verification-faq-ax.txt",
+      "url": "https://clipping.net/brands",
+      "access_date": "2026-09-13",
+      "evidence_type": "main_worker_saved_public_page_accessibility_text_read_by_research_worker",
+      "locator": "lines 453–457",
+      "claim_ids": [
+        "C38",
+        "C25",
+        "C21",
+        "C03"
+      ],
+      "note": "No browser interaction by this research worker; PNG not visually inspected."
+    },
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/research/clipping-deep-v2/browser/07-rules-all-eight-expanded-ax.txt",
+      "url": "https://clipping.net/docs/clippers/rules",
+      "access_date": "2026-09-13",
+      "evidence_type": "sanitized_main_worker_saved_public_rule_accordion_text_read_by_research_worker",
+      "locator": "Body lines: 61,174,287,400,513,627,740,821",
+      "claim_ids": [
+        "C23"
+      ],
+      "note": "Eight sequential expanded states; not necessarily eight simultaneously open. No full-text reproduction in report."
+    }
+  ],
+  "prior_pointers": [
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/research/clipping-v1/findings.md",
+      "access_date": "2026-09-13",
+      "use": "Pointer and comparison only; no longer supports absence of a time-bounded appeal policy"
+    },
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/research/clipping-app-v1/development-reference.md",
+      "access_date": "2026-09-13",
+      "use": "Pointer only; authenticated observations not independently repeated"
+    }
+  ],
+  "retrieval_gaps": [
+    {
+      "url": "https://clipping.net/pricing",
+      "access_date": "2026-09-13",
+      "result": "Public web tool did not retrieve body; non-retryable open error",
+      "interpretation": "Not proof page does not exist; no fee schedule derived"
+    },
+    {
+      "referring_url": "https://clipping.net/docs/clippers/introduction",
+      "link_label": "Previous Analytics",
+      "destination_url": null,
+      "access_date": "2026-09-13",
+      "result": "Linked open returned internal error; destination not exposed",
+      "interpretation": "No inferred client/admin documentation"
+    },
+    {
+      "url": "https://clipping.net/docs/clippers/rules",
+      "access_date": "2026-09-13",
+      "result": "Initial headings-only gap closed: all eight accordion bodies expanded by main and saved text read by worker",
+      "status": "resolved_by_main_public_ui_evidence",
+      "interpretation": "Full coverage of these eight rule bodies only; algorithms and exact AI thresholds remain unknown"
+    },
+    {
+      "url": "https://clipping.net/contact?type=partnership",
+      "access_date": "2026-09-13",
+      "result": "Initial excerpt-only gap closed by main direct public page observation, lines 108–137",
+      "interpretation": "Public partnership intake threshold verified by main; contract-wide pricing scope remains unknown",
+      "status": "resolved_by_main_observation"
+    }
+  ],
+  "search_queries": [
+    "site:clipping.net pricing refund appeal payment failed",
+    "site:clipping.net budget cap timestamp review rejected Malaysia",
+    "site:clipping.net/docs \"cap\" \"views\"",
+    "site:clipping.net/docs \"timestamp\" OR \"before\" OR \"24 hours\"",
+    "site:clipping.net \"refund\" OR \"failed\" OR \"appeal\" -site:clipping.net/contact",
+    "site:clipping.net/docs \"clients\" OR \"administrators\" OR \"review\"",
+    "site:clipping.net/docs/clients",
+    "site:clipping.net \"Malaysia\" OR \"refund policy\" OR \"payout failed\" OR \"submission date\"",
+    "site:clipping.net/pricing",
+    "site:clipping.net \"refunds\" OR \"cancellation policy\" OR \"retry\" OR \"payment failure\" -inurl:contact"
+  ],
+  "search_access_date": "2026-09-13",
+  "authorization_clarification": {
+    "date": "2026-09-13",
+    "rule": "Do not contact means do not SEND contact/submission; read-only official contact pages are allowed.",
+    "effect": "Corrected overly restrictive interpretation; S10 subsequently upgraded using main task direct public-page observation, without claiming this worker repeated it."
+  },
+  "evidence_updates": [
+    {
+      "date": "2026-09-13",
+      "source_id": "S10",
+      "from": "official_search_excerpt",
+      "to": "official_public_form_observed_by_main",
+      "supplied_by": "Main task in current conversation",
+      "observed": "Minimum budget required $5,000; business email required excluding Gmail/Yahoo; name/email/promoting/links/content type/timeline/budget fields",
+      "scope": "Partnership intake, not all contracts",
+      "input_or_send_performed": false
+    },
+    {
+      "date": "2026-09-13",
+      "source_id": "S18",
+      "from": "official_documentation_partial",
+      "to": "official_documentation_all_eight_accordions_observed",
+      "supplied_by": "Main task saved public UI evidence, then read by research worker",
+      "scope": "All eight Rules accordion bodies; no inference of detection algorithm or enforcement accuracy"
+    }
+  ]
+}

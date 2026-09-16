@@ -1,0 +1,53 @@
+{
+  "slides": 18,
+  "chartOwners": [
+    4,
+    5,
+    6,
+    12
+  ],
+  "tableOwners": [
+    17
+  ],
+  "graphDominantSlides": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "modelSource": "../content-rewards-business-v1/finance/results.json",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "compositions": [
+    "value proposition cover",
+    "one-brand coordination map",
+    "branched campaign storyboard",
+    "proportional brand outlay chart",
+    "stacked cost/contribution chart",
+    "hours/contribution line",
+    "macro versus bottom-up",
+    "outcome/approach routing",
+    "review/hold branch",
+    "three actor swimlanes",
+    "two sided goal paths",
+    "funding composition and scenario charts",
+    "native six-month Gantt",
+    "future business branches",
+    "capabilities and strategic fit",
+    "evidence milestones",
+    "two native appendix tables",
+    "clickable primary sources"
+  ]
+}

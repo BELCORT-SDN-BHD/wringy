@@ -1,0 +1,29 @@
+{
+  "title": "Wringy 创意与增长",
+  "language": "zh-CN",
+  "slides": [
+    {
+      "id": "cover",
+      "section": "开场",
+      "title": "让好创意被看见",
+      "layout": "cover",
+      "takeaway": "Wringy 品牌与增长学习手册",
+      "body": [
+        "年轻的表达，可信的依据"
+      ],
+      "speaker_notes_zh": "本文件仅用于排版测试，不用于对外发布。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "evidence",
+      "title": "Whop 店铺页面示例",
+      "layout": "image",
+      "body": [
+        "观察产品名称、价格与购买入口。"
+      ],
+      "speaker_notes_zh": "仅用于检验来源截图的完整保留与可读性。",
+      "sources": []
+    }
+  ]
+}

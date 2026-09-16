@@ -1,0 +1,21 @@
+{
+  "source_sha256": "948e6e8ef2f602728c36f56fad04ead48a7b3633b8c907d95efb644e3bc5ccd7",
+  "pdf_sha256": "95a983b73afba615d426d368275548924c7d9650572a5f9b1e4e01c9a4a9cd52",
+  "page_count": 23,
+  "used_fonts": [
+    "AAAAAA+STHeitiTC-Light-0",
+    "AAAAAA+STHeitiTC-Medium-0",
+    "AAAAAB+STHeitiTC-Light-0",
+    "AAAAAB+STHeitiTC-Medium-0",
+    "AAAAAC+STHeitiTC-Light-0",
+    "AAAAAD+STHeitiTC-Light-0"
+  ],
+  "out_of_safe_area_characters": [],
+  "footnote_count": 59,
+  "diagram_count": 3,
+  "coverage_blocks": 630,
+  "coverage_matches_excluding_only_linked_superscript_digits": 630,
+  "coverage_missing_blocks": [],
+  "removed_linked_superscript_characters": 161,
+  "visual_review": "All 23 pages via contact sheet; final pages 1,12,16,17 at 150 dpi; diagram 3 and bibliography paths also reviewed at 150 dpi in prior rendering and confirmed unchanged in final contact sheet."
+}

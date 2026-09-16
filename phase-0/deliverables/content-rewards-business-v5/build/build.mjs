@@ -1,0 +1,51 @@
+import {fs,path,ROOT,BUILD,PresentationFile,C,FONT,box} from './runtime.mjs';
+import {createDeck,tx,rule,nativeTable,chart} from './template.mjs';
+import {sourceLink} from './links.mjs';
+const D=JSON.parse(await fs.readFile(path.join(BUILD,'content.json'))),U=JSON.parse(await fs.readFile(path.join(BUILD,'urls.json'))),F=JSON.parse(await fs.readFile(path.join(ROOT,'finance/results.json')));
+if(!F.founder_allowance_policy.confirmed||F.uses.founder_allowance!==0||F.proposed_ask_rounded_5000!==70000)throw Error('Finance contract mismatch');
+const p=createDeck(),links=[],assets={};for(const n of ['brand-source','creator-filming','published-content','founder-demo'])assets[n]=await fs.readFile(path.join(ROOT,'assets',n+'.png'));
+const muted=C['muted-foreground'],hidden={visible:false,tickLabelPosition:'none',line:{fill:'none',width:0}},axis={textStyle:{typeface:FONT,fontSize:21,fill:muted},line:{fill:C.border,width:1}};
+function text(s,t,x,y,w,h=70,size=28,bold=false,color=C.foreground){return tx(s,t,x,y,w,h,size,bold,color);}
+function rect(s,x,y,w,h,fill){return s.shapes.add({geometry:'rect',position:box(x,y,w,h),fill,line:{fill:'none',width:0}});}
+function photo(s,n,x,y,w,h){return s.images.add({blob:assets[n],contentType:'image/png',fit:'cover',position:box(x,y,w,h),alt:'AI生成的虚构饮料活动示意：'+n});}
+function page({title=true,sub=true,foot=true}={}){const i=p.slides.items.length,d=D[i],s=p.slides.add();s.background.fill=C.background;if(title)text(s,d[0],56,39,1168,78,48,true);if(sub)text(s,d[1],58,129,1160,74,27,false,muted);if(foot)text(s,d[3],58,669,1095,30,15,false,muted);text(s,String(i+1).padStart(2,'0'),1171,670,51,27,15,false,muted);s.speakerNotes.textFrame.setText(d[4]+'\n\n'+d[5].join('\n'));return s;}
+function caption(s,a,b,x,y,w){text(s,a,x,y,w,44,29,true,C.primary);if(b)text(s,b,x,y+52,w,84,24,false,muted);}
+// 1 Full-height photographic hero and forest editorial panel
+let s=page({title:false,sub:false,foot:false});photo(s,'brand-source',462,0,818,720);rect(s,0,0,462,720,C.primary);text(s,'Wringy',45,65,381,96,70,true,C['primary-foreground']);text(s,'品牌与本地\n创作者的\n内容合作',45,228,380,224,50,true,C['primary-foreground']);text(s,'制作与发布内容\n按约定结果获得奖励',47,488,365,98,27,false,C['primary-foreground']);text(s,'Content Rewards · Malaysia',47,615,380,45,23,false,C.brand);text(s,'AI示意 · 虚构饮料品牌',495,673,650,31,16,true,'#FFFFFF');
+// 2 creator photo dominant, sparse rationale
+s=page({sub:false});photo(s,'creator-filming',56,149,758,470);text(s,'有产品，有素材',863,174,359,73,36,true,C.primary);text(s,'还需要有人\n把内容带给\n相关受众',863,275,359,171,35,true);rule(s,863,483,345);text(s,'不同创作者的表达\n不同账号的发布',863,516,359,90,27,false,muted);
+// 3 photographic storyboard with 5 editable stages
+s=page();const scenes=['brand-source','creator-filming','published-content'];scenes.forEach((n,i)=>photo(s,n,56+i*397,215,374,275));
+const stage=['提供素材','约定预算','制作并发布','核验结果','确认奖励'];stage.forEach((t,i)=>{const x=58+i*237;text(s,String(i+1).padStart(2,'0'),x,520,205,42,25,true,C.primary);rule(s,x,568,205);text(s,t,x,584,212,48,27,true);});
+// 4 factual comparison with photographic context
+s=page();text(s,'Clipping',58,239,698,65,39,true,C.primary);text(s,'全托管活动\n团队组织剪辑者网络',58,310,680,94,30);rule(s,58,425,707);text(s,'Content Rewards',58,456,698,65,39,true,C.primary);text(s,'品牌设活动\n创作者投稿与领取奖励',58,527,680,94,30);photo(s,'published-content',833,221,390,409);
+// 5 founder-led local launch, wide environmental photo
+s=page({sub:false});photo(s,'founder-demo',56,150,774,478);text(s,'从面对面\n解释开始',872,164,350,121,41,true,C.primary);text(s,'创办人观察\n本地认知度很低',872,319,350,97,29);text(s,'亲自带品牌\n做第一场活动',872,439,350,88,29);text(s,'English / BM / 中文',872,570,350,48,23,false,muted);
+// 6 macro separated from modeled subset; no false TAM proportions
+s=page({sub:false});text(s,'RM2.96bn',58,151,515,96,63,true,C.primary);text(s,'2025 马来西亚数字广告支出估算',579,174,640,61,29);rule(s,58,270,1163);text(s,'电商品牌子集算例',58,300,506,49,29,true);text(s,'约6,259个假设采购方\n× 年奖励RM24,000\n× 15%演示费率',58,371,506,147,31);text(s,'约 RM22.53m / 年',58,551,506,75,40,true,C.primary);
+chart(s,'bar',{position:box(616,331,588,273),categories:['年奖励减半','年奖励24,000'],series:[{name:'年平台费容量（RM百万）',values:[11.266,22.532],fill:C.primary}],barOptions:{direction:'bar',grouping:'clustered'},hasLegend:false,xAxis:axis,yAxis:{...hidden,min:0,max:28},dataLabels:{showValue:true,position:'outEnd',textStyle:{fontSize:23,fill:C.primary}}});text(s,'平台费容量假设（RM百万／年）',638,602,570,37,21,false,muted);
+// 7 proportional money allocation with small continuity photo
+s=page();photo(s,'brand-source',56,224,234,274);text(s,'品牌总支出',330,220,450,48,27);text(s,'RM2,300',330,271,700,85,61,true,C.primary);
+chart(s,'bar',{position:box(326,366,873,120),categories:['品牌支出'],series:[{name:'创作者奖励',values:[F.campaign.reward_budget_not_company_income],fill:C.primary},{name:'服务收入',values:[F.campaign.platform_fee_income_illustrative],fill:C.brand}],barOptions:{direction:'bar',grouping:'stacked',overlap:100},hasLegend:false,xAxis:hidden,yAxis:{...hidden,min:0,max:2300}});
+caption(s,'RM2,000 奖励','不计平台收入',330,510,548);caption(s,'RM300 服务收入','奖励 × 外加15%',927,510,296);
+// 8 beta scope as roles and native process, no invented application screenshot
+s=page();text(s,'范围提案',58,208,1160,42,22,false,muted);const roles=[['品牌','提供素材与预算','查看活动进度'],['创作者','阅读规则与素材','发布后提交链接'],['运营','核验内容与结果','确认奖励记录']];roles.forEach(([a,b,c],i)=>{const x=58+i*405;text(s,a,x,275,355,59,39,true,C.primary);rule(s,x,357,348);text(s,b,x,391,355,69,29);text(s,c,x,476,355,69,29);});text(s,'先以人工支持核验，试点前完成Beta验收与数据、付款准备。',58,596,1160,52,26,false,C.primary);
+// 9 photo plus parallel acquisition paths, no conversion funnel
+s=page({sub:false});photo(s,'founder-demo',56,150,374,479);text(s,'品牌',478,163,739,47,28,true,C.primary);const brand=['拜访','演示','付费试点','复购'];brand.forEach((t,i)=>{let x=478+i*187;text(s,String(i+1),x,232,171,48,29,true,C.primary);rule(s,x,293,162);text(s,t,x,314,172,60,28,true);});text(s,'创作者',478,415,739,48,28,true,C.primary);text(s,'招募    /    看规则    /    试做与投稿',478,477,739,64,29);text(s,'规划：20次访谈 · 3个付费品牌 · 至少1个复购',478,576,739,58,24,false,C.primary);
+// 10 one proposed plan, zero founder cash confirmed
+s=page({sub:false});text(s,'拟议',58,157,386,51,29,false,muted);text(s,'RM70,000',58,225,587,105,68,true,C.primary);text(s,'六个月研发与试点',58,359,499,69,33);text(s,'创办人薪资及津贴\nRM0，已确认',58,488,499,112,32,true,C.primary);
+chart(s,'bar',{position:box(645,203,562,138),categories:['资金用途'],series:[{name:'研发',values:[F.rd_all_in_cap],fill:C.primary},{name:'非研发',values:[F.non_rd_spend_base],fill:C['chart-2']},{name:'储备',values:[F.ending_cash_if_all_rd_cap_spent],fill:C.brand}],barOptions:{direction:'bar',grouping:'stacked',overlap:100},hasLegend:false,xAxis:hidden,yAxis:{...hidden,min:0,max:70000}});caption(s,'50,000  研发','含5,000内部预留',665,380,557);caption(s,'13,620  非研发','6,380  缓冲与取整储备',665,512,557);
+// 11 funding condition sequence not arbitrary calendar
+s=page();const conditions=[['独立品牌付款',0],['活动按约交付',1],['品牌愿意复购',2],['运营能够承接',3]];conditions.forEach(([t,i])=>{const x=58+i*295,y=475-i*63;rect(s,x,y,267,10,i===3?C.brand:C.primary);text(s,String(i+1).padStart(2,'0'),x,y-114,260,56,38,true,C.primary);text(s,t,x,y-50,267,58,28,true);});text(s,'条件满足后，把营销做大。新模块再看客户需要。',58,581,1165,67,31,false,C.primary);
+// 12 long-term outlook with photo and demand branches, investment exit in note
+s=page({sub:false});photo(s,'published-content',56,151,522,477);text(s,'Content Rewards',633,167,590,67,40,true,C.primary);text(s,'本地活动、品牌关系与创作者供给',633,245,590,73,27);rule(s,633,341,589);text(s,'按客户需要增加',633,371,589,53,27,false,muted);text(s,'品牌活动工具\n创作者经营工具',633,437,589,105,34,true);text(s,'潜在战略买方：营销软件、商业平台',633,587,589,52,25,false,C.primary);
+// 13 economic cost remains even with zero salary
+s=page();text(s,'人工90＋数据20＋收款10',58,246,460,107,32);text(s,'经济成本 RM120\n经济贡献 RM180',58,403,470,115,34,true,C.primary);text(s,'含RM60未领薪\n创办人劳动',58,556,470,78,25,false,muted);
+chart(s,'line',{position:box(548,236,662,369),categories:['3小时','6小时','9小时','12小时'],series:[{name:'单场经济贡献RM',values:[180,90,0,-90],line:{fill:C.primary,width:4},fill:C.primary}],hasLegend:false,xAxis:axis,yAxis:{...axis,min:-100,max:200,majorUnit:100},dataLabels:{showValue:true,position:'above',textStyle:{fontSize:24,fill:C.foreground}}});
+// 14 readable data appendix
+s=page({sub:false});text(s,'市场输入',58,152,530,51,30,true,C.primary);text(s,'资金用途（RM）',665,152,551,51,30,true,C.primary);
+nativeTable(s,[['输入','数值'],['2022电商经营单位','78,236'],['活跃／适配率假设','80%／10%'],['年奖励／演示费率','24,000／15%'],['年平台费容量假设','约22.53m']],{x:56,y:222,width:545,rowH:57,colWidths:[300,245],font:23});
+nativeTable(s,[['用途','金额'],['研发（含5k预留）','50,000'],['地推／运营','4,500／2,400'],['云工具／维护','1,200／1,040'],['法务会计／数据收款','4,000／480'],['薪资与津贴','0'],['基础支出','63,620']],{x:662,y:222,width:562,rowH:52,colWidths:[355,207],font:22});text(s,'63,620 ＋ 2,043缓冲 ＋ 4,337取整储备 ＝ 70,000',58,606,1160,54,27,true,C.primary);
+//15 links
+s=page();const sourceRows=[['clipping','Clipping · 品牌活动\nclipping.net/brands'],['cr','Content Rewards · 品牌条款\ncontentrewards.com/brands-terms'],['whop','Whop · 奖励计划\nwhop.com/content-rewards-terms-of-service'],['mda','MDA · 数字广告\nmalaysiandigitalassociation.org.my'],['dosm','DOSM · 电商经营单位\ndosm.gov.my'],['google','Google · 马来西亚电商\nblog.google/intl/ms-my'],['sprout','Sprout Social · 收购公告\ninvestors.sproutsocial.com']];sourceRows.forEach(([key,label],i)=>sourceLink(s,{key,label,url:U[key],slideNumber:15,x:58+(i%2)*594,y:220+Math.floor(i/2)*105,w:550,h:86},links));
+await fs.writeFile(path.join(BUILD,'source-links.json'),JSON.stringify(links,null,2));await (await PresentationFile.exportPptx(p)).save(path.join(BUILD,'draft.pptx'));console.log('v5 15 slides, 4 photos, 4 native charts, 2 tables');

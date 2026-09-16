@@ -1,0 +1,121 @@
+{
+  "status": "complete",
+  "date": "2026-09-12",
+  "artifacts": {
+    "pptx": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v1/output/Wringy-Content-Rewards-Business-Plan.pptx",
+      "sha256": "e8a81c038d7587a1a9004d07fd3e9f6a0c29ad05d53296a6c7dcd5568b50aad3",
+      "bytes": 97891
+    },
+    "pdf": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v1/output/Wringy-Content-Rewards-Business-Plan.pdf",
+      "sha256": "54f682d8df36bfa4f57e940771acda960fad3bd46dd97d0cd1aa418bb5fbf081",
+      "bytes": 2762111
+    },
+    "xlsx": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v1/finance/outputs/initial-funding/Wringy-Content-Rewards-6个月资金与单场经济.xlsx",
+      "sha256": "2b962df6979a27c453a143d55317916b75359bfe65bdabaf58864b82515439cc",
+      "bytes": 18698
+    }
+  },
+  "presentation": {
+    "status": "complete",
+    "slides": 18,
+    "all_slides_visually_reviewed": true,
+    "native_charts": 2,
+    "native_tables": 3,
+    "native_diagram_slides": [
+      3,
+      4,
+      8,
+      10
+    ],
+    "pptx_slide_picture_count": 0,
+    "layout_findings": 0,
+    "layout_warnings": 0,
+    "pdf_pages": 18,
+    "pdf_clickable_links": 6,
+    "pptx_clickable_links": 6,
+    "pdf_render_check": "Poppler all 18 pages",
+    "markers": {
+      "pptx": 1,
+      "pdf": 1
+    },
+    "native_powerpoint_open_verified": false,
+    "notes": "PDF is raster for fidelity, with clickable source annotations; PPTX contains editable native objects.",
+    "files": {
+      "Wringy-Content-Rewards-Business-Plan.pptx": "e8a81c038d7587a1a9004d07fd3e9f6a0c29ad05d53296a6c7dcd5568b50aad3",
+      "Wringy-Content-Rewards-Business-Plan.pdf": "54f682d8df36bfa4f57e940771acda960fad3bd46dd97d0cd1aa418bb5fbf081",
+      "contact-sheet.jpg": "8ef572904672c8368392ea67c3f334b15204139882850d42fa6f4c678b8bb744"
+    }
+  },
+  "finance_verification": {
+    "join_ready": true,
+    "status": "QA_PASS_WITH_STATED_LIMITATIONS",
+    "xlsx": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v1/finance/outputs/initial-funding/Wringy-Content-Rewards-6个月资金与单场经济.xlsx",
+    "verification": {
+      "all_tabs_visually_reviewed": [
+        "Summary",
+        "Cash",
+        "Campaign",
+        "Inputs"
+      ],
+      "preview_regions": [
+        "Summary C1:G30",
+        "Cash C1:J22 and C24:D42",
+        "Campaign C1:G33 and C35:G64",
+        "Inputs C1:F32 and C34:I46"
+      ],
+      "clipped_campaign_notes_fixed": "Moved explanatory notes below table, wrapped and re-rendered including rows57–63",
+      "xlsx_cached_headlines": {
+        "D9": "65663",
+        "D10": "70000",
+        "D15": "107063",
+        "D16": "110000"
+      },
+      "exported_formula_errors": [],
+      "artifact_tool_recalculation": true,
+      "native_excel_ui_tested": false,
+      "sha256": "2b962df6979a27c453a143d55317916b75359bfe65bdabaf58864b82515439cc"
+    },
+    "funding_scenarios_myr": [
+      70000,
+      110000
+    ],
+    "funding_chosen": false,
+    "rd_cap_not_quote": true,
+    "limitations": [
+      "RM50k R&D delivery feasibility unquoted",
+      "Founder self-funded living unconfirmed",
+      "Illustrative economics exclude abnormal monetary losses",
+      "Native Excel UI not tested"
+    ]
+  },
+  "independent_checks": {
+    "slides": 18,
+    "pdf_links": 6,
+    "arithmetic": true,
+    "old_950k_absent": true,
+    "latest_beta_title": true,
+    "formula_checks_pass": true
+  },
+  "main_visual_review": {
+    "contact_sheet_all18": true,
+    "high_resolution_slides": [
+      3,
+      5,
+      10,
+      12,
+      17,
+      18
+    ],
+    "workbook_summary_and_campaign": true
+  },
+  "critical_review": "Research and finance reviewed; sealed cross-vendor capsule passed, scope notes corrected in research/review-resolution.md",
+  "limitations": [
+    "Native Office editing not tested",
+    "All non-R&D budget and fee/cost assumptions remain provisional",
+    "R&D cap is not supplier delivery quotation",
+    "No chosen fundraising amount or funding commitment"
+  ]
+}

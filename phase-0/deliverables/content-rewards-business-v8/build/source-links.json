@@ -1,0 +1,74 @@
+[
+  {
+    "slide": 19,
+    "name": "source-link-clipping",
+    "url": "https://clipping.net/brands",
+    "x": 58,
+    "y": 220,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-clipper",
+    "url": "https://clipping.net/docs/clippers/campaign-detail",
+    "x": 652,
+    "y": 220,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-payments",
+    "url": "https://clipping.net/docs/clippers/payments",
+    "x": 58,
+    "y": 325,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-terms",
+    "url": "https://clipping.net/policies/clipper-terms-and-conditions",
+    "x": 652,
+    "y": 325,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-mda",
+    "url": "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+    "x": 58,
+    "y": 430,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-dosm",
+    "url": "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "x": 652,
+    "y": 430,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-cr",
+    "url": "https://contentrewards.com/brands-terms",
+    "x": 58,
+    "y": 535,
+    "w": 550,
+    "h": 86
+  },
+  {
+    "slide": 19,
+    "name": "source-link-sprout",
+    "url": "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx",
+    "x": 652,
+    "y": 535,
+    "w": 550,
+    "h": 86
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "INV01": [
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/investor-hero.png",
+      "alt": "创作者合作的抽象概念场景",
+      "ai_generated": true,
+      "fullBleed": true
+    }
+  ],
+  "INV05": [
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png",
+      "alt": "品牌活动工作台概念",
+      "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/screen-render-report.json",
+      "evidence": true
+    },
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png",
+      "alt": "创作者手机端报酬详情概念",
+      "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/screen-render-report.json",
+      "evidence": true
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "status": "complete",
+  "pptx": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pptx",
+  "pdf": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pdf",
+  "slide_count": 30,
+  "notes_count": 30,
+  "native_table_count": 8,
+  "component_families": 31,
+  "final_fullsize_visual_inspection": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30
+  ],
+  "inspection_resolution": "1920x1080",
+  "visual_findings": [],
+  "approved_UI_original_bytes_embedded": {
+    "UI-BRAND-DESKTOP.png": true,
+    "UI-BRAND-MOBILE.png": true,
+    "UI-PAYOUT-CONFIRM.png": true,
+    "UI-CREATOR-MOBILE.png": true,
+    "UI-CREATOR-DESKTOP.png": true
+  },
+  "arithmetic_150_minus_2_equals_148": true,
+  "finalizer_report": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/brand-manual/private/render-FrPMrA/validation.json",
+  "limitations": [
+    "Logo is raster concept v1, not a vector production master. Review-only alpha derivatives are not used.",
+    "UI screenshots are raster local HTML examples; no completed native Figma library claim.",
+    "PDF preserves the checked slide images; it is not an editable text PDF.",
+    "Manrope and Noto Sans SC are not embedded. Native Microsoft PowerPoint rendering was not tested."
+  ],
+  "files": {
+    "03-Wringy品牌与设计系统.pptx": {
+      "bytes": 5871042,
+      "sha256": "05e863747c15fe05066adbd0627048d676fe46747b04a7be82cc4e2f92ffee9f"
+    },
+    "03-Wringy品牌与设计系统.pdf": {
+      "bytes": 4713948,
+      "sha256": "da696144ceb805743a9773fe727e14b686833ce744b29f0411bc7c3ce8b527ee"
+    }
+  },
+  "pdf_page_count": 30
+}

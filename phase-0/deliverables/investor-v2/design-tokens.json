@@ -1,0 +1,11 @@
+{
+  "status": "从设计源读取的演示稿快照，未经批准",
+  "canonical": "phase-0/foundation/design-tokens-v1.json",
+  "bg": "#FAFAF7",
+  "ink": "#171A20",
+  "blue": "#2457E6",
+  "muted": "#565B65",
+  "rule": "#D9DBE1",
+  "white": "#FFFFFF",
+  "fontFamily": "Noto Sans SC"
+}

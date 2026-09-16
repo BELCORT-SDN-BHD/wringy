@@ -1,0 +1,286 @@
+{
+  "checkedAt": "2026-09-11T02:39:27.922Z",
+  "result": "passed",
+  "checks": [
+    {
+      "name": "Actual semantic text >=4.5 and icons >=3 on rendered backgrounds",
+      "passed": true,
+      "evidence": [
+        {
+          "role": "brand",
+          "element": "badge",
+          "color": [
+            48,
+            53,
+            12
+          ],
+          "background": [
+            228,
+            242,
+            34
+          ],
+          "textContrast": 10.378295215986302,
+          "iconContrast": 10.378295215986302,
+          "descriptionContrast": null
+        },
+        {
+          "role": "attention",
+          "element": "alert",
+          "color": [
+            128,
+            82,
+            13
+          ],
+          "background": [
+            255,
+            244,
+            219
+          ],
+          "textContrast": 6.1379177440547865,
+          "iconContrast": 6.1379177440547865,
+          "descriptionContrast": 6.1379177440547865
+        },
+        {
+          "role": "attention",
+          "element": "item-media",
+          "color": [
+            128,
+            82,
+            13
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "textContrast": 6.708048151931035,
+          "iconContrast": 6.708048151931035,
+          "descriptionContrast": null
+        },
+        {
+          "role": "info",
+          "element": "item-media",
+          "color": [
+            54,
+            94,
+            157
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "textContrast": 6.471894187191232,
+          "iconContrast": 6.471894187191232,
+          "descriptionContrast": null
+        },
+        {
+          "role": "error",
+          "element": "item-media",
+          "color": [
+            165,
+            42,
+            42
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "textContrast": 7.0838592989212374,
+          "iconContrast": 7.0838592989212374,
+          "descriptionContrast": null
+        },
+        {
+          "role": "success",
+          "element": "item-media",
+          "color": [
+            68,
+            107,
+            83
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "textContrast": 6.04529936899835,
+          "iconContrast": 6.04529936899835,
+          "descriptionContrast": null
+        },
+        {
+          "role": "inactive",
+          "element": "item-media",
+          "color": [
+            96,
+            100,
+            108
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "textContrast": 5.937621390940923,
+          "iconContrast": 5.937621390940923,
+          "descriptionContrast": null
+        },
+        {
+          "role": "inactive",
+          "element": "item-media",
+          "color": [
+            96,
+            100,
+            108
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "textContrast": 5.937621390940923,
+          "iconContrast": 5.937621390940923,
+          "descriptionContrast": null
+        },
+        {
+          "role": "attention",
+          "element": "badge",
+          "color": [
+            128,
+            82,
+            13
+          ],
+          "background": [
+            255,
+            244,
+            219
+          ],
+          "textContrast": 6.1379177440547865,
+          "iconContrast": 6.1379177440547865,
+          "descriptionContrast": null
+        },
+        {
+          "role": "info",
+          "element": "badge",
+          "color": [
+            54,
+            94,
+            157
+          ],
+          "background": [
+            237,
+            243,
+            252
+          ],
+          "textContrast": 5.802144611453976,
+          "iconContrast": 5.802144611453976,
+          "descriptionContrast": null
+        },
+        {
+          "role": "error",
+          "element": "badge",
+          "color": [
+            165,
+            42,
+            42
+          ],
+          "background": [
+            252,
+            238,
+            238
+          ],
+          "textContrast": 6.275460396549015,
+          "iconContrast": 6.275460396549015,
+          "descriptionContrast": null
+        },
+        {
+          "role": "success",
+          "element": "badge",
+          "color": [
+            68,
+            107,
+            83
+          ],
+          "background": [
+            237,
+            244,
+            239
+          ],
+          "textContrast": 5.408406191114737,
+          "iconContrast": 5.408406191114737,
+          "descriptionContrast": null
+        },
+        {
+          "role": "inactive",
+          "element": "badge",
+          "color": [
+            96,
+            100,
+            108
+          ],
+          "background": [
+            241,
+            242,
+            243
+          ],
+          "textContrast": 5.2972686187418985,
+          "iconContrast": 5.2972686187418985,
+          "descriptionContrast": null
+        },
+        {
+          "role": "inactive",
+          "element": "badge",
+          "color": [
+            96,
+            100,
+            108
+          ],
+          "background": [
+            241,
+            242,
+            243
+          ],
+          "textContrast": 5.2972686187418985,
+          "iconContrast": 5.2972686187418985,
+          "descriptionContrast": null
+        }
+      ]
+    },
+    {
+      "name": "Explicit demo labels; action attention distinct from pending, approval and unknown",
+      "passed": true
+    },
+    {
+      "name": "43 computed variables equal palette; sidebar hover/selection neutral",
+      "passed": true,
+      "evidence": {
+        "activeBg": "rgb(233, 234, 236)"
+      }
+    },
+    {
+      "name": "Source tab at 320px, no page overflow; tables/code scroll internally",
+      "passed": true,
+      "evidence": {
+        "scroll": 320,
+        "viewport": 320
+      }
+    },
+    {
+      "name": "EN/Malay selector, exact business boundaries, scoped lang and stable color roles at 320px",
+      "passed": true,
+      "evidence": {
+        "scroll": 320,
+        "viewport": 320
+      }
+    },
+    {
+      "name": "Standalone source tab and allocation work offline without uncaught errors",
+      "passed": true
+    }
+  ],
+  "uncaughtErrors": [],
+  "limitations": [
+    "Chrome only; no full props, screen-reader or dark-theme certification",
+    "Contrast checks cover the displayed semantic roles; untouched upstream low-opacity destructive focus styling is not certified"
+  ]
+}

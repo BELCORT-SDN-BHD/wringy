@@ -1,0 +1,839 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/fu1gfa1s",
+    "id": "fu1gfa1s",
+    "slide": 8,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FAFAFA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/id0fu50z",
+      "id": "9",
+      "bbox": [
+        56,
+        44,
+        1168,
+        116
+      ],
+      "geometry": "rect",
+      "text": "Belcort开发预算约 RM312,000",
+      "textPreview": "Belcort开发预算约 RM312,000",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Belcort开发预算约 RM312,000"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Belcort开发预算约 RM312,000",
+          "resolvedTextStyle": {
+            "fontSize": 48,
+            "typeface": "Noto Sans SC",
+            "color": "#202124",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Belcort开发预算约 RM312,000",
+              "fontSize": 48,
+              "typeface": "Noto Sans SC",
+              "color": "#202124",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/18byd4zy",
+      "id": "2",
+      "bbox": [
+        59,
+        158,
+        1160,
+        68
+      ],
+      "geometry": "rect",
+      "text": "2,400小时 × RM130混合时薪，按交付成果验收",
+      "textPreview": "2,400小时 × RM130混合时薪，按交付成果验收",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "2,400小时 × RM130混合时薪，按交付成果验收"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "2,400小时 × RM130混合时薪，按交付成果验收",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "2,400小时 × RM130混合时薪，按交付成果验收",
+              "fontSize": 25,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/g72x4zyd",
+      "id": "3",
+      "bbox": [
+        58,
+        664,
+        1094,
+        42
+      ],
+      "geometry": "rect",
+      "text": "内部工时与时薪估算，非正式报价或市场平均。Addvaluez、Zoomo Tech公开价仅作量级参照。",
+      "textPreview": "内部工时与时薪估算，非正式报价或市场平均。Addvaluez、Zoomo Tech公开价仅作量级参照。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "内部工时与时薪估算，非正式报价或市场平均。Addvaluez、Zoomo Tech公开价仅作量级参照。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "内部工时与时薪估算，非正式报价或市场平均。Addvaluez、Zoomo Tech公开价仅作量级参照。",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "内部工时与时薪估算，非正式报价或市场平均。Addvaluez、Zoomo Tech公开价仅作量级参照。",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ri9g7uhw",
+      "id": "4",
+      "bbox": [
+        1164,
+        669,
+        62,
+        27
+      ],
+      "geometry": "rect",
+      "text": "08",
+      "textPreview": "08",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "08"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "08",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "08",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/v29wvm5o",
+      "id": "10",
+      "bbox": [
+        56,
+        224,
+        1168,
+        275
+      ],
+      "text": "首版工作范围 | 内部估算\n规则、设计与三类工作区 | RM114,400\n支付集成与结算台账 | RM46,800\n单渠道计量与异常复核 | RM93,600\n验收、部署和移交 | RM57,200",
+      "textPreview": "首版工作范围 | 内部估算 | 规则、设计与三类工作区 | RM114,400 | 支付集成与结算台账 | RM46,800 | 单渠道计量与异常复核 | RM93,600 | 验收、部署和移交 | RM57,200",
+      "rows": 5,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            224,
+            895,
+            55
+          ],
+          "text": "首版工作范围",
+          "textPreview": "首版工作范围",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "首版工作范围",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "首版工作范围",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            951,
+            224,
+            273,
+            55
+          ],
+          "text": "内部估算",
+          "textPreview": "内部估算",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "内部估算",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "内部估算",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            279,
+            895,
+            55
+          ],
+          "text": "规则、设计与三类工作区",
+          "textPreview": "规则、设计与三类工作区",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "规则、设计与三类工作区",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "规则、设计与三类工作区",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            951,
+            279,
+            273,
+            55
+          ],
+          "text": "RM114,400",
+          "textPreview": "RM114,400",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM114,400",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM114,400",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            334,
+            895,
+            55
+          ],
+          "text": "支付集成与结算台账",
+          "textPreview": "支付集成与结算台账",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "支付集成与结算台账",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "支付集成与结算台账",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            951,
+            334,
+            273,
+            55
+          ],
+          "text": "RM46,800",
+          "textPreview": "RM46,800",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM46,800",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM46,800",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            56,
+            389,
+            895,
+            55
+          ],
+          "text": "单渠道计量与异常复核",
+          "textPreview": "单渠道计量与异常复核",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "单渠道计量与异常复核",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "单渠道计量与异常复核",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            951,
+            389,
+            273,
+            55
+          ],
+          "text": "RM93,600",
+          "textPreview": "RM93,600",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM93,600",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM93,600",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            56,
+            444,
+            895,
+            55
+          ],
+          "text": "验收、部署和移交",
+          "textPreview": "验收、部署和移交",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "验收、部署和移交",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "验收、部署和移交",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            951,
+            444,
+            273,
+            55
+          ],
+          "text": "RM57,200",
+          "textPreview": "RM57,200",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM57,200",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM57,200",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tkby9kzm",
+      "id": "6",
+      "bbox": [
+        58,
+        517,
+        1160,
+        42
+      ],
+      "geometry": "rect",
+      "text": "Belcort为创办人关联公司",
+      "textPreview": "Belcort为创办人关联公司",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Belcort为创办人关联公司"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Belcort为创办人关联公司",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#173D2A",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Belcort为创办人关联公司",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#173D2A",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sjix0zy1",
+      "id": "7",
+      "bbox": [
+        58,
+        562,
+        1160,
+        46
+      ],
+      "geometry": "rect",
+      "text": "合同：独立可比报价、非受益方验收与审批权、验收付款、IP及账号移交",
+      "textPreview": "合同：独立可比报价、非受益方验收与审批权、验收付款、IP及账号移交",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "合同：独立可比报价、非受益方验收与审批权、验收付款、IP及账号移交"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "合同：独立可比报价、非受益方验收与审批权、验收付款、IP及账号移交",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "合同：独立可比报价、非受益方验收与审批权、验收付款、IP及账号移交",
+              "fontSize": 24,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/je9g3ahk",
+      "id": "8",
+      "bbox": [
+        58,
+        611,
+        1160,
+        60
+      ],
+      "geometry": "rect",
+      "text": "仅单渠道 Creator Rewards；不含完整 Whop、多国收付或原生 App。接口准入待验证",
+      "textPreview": "仅单渠道 Creator Rewards；不含完整 Whop、多国收付或原生 App。接口准入待验证",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "仅单渠道 Creator Rewards；不含完整 Whop、多国收付或原生 App。接口准入待验证"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "仅单渠道 Creator Rewards；不含完整 Whop、多国收付或原生 App。接口准入待验证",
+          "resolvedTextStyle": {
+            "fontSize": 23,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "仅单渠道 Creator Rewards；不含完整 Whop、多国收付或原生 App。接口准入待验证",
+              "fontSize": 23,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

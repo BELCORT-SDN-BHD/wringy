@@ -1,0 +1,24 @@
+{
+  "slides": 17,
+  "main_slides": 14,
+  "appendix_slides": 3,
+  "charts": 4,
+  "native_tables": 6,
+  "embedded_chart_workbooks": 4,
+  "slide_raster_images": 0,
+  "pptx_sha256": "2c12cd57fa2285da00d969bf135c9a7c080ecca72aa2345432187da691d4953b",
+  "pdf_sha256": "5b6041e6abf49cbd72784439e4ed9388d63ae943b588ff0f3572a1ee2d821778",
+  "pdf_pages_rendered_with_poppler": 17,
+  "pptx_finalization_warnings": [],
+  "notes_parts": 17,
+  "final_visual_review": "All 17 draft and finalized slides inspected; latest changed slides 4,6,8,10,12,16 reinspected",
+  "pdf_type": "1920x1080 PNG page images; editable objects remain in PPTX",
+  "powerpoint_ui_tested": false,
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "latest_story_included": true,
+  "latest_finalization_receipt": "build/Wringy-Funding-Growth-v1-final2.pptx.validation.json",
+  "slide17_investor_wording_verified": true
+}

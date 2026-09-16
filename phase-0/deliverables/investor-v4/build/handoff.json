@@ -1,0 +1,45 @@
+{
+  "status": "main-authorized",
+  "approvalScope": "Main accepts canonical Wringy proposal for draft production; not Founder final design approval",
+  "tokenPath": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/tokens.json",
+  "colorKeys": {
+    "background": "colors.canvas",
+    "surface": "colors.surface",
+    "ink": "colors.ink",
+    "muted": "colors.secondary",
+    "accent": "colors.citron",
+    "line": "colors.line",
+    "forest": "colors.forest"
+  },
+  "assets": {
+    "coverPhoto": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v4/assets/creator-studio.png",
+      "alt": "原创概念，非真实客户或已上线产品",
+      "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v4/assets/asset-manifest.json",
+      "concept": true,
+      "pending": false
+    },
+    "campaignPhoto": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v4/assets/bottle-craft-detail.png",
+      "alt": "原创概念，非真实客户或已上线产品",
+      "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v4/assets/asset-manifest.json",
+      "concept": true,
+      "pending": false
+    },
+    "activityConcept": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/assets/deck-activity-focus.png",
+      "alt": "原创概念，非真实客户或已上线产品",
+      "source": "phase-0/foundation/design-v3",
+      "concept": true,
+      "pending": false
+    },
+    "recordConcept": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/assets/deck-review-focus.png",
+      "alt": "原创概念，非真实客户或已上线产品",
+      "source": "phase-0/foundation/design-v3",
+      "concept": true,
+      "pending": false
+    }
+  },
+  "slide04": "Native editable five-step process replaces progress screenshot to avoid tiny labels and partial button."
+}

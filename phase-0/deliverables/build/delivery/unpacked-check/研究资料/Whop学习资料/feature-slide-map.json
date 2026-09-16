@@ -1,0 +1,3312 @@
+{
+  "title": "Whop 168项功能与幻灯片映射",
+  "research_date": "2026-09-10",
+  "total_features": 168,
+  "core_slides": 40,
+  "appendix_slides": 24,
+  "total_slides": 64,
+  "module_counts": {
+    "B01": 13,
+    "B02": 15,
+    "B03": 14,
+    "B04": 12,
+    "B05": 12,
+    "B06": 15,
+    "B07": 14,
+    "B08": 15,
+    "B09": 15,
+    "B10": 14,
+    "B11": 15,
+    "B12": 14
+  },
+  "features": [
+    {
+      "feature_id": "B01-F01",
+      "module_id": "B01",
+      "label_zh": "经营开户",
+      "meaning_zh": "创建商家，选择站内交付或仅收款",
+      "core_slide_ids": [
+        "S02",
+        "S09"
+      ],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "开户",
+          "url": "https://docs.whop.com/launch-your-business"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F02",
+      "module_id": "B01",
+      "label_zh": "个人资料",
+      "meaning_zh": "修改联系方式及位置展示",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "邮箱",
+          "url": "https://docs.whop.com/account-settings/personal-details/update-email"
+        },
+        {
+          "title": "电话",
+          "url": "https://docs.whop.com/account-settings/personal-details/update-phone-number"
+        },
+        {
+          "title": "用户名",
+          "url": "https://docs.whop.com/account-settings/personal-details/update-username"
+        },
+        {
+          "title": "位置",
+          "url": "https://docs.whop.com/account-settings/personal-details/hide-approximate-location"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F03",
+      "module_id": "B01",
+      "label_zh": "账号安全",
+      "meaning_zh": "双重验证，删除前先取消会员",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "安全",
+          "url": "https://docs.whop.com/account-settings/account-security/enable-2fa"
+        },
+        {
+          "title": "删除",
+          "url": "https://docs.whop.com/account-settings/account-security/delete-your-account"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F04",
+      "module_id": "B01",
+      "label_zh": "团队管理",
+      "meaning_zh": "邀请、改角色、移除成员",
+      "core_slide_ids": [
+        "S09"
+      ],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "团队管理",
+          "url": "https://docs.whop.com/manage-your-business/team-management/manage-team-roles"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F05",
+      "module_id": "B01",
+      "label_zh": "操作权限",
+      "meaning_zh": "客服、运营、财务权限分开",
+      "core_slide_ids": [
+        "S09"
+      ],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "角色",
+          "url": "https://docs.whop.com/manage-your-business/team-management/manage-team-roles"
+        },
+        {
+          "title": "角色变更",
+          "url": "https://mobbin.com/flows/f77b4751-e924-401a-8aaf-b2cbc551241c"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F06",
+      "module_id": "B01",
+      "label_zh": "商家资料",
+      "meaning_zh": "管理经营资料与多个经营空间",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "概念",
+          "url": "https://docs.whop.com/developer/concepts"
+        },
+        {
+          "title": "更新账户",
+          "url": "https://docs.whop.com/api-reference/beta/accounts/update-account"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F07",
+      "module_id": "B01",
+      "label_zh": "商品编辑",
+      "meaning_zh": "写名称、说明、图片与常见问题",
+      "core_slide_ids": [
+        "S09"
+      ],
+      "appendix_slide_id": "S41",
+      "sources": [
+        {
+          "title": "创建商品",
+          "url": "https://docs.whop.com/manage-your-business/products/create-product"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F08",
+      "module_id": "B01",
+      "label_zh": "店面展示",
+      "meaning_zh": "公开店面或客户专属私有链接",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S42",
+      "sources": [
+        {
+          "title": "机构店面/客户门户",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F09",
+      "module_id": "B01",
+      "label_zh": "商品套餐",
+      "meaning_zh": "组合价格方案与交付内容",
+      "core_slide_ids": [
+        "S02",
+        "S09"
+      ],
+      "appendix_slide_id": "S42",
+      "sources": [
+        {
+          "title": "管理商品",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        },
+        {
+          "title": "商品模型",
+          "url": "https://docs.whop.com/api-reference/beta/products/product"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F10",
+      "module_id": "B01",
+      "label_zh": "购买设置",
+      "meaning_zh": "名额、售前问题、候补及跳转",
+      "core_slide_ids": [
+        "S10"
+      ],
+      "appendix_slide_id": "S42",
+      "sources": [
+        {
+          "title": "创建商品",
+          "url": "https://docs.whop.com/manage-your-business/products/create-product"
+        },
+        {
+          "title": "候补名单",
+          "url": "https://docs.whop.com/manage-your-business/products/create-waitlist"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F11",
+      "module_id": "B01",
+      "label_zh": "目录管理",
+      "meaning_zh": "排序、发布、下架及受限删除",
+      "core_slide_ids": [
+        "S10"
+      ],
+      "appendix_slide_id": "S42",
+      "sources": [
+        {
+          "title": "导航",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        },
+        {
+          "title": "商品 API",
+          "url": "https://docs.whop.com/api-reference/beta/products/product"
+        },
+        {
+          "title": "删除限制",
+          "url": "https://docs.whop.com/api-reference/beta/products/delete-product"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F12",
+      "module_id": "B01",
+      "label_zh": "法律文件",
+      "meaning_zh": "提供条款并设置同意入口",
+      "core_slide_ids": [
+        "S10"
+      ],
+      "appendix_slide_id": "S42",
+      "sources": [
+        {
+          "title": "法律文件",
+          "url": "https://docs.whop.com/manage-your-business/manage-business/legal-documents"
+        }
+      ]
+    },
+    {
+      "feature_id": "B01-F13",
+      "module_id": "B01",
+      "label_zh": "购买找回",
+      "meaning_zh": "核对邮箱，在手机继续访问",
+      "core_slide_ids": [
+        "S10"
+      ],
+      "appendix_slide_id": "S42",
+      "sources": [
+        {
+          "title": "重复账号",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts"
+        },
+        {
+          "title": "会员转移",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/transfer-a-membership"
+        },
+        {
+          "title": "移动访问",
+          "url": "https://docs.whop.com/memberships-and-access/access-discord-server/access-content-on-mobile"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F01",
+      "module_id": "B02",
+      "label_zh": "收费计划",
+      "meaning_zh": "免费、单次、订阅、试用及分期",
+      "core_slide_ids": [
+        "S11"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "创建结账链接",
+          "url": "https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F02",
+      "module_id": "B02",
+      "label_zh": "结账入口",
+      "meaning_zh": "链接、嵌入与快捷付款按钮",
+      "core_slide_ids": [
+        "S11"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "一键按钮",
+          "url": "https://docs.whop.com/payments/one-click-checkout-button.md"
+        },
+        {
+          "title": "品牌",
+          "url": "https://docs.whop.com/manage-your-business/payment-processing/checkout-branding.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F03",
+      "module_id": "B02",
+      "label_zh": "结账管理",
+      "meaning_zh": "名额、私有链接与高额申请",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "链接",
+          "url": "https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md"
+        },
+        {
+          "title": "高于 $2,500",
+          "url": "https://docs.whop.com/manage-your-business/payment-processing/access-higher-checkout-links.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F04",
+      "module_id": "B02",
+      "label_zh": "付款方式",
+      "meaning_zh": "按地区、币种和收费类型筛选",
+      "core_slide_ids": [
+        "S11",
+        "S39"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "当地支付方式",
+          "url": "https://docs.whop.com/payments-and-billing/local-payment-methods.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F05",
+      "module_id": "B02",
+      "label_zh": "本币显示",
+      "meaning_zh": "自适应换汇仅支持一次性付款",
+      "core_slide_ids": [
+        "S11"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "Adaptive Pricing",
+          "url": "https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F06",
+      "module_id": "B02",
+      "label_zh": "保存支付方式",
+      "meaning_zh": "授权后用于以后扣款",
+      "core_slide_ids": [
+        "S12"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "保存支付方式",
+          "url": "https://docs.whop.com/developer/guides/save-payment-methods.md"
+        },
+        {
+          "title": "删除限制",
+          "url": "https://docs.whop.com/api-reference/payment-methods/delete-payment-method.md"
+        },
+        {
+          "title": "创建支付",
+          "url": "https://docs.whop.com/api-reference/payments/create-payment.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F07",
+      "module_id": "B02",
+      "label_zh": "失败重试",
+      "meaning_zh": "催收与重试，费用明细接口待核",
+      "core_slide_ids": [
+        "S12"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "失败续费",
+          "url": "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md"
+        },
+        {
+          "title": "支付费用明细",
+          "url": "https://docs.whop.com/api-reference/payments/list-payment-fees.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F08",
+      "module_id": "B02",
+      "label_zh": "订阅管理",
+      "meaning_zh": "暂停、恢复、折扣和期末取消",
+      "core_slide_ids": [
+        "S12"
+      ],
+      "appendix_slide_id": "S43",
+      "sources": [
+        {
+          "title": "管理会员",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users.md"
+        },
+        {
+          "title": "暂停",
+          "url": "https://docs.whop.com/api-reference/memberships/pause-membership.md"
+        },
+        {
+          "title": "恢复",
+          "url": "https://docs.whop.com/api-reference/memberships/resume-membership.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F09",
+      "module_id": "B02",
+      "label_zh": "账单门户",
+      "meaning_zh": "买家查收据、改卡及取消续费",
+      "core_slide_ids": [
+        "S12"
+      ],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "Billing Portal",
+          "url": "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F10",
+      "module_id": "B02",
+      "label_zh": "发送账单",
+      "meaning_zh": "到期提醒、作废与站外付款标记",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "发送账单",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/send-invoice.md"
+        },
+        {
+          "title": "站外付款",
+          "url": "https://docs.whop.com/api-reference/invoices/mark-paid-invoice.md"
+        },
+        {
+          "title": "坏账标记",
+          "url": "https://docs.whop.com/api-reference/invoices/mark-uncollectible-invoice.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F11",
+      "module_id": "B02",
+      "label_zh": "融资结账",
+      "meaning_zh": "合资格买家申请合作方融资",
+      "core_slide_ids": [
+        "S11"
+      ],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "融资申请",
+          "url": "https://docs.whop.com/payments-and-billing/financing/apply.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F12",
+      "module_id": "B02",
+      "label_zh": "Whop内购",
+      "meaning_zh": "自有 iOS 路径按专门规则结算",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "自有 iOS 内购",
+          "url": "https://docs.whop.com/payments-and-billing/fees/in-app-ios-purchases.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F13",
+      "module_id": "B02",
+      "label_zh": "外部iOS收款",
+      "meaning_zh": "实体与现实服务走开发指南",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "外部 iOS 收款指南",
+          "url": "https://docs.whop.com/developer/guides/ios/accept-one-time-payments.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F14",
+      "module_id": "B02",
+      "label_zh": "手机当收银机",
+      "meaning_zh": "联网非接触收款，未列马来西亚",
+      "core_slide_ids": [
+        "S39"
+      ],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "Tap to Pay",
+          "url": "https://docs.whop.com/payments-and-billing/tap-to-pay.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B02-F15",
+      "module_id": "B02",
+      "label_zh": "会计同步",
+      "meaning_zh": "QuickBooks 回写，Xero 待上线",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S44",
+      "sources": [
+        {
+          "title": "QuickBooks",
+          "url": "https://docs.whop.com/third-party-integrations/quickbooks.md"
+        },
+        {
+          "title": "Xero",
+          "url": "https://docs.whop.com/third-party-integrations/xero.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F01",
+      "module_id": "B03",
+      "label_zh": "交付空间",
+      "meaning_zh": "商品连接多个应用体验",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "应用",
+          "url": "https://docs.whop.com/whop-apps/what-are-whop-apps"
+        },
+        {
+          "title": "商品访问",
+          "url": "https://docs.whop.com/manage-your-business/products/manage-products"
+        },
+        {
+          "title": "复制体验",
+          "url": "https://docs.whop.com/api-reference/experiences/duplicate-experience"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F02",
+      "module_id": "B03",
+      "label_zh": "访问与找回",
+      "meaning_zh": "按购买权益访问并核对账号",
+      "core_slide_ids": [
+        "S14"
+      ],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "概念",
+          "url": "https://docs.whop.com/developer/concepts"
+        },
+        {
+          "title": "找购买",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase"
+        },
+        {
+          "title": "Discord",
+          "url": "https://docs.whop.com/memberships-and-access/access-discord-server/access-a-discord-server"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F03",
+      "module_id": "B03",
+      "label_zh": "群组聊天",
+      "meaning_zh": "分房、附件、投票及发言管理",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "付费群组",
+          "url": "https://docs.whop.com/supported-business-models/paid-groups"
+        },
+        {
+          "title": "消息",
+          "url": "https://docs.whop.com/api-reference/messages/create-message"
+        },
+        {
+          "title": "管理",
+          "url": "https://docs.whop.com/api-reference/chat-channels/update-chat-channel"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F04",
+      "module_id": "B03",
+      "label_zh": "论坛与通讯",
+      "meaning_zh": "帖子、公告、邮件和付费墙",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "帖子",
+          "url": "https://docs.whop.com/api-reference/forum-posts/create-forum-post"
+        },
+        {
+          "title": "管理",
+          "url": "https://docs.whop.com/api-reference/forums/update-forum"
+        },
+        {
+          "title": "通讯",
+          "url": "https://docs.whop.com/supported-business-models/newsletters"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F05",
+      "module_id": "B03",
+      "label_zh": "课程编排",
+      "meaning_zh": "章节、课时、测验与证书",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "教育方案",
+          "url": "https://docs.whop.com/supported-business-models/educational-programs"
+        },
+        {
+          "title": "创建",
+          "url": "https://docs.whop.com/api-reference/courses/create-course"
+        },
+        {
+          "title": "删除",
+          "url": "https://docs.whop.com/api-reference/courses/delete-course"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F06",
+      "module_id": "B03",
+      "label_zh": "学习进度",
+      "meaning_zh": "分时解锁、测验门槛与评估",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "创建课程截图",
+          "url": "https://mobbin.com/flows/db66e97a-c08e-48fa-9665-8b4fe611eadc"
+        },
+        {
+          "title": "评估",
+          "url": "https://docs.whop.com/api-reference/course-lessons/submit-assessment-course-lesson"
+        },
+        {
+          "title": "课时修改",
+          "url": "https://docs.whop.com/api-reference/course-lessons/update-course-lesson"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F07",
+      "module_id": "B03",
+      "label_zh": "文件与指南",
+      "meaning_zh": "交付模板、电子书和说明",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S45",
+      "sources": [
+        {
+          "title": "内容应用",
+          "url": "https://docs.whop.com/whop-apps/consumer-apps"
+        },
+        {
+          "title": "机构使用",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        },
+        {
+          "title": "文件 API",
+          "url": "https://docs.whop.com/api-reference/beta/files/create-file"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F08",
+      "module_id": "B03",
+      "label_zh": "活动与直播",
+      "meaning_zh": "安排活动、提醒及直播访问",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "付费群活动",
+          "url": "https://docs.whop.com/supported-business-models/paid-groups"
+        },
+        {
+          "title": "活动",
+          "url": "https://docs.whop.com/supported-business-models/events"
+        },
+        {
+          "title": "应用目录",
+          "url": "https://docs.whop.com/whop-apps/consumer-apps"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F09",
+      "module_id": "B03",
+      "label_zh": "预约辅导",
+      "meaning_zh": "设置时段、会议地点与价格",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "预约配置",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        },
+        {
+          "title": "教练",
+          "url": "https://docs.whop.com/supported-business-models/coaches"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F10",
+      "module_id": "B03",
+      "label_zh": "服务交付",
+      "meaning_zh": "客户私有门户或外部工具履约",
+      "core_slide_ids": [
+        "S08"
+      ],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "机构方案",
+          "url": "https://docs.whop.com/supported-business-models/agency-services"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F11",
+      "module_id": "B03",
+      "label_zh": "外部访问",
+      "meaning_zh": "连接社群或软件，各自恢复权限",
+      "core_slide_ids": [
+        "S14"
+      ],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "再同步",
+          "url": "https://docs.whop.com/api-reference/beta/memberships/resync-membership-access"
+        },
+        {
+          "title": "SaaS",
+          "url": "https://docs.whop.com/supported-business-models/saas"
+        },
+        {
+          "title": "Discord 绑定限制",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/transfer-a-membership"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F12",
+      "module_id": "B03",
+      "label_zh": "实物物流",
+      "meaning_zh": "收地址并接外部发货与运单",
+      "core_slide_ids": [
+        "S08",
+        "S13"
+      ],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "实物方案",
+          "url": "https://docs.whop.com/supported-business-models/dtc-ecommerce"
+        },
+        {
+          "title": "建运单",
+          "url": "https://docs.whop.com/api-reference/beta/shipments/create-shipment"
+        },
+        {
+          "title": "改运单",
+          "url": "https://docs.whop.com/api-reference/beta/shipments/update-shipment"
+        },
+        {
+          "title": "运单状态",
+          "url": "https://docs.whop.com/api-reference/shipments/shipment"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F13",
+      "module_id": "B03",
+      "label_zh": "零售与周边",
+      "meaning_zh": "线下收款结合会员福利",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "线下商家",
+          "url": "https://docs.whop.com/supported-business-models/brick-and-mortar"
+        }
+      ]
+    },
+    {
+      "feature_id": "B03-F14",
+      "module_id": "B03",
+      "label_zh": "互动应用",
+      "meaning_zh": "游戏、社交等生态，归属各异",
+      "core_slide_ids": [
+        "S13"
+      ],
+      "appendix_slide_id": "S46",
+      "sources": [
+        {
+          "title": "消费者应用",
+          "url": "https://docs.whop.com/whop-apps/consumer-apps"
+        },
+        {
+          "title": "应用商店",
+          "url": "https://docs.whop.com/whop-apps/whop-app-store"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F01",
+      "module_id": "B04",
+      "label_zh": "候补与潜客",
+      "meaning_zh": "收申请、审批、导出及联系",
+      "core_slide_ids": [
+        "S15"
+      ],
+      "appendix_slide_id": "S47",
+      "sources": [
+        {
+          "title": "候补",
+          "url": "https://docs.whop.com/manage-your-business/products/create-waitlist"
+        },
+        {
+          "title": "教练线索",
+          "url": "https://docs.whop.com/supported-business-models/coaches"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F02",
+      "module_id": "B04",
+      "label_zh": "客户与会员",
+      "meaning_zh": "一个客户可对应多项会员",
+      "core_slide_ids": [
+        "S15"
+      ],
+      "appendix_slide_id": "S47",
+      "sources": [
+        {
+          "title": "管理用户",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F03",
+      "module_id": "B04",
+      "label_zh": "会员运营",
+      "meaning_zh": "赠天数、转移、暂停或终止",
+      "core_slide_ids": [
+        "S16"
+      ],
+      "appendix_slide_id": "S47",
+      "sources": [
+        {
+          "title": "管理用户",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-users"
+        },
+        {
+          "title": "生命周期",
+          "url": "https://docs.whop.com/developer/guides/memberships"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F04",
+      "module_id": "B04",
+      "label_zh": "客户自助",
+      "meaning_zh": "查订单与管理账单入口",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S47",
+      "sources": [
+        {
+          "title": "账单门户",
+          "url": "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F05",
+      "module_id": "B04",
+      "label_zh": "购买恢复",
+      "meaning_zh": "按邮箱找回并处理重复账号",
+      "core_slide_ids": [
+        "S14",
+        "S16"
+      ],
+      "appendix_slide_id": "S47",
+      "sources": [
+        {
+          "title": "找回",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase"
+        },
+        {
+          "title": "转移",
+          "url": "https://docs.whop.com/memberships-and-access/accessing-your-purchase/transfer-a-membership"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F06",
+      "module_id": "B04",
+      "label_zh": "欠费恢复",
+      "meaning_zh": "提醒改卡并显示重试结果",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S47",
+      "sources": [
+        {
+          "title": "失败订阅",
+          "url": "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F07",
+      "module_id": "B04",
+      "label_zh": "自动消息",
+      "meaning_zh": "加入欢迎及离开反馈消息",
+      "core_slide_ids": [
+        "S15"
+      ],
+      "appendix_slide_id": "S48",
+      "sources": [
+        {
+          "title": "自动消息",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F08",
+      "module_id": "B04",
+      "label_zh": "客服收件箱",
+      "meaning_zh": "每客每商家的支持会话",
+      "core_slide_ids": [
+        "S15",
+        "S16"
+      ],
+      "appendix_slide_id": "S48",
+      "sources": [
+        {
+          "title": "支持会话",
+          "url": "https://docs.whop.com/developer/guides/chat/support-chats"
+        },
+        {
+          "title": "创建",
+          "url": "https://docs.whop.com/api-reference/support-channels/create-support-channel"
+        },
+        {
+          "title": "截图",
+          "url": "https://mobbin.com/flows/c80c3358-b3c2-476d-9149-75cd6dcf8968"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F09",
+      "module_id": "B04",
+      "label_zh": "售后工作台",
+      "meaning_zh": "提证据与回应，引用退款决定",
+      "core_slide_ids": [
+        "S16"
+      ],
+      "appendix_slide_id": "S48",
+      "sources": [
+        {
+          "title": "Resolution Center",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/resolution-center"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F10",
+      "module_id": "B04",
+      "label_zh": "平台帮助",
+      "meaning_zh": "Whop AI 支持，复杂问题转人工",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S48",
+      "sources": [
+        {
+          "title": "Whop 支持",
+          "url": "https://docs.whop.com/get-help/whop-support"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F11",
+      "module_id": "B04",
+      "label_zh": "经营报表",
+      "meaning_zh": "分析与导出，金额口径需区分",
+      "core_slide_ids": [
+        "S15"
+      ],
+      "appendix_slide_id": "S48",
+      "sources": [
+        {
+          "title": "分析",
+          "url": "https://docs.whop.com/manage-your-business/manage-business/analytics"
+        },
+        {
+          "title": "结构",
+          "url": "https://docs.whop.com/api-reference/stats/describe-stats"
+        },
+        {
+          "title": "聚合",
+          "url": "https://docs.whop.com/api-reference/stats/metric-stats"
+        },
+        {
+          "title": "原始行",
+          "url": "https://docs.whop.com/api-reference/stats/raw-stats"
+        },
+        {
+          "title": "List Exports",
+          "url": "https://docs.whop.com/api-reference/beta/exports/list-exports.md"
+        },
+        {
+          "title": "Create Export",
+          "url": "https://docs.whop.com/api-reference/beta/exports/create-export.md"
+        },
+        {
+          "title": "Retrieve Export",
+          "url": "https://docs.whop.com/api-reference/beta/exports/retrieve-export.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B04-F12",
+      "module_id": "B04",
+      "label_zh": "外部经营工具",
+      "meaning_zh": "连接客户及会计软件，Xero待上线",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S48",
+      "sources": [
+        {
+          "title": "HubSpot",
+          "url": "https://docs.whop.com/third-party-integrations/hubspot"
+        },
+        {
+          "title": "GHL",
+          "url": "https://docs.whop.com/third-party-integrations/gohighlevel"
+        },
+        {
+          "title": "QuickBooks",
+          "url": "https://docs.whop.com/third-party-integrations/quickbooks"
+        },
+        {
+          "title": "Zapier",
+          "url": "https://docs.whop.com/third-party-integrations/zapier"
+        },
+        {
+          "title": "追踪",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations"
+        },
+        {
+          "title": "Xero",
+          "url": "https://docs.whop.com/third-party-integrations/xero"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F01",
+      "module_id": "B05",
+      "label_zh": "公共商品列表",
+      "meaning_zh": "区分商家目录与可见商城",
+      "core_slide_ids": [
+        "S17"
+      ],
+      "appendix_slide_id": "S49",
+      "sources": [
+        {
+          "title": "List Products",
+          "url": "https://docs.whop.com/api-reference/beta/products/list-products.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F02",
+      "module_id": "B05",
+      "label_zh": "商品搜索",
+      "meaning_zh": "按标题找商品或浏览新收录",
+      "core_slide_ids": [
+        "S17"
+      ],
+      "appendix_slide_id": "S49",
+      "sources": [
+        {
+          "title": "查询契约",
+          "url": "https://docs.whop.com/api-reference/beta/products/list-products.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F03",
+      "module_id": "B05",
+      "label_zh": "商品筛选",
+      "meaning_zh": "类目、价格、收费方式及标签",
+      "core_slide_ids": [
+        "S17"
+      ],
+      "appendix_slide_id": "S49",
+      "sources": [
+        {
+          "title": "筛选契约",
+          "url": "https://docs.whop.com/api-reference/beta/products/list-products.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F04",
+      "module_id": "B05",
+      "label_zh": "排序与翻页",
+      "meaning_zh": "支持指定排序，有查询组合限制",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S49",
+      "sources": [
+        {
+          "title": "排序契约",
+          "url": "https://docs.whop.com/api-reference/beta/products/list-products.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F05",
+      "module_id": "B05",
+      "label_zh": "上架资料检查",
+      "meaning_zh": "检查标识、标题及图片视频",
+      "core_slide_ids": [
+        "S17"
+      ],
+      "appendix_slide_id": "S49",
+      "sources": [
+        {
+          "title": "Publish Product",
+          "url": "https://docs.whop.com/api-reference/beta/products/publish-product.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F06",
+      "module_id": "B05",
+      "label_zh": "商城审核",
+      "meaning_zh": "提交后待审，通过才公开",
+      "core_slide_ids": [
+        "S17"
+      ],
+      "appendix_slide_id": "S49",
+      "sources": [
+        {
+          "title": "发布审核",
+          "url": "https://docs.whop.com/api-reference/beta/products/publish-product.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F07",
+      "module_id": "B05",
+      "label_zh": "主动下架",
+      "meaning_zh": "退出公开发现，不代表撤销权益",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S50",
+      "sources": [
+        {
+          "title": "Unpublish Product",
+          "url": "https://docs.whop.com/api-reference/beta/products/unpublish-product.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F08",
+      "module_id": "B05",
+      "label_zh": "评价内容",
+      "meaning_zh": "星级、正文、附件及作者",
+      "core_slide_ids": [
+        "S17"
+      ],
+      "appendix_slide_id": "S50",
+      "sources": [
+        {
+          "title": "Review",
+          "url": "https://docs.whop.com/api-reference/reviews/review.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F09",
+      "module_id": "B05",
+      "label_zh": "付费标识",
+      "meaning_zh": "评价可为付费、未付费或未知",
+      "core_slide_ids": [
+        "S18"
+      ],
+      "appendix_slide_id": "S50",
+      "sources": [
+        {
+          "title": "Review",
+          "url": "https://docs.whop.com/api-reference/reviews/review.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F10",
+      "module_id": "B05",
+      "label_zh": "评价读取",
+      "meaning_zh": "筛选评价及查看审核状态",
+      "core_slide_ids": [
+        "S18"
+      ],
+      "appendix_slide_id": "S50",
+      "sources": [
+        {
+          "title": "List Reviews",
+          "url": "https://docs.whop.com/api-reference/reviews/list-reviews.md"
+        },
+        {
+          "title": "Review",
+          "url": "https://docs.whop.com/api-reference/reviews/review.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F11",
+      "module_id": "B05",
+      "label_zh": "评价治理",
+      "meaning_zh": "真实体验、利益披露与举报",
+      "core_slide_ids": [
+        "S18"
+      ],
+      "appendix_slide_id": "S50",
+      "sources": [
+        {
+          "title": "Community Guidelines",
+          "url": "https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B05-F12",
+      "module_id": "B05",
+      "label_zh": "公开活动流",
+      "meaning_zh": "匿名资金活动，非个人对账",
+      "core_slide_ids": [
+        "S18"
+      ],
+      "appendix_slide_id": "S50",
+      "sources": [
+        {
+          "title": "Pulse Feed",
+          "url": "https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F01",
+      "module_id": "B06",
+      "label_zh": "内容形式",
+      "meaning_zh": "剪辑、原创及音乐标识类机会",
+      "core_slide_ids": [
+        "S19",
+        "S20"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "Whop 文档",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        },
+        {
+          "title": "创作者页",
+          "url": "https://contentrewards.com/creators"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F02",
+      "module_id": "B06",
+      "label_zh": "合作计酬",
+      "meaning_zh": "千次观看、按篇或周期合作",
+      "core_slide_ids": [
+        "S03",
+        "S04",
+        "S20",
+        "S22"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "CR 主页",
+          "url": "https://contentrewards.com/"
+        },
+        {
+          "title": "Discover",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/discover"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F03",
+      "module_id": "B06",
+      "label_zh": "活动规则",
+      "meaning_zh": "素材、预算、门槛及单片上限",
+      "core_slide_ids": [
+        "S20",
+        "S21"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "Whop 内嵌版说明",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F04",
+      "module_id": "B06",
+      "label_zh": "品牌工作区",
+      "meaning_zh": "代理多品牌与成员分工",
+      "core_slide_ids": [
+        "S19",
+        "S23"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "组织条款 §11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F05",
+      "module_id": "B06",
+      "label_zh": "草稿与审稿",
+      "meaning_zh": "草稿认可不等于正式帖子获批",
+      "core_slide_ids": [
+        "S21",
+        "S40"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "组织条款 §6–7",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F06",
+      "module_id": "B06",
+      "label_zh": "表现与风控",
+      "meaning_zh": "核社交归属，异常可暂停收益",
+      "core_slide_ids": [
+        "S21",
+        "S22"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "隐私政策",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy"
+        },
+        {
+          "title": "创作者条款",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F07",
+      "module_id": "B06",
+      "label_zh": "奖励结算",
+      "meaning_zh": "审核、计酬、冻结、可用分阶段",
+      "core_slide_ids": [
+        "S21",
+        "S22",
+        "S40"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "创作者条款 §6–11",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F08",
+      "module_id": "B06",
+      "label_zh": "预算与版权",
+      "meaning_zh": "处理剩余款及作品使用授权",
+      "core_slide_ids": [
+        "S23",
+        "S37"
+      ],
+      "appendix_slide_id": "S51",
+      "sources": [
+        {
+          "title": "组织条款 §9–12",
+          "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F09",
+      "module_id": "B06",
+      "label_zh": "任务目标",
+      "meaning_zh": "内容、互动、本地活动与数据",
+      "core_slide_ids": [
+        "S04",
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "运行指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F10",
+      "module_id": "B06",
+      "label_zh": "赏金预算",
+      "meaning_zh": "每份毛奖励乘名额，先承诺资金",
+      "core_slide_ids": [
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "运行指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F11",
+      "module_id": "B06",
+      "label_zh": "任务排期",
+      "meaning_zh": "即时、定时或重复，逐期资金池",
+      "core_slide_ids": [
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "运行指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F12",
+      "module_id": "B06",
+      "label_zh": "任务投稿",
+      "meaning_zh": "提交链接文件，部分证据限站内",
+      "core_slide_ids": [
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "投稿指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        },
+        {
+          "title": "Submission",
+          "url": "https://docs.whop.com/api-reference/beta/bounty-submissions/create-bounty-submission.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F13",
+      "module_id": "B06",
+      "label_zh": "投稿审核",
+      "meaning_zh": "仅后台审批，无公开审批接口",
+      "core_slide_ids": [
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "审核指南",
+          "url": "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F14",
+      "module_id": "B06",
+      "label_zh": "任务退出",
+      "meaning_zh": "撤回或取消，先处理在途成果",
+      "core_slide_ids": [
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "取消",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/cancel.md"
+        },
+        {
+          "title": "Bounty 对象",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/bounty.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B06-F15",
+      "module_id": "B06",
+      "label_zh": "任务净额",
+      "meaning_zh": "毛奖励扣平台费与推荐份额",
+      "core_slide_ids": [
+        "S24"
+      ],
+      "appendix_slide_id": "S52",
+      "sources": [
+        {
+          "title": "Bounty 金额字段",
+          "url": "https://docs.whop.com/api-reference/beta/bounties/bounty.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F01",
+      "module_id": "B07",
+      "label_zh": "推广机会",
+      "meaning_zh": "加入商品推广并取得专属链接",
+      "core_slide_ids": [
+        "S03",
+        "S25"
+      ],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Be an Affiliate",
+          "url": "https://docs.whop.com/affiliates/be-an-affiliate.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F02",
+      "module_id": "B07",
+      "label_zh": "默认推广规则",
+      "meaning_zh": "商家设置全局与会员佣金",
+      "core_slide_ids": [
+        "S25"
+      ],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Global Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-global.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F03",
+      "module_id": "B07",
+      "label_zh": "专属推广者",
+      "meaning_zh": "邀请某人推广指定商品方案",
+      "core_slide_ids": [
+        "S25"
+      ],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Custom Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-custom.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F04",
+      "module_id": "B07",
+      "label_zh": "佣金合同",
+      "meaning_zh": "固定额或比例，首付或每次续费",
+      "core_slide_ids": [
+        "S04",
+        "S25",
+        "S37"
+      ],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Custom Affiliates",
+          "url": "https://docs.whop.com/affiliates/setup-custom.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F05",
+      "module_id": "B07",
+      "label_zh": "合作分成",
+      "meaning_zh": "可不靠点击，按扣费后金额分配",
+      "core_slide_ids": [
+        "S25"
+      ],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Revenue Share",
+          "url": "https://docs.whop.com/affiliates/setup-rev-share.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F06",
+      "module_id": "B07",
+      "label_zh": "推广配置接口",
+      "meaning_zh": "归档恢复及逐方案覆盖",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Affiliate",
+          "url": "https://docs.whop.com/api-reference/affiliates/affiliate.md"
+        },
+        {
+          "title": "Overrides",
+          "url": "https://docs.whop.com/api-reference/affiliates/create-override.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F07",
+      "module_id": "B07",
+      "label_zh": "佣金等待",
+      "meaning_zh": "看收益，退款争议可追回",
+      "core_slide_ids": [
+        "S26"
+      ],
+      "appendix_slide_id": "S53",
+      "sources": [
+        {
+          "title": "Be an Affiliate",
+          "url": "https://docs.whop.com/affiliates/be-an-affiliate.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F08",
+      "module_id": "B07",
+      "label_zh": "伙伴报名",
+      "meaning_zh": "报名商家推荐计划并取链接",
+      "core_slide_ids": [
+        "S25"
+      ],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "Partners",
+          "url": "https://docs.whop.com/developer/partners/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F09",
+      "module_id": "B07",
+      "label_zh": "商家推荐关系",
+      "meaning_zh": "一级二级、起止日期与状态",
+      "core_slide_ids": [
+        "S25"
+      ],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "Partners",
+          "url": "https://docs.whop.com/developer/partners/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F10",
+      "module_id": "B07",
+      "label_zh": "伙伴收入来源",
+      "meaning_zh": "销售毛利、广告支出等各有基数",
+      "core_slide_ids": [
+        "S25"
+      ],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "Partners",
+          "url": "https://docs.whop.com/developer/partners/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F11",
+      "module_id": "B07",
+      "label_zh": "逐笔伙伴收益",
+      "meaning_zh": "结算、费率及取消追回原因",
+      "core_slide_ids": [
+        "S26"
+      ],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "收益接口",
+          "url": "https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md"
+        },
+        {
+          "title": "指南",
+          "url": "https://docs.whop.com/developer/partners/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F12",
+      "module_id": "B07",
+      "label_zh": "伙伴排行榜",
+      "meaning_zh": "按期间看名次与匿名榜单",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "Leaderboard",
+          "url": "https://docs.whop.com/api-reference/beta/partners/retrieve-the-leaderboard.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F13",
+      "module_id": "B07",
+      "label_zh": "商家奖励链接",
+      "meaning_zh": "达量奖励、期限及兑换名额",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "Partner Reward Link",
+          "url": "https://docs.whop.com/api-reference/beta/partners/retrieve-a-partner-reward-link.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B07-F14",
+      "module_id": "B07",
+      "label_zh": "蓝图佣金",
+      "meaning_zh": "副本站点销售产生的Whop利润分成",
+      "core_slide_ids": [
+        "S26"
+      ],
+      "appendix_slide_id": "S54",
+      "sources": [
+        {
+          "title": "Blueprints 官方正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F01",
+      "module_id": "B08",
+      "label_zh": "站内广告",
+      "meaning_zh": "合同列搜索等位置及点击收费",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Ads Terms",
+          "url": "https://whop.com/whop-ads-terms/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F02",
+      "module_id": "B08",
+      "label_zh": "外部广告网络",
+      "meaning_zh": "Meta 已列上线，其他网络待上线",
+      "core_slide_ids": [
+        "S04",
+        "S27"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Whop Ads",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F03",
+      "module_id": "B08",
+      "label_zh": "投放账户",
+      "meaning_zh": "社交授权、投手权限与付款方式",
+      "core_slide_ids": [
+        "S27"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "业务文档",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+        },
+        {
+          "title": "Billing Setup",
+          "url": "https://docs.whop.com/elements/beta/ads/billing-setup.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F04",
+      "module_id": "B08",
+      "label_zh": "广告层级",
+      "meaning_zh": "活动定目标，分组定人群，广告放素材",
+      "core_slide_ids": [
+        "S27"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Advertising",
+          "url": "https://docs.whop.com/developer/ads/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F05",
+      "module_id": "B08",
+      "label_zh": "广告素材",
+      "meaning_zh": "自有图视频、社交帖子及AI媒体",
+      "core_slide_ids": [
+        "S27",
+        "S37"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Ads API Overview",
+          "url": "https://docs.whop.com/api-reference/beta/ads/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F06",
+      "module_id": "B08",
+      "label_zh": "人群条件",
+      "meaning_zh": "地区、语言、兴趣及设备等",
+      "core_slide_ids": [
+        "S27"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Ad Group",
+          "url": "https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md"
+        },
+        {
+          "title": "API Overview",
+          "url": "https://docs.whop.com/api-reference/beta/ads/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F07",
+      "module_id": "B08",
+      "label_zh": "自有受众",
+      "meaning_zh": "客户名单或社交互动人群",
+      "core_slide_ids": [
+        "S27"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Audience",
+          "url": "https://docs.whop.com/api-reference/beta/audiences/audience.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F08",
+      "module_id": "B08",
+      "label_zh": "相似受众",
+      "meaning_zh": "接口有契约，后台开放另核",
+      "core_slide_ids": [
+        "S27"
+      ],
+      "appendix_slide_id": "S55",
+      "sources": [
+        {
+          "title": "Audience",
+          "url": "https://docs.whop.com/api-reference/beta/audiences/audience.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F09",
+      "module_id": "B08",
+      "label_zh": "投放状态",
+      "meaning_zh": "草稿、审核、活跃、暂停及失败",
+      "core_slide_ids": [
+        "S27"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Advertising",
+          "url": "https://docs.whop.com/developer/ads/overview.md"
+        },
+        {
+          "title": "Table",
+          "url": "https://docs.whop.com/elements/beta/ads/reporting-table.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F10",
+      "module_id": "B08",
+      "label_zh": "网页追踪",
+      "meaning_zh": "记录事件并避免重复购买计数",
+      "core_slide_ids": [
+        "S28"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Pixel",
+          "url": "https://docs.whop.com/developer/ads/pixel.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F11",
+      "module_id": "B08",
+      "label_zh": "服务器事件",
+      "meaning_zh": "补传事件并关联访客身份",
+      "core_slide_ids": [
+        "S28"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Events API",
+          "url": "https://docs.whop.com/developer/ads/events-api.md"
+        },
+        {
+          "title": "业务文档",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F12",
+      "module_id": "B08",
+      "label_zh": "访客时间线",
+      "meaning_zh": "查看事件与行为，组件成熟度有限",
+      "core_slide_ids": [
+        "S28"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Tracking People",
+          "url": "https://docs.whop.com/elements/beta/tracking/people.md"
+        },
+        {
+          "title": "Person",
+          "url": "https://docs.whop.com/elements/beta/tracking/person.md"
+        },
+        {
+          "title": "Events",
+          "url": "https://docs.whop.com/elements/beta/tracking/events.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F13",
+      "module_id": "B08",
+      "label_zh": "广告成效",
+      "meaning_zh": "花费、点击及归因销售回报",
+      "core_slide_ids": [
+        "S28"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Reporting",
+          "url": "https://docs.whop.com/elements/beta/ads/reporting.md"
+        },
+        {
+          "title": "Advertising",
+          "url": "https://docs.whop.com/developer/ads/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F14",
+      "module_id": "B08",
+      "label_zh": "追踪链接",
+      "meaning_zh": "统计点击和转化，不自动分佣",
+      "core_slide_ids": [
+        "S28",
+        "S37"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Tracking Links",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B08-F15",
+      "module_id": "B08",
+      "label_zh": "外部分析连接",
+      "meaning_zh": "安装与排错，不等于能投该网络",
+      "core_slide_ids": [
+        "S28"
+      ],
+      "appendix_slide_id": "S56",
+      "sources": [
+        {
+          "title": "Tracking Integrations",
+          "url": "https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md"
+        },
+        {
+          "title": "Pixel",
+          "url": "https://docs.whop.com/developer/ads/pixel.md"
+        },
+        {
+          "title": "Events API",
+          "url": "https://docs.whop.com/developer/ads/events-api.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F01",
+      "module_id": "B09",
+      "label_zh": "余额分类",
+      "meaning_zh": "可提、待结算与准备金分开",
+      "core_slide_ids": [
+        "S29"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "余额与提现",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "卡",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F02",
+      "module_id": "B09",
+      "label_zh": "账务报告",
+      "meaning_zh": "查看活动、余额及资金明细",
+      "core_slide_ids": [
+        "S29"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "财务报告",
+          "url": "https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md"
+        },
+        {
+          "title": "分解",
+          "url": "https://docs.whop.com/api-reference/beta/ledgers/get-financial-report-breakdown.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F03",
+      "module_id": "B09",
+      "label_zh": "账户充值",
+      "meaning_zh": "补资金待确认，不是营业收入",
+      "core_slide_ids": [
+        "S29"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "充值指南",
+          "url": "https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md"
+        },
+        {
+          "title": "Topup",
+          "url": "https://docs.whop.com/api-reference/topups/create-topup.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F04",
+      "module_id": "B09",
+      "label_zh": "收款目的地",
+      "meaning_zh": "设置银行等方式及国家要求",
+      "core_slide_ids": [
+        "S29",
+        "S30",
+        "S39"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "Payout methods",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F05",
+      "module_id": "B09",
+      "label_zh": "提现排程",
+      "meaning_zh": "人工、定期、即时及失败跟踪",
+      "core_slide_ids": [
+        "S06",
+        "S29",
+        "S30",
+        "S39",
+        "S40"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "提现设置",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+        },
+        {
+          "title": "故障处理",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/troubleshoot-payouts.md"
+        },
+        {
+          "title": "方式",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F06",
+      "module_id": "B09",
+      "label_zh": "出款报价",
+      "meaning_zh": "确认费用，取消受处理状态限制",
+      "core_slide_ids": [
+        "S30"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "报价",
+          "url": "https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md"
+        },
+        {
+          "title": "取消",
+          "url": "https://docs.whop.com/api-reference/beta/payouts/cancel-payout.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F07",
+      "module_id": "B09",
+      "label_zh": "企业代付",
+      "meaning_zh": "连接账户收款、分账及付款门户",
+      "core_slide_ids": [
+        "S34"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "企业收款两路线",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "门户",
+          "url": "https://docs.whop.com/developer/platforms/render-payout-portal.md"
+        },
+        {
+          "title": "团队付款",
+          "url": "https://docs.whop.com/manage-your-business/manage-payouts/pay-your-team.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F08",
+      "module_id": "B09",
+      "label_zh": "转账与领取",
+      "meaning_zh": "按业务资格转款或发领取链接",
+      "core_slide_ids": [
+        "S30"
+      ],
+      "appendix_slide_id": "S57",
+      "sources": [
+        {
+          "title": "创建 Transfer",
+          "url": "https://docs.whop.com/api-reference/beta/transfers/create-transfer.md"
+        },
+        {
+          "title": "企业收款指南",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "通用条款",
+          "url": "https://whop.com/tos/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F09",
+      "module_id": "B09",
+      "label_zh": "银行链上入金",
+      "meaning_zh": "取入金指示，区别购买商品",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "Deposit",
+          "url": "https://docs.whop.com/api-reference/beta/deposits/create-deposit.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F10",
+      "module_id": "B09",
+      "label_zh": "货币与资产兑换",
+      "meaning_zh": "预览报价、费用及异步结果",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "兑换",
+          "url": "https://docs.whop.com/api-reference/beta/swaps/create-swap.md"
+        },
+        {
+          "title": "报价",
+          "url": "https://docs.whop.com/api-reference/beta/swaps/create-swap-quote.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F11",
+      "module_id": "B09",
+      "label_zh": "卡与团队预算",
+      "meaning_zh": "申请、限额、冻结，实体卡仅营销",
+      "core_slide_ids": [
+        "S30"
+      ],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "卡说明",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        },
+        {
+          "title": "申请",
+          "url": "https://docs.whop.com/api-reference/beta/cards/create-card.md"
+        },
+        {
+          "title": "管理",
+          "url": "https://docs.whop.com/api-reference/beta/cards/update-card.md"
+        },
+        {
+          "title": "企业卡宣传",
+          "url": "https://whop.com/network/products/payouts/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F12",
+      "module_id": "B09",
+      "label_zh": "卡奖励",
+      "meaning_zh": "合资格返现及交换费分享",
+      "core_slide_ids": [
+        "S06"
+      ],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "Whop Cards",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        },
+        {
+          "title": "返现条款",
+          "url": "https://whop.com/card-cashback-terms/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F13",
+      "module_id": "B09",
+      "label_zh": "消费融资",
+      "meaning_zh": "合作方审批，结算和准备金各异",
+      "core_slide_ids": [
+        "S30"
+      ],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "融资目录",
+          "url": "https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md"
+        },
+        {
+          "title": "申请",
+          "url": "https://docs.whop.com/payments-and-billing/financing/apply.md"
+        },
+        {
+          "title": "Splitit",
+          "url": "https://docs.whop.com/payments-and-billing/financing/splitit-guide.md"
+        },
+        {
+          "title": "SeQura",
+          "url": "https://docs.whop.com/payments-and-billing/financing/sequra-guide.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F14",
+      "module_id": "B09",
+      "label_zh": "余额收益入口",
+      "meaning_zh": "只有营销线索，产品细则待核",
+      "core_slide_ids": [
+        "S30"
+      ],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "企业钱包页",
+          "url": "https://whop.com/network/products/payouts/"
+        },
+        {
+          "title": "首页",
+          "url": "https://whop.com/network/"
+        },
+        {
+          "title": "卡页 Treasury 入口",
+          "url": "https://docs.whop.com/whop-finance/cards.md"
+        },
+        {
+          "title": "Treasury 正文请求",
+          "url": "https://docs.whop.com/whop-finance/treasury.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B09-F15",
+      "module_id": "B09",
+      "label_zh": "自托管钱包",
+      "meaning_zh": "稳定币、代币兑换与私钥退出",
+      "core_slide_ids": [
+        "S30"
+      ],
+      "appendix_slide_id": "S58",
+      "sources": [
+        {
+          "title": "Wallet Terms",
+          "url": "https://whop.com/wallet-terms/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F01",
+      "module_id": "B10",
+      "label_zh": "身份核验",
+      "meaning_zh": "个人与企业分别提交验证",
+      "core_slide_ids": [
+        "S31"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "身份核验",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        },
+        {
+          "title": "证件",
+          "url": "https://docs.whop.com/developer/verification/identity-documents.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F02",
+      "module_id": "B10",
+      "label_zh": "补件审查",
+      "meaning_zh": "按要求补文件并跟踪结果",
+      "core_slide_ids": [
+        "S31"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "补件",
+          "url": "https://docs.whop.com/developer/verification/rfis.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F03",
+      "module_id": "B10",
+      "label_zh": "复用核验",
+      "meaning_zh": "经协议共享，不足仍须补核",
+      "core_slide_ids": [
+        "S31"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "复用核验",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        },
+        {
+          "title": "变更与删除",
+          "url": "https://docs.whop.com/developer/verification/manage.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F04",
+      "module_id": "B10",
+      "label_zh": "业务准入",
+      "meaning_zh": "国家、业务类别及合作方限制",
+      "core_slide_ids": [
+        "S31"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "禁止业务",
+          "url": "https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md"
+        },
+        {
+          "title": "制裁国家",
+          "url": "https://docs.whop.com/trust-and-safety/trust-safety-overview/sanctioned-countries.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F05",
+      "module_id": "B10",
+      "label_zh": "支付健康",
+      "meaning_zh": "观察退款、争议及风险状态",
+      "core_slide_ids": [
+        "S31"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "Payment health",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/payment-health.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F06",
+      "module_id": "B10",
+      "label_zh": "风险限制",
+      "meaning_zh": "加强认证、延迟出款或暂停融资",
+      "core_slide_ids": [
+        "S31"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "控制",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/controls.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F07",
+      "module_id": "B10",
+      "label_zh": "准备金政策",
+      "meaning_zh": "按规则暂留资金并安排释放",
+      "core_slide_ids": [
+        "S29"
+      ],
+      "appendix_slide_id": "S59",
+      "sources": [
+        {
+          "title": "准备金",
+          "url": "https://docs.whop.com/trust-and-safety/account-health/reserves.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F08",
+      "module_id": "B10",
+      "label_zh": "退款决定",
+      "meaning_zh": "全额部分退款，执行仍需资金",
+      "core_slide_ids": [
+        "S32"
+      ],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "退款",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F09",
+      "module_id": "B10",
+      "label_zh": "平台售后案件",
+      "meaning_zh": "证据、商家回应、升级及申诉",
+      "core_slide_ids": [
+        "S32"
+      ],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "Resolution Center",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F10",
+      "module_id": "B10",
+      "label_zh": "银行拒付",
+      "meaning_zh": "提交证据，由发卡行决定结果",
+      "core_slide_ids": [
+        "S32"
+      ],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "Dispute fighter",
+          "url": "https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F11",
+      "module_id": "B10",
+      "label_zh": "卡消费风控",
+      "meaning_zh": "类别、地址、额度及频率限制",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "卡拒绝",
+          "url": "https://docs.whop.com/whop-finance/card-declines-and-risk-rules.md"
+        },
+        {
+          "title": "商家类别",
+          "url": "https://docs.whop.com/whop-finance/blocked-categories-and-merchants.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F12",
+      "module_id": "B10",
+      "label_zh": "税务模式",
+      "meaning_zh": "算税与代缴分开，地域另核",
+      "core_slide_ids": [
+        "S32",
+        "S39"
+      ],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "税务",
+          "url": "https://docs.whop.com/payments-and-billing/fees/taxes.md"
+        },
+        {
+          "title": "卖家条款",
+          "url": "https://whop.com/seller-terms/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F13",
+      "module_id": "B10",
+      "label_zh": "举报与停权",
+      "meaning_zh": "审查、申诉及退出后资金处理",
+      "core_slide_ids": [
+        "S32"
+      ],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "举报",
+          "url": "https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md"
+        },
+        {
+          "title": "停权",
+          "url": "https://docs.whop.com/trust-and-safety/suspensions/account-suspensions.md"
+        },
+        {
+          "title": "通用条款",
+          "url": "https://whop.com/tos/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B10-F14",
+      "module_id": "B10",
+      "label_zh": "行业合规宣传",
+      "meaning_zh": "美国税表与医疗细则未证实",
+      "core_slide_ids": [
+        "S32"
+      ],
+      "appendix_slide_id": "S60",
+      "sources": [
+        {
+          "title": "Gig economy",
+          "url": "https://whop.com/network/solutions/gig-economy/"
+        },
+        {
+          "title": "Telehealth",
+          "url": "https://whop.com/network/solutions/telehealth/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F01",
+      "module_id": "B11",
+      "label_zh": "两种接入",
+      "meaning_zh": "外部软件使用或站内应用分发",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "接入模式",
+          "url": "https://docs.whop.com/developer/start.md"
+        },
+        {
+          "title": "Quickstart",
+          "url": "https://docs.whop.com/developer/quickstart.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F02",
+      "module_id": "B11",
+      "label_zh": "应用安装",
+      "meaning_zh": "商店或链接安装到指定商家",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "App Store",
+          "url": "https://docs.whop.com/whop-apps/whop-app-store.md"
+        },
+        {
+          "title": "应用类型",
+          "url": "https://docs.whop.com/whop-apps/what-are-whop-apps.md"
+        },
+        {
+          "title": "视图",
+          "url": "https://docs.whop.com/developer/guides/app-views.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F03",
+      "module_id": "B11",
+      "label_zh": "两种应用视图",
+      "meaning_zh": "成员体验与经营后台分开",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "App Views",
+          "url": "https://docs.whop.com/developer/guides/app-views.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F04",
+      "module_id": "B11",
+      "label_zh": "权限同意",
+      "meaning_zh": "必需可选权限，增加后重新批准",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "Permissions",
+          "url": "https://docs.whop.com/developer/guides/permissions.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F05",
+      "module_id": "B11",
+      "label_zh": "身份与授权",
+      "meaning_zh": "密钥、登录令牌与用户映射",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "凭证边界",
+          "url": "https://docs.whop.com/developer/guides/auth-scoping.md"
+        },
+        {
+          "title": "OAuth",
+          "url": "https://docs.whop.com/developer/guides/oauth.md"
+        },
+        {
+          "title": "用户同步",
+          "url": "https://docs.whop.com/developer/guides/chat/sync-users.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F06",
+      "module_id": "B11",
+      "label_zh": "应用发行",
+      "meaning_zh": "站内运行、移动包及审核发布",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "Iframe",
+          "url": "https://docs.whop.com/developer/guides/iframe.md"
+        },
+        {
+          "title": "React Native",
+          "url": "https://docs.whop.com/developer/guides/react-native.md"
+        },
+        {
+          "title": "构建推广",
+          "url": "https://docs.whop.com/api-reference/app-builds/promote-app-build.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F07",
+      "module_id": "B11",
+      "label_zh": "接口与通知",
+      "meaning_zh": "版本、测试、签名、重试及去重",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "版本",
+          "url": "https://docs.whop.com/developer/api/versioning.md"
+        },
+        {
+          "title": "Webhook",
+          "url": "https://docs.whop.com/developer/guides/webhooks.md"
+        },
+        {
+          "title": "排错",
+          "url": "https://docs.whop.com/developer/troubleshooting.md"
+        },
+        {
+          "title": "文件上传",
+          "url": "https://docs.whop.com/developer/guides/direct-file-uploads.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F08",
+      "module_id": "B11",
+      "label_zh": "嵌入结账",
+      "meaning_zh": "在自己产品放付款与权益入口",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S61",
+      "sources": [
+        {
+          "title": "支付接入",
+          "url": "https://docs.whop.com/developer/guides/accept-payments.md"
+        },
+        {
+          "title": "Elements Payments",
+          "url": "https://docs.whop.com/elements/beta/payments/overview.md"
+        },
+        {
+          "title": "Checkout",
+          "url": "https://docs.whop.com/elements/beta/checkout/overview.md"
+        },
+        {
+          "title": "iOS",
+          "url": "https://docs.whop.com/developer/guides/ios/overview.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F09",
+      "module_id": "B11",
+      "label_zh": "连接账户",
+      "meaning_zh": "外部平台为卖家入驻并接收付款",
+      "core_slide_ids": [
+        "S34"
+      ],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "注册关联账户",
+          "url": "https://docs.whop.com/developer/platforms/enroll-connected-accounts.md"
+        },
+        {
+          "title": "收款两模式",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "提现门户",
+          "url": "https://docs.whop.com/developer/platforms/render-payout-portal.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F10",
+      "module_id": "B11",
+      "label_zh": "平台收费配置",
+      "meaning_zh": "应用费及出款费承担方分清",
+      "core_slide_ids": [
+        "S34"
+      ],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "收款责任",
+          "url": "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md"
+        },
+        {
+          "title": "Fee Markup",
+          "url": "https://docs.whop.com/api-reference/fee-markups/fee-markup.md"
+        },
+        {
+          "title": "代付提现费",
+          "url": "https://docs.whop.com/developer/platforms/manual-payouts.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F11",
+      "module_id": "B11",
+      "label_zh": "核验接入",
+      "meaning_zh": "提交资料和展示审核进度",
+      "core_slide_ids": [
+        "S34"
+      ],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "Verification",
+          "url": "https://docs.whop.com/developer/verification/overview.md"
+        },
+        {
+          "title": "补资料",
+          "url": "https://docs.whop.com/developer/verification/rfis.md"
+        },
+        {
+          "title": "KYC 组件",
+          "url": "https://docs.whop.com/elements/beta/verifications/kyc.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F12",
+      "module_id": "B11",
+      "label_zh": "嵌入钱包",
+      "meaning_zh": "余额与资金动作，资格另核",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "Wallet Elements",
+          "url": "https://docs.whop.com/elements/beta/wallet/overview.md"
+        },
+        {
+          "title": "动作",
+          "url": "https://docs.whop.com/elements/beta/wallet/actions.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F13",
+      "module_id": "B11",
+      "label_zh": "嵌入社区增长",
+      "meaning_zh": "聊天、课程、广告及追踪入口",
+      "core_slide_ids": [
+        "S33"
+      ],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "嵌入聊天",
+          "url": "https://docs.whop.com/developer/guides/chat/quickstart.md"
+        },
+        {
+          "title": "社区 API",
+          "url": "https://docs.whop.com/developer/communities/overview.md"
+        },
+        {
+          "title": "Ads Elements",
+          "url": "https://docs.whop.com/elements/beta/ads/overview.md"
+        },
+        {
+          "title": "Tracking Elements",
+          "url": "https://docs.whop.com/elements/beta/tracking/overview.md"
+        },
+        {
+          "title": "平台能力",
+          "url": "https://docs.whop.com/developer/start.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F14",
+      "module_id": "B11",
+      "label_zh": "经营连接器",
+      "meaning_zh": "接客户会计软件，Xero 待上线",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "HubSpot",
+          "url": "https://docs.whop.com/third-party-integrations/hubspot.md"
+        },
+        {
+          "title": "GHL",
+          "url": "https://docs.whop.com/third-party-integrations/gohighlevel.md"
+        },
+        {
+          "title": "QuickBooks",
+          "url": "https://docs.whop.com/third-party-integrations/quickbooks.md"
+        },
+        {
+          "title": "Zapier",
+          "url": "https://docs.whop.com/third-party-integrations/zapier.md"
+        },
+        {
+          "title": "Xero",
+          "url": "https://docs.whop.com/third-party-integrations/xero.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B11-F15",
+      "module_id": "B11",
+      "label_zh": "企业与应用收费",
+      "meaning_zh": "开发者独立收费，企业定制报价",
+      "core_slide_ids": [
+        "S03",
+        "S06",
+        "S33",
+        "S38"
+      ],
+      "appendix_slide_id": "S62",
+      "sources": [
+        {
+          "title": "开发者收费示例",
+          "url": "https://whop.com/blog/whop-app-store/"
+        },
+        {
+          "title": "企业定价",
+          "url": "https://whop.com/network/pricing/"
+        },
+        {
+          "title": "Developer Terms",
+          "url": "https://whop.com/tos-developer-api/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F01",
+      "module_id": "B12",
+      "label_zh": "AI创业入口",
+      "meaning_zh": "对话描述业务并创建网站",
+      "core_slide_ids": [
+        "S35"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "官网",
+          "url": "https://whop.com/"
+        },
+        {
+          "title": "Websites 创建流程",
+          "url": "https://whop.com/blog/whop-blueprints/"
+        },
+        {
+          "title": "Whop AI 发布",
+          "url": "https://whop.com/blog/watch/whop-ai/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F02",
+      "module_id": "B12",
+      "label_zh": "AI会话",
+      "meaning_zh": "切换业务、管理对话与通知",
+      "core_slide_ids": [
+        "S36"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "AI Chat",
+          "url": "https://docs.whop.com/api-reference/ai-chats/ai-chat.md"
+        },
+        {
+          "title": "更新会话",
+          "url": "https://docs.whop.com/api-reference/ai-chats/update-ai-chat.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F03",
+      "module_id": "B12",
+      "label_zh": "AI图视频",
+      "meaning_zh": "异步生成，从账户余额计费",
+      "core_slide_ids": [
+        "S06",
+        "S35",
+        "S36"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "媒体资源",
+          "url": "https://docs.whop.com/api-reference/beta/media/media.md"
+        },
+        {
+          "title": "生成媒体",
+          "url": "https://docs.whop.com/api-reference/beta/media/generate-media-asset.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F04",
+      "module_id": "B12",
+      "label_zh": "AI查文档",
+      "meaning_zh": "让外部助手连接官方资料",
+      "core_slide_ids": [
+        "S36"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "AI Tools",
+          "url": "https://docs.whop.com/developer/ai/overview.md"
+        },
+        {
+          "title": "AI and MCP",
+          "url": "https://docs.whop.com/developer/guides/ai_and_mcp.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F05",
+      "module_id": "B12",
+      "label_zh": "AI经营操作",
+      "meaning_zh": "账户授权，重要动作预览确认",
+      "core_slide_ids": [
+        "S36"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "MCP",
+          "url": "https://docs.whop.com/developer/guides/ai_and_mcp.md"
+        },
+        {
+          "title": "Claude Code",
+          "url": "https://docs.whop.com/developer/guides/plugins/claude-code.md"
+        },
+        {
+          "title": "Grok",
+          "url": "https://docs.whop.com/developer/guides/plugins/grok.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F06",
+      "module_id": "B12",
+      "label_zh": "命令行工具",
+      "meaning_zh": "创建项目、开发并发布网站",
+      "core_slide_ids": [
+        "S36"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "CLI with Claude",
+          "url": "https://docs.whop.com/developer/guides/cli-with-claude.md"
+        },
+        {
+          "title": "网站 Quickstart",
+          "url": "https://docs.whop.com/developer/websites/quickstart.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F07",
+      "module_id": "B12",
+      "label_zh": "网站托管",
+      "meaning_zh": "独立地址、编辑、发布及版本恢复",
+      "core_slide_ids": [
+        "S35"
+      ],
+      "appendix_slide_id": "S63",
+      "sources": [
+        {
+          "title": "Websites",
+          "url": "https://docs.whop.com/developer/websites/overview.md"
+        },
+        {
+          "title": "Hosting",
+          "url": "https://docs.whop.com/developer/websites/hosting.md"
+        },
+        {
+          "title": "Tracking",
+          "url": "https://docs.whop.com/developer/websites/tracking.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F08",
+      "module_id": "B12",
+      "label_zh": "业务蓝图",
+      "meaning_zh": "复制配置与网站，保留作者来源",
+      "core_slide_ids": [
+        "S26",
+        "S35",
+        "S38"
+      ],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "Blueprints 正文",
+          "url": "https://docs.whop.com/developer/websites/blueprints.md"
+        },
+        {
+          "title": "公开发布介绍",
+          "url": "https://whop.com/blog/whop-blueprints/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F09",
+      "module_id": "B12",
+      "label_zh": "已有网站接入",
+      "meaning_zh": "重建网站或仅安装追踪像素",
+      "core_slide_ids": [],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "网站四种路径",
+          "url": "https://whop.com/blog/whop-blueprints/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F10",
+      "module_id": "B12",
+      "label_zh": "订阅迁移",
+      "meaning_zh": "合资格 Stripe 卡订阅转入",
+      "core_slide_ids": [
+        "S35",
+        "S38"
+      ],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "Migrations",
+          "url": "https://whop.com/blog/migrations/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F11",
+      "module_id": "B12",
+      "label_zh": "美国公司成立",
+      "meaning_zh": "LLC与C-Corp，非马来西亚注册",
+      "core_slide_ids": [
+        "S06",
+        "S35"
+      ],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "LLC 公布及价格",
+          "url": "https://whop.com/blog/register-llc/"
+        },
+        {
+          "title": "Form Company",
+          "url": "https://docs.whop.com/api-reference/beta/accounts/form-company.md"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F12",
+      "module_id": "B12",
+      "label_zh": "创业教育",
+      "meaning_zh": "University资源、辅导与校园合作",
+      "core_slide_ids": [
+        "S35",
+        "S38"
+      ],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "University 介绍",
+          "url": "https://whop.com/blog/what-is-whop-university/"
+        },
+        {
+          "title": "Team Whop 当前页面",
+          "url": "https://whop.com/whop/"
+        },
+        {
+          "title": "MSU 案例",
+          "url": "https://whop.com/blog/msu-whop/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F13",
+      "module_id": "B12",
+      "label_zh": "WhopX社群",
+      "meaning_zh": "按经营收入资格解锁交流",
+      "core_slide_ids": [
+        "S35",
+        "S38"
+      ],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "WhopX",
+          "url": "https://whop.com/blog/whopx/"
+        },
+        {
+          "title": "官方社群动态",
+          "url": "https://whop.com/whop/"
+        }
+      ]
+    },
+    {
+      "feature_id": "B12-F14",
+      "module_id": "B12",
+      "label_zh": "下一步建议",
+      "meaning_zh": "记录客户端步骤，不自动办完业务",
+      "core_slide_ids": [
+        "S36"
+      ],
+      "appendix_slide_id": "S64",
+      "sources": [
+        {
+          "title": "List chains",
+          "url": "https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md"
+        },
+        {
+          "title": "Execute chain",
+          "url": "https://docs.whop.com/api-reference/beta/recommended-actions/execute-action-chain.md"
+        },
+        {
+          "title": "Executions",
+          "url": "https://docs.whop.com/api-reference/beta/recommended-actions/list-recommended-action-executions.md"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "duration_api_ms": 112491,
+  "stop_reason": "end_turn",
+  "session_id": "5f90ae88-dc35-462f-a66d-45b3f021b652",
+  "total_cost_usd": 0.401889,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1070,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 7577,
+    "output_tokens_details": {
+      "thinking_tokens": 6481
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1070,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 7577,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 1070,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1070
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 1499,
+      "outputTokens": 24,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.001619,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-fable-5-1": {
+      "inputTokens": 2,
+      "outputTokens": 7577,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 1070,
+      "webSearchRequests": 0,
+      "costUSD": 0.40027,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "thinkingTokens": 6481,
+      "canonicalModel": "claude-fable-5-1",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "is_error": false,
+  "num_turns": 1,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "**审查结论：发现4项，其中第2、3项属可能误导投资人的实质性遗漏（建议修正后再对外），第1、4项为口径不一致。未做任何外部事实核验。**\n\n---\n\n**1. 缓冲被重复计为\"结余\"（口径矛盾）**\n\"最低需求908,500\"把15%缓冲118,500算作必需支出；但\"M18余160,000\"= 950,000 − 790,000，即假设缓冲一分未动。两者不能同时成立：若缓冲是必需，M18真实结余仅41,500（950,000 − 908,500）。投资人容易把160k读成额外跑道，实际其中74%是应急金。需二选一口径。\n\n**2. 融资窗口与里程碑之间存在未量化的资金缺口（最重要）**\n预算按18个月零收入编制；100个付费品牌/30k月fee的目标定在M24–36；Seed又以\"复购/单位成本证据\"为门槛——而按计划自身时间表，该证据只能在M24之后出现。按胶囊给的33.5k后期月支出，M18结余41.5k–160k只够1–5个月。逻辑上只剩两条路：Seed在无里程碑证据下提前关闭（与所述Seed门槛矛盾），或需要一笔胶囊未提及的过桥。M19–M24+的资金安排是缺失项，而非\"假设已标明\"能覆盖。\n\n**3. 关联方开发 + \"验收后释放\"控制不成立**\n开发312k（39.5%）经Belcort关联公司；若维护48k、云数据42k同一供应商，占比可达51%。胶囊把\"仅支出分验收释放\"作为投资人保护呈现，但验收方与受益方为同一关联链条，130/h单价与2,400h也出自该方自身报价。控制措施在此结构下不构成约束。胶囊标明了\"报价/工时为假设\"，却未标明\"控制对关联方无效\"，这是可能误导的呈现方式；缺少独立比价或投资人对验收的签字权。\n\n**4. 33.5k后期月支出无法从明细推出，且\"30k vs 33.5k\"比较基数错误**\n- 790k/18 = 43.9k均值；剔除开发后 478k/18 = 26.6k；33.5k无法由所列科目复现，来源应补充。\n- 更关键：M24–36时按计划自身的Seed代理预算，成本基数为80–120k/月，对应缺口50–90k/月；拿30k对比pre-seed的33.5k，即使已声明\"不宣称盈利\"，也把差距呈现得比计划自述小一个数量级。若无Seed则33.5k成立，但届时100个品牌是否能靠pre-seed资源达成，胶囊未论证。\n\n---\n\n**非阻断备注**（不计入4项）：零收入18个月却列\"交易直接费18k\"——有交易即应有15% fee或需说明试点免费；\"无奖励池占用\"隐含品牌全额预付，M24–36月流水200k的垫付/托管时序未说明。\n\nTAM链条（78,236×80%×10%×24,000×15%）与100品牌×2,000×15%的口径内部一致，且已明确标注为假设，不构成逻辑错误。",
+  "ttft_ms": 90396,
+  "type": "result",
+  "duration_ms": 111770,
+  "uuid": "80b9408e-bf96-4cd5-b5f2-f1556b6d6df0",
+  "ttft_stream_ms": 1485,
+  "time_to_request_ms": 608,
+  "first_content_frame_ms": 1962,
+  "queued_turn_count": 0,
+  "result_index": 0
+}

@@ -1,0 +1,58 @@
+{
+  "date": "2026-09-10",
+  "reviewer": "main",
+  "artifact_status": "Reviewed local proposals; not founder-approved production specifications",
+  "files": {
+    "foundation/design-v3/Wringy-visual-guide-v3.pdf": "e771cc1d35f32258868342c2318eef717d52cac6fe6e0577f6662d14d2ec952f",
+    "foundation/design-v3/showcase.html": "a45506e67d37509f64f9b16a2c65bb499229ad301058034dcec859042811f2e1",
+    "foundation/design-v3/tokens.json": "a1040e3316f01a0467a68bf3c023cf1975949d2fc3afe39136e33ab58bed5ab4",
+    "deliverables/investor-v4/output/Wringy-Investor-v4.pptx": "03826e961fd2dc9e0b75082e7db98c791db8108cd9c1747a7a9dd766f7379166",
+    "deliverables/investor-v4/output/Wringy-Investor-v4-Preview.pdf": "35802d7c1a2e49944bf788770b12ea9cc289f78e476759fc34844b201b95077a"
+  },
+  "visual_review": {
+    "deck": "All10 slides viewed; changed03/04/05 rechecked after enlarged images and crop fixes",
+    "guide": "Actual exported PDF rendered via pdftoppm; all10 pages viewed, headers, folios, source lines and content fit checked",
+    "reference_membership": "Ramp exact capture65-item membership remains unverified; no complete claim"
+  },
+  "independent_checks": {
+    "pptx_slide_count": 10,
+    "native_chart_count": 2,
+    "embedded_chart_workbooks": 2,
+    "market_chart_values": [
+      0.25,
+      0.75
+    ],
+    "budget_chart_values": [
+      50400,
+      50000,
+      70000,
+      216000,
+      189750
+    ],
+    "budget_total_myr": 576150,
+    "notes_spotchecked": [
+      1,
+      4,
+      7,
+      9,
+      10
+    ],
+    "contrast_ratios": {
+      "ink_canvas": 17.58,
+      "ink_citron": 14.25,
+      "secondary_canvas": 6.28,
+      "secondary_surface": 5.8,
+      "white_forest": 12.09,
+      "error_canvas": 7.08,
+      "success_canvas": 7.26
+    }
+  },
+  "cross_vendor_review": "summary.md records sealed Claude review and main acceptance/rejection of each claim",
+  "limitations": [
+    "Reference audit broad but not full exact catalog",
+    "Linear12 of19 flows have unseen positions",
+    "Proposed business model and budget not approved",
+    "No PowerPoint desktop edit-save-reopen test",
+    "Local prototype only, no real services or payments"
+  ]
+}

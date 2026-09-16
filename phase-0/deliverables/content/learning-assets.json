@@ -1,0 +1,156 @@
+{
+  "S01": [
+    {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/learning-hero.png",
+      "alt": "创作者共同制作内容的概念场景",
+      "ai_generated": true,
+      "fullBleed": true
+    }
+  ],
+  "S09": [
+    {
+      "asset_id": "whop-05",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/05-team-role-change.webp",
+      "alt": "团队角色",
+      "source": "https://mobbin.com/screens/579c3af1-409b-4446-82c6-9f9a4617952b",
+      "evidence": true,
+      "visible_elements": "Require 2FA enabled; team members table; open role dropdown Owner, Operations, Sales, Support, Admin; audit logs."
+    },
+    {
+      "asset_id": "whop-06",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/06-team-invite-permissions.webp",
+      "alt": "邀请与权限",
+      "source": "https://mobbin.com/screens/a1a87fa2-77ba-44e7-aff6-286a78f65210",
+      "evidence": true,
+      "visible_elements": "Add team member modal; Owner, Operations, Sales, Support, Advertiser and custom Admin; Products, Members, Payments, Invoices, Payouts, Chat toggles; email and Invite."
+    }
+  ],
+  "S11": [
+    {
+      "asset_id": "whop-02",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/02-plan-selection.webp",
+      "alt": "套餐选择",
+      "source": "https://mobbin.com/screens/5af6a7b4-4731-4039-b5af-d233ebc6014a",
+      "evidence": true,
+      "visible_elements": "Choose your plan; $1/month with 7 day trial; $35 one-time purchase; Apple Pay and Continue."
+    },
+    {
+      "asset_id": "whop-03",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/03-checkout-question.webp",
+      "alt": "结账信息",
+      "source": "https://mobbin.com/screens/3a381801-817e-4d98-a83b-c00221a2f9db",
+      "evidence": true,
+      "visible_elements": "7 days free checkout; Apple Pay; custom UI/UX level question with Beginner selected; billing address and Join behind modal."
+    }
+  ],
+  "S13": [
+    {
+      "asset_id": "whop-04",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/04-course-editor.webp",
+      "alt": "课程交付",
+      "source": "https://mobbin.com/screens/97f0810b-9ae5-4a34-a666-e69173e89d95",
+      "evidence": true,
+      "visible_elements": "Admin preview; Chapter 1 and Chapter 2; Lesson 1 video; Mini Quiz; PDF lesson; file attachments; unlocks 1 day after course start."
+    }
+  ],
+  "S15": [
+    {
+      "asset_id": "whop-07",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/07-seller-support.webp",
+      "alt": "客户支持",
+      "source": "https://mobbin.com/screens/3109dd20-8750-44a6-9d6a-397ebb357695",
+      "evidence": true,
+      "visible_elements": "Support chats list; John's support chat; welcome message; customer details panel with purchased products; message composer."
+    }
+  ],
+  "S16": [
+    {
+      "asset_id": "whop-08",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/08-buyer-resolution.webp",
+      "alt": "买家争议",
+      "source": "https://mobbin.com/screens/7107823d-5ecd-47ca-ad0a-f824d263105f",
+      "evidence": true,
+      "visible_elements": "Resolution center - Case details; Product not as described; Company response needed; attached File; Withdraw this case."
+    }
+  ],
+  "S17": [
+    {
+      "asset_id": "whop-01",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/01-storefront.webp",
+      "alt": "商品店面",
+      "source": "https://mobbin.com/screens/c1d2d1d6-5a34-45f9-8359-71ed69d5037a",
+      "evidence": true,
+      "visible_elements": "Mob Design Courses storefront; UI/UX Starter Kit Bundle; $1/month; 7 day trial; Start free trial; product description."
+    }
+  ],
+  "S20": [
+    {
+      "asset_id": "whop-15",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/15-reward-discovery.webp",
+      "alt": "发现内容奖励",
+      "source": "https://mobbin.com/screens/a0b8f4a7-ffb6-4015-9ac2-ea69abb44c49",
+      "evidence": true,
+      "visible_elements": "Discover Content Rewards Overview; requirements; Instagram, YouTube, TikTok earnings cards; $10000 budget; approval rate; Google Drive resources."
+    }
+  ],
+  "S21": [
+    {
+      "asset_id": "whop-14",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/14-reward-campaign.webp",
+      "alt": "内容奖励活动",
+      "source": "https://mobbin.com/screens/5e3e2301-d019-406e-86f3-12213069a8ef",
+      "evidence": true,
+      "visible_elements": "Content Rewards Campaign Details; $9.10k budget remaining; paid out progress; category; platforms; dates; Submit Video; requirements."
+    }
+  ],
+  "S25": [
+    {
+      "asset_id": "whop-13",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/13-creator-affiliates.webp",
+      "alt": "卖家联盟设置",
+      "source": "https://mobbin.com/screens/3ebcb7aa-ca4f-4972-8c97-f768f115bcb3",
+      "evidence": true,
+      "visible_elements": "Affiliates Creator dashboard; new users from affiliates graph; set commission for a product; set commission for a specific user; external links; leaderboard."
+    }
+  ],
+  "S26": [
+    {
+      "asset_id": "whop-12",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/12-affiliate-links.webp",
+      "alt": "联盟推广链接",
+      "source": "https://mobbin.com/screens/f79d98b9-326f-49d2-a339-dc8aac8259fa",
+      "evidence": true,
+      "visible_elements": "Affiliates Refer buyers; Your affiliate links; product and company rows; affiliate rate, link, earned, clicks, users columns."
+    }
+  ],
+  "S29": [
+    {
+      "asset_id": "whop-10",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/10-business-transactions.webp",
+      "alt": "企业余额交易",
+      "source": "https://mobbin.com/screens/db402b81-a03c-414f-b51a-ec6914cb35d3",
+      "evidence": true,
+      "visible_elements": "Total balance $1.53 USD; Deposit, Withdraw, Convert; submit business information banner; Transactions tab; $2 Payment Pending."
+    }
+  ],
+  "S30": [
+    {
+      "asset_id": "whop-11",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/11-personal-withdrawals.webp",
+      "alt": "个人提现记录",
+      "source": "https://mobbin.com/screens/a5cffb3f-d973-4750-9767-154834847be5",
+      "evidence": true,
+      "visible_elements": "Account settings Balance; $0.00 USD; Withdraw; Withdrawals, Deposits, Deductions; No withdrawals yet."
+    }
+  ],
+  "S32": [
+    {
+      "asset_id": "whop-09",
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop/09-seller-resolution.webp",
+      "alt": "卖家处理争议",
+      "source": "https://mobbin.com/screens/85a46bd4-caa3-4991-92ff-cc98ad01cfdf",
+      "evidence": true,
+      "visible_elements": "Significantly not as described; case details; 7 days to respond; Accept, Deny, Request more info; user logs."
+    }
+  ]
+}

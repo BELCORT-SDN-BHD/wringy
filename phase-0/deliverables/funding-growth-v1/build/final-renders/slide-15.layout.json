@@ -1,0 +1,1133 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/vaxsvy10",
+    "id": "vaxsvy10",
+    "slide": 15,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FAFAFA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hsvat0fa",
+      "id": "11",
+      "bbox": [
+        56,
+        44,
+        1168,
+        116
+      ],
+      "geometry": "rect",
+      "text": "附录：市场估算输入",
+      "textPreview": "附录：市场估算输入",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "附录：市场估算输入"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "附录：市场估算输入",
+          "resolvedTextStyle": {
+            "fontSize": 48,
+            "typeface": "Noto Sans SC",
+            "color": "#202124",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "附录：市场估算输入",
+              "fontSize": 48,
+              "typeface": "Noto Sans SC",
+              "color": "#202124",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/547mhg3m",
+      "id": "2",
+      "bbox": [
+        59,
+        158,
+        1160,
+        68
+      ],
+      "geometry": "rect",
+      "text": "历史统计与演示假设分别列明",
+      "textPreview": "历史统计与演示假设分别列明",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "历史统计与演示假设分别列明"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "历史统计与演示假设分别列明",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "历史统计与演示假设分别列明",
+              "fontSize": 25,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/k3y5ov21",
+      "id": "3",
+      "bbox": [
+        58,
+        664,
+        1094,
+        42
+      ],
+      "geometry": "rect",
+      "text": "历史经营单位非2026去重品牌名单；首期比例为服务范围，非成交率。需名单与付费测试，长线业务未计入。",
+      "textPreview": "历史经营单位非2026去重品牌名单；首期比例为服务范围，非成交率。需名单与付费测试，长线业务未计入。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "历史经营单位非2026去重品牌名单；首期比例为服务范围，非成交率。需名单与付费测试，长线业务未计入。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "历史经营单位非2026去重品牌名单；首期比例为服务范围，非成交率。需名单与付费测试，长线业务未计入。",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "历史经营单位非2026去重品牌名单；首期比例为服务范围，非成交率。需名单与付费测试，长线业务未计入。",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/76p4jqls",
+      "id": "4",
+      "bbox": [
+        1164,
+        669,
+        62,
+        27
+      ],
+      "geometry": "rect",
+      "text": "15",
+      "textPreview": "15",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "15"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "15",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "15",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/tkby1gbe",
+      "id": "12",
+      "bbox": [
+        56,
+        216,
+        627,
+        392
+      ],
+      "text": "输入 | 数值／属性\n经营单位 | 78,236（DOSM 2022）\n独立活跃调整 | 80%（假设）\n产品适配 | 10%（假设）\n每品牌年奖励 | RM24,000（假设）\n平台费 | 15%外加（演示）\n首期服务比例 | 20%（假设）",
+      "textPreview": "输入 | 数值／属性 | 经营单位 | 78,236（DOSM 2022） | 独立活跃调整 | 80%（假设） | 产品适配 | 10%（假设） | 每品牌年奖励 | RM24,000（假设） | 平台费 | 15%外加（演示） | 首期服务比例 | 20%（假设）",
+      "rows": 7,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            216,
+            296,
+            56
+          ],
+          "text": "输入",
+          "textPreview": "输入",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "输入",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "输入",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            352,
+            216,
+            331,
+            56
+          ],
+          "text": "数值／属性",
+          "textPreview": "数值／属性",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "数值／属性",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "数值／属性",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            272,
+            296,
+            56
+          ],
+          "text": "经营单位",
+          "textPreview": "经营单位",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "经营单位",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "经营单位",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            352,
+            272,
+            331,
+            56
+          ],
+          "text": "78,236（DOSM 2022）",
+          "textPreview": "78,236（DOSM 2022）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "78,236（DOSM 2022）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "78,236（DOSM 2022）",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            328,
+            296,
+            56
+          ],
+          "text": "独立活跃调整",
+          "textPreview": "独立活跃调整",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "独立活跃调整",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "独立活跃调整",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            352,
+            328,
+            331,
+            56
+          ],
+          "text": "80%（假设）",
+          "textPreview": "80%（假设）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "80%（假设）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "80%（假设）",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            56,
+            384,
+            296,
+            56
+          ],
+          "text": "产品适配",
+          "textPreview": "产品适配",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "产品适配",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "产品适配",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            352,
+            384,
+            331,
+            56
+          ],
+          "text": "10%（假设）",
+          "textPreview": "10%（假设）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "10%（假设）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "10%（假设）",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            56,
+            440,
+            296,
+            56
+          ],
+          "text": "每品牌年奖励",
+          "textPreview": "每品牌年奖励",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "每品牌年奖励",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "每品牌年奖励",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            352,
+            440,
+            331,
+            56
+          ],
+          "text": "RM24,000（假设）",
+          "textPreview": "RM24,000（假设）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM24,000（假设）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM24,000（假设）",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 6,
+          "column": 1,
+          "bbox": [
+            56,
+            496,
+            296,
+            56
+          ],
+          "text": "平台费",
+          "textPreview": "平台费",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "平台费",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "平台费",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 6,
+          "column": 2,
+          "bbox": [
+            352,
+            496,
+            331,
+            56
+          ],
+          "text": "15%外加（演示）",
+          "textPreview": "15%外加（演示）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "15%外加（演示）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "15%外加（演示）",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 7,
+          "column": 1,
+          "bbox": [
+            56,
+            552,
+            296,
+            56
+          ],
+          "text": "首期服务比例",
+          "textPreview": "首期服务比例",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "首期服务比例",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "首期服务比例",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 7,
+          "column": 2,
+          "bbox": [
+            352,
+            552,
+            331,
+            56
+          ],
+          "text": "20%（假设）",
+          "textPreview": "20%（假设）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "20%（假设）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "20%（假设）",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t87ml0ji",
+      "id": "6",
+      "bbox": [
+        723,
+        218,
+        504,
+        48
+      ],
+      "geometry": "rect",
+      "text": "目标客群约6,259个",
+      "textPreview": "目标客群约6,259个",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "目标客群约6,259个"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "目标客群约6,259个",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#173D2A",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "目标客群约6,259个",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#173D2A",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s7y5sv2x",
+      "id": "7",
+      "bbox": [
+        727,
+        280,
+        499,
+        95
+      ],
+      "geometry": "rect",
+      "text": "年奖励 RM150.21m\n年平台费 RM22.53m",
+      "textPreview": "年奖励 RM150.21m | 年平台费 RM22.53m",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "年奖励 RM150.21m"
+          },
+          {
+            "index": 2,
+            "text": "年平台费 RM22.53m"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "年奖励 RM150.21m",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "年奖励 RM150.21m",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "年平台费 RM22.53m",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "年平台费 RM22.53m",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/na5476l8",
+      "id": "8",
+      "bbox": [
+        723,
+        394,
+        504,
+        44
+      ],
+      "geometry": "rect",
+      "text": "首期约1,252个",
+      "textPreview": "首期约1,252个",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "首期约1,252个"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "首期约1,252个",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#173D2A",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "首期约1,252个",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#173D2A",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m9c3e1kn",
+      "id": "9",
+      "bbox": [
+        727,
+        453,
+        499,
+        89
+      ],
+      "geometry": "rect",
+      "text": "年奖励 RM30.04m\n年平台费 RM4.51m",
+      "textPreview": "年奖励 RM30.04m | 年平台费 RM4.51m",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "年奖励 RM30.04m"
+          },
+          {
+            "index": 2,
+            "text": "年平台费 RM4.51m"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "年奖励 RM30.04m",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "年奖励 RM30.04m",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "年平台费 RM4.51m",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#202124"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "年平台费 RM4.51m",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#202124"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wrm9kvep",
+      "id": "10",
+      "bbox": [
+        58,
+        617,
+        1160,
+        60
+      ],
+      "geometry": "rect",
+      "text": "单项敏感性：适配率5%或年预算RM12k，年费均降至RM11.27m；仅费率改10%则RM15.02m",
+      "textPreview": "单项敏感性：适配率5%或年预算RM12k，年费均降至RM11.27m；仅费率改10%则RM15.02m",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "单项敏感性：适配率5%或年预算RM12k，年费均降至RM11.27m；仅费率改10%则RM15.02m"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "单项敏感性：适配率5%或年预算RM12k，年费均降至RM11.27m；仅费率改10%则RM15.02m",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "单项敏感性：适配率5%或年预算RM12k，年费均降至RM11.27m；仅费率改10%则RM15.02m",
+              "fontSize": 22,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "phase_target_months": [
+    2,
+    4
+  ],
+  "budget_envelope_retained": true,
+  "monthly_cashflow_remapped": false,
+  "changed_visible_slides": [
+    9,
+    10
+  ],
+  "date": "2026-09-13",
+  "pages": 15,
+  "main": 15,
+  "appendix": 0,
+  "hidden_slides": 0,
+  "notes_pages": 15,
+  "deleted_v8_pages": [
+    9,
+    11,
+    17,
+    18,
+    19
+  ],
+  "native_charts": 4,
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      0.0,
+      8.0,
+      18.0,
+      30.0,
+      40.0
+    ],
+    [
+      180.0,
+      360.0,
+      1080.0
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ]
+  ],
+  "native_doughnut": true,
+  "native_tables": 0,
+  "native_concept_diagram_pages": [
+    9,
+    11,
+    12,
+    14,
+    15
+  ],
+  "connectors": 16,
+  "source_links": 5,
+  "source_urls": [
+    "https://clipping.net/brands",
+    "https://clipping.net/docs/clippers/campaign-detail",
+    "https://clipping.net/policies/clipper-terms-and-conditions",
+    "https://clipping.net/docs/clippers/payments",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024"
+  ],
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "all_pages_individually_reviewed": true,
+  "pdf_poppler_pages": 15,
+  "finance_source": "../content-rewards-business-v5/finance/results.json",
+  "finance_sha256": "05d51ee57242932437571ee4174ddf68980760140a8700fc561ed676b15c57cc",
+  "finance_unchanged": true,
+  "proposed_funding": 70000,
+  "rd_cap": 50000,
+  "salary_allowance_cash_confirmed": 0,
+  "proposed_ask_approved": false,
+  "new_images_generated": 0,
+  "native_powerpoint_tested": false,
+  "pdf_format": "Raster reading copy with source link annotations",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 8636945,
+      "sha256": "0a45753d327cdda1bb8e3ec4e1eb4354bac9fc26c3208f89df47057dc6350b9e"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 17068783,
+      "sha256": "bd6270c8df96092181e2d610d63317376cc30ac9942b64b6fcaeee881ba51fb9"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 355194,
+      "sha256": "0116bf2836b2465bc8e9add8c93da09c66b6c6f6df1b4058f5bf85cec0541fb7"
+    }
+  }
+}

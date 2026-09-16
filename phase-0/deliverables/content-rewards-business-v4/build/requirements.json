@@ -1,0 +1,18 @@
+{
+  "total": 15,
+  "main": 12,
+  "appendix": 3,
+  "charts": [
+    7,
+    9,
+    13
+  ],
+  "tables": [
+    14
+  ],
+  "financialSource": "../content-rewards-business-v1/finance/results.json",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  }
+}

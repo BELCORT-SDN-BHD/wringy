@@ -1,0 +1,111 @@
+{
+  "duration_api_ms": 54659,
+  "stop_reason": "end_turn",
+  "session_id": "472d00a8-60f6-42ca-860b-e6a02fffb9f4",
+  "total_cost_usd": 0.32472799999999996,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 5654,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 4182,
+    "output_tokens_details": {
+      "thinking_tokens": 3573
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 5654,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4182,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 5654,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 5654
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2448,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002528,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "thinkingTokens": 0,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    },
+    "claude-fable-5-1": {
+      "inputTokens": 2,
+      "outputTokens": 4182,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 5654,
+      "webSearchRequests": 0,
+      "costUSD": 0.3222,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "thinkingTokens": 3573,
+      "canonicalModel": "claude-fable-5-1",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subagent_stats": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "is_error": false,
+  "num_turns": 1,
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "按指令以密封只读方式仅核对胶囊内容，不执行脚本、不调用工具。\n\n**结论：未发现实质性不一致。**\n\n算术核对（全部相符）：\n- 非研发 4500+2400+1200+1040+4000+480=13620；15% 缓冲仅计非研发=2043；50000+13620+2043=65663；取整 70000，取整余量 4337。\n- 津贴情景 6000×6=36000，缓冲 5400；65663+41400=107063；取整 110000。\n- 单例：奖励 2000、收费 300、品牌付 2300。人工 3 小时×30=90，加数据 20、支付 10，成本 120，贡献 180=60%。六小时 180+30=210，贡献 90=30%。\n- 16 场：付费人工 16×30=480（取自 2400 运营池）；数据/支付 16×30=480，恰好用尽 480 池。\n- 市场 78236×0.8×0.1×24000×0.15≈22.53m。\n\n叙述核对：研发上限含 5000 内部储备、缓冲仅计非研发、津贴属非研发故加 15%、品牌直付奖励与贡献率只按 300 收费计算、Whop 10% 与独立 CR 收费区分、Sprout/Tagger 仅为邻近案例，均前后一致。\n\n非实质性提示（不构成错误）：\n1. 16 场容量仅在\"每场付费 1 小时\"前提下成立。若六小时情景中付费工时增加，人工部分需按 2400 池重算，但 480 数据/支付池仍为主约束。\n2. 创办人 2 小时按经济成本计入，属非现金；零津贴情景下每场现金成本仅 60。胶囊已标注 60% 非毛利/净利口径，无矛盾。",
+  "ttft_ms": 46528,
+  "type": "result",
+  "duration_ms": 53452,
+  "uuid": "75f0ce3a-1a43-4467-96bb-d5f6f8618bce",
+  "ttft_stream_ms": 1303,
+  "time_to_request_ms": 33,
+  "first_content_frame_ms": 1994,
+  "queued_turn_count": 0,
+  "result_index": 0
+}

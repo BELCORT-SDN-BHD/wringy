@@ -1,0 +1,97 @@
+{
+  "status": "passed",
+  "date": "2026-09-13",
+  "pages": 15,
+  "main": 12,
+  "appendix": 3,
+  "native_charts": 5,
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      90.0,
+      20.0,
+      10.0,
+      180.0
+    ],
+    [
+      11.266,
+      22.532
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ],
+    [
+      180.0,
+      90.0,
+      0.0,
+      -90.0
+    ]
+  ],
+  "native_tables": 2,
+  "reused_generated_photo_assets": 4,
+  "new_images_generated": 0,
+  "photo_placements": 7,
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "all_pages_individually_reviewed": true,
+  "pdf_poppler_pages": 15,
+  "pdf_render_mean_pixel_difference": [
+    6.772,
+    5.3966,
+    4.5141,
+    3.6589,
+    3.6943,
+    4.3753,
+    4.0337,
+    4.4054,
+    4.377,
+    3.3517,
+    3.4437,
+    4.6892,
+    2.6805,
+    9.2236,
+    5.4065
+  ],
+  "source_links": 7,
+  "source_urls": [
+    "https://clipping.net/brands",
+    "https://contentrewards.com/brands-terms",
+    "https://whop.com/content-rewards-terms-of-service/",
+    "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+    "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx"
+  ],
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "salary_allowance_cash_confirmed": 0,
+  "proposed_funding": 70000,
+  "proposed_ask_approved": false,
+  "unpaid_founder_labor_economic_cost": 60,
+  "finance_source": "../content-rewards-business-v5/finance/results.json",
+  "finance_sha256": "05d51ee57242932437571ee4174ddf68980760140a8700fc561ed676b15c57cc",
+  "native_powerpoint_tested": false,
+  "pdf_format": "Raster reading copy with source link annotations",
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 14192916,
+      "sha256": "117a86d9c02f679026ff8e55465fa1e369e589855dbe2a8e066e23c96a2224c3"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 14219066,
+      "sha256": "8d6b666c3bf7ed504385d9203d7798902235e8c7aa325c2fc965344d9e2ef91e"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 344923,
+      "sha256": "8c6c9dcfaf3f865f832c67b26c8fcf5cb7c46950b62551c29495b43d478f8b6e"
+    }
+  }
+}

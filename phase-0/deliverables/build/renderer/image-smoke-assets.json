@@ -1,0 +1,14 @@
+{
+  "cover": {
+    "path": "../../assets/generated/learning-hero.png",
+    "alt": "创作者共同制作内容的概念场景",
+    "ai_generated": true,
+    "fullBleed": true
+  },
+  "evidence": {
+    "path": "../../assets/whop/01-storefront.webp",
+    "alt": "Whop 店铺页面来源截图",
+    "evidence": true,
+    "source": "Mobbin，详见 assets/whop-assets.json"
+  }
+}

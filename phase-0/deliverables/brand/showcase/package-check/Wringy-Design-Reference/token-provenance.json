@@ -1,0 +1,5 @@
+{
+  "canonical": "../tokens.json",
+  "sha256": "f912ee370ef92e6bd17885e939b25dadf30ae4ce6a745f5e2ca6a6100b868e51",
+  "projection": "tokens.css, tokens.json, tokens-data.js are generated, never independently edited."
+}

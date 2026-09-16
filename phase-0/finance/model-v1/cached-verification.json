@@ -1,0 +1,25 @@
+{
+  "verified": true,
+  "engines": [
+    "artifact-tool",
+    "bundled LibreOffice headless"
+  ],
+  "records": [
+    {
+      "file": "outputs/financial-model/Wringy-36个月财务模型.xlsx",
+      "formulaCellsWithCaches": 3973,
+      "independentMonthlyChecks": 1512,
+      "errors": 0,
+      "summaryAndSensitivityReconciled": true,
+      "sha256": "54da5aa9be4a3c31cf4ac6feb8d2b2231bebff485cc29aa1daa7b1755ba74afc"
+    },
+    {
+      "file": "recalculated/Wringy-36个月财务模型.xlsx",
+      "formulaCellsWithCaches": 3973,
+      "independentMonthlyChecks": 1512,
+      "errors": 0,
+      "summaryAndSensitivityReconciled": true,
+      "sha256": "1dccefd57abfa5b2ad21e8c984e29c47b4bfd840eae49da07afafb418744344c"
+    }
+  ]
+}

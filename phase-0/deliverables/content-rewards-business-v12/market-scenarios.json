@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-13",
+  "market_basis": "../content-rewards-business-v11/market-scenarios.json and story.md",
+  "fee_crosscheck": "../content-rewards-business-v5/finance/inputs.json campaign.fee_rate_external",
+  "source_url": "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+  "statistical_establishments_2022": 78236,
+  "assumed_active": 0.8,
+  "assumed_fit": 0.1,
+  "modeled_buyers": 6258.88,
+  "assumed_annual_reward_per_buyer": 24000,
+  "modeled_reward_spend": 150213120.0,
+  "assumed_service_fee": 0.15,
+  "theoretical_full_fee_pool": 22531968.0,
+  "annual_service_revenue": [
+    180000,
+    360000,
+    1080000
+  ],
+  "boundary": "电商经营单位子集情景，不是实测全国Content Rewards市场或去重商家数；份额为情景奖励支出份额，无实现期限。",
+  "assumed_monthly_confirmed_reward": 2000,
+  "continuous_months": 12,
+  "merchant_counts": [
+    50,
+    100,
+    300
+  ],
+  "annual_rewards": [
+    1200000,
+    2400000,
+    7200000
+  ],
+  "monthly_fee_per_merchant": 300,
+  "annual_fee_per_merchant": 3600
+}

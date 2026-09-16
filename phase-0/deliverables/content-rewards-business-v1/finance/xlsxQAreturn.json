@@ -1,0 +1,42 @@
+{
+  "join_ready": true,
+  "status": "QA_PASS_WITH_STATED_LIMITATIONS",
+  "xlsx": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v1/finance/outputs/initial-funding/Wringy-Content-Rewards-6个月资金与单场经济.xlsx",
+  "verification": {
+    "all_tabs_visually_reviewed": [
+      "Summary",
+      "Cash",
+      "Campaign",
+      "Inputs"
+    ],
+    "preview_regions": [
+      "Summary C1:G30",
+      "Cash C1:J22 and C24:D42",
+      "Campaign C1:G33 and C35:G64",
+      "Inputs C1:F32 and C34:I46"
+    ],
+    "clipped_campaign_notes_fixed": "Moved explanatory notes below table, wrapped and re-rendered including rows57–63",
+    "xlsx_cached_headlines": {
+      "D9": "65663",
+      "D10": "70000",
+      "D15": "107063",
+      "D16": "110000"
+    },
+    "exported_formula_errors": [],
+    "artifact_tool_recalculation": true,
+    "native_excel_ui_tested": false,
+    "sha256": "2b962df6979a27c453a143d55317916b75359bfe65bdabaf58864b82515439cc"
+  },
+  "funding_scenarios_myr": [
+    70000,
+    110000
+  ],
+  "funding_chosen": false,
+  "rd_cap_not_quote": true,
+  "limitations": [
+    "RM50k R&D delivery feasibility unquoted",
+    "Founder self-funded living unconfirmed",
+    "Illustrative economics exclude abnormal monetary losses",
+    "Native Excel UI not tested"
+  ]
+}

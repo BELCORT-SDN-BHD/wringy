@@ -1,0 +1,189 @@
+{
+  "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pptx",
+  "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pdf",
+  "previewDir": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/brand-manual/private/render-FrPMrA/slides",
+  "slideCount": 30,
+  "slideMap": [
+    {
+      "number": 1,
+      "id": "BB-01",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 2,
+      "id": "BB-02",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 3,
+      "id": "BB-03",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 4,
+      "id": "BB-04",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 5,
+      "id": "BB-05",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 6,
+      "id": "BB-06",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 7,
+      "id": "BB-07",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 8,
+      "id": "BB-08",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 9,
+      "id": "BB-09",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 10,
+      "id": "BB-10",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 11,
+      "id": "BB-11",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 12,
+      "id": "BB-12",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 13,
+      "id": "BB-13",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 14,
+      "id": "BB-14",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 15,
+      "id": "BB-15",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 16,
+      "id": "BB-16",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 17,
+      "id": "BB-17",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 18,
+      "id": "BB-18",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 19,
+      "id": "BB-19",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 20,
+      "id": "BB-20",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 21,
+      "id": "BB-21",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 22,
+      "id": "BB-22",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 23,
+      "id": "BB-23",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 24,
+      "id": "BB-24",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 25,
+      "id": "BB-25",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 26,
+      "id": "BB-26",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 27,
+      "id": "BB-27",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 28,
+      "id": "BB-28",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 29,
+      "id": "BB-29",
+      "part": 1,
+      "feature_ids": []
+    },
+    {
+      "number": 30,
+      "id": "BB-30",
+      "part": 1,
+      "feature_ids": []
+    }
+  ],
+  "validation": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/brand-manual/private/render-FrPMrA/validation.json"
+}

@@ -1,0 +1,18 @@
+{
+  "slides": 15,
+  "pdf_pages": 15,
+  "changed_parts": [
+    "ppt/slides/slide13.xml",
+    "ppt/slides/charts/chart4.xml",
+    "ppt/notesSlides/notesSlide13.xml",
+    "ppt/slides/_rels/slide13.xml.rels",
+    "ppt/embeddings/chart-data-snapshot-004.xlsx"
+  ],
+  "allocation": [
+    50000,
+    20000
+  ],
+  "total": 70000,
+  "other_14_slides_unchanged": true,
+  "visual_check": "Funding slide checked; two segments and labels fit."
+}

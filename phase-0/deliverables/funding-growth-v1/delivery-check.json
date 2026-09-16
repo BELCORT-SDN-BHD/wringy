@@ -1,0 +1,124 @@
+{
+  "date": "2026-09-12",
+  "artifacts": {
+    "pptx": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/funding-growth-v1/output/Wringy-Funding-Growth-v1.pptx",
+      "bytes": 91589,
+      "sha256": "2c12cd57fa2285da00d969bf135c9a7c080ecca72aa2345432187da691d4953b"
+    },
+    "pdf": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/funding-growth-v1/output/Wringy-Funding-Growth-v1.pdf",
+      "bytes": 2799339,
+      "sha256": "5b6041e6abf49cbd72784439e4ed9388d63ae943b588ff0f3572a1ee2d821778"
+    },
+    "xlsx": {
+      "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/funding-growth-v1/finance/outputs/funding-growth/Wringy-18个月资金计划.xlsx",
+      "bytes": 15628,
+      "sha256": "31b7b14dacdc12e915134afb1a34575a1f696b2e100e827259fc4e13aa3b61b9"
+    }
+  },
+  "presentation": {
+    "slides": 17,
+    "main_slides": 14,
+    "appendix_slides": 3,
+    "charts": 4,
+    "native_tables": 6,
+    "embedded_chart_workbooks": 4,
+    "slide_raster_images": 0,
+    "pptx_sha256": "2c12cd57fa2285da00d969bf135c9a7c080ecca72aa2345432187da691d4953b",
+    "pdf_sha256": "5b6041e6abf49cbd72784439e4ed9388d63ae943b588ff0f3572a1ee2d821778",
+    "pdf_pages_rendered_with_poppler": 17,
+    "pptx_finalization_warnings": [],
+    "notes_parts": 17,
+    "final_visual_review": "All 17 draft and finalized slides inspected; latest changed slides 4,6,8,10,12,16 reinspected",
+    "pdf_type": "1920x1080 PNG page images; editable objects remain in PPTX",
+    "powerpoint_ui_tested": false,
+    "markers": {
+      "pptx": 1,
+      "pdf": 1
+    },
+    "latest_story_included": true,
+    "latest_finalization_receipt": "build/Wringy-Funding-Growth-v1-final2.pptx.validation.json",
+    "slide17_investor_wording_verified": true
+  },
+  "finance_checks": [
+    {
+      "name": "independent gross spend",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    },
+    {
+      "name": "minimum raise",
+      "actual": 908500,
+      "expected": 908500,
+      "pass": true
+    },
+    {
+      "name": "rounded raise",
+      "actual": 950000,
+      "expected": 950000,
+      "pass": true
+    },
+    {
+      "name": "ending reserve",
+      "actual": 160000,
+      "expected": 160000,
+      "pass": true
+    },
+    {
+      "name": "rate edit propagates gross",
+      "actual": 814000,
+      "expected": 814000,
+      "pass": true
+    },
+    {
+      "name": "rate edit propagates minimum",
+      "actual": 936100,
+      "expected": 936100,
+      "pass": true
+    },
+    {
+      "name": "founder capital reduces ask",
+      "actual": 808500,
+      "expected": 808500,
+      "pass": true
+    },
+    {
+      "name": "package moved to M7",
+      "actual": 52000,
+      "expected": 52000,
+      "pass": true
+    },
+    {
+      "name": "period total unchanged",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    },
+    {
+      "name": "zero buffer",
+      "actual": 790000,
+      "expected": 790000,
+      "pass": true
+    }
+  ],
+  "main_review": {
+    "contact_sheet_all_pages": true,
+    "critical_pages_high_resolution": [
+      3,
+      4,
+      6,
+      8,
+      9,
+      12,
+      13,
+      16,
+      17
+    ],
+    "source_domain_reviews": "market and capital completed, corrections incorporated",
+    "cross_vendor_review": "completed capsule review, objections reconciled in inputs/review-resolution.md",
+    "native_Office_UI_tested": false
+  },
+  "approval_boundary": "Research and investor discussion draft only; no financing or product implementation approval."
+}

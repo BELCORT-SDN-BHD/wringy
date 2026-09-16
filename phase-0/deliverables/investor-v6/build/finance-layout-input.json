@@ -1,0 +1,13 @@
+{
+  "status": "main-approved illustration for layout; replace adapter with final finance JSON before finalization",
+  "source": "Main handoff, 2026-09-10",
+  "rewardBudget": 10000,
+  "feeRate": 0.15,
+  "variableFulfilmentPerActivity": 600,
+  "variableSellingPerActivity": 150,
+  "monthlyIllustrationActivities": 20,
+  "monthlyFixedFulfilment": 2000,
+  "monthlyFixedOpex": 15000,
+  "additionalFirstBrandCAC": null,
+  "paybackScenarios": null
+}

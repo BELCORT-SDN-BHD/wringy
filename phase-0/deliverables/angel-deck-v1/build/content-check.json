@@ -1,0 +1,17 @@
+{
+  "native_chart_parts": [
+    "ppt/slides/charts/chart1.xml",
+    "ppt/slides/charts/chart2.xml"
+  ],
+  "cash_curve_points_matched_frozen_source": 108,
+  "zero_line_points": 36,
+  "unique_months_per_series": 36,
+  "required_final_wording": true,
+  "pptx_slides": 17,
+  "full_pdf_pages": 17,
+  "main_pdf_pages": 12,
+  "pngs": 17,
+  "native_charts": 2,
+  "canonical_pptx_matches_finalizer_hash": true,
+  "all_outputs_same_build_revision": "final"
+}

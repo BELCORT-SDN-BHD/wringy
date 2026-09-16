@@ -1,0 +1,14 @@
+{
+  "page": "A4",
+  "margin_mm": 19,
+  "font": "Noto Sans SC",
+  "font_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/fonts/NotoSansSC.ttf",
+  "body_pt": 11,
+  "leading_pt": 17,
+  "table_min_pt": 9,
+  "footnote_pt": 9,
+  "text": "#242424",
+  "accent": "#173D2A",
+  "final_pdf": "output/Wringy-Clipping-Deep-Research.pdf",
+  "status": "layout prepared; synthesis not started"
+}

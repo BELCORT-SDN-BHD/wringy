@@ -1,0 +1,2074 @@
+{
+  "scope": "Read-only mechanical audit of selected final artifacts; no PowerPoint application test",
+  "decks": {
+    "learning": {
+      "pptx": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pptx",
+      "pdf": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pdf",
+      "pptx_sha256": "3486a3a211b085a8e7f4bb64e2afc7db40a47989dd3a59ec7a7d85b6ccabdf35",
+      "zip_integrity": true,
+      "xml_parts_parsed": 279,
+      "slide_count": 64,
+      "notes_count": 64,
+      "expected_count": 64,
+      "native_tables": 34,
+      "table_slides": [
+        3,
+        4,
+        6,
+        7,
+        19,
+        20,
+        25,
+        32,
+        33,
+        34,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "native_chart_references": 3,
+      "chart_slides": [
+        5,
+        22,
+        28
+      ],
+      "chart_parts": 0,
+      "empty_text_placeholders": [],
+      "authoring_metadata_candidates": [],
+      "noncover_sources": [
+        {
+          "slide": 2,
+          "urls": [
+            "https://docs.whop.com/launch-your-business",
+            "https://docs.whop.com/manage-your-business/products/manage-products",
+            "https://whop.com/"
+          ],
+          "local_sources": [],
+          "note_chars": 440,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 3,
+          "urls": [
+            "https://contentrewards.com/",
+            "https://docs.whop.com/affiliates/be-an-affiliate.md",
+            "https://whop.com/blog/whop-app-store/",
+            "https://whop.com/seller-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 529,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 4,
+          "urls": [
+            "https://contentrewards.com/",
+            "https://docs.whop.com/affiliates/setup-custom.md",
+            "https://docs.whop.com/developer/bounties/run-a-bounty-program.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+          ],
+          "local_sources": [],
+          "note_chars": 612,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 5,
+          "urls": [
+            "https://whop.com/network/pricing/",
+            "https://whop.com/seller-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 361,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 6,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/media/media.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md",
+            "https://docs.whop.com/whop-finance/cards.md",
+            "https://whop.com/blog/register-llc/",
+            "https://whop.com/blog/whop-app-store/",
+            "https://whop.com/network/pricing/"
+          ],
+          "local_sources": [],
+          "note_chars": 832,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 7,
+          "urls": [
+            "https://docs.whop.com/developer/start.md",
+            "https://whop.com/"
+          ],
+          "local_sources": [],
+          "note_chars": 283,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 8,
+          "urls": [
+            "https://docs.whop.com/supported-business-models/agency-services",
+            "https://docs.whop.com/supported-business-models/dtc-ecommerce",
+            "https://whop.com/",
+            "https://whop.com/network/solutions/telehealth/"
+          ],
+          "local_sources": [],
+          "note_chars": 608,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 9,
+          "urls": [
+            "https://docs.whop.com/launch-your-business",
+            "https://docs.whop.com/manage-your-business/products/create-product",
+            "https://docs.whop.com/manage-your-business/products/manage-products",
+            "https://docs.whop.com/manage-your-business/team-management/manage-team-roles",
+            "https://mobbin.com/screens/579c3af1-409b-4446-82c6-9f9a4617952b",
+            "https://mobbin.com/screens/a1a87fa2-77ba-44e7-aff6-286a78f65210"
+          ],
+          "local_sources": [],
+          "note_chars": 860,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 10,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/manage-business/legal-documents",
+            "https://docs.whop.com/manage-your-business/products/create-product",
+            "https://docs.whop.com/manage-your-business/products/manage-products",
+            "https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts"
+          ],
+          "local_sources": [],
+          "note_chars": 789,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 11,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md",
+            "https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md",
+            "https://docs.whop.com/payments-and-billing/financing/apply.md",
+            "https://docs.whop.com/payments-and-billing/local-payment-methods.md",
+            "https://docs.whop.com/payments/one-click-checkout-button.md",
+            "https://mobbin.com/screens/3a381801-817e-4d98-a83b-c00221a2f9db",
+            "https://mobbin.com/screens/5af6a7b4-4731-4039-b5af-d233ebc6014a",
+            "https://whop.com/seller-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 1176,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 12,
+          "urls": [
+            "https://docs.whop.com/developer/guides/save-payment-methods.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-users.md",
+            "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md",
+            "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md"
+          ],
+          "local_sources": [],
+          "note_chars": 833,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 13,
+          "urls": [
+            "https://docs.whop.com/supported-business-models/agency-services",
+            "https://docs.whop.com/supported-business-models/dtc-ecommerce",
+            "https://docs.whop.com/supported-business-models/educational-programs",
+            "https://docs.whop.com/supported-business-models/paid-groups",
+            "https://docs.whop.com/whop-apps/consumer-apps",
+            "https://docs.whop.com/whop-apps/what-are-whop-apps",
+            "https://mobbin.com/screens/97f0810b-9ae5-4a34-a666-e69173e89d95"
+          ],
+          "local_sources": [],
+          "note_chars": 1006,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 14,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/memberships/resync-membership-access",
+            "https://docs.whop.com/developer/concepts",
+            "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase"
+          ],
+          "local_sources": [],
+          "note_chars": 613,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 15,
+          "urls": [
+            "https://docs.whop.com/developer/guides/chat/support-chats",
+            "https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging",
+            "https://docs.whop.com/manage-your-business/manage-business/analytics",
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-users",
+            "https://docs.whop.com/manage-your-business/products/create-waitlist",
+            "https://mobbin.com/screens/3109dd20-8750-44a6-9d6a-397ebb357695"
+          ],
+          "local_sources": [],
+          "note_chars": 939,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 16,
+          "urls": [
+            "https://docs.whop.com/developer/guides/chat/support-chats",
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-users",
+            "https://docs.whop.com/manage-your-business/manage-payments/resolution-center",
+            "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase",
+            "https://mobbin.com/screens/7107823d-5ecd-47ca-ad0a-f824d263105f"
+          ],
+          "local_sources": [],
+          "note_chars": 910,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 17,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/products/list-products.md",
+            "https://docs.whop.com/api-reference/beta/products/publish-product.md",
+            "https://docs.whop.com/api-reference/reviews/review.md",
+            "https://mobbin.com/screens/c1d2d1d6-5a34-45f9-8359-71ed69d5037a"
+          ],
+          "local_sources": [],
+          "note_chars": 670,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 18,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md",
+            "https://docs.whop.com/api-reference/reviews/list-reviews.md",
+            "https://docs.whop.com/api-reference/reviews/review.md",
+            "https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/"
+          ],
+          "local_sources": [],
+          "note_chars": 760,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 19,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+          ],
+          "local_sources": [],
+          "note_chars": 448,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 20,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+            "https://contentrewards.com/",
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+            "https://mobbin.com/screens/a0b8f4a7-ffb6-4015-9ac2-ea69abb44c49"
+          ],
+          "local_sources": [],
+          "note_chars": 660,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 21,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+            "https://mobbin.com/screens/5e3e2301-d019-406e-86f3-12213069a8ef"
+          ],
+          "local_sources": [],
+          "note_chars": 838,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 22,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+            "https://contentrewards.com/"
+          ],
+          "local_sources": [],
+          "note_chars": 555,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 23,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/pricing",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+            "https://whop.com/content-rewards-terms-of-service/"
+          ],
+          "local_sources": [],
+          "note_chars": 862,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 24,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/bounties/bounty.md",
+            "https://docs.whop.com/api-reference/beta/bounties/cancel.md",
+            "https://docs.whop.com/developer/bounties/run-a-bounty-program.md",
+            "https://whop.com/earnings-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 755,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 25,
+          "urls": [
+            "https://docs.whop.com/affiliates/be-an-affiliate.md",
+            "https://docs.whop.com/affiliates/setup-custom.md",
+            "https://docs.whop.com/affiliates/setup-global.md",
+            "https://docs.whop.com/affiliates/setup-rev-share.md",
+            "https://docs.whop.com/developer/partners/overview.md",
+            "https://mobbin.com/screens/3ebcb7aa-ca4f-4972-8c97-f768f115bcb3"
+          ],
+          "local_sources": [],
+          "note_chars": 905,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 26,
+          "urls": [
+            "https://docs.whop.com/affiliates/be-an-affiliate.md",
+            "https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md",
+            "https://docs.whop.com/developer/websites/blueprints.md",
+            "https://mobbin.com/screens/f79d98b9-326f-49d2-a339-dc8aac8259fa"
+          ],
+          "local_sources": [],
+          "note_chars": 748,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 27,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md",
+            "https://docs.whop.com/api-reference/beta/ads/overview.md",
+            "https://docs.whop.com/api-reference/beta/audiences/audience.md",
+            "https://docs.whop.com/developer/ads/overview.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/ads.md"
+          ],
+          "local_sources": [],
+          "note_chars": 897,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 28,
+          "urls": [
+            "https://docs.whop.com/developer/ads/events-api.md",
+            "https://docs.whop.com/developer/ads/pixel.md",
+            "https://docs.whop.com/elements/beta/ads/reporting.md",
+            "https://docs.whop.com/elements/beta/tracking/people.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1093,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 29,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md",
+            "https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md",
+            "https://docs.whop.com/trust-and-safety/account-health/reserves.md",
+            "https://mobbin.com/screens/db402b81-a03c-414f-b51a-ec6914cb35d3",
+            "https://whop.com/tos/"
+          ],
+          "local_sources": [],
+          "note_chars": 1137,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 30,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md",
+            "https://docs.whop.com/api-reference/beta/transfers/create-transfer.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md",
+            "https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md",
+            "https://docs.whop.com/whop-finance/cards.md",
+            "https://mobbin.com/screens/a5cffb3f-d973-4750-9767-154834847be5",
+            "https://whop.com/network/products/payouts/",
+            "https://whop.com/wallet-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 1385,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 31,
+          "urls": [
+            "https://docs.whop.com/developer/verification/overview.md",
+            "https://docs.whop.com/developer/verification/rfis.md",
+            "https://docs.whop.com/trust-and-safety/account-health/controls.md",
+            "https://docs.whop.com/trust-and-safety/account-health/payment-health.md",
+            "https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md"
+          ],
+          "local_sources": [],
+          "note_chars": 901,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 32,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md",
+            "https://docs.whop.com/payments-and-billing/fees/taxes.md",
+            "https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md",
+            "https://mobbin.com/screens/85a46bd4-caa3-4991-92ff-cc98ad01cfdf",
+            "https://whop.com/network/solutions/gig-economy/"
+          ],
+          "local_sources": [],
+          "note_chars": 1200,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 33,
+          "urls": [
+            "https://docs.whop.com/developer/guides/accept-payments.md",
+            "https://docs.whop.com/developer/guides/app-views.md",
+            "https://docs.whop.com/developer/guides/auth-scoping.md",
+            "https://docs.whop.com/developer/guides/chat/quickstart.md",
+            "https://docs.whop.com/developer/guides/permissions.md",
+            "https://docs.whop.com/developer/start.md",
+            "https://docs.whop.com/elements/beta/wallet/overview.md",
+            "https://docs.whop.com/whop-apps/whop-app-store.md",
+            "https://whop.com/blog/whop-app-store/"
+          ],
+          "local_sources": [],
+          "note_chars": 1226,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 34,
+          "urls": [
+            "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md",
+            "https://docs.whop.com/developer/platforms/enroll-connected-accounts.md",
+            "https://docs.whop.com/developer/verification/overview.md"
+          ],
+          "local_sources": [],
+          "note_chars": 656,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 35,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/media/media.md",
+            "https://docs.whop.com/developer/websites/blueprints.md",
+            "https://docs.whop.com/developer/websites/overview.md",
+            "https://whop.com/",
+            "https://whop.com/blog/migrations/",
+            "https://whop.com/blog/register-llc/",
+            "https://whop.com/blog/what-is-whop-university/",
+            "https://whop.com/blog/whopx/"
+          ],
+          "local_sources": [],
+          "note_chars": 1005,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 36,
+          "urls": [
+            "https://docs.whop.com/api-reference/ai-chats/ai-chat.md",
+            "https://docs.whop.com/api-reference/beta/media/media.md",
+            "https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md",
+            "https://docs.whop.com/developer/ai/overview.md",
+            "https://docs.whop.com/developer/guides/ai_and_mcp.md",
+            "https://docs.whop.com/developer/guides/cli-with-claude.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1027,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 37,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+            "https://docs.whop.com/affiliates/setup-custom.md",
+            "https://docs.whop.com/api-reference/beta/ads/overview.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+          ],
+          "local_sources": [],
+          "note_chars": 785,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 38,
+          "urls": [
+            "https://docs.whop.com/developer/websites/blueprints.md",
+            "https://whop.com/",
+            "https://whop.com/blog/migrations/",
+            "https://whop.com/blog/what-is-whop-university/",
+            "https://whop.com/blog/whop-app-store/",
+            "https://whop.com/blog/whopx/",
+            "https://whop.com/network/pricing/"
+          ],
+          "local_sources": [],
+          "note_chars": 849,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 39,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md",
+            "https://docs.whop.com/payments-and-billing/fees/taxes.md",
+            "https://docs.whop.com/payments-and-billing/local-payment-methods.md",
+            "https://docs.whop.com/payments-and-billing/tap-to-pay.md"
+          ],
+          "local_sources": [],
+          "note_chars": 943,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 40,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+            "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+          ],
+          "local_sources": [],
+          "note_chars": 627,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 41,
+          "urls": [
+            "https://docs.whop.com/account-settings/account-security/enable-2fa",
+            "https://docs.whop.com/account-settings/personal-details/update-email",
+            "https://docs.whop.com/developer/concepts",
+            "https://docs.whop.com/launch-your-business",
+            "https://docs.whop.com/manage-your-business/products/create-product",
+            "https://docs.whop.com/manage-your-business/team-management/manage-team-roles"
+          ],
+          "local_sources": [],
+          "note_chars": 1298,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 42,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/manage-business/legal-documents",
+            "https://docs.whop.com/manage-your-business/products/create-product",
+            "https://docs.whop.com/manage-your-business/products/manage-products",
+            "https://docs.whop.com/memberships-and-access/accessing-your-purchase/duplicate-whop-accounts",
+            "https://docs.whop.com/supported-business-models/agency-services"
+          ],
+          "local_sources": [],
+          "note_chars": 1350,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 43,
+          "urls": [
+            "https://docs.whop.com/developer/guides/save-payment-methods.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-users.md",
+            "https://docs.whop.com/manage-your-business/payment-processing/create-checkout-link.md",
+            "https://docs.whop.com/payments-and-billing/fees/adaptive-pricing.md",
+            "https://docs.whop.com/payments-and-billing/local-payment-methods.md",
+            "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments.md",
+            "https://docs.whop.com/payments/one-click-checkout-button.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1731,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 44,
+          "urls": [
+            "https://docs.whop.com/developer/guides/ios/accept-one-time-payments.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/send-invoice.md",
+            "https://docs.whop.com/payments-and-billing/fees/in-app-ios-purchases.md",
+            "https://docs.whop.com/payments-and-billing/financing/apply.md",
+            "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal.md",
+            "https://docs.whop.com/payments-and-billing/tap-to-pay.md",
+            "https://docs.whop.com/third-party-integrations/quickbooks.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1701,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 45,
+          "urls": [
+            "https://docs.whop.com/api-reference/forum-posts/create-forum-post",
+            "https://docs.whop.com/developer/concepts",
+            "https://docs.whop.com/supported-business-models/educational-programs",
+            "https://docs.whop.com/supported-business-models/paid-groups",
+            "https://docs.whop.com/whop-apps/consumer-apps",
+            "https://docs.whop.com/whop-apps/what-are-whop-apps",
+            "https://mobbin.com/flows/db66e97a-c08e-48fa-9665-8b4fe611eadc"
+          ],
+          "local_sources": [],
+          "note_chars": 1450,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 46,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/memberships/resync-membership-access",
+            "https://docs.whop.com/supported-business-models/agency-services",
+            "https://docs.whop.com/supported-business-models/brick-and-mortar",
+            "https://docs.whop.com/supported-business-models/dtc-ecommerce",
+            "https://docs.whop.com/supported-business-models/paid-groups",
+            "https://docs.whop.com/whop-apps/consumer-apps"
+          ],
+          "local_sources": [],
+          "note_chars": 1499,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 47,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-users",
+            "https://docs.whop.com/manage-your-business/products/create-waitlist",
+            "https://docs.whop.com/memberships-and-access/accessing-your-purchase/how-to-find-your-purchase",
+            "https://docs.whop.com/payments-and-billing/manage-billing/billing-portal",
+            "https://docs.whop.com/payments-and-billing/payment-issues/troubleshoot-failed-payments"
+          ],
+          "local_sources": [],
+          "note_chars": 1341,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 48,
+          "urls": [
+            "https://docs.whop.com/developer/guides/chat/support-chats",
+            "https://docs.whop.com/get-help/whop-support",
+            "https://docs.whop.com/manage-your-business/growth-marketing/automated-messaging",
+            "https://docs.whop.com/manage-your-business/manage-business/analytics",
+            "https://docs.whop.com/manage-your-business/manage-payments/resolution-center",
+            "https://docs.whop.com/third-party-integrations/hubspot"
+          ],
+          "local_sources": [],
+          "note_chars": 1690,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 49,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/products/list-products.md",
+            "https://docs.whop.com/api-reference/beta/products/publish-product.md"
+          ],
+          "local_sources": [],
+          "note_chars": 612,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 50,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/events/retrieve-the-pulse-feed.md",
+            "https://docs.whop.com/api-reference/beta/products/unpublish-product.md",
+            "https://docs.whop.com/api-reference/reviews/list-reviews.md",
+            "https://docs.whop.com/api-reference/reviews/review.md",
+            "https://gep84fjgupmn9jmwseqh.apps.whop.com/guidelines/"
+          ],
+          "local_sources": [],
+          "note_chars": 1237,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 51,
+          "urls": [
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/brands-terms",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/privacy-policy",
+            "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/terms",
+            "https://contentrewards.com/",
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+          ],
+          "local_sources": [],
+          "note_chars": 1096,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 52,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/bounties/bounty.md",
+            "https://docs.whop.com/api-reference/beta/bounties/cancel.md",
+            "https://docs.whop.com/developer/bounties/run-a-bounty-program.md"
+          ],
+          "local_sources": [],
+          "note_chars": 864,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 53,
+          "urls": [
+            "https://docs.whop.com/affiliates/be-an-affiliate.md",
+            "https://docs.whop.com/affiliates/setup-custom.md",
+            "https://docs.whop.com/affiliates/setup-global.md",
+            "https://docs.whop.com/affiliates/setup-rev-share.md",
+            "https://docs.whop.com/api-reference/affiliates/affiliate.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1057,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 54,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/partners/list-referred-business-earnings.md",
+            "https://docs.whop.com/api-reference/beta/partners/retrieve-a-partner-reward-link.md",
+            "https://docs.whop.com/api-reference/beta/partners/retrieve-the-leaderboard.md",
+            "https://docs.whop.com/developer/partners/overview.md",
+            "https://docs.whop.com/developer/websites/blueprints.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1342,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 55,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/ad-groups/ad-group.md",
+            "https://docs.whop.com/api-reference/beta/ads/overview.md",
+            "https://docs.whop.com/api-reference/beta/audiences/audience.md",
+            "https://docs.whop.com/developer/ads/overview.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/ads.md",
+            "https://whop.com/whop-ads-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 1298,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 56,
+          "urls": [
+            "https://docs.whop.com/developer/ads/events-api.md",
+            "https://docs.whop.com/developer/ads/overview.md",
+            "https://docs.whop.com/developer/ads/pixel.md",
+            "https://docs.whop.com/elements/beta/ads/reporting.md",
+            "https://docs.whop.com/elements/beta/tracking/people.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/tracking-integrations.md",
+            "https://docs.whop.com/manage-your-business/growth-marketing/tracking-links.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1464,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 57,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/ledgers/get-financial-report.md",
+            "https://docs.whop.com/api-reference/beta/payouts/create-payout-quote.md",
+            "https://docs.whop.com/api-reference/beta/transfers/create-transfer.md",
+            "https://docs.whop.com/developer/platforms/add-funds-to-your-balance.md",
+            "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/payout-methods.md",
+            "https://docs.whop.com/manage-your-business/manage-payouts/set-up-payouts.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1696,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 58,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/deposits/create-deposit.md",
+            "https://docs.whop.com/api-reference/beta/swaps/create-swap.md",
+            "https://docs.whop.com/payments-and-billing/financing/all-bnpl-options.md",
+            "https://docs.whop.com/whop-finance/cards.md",
+            "https://whop.com/network/products/payouts/",
+            "https://whop.com/wallet-terms/"
+          ],
+          "local_sources": [],
+          "note_chars": 1309,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 59,
+          "urls": [
+            "https://docs.whop.com/developer/verification/overview.md",
+            "https://docs.whop.com/developer/verification/rfis.md",
+            "https://docs.whop.com/trust-and-safety/account-health/controls.md",
+            "https://docs.whop.com/trust-and-safety/account-health/payment-health.md",
+            "https://docs.whop.com/trust-and-safety/account-health/reserves.md",
+            "https://docs.whop.com/trust-and-safety/trust-safety-overview/what-is-not-allowed-on-whop.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1381,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 60,
+          "urls": [
+            "https://docs.whop.com/manage-your-business/manage-payments/issuing-refunds.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/manage-disputes.md",
+            "https://docs.whop.com/manage-your-business/manage-payments/resolution-center.md",
+            "https://docs.whop.com/payments-and-billing/fees/taxes.md",
+            "https://docs.whop.com/trust-and-safety/staying-safe/report-a-bad-actor.md",
+            "https://docs.whop.com/whop-finance/card-declines-and-risk-rules.md",
+            "https://whop.com/network/solutions/gig-economy/"
+          ],
+          "local_sources": [],
+          "note_chars": 1632,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 61,
+          "urls": [
+            "https://docs.whop.com/developer/api/versioning.md",
+            "https://docs.whop.com/developer/guides/accept-payments.md",
+            "https://docs.whop.com/developer/guides/app-views.md",
+            "https://docs.whop.com/developer/guides/auth-scoping.md",
+            "https://docs.whop.com/developer/guides/iframe.md",
+            "https://docs.whop.com/developer/guides/permissions.md",
+            "https://docs.whop.com/developer/start.md",
+            "https://docs.whop.com/whop-apps/whop-app-store.md"
+          ],
+          "local_sources": [],
+          "note_chars": 1758,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 62,
+          "urls": [
+            "https://docs.whop.com/developer/guides/chat/quickstart.md",
+            "https://docs.whop.com/developer/platforms/collect-payments-for-connected-accounts.md",
+            "https://docs.whop.com/developer/platforms/enroll-connected-accounts.md",
+            "https://docs.whop.com/developer/verification/overview.md",
+            "https://docs.whop.com/elements/beta/wallet/overview.md",
+            "https://docs.whop.com/third-party-integrations/hubspot.md",
+            "https://whop.com/blog/whop-app-store/"
+          ],
+          "local_sources": [],
+          "note_chars": 1700,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 63,
+          "urls": [
+            "https://docs.whop.com/api-reference/ai-chats/ai-chat.md",
+            "https://docs.whop.com/api-reference/beta/media/media.md",
+            "https://docs.whop.com/developer/ai/overview.md",
+            "https://docs.whop.com/developer/guides/ai_and_mcp.md",
+            "https://docs.whop.com/developer/guides/cli-with-claude.md",
+            "https://docs.whop.com/developer/websites/overview.md",
+            "https://whop.com/"
+          ],
+          "local_sources": [],
+          "note_chars": 1517,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 64,
+          "urls": [
+            "https://docs.whop.com/api-reference/beta/recommended-actions/list-action-chains.md",
+            "https://docs.whop.com/developer/websites/blueprints.md",
+            "https://whop.com/blog/migrations/",
+            "https://whop.com/blog/register-llc/",
+            "https://whop.com/blog/what-is-whop-university/",
+            "https://whop.com/blog/whop-blueprints/",
+            "https://whop.com/blog/whopx/"
+          ],
+          "local_sources": [],
+          "note_chars": 1495,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        }
+      ],
+      "pdf_page_count": 64,
+      "pdf_sha256": "4420836e257b5751fb0ff950b638b92701246afb71c4cb5d62ca90669fe78870",
+      "pdf_bytes": 12319304,
+      "counts_match": true
+    },
+    "investor": {
+      "pptx": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pptx",
+      "pdf": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pdf",
+      "pptx_sha256": "c171971e7130f319719c67db81468846c2201fafcae428958fdd18a9159bfcfb",
+      "zip_integrity": true,
+      "xml_parts_parsed": 171,
+      "slide_count": 38,
+      "notes_count": 38,
+      "expected_count": 38,
+      "native_tables": 22,
+      "table_slides": [
+        8,
+        10,
+        12,
+        13,
+        16,
+        18,
+        19,
+        21,
+        23,
+        24,
+        26,
+        27,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ],
+      "native_chart_references": 1,
+      "chart_slides": [
+        25
+      ],
+      "chart_parts": 0,
+      "empty_text_placeholders": [],
+      "authoring_metadata_candidates": [],
+      "noncover_sources": [
+        {
+          "slide": 2,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 155,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 3,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 186,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 4,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 200,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 5,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/screen-render-report.json"
+          ],
+          "note_chars": 494,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 6,
+          "urls": [
+            "https://stripe.com/en-my/pricing",
+            "https://www.bnm.gov.my/application-for-approval-and-registration"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1044,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 7,
+          "urls": [
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf",
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf（p.1",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf（p.15；查阅2026-09-10",
+            "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/",
+            "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/（Campaign"
+          ],
+          "local_sources": [],
+          "note_chars": 1529,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 8,
+          "urls": [
+            "https://services.google.com/fh/files/misc/indonesia_e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/indonesia_e_conomy_sea_2025_report.pdf（p.3;",
+            "https://services.google.com/fh/files/misc/malaysia_e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/malaysia_e_conomy_sea_2025_report.pdf（p.3;",
+            "https://services.google.com/fh/files/misc/philippines_e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/philippines_e_conomy_sea_2025_report.pdf（p.3;",
+            "https://services.google.com/fh/files/misc/singapore_e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/singapore_e_conomy_sea_2025_report.pdf（p.3;",
+            "https://services.google.com/fh/files/misc/thailand_e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/thailand_e_conomy_sea_2025_report.pdf（p.3;",
+            "https://services.google.com/fh/files/misc/vietnam_e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/vietnam_e_conomy_sea_2025_report.pdf（p.3;"
+          ],
+          "local_sources": [],
+          "note_chars": 4530,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 9,
+          "urls": [
+            "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+            "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/（Key",
+            "https://newsroom.tiktok.com/tiktok-shop-safety-malaysia?lang=en-MY",
+            "https://newsroom.tiktok.com/tiktok-shop-safety-malaysia?lang=en-MY（Opening",
+            "https://www.dosm.gov.my/portal-main/release-content/ict-use-and-access-by-individuals-and-households-survey-report-2025",
+            "https://www.dosm.gov.my/portal-main/release-content/ict-use-and-access-by-individuals-and-households-survey-report-2025（Overview"
+          ],
+          "local_sources": [],
+          "note_chars": 1840,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 10,
+          "urls": [
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf",
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf（p.3",
+            "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/",
+            "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/（Campaign"
+          ],
+          "local_sources": [],
+          "note_chars": 1218,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 11,
+          "urls": [
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf",
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf（p.2",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf（p.14；查阅2026-09-10"
+          ],
+          "local_sources": [],
+          "note_chars": 977,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 12,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md"
+          ],
+          "note_chars": 779,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md"
+          ]
+        },
+        {
+          "slide": 13,
+          "urls": [
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards（For",
+            "https://gushcloud.com/",
+            "https://gushcloud.com/（Global",
+            "https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia",
+            "https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia（Sections",
+            "https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en",
+            "https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en（Introduction",
+            "https://www.linkedin.com/company/kolsasia",
+            "https://www.linkedin.com/company/kolsasia（About",
+            "https://www.partipost.com/",
+            "https://www.partipost.com/（Smart",
+            "https://www.sea.com/news/350",
+            "https://www.sea.com/news/350（Sunspin"
+          ],
+          "local_sources": [],
+          "note_chars": 3069,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 14,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 191,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 15,
+          "urls": [
+            "https://stripe.com/en-my/pricing"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 843,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 16,
+          "urls": [
+            "https://stripe.com/en-my/pricing"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ],
+          "note_chars": 1109,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 17,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 237,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 18,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 891,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 19,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 233,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 20,
+          "urls": [
+            "https://developers.cloudflare.com/r2/pricing/",
+            "https://developers.cloudflare.com/workers/platform/pricing/",
+            "https://resend.com/pricing?volume=50000",
+            "https://supabase.com/pricing"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1285,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 21,
+          "urls": [
+            "https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution",
+            "https://www.perkeso.gov.my/en/uncategorised/778-contributions.html",
+            "https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/",
+            "https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1707,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 22,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 202,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 23,
+          "urls": [
+            "https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution",
+            "https://www.perkeso.gov.my/en/uncategorised/778-contributions.html",
+            "https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/",
+            "https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1746,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 24,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 865,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 25,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 2199,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 26,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1254,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 27,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 265,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 28,
+          "urls": [],
+          "local_sources": [],
+          "note_chars": 191,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/investor-outline.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md"
+          ]
+        },
+        {
+          "slide": 29,
+          "urls": [
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf",
+            "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf，p.2",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf，p.12。",
+            "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf，p.14。"
+          ],
+          "local_sources": [],
+          "note_chars": 1588,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 30,
+          "urls": [
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+            "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards，For",
+            "https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia",
+            "https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia，Sections",
+            "https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en",
+            "https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en，Introduction",
+            "https://www.partipost.com/",
+            "https://www.partipost.com/，Smart"
+          ],
+          "local_sources": [],
+          "note_chars": 1795,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+          ]
+        },
+        {
+          "slide": 31,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1088,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        },
+        {
+          "slide": 32,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 811,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        },
+        {
+          "slide": 33,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 2239,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        },
+        {
+          "slide": 34,
+          "urls": [
+            "https://stripe.com/en-my/connect/pricing",
+            "https://stripe.com/en-my/pricing"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1103,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        },
+        {
+          "slide": 35,
+          "urls": [
+            "https://developers.cloudflare.com/r2/pricing/",
+            "https://developers.cloudflare.com/workers/platform/pricing/",
+            "https://resend.com/pricing?volume=50000",
+            "https://stripe.com/en-my/pricing",
+            "https://supabase.com/pricing"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1489,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        },
+        {
+          "slide": 36,
+          "urls": [
+            "https://www.bnm.gov.my/application-for-approval-and-registration",
+            "https://www.bnm.gov.my/list-of-regulatees",
+            "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN.pdf"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1420,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        },
+        {
+          "slide": 37,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。所有数值为税前规划假设，非实际业绩。"
+          ],
+          "note_chars": 1137,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md"
+          ]
+        },
+        {
+          "slide": 38,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。"
+          ],
+          "note_chars": 1112,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+          ]
+        }
+      ],
+      "pdf_page_count": 38,
+      "pdf_sha256": "fefeb6dbf3632b90e667f728ac9c4806cb651f6f96a3185a516117299409f829",
+      "pdf_bytes": 6770479,
+      "counts_match": true
+    },
+    "brand": {
+      "pptx": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pptx",
+      "pdf": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pdf",
+      "pptx_sha256": "05e863747c15fe05066adbd0627048d676fe46747b04a7be82cc4e2f92ffee9f",
+      "zip_integrity": true,
+      "xml_parts_parsed": 137,
+      "slide_count": 30,
+      "notes_count": 30,
+      "expected_count": 30,
+      "native_tables": 8,
+      "table_slides": [
+        3,
+        4,
+        8,
+        9,
+        11,
+        20,
+        25,
+        27
+      ],
+      "native_chart_references": 0,
+      "chart_slides": [],
+      "chart_parts": 0,
+      "empty_text_placeholders": [],
+      "authoring_metadata_candidates": [],
+      "noncover_sources": [
+        {
+          "slide": 2,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 431,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 3,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/founder-inputs.md"
+          ],
+          "note_chars": 301,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 4,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 418,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 5,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 437,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 6,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 426,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 7,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 420,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 8,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 444,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 9,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 414,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 10,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 539,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 11,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 428,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 12,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 436,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 13,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 417,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 14,
+          "urls": [
+            "https://www.w3.org/TR/WCAG22/"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 234,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 15,
+          "urls": [
+            "https://github.com/google/fonts/blob/main/ofl/manrope/OFL.txt",
+            "https://github.com/google/fonts/blob/main/ofl/notosanssc/OFL.txt"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 359,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 16,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 437,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 17,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 535,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 18,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 442,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 19,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/component-inventory.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html"
+          ],
+          "note_chars": 485,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 20,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 433,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 21,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-BRAND-DESKTOP",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 632,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 22,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-BRAND-MOBILE",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 613,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 23,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-CREATOR-DESKTOP",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 638,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 24,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-CREATOR-MOBILE",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 667,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 25,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/component-inventory.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-PAYOUT-CONFIRM"
+          ],
+          "note_chars": 573,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 26,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 447,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 27,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 307,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 28,
+          "urls": [
+            "https://www.w3.org/TR/WCAG22/",
+            "https://www.w3.org/WAI/ARIA/apg/"
+          ],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md"
+          ],
+          "note_chars": 276,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 29,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brief.md"
+          ],
+          "note_chars": 342,
+          "assumption_or_proposal_note": false,
+          "source_map_internal_sources": []
+        },
+        {
+          "slide": 30,
+          "urls": [],
+          "local_sources": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json"
+          ],
+          "note_chars": 447,
+          "assumption_or_proposal_note": true,
+          "source_map_internal_sources": []
+        }
+      ],
+      "pdf_page_count": 30,
+      "pdf_sha256": "da696144ceb805743a9773fe727e14b686833ce744b29f0411bc7c3ce8b527ee",
+      "pdf_bytes": 4713948,
+      "counts_match": true
+    }
+  },
+  "material_defects": [],
+  "learning_features": {
+    "canonical_module_files": [
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B01.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B02.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B03.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B04.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B05.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B06.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B07.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B08.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B09.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B10.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B11.md",
+      "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B12.md"
+    ],
+    "canonical_count": 168,
+    "mapping_count": 168,
+    "visible_count": 168,
+    "missing_from_final": [],
+    "unexpected_in_final": [],
+    "mapping_matches_canonical": true
+  },
+  "model_hashes": {
+    "actual_model_inputs_sha256": "1c1d0a8f74b40bc9790c0317bf476be49f99fa769b69a92e4d85bf1b7712965b",
+    "calculations_input_sha256": "1c1d0a8f74b40bc9790c0317bf476be49f99fa769b69a92e4d85bf1b7712965b",
+    "investor_source_map_input_sha256": "1c1d0a8f74b40bc9790c0317bf476be49f99fa769b69a92e4d85bf1b7712965b",
+    "all_match": true
+  },
+  "notes_review": {
+    "learning": "All 63 noncover notes contain source URLs; spot checks at slides 2 and 10 directly relate to slide subject.",
+    "brand": "All 29 noncover notes contain canonical local source paths; original-logo provenance explicitly stated.",
+    "investor": "28 of 37 noncover notes contain URL/local references. Slides 2,3,4,14,17,19,22,27,28 have proposal/assumption explanations but no explicit source path in the PPTX notes; inspected all nine. Their internal sources exist in investor-source-map.json. This is a deck-alone traceability limitation, not an unsupported factual-evidence finding.",
+    "external_URL_live_availability": "Not checked; mechanical citation audit only."
+  },
+  "source_map_internal_paths_exist": true,
+  "status": "pass_with_documented_notes_traceability_limitation",
+  "outputs_modified": false,
+  "native_PowerPoint_app_test": false
+}

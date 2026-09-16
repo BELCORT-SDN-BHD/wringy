@@ -1,0 +1,253 @@
+{
+  "date": "2026-09-10T08:57:47.421Z",
+  "scope": "Local standalone design artifacts only; not production acceptance",
+  "tokensSHA256": "4094feda31f12f31ce35ffbe0d9d6fb96c3db128a1ab2ff445659f99ab2f72ec",
+  "viewports": [
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 1280,
+      "documentWidth": 1280,
+      "viewportWidth": 1280,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 1024,
+      "documentWidth": 1024,
+      "viewportWidth": 1024,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 768,
+      "documentWidth": 768,
+      "viewportWidth": 768,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 640,
+      "documentWidth": 640,
+      "viewportWidth": 640,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 639,
+      "documentWidth": 639,
+      "viewportWidth": 639,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "offenders": [],
+      "pass": true
+    },
+    {
+      "width": 320,
+      "documentWidth": 320,
+      "viewportWidth": 320,
+      "offenders": [],
+      "pass": true
+    }
+  ],
+  "interactions": {
+    "tabs": true,
+    "detail": true,
+    "finalDecision": true,
+    "dialogEscape": true,
+    "focusRestored": true,
+    "filter": true,
+    "empty": true,
+    "clear": true,
+    "validation": true,
+    "preserveInput": true,
+    "submit": true,
+    "retry": true,
+    "dialogFocusContained": true,
+    "mobileNavigation": true
+  },
+  "consoleErrors": [],
+  "reducedMotion": true,
+  "zoomEquivalent": {
+    "description": "1440px viewport at 200% reflow equivalent 720 CSS px; not native browser zoom",
+    "pass": true
+  },
+  "contrast": [
+    {
+      "foreground": "ink",
+      "background": "canvas",
+      "ratio": 16.15,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "ink",
+      "background": "surface",
+      "ratio": 17.36,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "muted",
+      "background": "canvas",
+      "ratio": 5.84,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "muted",
+      "background": "surface",
+      "ratio": 6.27,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "muted",
+      "background": "composition",
+      "ratio": 5.33,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "onAccent",
+      "background": "accent",
+      "ratio": 13.18,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "onAccent",
+      "background": "accentHover",
+      "ratio": 11.31,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "onAccent",
+      "background": "accentPressed",
+      "ratio": 9.69,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "positive",
+      "background": "positiveSoft",
+      "ratio": 6.51,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "warning",
+      "background": "warningSoft",
+      "ratio": 6.55,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "negative",
+      "background": "negativeSoft",
+      "ratio": 6.12,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "disabledInk",
+      "background": "disabledSurface",
+      "ratio": 4.72,
+      "target": 4.5,
+      "pass": true
+    },
+    {
+      "foreground": "focus",
+      "background": "surface",
+      "ratio": 6.99,
+      "target": 3,
+      "pass": true
+    },
+    {
+      "foreground": "focus",
+      "background": "canvas",
+      "ratio": 6.51,
+      "target": 3,
+      "pass": true
+    },
+    {
+      "foreground": "controlBorder",
+      "background": "surface",
+      "ratio": 3.8,
+      "target": 3,
+      "pass": true
+    },
+    {
+      "foreground": "controlBorder",
+      "background": "canvas",
+      "ratio": 3.54,
+      "target": 3,
+      "pass": true
+    }
+  ],
+  "tokenSnapshotMatches": true,
+  "unresolvedIconMarkers": false,
+  "allPass": true,
+  "pdf": {
+    "format": "Native Chromium vector/text PDF, A4 landscape; print-only dashboard zoom 0.75; screen UI unchanged",
+    "pages": 7,
+    "checks": {
+      "sevenPages": true,
+      "allFiveRowsOnPage3": true,
+      "historyAndReviewOnPage3": true,
+      "page4StartsComponents": true,
+      "creatorBottomNavigationOnPage6": true,
+      "conceptNoticeOnPage1": true
+    },
+    "pageTextCharacters": [
+      140,
+      376,
+      621,
+      322,
+      295,
+      273,
+      380
+    ],
+    "visualInspection": "Rendered all seven pages using Poppler; inspected contact sheet and page 3; no detached continuation page or clipped right detail",
+    "sha256": "b441a7d9876be23af0e11ce938e841989802305f58a4f0a57db62a007c293392"
+  },
+  "canonicalExamplePropagation": {
+    "method": "Isolated copy inside owned directory; changed rewardMinor to 12345, campaign and brand; production canonical untouched",
+    "rewardOccurrences": 4,
+    "allRewardPlaceholdersResolved": true,
+    "staticAndDynamicCopiesUpdated": true,
+    "campaignOccurrences": 6,
+    "oldCampaignAbsent": true,
+    "brandOccurrences": 3
+  },
+  "dialogInvestigation": "Native dialog reached browser chrome at sequential tab boundary; explicit first/last Tab cycling added for all dialogs. Escape and trigger focus restoration retained.",
+  "finalFiles": {
+    "tokens.json": "4094feda31f12f31ce35ffbe0d9d6fb96c3db128a1ab2ff445659f99ab2f72ec",
+    "tokens.css": "b14012309ecd6424f5d2e3d69c8cdbfa36851d6f9ae8bbadc832bf313f3e0f7b",
+    "showcase.html": "03d15c90a55d815cfbfa46cd5cb19bf09d094dea8c460057ce30874189ba23e3",
+    "brand-components-spec.md": "97d62b72e43a748dc6bdcba82a3d89bc51d9e7142327579adf69244fa77bfe32",
+    "sources.json": "8bf928d37e3ba8e2039e5efabbe00bfc02338981a31768f7ed8385da0249ad7b",
+    "THIRD-PARTY-NOTICES.md": "fc41f9998b15e0a9e173aa0c0b8e581d9418a38c8461d356a74e338322074952",
+    "assets/dashboard-desktop.png": "21262a385d724fdf7f15787fa46e8317ae07bb710a606ca4dc9c9fdad6997bb0",
+    "assets/creator-mobile.png": "b10ee8bb4b894c2f3b1d7d829436c1010e6070e29d4e21440f8d9544a71b9f00",
+    "assets/brand-hero.png": "3918b06d19c4f91e88c56d1e5a2a1b66f06d64e80f2dd8649a127570639fb8db"
+  },
+  "limitations": [
+    "System font glyphs vary by OS",
+    "No screen-reader or cross-browser audit",
+    "200% check is CSS reflow equivalent, not native zoom",
+    "No backend, business authorization, payment or PRD acceptance tested",
+    "Print typography is compact in dashboard; use standalone PNG or HTML for detailed review"
+  ]
+}

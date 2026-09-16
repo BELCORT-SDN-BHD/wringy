@@ -1,0 +1,195 @@
+{
+  "as_of": "2026-09-12",
+  "status": "内部预算草案，未报价、未承诺",
+  "currency": "MYR",
+  "horizon_months": 18,
+  "month_basis": "M1为融资到账并获准启动后的首月；非承诺日历排期",
+  "market": "Malaysia first; SEA long term",
+  "revenue_method": "zero revenue safety",
+  "drivers": [
+    {
+      "name": "混合开发时薪（RM／小时）",
+      "value": 130,
+      "basis": "内部估算，非Belcort报价",
+      "cell": "Inputs!D6"
+    },
+    {
+      "name": "现金缓冲比例",
+      "value": 0.15,
+      "basis": "对全部支出仅计一次，开发包不另加预备金",
+      "cell": "Inputs!D7"
+    },
+    {
+      "name": "创办人已承诺资本（RM）",
+      "value": 0,
+      "basis": "尚未知，按0占位，不表示已承诺0",
+      "cell": "Inputs!D8"
+    },
+    {
+      "name": "已核实可用公司现金（RM）",
+      "value": 0,
+      "basis": "当前未有可核实余额，品牌奖励池不计入",
+      "cell": "Inputs!D9"
+    },
+    {
+      "name": "创办人津贴（RM／月）",
+      "value": 6000,
+      "basis": "M1–M18，内部规划现金总额",
+      "cell": "Inputs!D10"
+    },
+    {
+      "name": "运营与审核（M1–M6，RM／月）",
+      "value": 3000,
+      "basis": "合同支持总预算，包含固定审核及第二复核人",
+      "cell": "Inputs!D11"
+    },
+    {
+      "name": "运营与审核（M7–M18，RM／月）",
+      "value": 8000,
+      "basis": "总包现金预算，非已招聘；不再叠加旧固定履约费",
+      "cell": "Inputs!D12"
+    },
+    {
+      "name": "维护（M7–M18，RM／月）",
+      "value": 4000,
+      "basis": "保修与支持须正式报价去重；无自聘开发",
+      "cell": "Inputs!D13"
+    },
+    {
+      "name": "云与基础数据（M1–M6，RM／月）",
+      "value": 1000,
+      "basis": "测试环境及基础数据占位",
+      "cell": "Inputs!D14"
+    },
+    {
+      "name": "云与基础数据（M7–M18，RM／月）",
+      "value": 3000,
+      "basis": "上线基础订阅，非无限量数据服务承诺",
+      "cell": "Inputs!D15"
+    },
+    {
+      "name": "获客试验（M1–M6，RM／月）",
+      "value": 1000,
+      "basis": "品牌访谈、招募及素材，不含奖励代收款",
+      "cell": "Inputs!D16"
+    },
+    {
+      "name": "获客试验（M7–M12，RM／月）",
+      "value": 5000,
+      "basis": "品牌／创作者招募、试验及转介总池",
+      "cell": "Inputs!D17"
+    },
+    {
+      "name": "获客试验（M13–M18，RM／月）",
+      "value": 9000,
+      "basis": "通过复购检查后释放，不再叠加按品牌CAC",
+      "cell": "Inputs!D18"
+    },
+    {
+      "name": "法务设立与协议（M1一次，RM）",
+      "value": 22000,
+      "basis": "含关联开发/IP、数据及支付合规专业服务占位",
+      "cell": "Inputs!D19"
+    },
+    {
+      "name": "会计及公司合规（RM／月）",
+      "value": 1000,
+      "basis": "M1–M18持续专业服务占位",
+      "cell": "Inputs!D20"
+    },
+    {
+      "name": "行政与工具（RM／月）",
+      "value": 1000,
+      "basis": "M1–M18，不含开发、云、审核和会计",
+      "cell": "Inputs!D21"
+    },
+    {
+      "name": "交易试点直接费（M7–M18，RM／月）",
+      "value": 1500,
+      "basis": "仅支付费、按量数据、异常损失；不含固定审核",
+      "cell": "Inputs!D22"
+    },
+    {
+      "name": "募资取整步长（RM）",
+      "value": 50000,
+      "basis": "最低需求向上取整；差额仍属未分配储备",
+      "cell": "Inputs!D23"
+    },
+    {
+      "name": "公司收入抵扣（RM／月）",
+      "value": 0,
+      "basis": "零收入安全法锁定口径，不以未签客户预测抵扣",
+      "cell": "Inputs!D24"
+    }
+  ],
+  "work_packages": [
+    {
+      "name": "规则与外部准入验证",
+      "hours": 160,
+      "cash_month": 1,
+      "scope": "数据权限、资金路径及正式范围；未通过即停止",
+      "cell": "Inputs!D29"
+    },
+    {
+      "name": "产品流程与界面设计",
+      "hours": 200,
+      "cash_month": 2,
+      "scope": "仅剩余必要设计，正式报价需扣除确认可复用部分",
+      "cell": "Inputs!D30"
+    },
+    {
+      "name": "三类工作区与活动流程",
+      "hours": 520,
+      "cash_month": 3,
+      "scope": "品牌、创作者、运营；单一计酬模式",
+      "cell": "Inputs!D31"
+    },
+    {
+      "name": "支付集成与结算台账",
+      "hours": 360,
+      "cash_month": 4,
+      "scope": "受许可服务商准入约束，不包括自行托管",
+      "cell": "Inputs!D32"
+    },
+    {
+      "name": "单渠道合格播放计量",
+      "hours": 400,
+      "cash_month": 5,
+      "scope": "CPM新增：窗口、上限、重复数据和回补",
+      "cell": "Inputs!D33"
+    },
+    {
+      "name": "异常与反作弊复核",
+      "hours": 320,
+      "cash_month": 5,
+      "scope": "CPM新增：异常标记、人工裁决、申诉审计",
+      "cell": "Inputs!D34"
+    },
+    {
+      "name": "质量、安全及端到端验收",
+      "hours": 280,
+      "cash_month": 6,
+      "scope": "包括重复结算、权限、失败回退测试",
+      "cell": "Inputs!D35"
+    },
+    {
+      "name": "部署、移交与培训",
+      "hours": 160,
+      "cash_month": 6,
+      "scope": "账号、源码、手册与操作交接",
+      "cell": "Inputs!D36"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://addvaluez.com/blog/custom-software-development-cost-malaysia",
+      "accessed": "2026-09-12",
+      "evidence": "自述客户Web/MVP RM90k–250k；重集成平台RM250k起。仅量级参考。"
+    },
+    {
+      "url": "https://www.zoomotech.com.my/blog/why-custom-software-cost-in-malaysia-varies-from-rm30k-to-rm300k/",
+      "accessed": "2026-09-12",
+      "evidence": "自述简单工具RM15k至完整集成平台RM300k+。仅量级参考。"
+    }
+  ]
+}

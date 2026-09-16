@@ -1,0 +1,82 @@
+{
+  "title": "Wringy 创意与增长",
+  "language": "zh-CN",
+  "slides": [
+    {
+      "id": "cover",
+      "section": "开场",
+      "title": "让好创意被看见",
+      "layout": "cover",
+      "takeaway": "Wringy 品牌与增长学习手册",
+      "body": [
+        "年轻的表达，可信的依据"
+      ],
+      "speaker_notes_zh": "本文件仅用于排版测试，不用于对外发布。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "table",
+      "title": "内容评估的三个维度",
+      "layout": "table",
+      "takeaway": "从表达、证据与行动三个方面检查内容",
+      "body": [],
+      "table": {
+        "headers": [
+          "维度",
+          "检查重点",
+          "示例"
+        ],
+        "rows": [
+          [
+            "表达",
+            "主题是否清楚",
+            "一页只讲一个重点"
+          ],
+          [
+            "证据",
+            "判断是否有依据",
+            "保留数据的来源与日期"
+          ],
+          [
+            "行动",
+            "读者下一步做什么",
+            "写出一个可执行的动作"
+          ]
+        ]
+      },
+      "speaker_notes_zh": "排版测试的示例内容。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "chart",
+      "title": "示例内容的阅读完成率",
+      "layout": "chart",
+      "takeaway": "测试数据仅用于验证图表的中文标签与可编辑性",
+      "body": [],
+      "chart": {
+        "type": "bar",
+        "categories": [
+          "内容甲",
+          "内容乙",
+          "内容丙"
+        ],
+        "series": [
+          {
+            "name": "完成率",
+            "values": [
+              0.42,
+              0.65,
+              0.78
+            ]
+          }
+        ],
+        "numberFormat": "0%"
+      },
+      "speaker_notes_zh": "虚构的测试数据，不代表 Wringy 的实际业务表现。",
+      "sources": [],
+      "feature_ids": []
+    }
+  ]
+}

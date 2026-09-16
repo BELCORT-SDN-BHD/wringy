@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-12",
+  "worker_scope": [
+    "build/**",
+    "output/**"
+  ],
+  "status": "complete: final PPTX, PDF and contact sheet ready",
+  "marker_pptx": {
+    "executed_successfully": true,
+    "count": 1,
+    "instruction": "Do not rerun this task's PPTX marker"
+  },
+  "marker_pdf": {
+    "executed_successfully": true,
+    "count": 1,
+    "instruction": "Do not rerun this task's PDF marker"
+  },
+  "source_reference": "phase-0/deliverables/angel-deck-v3/output/Wringy-Angel-Deck-v3.pptx",
+  "source_all_slides_visually_reviewed": 10,
+  "reference_dimensions_emu": [
+    12192000,
+    6858000
+  ],
+  "reference_font_verified": "Noto Sans SC",
+  "palette_source": "phase-0/foundation/design-system-v2/app/provenance/palette.json",
+  "palette_checked_against": "phase-0/foundation/design-system-v2/app/src/index.css :root",
+  "palette_assertion": "runtime.mjs fails if any of the 43 palette entries differs from actual CSS",
+  "draft_smoke": {
+    "slides": 2,
+    "pptx_export": true,
+    "pptx_reimport_render": true,
+    "all_slides_visually_reviewed": true,
+    "pdf_export": true
+  },
+  "final_design": {
+    "independent_supplement": true,
+    "body_pt": "18-22",
+    "main_points_per_slide": "1 conclusion; maximum 3-4 points",
+    "editable_charts_tables_diagrams": true,
+    "no_decorative_image_generation": true
+  },
+  "pdf_pipeline": "High-resolution final PPTX render images on 960x540 pt PDF pages, matching accepted prior workflow; PDF is for distribution, PPTX is editable",
+  "not_yet_done": [
+    "PowerPoint native application UI test (not performed)"
+  ]
+}

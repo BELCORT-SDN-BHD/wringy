@@ -1,0 +1,47 @@
+[
+  {
+    "slide": 2,
+    "name": "source-link-clipping",
+    "url": "https://clipping.net/brands",
+    "x": 58,
+    "y": 640,
+    "w": 370,
+    "h": 23
+  },
+  {
+    "slide": 4,
+    "name": "source-link-clipper",
+    "url": "https://clipping.net/docs/clippers/campaign-detail",
+    "x": 58,
+    "y": 640,
+    "w": 370,
+    "h": 23
+  },
+  {
+    "slide": 6,
+    "name": "source-link-terms",
+    "url": "https://clipping.net/policies/clipper-terms-and-conditions",
+    "x": 58,
+    "y": 640,
+    "w": 370,
+    "h": 23
+  },
+  {
+    "slide": 7,
+    "name": "source-link-payments",
+    "url": "https://clipping.net/docs/clippers/payments",
+    "x": 58,
+    "y": 640,
+    "w": 370,
+    "h": 23
+  },
+  {
+    "slide": 9,
+    "name": "source-link-dosm",
+    "url": "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "x": 58,
+    "y": 640,
+    "w": 480,
+    "h": 23
+  }
+]

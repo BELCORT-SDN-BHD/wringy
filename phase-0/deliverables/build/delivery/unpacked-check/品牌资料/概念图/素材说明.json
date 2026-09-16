@@ -1,0 +1,54 @@
+[
+  {
+    "name": "brand-logo-concept",
+    "provenance": {
+      "type": "AI-generated conceptual illustration, not real customer evidence",
+      "tool": "image_gen__imagegen",
+      "date": "2026-09-10"
+    },
+    "width_px": 1254,
+    "height_px": 1254,
+    "sha256": "8af59c467cb22012bef263f708b7718bd4d2d39605cfc26da921604c0fdcf950",
+    "limitations": "Logo concept source only, not SVG. Requested 2048 square not delivered by tool after two attempts. Small-size 24px recognition and exact flat color fidelity not objectively validated; g connection refinement remains a designer review item.",
+    "file": "brand-logo-concept-概念.png"
+  },
+  {
+    "name": "learning-hero",
+    "provenance": {
+      "type": "AI-generated conceptual illustration, not real customer evidence",
+      "tool": "image_gen__imagegen",
+      "date": "2026-09-10"
+    },
+    "width_px": 1672,
+    "height_px": 941,
+    "sha256": "5de33ae68505f052435a2c38fd2cca363040ab9ff5db56192840235a33f261c8",
+    "limitations": "Objects enter lower-left-half near center; safest text area is left 40%. Background contains tiny indistinct marks, no legible UI.",
+    "file": "learning-hero-概念.png"
+  },
+  {
+    "name": "investor-hero",
+    "provenance": {
+      "type": "AI-generated conceptual illustration, not real customer evidence",
+      "tool": "image_gen__imagegen",
+      "date": "2026-09-10"
+    },
+    "width_px": 1672,
+    "height_px": 941,
+    "sha256": "8a2143b8b811c315b637a8ab218b87afe8564a41ae86c8887291e2388294218d",
+    "limitations": "Camera and studio gear reach into center-left; safest title area is left 30–35%. Malaysian context was prompted, not verifiable from appearance.",
+    "file": "investor-hero-概念.png"
+  },
+  {
+    "name": "brand-editorial",
+    "provenance": {
+      "type": "AI-generated conceptual illustration, not real customer evidence",
+      "tool": "image_gen__imagegen",
+      "date": "2026-09-10"
+    },
+    "width_px": 1672,
+    "height_px": 941,
+    "sha256": "7de4a82bcdc4105f2499b4633e4171516c1b63ab8e44dcefcbba7fce2187b2c4",
+    "limitations": "Metal object is a conceptual grip-like form, not a verified functional phone accessory.",
+    "file": "brand-editorial-概念.png"
+  }
+]

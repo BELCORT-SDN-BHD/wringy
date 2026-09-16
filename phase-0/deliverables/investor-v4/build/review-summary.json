@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-10",
+  "finalSha256": "03826e961fd2dc9e0b75082e7db98c791db8108cd9c1747a7a9dd766f7379166",
+  "allFinalSlidesVisuallyReviewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "contactSheetReviewed": true,
+  "nativeCharts": [
+    {
+      "path": "ppt/slides/charts/chart1.xml",
+      "values": [
+        "0.25",
+        "0.75"
+      ]
+    },
+    {
+      "path": "ppt/slides/charts/chart2.xml",
+      "values": [
+        "50400",
+        "50000",
+        "70000",
+        "216000",
+        "189750"
+      ]
+    }
+  ],
+  "notesCount": 10,
+  "uniqueImageAssets": 4,
+  "canonicalTokenPath": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/tokens.json",
+  "canonicalTokenHash": "5cf398d9345627aad9a9109eedcfa9bb9cdb5b5d5b89e73d544d53573a3e73a0",
+  "mainBoundedWordFixesVerified": true,
+  "finalVisualFixes": [
+    "01 explicit concept caption",
+    "03 focused activity image",
+    "04 native editable five-step process",
+    "05 focused large review image"
+  ],
+  "remainingLimitations": [
+    "No PowerPoint desktop edit-save-reopen test",
+    "Preview PDF contains raster slide images"
+  ],
+  "mainFinalReview": "accepted, 2026-09-10; updated slides03/04/05 and full contact sheet accepted",
+  "canonicalColorsRechecked": {
+    "background": "#FFFFFF",
+    "surface": "#F6F6F3",
+    "ink": "#171A14",
+    "muted": "#5C6258",
+    "accent": "#E4F222",
+    "line": "#E1E3DC",
+    "forest": "#173D2A"
+  },
+  "currentCanonicalTokenHash": "a1040e3316f01a0467a68bf3c023cf1975949d2fc3afe39136e33ab58bed5ab4",
+  "noRerenderNeeded": "Canonical semantic colors match the rendered deck; metadata changes do not affect visual output.",
+  "speakerNotesProductionLanguageCheck": "10/10 clean; factual context, proposal caveats and sources only"
+}

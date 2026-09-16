@@ -1,0 +1,99 @@
+{
+  "status": "passed",
+  "phase_target_months": [
+    2,
+    4
+  ],
+  "budget_envelope_retained": true,
+  "monthly_cashflow_remapped": false,
+  "changed_visible_slides": [
+    9
+  ],
+  "date": "2026-09-13",
+  "pages": 14,
+  "main": 14,
+  "appendix": 0,
+  "hidden_slides": 0,
+  "notes_pages": 14,
+  "deleted_v8_pages": [
+    9,
+    11,
+    17,
+    18,
+    19
+  ],
+  "native_charts": 4,
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      0.0,
+      8.0,
+      18.0,
+      30.0,
+      40.0
+    ],
+    [
+      225.31968,
+      675.95904,
+      1126.5984
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ]
+  ],
+  "native_doughnut": true,
+  "native_tables": 0,
+  "native_concept_diagram_pages": [
+    10,
+    11,
+    13,
+    14
+  ],
+  "connectors": 16,
+  "source_links": 5,
+  "source_urls": [
+    "https://clipping.net/brands",
+    "https://clipping.net/docs/clippers/campaign-detail",
+    "https://clipping.net/policies/clipper-terms-and-conditions",
+    "https://clipping.net/docs/clippers/payments",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024"
+  ],
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "all_pages_individually_reviewed": true,
+  "pdf_poppler_pages": 14,
+  "finance_source": "../content-rewards-business-v5/finance/results.json",
+  "finance_sha256": "05d51ee57242932437571ee4174ddf68980760140a8700fc561ed676b15c57cc",
+  "finance_unchanged": true,
+  "proposed_funding": 70000,
+  "rd_cap": 50000,
+  "salary_allowance_cash_confirmed": 0,
+  "proposed_ask_approved": false,
+  "new_images_generated": 0,
+  "native_powerpoint_tested": false,
+  "pdf_format": "Raster reading copy with source link annotations",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 8522199,
+      "sha256": "df4defc2aebedf9a3d9448205f6414a9b3273c1e6632752568a51a3cb2ba9a59"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 17064703,
+      "sha256": "4d6e38e27a514fdc0a13cb938a9e6a5ae57f4f3a49e8b2b80872ebd1e0ee7c5b"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 341609,
+      "sha256": "bf0c4d225bf5a2dc0bbece2109274e8dddf2b9e2ba1f32d824472028e0c4c94f"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "tokenSource": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/tokens.json",
+  "tokenHash": "a1040e3316f01a0467a68bf3c023cf1975949d2fc3afe39136e33ab58bed5ab4",
+  "slides": [
+    {
+      "slide": 1,
+      "title": ""
+    },
+    {
+      "slide": 2,
+      "title": "品牌需要分发，创作者需要收入"
+    },
+    {
+      "slide": 3,
+      "title": "Wringy 的业务与经济流"
+    },
+    {
+      "slide": 4,
+      "title": "马来西亚商家的剪辑推广活动"
+    },
+    {
+      "slide": 5,
+      "title": "真实机制：TJR 剪辑奖励活动"
+    },
+    {
+      "slide": 6,
+      "title": "Content Rewards／Whop 的审核分工"
+    },
+    {
+      "slide": 7,
+      "title": "当前按播放计酬与提现时间线"
+    },
+    {
+      "slide": 8,
+      "title": "单场经济：平台费与贡献"
+    },
+    {
+      "slide": 9,
+      "title": "月度20场：毛利为正，经营仍亏损"
+    },
+    {
+      "slide": 10,
+      "title": "固定开支与活动贡献"
+    },
+    {
+      "slide": 11,
+      "title": "现金回本：三种有条件的情景"
+    },
+    {
+      "slide": 12,
+      "title": "回本取决于活动量与现金成本"
+    },
+    {
+      "slide": 13,
+      "title": "复购品牌与持续参与的创作者"
+    },
+    {
+      "slide": 14,
+      "title": "视频电商的市场背景"
+    },
+    {
+      "slide": 15,
+      "title": "收入规模的算式"
+    },
+    {
+      "slide": 16,
+      "title": "第一阶段 Rewards，随后扩展商业工具"
+    },
+    {
+      "slide": 17,
+      "title": "资金规划参考：RM576,150"
+    },
+    {
+      "slide": 18,
+      "title": "设计附录：Wringy 的审核记录"
+    }
+  ],
+  "budgetTotal": 576150,
+  "financeSources": [
+    "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/results.json",
+    "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/assumptions.json",
+    "${WRINGY_WORKSPACE}/phase-0/finance/model-v1/outputs/financial-model/Wringy-36个月财务模型.xlsx"
+  ],
+  "financeStatus": "frozen",
+  "financeManifest": {
+    "status": "frozen",
+    "files": {
+      "outputs/financial-model/Wringy-36个月财务模型.xlsx": "54da5aa9be4a3c31cf4ac6feb8d2b2231bebff485cc29aa1daa7b1755ba74afc",
+      "assumptions.json": "4ac5af6180015e91be8045714ef49093db064ba4e85247dddd69d243e37c14cb",
+      "results.json": "9abeb207b4a01742c48c0e1fc26f767a04de7ac19a009c53b656403f0ed604db",
+      "财务模型说明.md": "1a932de8c2ba70e2a332b9c0d88e7e18692ac62a79dd72280ee4ba92ea9f7cf2",
+      "handoff-final.md": "8a75e787826330cbc54e47155950b1db57ac17c7467a427d6fec6ac3e4226486",
+      "cached-verification.json": "b35099fc7340de37bc20c6e740e444dbcda73ab33a7e0f1adcef33441a4318ea",
+      "README.md": "2aa7a2ba8510dd4c74149144ea67914535a78ced6286ccb89ade088e113275a0"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "status": "complete",
+  "slides": 18,
+  "all_slides_visually_reviewed": true,
+  "native_charts": 2,
+  "native_tables": 3,
+  "native_diagram_slides": [
+    3,
+    4,
+    8,
+    10
+  ],
+  "pptx_slide_picture_count": 0,
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "pdf_pages": 18,
+  "pdf_clickable_links": 6,
+  "pptx_clickable_links": 6,
+  "pdf_render_check": "Poppler all 18 pages",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "native_powerpoint_open_verified": false,
+  "notes": "PDF is raster for fidelity, with clickable source annotations; PPTX contains editable native objects.",
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pptx": "e8a81c038d7587a1a9004d07fd3e9f6a0c29ad05d53296a6c7dcd5568b50aad3",
+    "Wringy-Content-Rewards-Business-Plan.pdf": "54f682d8df36bfa4f57e940771acda960fad3bd46dd97d0cd1aa418bb5fbf081",
+    "contact-sheet.jpg": "8ef572904672c8368392ea67c3f334b15204139882850d42fa6f4c678b8bb744"
+  }
+}

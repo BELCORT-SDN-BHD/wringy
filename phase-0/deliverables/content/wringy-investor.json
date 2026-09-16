@@ -1,0 +1,1739 @@
+{
+  "title": "Wringy｜投资与伙伴合作提案",
+  "language": "zh-CN",
+  "slides": [
+    {
+      "id": "INV01",
+      "section": "开场",
+      "title": "Wringy",
+      "layout": "cover",
+      "takeaway": "让创意碰面，让合作说清楚。",
+      "body": [],
+      "example": "马来西亚起步 · 品牌与创作者合作提案",
+      "visual_brief": "使用既有Wringy投资者主视觉与原生字标；不展示客户Logo、收入或上线界面。",
+      "speaker_notes_zh": "Wringy拟帮助品牌和创作者，把活动要求、交付审核与报酬状态放在同一条合作链中。马来西亚是已指定的首发方向，具体付费客群仍待验证。今天讨论的是研究支持的商业提案。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV02",
+      "section": "开场",
+      "title": "先证明合作成立，再扩大平台",
+      "layout": "statement",
+      "takeaway": "当前为研究提案，团队、客户与收入待确认。",
+      "body": [
+        "方向已定：马来西亚优先。",
+        "切入假设：品牌采购原创内容。",
+        "待验证：付费、复投与交付成本。"
+      ],
+      "example": "拟从一次真实付费活动检验价值。",
+      "visual_brief": "四张编辑型状态卡：已指定方向／待验证客群／待验证经济性／事实空白。",
+      "speaker_notes_zh": "不把方案制作或市场研究称为业务进展。品牌加创作者是兴趣方向，不等于已批准首版产品；也不能据此推断现有交易、团队履历、投资人接洽或合作伙伴。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV03",
+      "section": "合作问题",
+      "title": "品牌买的是交付，不只是曝光",
+      "layout": "flow",
+      "takeaway": "问题假设：一次合作的要求与记录容易分散。",
+      "body": [
+        "明确产品与内容要求",
+        "寻找合适的创作者",
+        "沟通修改与验收依据",
+        "确认费用与付款状态"
+      ],
+      "example": "假设案例：个护品牌要一组产品使用视频，审核意见却散落在多个聊天记录里。",
+      "visual_brief": "原生四步流程，标注“假设情境”；无虚构访谈引言或品牌标志。",
+      "speaker_notes_zh": "这是待验证的工作情境，不是来自客户访谈。需要查看品牌最近一次真实采购：谁提出要求，谁验收，修改了几次，付款条件是什么。如果已有工具解决且品牌不愿迁移，就应缩小产品范围。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV04",
+      "section": "合作问题",
+      "title": "创作者需要看懂如何获得报酬",
+      "layout": "statement",
+      "takeaway": "要求、修改和收款，应有同一份依据。",
+      "body": [
+        "参与前：范围、用途与报酬条件。",
+        "提交后：审核原因与修改边界。",
+        "批准后：应付日期与付款条件。",
+        "出款后：结果、失败原因与申诉。"
+      ],
+      "example": "假设案例：作品获批，并不代表款项已到银行账户。",
+      "visual_brief": "创作者视角的四张状态卡；不出现虚构余额、成功率或到账承诺。",
+      "speaker_notes_zh": "这是创作者侧的价值假设。作品获批、报酬已批准、到达应付日期和银行到账是不同状态。既要避免品牌临时追加工作，也要让创作者理解原有约定；哪些条款影响参与意愿，需要用原型和真实合作验证。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV05",
+      "section": "产品提案",
+      "title": "让双方看见同一份约定",
+      "layout": "flow",
+      "takeaway": "产品概念：从简报到审核，保留清楚的合作记录。",
+      "body": [
+        "简报：要求与创作空间",
+        "提交：作品版本与补充说明",
+        "审核：依据、报酬与下一步"
+      ],
+      "example": "概念示例：退回原因是“缺少产品使用场景”，而非“感觉不对”。",
+      "visual_brief": "原生可编辑三步产品概念图：简报 → 提交 → 审核；明显标注产品概念。后续可用本地assets/ui品牌审核台与创作者提交页概念图替换；不依赖Figma配额，不伪造真实品牌、金额、客户照片或已上线证明。",
+      "speaker_notes_zh": "这是一份产品概念。它提出可检验的交互方式：双方能否更快找到当前简报，审核意见是否可追溯，创作者能否区分批准与到账。概念图不代表产品已开发或可交易。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV06",
+      "section": "产品提案",
+      "title": "一次活动，贯通约定与结果",
+      "layout": "flow",
+      "takeaway": "首发提案：品牌直接支付创作者，Wringy只收服务费。",
+      "body": [
+        "发布简报与报酬规则",
+        "确认创作者预算和平台费",
+        "提交作品并审核，记录应付报酬",
+        "品牌经银行或支付商直接出款",
+        "核对付款证明与结果"
+      ],
+      "example": "奖励账本记录应付与已付，不是可充值或转账的钱包。",
+      "visual_brief": "五个原生节点；资金链独立细线连接服务商，注明“拟议方案，非现有能力”。",
+      "speaker_notes_zh": "首发模型采用品牌直付创作者：奖励预算不进入Wringy银行账户，品牌承担自己的出款通道费用。Wringy仅收平台服务费并保留履约和付款记录。实际收付资格、合同和退款责任仍须确认；不是接入供应商就自动合规。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n公开基准：本地卡/FPX 3%+RM1；国际卡另1%，换汇另2%；争议收到90、手动应对90。退款不退原处理费。 https://stripe.com/en-my/pricing\n公开基准：支付系统、指定支付工具及商户收单分别涉及审批/注册；具体角色需要本地专业确认。 https://www.bnm.gov.my/application-for-approval-and-registration",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Stripe马来西亚标准价",
+          "url": "https://stripe.com/en-my/pricing"
+        },
+        {
+          "title": "BNM审批及注册申请",
+          "url": "https://www.bnm.gov.my/application-for-approval-and-registration"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "INV07",
+      "section": "市场背景",
+      "title": "内容正在接近交易",
+      "layout": "statement",
+      "takeaway": "市场事实支持验证需求，尚不足以证明Wringy市场规模。",
+      "body": [
+        "六国视频电商占比约25%：2025年估算。",
+        "马来西亚数字广告报数增长24.8%：2025年。",
+        "品牌已有内容与效果混合奖励的公开例子。"
+      ],
+      "example": "HEXA公布过奖励活动；不是Wringy客户或合作伙伴。",
+      "visual_brief": "三个证据卡，避免把不同指标画在同一坐标轴。",
+      "speaker_notes_zh": "第一项是六国视频电商与电商交易额的关系，来自联合报告引用的Cube分析。第二项是马来西亚代理商报数的广告增长。第三项是品牌自有活动规则，仅证明公开奖励设计存在；不能推出实际支付、平均预算或平台迁移意愿。\n\n证据与口径：SEA04：2025年视频电商约占电商交易额25%。 原值25；单位% of ecommerce GMV；时期2025 estimate；地域SEA-6 context in video-commerce exhibit。p.15视频电商图引用Cube, SEA 2025；属联合报告刊载的外部分析，非政府普查。不可与ASEAN-10分母混算。 来源：https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf（p.15；查阅2026-09-10）。\nAD03：2025年数字广告报数同比增长24.8%。 原值24.8；单位% YoY reported digital adex；时期FY2025 vs FY2024；地域Malaysia — contributing agencies。行业样本变化及估计边界需保留；不等于网红市场增速。 来源：https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf（p.1 table；查阅2026-09-10）。\nBR01：HEXA公布2026年TikTok创作者活动奖励池上限10万令吉。 原值100000；单位MYR reward-pool cap；时期2026 campaign; header 2026-04-20 to 2026-08-31；地域Malaysia / HEXA campaign。上限包括奖励，不等于已支付现金或持续年度预算；页面延期标题与旧截止/付款条文冲突。非Wringy客户或合作伙伴。 来源：https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/（Campaign Overview / Reward Fulfilment；查阅2026-09-10）。",
+      "sources": [
+        {
+          "title": "e-Conomy SEA 2025",
+          "url": "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "Malaysian Digital Adex Report FY2025",
+          "url": "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf"
+        },
+        {
+          "title": "HEXA FOOD — #HexaAffiliate2026 TikTok Milestone Campaign 2026",
+          "url": "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "INV08",
+      "section": "区域选择",
+      "title": "先马来西亚，再按证据选下一站",
+      "layout": "table",
+      "takeaway": "2025年估算，单位：十亿美元；进入路径均为待验证建议。",
+      "body": [],
+      "example": "国别数已取整，不强行凑齐区域总额。",
+      "visual_brief": "六行原生表；马来西亚为首发方向，其他国家无排名或加权分数。",
+      "speaker_notes_zh": "两列分别是数字经济GMV和其中电商GMV，不能相加。马来西亚先行来自已指定方向，不是比较证明的最优结论。新加坡、印尼、菲律宾可列下一阶段候选；泰国、越南先准备当地交付条件。每次只在付费证据、语言审核、服务商资格齐备后选择下一站。操作差异是研究假设，不是已核实用户偏好。\n\n证据与口径：CTRY-MY-GMV：马来西亚2025年数字经济交易总额估算为390亿美元。 原值39；单位USD billion digital economy GMV；时期2025 estimate; rounded country-report figures；地域马来西亚。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/malaysia_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-MY-ECOM：马来西亚2025年电商交易总额估算为200亿美元。 原值20；单位USD billion ecommerce GMV；时期2025 estimate; rounded country-report figures；地域马来西亚。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/malaysia_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-SG-GMV：新加坡2025年数字经济交易总额估算为290亿美元。 原值29；单位USD billion digital economy GMV；时期2025 estimate; rounded country-report figures；地域新加坡。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/singapore_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-SG-ECOM：新加坡2025年电商交易总额估算为90亿美元。 原值9；单位USD billion ecommerce GMV；时期2025 estimate; rounded country-report figures；地域新加坡。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/singapore_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-ID-GMV：印尼2025年数字经济交易总额估算为990亿美元。 原值99；单位USD billion digital economy GMV；时期2025 estimate; rounded country-report figures；地域印尼。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/indonesia_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-ID-ECOM：印尼2025年电商交易总额估算为710亿美元。 原值71；单位USD billion ecommerce GMV；时期2025 estimate; rounded country-report figures；地域印尼。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/indonesia_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-TH-GMV：泰国2025年数字经济交易总额估算为560亿美元。 原值56；单位USD billion digital economy GMV；时期2025 estimate; rounded country-report figures；地域泰国。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/thailand_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-TH-ECOM：泰国2025年电商交易总额估算为330亿美元。 原值33；单位USD billion ecommerce GMV；时期2025 estimate; rounded country-report figures；地域泰国。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/thailand_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-VN-GMV：越南2025年数字经济交易总额估算为390亿美元。 原值39；单位USD billion digital economy GMV；时期2025 estimate; rounded country-report figures；地域越南。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/vietnam_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-VN-ECOM：越南2025年电商交易总额估算为250亿美元。 原值25；单位USD billion ecommerce GMV；时期2025 estimate; rounded country-report figures；地域越南。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/vietnam_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-PH-GMV：菲律宾2025年数字经济交易总额估算为360亿美元。 原值36；单位USD billion digital economy GMV；时期2025 estimate; rounded country-report figures；地域菲律宾。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/philippines_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。\nCTRY-PH-ECOM：菲律宾2025年电商交易总额估算为240亿美元。 原值24；单位USD billion ecommerce GMV；时期2025 estimate; rounded country-report figures；地域菲律宾。各国报告第3页已取整数字；电商包含于数字经济，不能相加；不可据此推算创作者预算。六国取整合计可能不同于区域总额。 来源：https://services.google.com/fh/files/misc/philippines_e_conomy_sea_2025_report.pdf（p.3; Bain analysis；查阅2026-09-10）。",
+      "sources": [
+        {
+          "title": "马来西亚报告2025",
+          "url": "https://services.google.com/fh/files/misc/malaysia_e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "新加坡报告2025",
+          "url": "https://services.google.com/fh/files/misc/singapore_e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "印尼报告2025",
+          "url": "https://services.google.com/fh/files/misc/indonesia_e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "泰国报告2025",
+          "url": "https://services.google.com/fh/files/misc/thailand_e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "越南报告2025",
+          "url": "https://services.google.com/fh/files/misc/vietnam_e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "菲律宾报告2025",
+          "url": "https://services.google.com/fh/files/misc/philippines_e_conomy_sea_2025_report.pdf"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "国家",
+          "数字经济",
+          "电商",
+          "进入前的具体实验"
+        ],
+        "rows": [
+          [
+            "马来西亚",
+            "39",
+            "20",
+            "首发：本地验收与报酬解释"
+          ],
+          [
+            "新加坡",
+            "29",
+            "9",
+            "候选：跨国品牌委托与权利"
+          ],
+          [
+            "印尼",
+            "99",
+            "71",
+            "候选：单城交付、印尼语审核"
+          ],
+          [
+            "泰国",
+            "56",
+            "33",
+            "后续：泰语简报与本地审稿"
+          ],
+          [
+            "越南",
+            "39",
+            "25",
+            "后续：越南语审核与收款凭证"
+          ],
+          [
+            "菲律宾",
+            "36",
+            "24",
+            "候选：内容语言、远程交付"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "INV09",
+      "section": "区域选择",
+      "title": "马来西亚有基础，也有待证问题",
+      "layout": "statement",
+      "takeaway": "线上商业成熟度支持试点，不能替代客户验证。",
+      "body": [
+        "2025年家庭互联网接入率97.1%。",
+        "2025年电商交易总额预计200亿美元。",
+        "TikTok本地联盟生态已有公开规模。",
+        "品牌付费与创作者交付仍需实测。"
+      ],
+      "example": "首发方向已指定；获客成本更低、竞争更少均未得到证明。",
+      "visual_brief": "三张事实卡和一个醒目的“初始客户未验证”标签。",
+      "speaker_notes_zh": "互联网接入说明交付基础，不是客户数量。电商规模是消费交易背景。TikTok的卖家和创作者数字为公司自报，未说明活跃期和去重，不能转成Wringy现成用户池。本地竞争者已经存在，因此进入策略应聚焦具体任务。\n\n证据与口径：MY04：2025年马来西亚家庭互联网接入率为97.1%。 原值97.1；单位% of households；时期2025；地域Malaysia。家庭接入率不是个人使用率，更不是网购或付费创作者比例。 来源：https://www.dosm.gov.my/portal-main/release-content/ict-use-and-access-by-individuals-and-households-survey-report-2025（Overview / household access；查阅2026-09-10）。\nMY02：马来西亚2025年电商交易总额预计为200亿美元。 原值20；单位USD billion ecommerce GMV；时期2025 estimate；地域Malaysia。不能与DOSM含企业间交易的电商收入口径混用。 来源：https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/（Key findings item 1；查阅2026-09-10）。\nTT01：TikTok于2025年8月称马来西亚本地卖家超过180万。 原值1800000；单位local sellers; lower-bound company claim；时期as announced 2025-08-31；地域Malaysia / TikTok Shop。未说明活跃期、去重或品牌企业数量；不能当作180万付费品牌客户。 来源：https://newsroom.tiktok.com/tiktok-shop-safety-malaysia?lang=en-MY（Opening paragraph；查阅2026-09-10）。\nTT02：TikTok于2025年8月称马来西亚联盟创作者规模为380万。 原值3800000；单位affiliate creators; company claim；时期as announced 2025-08-31；地域Malaysia / TikTok Shop。非经审计活跃用户或独立个人数；不是Wringy供给、可触达名单或客户。 来源：https://newsroom.tiktok.com/tiktok-shop-safety-malaysia?lang=en-MY（Opening paragraph；查阅2026-09-10）。",
+      "sources": [
+        {
+          "title": "DOSM — ICT Use and Access by Individuals and Households Survey Report, 2025",
+          "url": "https://www.dosm.gov.my/portal-main/release-content/ict-use-and-access-by-individuals-and-households-survey-report-2025"
+        },
+        {
+          "title": "Google — e-Conomy SEA report 2025: Malaysia’s digital economy",
+          "url": "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/"
+        },
+        {
+          "title": "TikTok Shop’s Continuous Investment in Safety Fuels Sustainable Growth for Malaysian MSMEs",
+          "url": "https://newsroom.tiktok.com/tiktok-shop-safety-malaysia?lang=en-MY"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "INV10",
+      "section": "初始客群",
+      "title": "先找有重复采购的品牌",
+      "layout": "table",
+      "takeaway": "研究建议：品牌是采购方，创作者是交付方；尚未确定首批卖家。",
+      "body": [],
+      "example": "先验证原创内容采购，再决定是否加入效果奖励。",
+      "visual_brief": "三行客群表，显著标注“客群假设”；不用真实品牌Logo墙。",
+      "speaker_notes_zh": "个人护理的广告支出份额和HEXA的活动规则是候选客群的线索，不能说明所有小品牌都有预算。兴趣型生活方式品牌与创始人的关注方向相符，但本轮没有足够细分采购证据。创作者在这个假设中供应内容服务；销售会员或课程是另一种交易。\n\n证据与口径：AD05：2025年个人护理占已报数字广告支出16.3%。 原值16.3；单位% reported digital adex by industry；时期FY2025；地域Malaysia — contributing agencies。品类信号，不证明中小品牌的支付意愿。 来源：https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf（p.3 industry table；查阅2026-09-10）。\nBR01：HEXA公布2026年TikTok创作者活动奖励池上限10万令吉。 原值100000；单位MYR reward-pool cap；时期2026 campaign; header 2026-04-20 to 2026-08-31；地域Malaysia / HEXA campaign。上限包括奖励，不等于已支付现金或持续年度预算；页面延期标题与旧截止/付款条文冲突。非Wringy客户或合作伙伴。 来源：https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/（Campaign Overview / Reward Fulfilment；查阅2026-09-10）。",
+      "sources": [
+        {
+          "title": "Malaysian Digital Adex Report FY2025",
+          "url": "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf"
+        },
+        {
+          "title": "HEXA FOOD — #HexaAffiliate2026 TikTok Milestone Campaign 2026",
+          "url": "https://www.hexafood.com/articles-blogs/hexa-tiktok-affiliate-milestone-campaign-2026/"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "候选客群",
+          "拟采购的内容",
+          "优先验证"
+        ],
+        "rows": [
+          [
+            "个人护理／美妆品牌",
+            "产品使用与情境视频",
+            "重复采购、权利、返工"
+          ],
+          [
+            "食品及相关本地品牌",
+            "配方、用途与演示",
+            "样品成本、持续预算"
+          ],
+          [
+            "兴趣型生活方式品牌",
+            "具体爱好与产品使用",
+            "是否存在付费需求"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "INV11",
+      "section": "市场空间",
+      "title": "把三层市场分开看",
+      "layout": "flow",
+      "takeaway": "宏观交易、可适配预算和实际客户是不同问题。",
+      "body": [
+        "背景：消费者在线交易多大？",
+        "预算：哪些内容支出可承接？",
+        "触达：哪些独立品牌能签约？"
+      ],
+      "example": "电商交易总额不能乘一个比例，就变成Wringy收入。",
+      "visual_brief": "三层递进框不按金额同比例缩放；箭头标“需独立证据”。",
+      "speaker_notes_zh": "GMV是商品和服务交易总额。品牌活动预算需要逐家核对，实际可触达客户还需要决策者、采购证据和接触渠道。数字广告分类也不能补足UGC制作预算：行业报告明确排除内容制作及管理费。\n\n证据与口径：SEA03：2025年六国电商交易总额估算为1,810亿美元。 原值181；单位USD billion ecommerce GMV；时期2025 estimate, annualised H1；地域SEA-6。电商消费金额，不是品牌营销预算、创作者收入或Wringy市场规模。 来源：https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf（p.14；查阅2026-09-10）。\nAD04：2025年Social类别占报告数字广告支出的46.3%。 原值46.3；单位% digital adex share；时期FY2025；地域Malaysia — report coverage。包含社交平台广告及付费帖子；排除自然帖子、内容制作和管理费。不是独立网红或UGC市场。 来源：https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf（p.2 platform table; p.4 glossary；查阅2026-09-10）。",
+      "sources": [
+        {
+          "title": "e-Conomy SEA 2025",
+          "url": "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "Malaysian Digital Adex Report FY2025",
+          "url": "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "INV12",
+      "section": "市场空间",
+      "title": "从品牌预算建立需求区间",
+      "layout": "table",
+      "takeaway": "情景假设：品牌数 × 年活动支出 × 适配份额；RM＝令吉。",
+      "body": [],
+      "example": "中间假设每品牌年适配预算RM3万；不是经营模型的高频品牌群。",
+      "visual_brief": "三情景原生表；所有数值均为市场研究假设，保留“年”与MYR。",
+      "speaker_notes_zh": "可适配预算只表示理论上能承接的活动资金，不是签约金额或Wringy收入。同一预算单位不得因多个店铺或代理重复计数。全年活动支出需要采购记录，适配比例需要任务范围和交付能力证明。\n\n来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md 第5节。三组输入均为研究者设定，未完成品牌名单或采购账单验证。与经营模型的中采用路径不是同一情景：RM18m是理论年度适配预算，不能当经营模型收入。\n口径对照：市场中间假设的RM120,000年活动支出×25%适配份额，等于每品牌年适配预算RM30,000。经营中采用路径按每月1.5场、每场RM8,000，要求每品牌全年活动预算RM144,000，是前者4.8倍。两者是不同的未验证客群假设；不能把600家市场假设品牌直接作为经营模型客户池。两组假设需要分别用品牌采购记录验证。",
+      "sources": [
+        {
+          "title": "Wringy市场研究 · 底层情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "场景假设",
+          "品牌数",
+          "年活动支出",
+          "适配份额",
+          "年预算池"
+        ],
+        "rows": [
+          [
+            "保守探索",
+            "200",
+            "RM60,000",
+            "15%",
+            "RM180万"
+          ],
+          [
+            "中间假设",
+            "600",
+            "RM120,000",
+            "25%",
+            "RM1,800万"
+          ],
+          [
+            "扩展测试",
+            "1,500",
+            "RM240,000",
+            "35%",
+            "RM1.26亿"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "INV13",
+      "section": "竞争",
+      "title": "客户已经有多种替代方案",
+      "layout": "table",
+      "takeaway": "比较客户要买的结果，不宣称无人竞争。",
+      "body": [],
+      "example": "公开能力已核对；费率、交付质量与本地可用性仍需验证。",
+      "visual_brief": "四行类别表，无伪精确打勾评分。",
+      "speaker_notes_zh": "联盟营销、电商交易、创作者活动工具和代理服务会互相重叠。Involve Asia不仅按销售付佣；Partipost已有自助活动和提交付款流程；Whop生态已有原创内容奖励。竞争判断应针对真实客户采购，而不是凭网站未提某项功能就断言其没有。\n\n证据与口径：CO01：Involve Asia官方说明包含按销售、行动、线索、访问和点击付佣的五种模式。 原值5；单位commission model types；时期observed 2026-09-10；地域Involve Asia platform; individual offers vary。CPS/CPA/CPL/CPSe/CPC；按商家核验与活动条件结算；不是只有销售佣金。 来源：https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia（Sections 1–5；查阅2026-09-10）。\nCO02：Partipost同时展示自助活动创建及创作者从提交到付款的应用流程。 原值true；单位capability；时期observed 2026-09-10；地域Partipost website; Malaysia listed among markets。网页能力说明，未实测当前马来西亚开户、交付或付款表现。 来源：https://www.partipost.com/（Smart Campaign Builder / Becoming a Partiposter；查阅2026-09-10）。\nCO03：Gushcloud将自身定位为创作者管理及授权公司，并列出马来西亚市场。 原值true；单位positioning and presence；时期observed 2026-09-10；地域Global; Malaysia listed。包括代表、内容、品牌合作等；不是纯自助奖励市场，未核实收费或当地可用规模。 来源：https://gushcloud.com/（Global Network / Our Capabilities；查阅2026-09-10）。\nCO04：KOLs.Asia官方公司页定位为全案网红营销代理，总部在雪兰莪八打灵再也。 原值true；单位positioning and location；时期observed 2026-09-10；地域Petaling Jaya, Selangor, Malaysia。官网直接读取需JavaScript，改用其LinkedIn官方公司介绍；不采用搜索旧缓存中的费率、数据库规模。 来源：https://www.linkedin.com/company/kolsasia（About us / Headquarters；查阅2026-09-10）。\nCO05：Shopee官方马来西亚案例展示联盟推广及直播帮助商家经营。 原值true；单位documented local use case；时期published 2025-02-10；地域Malaysia。平台筛选的Sunspin与FunFun.inShop案例，不能推断平均效果、增量因果或Wringy客户。 来源：https://www.sea.com/news/350（Sunspin / FunFun.inShop sections；查阅2026-09-10）。\nCO06：Whop官方文档列出剪辑及原创品牌内容两类Content Rewards活动。 原值2；单位campaign types；时期observed 2026-09-10；地域Whop ecosystem; geographic eligibility not verified。页面位于3rd Party Apps；不推断Whop拥有全部应用、马来西亚支付可用或服务范围。 来源：https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards（For creators: Content Rewards marketing campaigns；查阅2026-09-10）。\nTT03：TikTok Shop马来西亚提供站外推广商品链接的官方联盟服务。 原值true；单位capability；时期documentation dated 2026-04-20；地域Malaysia。外部内容可导向TikTok Shop成交，因此不能称其完全不支持跨平台分发；非Wringy集成许可。 来源：https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en（Introduction / How It Works；查阅2026-09-10）。",
+      "sources": [
+        {
+          "title": "Involve Asia — Understanding Commission Models",
+          "url": "https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia"
+        },
+        {
+          "title": "Partipost — Influencer Marketing Platform",
+          "url": "https://www.partipost.com/"
+        },
+        {
+          "title": "Gushcloud — Global Creator Management & Influencer Marketing",
+          "url": "https://gushcloud.com/"
+        },
+        {
+          "title": "KOLs.Asia — Official Company Profile",
+          "url": "https://www.linkedin.com/company/kolsasia"
+        },
+        {
+          "title": "Sea / Shopee — Embracing Prosperity: How Local Malaysian Entrepreneurs Turned Humble Dreams into Nationwide Success",
+          "url": "https://www.sea.com/news/350"
+        },
+        {
+          "title": "Whop Docs — Content Rewards (3rd Party Apps)",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        },
+        {
+          "title": "TikTok Shop Academy Malaysia — Official Affiliate Service",
+          "url": "https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "购买的结果",
+          "已存在的替代",
+          "与Wringy的关系"
+        ],
+        "rows": [
+          [
+            "销售与可核验行动",
+            "Involve Asia、TikTok Shop、Shopee",
+            "已有商业流量与成交工具"
+          ],
+          [
+            "创作者活动与奖励",
+            "Partipost、Whop生态",
+            "直接重叠合作流程"
+          ],
+          [
+            "策略、人才及执行",
+            "Gushcloud、KOLs.Asia",
+            "以服务完成复杂项目"
+          ],
+          [
+            "品牌自行协调",
+            "现有表单与聊天流程",
+            "迁移价值必须量化"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "INV14",
+      "section": "竞争",
+      "title": "差异化要靠结果证明",
+      "layout": "statement",
+      "takeaway": "待验证优势：把本地合作规则与验收说得更清楚。",
+      "body": [
+        "品牌能否更容易验收合格内容？",
+        "创作者能否正确理解报酬条件？",
+        "协调与返工是否减少？",
+        "品牌是否愿意再次付费？"
+      ],
+      "example": "概念实验：同一条退回意见，能否对应到简报要求。",
+      "visual_brief": "四个可测试命题，不用“领先”“唯一”或虚构成绩。",
+      "speaker_notes_zh": "清晰流程是一项设计提案，尚不是竞争壁垒。本地代理、Partipost和其他工具同样可能解决这些问题。需要比较品牌现有做法，并观察真实付费和复投，才能判断改进是否值得迁移。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV15",
+      "section": "商业模型",
+      "title": "平台费与活动预算分开",
+      "layout": "flow",
+      "takeaway": "提议15%服务费；先验证品牌是否愿意为流程付费。",
+      "body": [
+        "创作者预算示例：RM8,000。",
+        "平台毛服务费：RM1,200。",
+        "品牌另付创作者通道费及适用税。",
+        "平台收入扣退款，不含创作者预算。"
+      ],
+      "example": "示例品牌支出RM9,200，再加其出款费用及适用税。",
+      "visual_brief": "原生金额逻辑图仅显示变量；不填费率和示例金额。",
+      "speaker_notes_zh": "初始收费对象和确认时点仍需验证。模型必须区分平台服务、创作者报酬、支付处理及退款。收入确认要对应实际履约义务，并由会计专业人员复核；到账现金也不等于可用于经营的自有资金。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n公开基准：本地卡/FPX 3%+RM1；国际卡另1%，换汇另2%；争议收到90、手动应对90。退款不退原处理费。 https://stripe.com/en-my/pricing",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Stripe马来西亚标准价",
+          "url": "https://stripe.com/en-my/pricing"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "INV16",
+      "section": "商业模型",
+      "title": "先看清一场活动是否值得做",
+      "layout": "table",
+      "takeaway": "示例：RM8,000创作者预算，15%服务费；金额均为MYR。",
+      "body": [],
+      "example": "贡献利润未扣全部固定人员与建设投入，不等于公司盈利。",
+      "visual_brief": "五行原生表；单次贡献不着重放大高利润率，醒目说明未扣固定团队与云成本。",
+      "speaker_notes_zh": "需要把服务费收入、处理费、人工审核、返工和争议相关的直接成本分开。创作者报酬是否为代收代付、哪些费用由品牌另付，须明确同一口径。活动贡献为正之后，还要覆盖固定经营成本。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n公开基准：本地卡/FPX 3%+RM1；国际卡另1%，换汇另2%；争议收到90、手动应对90。退款不退原处理费。 https://stripe.com/en-my/pricing\n单次活动的损失、争议成本与贡献按期望值取整。完整月度贡献还扣云服务及超出运营容量的外包；固定团队薪资另列。",
+      "sources": [
+        {
+          "title": "Wringy模型 · 单次活动示例",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md"
+        },
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Stripe马来西亚标准价",
+          "url": "https://stripe.com/en-my/pricing"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "单次活动项目",
+          "金额",
+          "说明"
+        ],
+        "rows": [
+          [
+            "平台毛服务费",
+            "1,200",
+            "按创作者预算的15%"
+          ],
+          [
+            "退款后收入",
+            "1,176",
+            "退款预期2%"
+          ],
+          [
+            "收单费／损失与争议",
+            "37 ／ 4",
+            "后项为期望值取整"
+          ],
+          [
+            "变动履约成本",
+            "40",
+            "未含固定薪资及云成本"
+          ],
+          [
+            "单次活动贡献",
+            "约1,095",
+            "不等于公司净利润"
+          ]
+        ]
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV17",
+      "section": "获客与验证",
+      "title": "先锁定品牌任务，再组织供给",
+      "layout": "flow",
+      "takeaway": "拟议获客顺序：用具体活动连接双方。",
+      "body": [
+        "核对品牌最近的真实采购。",
+        "把需求写成可验收简报。",
+        "邀请匹配任务的创作者。",
+        "记录交付，再争取下一次活动。"
+      ],
+      "example": "先有明确任务，再招募合适创作者；不把泛注册量当需求。",
+      "visual_brief": "原生四步循环，复投箭头回到品牌需求。",
+      "speaker_notes_zh": "这是一条获客假设。品牌侧需要预算负责人和可交付任务；创作者侧需要作品与参与条件匹配。应跟踪从有效线索到付费的过程，而不是只统计名单、粉丝或注册人数。没有假定现成渠道或组织合作。\n需要分别记录品牌和创作者两侧的获客成本；品牌营销预算除以新增品牌数不等于完整客户获取成本。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV18",
+      "section": "获客与验证",
+      "title": "让里程碑有可核对的结果",
+      "layout": "table",
+      "takeaway": "未来验证目标；M6＝项目启动后的第6个月。",
+      "body": [],
+      "example": "M12低于中采用70%时，复核范围、招聘与预算；不预设节省已实现。",
+      "visual_brief": "四项验证卡，不填未经模型确认的数量目标或成功率。",
+      "speaker_notes_zh": "本页数量沿用标准团队×中采用路径。M表示项目启动后的月份，不是自然年日历月份。\n小规模试点不能证明全国需求。应记录未成功的邀请、未验收作品和未复投品牌，并解释原因。观察期和放行阈值必须在试点开始前明确。退款或延迟付款也应纳入结果，不能仅展示成功案例。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n新增决策规则为建议：M12实际采用低于中采用路径70%时，复核产品范围、招聘与预算。阈值不是市场基准，也不意味着模型成本自动下降；只有重新批准调整并重跑模型后才能计入节省。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "节点",
+          "数量假设",
+          "需要取得的证据"
+        ],
+        "rows": [
+          [
+            "第3月",
+            "建设期结束目标",
+            "原型、合同与异常流程核对"
+          ],
+          [
+            "第6月",
+            "7家活跃付费品牌",
+            "实际付费及首次复投"
+          ],
+          [
+            "第12月",
+            "24家活跃付费品牌",
+            "连续观察贡献与流失"
+          ],
+          [
+            "第18／24月",
+            "50家／80家品牌",
+            "交付负荷、回款与扩展判断"
+          ]
+        ]
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV19",
+      "section": "产品路线",
+      "title": "先贯通合作，再扩展工具",
+      "layout": "table",
+      "takeaway": "路线提案：每阶段由客户证据决定。",
+      "body": [],
+      "example": "Whop全业务研究是远景参照，不等于首版建设承诺。",
+      "visual_brief": "原生三阶段表；不放已完成打勾、日期承诺或未经核对的功能ID。",
+      "speaker_notes_zh": "首版范围建议集中于简报、提交、审核和报酬记录。复投后再考虑团队协作与跨活动管理。会员、课程等更广泛的创作者商业功能，只有出现独立需求才进入范围；不能因为参照平台拥有就全部建设。",
+      "sources": [],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "阶段",
+          "建议范围",
+          "进入下一阶段依据"
+        ],
+        "rows": [
+          [
+            "验证合作",
+            "简报、提交、审核、报酬状态",
+            "付费与交付链成立"
+          ],
+          [
+            "支持复投",
+            "重复活动、权限与报告",
+            "持续采购和运营需求"
+          ],
+          [
+            "探索扩展",
+            "新国家或其他商业工具",
+            "独立需求及经济性"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "INV20",
+      "section": "建设方案",
+      "title": "一个应用，清楚分工",
+      "layout": "flow",
+      "takeaway": "技术提案：先控制复杂度，再按真实需求扩展。",
+      "body": [
+        "品牌与创作者共用响应式网页。",
+        "活动、权限、提交与应付记录分工。",
+        "托管数据库、私有素材与通知服务。",
+        "平台服务费收款，与品牌直付分开。"
+      ],
+      "example": "首版不自建钱包，也不把创作者资金纳入经营现金。",
+      "visual_brief": "原生架构关系图；业务应用居中，数据和支付边界独立；标方案而非现有系统。",
+      "speaker_notes_zh": "一个应用按业务功能分工，目的是降低早期协作和维护成本。这不代表已批准架构或已完成实现。应保留审计记录与角色边界；支付接入、数据访问和本地资格需逐项确认。这里不把任何供应商标为已合作。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n公开基准：Pro 25美元/月包含首个微型项目，第二项目10美元/月；含每日备份7天。 https://supabase.com/pricing\n公开基准：付费最低5美元/月；额度外另计。 https://developers.cloudflare.com/workers/platform/pricing/\n公开基准：标准储存0.015美元/GB月；免费10GB；A类4.50美元/百万，B类0.36美元/百万；互联网出口不收费。 https://developers.cloudflare.com/r2/pricing/\n公开基准：事务邮件Pro 20美元/月含50,000封；超额0.90美元/千封。 https://resend.com/pricing?volume=50000",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Supabase定价",
+          "url": "https://supabase.com/pricing"
+        },
+        {
+          "title": "Cloudflare Workers定价",
+          "url": "https://developers.cloudflare.com/workers/platform/pricing/"
+        },
+        {
+          "title": "Cloudflare R2定价",
+          "url": "https://developers.cloudflare.com/r2/pricing/"
+        },
+        {
+          "title": "Resend定价",
+          "url": "https://resend.com/pricing?volume=50000"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "INV21",
+      "section": "建设投入",
+      "title": "投入与验证阶段同步增加",
+      "layout": "table",
+      "takeaway": "同一首版范围，三档团队规划；不是开发报价。",
+      "body": [],
+      "example": "前三月现金已含一次性启动支出，不另叠加“开发费”。",
+      "visual_brief": "原生三方案对比；标准团队为规划参考，精简方案同时显示关键人风险。",
+      "speaker_notes_zh": "建设投入需要围绕首版业务链，而不是一次复制全部参照平台。内部负责产品判断与核心记录，外部采购成熟基础服务。粗估须明确人员投入月份、雇佣附加成本、一次性费用以及基础设施是否已计入持续开支。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n公开基准：软件工程师基本月薪RM7,000–14,000；招聘机构第一方研究，非报价。 https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/\n公开基准：工程师3,500/10,000/17,000；设计4,000/13,000/25,000；技术主管10,000/17,000/25,000，基本月薪。 https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf\n公开基准：本地60岁以下员工：5,000及以下雇主13%，以上12%；实际必须按工资档表，不能直接套百分比。 https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution\n公开基准：第一类雇主SOCSO约1.75%，EIS雇主0.2%；实际按法定表。 https://www.perkeso.gov.my/en/uncategorised/778-contributions.html",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Randstad 2026技术岗位薪资",
+          "url": "https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/"
+        },
+        {
+          "title": "Randstad 2025薪资指南",
+          "url": "https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf"
+        },
+        {
+          "title": "KWSP雇主缴费",
+          "url": "https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution"
+        },
+        {
+          "title": "PERKESO缴费",
+          "url": "https://www.perkeso.gov.my/en/uncategorised/778-contributions.html"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "方案",
+          "人数",
+          "首年月薪资全成本",
+          "前三月总现金"
+        ],
+        "rows": [
+          [
+            "精简团队",
+            3,
+            "RM19,933",
+            "RM113,633"
+          ],
+          [
+            "标准团队",
+            6,
+            "RM51,393",
+            "RM260,594"
+          ],
+          [
+            "完整团队",
+            10,
+            "RM94,162",
+            "RM457,761"
+          ]
+        ]
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV22",
+      "section": "运营与风险",
+      "title": "清晰的规则，需要有人负责",
+      "layout": "statement",
+      "takeaway": "运营提案：审核、申诉、数据与资金各有责任人。",
+      "body": [
+        "审核：对照简报，保留原因。",
+        "申诉：明确入口、证据与处理责任。",
+        "数据：按角色访问，核对使用权限。",
+        "资金：对账、失败处理与责任边界。"
+      ],
+      "example": "作品获批但出款失败，应显示两种状态及各自下一步。",
+      "visual_brief": "责任分区图，不使用认证盾牌或“资金绝对安全”承诺。",
+      "speaker_notes_zh": "这些是进入真实交易前的验证事项，不是当前合规结论。合同要说明内容使用权、退款及争议；个人信息与付款处理要经过当地专业复核。采用外部支付服务不会自动免除平台的经营责任。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "INV23",
+      "section": "团队计划",
+      "title": "先补齐关键职责",
+      "layout": "table",
+      "takeaway": "标准方案拟配6人；现有团队与分工待确认。",
+      "body": [],
+      "example": "另含雇主缴费及福利预算；月薪资全成本约RM51,393。",
+      "visual_brief": "四行角色表；不用人物头像、履历或机构Logo。",
+      "speaker_notes_zh": "当前为研究提案，团队配置、人员经验及顾问关系待确认。早期重点是确保产品与品牌合作、创作者交付、工程和风险财务均有人负责。具体人数、投入时间及成本以统一模型为情景依据，而不是已签雇佣安排。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n公开基准：软件工程师基本月薪RM7,000–14,000；招聘机构第一方研究，非报价。 https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/\n公开基准：工程师3,500/10,000/17,000；设计4,000/13,000/25,000；技术主管10,000/17,000/25,000，基本月薪。 https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf\n公开基准：本地60岁以下员工：5,000及以下雇主13%，以上12%；实际必须按工资档表，不能直接套百分比。 https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution\n公开基准：第一类雇主SOCSO约1.75%，EIS雇主0.2%；实际按法定表。 https://www.perkeso.gov.my/en/uncategorised/778-contributions.html",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Randstad 2026技术岗位薪资",
+          "url": "https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/"
+        },
+        {
+          "title": "Randstad 2025薪资指南",
+          "url": "https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf"
+        },
+        {
+          "title": "KWSP雇主缴费",
+          "url": "https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution"
+        },
+        {
+          "title": "PERKESO缴费",
+          "url": "https://www.perkeso.gov.my/en/uncategorised/778-contributions.html"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "拟招聘角色",
+          "基本月薪（MYR）",
+          "职责"
+        ],
+        "rows": [
+          [
+            "创始人/产品",
+            "6,000",
+            "产品与客户判断"
+          ],
+          [
+            "技术主管",
+            "12,000",
+            "技术和交付边界"
+          ],
+          [
+            "全栈工程师",
+            "9,000",
+            "核心产品建设"
+          ],
+          [
+            "设计师",
+            "6,000",
+            "交互与视觉"
+          ],
+          [
+            "创作者运营",
+            "5,000",
+            "创作者审核与申诉"
+          ],
+          [
+            "品牌销售",
+            "6,000",
+            "品牌采购与复投"
+          ]
+        ]
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV24",
+      "section": "经营情景",
+      "title": "经营结果由关键输入驱动",
+      "layout": "table",
+      "takeaway": "M24单月税前情景；标准团队、15%服务费；金额为MYR。",
+      "body": [],
+      "example": "高采用沿用固定成本，可能偏乐观；品牌直付，不证明资本效率。",
+      "visual_brief": "三情景原生表，列统一时间范围与币种MYR。",
+      "speaker_notes_zh": "品牌活跃数量、活动频次、预算和收费方式共同决定收入；人员与运营安排决定成本。增长情景不代表最可能结果。应同时观察每次活动贡献、固定费用以及现金缺口，不能只展示增长曲线。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n记录活动预算由品牌直接支付创作者，不进入Wringy经营现金，也不是平台收入。高采用情景沿用固定团队及既定运营预算，增量人工与双边获客成本可能不足；不能将结果作为资本效率已获验证的证据。M24指项目开始后的第24个月。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "采用路径",
+          "活跃品牌",
+          "活动数",
+          "记录活动预算",
+          "平台净收入"
+        ],
+        "rows": [
+          [
+            "低采用",
+            25,
+            25,
+            "125,000",
+            "18,375"
+          ],
+          [
+            "中采用",
+            80,
+            120,
+            "960,000",
+            "141,120"
+          ],
+          [
+            "高采用",
+            200,
+            400,
+            "4,000,000",
+            "588,000"
+          ]
+        ]
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV25",
+      "section": "资金安排",
+      "title": "现金能支撑到哪个验证节点",
+      "layout": "chart",
+      "takeaway": "假设期初现金RM150万；纵轴MYR，标准团队24个月税前情景。",
+      "body": [],
+      "example": "RM150万并非已到账资金；低采用在M24首次月末现金为负。",
+      "visual_brief": "三情景原生折线；标零现金线；不把模型筹资额与假设开局150万混用。 原生折线纵轴保留MYR原始金额，不自动换成万元或百万；明确零线，不能把净收入、累计GMV与现金余额混用。",
+      "speaker_notes_zh": "资金可支撑期表示经营现金何时不足以支持支出。必须说明起始可用资金、收入回款、成本发生时间以及是否包含缓冲；客户尚未履约的活动资金不能当作自由现金。\n\n模型口径：2026-09-10，马来西亚，MYR；未来假设，不是业绩或报价。客户活动GMV仅指创作者预算，排除平台费；所有规划现金及经营利润为所得税前，盈利不代表验证成功。模型来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n三条曲线均假设融资在期初一次到账，为所得税前现金，不包括组合执行压力；新增组合情景见APP10。图表必须按M1至M24唯一类别顺序连续连接，禁止重复空白类别压缩时间轴。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "chart": {
+        "type": "line",
+        "categories": [
+          "M1",
+          "M2",
+          "M3",
+          "M4",
+          "M5",
+          "M6",
+          "M7",
+          "M8",
+          "M9",
+          "M10",
+          "M11",
+          "M12",
+          "M13",
+          "M14",
+          "M15",
+          "M16",
+          "M17",
+          "M18",
+          "M19",
+          "M20",
+          "M21",
+          "M22",
+          "M23",
+          "M24"
+        ],
+        "series": [
+          {
+            "name": "低采用",
+            "values": [
+              1413135.5,
+              1326271,
+              1239406.5,
+              1176035.424,
+              1113429.916,
+              1051514.348,
+              990273.768,
+              929700.7,
+              869795.081,
+              810556.848,
+              751985.938,
+              694082.288,
+              631360.96,
+              569306.766,
+              507919.643,
+              447199.654,
+              387146.799,
+              327761.078,
+              269042.491,
+              210991.038,
+              154103.368,
+              98513.846,
+              44251.809,
+              -9172.105
+            ]
+          },
+          {
+            "name": "中采用",
+            "values": [
+              1413135.5,
+              1326271,
+              1239406.5,
+              1178731.964,
+              1121485.894,
+              1067556.531,
+              1016926.109,
+              969576.736,
+              926738.148,
+              888732.965,
+              855631.432,
+              828680.799,
+              802718.685,
+              783300.147,
+              770082.447,
+              762885.459,
+              762803.919,
+              770160.447,
+              785025.288,
+              807415.767,
+              837331.758,
+              874773.009,
+              919739.394,
+              972230.787
+            ]
+          },
+          {
+            "name": "高采用",
+            "values": [
+              1413135.5,
+              1326271,
+              1239406.5,
+              1185397.12,
+              1140291.084,
+              1105670.4,
+              1084055.518,
+              1078113.762,
+              1089700.53,
+              1121031.094,
+              1174680.6,
+              1253224.068,
+              1353751.517,
+              1484322.59,
+              1649402.827,
+              1852105.504,
+              2095122.863,
+              2379141.588,
+              2700533.057,
+              3054467.354,
+              3435854.121,
+              3841431.696,
+              4266589.807,
+              4710079.7
+            ]
+          }
+        ],
+        "numberFormat": "\"RM \"#,##0",
+        "value_axis_unit": "MYR",
+        "data_scale": 1
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV26",
+      "section": "资金安排",
+      "title": "筹资情景：基准120万，组合压力216万",
+      "layout": "table",
+      "takeaway": "单位MYR；标准团队24个月税前规划；假设资金期初一次到齐。",
+      "body": [],
+      "example": "单项下行190–197万；组合仍未含税、延迟或分期到账，不保证24个月。",
+      "visual_brief": "原生三列表，四种独立情景；不以面积或颜色暗示风险已穷尽。组合压力具体假设见APP10。",
+      "speaker_notes_zh": "标准团队、中采用24个月筹资参考RM1,200,000；每品牌年预算RM30,000上限情景为RM1,900,000；低采用情景为RM1,970,000。它们是三个独立情景，预算上限情景沿用中采用品牌池轨迹，不叠加低采用、更高成本、跨国上线等所有风险，不能把约RM200万视为24个月保障。预算上限仍假设100%适配年度预算迁入Wringy，是未验证且偏乐观的上限。\n筹资包括峰值现金缺口、期末三个月缓冲、应急额及向上取整余量；前三月建设支出已经计入。既有可用资本待确认，模型以0计算缺口。基准18个月筹资参考RM1,140,000。\n预算上限下80家是M24留存可采购品牌池，不是80家当月付费客户；平均每品牌每月0.3125场，合计25场。详见APP09。达到M12时复核融资及预算证据，若连续两个季度低于低采用路径，暂停扩编并重估。\n模型：2026-09-10，马来西亚、MYR；未来税前假设，非业绩、报价或融资承诺。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n组合执行压力测试筹资为RM2,160,000，含峰值现金缺口RM1,650,889.344、三个月缓冲RM238,158.846、应急额RM262,370.775及向上取整RM8,581.035；不是完整最坏情况。假设资金在期初一次全额到账，未计所得税、上线延迟或融资分期。若低采用仅获得RM1,200,000，首次月末现金为负发生在M19。组合情景在RM1,500,000期初现金下M22首次为负；M24为-RM150,889.344。所有数值来自统一模型，不是实际业绩。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景假设",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "情景",
+          "24月筹资（MYR）",
+          "范围"
+        ],
+        "rows": [
+          [
+            "高频采购基准",
+            "1,200,000",
+            "中采用、标准团队"
+          ],
+          [
+            "年预算上限",
+            "1,900,000",
+            "年预算3万，其余沿用"
+          ],
+          [
+            "低采用",
+            "1,970,000",
+            "单独降低采用路径"
+          ],
+          [
+            "组合执行压力",
+            "2,160,000",
+            "低预算、低费率及执行成本"
+          ]
+        ]
+      },
+      "facts_critical": true
+    },
+    {
+      "id": "INV27",
+      "section": "伙伴合作",
+      "title": "伙伴可以参与一项具体实验",
+      "layout": "table",
+      "takeaway": "合作邀请按角色提出，不暗示任何机构已背书。",
+      "body": [],
+      "example": "先谈任务、投入、责任与退出条件。",
+      "visual_brief": "三行伙伴任务表，不出现未经授权的商标或潜在伙伴名单。",
+      "speaker_notes_zh": "品牌伙伴可提供一个真实采购任务和预算负责人，共同确认验收与试点费用。创作者组织可推荐匹配任务的成年人并反馈规则理解问题，不保证人数或收入。服务供应商需要说明开户、收付、失败及退款能力，并确认责任和费用。所有合作均需另行达成。",
+      "sources": [],
+      "feature_ids": [],
+      "table": {
+        "headers": [
+          "所需角色",
+          "具体参与方式",
+          "共同产出"
+        ],
+        "rows": [
+          [
+            "品牌试点方",
+            "提供真实任务、预算与验收人",
+            "付费试点及复投判断"
+          ],
+          [
+            "创作者组织／团队",
+            "推荐匹配任务的创作者",
+            "交付与报酬理解反馈"
+          ],
+          [
+            "支付与专业服务方",
+            "核验资格、费用和异常处理",
+            "可执行的责任边界"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "INV28",
+      "section": "下一步",
+      "title": "先把第一次合作做清楚",
+      "layout": "closing",
+      "takeaway": "Wringy · 从明确约定，走向可重复的合作。",
+      "body": [
+        "确认首个候选品牌任务。",
+        "约定试点预算、交付与验收。",
+        "核对资金责任及参与条件。",
+        "以真实结果决定下一步。"
+      ],
+      "example": "wringy.com",
+      "visual_brief": "品牌收尾，无伪造邮箱、二维码或已上线入口。",
+      "speaker_notes_zh": "下一步是形成一份双方都理解的试点约定，并决定是否开展实际合作。wringy.com为给定品牌域名，不代表网站已经上线或域名权属已核实。投资与伙伴讨论都应围绕需要取得的证据，而非尚不存在的业务成绩。",
+      "sources": [],
+      "feature_ids": []
+    },
+    {
+      "id": "APP01",
+      "section": "参考附录",
+      "title": "数据口径：不要把不同的钱加在一起",
+      "layout": "table",
+      "takeaway": "市场背景与平台经营，分别使用自己的分母。",
+      "body": [],
+      "example": "六国电商国别取整数合计182，区域报告为181；保留原始精度。",
+      "visual_brief": "原生定义表，无面积误导的市场圆圈。",
+      "speaker_notes_zh": "2025报告已加入四国，十国不等于研究日完整东盟。市场背景保留原报告GMV指标；平台经营展示为记录活动预算，指品牌直接付给创作者的预算，不是Wringy代收款或收入。广告的Social分类还排除内容制作及管理费，因此不能用它推算原创内容市场。\n\n证据口径：\nSEA01：原值299；单位USD billion GMV；时期2025 estimate；地域SEA-6: Indonesia, Malaysia, Philippines, Singapore, Thailand, Vietnam。非创作者预算；GMV包含电商、旅游、交通、外卖、在线媒体，不含数字金融；不是全年审计实绩。 来源：https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf，p.12。\nSEA02：原值305；单位USD billion GMV；时期2025 estimate；地域ASEAN-10 report coverage: SEA-6 + Brunei, Cambodia, Laos, Myanmar; excludes Timor-Leste。与SEA01是嵌套口径，不可相加；不可标成ASEAN-11。 来源：https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf，p.12。\nSEA03：原值181；单位USD billion ecommerce GMV；时期2025 estimate, annualised H1；地域SEA-6。电商消费金额，不是品牌营销预算、创作者收入或Wringy市场规模。 来源：https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf，p.14。\nAD04：原值46.3；单位% digital adex share；时期FY2025；地域Malaysia — report coverage。包含社交平台广告及付费帖子；排除自然帖子、内容制作和管理费。不是独立网红或UGC市场。 来源：https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf，p.2 platform table; p.4 glossary。",
+      "sources": [
+        {
+          "title": "Google, Temasek & Bain — e-Conomy SEA 2025",
+          "url": "https://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf"
+        },
+        {
+          "title": "MSA / MDA / MAA — Malaysian Digital Adex Report FY2025",
+          "url": "https://malaysiandigitalassociation.org.my/wp-content/uploads/2026/08/MALAYSIAN-DIGITAL-ADEX-REPORT_FY-2025-1.pdf"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "指标",
+          "范围／时期",
+          "正确用途"
+        ],
+        "rows": [
+          [
+            "数字经济交易总额",
+            "2025估算：六国299、十国305十亿美元",
+            "宏观背景，不是平台收入"
+          ],
+          [
+            "电商交易总额",
+            "2025六国估算181十亿美元",
+            "消费交易，不是创作者报酬"
+          ],
+          [
+            "记录活动预算",
+            "Wringy未来模型；MYR",
+            "品牌直付创作者；排除平台费"
+          ],
+          [
+            "社交平台广告",
+            "马来西亚2025年行业分类",
+            "非独立原创内容制作市场"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP02",
+      "section": "参考附录",
+      "title": "竞争证据：避免把差异讲过头",
+      "layout": "table",
+      "takeaway": "公开功能是事实，Wringy更好仍是待验证命题。",
+      "body": [],
+      "example": "未做实际开户和商业尽调，不对费率或交付质量排名。",
+      "visual_brief": "四行可编辑竞争证据表；无品牌背书暗示。",
+      "speaker_notes_zh": "Involve Asia有销售以外的佣金模式。TikTok Shop马来西亚有站外商品链接推广服务，不能称其完全封闭于站内分发。Partipost提供活动创建与提交付款流程。Whop文档位于第三方应用栏目，其Content Rewards包含原创内容和剪辑；不推断所有权或马来西亚付款资格。\n\n证据口径：\nCO01：原值5；单位commission model types；时期observed 2026-09-10；地域Involve Asia platform; individual offers vary。CPS/CPA/CPL/CPSe/CPC；按商家核验与活动条件结算；不是只有销售佣金。 来源：https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia，Sections 1–5。\nTT03：原值true；单位capability；时期documentation dated 2026-04-20；地域Malaysia。外部内容可导向TikTok Shop成交，因此不能称其完全不支持跨平台分发；非Wringy集成许可。 来源：https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en，Introduction / How It Works。\nCO02：原值true；单位capability；时期observed 2026-09-10；地域Partipost website; Malaysia listed among markets。网页能力说明，未实测当前马来西亚开户、交付或付款表现。 来源：https://www.partipost.com/，Smart Campaign Builder / Becoming a Partiposter。\nCO06：原值2；单位campaign types；时期observed 2026-09-10；地域Whop ecosystem; geographic eligibility not verified。页面位于3rd Party Apps；不推断Whop拥有全部应用、马来西亚支付可用或服务范围。 来源：https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards，For creators: Content Rewards marketing campaigns。",
+      "sources": [
+        {
+          "title": "Involve Asia — Understanding Commission Models",
+          "url": "https://helpcentre.involve.asia/portal/en/kb/articles/commission-models-involve-asia"
+        },
+        {
+          "title": "TikTok Shop Academy Malaysia — Official Affiliate Service",
+          "url": "https://seller-my.tiktok.com/university/essay?knowledge_id=8681041502045969&lang=en"
+        },
+        {
+          "title": "Partipost — Influencer Marketing Platform",
+          "url": "https://www.partipost.com/"
+        },
+        {
+          "title": "Whop Docs — Content Rewards (3rd Party Apps)",
+          "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "对象",
+          "已核对的事实",
+          "不应声称"
+        ],
+        "rows": [
+          [
+            "Involve Asia",
+            "销售、行动、线索、访问、点击",
+            "只做销售佣金"
+          ],
+          [
+            "TikTok Shop",
+            "马来西亚站外商品推广服务",
+            "完全不支持站外分发"
+          ],
+          [
+            "Partipost",
+            "自助活动与提交付款流程",
+            "本地没有类似工具"
+          ],
+          [
+            "Whop生态",
+            "原创内容与剪辑奖励",
+            "只做课程或内容剪辑"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP03",
+      "section": "参考附录",
+      "title": "采用路径：增长来自哪些假设",
+      "layout": "table",
+      "takeaway": "中采用要求每品牌年活动预算RM14.4万；高频采购尚未验证。",
+      "body": [],
+      "example": "为市场中间情景每品牌RM3万适配预算的4.8倍；不是同一客群。",
+      "visual_brief": "三路径原生表，列人均活动频次、单场预算和月流失。",
+      "speaker_notes_zh": "活动次数可以是小数，因为模型使用每品牌的预期平均频次。本页原采用路径的活跃品牌指当月付费，不是注册或累计客户；APP09预算上限情景改用留存可采购品牌池，不能混用。中采用M24的8.75家新增需求和约RM914营销费／新增客户由模型反推，后者未含销售工资，不是实测获客成本。品牌是否能持续接受15%费率也是需要验证的输入。\n\n模型：2026-09-10，马来西亚、MYR；所有未来数值均为税前假设，非真实业绩、报价或保证。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n\n关键需求风险：中采用的每品牌年活动预算RM144,000，来自1.5场/月×RM8,000/场×12月。市场预算池中间假设每品牌年适配预算仅RM30,000，两者相差4.8倍，不能作为同一客户群的相互验证。经营路径需要另行证明存在足够高频采购品牌、相应预算及持续复投。低采用路径本身也不是RM30,000年度适配预算的专项压力测试。APP09单独测试RM30,000年度预算上限，沿用中采用品牌池，不与低采用叠加。\n品牌营销费／新增品牌只是部分获客支出比值；未完整包含销售工资、创作者招募激励、供给侧运营和所有渠道费用，不是完整双边获客成本。高采用下固定成本假设偏乐观，需另行检验容量。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "路径",
+          "M12／M24品牌",
+          "月活动／品牌",
+          "预算／活动",
+          "月流失"
+        ],
+        "rows": [
+          [
+            "低采用",
+            "10 ／ 25",
+            1,
+            "RM5,000",
+            "8%"
+          ],
+          [
+            "中采用",
+            "24 ／ 80",
+            1.5,
+            "RM8,000",
+            "5%"
+          ],
+          [
+            "高采用",
+            "57 ／ 200",
+            2,
+            "RM10,000",
+            "3%"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP04",
+      "section": "参考附录",
+      "title": "年度经营：先区分收入、贡献与现金",
+      "layout": "table",
+      "takeaway": "中采用 × 标准团队；单位MYR万；全部为税前情景。",
+      "body": [],
+      "example": "记录活动预算由品牌直付；第三年仅延展，未计正式跨国上线。",
+      "visual_brief": "原生年度表；净烧钱负值表示现金生成，不能标成税后盈利。",
+      "speaker_notes_zh": "Y1为M1至M12合计，Y2为M13至M24合计，均来自同一月度模型。Y3按额外增长假设展开，不是东南亚扩张承诺。贡献利润已经扣直接成本，但仍未扣薪资、其他运营及一次性启动支出；净烧钱还考虑回款与冻结款差异。\n\n模型：2026-09-10，马来西亚、MYR；所有未来数值均为税前假设，非真实业绩、报价或保证。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n\nY1、Y2、Y3分别为第1、2、3年。第三年仅年度延展，未计正式跨国上线及当地团队。记录活动预算仅为品牌直付的活动资金，不是Wringy代收资金或营业收入。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "期间",
+          "记录活动预算",
+          "平台净收入",
+          "贡献利润",
+          "净烧钱"
+        ],
+        "rows": [
+          [
+            "第1年",
+            "132.0",
+            "19.4",
+            "17.3",
+            "67.1"
+          ],
+          [
+            "第2年",
+            "763.2",
+            "112.2",
+            "100.3",
+            "-14.4"
+          ],
+          [
+            "第3年（示例）",
+            "1450.9",
+            "213.3",
+            "186.6",
+            "-89.5"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP05",
+      "section": "参考附录",
+      "title": "转正条件：45家品牌仍不等于现金转正",
+      "layout": "table",
+      "takeaway": "金额MYR、税前情景；M17首次月经营利润非负，尚未实现。",
+      "body": [],
+      "example": "条件：每品牌每月1.5场、每场RM8,000、费率15%、退款预期2%。",
+      "visual_brief": "M16至M18原生对照；区分税前经营利润与净烧钱两列。",
+      "speaker_notes_zh": "这是给定采用路径上的转正观测，不是一个适用于所有月份或定价的固定门槛。M17假设45家活跃品牌、67.5场活动，记录活动预算为RM540,000。税前经营利润约RM2,459，但因回款等差异仍净烧钱约RM82；M18才在该路径出现月度现金生成。低采用24个月内未出现月利润转正。\n\n24个月中采用月度结果（MYR；经营现金假设期初150万；正烧钱为净流出）：\nM1：品牌0；活动0；活动预算0；净收入0；净烧钱86,865；月末现金1,413,136。\nM2：品牌0；活动0；活动预算0；净收入0；净烧钱86,865；月末现金1,326,271。\nM3：品牌0；活动0；活动预算0；净收入0；净烧钱86,865；月末现金1,239,407。\nM4：品牌3；活动4.5；活动预算36,000；净收入5,292；净烧钱60,675；月末现金1,178,732。\nM5：品牌5；活动7.5；活动预算60,000；净收入8,820；净烧钱57,246；月末现金1,121,486。\nM6：品牌7；活动10.5；活动预算84,000；净收入12,348；净烧钱53,929；月末现金1,067,557。\nM7：品牌9；活动13.5；活动预算108,000；净收入15,876；净烧钱50,630；月末现金1,016,926。\nM8：品牌11；活动16.5；活动预算132,000；净收入19,404；净烧钱47,349；月末现金969,577。\nM9：品牌14；活动21；活动预算168,000；净收入24,696；净烧钱42,839；月末现金926,738。\nM10：品牌17；活动25.5；活动预算204,000；净收入29,988；净烧钱38,005；月末现金888,733。\nM11：品牌20；活动30；活动预算240,000；净收入35,280；净烧钱33,102；月末现金855,631。\nM12：品牌24；活动36；活动预算288,000；净收入42,336；净烧钱26,951；月末现金828,681。\nM13：品牌28；活动42；活动预算336,000；净收入49,392；净烧钱25,962；月末现金802,719。\nM14：品牌32；活动48；活动预算384,000；净收入56,448；净烧钱19,419；月末现金783,300。\nM15：品牌36；活动54；活动预算432,000；净收入63,504；净烧钱13,218；月末现金770,082。\nM16：品牌40；活动60；活动预算480,000；净收入70,560；净烧钱7,197；月末现金762,885。\nM17：品牌45；活动67.5；活动预算540,000；净收入79,380；净烧钱82；月末现金762,804。\nM18：品牌50；活动75；活动预算600,000；净收入88,200；净烧钱-7,357；月末现金770,160。\nM19：品牌55；活动82.5；活动预算660,000；净收入97,020；净烧钱-14,865；月末现金785,025。\nM20：品牌60；活动90；活动预算720,000；净收入105,840；净烧钱-22,390；月末现金807,416。\nM21：品牌65；活动97.5；活动预算780,000；净收入114,660；净烧钱-29,916；月末现金837,332。\nM22：品牌70；活动105；活动预算840,000；净收入123,480；净烧钱-37,441；月末现金874,773。\nM23：品牌75；活动112.5；活动预算900,000；净收入132,300；净烧钱-44,966；月末现金919,739。\nM24：品牌80；活动120；活动预算960,000；净收入141,120；净烧钱-52,491；月末现金972,231。\n\n模型：2026-09-10，马来西亚、MYR；所有未来数值均为税前假设，非真实业绩、报价或保证。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "月份",
+          "品牌／活动",
+          "记录活动预算",
+          "经营利润（MYR）",
+          "净烧钱（MYR）"
+        ],
+        "rows": [
+          [
+            "M16",
+            "40 ／ 60",
+            "480,000",
+            "-5,080",
+            "7,197"
+          ],
+          [
+            "M17",
+            "45 ／ 67.5",
+            "540,000",
+            "2,459",
+            "82"
+          ],
+          [
+            "M18",
+            "50 ／ 75",
+            "600,000",
+            "9,985",
+            "-7,357"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP06",
+      "section": "参考附录",
+      "title": "敏感性：费率和资金路线都会改变缺口",
+      "layout": "table",
+      "takeaway": "中采用 × 标准团队，24个月；金额为MYR万。",
+      "body": [],
+      "example": "全额代收RM142万未含本金储备，非完整资金需求，也非获准方案。",
+      "visual_brief": "三行原生敏感性表，首发直付与代收压力分开。",
+      "speaker_notes_zh": "10%费率增加资金需求。全额代收压力测试保持相同平台收入，但将奖励资金相关的收单、出款、路由及账户费用计入Wringy成本，因而压低贡献。具体供应商配置、合并收费和本金储备需核对，不能把此情景当已签报价；创作者本金仍不属于自由现金。\n\n模型：2026-09-10，马来西亚、MYR；所有未来数值均为税前假设，非真实业绩、报价或保证。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n本地卡/FPX 3%+RM1；国际卡另1%，换汇另2%；争议收到90、手动应对90。退款不退原处理费。 https://stripe.com/en-my/pricing\n自行定价方案：活跃账户6/月；出款0.25%+1.50，资金路由另列0.25%；压力测试都计入，合同待确认。 https://stripe.com/en-my/connect/pricing\nRM142万只是当前代收成本假设下的局部测算，未含创作者本金储备及完整资金资格要求，不能直接作为可执行筹资额或首发备选方案。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Stripe马来西亚标准价",
+          "url": "https://stripe.com/en-my/pricing"
+        },
+        {
+          "title": "Stripe Connect马来西亚公开价",
+          "url": "https://stripe.com/en-my/connect/pricing"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "方案",
+          "24月净收入",
+          "24月贡献",
+          "筹资参考"
+        ],
+        "rows": [
+          [
+            "10%服务费，品牌直付",
+            "87.7",
+            "75.2",
+            "141.0"
+          ],
+          [
+            "15%服务费，品牌直付",
+            "131.6",
+            "117.6",
+            "120.0"
+          ],
+          [
+            "代收成本压力（非首发）",
+            "131.6",
+            "75.9",
+            "142.0（不完整）"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP07",
+      "section": "参考附录",
+      "title": "技术与成本：成熟服务也有边界",
+      "layout": "table",
+      "takeaway": "首版采用托管服务的提案，不承诺无限用量或本地驻留。",
+      "body": [],
+      "example": "标准团队前三月总现金RM260,594，包含人员、运营、云和启动支出。",
+      "visual_brief": "四行原生边界表，无供应商合作Logo。",
+      "speaker_notes_zh": "首版以响应式网页、链接或素材提交及可追溯审批为重点。Cloudflare、Supabase、R2、Resend和Stripe是模型中的技术选择提案，不是已签合作。公开底价不能代表总技术成本；预算另考虑用量、性能和运营。标准方案一次性启动限额包括设备、合同隐私支付准入及安全复核，均非正式报价。\n\n模型：2026-09-10，马来西亚、MYR；所有未来数值均为税前假设，非真实业绩、报价或保证。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n付费最低5美元/月；额度外另计。 https://developers.cloudflare.com/workers/platform/pricing/\nPro 25美元/月包含首个微型项目，第二项目10美元/月；含每日备份7天。 https://supabase.com/pricing\n标准储存0.015美元/GB月；免费10GB；A类4.50美元/百万，B类0.36美元/百万；互联网出口不收费。 https://developers.cloudflare.com/r2/pricing/\n事务邮件Pro 20美元/月含50,000封；超额0.90美元/千封。 https://resend.com/pricing?volume=50000\n本地卡/FPX 3%+RM1；国际卡另1%，换汇另2%；争议收到90、手动应对90。退款不退原处理费。 https://stripe.com/en-my/pricing",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "Cloudflare Workers定价",
+          "url": "https://developers.cloudflare.com/workers/platform/pricing/"
+        },
+        {
+          "title": "Supabase定价",
+          "url": "https://supabase.com/pricing"
+        },
+        {
+          "title": "Cloudflare R2定价",
+          "url": "https://developers.cloudflare.com/r2/pricing/"
+        },
+        {
+          "title": "Resend定价",
+          "url": "https://resend.com/pricing?volume=50000"
+        },
+        {
+          "title": "Stripe马来西亚标准价",
+          "url": "https://stripe.com/en-my/pricing"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "模块",
+          "拟用方式",
+          "成本／责任边界"
+        ],
+        "rows": [
+          [
+            "运行与数据",
+            "托管网页、接口、数据库",
+            "用量与性能需实测"
+          ],
+          [
+            "素材与通知",
+            "私有对象储存、邮件",
+            "按保留量与超量计费"
+          ],
+          [
+            "收款",
+            "仅处理平台服务费",
+            "本地卡公开基准3%＋RM1"
+          ],
+          [
+            "首版排除",
+            "钱包、借贷、转码、全网抓取",
+            "不以免费额度承诺无限能力"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP08",
+      "section": "参考附录",
+      "title": "扩张前，先通过这些决策检查",
+      "layout": "table",
+      "takeaway": "指标要有分母，责任要有归属，未验证事项要能停止投入。",
+      "body": [],
+      "example": "M12低于中采用70%：复核范围、招聘、预算；不自动计入降本。",
+      "visual_brief": "五行原生决策表，无认证、保证收益或当前达成率。",
+      "speaker_notes_zh": "付费品牌按当月有付费活动定义；APP09留存可采购品牌池不属于当月付费指标；复投按符合观察窗口的品牌计算，不把尚未到期者计入失败。交付指标纳入全部提交和退回，到账指标只计银行或支付方已确认的结果。签约前核验实际主体、资金责任、数据处理与跨境安排，不能从平台规模推断许可豁免。\n\n模型：2026-09-10，马来西亚、MYR；所有未来数值均为税前假设，非真实业绩、报价或保证。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。\n支付系统、指定支付工具及商户收单分别涉及审批/注册；具体角色需要本地专业确认。 https://www.bnm.gov.my/application-for-approval-and-registration\n签约前核对实际收款/出款主体、许可类别；不能只核对品牌名。 https://www.bnm.gov.my/list-of-regulatees\n跨境传输须满足Act 709第129条条件；使用海外云服务不是自动豁免。 https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN.pdf\nM12低于中采用路径70%时触发范围、招聘和预算复核，是决策规则提案，不是自动成本削减；已有情景不会因此自动获得现金改善。不采用未经支持的LTV/CAC标准或税率推断。",
+      "sources": [
+        {
+          "title": "Wringy经营模型 · 情景",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        },
+        {
+          "title": "BNM审批及注册申请",
+          "url": "https://www.bnm.gov.my/application-for-approval-and-registration"
+        },
+        {
+          "title": "BNM受监管机构名单",
+          "url": "https://www.bnm.gov.my/list-of-regulatees"
+        },
+        {
+          "title": "JPDP跨境资料传输指引",
+          "url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN.pdf"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true,
+      "table": {
+        "headers": [
+          "检查",
+          "看什么证据",
+          "谁负责"
+        ],
+        "rows": [
+          [
+            "真实需求",
+            "付款记录、复投与流失",
+            "品牌合作负责人"
+          ],
+          [
+            "预算匹配",
+            "高频品牌年活动预算是否达到RM14.4万",
+            "品牌合作负责人"
+          ],
+          [
+            "稳定交付",
+            "验收率、返工和活动成本",
+            "创作者运营"
+          ],
+          [
+            "资金与申诉",
+            "付款证明、失败与争议处理",
+            "运营及财务"
+          ],
+          [
+            "当地资格与数据",
+            "合同、服务商及专业复核",
+            "本地专业支持"
+          ],
+          [
+            "是否继续扩张",
+            "采用路径与现金压力重算",
+            "项目负责人"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "APP09",
+      "section": "参考附录",
+      "title": "年预算降到RM3万，现金如何变化",
+      "layout": "table",
+      "takeaway": "金额MYR；标准团队与中采用品牌池；仅降低预算，不叠加低采用。",
+      "body": [],
+      "example": "上限情景仍假设100%适配预算迁入；80家是品牌池，非当月付费客户。",
+      "visual_brief": "原生三列对照表；金额为MYR原值，不以万元缩放。品牌池与当月付费品牌分开标明，正净烧钱代表现金流出。",
+      "table": {
+        "headers": [
+          "指标",
+          "高频采购基准",
+          "年预算上限"
+        ],
+        "rows": [
+          [
+            "每品牌年活动预算",
+            "144,000",
+            "30,000"
+          ],
+          [
+            "月平均场次／品牌",
+            1.5,
+            0.3125
+          ],
+          [
+            "M24活动数",
+            120.0,
+            25.0
+          ],
+          [
+            "M24记录预算／净收入",
+            "960,000 ／ 141,120",
+            "200,000 ／ 29,400"
+          ],
+          [
+            "M24净烧钱",
+            "-52,491",
+            "43,049"
+          ],
+          [
+            "24个月筹资参考",
+            "1,200,000",
+            "1,900,000"
+          ]
+        ]
+      },
+      "speaker_notes_zh": "本页金额单位均为MYR，时期为未来规划M24或24个月，地域马来西亚。每品牌年活动预算RM144,000来自中采用每月1.5场、每场RM8,000的年化要求；RM30,000来自市场中间假设RM120,000年度支出乘25%适配份额，两者不是已验证的同一客群。\n预算上限情景沿用中采用客户轨迹，但解释为留存可采购品牌池；M24有80家池内品牌，不是80家每月付费客户。0.3125场为跨品牌与跨月份平均频率，M24合计25场。每场预算仍为RM8,000。假设100%适配预算迁入仍偏乐观；实际迁移比例更低会增加压力。\n标准团队、15%费率等其他条件保持原模型，未叠加低采用或跨国运营风险。M24记录活动预算为RM200,000，平台净收入RM29,400，净烧钱RM43,048.732；前24个月没有出现月经营利润转正。假设期初融资现金RM1,500,000时，M24现金仅RM68,412.281；这不是实际资金。24个月筹资参考RM1,900,000包含缓冲及应急，并非支撑期保证。基准负净烧钱代表当月现金生成，正值代表净流出。\n来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。所有数值为税前规划假设，非实际业绩。",
+      "sources": [
+        {
+          "title": "Wringy预算上限压力模型",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    },
+    {
+      "id": "APP10",
+      "section": "参考附录",
+      "title": "组合执行压力：筹资参考RM216万",
+      "layout": "table",
+      "takeaway": "MYR、税前规划；期初一次到账；新增成本均为假设，非市场基准。",
+      "body": [],
+      "example": "仍未含所得税、上线延迟或融资分期；不保证24个月。",
+      "visual_brief": "原生三列假设与结果表，不新增曲线；明确品牌池和参与次数不是独立人数。",
+      "table": {
+        "headers": [
+          "项目",
+          "组合假设／结果",
+          "边界"
+        ],
+        "rows": [
+          [
+            "预算与收费",
+            "年预算30,000；费率10%",
+            "沿用中采用品牌池"
+          ],
+          [
+            "品牌营销预算",
+            "原预算与新增品牌×2,000取高",
+            "替换原费用，不重复加"
+          ],
+          [
+            "创作者参与费用",
+            "20×10人次／活动",
+            "非10名独立创作者"
+          ],
+          [
+            "超额履约费用",
+            "200／超额活动",
+            "未达容量时不触发"
+          ],
+          [
+            "M24净收入／净烧钱",
+            "19,600 ／ 66,839",
+            "正烧钱＝净流出"
+          ],
+          [
+            "期初150万的现金结果",
+            "M22首次为负；M24为-150,889",
+            "非实际资金或业绩"
+          ]
+        ]
+      },
+      "speaker_notes_zh": "组合测试继承年预算RM30,000上限，保持中采用品牌池轨迹和标准团队，将平台费降为10%。每月品牌营销预算取原预算与预期新增品牌数×RM2,000的较高值，替换原费用桶而非重复叠加；这仍不是完整获客成本基准。每次活动另计RM20×10付费参与人次，参与次数不能解释为独立创作者人数；超额履约费用设为每场RM200，仅超过运营容量时触发。所有新增成本为未验证规划假设，非市场报价。\nM24留存可采购品牌池80家，平均每品牌每月0.3125场，合计25场；不是80家当月付费客户。仍假设100%适配预算迁入。M24记录活动预算RM200,000由品牌直付创作者；平台净收入RM19,600；税前净烧钱RM66,839.107。前24个月没有月经营利润转正。\n假设期初融资RM1,500,000一次到账，M22首次月末现金为负，M24现金-RM150,889.344。筹资参考RM2,160,000包括既定缓冲与应急，未覆盖所得税、上线延迟、分期到账及所有组合风险。来源：${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json；${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json。",
+      "sources": [
+        {
+          "title": "Wringy组合执行压力模型",
+          "url": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json"
+        }
+      ],
+      "feature_ids": [],
+      "facts_critical": true
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "breakpoints": [
+    {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "scrollWidth": 768,
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "overflow": false
+    }
+  ],
+  "keyboard": {
+    "searchNoResults": true,
+    "clearRestoresRows": true,
+    "dialogOpened": true,
+    "initialFocus": true,
+    "focusTrap": true,
+    "escapeRestoresFocus": true,
+    "propertyOpen": true,
+    "propertyEscape": true,
+    "requiredValidation": true,
+    "localSave": true,
+    "allRecordedChecksPass": true
+  },
+  "pdf": {
+    "pages": 10,
+    "overflow": [
+      {
+        "id": "page-1",
+        "height": 900,
+        "lastContentBottom": 759.359375,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-2",
+        "height": 900,
+        "lastContentBottom": 761.359375,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-3",
+        "height": 900,
+        "lastContentBottom": 837.375,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-4",
+        "height": 900,
+        "lastContentBottom": 832.609375,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-5",
+        "height": 900,
+        "lastContentBottom": 795.421875,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-6",
+        "height": 900,
+        "lastContentBottom": 795.421875,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-7",
+        "height": 900,
+        "lastContentBottom": 795.421875,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-8",
+        "height": 900,
+        "lastContentBottom": 708.359375,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-9",
+        "height": 900,
+        "lastContentBottom": 800.5,
+        "safeBottom": 848
+      },
+      {
+        "id": "page-10",
+        "height": 900,
+        "lastContentBottom": 726.921875,
+        "safeBottom": 848
+      }
+    ],
+    "safeAllPages": true,
+    "actualPdfPageCount": 10,
+    "visualReview": {
+      "main_report": "Main independently rendered actual PDF with system pdftoppm and inspected all 10 pages; all headers/footers present and overflow fixed; accepted visual.",
+      "worker_render_note": "Bundled Poppler rasterization showed inconsistent running headers despite main system-Poppler review; main actual-PDF rendering is the accepted visual check.",
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  },
+  "limits": [
+    "Noto Sans SC embedded; system Latin fonts may vary slightly",
+    "No real service, payment, permission or upload implementation",
+    "Full product screenshots on guide pages 5–7 are overview scale; use standalone PNGs for zoom. Fixed export HTML is not a responsive production app."
+  ],
+  "images": 5,
+  "referenceLinks": 22,
+  "uniqueReferenceLinks": 14,
+  "selfContained": true,
+  "font": {
+    "NotoSansSC": "embedded data URI from project-provided font",
+    "license": "assets/NotoSansSC-OFL.txt",
+    "Latin": "Arial/Helvetica system fonts"
+  },
+  "assetCounts": {
+    "originalConceptPhotographs": 2,
+    "productExports": 5,
+    "tablerSvg": 9,
+    "uniqueReferenceUrls": 14,
+    "showcaseImageElements": 5
+  }
+}

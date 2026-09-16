@@ -1,0 +1,29 @@
+{
+  "created": "2026-09-10",
+  "origin": "Original AI-generated conceptual photographs using built-in image_gen; no customer reference inputs; final PNGs copied without modification from returned tool paths.",
+  "caption": "概念场景，非真实客户",
+  "usage": "May share assets across guide and deck. Use each image on at most one slide in the same deck. No claim of real customer, endorsement or documented product usage. Palette is natural neutral; brand colors pending audit.",
+  "inspection": "Both final returned images visually inspected. No visible logos, text, badges, watermarks or UI; no obvious anatomical artifacts. Initial phone orientations corrected with image_gen edits. Dark reflective phone screens intentionally omit UI and do not prove active recording. Bottle proportions differ between scenes: treat as related conceptual activity, not a continuity sequence of one exact product.",
+  "assets": [
+    {
+      "file": "creator-studio.png",
+      "width": 1448,
+      "height": 1086,
+      "aspect_ratio": "4:3",
+      "source_path": "${HOME}/.codex/generated_images/01a08aa1-68b6-7b92-945a-d5b31e854730/exec-09f9afb4-81b7-4c02-97d8-cf0852d01796.png",
+      "intended_crop": "Full 4:3 photo within right-side half slide; for full-height 8:9 half of 16:9 slide use approximate source rectangle x=483,y=0,w=965,h=1086, retaining creator, bottle and phone. Crop is guidance, not a separate modified file.",
+      "prompt": "Use case: photorealistic-natural. Create one original landscape 4:3 editorial photograph, ideally 1536x1152, for the right-side image half of a clean professional Chinese investor slide. An entirely fictional young adult Southeast Asian content creator in an airy daylight studio filming an unbranded cream everyday reusable bottle with a smartphone mounted securely on a small tripod. Three-quarter camera angle, creator on the right, bottle and phone closer to middle; retain all essential subjects in the rightmost two-thirds for potential 8:9 crop, generous quiet negative space on left. Candid concentration on the craft, premium realistic photography, natural skin and believable hands. Warm-white walls, soft olive fabric accents, simple pale table, soft natural daylight, tactile natural materials, restrained neutral colors. Phone back faces viewer, lens physically directed toward bottle; no visible screen UI. Single coherent photographic frame. No text, logos, badges, watermarks, labels, brand marks, UI, collage, or customer testimonial claims. This is an AI conceptual illustrative scene, not a real customer. Do not render any caption.",
+      "correction_prompt": "Edit this photograph, preserving the composition, person, bottle, daylight and 4:3 dimensions. Correct ONLY the phone orientation: the side visible to the viewer must be the front glass screen, dark reflective glass with no interface, icons, letters, text or logo. Rear camera lenses must NOT be visible to viewer, because they face the creator and bottle. Keep phone in tripod clamp. All else unchanged."
+    },
+    {
+      "file": "bottle-craft-detail.png",
+      "width": 1448,
+      "height": 1086,
+      "aspect_ratio": "4:3",
+      "source_path": "${HOME}/.codex/generated_images/01a08aa1-68b6-7b92-945a-d5b31e854730/exec-9e5430f3-a957-4745-965e-080e37e91fbe.png",
+      "intended_crop": "Prefer full 4:3 contained within right half to retain complete phone and cloth. For full-height 8:9 detail crop use approximate source rectangle x=483,y=0,w=965,h=1086; intentionally excludes phone and emphasizes bottle, hands and folded cloth. Crop is guidance, not a separate modified file.",
+      "prompt": "Use case: photorealistic-natural. Generate an original landscape 4:3 photograph, ideally 1536x1152. Product-detail editorial still life in an airy daylight content creator studio: two natural adult Southeast Asian hands gently arranging an unbranded matte cream reusable bottle with a simple cream loop lid next to a neatly folded soft olive linen cloth on pale wood table. A generic unbranded smartphone camera sits nearby on a compact tripod, angled toward the bottle, seen obliquely from the side so no screen interface or markings are visible. Close three-quarter slightly elevated photographic angle, no face or head in frame; only forearms with casually rolled olive sleeves entering from right. Warm white and pale wood surroundings, realistic tactile linen and bottle surface, soft window daylight, candid premium natural photography. Distinct intimate object-focused composition, not a wide person portrait. Bottle at 62 percent width, hands and folded cloth grouped around it, phone at 40 percent width; essential details fit within central-right two-thirds so it can crop to 8:9 as right half of 16:9 slide; generous clean space on left. No text, logos, labels, badges, watermarks, UI, collage, extra fingers or distorted hands. This is an entirely AI conceptual illustrative scene, not a real customer or branded product. No caption in image.",
+      "correction_prompt": "Edit only the smartphone in this photo. Replace its visible rear panel and visible camera lens with a plain dark reflective front glass screen without any text, icons or UI. Rear lenses must face the bottle away from viewer, so no lenses visible to viewer. Preserve phone silhouette and tripod, all hands, cream bottle, cloth, natural daylight, framing and 4:3 dimensions exactly. No other changes."
+    }
+  ]
+}

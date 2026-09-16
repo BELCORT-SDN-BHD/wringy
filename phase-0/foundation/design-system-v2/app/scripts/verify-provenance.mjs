@@ -1,0 +1,20 @@
+import fs from 'node:fs';import crypto from 'node:crypto';
+const b=JSON.parse(fs.readFileSync('provenance/official-snapshot.json'));
+const checks=Object.entries(b.hashes).map(([file,hash])=>({file,unchanged:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')===hash}));
+const baseline=fs.readFileSync('provenance/official-index.css','utf8'),current=fs.readFileSync('src/index.css','utf8');
+const allowed=new Set(['background','foreground','card','card-foreground','popover','popover-foreground','primary','primary-foreground','secondary','secondary-foreground','muted','muted-foreground','accent','accent-foreground','destructive','border','input','ring','chart-1','chart-2','chart-3','chart-4','chart-5','sidebar','sidebar-foreground','sidebar-primary','sidebar-primary-foreground','sidebar-accent','sidebar-accent-foreground','sidebar-border','sidebar-ring']);
+const semanticColors=['attention-foreground','attention-subtle','error-foreground','error-subtle','info-foreground','info-subtle','success-foreground','success-subtle','inactive-foreground','inactive-subtle','brand','brand-foreground'];
+for(const name of semanticColors)allowed.add(name);
+const changes=[];const root=/(:root\s*\{)([\s\S]*?)(\n\})/;
+const baselineRoot=baseline.match(root)[2],currentRoot=current.match(root)[2];
+const decl=s=>Object.fromEntries([...s.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(m=>[m[1],m[2]]));const before=decl(baselineRoot),after=decl(currentRoot);for(const name of new Set([...Object.keys(before),...Object.keys(after)])){if(before[name]!==after[name])changes.push({name,before:before[name],after:after[name],allowed:allowed.has(name)});}
+const outsideUnchanged=baseline.replace(root,'ROOT')===current.replace(root,'ROOT');
+const palette=JSON.parse(fs.readFileSync('provenance/palette.json')).colors;
+const colorNames=Object.keys(after).filter(n=>n!=='radius');
+const paletteMatchesCss=colorNames.length===allowed.size&&Object.keys(palette).length===allowed.size&&[...allowed].every(n=>after[n]===palette[n]&&/^#[0-9a-f]{6}$/i.test(after[n]));
+const rootStructure=s=>s.replace(/--([\w-]+):\s*([^;]+);/g,(declaration,name)=>allowed.has(name)?'':declaration).replace(/\s/g,'');
+const rootStructureUnchanged=rootStructure(baselineRoot)===rootStructure(currentRoot)&&[...currentRoot.matchAll(/--([\w-]+):/g)].length===Object.keys(after).length;
+const sourceMembersMatch=JSON.stringify(fs.readdirSync('src/components/ui').sort())===JSON.stringify(Object.keys(b.hashes).map(f=>f.split('/').pop()).sort());
+const passed=checks.every(c=>c.unchanged)&&sourceMembersMatch&&outsideUnchanged&&rootStructureUnchanged&&paletteMatchesCss&&changes.every(c=>c.allowed);
+const report={checkedAt:new Date().toISOString(),nativeCount:checks.length,sourceMembersMatch,paletteMatchesCss,colorVariableCount:colorNames.length,allowedNewColorVariables:semanticColors,allOfficialSourcesUnchanged:checks.every(c=>c.unchanged),checks,globalCss:{colorOnly:outsideUnchanged&&rootStructureUnchanged&&changes.every(c=>c.allowed),rootStructureUnchanged,outsideRootUnchanged:outsideUnchanged,changes,radiusUnchanged:before.radius===after.radius},status:passed?'passed':'failed'};
+fs.writeFileSync('provenance/verification.json',JSON.stringify(report,null,2)+'\n');console.log(report.status,checks.length,'official sources unchanged;',changes.length,'color variables changed');if(report.status!=='passed')process.exitCode=1;

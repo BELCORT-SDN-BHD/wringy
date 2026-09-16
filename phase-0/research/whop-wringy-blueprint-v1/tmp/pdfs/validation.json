@@ -1,0 +1,42 @@
+{
+  "page_count": 23,
+  "page_text_characters": [
+    1163,
+    1024,
+    873,
+    361,
+    992,
+    930,
+    903,
+    980,
+    1275,
+    1002,
+    913,
+    893,
+    761,
+    930,
+    680,
+    550,
+    933,
+    699,
+    1358,
+    3132,
+    2828,
+    2906,
+    2560
+  ],
+  "source_visible_blocks": 630,
+  "exact_normalized_block_matches": 629,
+  "unmatched_blocks": [
+    "以上是公开能力边界，主要来自当前代理说明及产品公告。 对Wringy而言，建活动界面最终需要表达的是一份可履约约定；漂亮的表单只是它的呈现方式。"
+  ],
+  "unmatched_blocks_ignoring_citation_digits": [],
+  "missing_CJK_character_counts": {},
+  "missing_glyphs": [],
+  "external_hyperlink_annotations": 74,
+  "unique_external_urls": 57,
+  "missing_external_urls": [],
+  "internal_hyperlinks": 89,
+  "embedded_font_check": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nHelvetica                            Type 1            WinAnsi          no  no  no       2  0\nAAAAAA+STHeitiTC-Light-0             TrueType          WinAnsi          yes yes yes    192  0\nAAAAAB+STHeitiTC-Light-0             TrueType          WinAnsi          yes yes yes    196  0\nAAAAAC+STHeitiTC-Light-0             TrueType          WinAnsi          yes yes yes    200  0\nAAAAAD+STHeitiTC-Light-0             TrueType          WinAnsi          yes yes yes    204  0\nAAAAAA+STHeitiTC-Medium-0            TrueType          WinAnsi          yes yes yes    208  0\nAAAAAB+STHeitiTC-Medium-0            TrueType          WinAnsi          yes yes yes    212  0\n",
+  "blank_pages": []
+}

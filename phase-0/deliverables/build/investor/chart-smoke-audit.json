@@ -1,0 +1,10 @@
+{
+  "chart": "INV25",
+  "nativeSeries": 3,
+  "uniqueCategories": 24,
+  "sourcePointsExactlyPreserved": 72,
+  "scale": 10000,
+  "fullSizeVisualCheck": "pass: chronological curves, all M1–M24 labels, zero baseline readable",
+  "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/chart-test-output/chart-smoke.pptx",
+  "render": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/render-XcaSiL/slides/slide-001.png"
+}

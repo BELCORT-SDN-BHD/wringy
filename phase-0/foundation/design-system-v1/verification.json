@@ -1,0 +1,5335 @@
+{
+  "version": "1.0",
+  "checkedAt": "2026-09-10T17:15:28.886Z",
+  "environment": {
+    "browser": "Installed Google Chrome via bundled Playwright",
+    "platform": "darwin",
+    "server": "http://127.0.0.1:8877"
+  },
+  "result": "failed",
+  "checks": [
+    {
+      "name": "catalog / canonical 103 IDs, exact families, 660 state contracts",
+      "passed": true,
+      "evidence": {
+        "components": 103,
+        "states": 660,
+        "maturity": {
+          "interactive": 25,
+          "visual": 78,
+          "specification": 0,
+          "production": 0
+        }
+      }
+    },
+    {
+      "name": "catalog / search by name, no results recovery, category filter",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "catalog / every state renders without exceptions; no missing Chinese labels",
+      "passed": true,
+      "evidence": {
+        "checks": 660,
+        "failures": [],
+        "unknownLabels": []
+      }
+    },
+    {
+      "name": "form / required & invalid email focus and association",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "form / async failure, duplicate guard, retry retains values and focus",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "native controls / select radio checkbox switch update",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "tabs / ArrowRight Home End roving tab and associated panels",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "dialog / initial focus, Tab trap, Escape, focus return, retained note",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "popover / native open Escape expanded state and anchored origin",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "tooltip / pointer delay, keyboard immediate and Escape",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "toast / hover and focus pause beyond five seconds",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "toast / document hidden event pauses timer (simulated visibility property)",
+      "passed": true,
+      "evidence": "Synthetic visibility event; real OS background-tab timing not certified"
+    },
+    {
+      "name": "table / sort, row selection, indeterminate, all current page, paging",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "table / no-match, retained query on error, retry loading first-empty",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "upload / valid preview, unsupported, oversized, corrupt and remove",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "domain / five distinct axes and seven independent controls",
+      "passed": true,
+      "evidence": "C · 内容\n待审核\nM · 计量\n待数据\nR · 奖励\n估算中\nP · 付款\n未发起\nK · 风险\n无开放风险记录\n\n可选预审：不要求预审\n银行确认：尚未确认"
+    },
+    {
+      "name": "domain specimens / unknown payout, unverified measurement, risk cleared",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "specimens / readonly select and unavailable link are inert; mixed checkbox",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "desktop / screenshots and no viewport overflow",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "responsive / 320, 390, 768 widths, nav focus trap Escape and content focus",
+      "passed": false,
+      "error": "overflow 320"
+    },
+    {
+      "name": "motion / reduced and keyboard feedback instant",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "portable / file opened index retains embedded canonical catalog",
+      "passed": true,
+      "evidence": true
+    },
+    {
+      "name": "runtime / no uncaught errors",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "coverage": {
+    "components": {
+      "button": {
+        "id": "button",
+        "name": "按钮",
+        "family": "button",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "pressed",
+          "focus",
+          "disabled",
+          "loading"
+        ],
+        "statesVisual": [
+          "default",
+          "hover",
+          "pressed",
+          "focus",
+          "disabled",
+          "loading"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "visual",
+          "pressed": "visual",
+          "focus": "visual",
+          "disabled": "visual",
+          "loading": "visual"
+        },
+        "variantsDeclared": [
+          "主要",
+          "次要",
+          "文字",
+          "危险"
+        ],
+        "variantsVisual": [
+          "主要",
+          "次要",
+          "文字",
+          "危险"
+        ],
+        "variantsContractOnly": [],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "link": {
+        "id": "link",
+        "name": "链接",
+        "family": "link",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "visited",
+          "unavailable"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "unavailable"
+        ],
+        "statesContractOnly": [
+          "hover",
+          "visited"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "contract-only",
+          "focus": "visual",
+          "visited": "contract-only",
+          "unavailable": "visual"
+        },
+        "variantsDeclared": [
+          "站内",
+          "外部",
+          "下载"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "站内",
+          "外部",
+          "下载"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "icon": {
+        "id": "icon",
+        "name": "图标",
+        "family": "icon",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "unavailable"
+        ],
+        "statesVisual": [
+          "default",
+          "unavailable"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "unavailable": "visual"
+        },
+        "variantsDeclared": [
+          "装饰",
+          "语义"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "装饰",
+          "语义"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "text": {
+        "id": "text",
+        "name": "文本与标题",
+        "family": "typography",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "truncated",
+          "masked"
+        ],
+        "statesVisual": [
+          "default",
+          "truncated",
+          "masked"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "truncated": "visual",
+          "masked": "visual"
+        },
+        "variantsDeclared": [
+          "标题",
+          "正文",
+          "说明",
+          "等宽记录"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "标题",
+          "正文",
+          "说明",
+          "等宽记录"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "avatar": {
+        "id": "avatar",
+        "name": "头像与身份标识",
+        "family": "avatar",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "loading",
+          "fallback"
+        ],
+        "statesVisual": [
+          "default",
+          "fallback"
+        ],
+        "statesContractOnly": [
+          "loading"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "loading": "contract-only",
+          "fallback": "visual"
+        },
+        "variantsDeclared": [
+          "个人",
+          "组织",
+          "身份组"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "个人",
+          "组织",
+          "身份组"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "badge": {
+        "id": "badge",
+        "name": "状态标签",
+        "family": "badge",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "unknown",
+          "stale"
+        ],
+        "statesVisual": [
+          "default"
+        ],
+        "statesContractOnly": [
+          "unknown",
+          "stale"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "unknown": "contract-only",
+          "stale": "contract-only"
+        },
+        "variantsDeclared": [
+          "中性",
+          "成功",
+          "错误",
+          "待处理"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "中性",
+          "成功",
+          "错误",
+          "待处理"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "separator": {
+        "id": "separator",
+        "name": "分隔与分组",
+        "family": "separator",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default"
+        ],
+        "statesVisual": [
+          "default"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual"
+        },
+        "variantsDeclared": [
+          "水平",
+          "垂直",
+          "带标题"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "水平",
+          "垂直",
+          "带标题"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "surface": {
+        "id": "surface",
+        "name": "工作面与摘要容器",
+        "family": "card",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default"
+        ],
+        "statesVisual": [
+          "default"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual"
+        },
+        "variantsDeclared": [
+          "连续面",
+          "摘要卡",
+          "编辑章节"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "连续面",
+          "摘要卡",
+          "编辑章节"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "shell": {
+        "id": "shell",
+        "name": "应用框架",
+        "family": "layout",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "loading",
+          "restricted"
+        ],
+        "statesVisual": [
+          "default",
+          "loading",
+          "restricted"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "loading": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "经营",
+          "创作者",
+          "会员",
+          "运营"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "经营",
+          "创作者",
+          "会员",
+          "运营"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "workspace-switcher": {
+        "id": "workspace-switcher",
+        "name": "工作空间切换",
+        "family": "workspace",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "open",
+          "selected",
+          "loading",
+          "error"
+        ],
+        "statesVisual": [
+          "default",
+          "hover",
+          "focus",
+          "open",
+          "selected",
+          "loading",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "visual",
+          "focus": "visual",
+          "open": "visual",
+          "selected": "visual",
+          "loading": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "个人",
+          "品牌",
+          "团队"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "个人",
+          "品牌",
+          "团队"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "sidebar": {
+        "id": "sidebar",
+        "name": "侧栏导航",
+        "family": "sidebar",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "active",
+          "expanded",
+          "collapsed"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "active"
+        ],
+        "statesContractOnly": [
+          "hover",
+          "expanded",
+          "collapsed"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "contract-only",
+          "focus": "visual",
+          "active": "visual",
+          "expanded": "contract-only",
+          "collapsed": "contract-only"
+        },
+        "variantsDeclared": [
+          "展开",
+          "折叠"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "展开",
+          "折叠"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "breadcrumb": {
+        "id": "breadcrumb",
+        "name": "面包屑",
+        "family": "breadcrumb",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "current"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "current"
+        ],
+        "statesContractOnly": [
+          "hover"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "contract-only",
+          "focus": "visual",
+          "current": "visual"
+        },
+        "variantsDeclared": [
+          "页面层级",
+          "对象层级"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "页面层级",
+          "对象层级"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "tabs": {
+        "id": "tabs",
+        "name": "页签",
+        "family": "tabs",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "selected",
+          "disabled",
+          "loading"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "selected",
+          "disabled",
+          "loading"
+        ],
+        "statesContractOnly": [
+          "hover"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "contract-only",
+          "focus": "visual",
+          "selected": "visual",
+          "disabled": "visual",
+          "loading": "visual"
+        },
+        "variantsDeclared": [
+          "局部内容",
+          "路由页签"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "局部内容",
+          "路由页签"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "command-menu": {
+        "id": "command-menu",
+        "name": "快捷命令面板",
+        "family": "command",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "closed",
+          "open",
+          "querying",
+          "empty",
+          "error",
+          "focused"
+        ],
+        "statesVisual": [
+          "closed",
+          "open",
+          "empty",
+          "error"
+        ],
+        "statesContractOnly": [
+          "querying",
+          "focused"
+        ],
+        "stateCoverage": {
+          "closed": "visual",
+          "open": "visual",
+          "querying": "contract-only",
+          "empty": "visual",
+          "error": "visual",
+          "focused": "contract-only"
+        },
+        "variantsDeclared": [
+          "导航",
+          "已授权操作"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "导航",
+          "已授权操作"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "stepper": {
+        "id": "stepper",
+        "name": "步骤导航",
+        "family": "stepper",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "current",
+          "complete",
+          "upcoming",
+          "blocked",
+          "error"
+        ],
+        "statesVisual": [
+          "current",
+          "complete",
+          "upcoming",
+          "blocked",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "current": "visual",
+          "complete": "visual",
+          "upcoming": "visual",
+          "blocked": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "线性",
+          "可回访"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "线性",
+          "可回访"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "pagination": {
+        "id": "pagination",
+        "name": "分页与继续加载",
+        "family": "pagination",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "loading",
+          "disabled",
+          "end",
+          "error"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "loading",
+          "disabled",
+          "end",
+          "error"
+        ],
+        "statesContractOnly": [
+          "hover"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "contract-only",
+          "focus": "visual",
+          "loading": "visual",
+          "disabled": "visual",
+          "end": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "页码",
+          "游标"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "页码",
+          "游标"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "search": {
+        "id": "search",
+        "name": "搜索框",
+        "family": "search",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "empty",
+          "focus",
+          "typing",
+          "loading",
+          "results",
+          "no-results",
+          "error",
+          "disabled"
+        ],
+        "statesVisual": [
+          "empty",
+          "focus",
+          "typing",
+          "loading",
+          "results",
+          "no-results",
+          "error",
+          "disabled"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "empty": "visual",
+          "focus": "visual",
+          "typing": "visual",
+          "loading": "visual",
+          "results": "visual",
+          "no-results": "visual",
+          "error": "visual",
+          "disabled": "visual"
+        },
+        "variantsDeclared": [
+          "即时搜索",
+          "提交搜索"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "即时搜索",
+          "提交搜索"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "field": {
+        "id": "field",
+        "name": "字段外壳",
+        "family": "input",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "focus",
+          "error",
+          "disabled",
+          "readonly"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "error",
+          "disabled",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "focus": "visual",
+          "error": "visual",
+          "disabled": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "普通",
+          "必填",
+          "可选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "普通",
+          "必填",
+          "可选"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "text-input": {
+        "id": "text-input",
+        "name": "单行输入",
+        "family": "input",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "filled",
+          "disabled",
+          "readonly",
+          "error"
+        ],
+        "statesVisual": [
+          "default",
+          "hover",
+          "focus",
+          "filled",
+          "disabled",
+          "readonly",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "visual",
+          "focus": "visual",
+          "filled": "visual",
+          "disabled": "visual",
+          "readonly": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "文本",
+          "邮箱",
+          "网址",
+          "电话"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "文本",
+          "邮箱",
+          "网址",
+          "电话"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "textarea": {
+        "id": "textarea",
+        "name": "多行输入",
+        "family": "textarea",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "empty",
+          "focus",
+          "filled",
+          "readonly",
+          "disabled",
+          "error"
+        ],
+        "statesVisual": [
+          "empty",
+          "focus",
+          "filled",
+          "readonly",
+          "disabled",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "empty": "visual",
+          "focus": "visual",
+          "filled": "visual",
+          "readonly": "visual",
+          "disabled": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "说明",
+          "审核理由",
+          "备注"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "说明",
+          "审核理由",
+          "备注"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "number-input": {
+        "id": "number-input",
+        "name": "数量输入",
+        "family": "number",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "empty",
+          "focus",
+          "filled",
+          "readonly",
+          "disabled",
+          "error"
+        ],
+        "statesVisual": [
+          "empty",
+          "focus",
+          "filled",
+          "readonly",
+          "disabled",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "empty": "visual",
+          "focus": "visual",
+          "filled": "visual",
+          "readonly": "visual",
+          "disabled": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "整数",
+          "小数",
+          "百分比"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "整数",
+          "小数",
+          "百分比"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "money-input": {
+        "id": "money-input",
+        "name": "金额输入",
+        "family": "moneyinput",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "empty",
+          "focus",
+          "filled",
+          "readonly",
+          "disabled",
+          "error",
+          "quote-stale"
+        ],
+        "statesVisual": [
+          "empty",
+          "focus",
+          "filled",
+          "readonly",
+          "disabled",
+          "error"
+        ],
+        "statesContractOnly": [
+          "quote-stale"
+        ],
+        "stateCoverage": {
+          "empty": "visual",
+          "focus": "visual",
+          "filled": "visual",
+          "readonly": "visual",
+          "disabled": "visual",
+          "error": "visual",
+          "quote-stale": "contract-only"
+        },
+        "variantsDeclared": [
+          "单币种",
+          "带币种选择"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "单币种",
+          "带币种选择"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "checkbox": {
+        "id": "checkbox",
+        "name": "复选框",
+        "family": "checkbox",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "unchecked",
+          "hover",
+          "pressed",
+          "focus",
+          "checked",
+          "indeterminate",
+          "disabled",
+          "error",
+          "readonly"
+        ],
+        "statesVisual": [
+          "unchecked",
+          "hover",
+          "pressed",
+          "focus",
+          "checked",
+          "indeterminate",
+          "disabled",
+          "error",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "unchecked": "visual",
+          "hover": "visual",
+          "pressed": "visual",
+          "focus": "visual",
+          "checked": "visual",
+          "indeterminate": "visual",
+          "disabled": "visual",
+          "error": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "独立",
+          "组",
+          "全选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "独立",
+          "组",
+          "全选"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "radio": {
+        "id": "radio",
+        "name": "单选组",
+        "family": "radio",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "unselected",
+          "hover",
+          "focus",
+          "selected",
+          "disabled",
+          "error",
+          "readonly"
+        ],
+        "statesVisual": [
+          "unselected",
+          "hover",
+          "focus",
+          "selected",
+          "disabled",
+          "error",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "unselected": "visual",
+          "hover": "visual",
+          "focus": "visual",
+          "selected": "visual",
+          "disabled": "visual",
+          "error": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "列表",
+          "带说明选项"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "列表",
+          "带说明选项"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "switch": {
+        "id": "switch",
+        "name": "即时开关",
+        "family": "switch",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "off",
+          "on",
+          "hover",
+          "pressed",
+          "focus",
+          "disabled",
+          "saving",
+          "error"
+        ],
+        "statesVisual": [
+          "off",
+          "on",
+          "hover",
+          "pressed",
+          "focus",
+          "disabled",
+          "saving",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "off": "visual",
+          "on": "visual",
+          "hover": "visual",
+          "pressed": "visual",
+          "focus": "visual",
+          "disabled": "visual",
+          "saving": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "偏好",
+          "非危险即时设置"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "偏好",
+          "非危险即时设置"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "select": {
+        "id": "select",
+        "name": "选择器",
+        "family": "select",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "closed",
+          "open",
+          "focus",
+          "selected",
+          "loading",
+          "empty",
+          "error",
+          "disabled",
+          "readonly"
+        ],
+        "statesVisual": [
+          "closed",
+          "open",
+          "focus",
+          "selected",
+          "loading",
+          "empty",
+          "error",
+          "disabled",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "closed": "visual",
+          "open": "visual",
+          "focus": "visual",
+          "selected": "visual",
+          "loading": "visual",
+          "empty": "visual",
+          "error": "visual",
+          "disabled": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "原生单选",
+          "可搜索单选",
+          "多选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "原生单选",
+          "可搜索单选",
+          "多选"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "segmented-control": {
+        "id": "segmented-control",
+        "name": "分段选择",
+        "family": "segmented",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "selected",
+          "disabled"
+        ],
+        "statesVisual": [
+          "default",
+          "hover",
+          "focus",
+          "selected",
+          "disabled"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "visual",
+          "focus": "visual",
+          "selected": "visual",
+          "disabled": "visual"
+        },
+        "variantsDeclared": [
+          "视图",
+          "短选项"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "视图",
+          "短选项"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "date-time": {
+        "id": "date-time",
+        "name": "日期时间选择",
+        "family": "date",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "empty",
+          "focus",
+          "selected",
+          "unavailable",
+          "error",
+          "readonly",
+          "disabled"
+        ],
+        "statesVisual": [
+          "empty",
+          "focus",
+          "selected",
+          "unavailable",
+          "error",
+          "readonly",
+          "disabled"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "empty": "visual",
+          "focus": "visual",
+          "selected": "visual",
+          "unavailable": "visual",
+          "error": "visual",
+          "readonly": "visual",
+          "disabled": "visual"
+        },
+        "variantsDeclared": [
+          "日期",
+          "日期区间",
+          "时间与时区"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "日期",
+          "日期区间",
+          "时间与时区"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "slider": {
+        "id": "slider",
+        "name": "范围滑杆",
+        "family": "slider",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "hover",
+          "focus",
+          "dragging",
+          "disabled",
+          "readonly"
+        ],
+        "statesVisual": [
+          "default",
+          "focus",
+          "disabled",
+          "readonly"
+        ],
+        "statesContractOnly": [
+          "hover",
+          "dragging"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "hover": "contract-only",
+          "focus": "visual",
+          "dragging": "contract-only",
+          "disabled": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "单值",
+          "区间"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "单值",
+          "区间"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "file-upload": {
+        "id": "file-upload",
+        "name": "文件上传",
+        "family": "upload",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "idle",
+          "dragover",
+          "validating",
+          "uploading",
+          "processing",
+          "ready",
+          "error",
+          "canceled"
+        ],
+        "statesVisual": [
+          "idle",
+          "validating",
+          "uploading",
+          "processing",
+          "ready",
+          "error",
+          "canceled"
+        ],
+        "statesContractOnly": [
+          "dragover"
+        ],
+        "stateCoverage": {
+          "idle": "visual",
+          "dragover": "contract-only",
+          "validating": "visual",
+          "uploading": "visual",
+          "processing": "visual",
+          "ready": "visual",
+          "error": "visual",
+          "canceled": "visual"
+        },
+        "variantsDeclared": [
+          "单文件",
+          "多文件",
+          "分片任务"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "单文件",
+          "多文件",
+          "分片任务"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "rich-editor": {
+        "id": "rich-editor",
+        "name": "富文本编辑器",
+        "family": "editor",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "empty",
+          "focus",
+          "editing",
+          "saving",
+          "saved",
+          "error",
+          "readonly"
+        ],
+        "statesVisual": [
+          "empty",
+          "focus",
+          "editing",
+          "saving",
+          "saved",
+          "error",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "empty": "visual",
+          "focus": "visual",
+          "editing": "visual",
+          "saving": "visual",
+          "saved": "visual",
+          "error": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "商品介绍",
+          "内容页",
+          "帖子"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "商品介绍",
+          "内容页",
+          "帖子"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "form": {
+        "id": "form",
+        "name": "表单提交容器",
+        "family": "form",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "pristine",
+          "dirty",
+          "validating",
+          "submitting",
+          "success",
+          "error",
+          "conflict",
+          "readonly"
+        ],
+        "statesVisual": [
+          "pristine",
+          "dirty",
+          "validating",
+          "submitting",
+          "success",
+          "error",
+          "readonly"
+        ],
+        "statesContractOnly": [
+          "conflict"
+        ],
+        "stateCoverage": {
+          "pristine": "visual",
+          "dirty": "visual",
+          "validating": "visual",
+          "submitting": "visual",
+          "success": "visual",
+          "error": "visual",
+          "conflict": "contract-only",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "设置",
+          "创建",
+          "多步"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "设置",
+          "创建",
+          "多步"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "filter-builder": {
+        "id": "filter-builder",
+        "name": "筛选条件组",
+        "family": "filter",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "default",
+          "editing",
+          "applied",
+          "empty",
+          "loading",
+          "error"
+        ],
+        "statesVisual": [
+          "default",
+          "applied",
+          "empty",
+          "loading",
+          "error"
+        ],
+        "statesContractOnly": [
+          "editing"
+        ],
+        "stateCoverage": {
+          "default": "visual",
+          "editing": "contract-only",
+          "applied": "visual",
+          "empty": "visual",
+          "loading": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "快速筛选",
+          "组合条件",
+          "保存视图"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "快速筛选",
+          "组合条件",
+          "保存视图"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "data-table": {
+        "id": "data-table",
+        "name": "数据表格",
+        "family": "table",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "empty",
+          "no-results",
+          "error",
+          "stale",
+          "selected",
+          "partial-selection"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "empty",
+          "no-results",
+          "error",
+          "selected"
+        ],
+        "statesContractOnly": [
+          "stale",
+          "partial-selection"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "empty": "visual",
+          "no-results": "visual",
+          "error": "visual",
+          "stale": "contract-only",
+          "selected": "visual",
+          "partial-selection": "contract-only"
+        },
+        "variantsDeclared": [
+          "只读",
+          "可排序",
+          "可选择"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "只读",
+          "可排序",
+          "可选择"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "list-detail": {
+        "id": "list-detail",
+        "name": "列表与详情",
+        "family": "listdetail",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "empty",
+          "no-results",
+          "unselected",
+          "selected",
+          "error",
+          "stale"
+        ],
+        "statesVisual": [
+          "loading",
+          "empty",
+          "no-results",
+          "unselected",
+          "selected",
+          "error",
+          "stale"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "empty": "visual",
+          "no-results": "visual",
+          "unselected": "visual",
+          "selected": "visual",
+          "error": "visual",
+          "stale": "visual"
+        },
+        "variantsDeclared": [
+          "并排",
+          "独立详情"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "并排",
+          "独立详情"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "property-list": {
+        "id": "property-list",
+        "name": "属性清单",
+        "family": "description",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "default",
+          "empty",
+          "unknown",
+          "editing",
+          "saving",
+          "error",
+          "readonly"
+        ],
+        "statesVisual": [
+          "default",
+          "empty",
+          "unknown",
+          "editing",
+          "saving",
+          "error",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "default": "visual",
+          "empty": "visual",
+          "unknown": "visual",
+          "editing": "visual",
+          "saving": "visual",
+          "error": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "只读",
+          "单属性编辑"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "只读",
+          "单属性编辑"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "metric": {
+        "id": "metric",
+        "name": "指标摘要",
+        "family": "metrics",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "zero",
+          "unknown",
+          "stale",
+          "insufficient-sample",
+          "error"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "zero",
+          "unknown",
+          "error"
+        ],
+        "statesContractOnly": [
+          "stale",
+          "insufficient-sample"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "zero": "visual",
+          "unknown": "visual",
+          "stale": "contract-only",
+          "insufficient-sample": "contract-only",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "计数",
+          "金额",
+          "比率",
+          "差值"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "计数",
+          "金额",
+          "比率",
+          "差值"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "chart": {
+        "id": "chart",
+        "name": "图表",
+        "family": "chart",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "empty",
+          "partial",
+          "unknown",
+          "error"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "empty",
+          "unknown",
+          "error"
+        ],
+        "statesContractOnly": [
+          "partial"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "empty": "visual",
+          "partial": "contract-only",
+          "unknown": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "条形",
+          "时间序列",
+          "构成"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "条形",
+          "时间序列",
+          "构成"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "progress": {
+        "id": "progress",
+        "name": "进度指示",
+        "family": "progress",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "idle",
+          "running",
+          "paused",
+          "complete",
+          "error",
+          "unknown"
+        ],
+        "statesVisual": [
+          "idle",
+          "running",
+          "complete",
+          "error",
+          "unknown"
+        ],
+        "statesContractOnly": [
+          "paused"
+        ],
+        "stateCoverage": {
+          "idle": "visual",
+          "running": "visual",
+          "paused": "contract-only",
+          "complete": "visual",
+          "error": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "确定进度",
+          "不确定等待"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "确定进度",
+          "不确定等待"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "skeleton": {
+        "id": "skeleton",
+        "name": "骨架占位",
+        "family": "skeleton",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading"
+        ],
+        "statesVisual": [
+          "loading"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual"
+        },
+        "variantsDeclared": [
+          "文本行",
+          "列表",
+          "媒体"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "文本行",
+          "列表",
+          "媒体"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "empty-state": {
+        "id": "empty-state",
+        "name": "空状态",
+        "family": "empty",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "empty",
+          "no-results",
+          "unselected",
+          "restricted"
+        ],
+        "statesVisual": [
+          "empty",
+          "no-results",
+          "unselected",
+          "restricted"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "empty": "visual",
+          "no-results": "visual",
+          "unselected": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "首次无对象",
+          "无匹配",
+          "未选择",
+          "无权限"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "首次无对象",
+          "无匹配",
+          "未选择",
+          "无权限"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "alert": {
+        "id": "alert",
+        "name": "持久提示",
+        "family": "alert",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "visible",
+          "dismissible",
+          "actionable"
+        ],
+        "statesVisual": [
+          "visible",
+          "actionable"
+        ],
+        "statesContractOnly": [
+          "dismissible"
+        ],
+        "stateCoverage": {
+          "visible": "visual",
+          "dismissible": "contract-only",
+          "actionable": "visual"
+        },
+        "variantsDeclared": [
+          "信息",
+          "成功",
+          "警告",
+          "错误"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "信息",
+          "成功",
+          "警告",
+          "错误"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "toast": {
+        "id": "toast",
+        "name": "短暂反馈",
+        "family": "toast",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "queued",
+          "visible",
+          "paused",
+          "dismissed"
+        ],
+        "statesVisual": [
+          "visible",
+          "paused",
+          "dismissed"
+        ],
+        "statesContractOnly": [
+          "queued"
+        ],
+        "stateCoverage": {
+          "queued": "contract-only",
+          "visible": "visual",
+          "paused": "visual",
+          "dismissed": "visual"
+        },
+        "variantsDeclared": [
+          "确认",
+          "可撤销提示"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "确认",
+          "可撤销提示"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "notification-inbox": {
+        "id": "notification-inbox",
+        "name": "通知收件箱",
+        "family": "notification",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "unread",
+          "read",
+          "empty",
+          "error",
+          "unavailable-target"
+        ],
+        "statesVisual": [
+          "loading",
+          "empty",
+          "error"
+        ],
+        "statesContractOnly": [
+          "unread",
+          "read",
+          "unavailable-target"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "unread": "contract-only",
+          "read": "contract-only",
+          "empty": "visual",
+          "error": "visual",
+          "unavailable-target": "contract-only"
+        },
+        "variantsDeclared": [
+          "全部",
+          "未读",
+          "按对象"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "全部",
+          "未读",
+          "按对象"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "error-recovery": {
+        "id": "error-recovery",
+        "name": "错误恢复面",
+        "family": "error",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "offline",
+          "retrying",
+          "recovered",
+          "unauthorized",
+          "unknown"
+        ],
+        "statesVisual": [
+          "offline",
+          "retrying",
+          "recovered",
+          "unauthorized",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "offline": "visual",
+          "retrying": "visual",
+          "recovered": "visual",
+          "unauthorized": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "断网",
+          "服务异常",
+          "会话过期",
+          "权限变化"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "断网",
+          "服务异常",
+          "会话过期",
+          "权限变化"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "tooltip": {
+        "id": "tooltip",
+        "name": "说明提示",
+        "family": "tooltip",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "closed",
+          "hover",
+          "focus",
+          "open"
+        ],
+        "statesVisual": [
+          "closed",
+          "hover",
+          "focus",
+          "open"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "closed": "visual",
+          "hover": "visual",
+          "focus": "visual",
+          "open": "visual"
+        },
+        "variantsDeclared": [
+          "短说明",
+          "图标名称补充"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "短说明",
+          "图标名称补充"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "popover": {
+        "id": "popover",
+        "name": "锚定浮层",
+        "family": "popover",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "closed",
+          "open",
+          "focus",
+          "loading",
+          "error"
+        ],
+        "statesVisual": [
+          "closed",
+          "open",
+          "focus",
+          "loading",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "closed": "visual",
+          "open": "visual",
+          "focus": "visual",
+          "loading": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "属性",
+          "日期",
+          "短筛选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "属性",
+          "日期",
+          "短筛选"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "menu": {
+        "id": "menu",
+        "name": "操作菜单",
+        "family": "menu",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "closed",
+          "open",
+          "focused",
+          "disabled"
+        ],
+        "statesVisual": [
+          "closed",
+          "open",
+          "disabled"
+        ],
+        "statesContractOnly": [
+          "focused"
+        ],
+        "stateCoverage": {
+          "closed": "visual",
+          "open": "visual",
+          "focused": "contract-only",
+          "disabled": "visual"
+        },
+        "variantsDeclared": [
+          "对象操作",
+          "上下文操作"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "对象操作",
+          "上下文操作"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "dialog": {
+        "id": "dialog",
+        "name": "模态对话框",
+        "family": "dialog",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "closed",
+          "open",
+          "submitting",
+          "error",
+          "conflict"
+        ],
+        "statesVisual": [
+          "closed",
+          "open",
+          "submitting",
+          "error"
+        ],
+        "statesContractOnly": [
+          "conflict"
+        ],
+        "stateCoverage": {
+          "closed": "visual",
+          "open": "visual",
+          "submitting": "visual",
+          "error": "visual",
+          "conflict": "contract-only"
+        },
+        "variantsDeclared": [
+          "编辑",
+          "确认",
+          "关键决定"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "编辑",
+          "确认",
+          "关键决定"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "drawer": {
+        "id": "drawer",
+        "name": "抽屉",
+        "family": "drawer",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "closed",
+          "open",
+          "loading",
+          "error",
+          "dirty"
+        ],
+        "statesVisual": [
+          "closed",
+          "open",
+          "loading",
+          "error"
+        ],
+        "statesContractOnly": [
+          "dirty"
+        ],
+        "stateCoverage": {
+          "closed": "visual",
+          "open": "visual",
+          "loading": "visual",
+          "error": "visual",
+          "dirty": "contract-only"
+        },
+        "variantsDeclared": [
+          "详情",
+          "窄屏筛选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "详情",
+          "窄屏筛选"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "image": {
+        "id": "image",
+        "name": "图片与缩略图",
+        "family": "image",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "error",
+          "restricted"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "error",
+          "restricted"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "error": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "内容图",
+          "证据图",
+          "概念摄影"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "内容图",
+          "证据图",
+          "概念摄影"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "media-player": {
+        "id": "media-player",
+        "name": "媒体播放器",
+        "family": "media",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "playing",
+          "paused",
+          "buffering",
+          "ended",
+          "error",
+          "restricted"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "error",
+          "restricted"
+        ],
+        "statesContractOnly": [
+          "playing",
+          "paused",
+          "buffering",
+          "ended"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "playing": "contract-only",
+          "paused": "contract-only",
+          "buffering": "contract-only",
+          "ended": "contract-only",
+          "error": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "视频",
+          "音频",
+          "嵌入"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "视频",
+          "音频",
+          "嵌入"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "file-preview": {
+        "id": "file-preview",
+        "name": "文件预览与下载",
+        "family": "file",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "unsupported",
+          "expired",
+          "error",
+          "restricted"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "error",
+          "restricted"
+        ],
+        "statesContractOnly": [
+          "unsupported",
+          "expired"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "unsupported": "contract-only",
+          "expired": "contract-only",
+          "error": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "文档",
+          "证据",
+          "附件"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "文档",
+          "证据",
+          "附件"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "annotation": {
+        "id": "annotation",
+        "name": "媒体批注",
+        "family": "annotation",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "posting",
+          "posted",
+          "resolved",
+          "error",
+          "readonly"
+        ],
+        "statesVisual": [
+          "draft",
+          "posting",
+          "posted",
+          "resolved",
+          "error",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "posting": "visual",
+          "posted": "visual",
+          "resolved": "visual",
+          "error": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "时间点",
+          "选区",
+          "版本评论"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "时间点",
+          "选区",
+          "版本评论"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "asset-library": {
+        "id": "asset-library",
+        "name": "素材库与选择",
+        "family": "assets",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "empty",
+          "selected",
+          "uploading",
+          "error",
+          "expired-rights"
+        ],
+        "statesVisual": [
+          "loading",
+          "empty",
+          "selected",
+          "uploading",
+          "error",
+          "expired-rights"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "empty": "visual",
+          "selected": "visual",
+          "uploading": "visual",
+          "error": "visual",
+          "expired-rights": "visual"
+        },
+        "variantsDeclared": [
+          "授权素材",
+          "个人素材",
+          "生成素材"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "授权素材",
+          "个人素材",
+          "生成素材"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "campaign-brief": {
+        "id": "campaign-brief",
+        "name": "奖励活动详情",
+        "family": "campaign",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "open",
+          "paused",
+          "ended",
+          "restricted",
+          "incomplete-rules"
+        ],
+        "statesVisual": [
+          "draft",
+          "open",
+          "paused",
+          "ended",
+          "restricted",
+          "incomplete-rules"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "open": "visual",
+          "paused": "visual",
+          "ended": "visual",
+          "restricted": "visual",
+          "incomplete-rules": "visual"
+        },
+        "variantsDeclared": [
+          "公开",
+          "申请制",
+          "私密"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "公开",
+          "申请制",
+          "私密"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "rule-editor": {
+        "id": "rule-editor",
+        "name": "活动规则与版本",
+        "family": "rules",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "invalid",
+          "preview",
+          "active",
+          "superseded",
+          "conflict",
+          "readonly"
+        ],
+        "statesVisual": [
+          "draft",
+          "invalid",
+          "preview",
+          "active",
+          "superseded",
+          "conflict",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "invalid": "visual",
+          "preview": "visual",
+          "active": "visual",
+          "superseded": "visual",
+          "conflict": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "草拟",
+          "版本比较",
+          "参与确认"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "草拟",
+          "版本比较",
+          "参与确认"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "budget": {
+        "id": "budget",
+        "name": "奖励预算面板",
+        "family": "budget",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "available",
+          "low",
+          "exhausted",
+          "unknown",
+          "held",
+          "stale"
+        ],
+        "statesVisual": [
+          "loading",
+          "available",
+          "low",
+          "exhausted",
+          "unknown",
+          "held",
+          "stale"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "available": "visual",
+          "low": "visual",
+          "exhausted": "visual",
+          "unknown": "visual",
+          "held": "visual",
+          "stale": "visual"
+        },
+        "variantsDeclared": [
+          "活动预算",
+          "单稿上限",
+          "任务池"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "活动预算",
+          "单稿上限",
+          "任务池"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "submission": {
+        "id": "submission",
+        "name": "投稿与公开链接提交",
+        "family": "submission",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "validating",
+          "submitting",
+          "submitted",
+          "duplicate",
+          "invalid-link",
+          "error",
+          "withdrawn"
+        ],
+        "statesVisual": [
+          "draft",
+          "validating",
+          "submitting",
+          "submitted",
+          "duplicate",
+          "invalid-link",
+          "error",
+          "withdrawn"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "validating": "visual",
+          "submitting": "visual",
+          "submitted": "visual",
+          "duplicate": "visual",
+          "invalid-link": "visual",
+          "error": "visual",
+          "withdrawn": "visual"
+        },
+        "variantsDeclared": [
+          "草稿",
+          "公开帖子",
+          "任务证据"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "草稿",
+          "公开帖子",
+          "任务证据"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "review-workbench": {
+        "id": "review-workbench",
+        "name": "内容审核工作台",
+        "family": "review",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "loading",
+          "assigned",
+          "reviewing",
+          "needs-evidence",
+          "decided",
+          "conflict",
+          "readonly"
+        ],
+        "statesVisual": [
+          "loading",
+          "assigned",
+          "reviewing",
+          "needs-evidence",
+          "decided",
+          "conflict",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "assigned": "visual",
+          "reviewing": "visual",
+          "needs-evidence": "visual",
+          "decided": "visual",
+          "conflict": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "预审",
+          "终审",
+          "复审"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "预审",
+          "终审",
+          "复审"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "measurement": {
+        "id": "measurement",
+        "name": "计量快照与核算",
+        "family": "metrics",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "waiting",
+          "collecting",
+          "unavailable",
+          "unverified",
+          "verified",
+          "correction",
+          "window-closed"
+        ],
+        "statesVisual": [
+          "waiting",
+          "collecting",
+          "unavailable",
+          "unverified",
+          "verified",
+          "correction",
+          "window-closed"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "waiting": "visual",
+          "collecting": "visual",
+          "unavailable": "visual",
+          "unverified": "visual",
+          "verified": "visual",
+          "correction": "visual",
+          "window-closed": "visual"
+        },
+        "variantsDeclared": [
+          "实时观察",
+          "待核验",
+          "结算快照"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "实时观察",
+          "待核验",
+          "结算快照"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "reward-breakdown": {
+        "id": "reward-breakdown",
+        "name": "奖励拆解",
+        "family": "reward",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "estimating",
+          "eligible",
+          "accruing",
+          "pending-settlement",
+          "payable",
+          "risk-held",
+          "reversed",
+          "unknown"
+        ],
+        "statesVisual": [
+          "estimating",
+          "eligible",
+          "accruing",
+          "pending-settlement",
+          "payable",
+          "risk-held",
+          "reversed",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "estimating": "visual",
+          "eligible": "visual",
+          "accruing": "visual",
+          "pending-settlement": "visual",
+          "payable": "visual",
+          "risk-held": "visual",
+          "reversed": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "估算",
+          "已确认",
+          "调整"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "估算",
+          "已确认",
+          "调整"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "creator-progress": {
+        "id": "creator-progress",
+        "name": "创作者进度",
+        "family": "creatorprogress",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "needs-action",
+          "waiting",
+          "blocked",
+          "completed",
+          "unknown"
+        ],
+        "statesVisual": [
+          "needs-action",
+          "waiting",
+          "blocked",
+          "completed",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "needs-action": "visual",
+          "waiting": "visual",
+          "blocked": "visual",
+          "completed": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "参与",
+          "投稿",
+          "追踪"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "参与",
+          "投稿",
+          "追踪"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "bounty": {
+        "id": "bounty",
+        "name": "独立任务与名额",
+        "family": "bounty",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "scheduled",
+          "open",
+          "closed-to-new",
+          "reviewing",
+          "completed",
+          "canceled",
+          "underfunded"
+        ],
+        "statesVisual": [
+          "draft",
+          "scheduled",
+          "open",
+          "closed-to-new",
+          "reviewing",
+          "completed",
+          "canceled",
+          "underfunded"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "scheduled": "visual",
+          "open": "visual",
+          "closed-to-new": "visual",
+          "reviewing": "visual",
+          "completed": "visual",
+          "canceled": "visual",
+          "underfunded": "visual"
+        },
+        "variantsDeclared": [
+          "单期",
+          "排期",
+          "周期候选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "单期",
+          "排期",
+          "周期候选"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "worklog": {
+        "id": "worklog",
+        "name": "审核工作量与成本",
+        "family": "worklog",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "idle",
+          "running",
+          "paused",
+          "recorded",
+          "missing",
+          "corrected",
+          "error"
+        ],
+        "statesVisual": [
+          "idle",
+          "running",
+          "paused",
+          "recorded",
+          "missing",
+          "corrected",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "idle": "visual",
+          "running": "visual",
+          "paused": "visual",
+          "recorded": "visual",
+          "missing": "visual",
+          "corrected": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "计时",
+          "人工补记",
+          "聚合"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "计时",
+          "人工补记",
+          "聚合"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "social-connection": {
+        "id": "social-connection",
+        "name": "社交账号与数据授权",
+        "family": "integration",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "disconnected",
+          "authorizing",
+          "connected",
+          "partial-scope",
+          "expired",
+          "error",
+          "revoked"
+        ],
+        "statesVisual": [
+          "disconnected",
+          "connected",
+          "expired",
+          "error",
+          "revoked"
+        ],
+        "statesContractOnly": [
+          "authorizing",
+          "partial-scope"
+        ],
+        "stateCoverage": {
+          "disconnected": "visual",
+          "authorizing": "contract-only",
+          "connected": "visual",
+          "partial-scope": "contract-only",
+          "expired": "visual",
+          "error": "visual",
+          "revoked": "visual"
+        },
+        "variantsDeclared": [
+          "连接",
+          "重连",
+          "权限检查"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "连接",
+          "重连",
+          "权限检查"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "product-editor": {
+        "id": "product-editor",
+        "name": "商品与店面编排",
+        "family": "product",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "preview",
+          "published",
+          "unpublished",
+          "incomplete",
+          "conflict",
+          "readonly"
+        ],
+        "statesVisual": [
+          "draft",
+          "preview",
+          "published",
+          "unpublished",
+          "incomplete",
+          "conflict",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "preview": "visual",
+          "published": "visual",
+          "unpublished": "visual",
+          "incomplete": "visual",
+          "conflict": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "目录",
+          "组合商品",
+          "私有销售"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "目录",
+          "组合商品",
+          "私有销售"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "team-access": {
+        "id": "team-access",
+        "name": "团队、邀请与权限",
+        "family": "permission",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "invited",
+          "active",
+          "expired",
+          "revoked",
+          "editing",
+          "conflict",
+          "restricted"
+        ],
+        "statesVisual": [
+          "active",
+          "restricted"
+        ],
+        "statesContractOnly": [
+          "invited",
+          "expired",
+          "revoked",
+          "editing",
+          "conflict"
+        ],
+        "stateCoverage": {
+          "invited": "contract-only",
+          "active": "visual",
+          "expired": "contract-only",
+          "revoked": "contract-only",
+          "editing": "contract-only",
+          "conflict": "contract-only",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "邀请",
+          "角色矩阵",
+          "安全设置"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "邀请",
+          "角色矩阵",
+          "安全设置"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "checkout": {
+        "id": "checkout",
+        "name": "结账摘要与付款入口",
+        "family": "checkout",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "needs-input",
+          "quote-expired",
+          "submitting",
+          "requires-action",
+          "unknown",
+          "failed",
+          "confirmed"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "unknown",
+          "failed"
+        ],
+        "statesContractOnly": [
+          "needs-input",
+          "quote-expired",
+          "submitting",
+          "requires-action",
+          "confirmed"
+        ],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "needs-input": "contract-only",
+          "quote-expired": "contract-only",
+          "submitting": "contract-only",
+          "requires-action": "contract-only",
+          "unknown": "visual",
+          "failed": "visual",
+          "confirmed": "contract-only"
+        },
+        "variantsDeclared": [
+          "一次性",
+          "订阅",
+          "嵌入"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "一次性",
+          "订阅",
+          "嵌入"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "price-plan": {
+        "id": "price-plan",
+        "name": "价格方案",
+        "family": "pricing",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "active",
+          "retired",
+          "invalid",
+          "readonly"
+        ],
+        "statesVisual": [
+          "draft",
+          "active",
+          "retired",
+          "invalid",
+          "readonly"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "active": "visual",
+          "retired": "visual",
+          "invalid": "visual",
+          "readonly": "visual"
+        },
+        "variantsDeclared": [
+          "免费",
+          "一次性",
+          "周期",
+          "分期候选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "免费",
+          "一次性",
+          "周期",
+          "分期候选"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "subscription": {
+        "id": "subscription",
+        "name": "订阅与权益摘要",
+        "family": "pricing",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "active",
+          "past-due",
+          "paused",
+          "cancel-scheduled",
+          "canceled",
+          "unknown"
+        ],
+        "statesVisual": [
+          "active",
+          "past-due",
+          "paused",
+          "cancel-scheduled",
+          "canceled",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "active": "visual",
+          "past-due": "visual",
+          "paused": "visual",
+          "cancel-scheduled": "visual",
+          "canceled": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "买家门户",
+          "经营后台"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "买家门户",
+          "经营后台"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "invoice": {
+        "id": "invoice",
+        "name": "账单与收据",
+        "family": "invoice",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "open",
+          "overdue",
+          "paid",
+          "partially-paid",
+          "void",
+          "uncollectible",
+          "unknown"
+        ],
+        "statesVisual": [
+          "draft",
+          "open",
+          "overdue",
+          "paid",
+          "partially-paid",
+          "void",
+          "uncollectible",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "open": "visual",
+          "overdue": "visual",
+          "paid": "visual",
+          "partially-paid": "visual",
+          "void": "visual",
+          "uncollectible": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "应收",
+          "收据",
+          "税务凭证"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "应收",
+          "收据",
+          "税务凭证"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "entitlement": {
+        "id": "entitlement",
+        "name": "会员访问与交付门槛",
+        "family": "entitlement",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "checking",
+          "granted",
+          "locked",
+          "expired",
+          "pending-sync",
+          "failed",
+          "unknown"
+        ],
+        "statesVisual": [
+          "checking",
+          "granted",
+          "locked",
+          "expired",
+          "pending-sync",
+          "failed",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "checking": "visual",
+          "granted": "visual",
+          "locked": "visual",
+          "expired": "visual",
+          "pending-sync": "visual",
+          "failed": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "已购访问",
+          "外部接入",
+          "恢复"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "已购访问",
+          "外部接入",
+          "恢复"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "course": {
+        "id": "course",
+        "name": "课程目录与学习任务",
+        "family": "course",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "locked",
+          "available",
+          "in-progress",
+          "submitted",
+          "passed",
+          "failed",
+          "completed",
+          "unknown"
+        ],
+        "statesVisual": [
+          "locked",
+          "available",
+          "in-progress",
+          "failed",
+          "completed"
+        ],
+        "statesContractOnly": [
+          "submitted",
+          "passed",
+          "unknown"
+        ],
+        "stateCoverage": {
+          "locked": "visual",
+          "available": "visual",
+          "in-progress": "visual",
+          "submitted": "contract-only",
+          "passed": "contract-only",
+          "failed": "visual",
+          "completed": "visual",
+          "unknown": "contract-only"
+        },
+        "variantsDeclared": [
+          "目录",
+          "课时",
+          "测验"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "目录",
+          "课时",
+          "测验"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "conversation": {
+        "id": "conversation",
+        "name": "对话、帖子与讨论",
+        "family": "message",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "empty",
+          "draft",
+          "sending",
+          "sent",
+          "failed",
+          "unread",
+          "resolved",
+          "restricted"
+        ],
+        "statesVisual": [
+          "loading",
+          "empty",
+          "draft",
+          "sending",
+          "sent",
+          "failed",
+          "unread",
+          "resolved",
+          "restricted"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "empty": "visual",
+          "draft": "visual",
+          "sending": "visual",
+          "sent": "visual",
+          "failed": "visual",
+          "unread": "visual",
+          "resolved": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "客服",
+          "群聊",
+          "论坛",
+          "公告"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "客服",
+          "群聊",
+          "论坛",
+          "公告"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "schedule": {
+        "id": "schedule",
+        "name": "活动与预约",
+        "family": "schedule",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "available",
+          "selected",
+          "reserving",
+          "booked",
+          "full",
+          "rescheduled",
+          "canceled",
+          "unknown"
+        ],
+        "statesVisual": [
+          "available",
+          "selected",
+          "reserving",
+          "booked",
+          "full",
+          "rescheduled",
+          "canceled",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "available": "visual",
+          "selected": "visual",
+          "reserving": "visual",
+          "booked": "visual",
+          "full": "visual",
+          "rescheduled": "visual",
+          "canceled": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "直播",
+          "线下活动",
+          "一对一"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "直播",
+          "线下活动",
+          "一对一"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "fulfillment": {
+        "id": "fulfillment",
+        "name": "实物与服务履约",
+        "family": "fulfillment",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "awaiting-details",
+          "queued",
+          "in-progress",
+          "shipped",
+          "delivered",
+          "exception",
+          "unknown"
+        ],
+        "statesVisual": [
+          "awaiting-details",
+          "queued",
+          "in-progress",
+          "shipped",
+          "delivered",
+          "exception",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "awaiting-details": "visual",
+          "queued": "visual",
+          "in-progress": "visual",
+          "shipped": "visual",
+          "delivered": "visual",
+          "exception": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "物流",
+          "服务里程碑"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "物流",
+          "服务里程碑"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "customer-record": {
+        "id": "customer-record",
+        "name": "客户与候补工作台",
+        "family": "customer",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "empty",
+          "invited",
+          "waiting",
+          "approved",
+          "denied",
+          "restricted"
+        ],
+        "statesVisual": [
+          "loading",
+          "empty",
+          "invited",
+          "waiting",
+          "approved",
+          "denied",
+          "restricted"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "empty": "visual",
+          "invited": "visual",
+          "waiting": "visual",
+          "approved": "visual",
+          "denied": "visual",
+          "restricted": "visual"
+        },
+        "variantsDeclared": [
+          "客户",
+          "会员关系",
+          "候补"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "客户",
+          "会员关系",
+          "候补"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "review-rating": {
+        "id": "review-rating",
+        "name": "评价与信任展示",
+        "family": "rating",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "pending",
+          "published",
+          "removed",
+          "paid",
+          "unpaid",
+          "unknown"
+        ],
+        "statesVisual": [
+          "draft",
+          "pending",
+          "published",
+          "removed",
+          "paid",
+          "unpaid",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "pending": "visual",
+          "published": "visual",
+          "removed": "visual",
+          "paid": "visual",
+          "unpaid": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "评价列表",
+          "撰写",
+          "治理"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "评价列表",
+          "撰写",
+          "治理"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "referral": {
+        "id": "referral",
+        "name": "推荐与分成关系",
+        "family": "affiliate",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "invited",
+          "active",
+          "expired",
+          "archived",
+          "revoked",
+          "unknown"
+        ],
+        "statesVisual": [
+          "invited",
+          "active",
+          "expired",
+          "archived",
+          "revoked",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "invited": "visual",
+          "active": "visual",
+          "expired": "visual",
+          "archived": "visual",
+          "revoked": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "推广链接",
+          "邀请",
+          "非链接分成"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "推广链接",
+          "邀请",
+          "非链接分成"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "commission": {
+        "id": "commission",
+        "name": "佣金明细与排行",
+        "family": "commission",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "estimating",
+          "pending",
+          "available",
+          "reversed",
+          "unknown",
+          "qualified",
+          "redeemed"
+        ],
+        "statesVisual": [
+          "estimating",
+          "pending",
+          "available",
+          "reversed",
+          "unknown",
+          "qualified",
+          "redeemed"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "estimating": "visual",
+          "pending": "visual",
+          "available": "visual",
+          "reversed": "visual",
+          "unknown": "visual",
+          "qualified": "visual",
+          "redeemed": "visual"
+        },
+        "variantsDeclared": [
+          "逐笔收益",
+          "排行",
+          "兑换奖励"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "逐笔收益",
+          "排行",
+          "兑换奖励"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "ad-editor": {
+        "id": "ad-editor",
+        "name": "广告层级与排期",
+        "family": "ads",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "incomplete",
+          "in-review",
+          "rejected",
+          "scheduled",
+          "active",
+          "paused",
+          "ended",
+          "error"
+        ],
+        "statesVisual": [
+          "draft",
+          "incomplete",
+          "in-review",
+          "rejected",
+          "scheduled",
+          "active",
+          "paused",
+          "ended",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "incomplete": "visual",
+          "in-review": "visual",
+          "rejected": "visual",
+          "scheduled": "visual",
+          "active": "visual",
+          "paused": "visual",
+          "ended": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "活动",
+          "广告组",
+          "广告"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "活动",
+          "广告组",
+          "广告"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "audience": {
+        "id": "audience",
+        "name": "受众构建与导入",
+        "family": "audience",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "validating",
+          "processing",
+          "ready",
+          "partial",
+          "failed",
+          "stale"
+        ],
+        "statesVisual": [
+          "draft",
+          "validating",
+          "processing",
+          "ready",
+          "partial",
+          "failed",
+          "stale"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "validating": "visual",
+          "processing": "visual",
+          "ready": "visual",
+          "partial": "visual",
+          "failed": "visual",
+          "stale": "visual"
+        },
+        "variantsDeclared": [
+          "条件集合",
+          "名单导入",
+          "相似受众候选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "条件集合",
+          "名单导入",
+          "相似受众候选"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "attribution": {
+        "id": "attribution",
+        "name": "归因与事件诊断",
+        "family": "attribution",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "waiting",
+          "receiving",
+          "duplicate",
+          "delayed",
+          "partial",
+          "unknown",
+          "error"
+        ],
+        "statesVisual": [
+          "waiting",
+          "receiving",
+          "duplicate",
+          "delayed",
+          "partial",
+          "unknown",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "waiting": "visual",
+          "receiving": "visual",
+          "duplicate": "visual",
+          "delayed": "visual",
+          "partial": "visual",
+          "unknown": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "广告报告",
+          "事件流",
+          "像素检查"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "广告报告",
+          "事件流",
+          "像素检查"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "wallet": {
+        "id": "wallet",
+        "name": "钱包与余额分区",
+        "family": "wallet",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "ready",
+          "zero",
+          "unknown",
+          "restricted",
+          "stale"
+        ],
+        "statesVisual": [
+          "loading",
+          "ready",
+          "zero",
+          "unknown",
+          "restricted",
+          "stale"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "ready": "visual",
+          "zero": "visual",
+          "unknown": "visual",
+          "restricted": "visual",
+          "stale": "visual"
+        },
+        "variantsDeclared": [
+          "个人",
+          "企业",
+          "用途可用额"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "个人",
+          "企业",
+          "用途可用额"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "ledger": {
+        "id": "ledger",
+        "name": "账务流水与对账",
+        "family": "ledger",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "loading",
+          "empty",
+          "posted",
+          "pending",
+          "adjusted",
+          "unmatched",
+          "unknown",
+          "error"
+        ],
+        "statesVisual": [
+          "loading",
+          "empty",
+          "posted",
+          "pending",
+          "adjusted",
+          "unmatched",
+          "unknown",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "loading": "visual",
+          "empty": "visual",
+          "posted": "visual",
+          "pending": "visual",
+          "adjusted": "visual",
+          "unmatched": "visual",
+          "unknown": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "流水",
+          "关联明细",
+          "对账"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "流水",
+          "关联明细",
+          "对账"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "payout": {
+        "id": "payout",
+        "name": "出款与收款目的地",
+        "family": "payout",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "incomplete",
+          "validating",
+          "quoted",
+          "quote-expired",
+          "initiated",
+          "processing",
+          "unknown",
+          "failed",
+          "confirmed",
+          "returned",
+          "requires-action",
+          "cancel-confirmation",
+          "canceling",
+          "canceled"
+        ],
+        "statesVisual": [
+          "incomplete",
+          "validating",
+          "quoted",
+          "quote-expired",
+          "initiated",
+          "processing",
+          "unknown",
+          "failed",
+          "confirmed",
+          "returned",
+          "requires-action",
+          "cancel-confirmation",
+          "canceling",
+          "canceled"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "incomplete": "visual",
+          "validating": "visual",
+          "quoted": "visual",
+          "quote-expired": "visual",
+          "initiated": "visual",
+          "processing": "visual",
+          "unknown": "visual",
+          "failed": "visual",
+          "confirmed": "visual",
+          "returned": "visual",
+          "requires-action": "visual",
+          "cancel-confirmation": "visual",
+          "canceling": "visual",
+          "canceled": "visual"
+        },
+        "variantsDeclared": [
+          "目的地",
+          "报价",
+          "进度"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "目的地",
+          "报价",
+          "进度"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "transfer": {
+        "id": "transfer",
+        "name": "充值、转账与兑换确认",
+        "family": "transfer",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "quoted",
+          "expired",
+          "confirming",
+          "processing",
+          "unknown",
+          "completed",
+          "failed"
+        ],
+        "statesVisual": [
+          "draft",
+          "quoted",
+          "expired",
+          "confirming",
+          "processing",
+          "unknown",
+          "completed",
+          "failed"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "quoted": "visual",
+          "expired": "visual",
+          "confirming": "visual",
+          "processing": "visual",
+          "unknown": "visual",
+          "completed": "visual",
+          "failed": "visual"
+        },
+        "variantsDeclared": [
+          "充值",
+          "转账",
+          "换汇",
+          "领取链接"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "充值",
+          "转账",
+          "换汇",
+          "领取链接"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "financial-product": {
+        "id": "financial-product",
+        "name": "受限金融产品入口",
+        "family": "financial",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "unverified",
+          "unavailable",
+          "eligible",
+          "application-pending",
+          "active",
+          "restricted",
+          "closed"
+        ],
+        "statesVisual": [
+          "unverified",
+          "unavailable",
+          "eligible",
+          "application-pending",
+          "active",
+          "restricted",
+          "closed"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "unverified": "visual",
+          "unavailable": "visual",
+          "eligible": "visual",
+          "application-pending": "visual",
+          "active": "visual",
+          "restricted": "visual",
+          "closed": "visual"
+        },
+        "variantsDeclared": [
+          "发卡",
+          "融资",
+          "收益产品",
+          "数字资产"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "发卡",
+          "融资",
+          "收益产品",
+          "数字资产"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "verification": {
+        "id": "verification",
+        "name": "身份核验与补件",
+        "family": "verification",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "not-started",
+          "in-progress",
+          "submitted",
+          "needs-info",
+          "verified",
+          "rejected",
+          "expired",
+          "unknown"
+        ],
+        "statesVisual": [
+          "not-started",
+          "in-progress",
+          "submitted",
+          "needs-info",
+          "verified",
+          "rejected",
+          "expired",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "not-started": "visual",
+          "in-progress": "visual",
+          "submitted": "visual",
+          "needs-info": "visual",
+          "verified": "visual",
+          "rejected": "visual",
+          "expired": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "个人",
+          "企业",
+          "补件"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "个人",
+          "企业",
+          "补件"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "risk-case": {
+        "id": "risk-case",
+        "name": "风险案件与限制",
+        "family": "risk",
+        "level": "interactive",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "上方实验室的局部交互；未交付生产组件",
+        "statesDeclared": [
+          "clear",
+          "flagged",
+          "reviewing",
+          "needs-evidence",
+          "appealing",
+          "cleared",
+          "maintained",
+          "unknown"
+        ],
+        "statesVisual": [
+          "clear",
+          "flagged",
+          "reviewing",
+          "needs-evidence",
+          "appealing",
+          "cleared",
+          "maintained",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "clear": "visual",
+          "flagged": "visual",
+          "reviewing": "visual",
+          "needs-evidence": "visual",
+          "appealing": "visual",
+          "cleared": "visual",
+          "maintained": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "疑点",
+          "复核",
+          "限制处置"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "疑点",
+          "复核",
+          "限制处置"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "appeal": {
+        "id": "appeal",
+        "name": "复议与争议工作台",
+        "family": "appeal",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "submitted",
+          "needs-evidence",
+          "awaiting-owner",
+          "decided",
+          "closed",
+          "expired"
+        ],
+        "statesVisual": [
+          "draft",
+          "submitted",
+          "needs-evidence",
+          "awaiting-owner",
+          "decided",
+          "closed",
+          "expired"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "submitted": "visual",
+          "needs-evidence": "visual",
+          "awaiting-owner": "visual",
+          "decided": "visual",
+          "closed": "visual",
+          "expired": "visual"
+        },
+        "variantsDeclared": [
+          "内容复议",
+          "平台退款案",
+          "银行拒付"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "内容复议",
+          "平台退款案",
+          "银行拒付"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "reserve": {
+        "id": "reserve",
+        "name": "限制资金与释放计划",
+        "family": "reserve",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "active",
+          "partially-released",
+          "released",
+          "extended",
+          "unknown"
+        ],
+        "statesVisual": [
+          "active",
+          "partially-released",
+          "released",
+          "extended",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "active": "visual",
+          "partially-released": "visual",
+          "released": "visual",
+          "extended": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "滚动准备金",
+          "固定限制",
+          "风险留置"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "滚动准备金",
+          "固定限制",
+          "风险留置"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "tax-document": {
+        "id": "tax-document",
+        "name": "税务资料与费用政策",
+        "family": "tax",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "missing",
+          "draft",
+          "submitted",
+          "validated",
+          "needs-correction",
+          "expired",
+          "unavailable"
+        ],
+        "statesVisual": [
+          "missing",
+          "draft",
+          "submitted",
+          "validated",
+          "needs-correction",
+          "expired",
+          "unavailable"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "missing": "visual",
+          "draft": "visual",
+          "submitted": "visual",
+          "validated": "visual",
+          "needs-correction": "visual",
+          "expired": "visual",
+          "unavailable": "visual"
+        },
+        "variantsDeclared": [
+          "税号",
+          "税项说明",
+          "申报文件候选"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "税号",
+          "税项说明",
+          "申报文件候选"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "app-connection": {
+        "id": "app-connection",
+        "name": "应用安装与授权",
+        "family": "integration",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "not-installed",
+          "consent",
+          "connecting",
+          "connected",
+          "partial",
+          "expired",
+          "revoked",
+          "error"
+        ],
+        "statesVisual": [
+          "not-installed",
+          "connected",
+          "error"
+        ],
+        "statesContractOnly": [
+          "consent",
+          "connecting",
+          "partial",
+          "expired",
+          "revoked"
+        ],
+        "stateCoverage": {
+          "not-installed": "visual",
+          "consent": "contract-only",
+          "connecting": "contract-only",
+          "connected": "visual",
+          "partial": "contract-only",
+          "expired": "contract-only",
+          "revoked": "contract-only",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "安装",
+          "OAuth授权",
+          "连接器"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "安装",
+          "OAuth授权",
+          "连接器"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "credential": {
+        "id": "credential",
+        "name": "开发凭证管理",
+        "family": "credential",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "masked",
+          "revealed",
+          "creating",
+          "active",
+          "expired",
+          "revoked",
+          "error"
+        ],
+        "statesVisual": [
+          "masked",
+          "revealed",
+          "creating",
+          "active",
+          "expired",
+          "revoked",
+          "error"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "masked": "visual",
+          "revealed": "visual",
+          "creating": "visual",
+          "active": "visual",
+          "expired": "visual",
+          "revoked": "visual",
+          "error": "visual"
+        },
+        "variantsDeclared": [
+          "密钥",
+          "令牌",
+          "环境配置"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "密钥",
+          "令牌",
+          "环境配置"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "event-log": {
+        "id": "event-log",
+        "name": "接口事件与投递日志",
+        "family": "events",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "queued",
+          "processing",
+          "delivered",
+          "failed",
+          "retrying",
+          "rate-limited",
+          "unknown"
+        ],
+        "statesVisual": [
+          "queued",
+          "processing",
+          "delivered",
+          "failed",
+          "retrying",
+          "rate-limited",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "queued": "visual",
+          "processing": "visual",
+          "delivered": "visual",
+          "failed": "visual",
+          "retrying": "visual",
+          "rate-limited": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "请求日志",
+          "Webhook",
+          "运行日志"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "请求日志",
+          "Webhook",
+          "运行日志"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "import-export": {
+        "id": "import-export",
+        "name": "导入、导出与同步任务",
+        "family": "importexport",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "configuring",
+          "preview",
+          "queued",
+          "processing",
+          "partial",
+          "completed",
+          "failed",
+          "expired",
+          "canceled"
+        ],
+        "statesVisual": [
+          "configuring",
+          "preview",
+          "queued",
+          "processing",
+          "partial",
+          "completed",
+          "failed",
+          "expired",
+          "canceled"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "configuring": "visual",
+          "preview": "visual",
+          "queued": "visual",
+          "processing": "visual",
+          "partial": "visual",
+          "completed": "visual",
+          "failed": "visual",
+          "expired": "visual",
+          "canceled": "visual"
+        },
+        "variantsDeclared": [
+          "导入",
+          "导出",
+          "连接同步"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "导入",
+          "导出",
+          "连接同步"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "ai-workbench": {
+        "id": "ai-workbench",
+        "name": "AI会话与生成任务",
+        "family": "ai",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "idle",
+          "generating",
+          "streaming",
+          "ready",
+          "stopped",
+          "partial",
+          "failed",
+          "unknown"
+        ],
+        "statesVisual": [
+          "idle",
+          "generating",
+          "ready",
+          "failed"
+        ],
+        "statesContractOnly": [
+          "streaming",
+          "stopped",
+          "partial",
+          "unknown"
+        ],
+        "stateCoverage": {
+          "idle": "visual",
+          "generating": "visual",
+          "streaming": "contract-only",
+          "ready": "visual",
+          "stopped": "contract-only",
+          "partial": "contract-only",
+          "failed": "visual",
+          "unknown": "contract-only"
+        },
+        "variantsDeclared": [
+          "会话",
+          "媒体生成",
+          "经营建议"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "会话",
+          "媒体生成",
+          "经营建议"
+        ],
+        "notes": [
+          "状态说明不等于行为已实现；视觉覆盖不证明生产转换",
+          "真实接口、权限、持久化及业务规则尚未实现"
+        ]
+      },
+      "action-preview": {
+        "id": "action-preview",
+        "name": "代理操作预览与确认",
+        "family": "agentaction",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "proposed",
+          "reviewing",
+          "confirmed",
+          "executing",
+          "expired",
+          "unknown",
+          "failed",
+          "completed"
+        ],
+        "statesVisual": [
+          "proposed",
+          "reviewing",
+          "confirmed",
+          "executing",
+          "expired",
+          "unknown",
+          "failed",
+          "completed"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "proposed": "visual",
+          "reviewing": "visual",
+          "confirmed": "visual",
+          "executing": "visual",
+          "expired": "visual",
+          "unknown": "visual",
+          "failed": "visual",
+          "completed": "visual"
+        },
+        "variantsDeclared": [
+          "资金",
+          "权限",
+          "发布",
+          "删除"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "资金",
+          "权限",
+          "发布",
+          "删除"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "site-lifecycle": {
+        "id": "site-lifecycle",
+        "name": "网站与版本发布",
+        "family": "site",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "draft",
+          "building",
+          "preview-ready",
+          "publishing",
+          "live",
+          "failed",
+          "rollback-pending"
+        ],
+        "statesVisual": [
+          "draft",
+          "building",
+          "preview-ready",
+          "publishing",
+          "live",
+          "failed",
+          "rollback-pending"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "draft": "visual",
+          "building": "visual",
+          "preview-ready": "visual",
+          "publishing": "visual",
+          "live": "visual",
+          "failed": "visual",
+          "rollback-pending": "visual"
+        },
+        "variantsDeclared": [
+          "编辑",
+          "预览",
+          "发布",
+          "恢复"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "编辑",
+          "预览",
+          "发布",
+          "恢复"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "blueprint": {
+        "id": "blueprint",
+        "name": "业务蓝图与迁移向导",
+        "family": "blueprint",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "selecting",
+          "preview",
+          "blocked",
+          "confirmed",
+          "running",
+          "partial",
+          "completed",
+          "failed"
+        ],
+        "statesVisual": [
+          "selecting",
+          "preview",
+          "blocked",
+          "confirmed",
+          "running",
+          "partial",
+          "completed",
+          "failed"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "selecting": "visual",
+          "preview": "visual",
+          "blocked": "visual",
+          "confirmed": "visual",
+          "running": "visual",
+          "partial": "visual",
+          "completed": "visual",
+          "failed": "visual"
+        },
+        "variantsDeclared": [
+          "蓝图复制",
+          "配置导入",
+          "订阅迁移"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "蓝图复制",
+          "配置导入",
+          "订阅迁移"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      },
+      "service-application": {
+        "id": "service-application",
+        "name": "创业服务与成长资格",
+        "family": "application",
+        "level": "visual",
+        "production": false,
+        "maturity": "specified",
+        "visualSpecimen": true,
+        "interactiveScope": "家族视觉样例；无完整组件交互",
+        "statesDeclared": [
+          "unverified",
+          "available",
+          "applying",
+          "needs-info",
+          "under-review",
+          "qualified",
+          "not-qualified",
+          "unknown"
+        ],
+        "statesVisual": [
+          "unverified",
+          "available",
+          "applying",
+          "needs-info",
+          "under-review",
+          "qualified",
+          "not-qualified",
+          "unknown"
+        ],
+        "statesContractOnly": [],
+        "stateCoverage": {
+          "unverified": "visual",
+          "available": "visual",
+          "applying": "visual",
+          "needs-info": "visual",
+          "under-review": "visual",
+          "qualified": "visual",
+          "not-qualified": "visual",
+          "unknown": "visual"
+        },
+        "variantsDeclared": [
+          "辅导申请",
+          "企业接入",
+          "公司成立候选",
+          "成长社群"
+        ],
+        "variantsVisual": [],
+        "variantsContractOnly": [
+          "辅导申请",
+          "企业接入",
+          "公司成立候选",
+          "成长社群"
+        ],
+        "notes": "每个目录状态均有明确中文事实、原因及下一步，并在该组件专属结构内呈现。仅静态视觉提案；后端状态机、权限、网络、业务行为、真实数据和全变体交互均未实现。变体使用中文标签，部分变体共享结构。未证明浏览器渲染、响应式或辅助技术完整通过。"
+      }
+    },
+    "maturity": {
+      "interactive": 25,
+      "visual": 78,
+      "specification": 0,
+      "production": 0
+    }
+  },
+  "limitations": [
+    "No production API, auth, permissions, financial operations or persistent storage",
+    "State visual coverage is distinct from real interaction; contract-only states are explicitly enumerated",
+    "Visibility pause tested using a synthetic document.hidden event",
+    "No real device, screen-reader or cross-browser certification",
+    "Variants beyond stated visual coverage remain contract-only"
+  ]
+}

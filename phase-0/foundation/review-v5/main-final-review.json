@@ -1,0 +1,11 @@
+{
+  "slides": 12,
+  "pptx_sha256": "aee72b26c18bf9350ab15521f773527394c9f889bc9cdc6b0b432e24e43a3add",
+  "main_visual_review": "All12drafts inspected, final changedslides3/10/11/12 inspected; worker inspectedall12finals",
+  "old_execution_page_removed": true,
+  "canonical_business_source": "phase-0/foundation/business-model-v2.md",
+  "limitations": [
+    "Noto Sans SC not embedded; PDF supplied for stable viewing",
+    "No desktop PowerPoint edit/resave test"
+  ]
+}

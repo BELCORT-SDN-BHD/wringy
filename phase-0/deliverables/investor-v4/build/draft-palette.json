@@ -1,0 +1,11 @@
+{
+  "status": "main-authorized-draft-only",
+  "background": "#FFFFFF",
+  "surface": "#F6F6F3",
+  "ink": "#171A14",
+  "accent": "#E4F222",
+  "forest": "#173D2A",
+  "line": "#E1E3DC",
+  "muted": "#5C6258",
+  "provenance": "Main message authorizes these Wringy proposal values for draft only. Final must load design-v3/tokens.json."
+}

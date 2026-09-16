@@ -1,0 +1,1185 @@
+{
+  "schema_version": 1,
+  "status": "complete_approved_and_portable_checks_passed",
+  "prepared_date": "2026-09-10",
+  "scope": "Prepare only. No ZIP created and no source/deck files modified.",
+  "delivery_root": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/final",
+  "version_policy": {
+    "resolve": "Use each owner-confirmed final result.json output/pdfPath/slideCount/slideMap. Never choose oldest unsuffixed output or newest mtime alone.",
+    "archive_naming": "Stable reader-facing names may differ from source version suffix; record source path and SHA256 at packaging.",
+    "no_directory_zip": true,
+    "final_directory": "Copy only owner-selected files into output/final using stable reader names; preserve all original output versions. Guide in final references these stable files only.",
+    "guide_source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/阅读指南.md",
+    "guide_destination": "阅读指南.md"
+  },
+  "decks": [
+    {
+      "id": "learning",
+      "reader_stem": "01-读懂Whop",
+      "owner_result": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/learning/result.json",
+      "observed_candidate": {
+        "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pptx",
+        "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pdf",
+        "previewDir": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/learning/.private/render-AEqo8x/slides",
+        "slideCount": 64
+      },
+      "final_confirmed": true,
+      "expected_logical_slides": 64,
+      "changed_slide_review": "Required before selecting final; use actual slideMap if physical count changes.",
+      "selected_version": "v4",
+      "selected_source": {
+        "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pptx",
+        "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pdf",
+        "slideCount": 64
+      },
+      "visual_review": "V3 PASS all52 changed native pages; v4 PASS S32-only delta.",
+      "packaging_hold": "Learning selection is final. Entire bundle waits for other owners.",
+      "selected_sha256": {
+        "output": "3486a3a211b085a8e7f4bb64e2afc7db40a47989dd3a59ec7a7d85b6ccabdf35",
+        "pdfPath": "4420836e257b5751fb0ff950b638b92701246afb71c4cb5d62ca90669fe78870"
+      },
+      "final_selection_authority": "User final decision: use signed-off learning V4, 2026-09-10.",
+      "pending": null
+    },
+    {
+      "id": "investor",
+      "reader_stem": "02-Wringy投资与伙伴合作提案",
+      "owner_result": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/result.json",
+      "final_confirmed": true,
+      "pending": null,
+      "expected_logical_slides": 38,
+      "selected_version": "v2",
+      "selected_source": {
+        "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pptx",
+        "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pdf",
+        "slideCount": 38
+      },
+      "final_selection_authority": "Main explicitly selected investorV2 after independent all38 visual review PASS; overrides newer v3 owner result candidate."
+    },
+    {
+      "id": "brand",
+      "reader_stem": "03-Wringy品牌与设计系统",
+      "owner_result": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/brand-manual/result.json",
+      "final_confirmed": true,
+      "pending": null,
+      "observed_candidate": {
+        "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pptx",
+        "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pdf",
+        "slideCount": 30,
+        "previewDir": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/brand-manual/private/render-FrPMrA/slides"
+      },
+      "selected_source": {
+        "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pptx",
+        "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pdf",
+        "slideCount": 30
+      },
+      "selected_sha256": {
+        "output": "05e863747c15fe05066adbd0627048d676fe46747b04a7be82cc4e2f92ffee9f",
+        "pdfPath": "da696144ceb805743a9773fe727e14b686833ce744b29f0411bc7c3ce8b527ee"
+      }
+    }
+  ],
+  "archives": [
+    {
+      "name": "Wringy-Phase0-交付包.zip",
+      "status": "complete",
+      "root_files": [
+        "阅读指南.md",
+        "01-读懂Whop.pptx",
+        "01-读懂Whop.pdf",
+        "02-Wringy投资与伙伴合作提案.pptx",
+        "02-Wringy投资与伙伴合作提案.pdf",
+        "03-Wringy品牌与设计系统.pptx",
+        "03-Wringy品牌与设计系统.pdf"
+      ],
+      "deck_entries": "Resolve from final confirmed selected_source per deck; copy to reader_stem + extension, no historical suffix.",
+      "entries": [
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/brand-strategy.md",
+          "archive_path": "品牌资料/brand/brand-strategy.md",
+          "sha256": "af2798620fdc64ecc1bafaa5aa9430596946e8fd76c0f9c194c7447881f4d741",
+          "bytes": 12249
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/design-system-spec.md",
+          "archive_path": "品牌资料/brand/design-system-spec.md",
+          "sha256": "3021afec3d56c1dfbaa682595b3fe38a0a6f256280dd91d92795f0dcfad7459b",
+          "bytes": 20205
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json",
+          "archive_path": "品牌资料/brand/tokens.json",
+          "sha256": "f912ee370ef92e6bd17885e939b25dadf30ae4ce6a745f5e2ca6a6100b868e51",
+          "bytes": 34457
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/component-inventory.json",
+          "archive_path": "品牌资料/brand/component-inventory.json",
+          "sha256": "31992e86850c29802ae2889472cdaa6f59d400094aa5db8868169da67655ce92",
+          "bytes": 100377
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html",
+          "archive_path": "品牌资料/brand/showcase/index.html",
+          "sha256": "f5ee062cd26bc568db227524e26160a3f7c2533592eb463e817c1684c0265cfe",
+          "bytes": 1066
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/styles.css",
+          "archive_path": "品牌资料/brand/showcase/styles.css",
+          "sha256": "ceca8f3927c3c386750a31f4096123567783a4e1e3e3daf2cfc3ebaddaef95ad",
+          "bytes": 19159
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/tokens.css",
+          "archive_path": "品牌资料/brand/showcase/tokens.css",
+          "sha256": "314c2335f74bced14c85624c94c040f8e8291bc30a198ce5a11bec7295e2c390",
+          "bytes": 7748
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/tokens.json",
+          "archive_path": "品牌资料/brand/showcase/tokens.json",
+          "sha256": "07d083f4fc394693848c04592160ae971210aad3deb90ad3629f073fa6d4a8eb",
+          "bytes": 34456
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/tokens-data.js",
+          "archive_path": "品牌资料/brand/showcase/tokens-data.js",
+          "sha256": "2d800255270063973dc4d54705a8ae51b084543077c3b8b3ce139422aa9ef7a8",
+          "bytes": 25620
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/components.js",
+          "archive_path": "品牌资料/brand/showcase/components.js",
+          "sha256": "0d4775d9986fd455795704619974905bdaa2f4204f96e792ba622cc4965e82ad",
+          "bytes": 14559
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/catalog.js",
+          "archive_path": "品牌资料/brand/showcase/catalog.js",
+          "sha256": "9fceeb8794587895ab20a5918395762a8ad196f72dc82a39038f62b721afae81",
+          "bytes": 28534
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/app.js",
+          "archive_path": "品牌资料/brand/showcase/app.js",
+          "sha256": "94521225801e336444c545d7a3c3db44d12555eddae185d113e1bb0bfa2dc637",
+          "bytes": 14086
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/images/logo.png",
+          "archive_path": "品牌资料/brand/showcase/images/logo.png",
+          "sha256": "8af59c467cb22012bef263f708b7718bd4d2d39605cfc26da921604c0fdcf950",
+          "bytes": 903489
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/images/editorial.png",
+          "archive_path": "品牌资料/brand/showcase/images/editorial.png",
+          "sha256": "7de4a82bcdc4105f2499b4633e4171516c1b63ab8e44dcefcbba7fce2187b2c4",
+          "bytes": 2340658
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/fonts/Manrope.ttf",
+          "archive_path": "品牌资料/brand/showcase/fonts/Manrope.ttf",
+          "sha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40",
+          "bytes": 165420
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/fonts/NotoSansSC.ttf",
+          "archive_path": "品牌资料/brand/showcase/fonts/NotoSansSC.ttf",
+          "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+          "bytes": 17772300
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/fonts/Manrope-OFL.txt",
+          "archive_path": "品牌资料/brand/showcase/fonts/Manrope-OFL.txt",
+          "sha256": "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c",
+          "bytes": 4384
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/fonts/NotoSansSC-OFL.txt",
+          "archive_path": "品牌资料/brand/showcase/fonts/NotoSansSC-OFL.txt",
+          "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+          "bytes": 4388
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-logo-concept.png",
+          "archive_path": "品牌资料/概念图/brand-logo-concept-概念.png",
+          "sha256": "8af59c467cb22012bef263f708b7718bd4d2d39605cfc26da921604c0fdcf950",
+          "bytes": 903489
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-editorial.png",
+          "archive_path": "品牌资料/概念图/brand-editorial-概念.png",
+          "sha256": "7de4a82bcdc4105f2499b4633e4171516c1b63ab8e44dcefcbba7fce2187b2c4",
+          "bytes": 2340658
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/learning-hero.png",
+          "archive_path": "品牌资料/概念图/learning-hero-概念.png",
+          "sha256": "5de33ae68505f052435a2c38fd2cca363040ab9ff5db56192840235a33f261c8",
+          "bytes": 1709128
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/investor-hero.png",
+          "archive_path": "品牌资料/概念图/investor-hero-概念.png",
+          "sha256": "8a2143b8b811c315b637a8ab218b87afe8564a41ae86c8887291e2388294218d",
+          "bytes": 1594124
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market.md",
+          "archive_path": "研究资料/research/sea-market.md",
+          "sha256": "e6a07ddf82a50ed53b01ecb908dbdb91d19e958947bf8ab297171b172122ae53",
+          "bytes": 36975
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market-facts.json",
+          "archive_path": "研究资料/research/sea-market-facts.json",
+          "sha256": "b2ce1ca1ec75da48a35a00bc566f1fcb108e4edd2be2a68e632e67c841657f68",
+          "bytes": 35348
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/operating-model.md",
+          "archive_path": "研究资料/research/operating-model.md",
+          "sha256": "0c8370e5518917ebb1db171a78245668e397c06c432deb4a2e01c9d756c41290",
+          "bytes": 29471
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+          "archive_path": "研究资料/research/model-inputs.json",
+          "sha256": "1c1d0a8f74b40bc9790c0317bf476be49f99fa769b69a92e4d85bf1b7712965b",
+          "bytes": 21246
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-calculations.json",
+          "archive_path": "研究资料/research/model-calculations.json",
+          "sha256": "819a24b64b985b01fbc5f1a5584df5dd8aff5facaae83729644850133c1a3f0d",
+          "bytes": 520922
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-source.py",
+          "archive_path": "研究资料/research/model-source.py",
+          "sha256": "d121f4df029ab065c30f889cd2267542ceb1e365edcc213167c8433d885ab739",
+          "bytes": 53510
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/content/whop-learning.json",
+          "archive_path": "研究资料/Whop学习资料/whop-learning.json",
+          "sha256": "a4ae7c4bb3e07b7b338dec84235853d535e7b1e2713dbf625d733f1c34e134b2",
+          "bytes": 186137
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/content/whop-learning-outline.md",
+          "archive_path": "研究资料/Whop学习资料/whop-learning-outline.md",
+          "sha256": "6c11a71c076d1647b2b47b5b9db6e715062e3416aeaaa6de3a2b9dd5c1ff3643",
+          "bytes": 11153
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/content/feature-slide-map.json",
+          "archive_path": "研究资料/Whop学习资料/feature-slide-map.json",
+          "sha256": "244a2aab34682f5e7f955469f2471d8a47b483ed25a513b370f05e71f2e2893b",
+          "bytes": 90311
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/implementation-coverage.json",
+          "archive_path": "品牌资料/brand/showcase/implementation-coverage.json",
+          "sha256": "1c29a49642c6ea64e00cf96898198342951ec49619074ca00b561d3f9d6166d5",
+          "bytes": 11590
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/token-provenance.json",
+          "archive_path": "品牌资料/brand/showcase/token-provenance.json",
+          "sha256": "9570faec34197eb53a652ee5f3af8aa97eac09fae48116d5393f33a96ed3485c",
+          "bytes": 217
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/fonts/provenance.json",
+          "archive_path": "品牌资料/brand/showcase/fonts/provenance.json",
+          "sha256": "fb767b37cd8ba58a57be5c0ab6e24483bdec6e6139a22db01c9e1fb5de8108c9",
+          "bytes": 612
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/screens/UI-BRAND-DESKTOP.png",
+          "archive_path": "品牌资料/brand/showcase/screens/UI-BRAND-DESKTOP.png",
+          "sha256": "e6d8b683d72f22ab7bd06d66abab812e88eb29634e8e549e37b80dc68b55b1eb",
+          "bytes": 283178
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/screens/UI-BRAND-MOBILE.png",
+          "archive_path": "品牌资料/brand/showcase/screens/UI-BRAND-MOBILE.png",
+          "sha256": "afae8b2c706b785e8698f34a6f5e088b67b718fd45baf07d12f5958765542b3f",
+          "bytes": 61004
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/screens/UI-CREATOR-DESKTOP.png",
+          "archive_path": "品牌资料/brand/showcase/screens/UI-CREATOR-DESKTOP.png",
+          "sha256": "5a1c88989b1257f37e7615be178b986d3af4422ae92a33e30d4268204faec882",
+          "bytes": 400179
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/screens/UI-CREATOR-MOBILE.png",
+          "archive_path": "品牌资料/brand/showcase/screens/UI-CREATOR-MOBILE.png",
+          "sha256": "df4b2a815562e61611f277cfffd3cdc1a062f20503fdc420340b1f995daecf56",
+          "bytes": 60630
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/screens/UI-PAYOUT-CONFIRM.png",
+          "archive_path": "品牌资料/brand/showcase/screens/UI-PAYOUT-CONFIRM.png",
+          "sha256": "a43bcffb5ae958be7b0cd198979bc6df4e32a8301f64625a84ae1562e3aab0fa",
+          "bytes": 60783
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pptx",
+          "archive_path": "01-读懂Whop.pptx",
+          "sha256": "3486a3a211b085a8e7f4bb64e2afc7db40a47989dd3a59ec7a7d85b6ccabdf35",
+          "bytes": 2301823
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pdf",
+          "archive_path": "01-读懂Whop.pdf",
+          "sha256": "4420836e257b5751fb0ff950b638b92701246afb71c4cb5d62ca90669fe78870",
+          "bytes": 12319304
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pptx",
+          "archive_path": "03-Wringy品牌与设计系统.pptx",
+          "sha256": "05e863747c15fe05066adbd0627048d676fe46747b04a7be82cc4e2f92ffee9f",
+          "bytes": 5871042
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/03-Wringy品牌与设计系统.pdf",
+          "archive_path": "03-Wringy品牌与设计系统.pdf",
+          "sha256": "da696144ceb805743a9773fe727e14b686833ce744b29f0411bc7c3ce8b527ee",
+          "bytes": 4713948
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pptx",
+          "archive_path": "02-Wringy投资与伙伴合作提案.pptx",
+          "sha256": "c171971e7130f319719c67db81468846c2201fafcae428958fdd18a9159bfcfb",
+          "bytes": 2096372
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pdf",
+          "archive_path": "02-Wringy投资与伙伴合作提案.pdf",
+          "sha256": "fefeb6dbf3632b90e667f728ac9c4806cb651f6f96a3185a516117299409f829",
+          "bytes": 6770479
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/README.md",
+          "archive_path": "研究资料/whop-full/README.md",
+          "sha256": "a1e1e9a877d1d4e8ff663ee8b8ddc40a11ada28b14cdd9b8859e40166db33e17",
+          "bytes": 20650
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/evidence-guide.md",
+          "archive_path": "研究资料/whop-full/evidence-guide.md",
+          "sha256": "861c6f54b761387f576669e58fcef861e9330c0a9ef87cf8ae4dfc33d4923327",
+          "bytes": 2276
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/commerce-delivery-operations.md",
+          "archive_path": "研究资料/whop-full/commerce-delivery-operations.md",
+          "sha256": "150fc5cb941bad06a63cd33380ab1d0de69cce6394c10103bede825c6374a02b",
+          "bytes": 18466
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/distribution-creators-growth.md",
+          "archive_path": "研究资料/whop-full/distribution-creators-growth.md",
+          "sha256": "8300147e36e63826b4157fdc5e991d574d787a919c2f2b68b29ddc6295821fb9",
+          "bytes": 13355
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/payments-money-trust.md",
+          "archive_path": "研究资料/whop-full/payments-money-trust.md",
+          "sha256": "145de395adce023a2b4c60634cab3eb7707c070f0df8bae2ef8904e058179dbe",
+          "bytes": 19405
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/platform-ai-enterprise.md",
+          "archive_path": "研究资料/whop-full/platform-ai-enterprise.md",
+          "sha256": "658c2692161330efc5b3ae46356a8d25d47d4062826b3e5cf802c18e8bec57a6",
+          "bytes": 27805
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/build-reference.md",
+          "archive_path": "研究资料/whop-full/build-reference.md",
+          "sha256": "3eda8648664153c09f2c1e216a558f4b4dc3c3ba140b9324aee0396f944e21f7",
+          "bytes": 2331
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/malaysia-readiness.md",
+          "archive_path": "研究资料/whop-full/malaysia-readiness.md",
+          "sha256": "6fc325467ecbfe2185066297214625acbeeaa036c500984508f5a2f37a4bba33",
+          "bytes": 2912
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B01.md",
+          "archive_path": "研究资料/whop-full/modules/B01.md",
+          "sha256": "b87ef9c624561f5786e376d573007cf6efd98b95eadc2accace294d18f50919d",
+          "bytes": 10475
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B02.md",
+          "archive_path": "研究资料/whop-full/modules/B02.md",
+          "sha256": "62b1b2df6095f5e91915fb2ac1ab9ec815366042baa9cccae414f9207b12b025",
+          "bytes": 10930
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B03.md",
+          "archive_path": "研究资料/whop-full/modules/B03.md",
+          "sha256": "743ebd6d0142e771a7c88cde3b4a8e0590fa09efd0c6cedb74a83938a1d68ea4",
+          "bytes": 12276
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B04.md",
+          "archive_path": "研究资料/whop-full/modules/B04.md",
+          "sha256": "15cc6ff39ac6c779ab84e521d2b464e68f5e683d0de81402bc11c9eb62ee5490",
+          "bytes": 11467
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B05.md",
+          "archive_path": "研究资料/whop-full/modules/B05.md",
+          "sha256": "f2ecfd66dd334535de81cdab0282cbca79d96a2d1465c03450a428ae68db8238",
+          "bytes": 6586
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B06.md",
+          "archive_path": "研究资料/whop-full/modules/B06.md",
+          "sha256": "5167c3d2482d65f0fac75f9d22256eea2ad985f832f5be7ba17880555efb6cbd",
+          "bytes": 8548
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B07.md",
+          "archive_path": "研究资料/whop-full/modules/B07.md",
+          "sha256": "6954c1ccdc1ad3bd6d8afc23189875535b9df50ac671f3dc84ef2941961fde19",
+          "bytes": 7450
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B08.md",
+          "archive_path": "研究资料/whop-full/modules/B08.md",
+          "sha256": "f9971fcc9d97b2ca925334689886db99df88745b6fbf97aae4d13afd500f8ce0",
+          "bytes": 9466
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B09.md",
+          "archive_path": "研究资料/whop-full/modules/B09.md",
+          "sha256": "c1dfedc7c4f4f940271ceec1c8d144fe8c0b27880a571071cd0974b10247872f",
+          "bytes": 12723
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B10.md",
+          "archive_path": "研究资料/whop-full/modules/B10.md",
+          "sha256": "6f47106e567f52402bb54f145da38c19822e3c4f66271191accb04c48c601591",
+          "bytes": 11466
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B11.md",
+          "archive_path": "研究资料/whop-full/modules/B11.md",
+          "sha256": "7e5fec1255dbaedf674ec8de715f20529334d08b61cfdf43c339c1ed5cd44495",
+          "bytes": 15945
+        },
+        {
+          "source": "${WRINGY_WORKSPACE}/phase-0/research/whop-full/modules/B12.md",
+          "archive_path": "研究资料/whop-full/modules/B12.md",
+          "sha256": "59debfe3f765fe56c7e3e69dd1109f1515457bade7cc1814b88da2b8c7b27884",
+          "bytes": 15817
+        }
+      ],
+      "generated_at_packaging": [
+        {
+          "archive_path": "品牌资料/阅读说明.md",
+          "content_requirements": [
+            "How to open brand/showcase/index.html with all folders preserved; verify actual offline operation before asserting.",
+            "Canonical values: brand/tokens.json; showcase copies are derived, not separately edited.",
+            "Fonts are in brand/showcase/fonts, shared with deck renderer; preserve OFL licenses.",
+            "Concept PNGs are AI-generated original outputs, fictional scenes; logo is a raster concept, not final vector identity.",
+            "Figma only partial variables due quota, no completed component library/screens.",
+            "Source strategy/spec are proposed design documentation and may contain dated authoring status; this delivery does not claim production implementation."
+          ]
+        },
+        {
+          "archive_path": "品牌资料/概念图/素材说明.json",
+          "derive_from": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated-assets.json",
+          "fields": [
+            "name",
+            "provenance",
+            "width_px",
+            "height_px",
+            "sha256",
+            "limitations"
+          ],
+          "filter": "Only four generated originals included; portable relative filenames; omit attempt logs, local internal paths and rejected/review-only derivatives."
+        },
+        {
+          "archive_path": "品牌资料/字体来源.json",
+          "derive_from": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/renderer/assets/fonts/provenance.json",
+          "rewrite_file_paths": "brand/showcase/fonts/<file>"
+        },
+        {
+          "archive_path": "研究资料/来源链接.md",
+          "derive_from": [
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/model-inputs.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/research/sea-market-facts.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/content/whop-learning.json",
+            "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/whop-assets.json"
+          ],
+          "content_requirements": [
+            "Deduplicate source title + external URL; retain recorded research date and limitations.",
+            "Map slide IDs/market fact IDs/model source IDs to links where available.",
+            "Screenshot source links only, no standalone Mobbin screen redistribution.",
+            "No assertion that all URLs were live checked at packaging."
+          ]
+        },
+        {
+          "archive_path": "研究资料/阅读说明.md",
+          "content_requirements": [
+            "Read market notes and operating-model.md first; monetary outcomes are hypothetical.",
+            "Keep all six research files together. Edit a copy of model-inputs.json then run python3 model-source.py from research directory; do not use --init.",
+            "Recalculation overwrites calculations and operating-model.md; narrative examples/prices need manual rereview after changed assumptions.",
+            "Model budget-cap stress differs from original middle adoption: do not merge RM30k annual eligible budget with RM144k annual campaign-budget scenario.",
+            "Whop content JSON provides notes/source links and stable feature index. It is not editable finance spreadsheet.",
+            "Local internal evidence links inside original notes may not resolve in portable pack; use 来源链接.md for external evidence."
+          ]
+        },
+        {
+          "archive_path": "交付范围-v1.md",
+          "content_requirements": [
+            "Scope v1, dated final assembly date. Three Chinese decks: learning64, investor38 pending owner count, brand30.",
+            "168 Whop feature reference IDs; 31 specified component families, distinguish catalog/demo coverage from implemented production components.",
+            "Brand identity/system are v1 proposals; generated original PNGs clearly concepts.",
+            "Figma partial variables only; quota stopped complete component/screen implementation.",
+            "Financial scenarios include owner-final combined stresses and are not actual results.",
+            "Include recorded source dates and boundaries; no claim all Whop functions live-tested.",
+            "No internal build/review files or raw third-party document snapshots."
+          ]
+        }
+      ]
+    }
+  ],
+  "final_loose_files": [
+    "阅读指南.md",
+    "01-读懂Whop.pptx",
+    "01-读懂Whop.pdf",
+    "02-Wringy投资与伙伴合作提案.pptx",
+    "02-Wringy投资与伙伴合作提案.pdf",
+    "03-Wringy品牌与设计系统.pptx",
+    "03-Wringy品牌与设计系统.pdf",
+    "Wringy-Phase0-交付包.zip"
+  ],
+  "exclusions": [
+    "Unselected deck versions, drafts and previews",
+    "build/**, .private/**, validation files, review reports, inspect.ndjson, logs, result.json",
+    "brand/showcase/generate.py",
+    "brand/showcase/render.mjs",
+    "QA screenshots, contact sheets and browser testing files",
+    "logo-lockup-transparent.png",
+    "logo-symbol-transparent.png",
+    "Rejected image attempts and generation prompts/logs",
+    "Research HTML/PDF/text page snapshots and large copyright source captures",
+    "OS Arial/Arial Unicode font binaries",
+    "Full Figma manifest containing internal node IDs/status and local paths"
+  ],
+  "font_check": {
+    "families": [
+      "Manrope",
+      "Noto Sans SC"
+    ],
+    "licenses": "SIL OFL 1.1; include both copyright/license texts.",
+    "renderer_and_showcase_sha256_equal": true,
+    "distribution": "Single exact font copy inside 品牌资料/brand/showcase/fonts; keep both OFL texts. Renderer and showcase hashes reconfirmed at final assembly."
+  },
+  "figma_status": {
+    "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/figma-manifest.json",
+    "url": "https://www.figma.com/design/qw2UHml58nEnQLtUbC058Z",
+    "recorded_collections": 4,
+    "recorded_variables": 130,
+    "completed_components": 0,
+    "completed_screens": 0,
+    "limit": "Owner manifest reports batch success; individual variable read-back pending quota. Not a finished Figma library."
+  },
+  "readiness_gates": [
+    "Owner explicitly confirms all three final result.json files and outputs.",
+    "Rereview changed learning PNGs at native size first; close required issues against final version.",
+    "Owner confirms brand/investor final visual and content readiness.",
+    "Showcase owner confirms completed content, including currently empty catalog.js; verify offline dependencies and image concept labels.",
+    "Refresh exact allowlist after owner changes; confirm all files exist, archive names unique, no excluded files included.",
+    "Freeze model inputs/calculations together; verify input_sha256 matches current model-inputs.json and model source is owner-approved.",
+    "Finalize guide actual names/counts; preserve only selected final pair per deck in delivery selection, never delete owner older files.",
+    "Generate ZIPs only after above gates; test ZIP integrity, portable relative paths, file counts/hashes and font licenses."
+  ],
+  "pending_gaps": [],
+  "research_release_policy": "User confirmed final combined execution stress release. Current inputs hash matches calculations; funding24 ask2160000 checked. Refresh hashes at final ZIP assembly.",
+  "staging_policy": "Read-only copies permitted; no staging snapshot is final. Refresh every source hash and copied file after owner readiness. No ZIP before all readiness.",
+  "brand_manual_packaging": "Include 03 PPTX/PDF once at complete ZIP root alongside01/02. Brand docs/library/assets live in 品牌资料/.",
+  "standalone_archives": false,
+  "packaging_policy": "One complete ZIP, assembled once after all owners confirm final readiness and hashes. No nested brand/research ZIPs. Preserve original outputs; stable chosen copies only in output/final.",
+  "staging_root": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/delivery/staging",
+  "staging_inventory": [
+    {
+      "path": "01-读懂Whop.pdf",
+      "sha256": "4420836e257b5751fb0ff950b638b92701246afb71c4cb5d62ca90669fe78870",
+      "bytes": 12319304
+    },
+    {
+      "path": "01-读懂Whop.pptx",
+      "sha256": "3486a3a211b085a8e7f4bb64e2afc7db40a47989dd3a59ec7a7d85b6ccabdf35",
+      "bytes": 2301823
+    },
+    {
+      "path": "02-Wringy投资与伙伴合作提案.pdf",
+      "sha256": "fefeb6dbf3632b90e667f728ac9c4806cb651f6f96a3185a516117299409f829",
+      "bytes": 6770479
+    },
+    {
+      "path": "02-Wringy投资与伙伴合作提案.pptx",
+      "sha256": "c171971e7130f319719c67db81468846c2201fafcae428958fdd18a9159bfcfb",
+      "bytes": 2096372
+    },
+    {
+      "path": "03-Wringy品牌与设计系统.pdf",
+      "sha256": "da696144ceb805743a9773fe727e14b686833ce744b29f0411bc7c3ce8b527ee",
+      "bytes": 4713948
+    },
+    {
+      "path": "03-Wringy品牌与设计系统.pptx",
+      "sha256": "05e863747c15fe05066adbd0627048d676fe46747b04a7be82cc4e2f92ffee9f",
+      "bytes": 5871042
+    },
+    {
+      "path": "交付范围-v1.md",
+      "sha256": "c0594e47cacbe1eb78c094995d3a43a4928331f0a9ff189b915421f3637e33c3",
+      "bytes": 917
+    },
+    {
+      "path": "品牌资料/brand/brand-strategy.md",
+      "sha256": "6462fe5648f65fd172ac559b7cd5e75d08c05f7a7e32a1aceb5e115235562b24",
+      "bytes": 12285
+    },
+    {
+      "path": "品牌资料/brand/component-inventory.json",
+      "sha256": "31992e86850c29802ae2889472cdaa6f59d400094aa5db8868169da67655ce92",
+      "bytes": 100377
+    },
+    {
+      "path": "品牌资料/brand/design-system-spec.md",
+      "sha256": "f6db41720fe3791ca5a482c3b54aaefd4cfdeebcb0c7dd08ee80fc40cab45788",
+      "bytes": 20241
+    },
+    {
+      "path": "品牌资料/brand/showcase/app.js",
+      "sha256": "94521225801e336444c545d7a3c3db44d12555eddae185d113e1bb0bfa2dc637",
+      "bytes": 14086
+    },
+    {
+      "path": "品牌资料/brand/showcase/catalog.js",
+      "sha256": "9fceeb8794587895ab20a5918395762a8ad196f72dc82a39038f62b721afae81",
+      "bytes": 28534
+    },
+    {
+      "path": "品牌资料/brand/showcase/components.js",
+      "sha256": "0d4775d9986fd455795704619974905bdaa2f4204f96e792ba622cc4965e82ad",
+      "bytes": 14559
+    },
+    {
+      "path": "品牌资料/brand/showcase/fonts/Manrope-OFL.txt",
+      "sha256": "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c",
+      "bytes": 4384
+    },
+    {
+      "path": "品牌资料/brand/showcase/fonts/Manrope.ttf",
+      "sha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40",
+      "bytes": 165420
+    },
+    {
+      "path": "品牌资料/brand/showcase/fonts/NotoSansSC-OFL.txt",
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+      "bytes": 4388
+    },
+    {
+      "path": "品牌资料/brand/showcase/fonts/NotoSansSC.ttf",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "bytes": 17772300
+    },
+    {
+      "path": "品牌资料/brand/showcase/fonts/provenance.json",
+      "sha256": "fb767b37cd8ba58a57be5c0ab6e24483bdec6e6139a22db01c9e1fb5de8108c9",
+      "bytes": 612
+    },
+    {
+      "path": "品牌资料/brand/showcase/images/editorial.png",
+      "sha256": "7de4a82bcdc4105f2499b4633e4171516c1b63ab8e44dcefcbba7fce2187b2c4",
+      "bytes": 2340658
+    },
+    {
+      "path": "品牌资料/brand/showcase/images/logo.png",
+      "sha256": "8af59c467cb22012bef263f708b7718bd4d2d39605cfc26da921604c0fdcf950",
+      "bytes": 903489
+    },
+    {
+      "path": "品牌资料/brand/showcase/implementation-coverage.json",
+      "sha256": "1c29a49642c6ea64e00cf96898198342951ec49619074ca00b561d3f9d6166d5",
+      "bytes": 11590
+    },
+    {
+      "path": "品牌资料/brand/showcase/index.html",
+      "sha256": "f5ee062cd26bc568db227524e26160a3f7c2533592eb463e817c1684c0265cfe",
+      "bytes": 1066
+    },
+    {
+      "path": "品牌资料/brand/showcase/screens/UI-BRAND-DESKTOP.png",
+      "sha256": "e6d8b683d72f22ab7bd06d66abab812e88eb29634e8e549e37b80dc68b55b1eb",
+      "bytes": 283178
+    },
+    {
+      "path": "品牌资料/brand/showcase/screens/UI-BRAND-MOBILE.png",
+      "sha256": "afae8b2c706b785e8698f34a6f5e088b67b718fd45baf07d12f5958765542b3f",
+      "bytes": 61004
+    },
+    {
+      "path": "品牌资料/brand/showcase/screens/UI-CREATOR-DESKTOP.png",
+      "sha256": "5a1c88989b1257f37e7615be178b986d3af4422ae92a33e30d4268204faec882",
+      "bytes": 400179
+    },
+    {
+      "path": "品牌资料/brand/showcase/screens/UI-CREATOR-MOBILE.png",
+      "sha256": "df4b2a815562e61611f277cfffd3cdc1a062f20503fdc420340b1f995daecf56",
+      "bytes": 60630
+    },
+    {
+      "path": "品牌资料/brand/showcase/screens/UI-PAYOUT-CONFIRM.png",
+      "sha256": "a43bcffb5ae958be7b0cd198979bc6df4e32a8301f64625a84ae1562e3aab0fa",
+      "bytes": 60783
+    },
+    {
+      "path": "品牌资料/brand/showcase/styles.css",
+      "sha256": "ceca8f3927c3c386750a31f4096123567783a4e1e3e3daf2cfc3ebaddaef95ad",
+      "bytes": 19159
+    },
+    {
+      "path": "品牌资料/brand/showcase/token-provenance.json",
+      "sha256": "9570faec34197eb53a652ee5f3af8aa97eac09fae48116d5393f33a96ed3485c",
+      "bytes": 217
+    },
+    {
+      "path": "品牌资料/brand/showcase/tokens-data.js",
+      "sha256": "2d800255270063973dc4d54705a8ae51b084543077c3b8b3ce139422aa9ef7a8",
+      "bytes": 25620
+    },
+    {
+      "path": "品牌资料/brand/showcase/tokens.css",
+      "sha256": "314c2335f74bced14c85624c94c040f8e8291bc30a198ce5a11bec7295e2c390",
+      "bytes": 7748
+    },
+    {
+      "path": "品牌资料/brand/showcase/tokens.json",
+      "sha256": "07d083f4fc394693848c04592160ae971210aad3deb90ad3629f073fa6d4a8eb",
+      "bytes": 34456
+    },
+    {
+      "path": "品牌资料/brand/tokens.json",
+      "sha256": "f912ee370ef92e6bd17885e939b25dadf30ae4ce6a745f5e2ca6a6100b868e51",
+      "bytes": 34457
+    },
+    {
+      "path": "品牌资料/概念图/brand-editorial-概念.png",
+      "sha256": "7de4a82bcdc4105f2499b4633e4171516c1b63ab8e44dcefcbba7fce2187b2c4",
+      "bytes": 2340658
+    },
+    {
+      "path": "品牌资料/概念图/brand-logo-concept-概念.png",
+      "sha256": "8af59c467cb22012bef263f708b7718bd4d2d39605cfc26da921604c0fdcf950",
+      "bytes": 903489
+    },
+    {
+      "path": "品牌资料/概念图/investor-hero-概念.png",
+      "sha256": "8a2143b8b811c315b637a8ab218b87afe8564a41ae86c8887291e2388294218d",
+      "bytes": 1594124
+    },
+    {
+      "path": "品牌资料/概念图/learning-hero-概念.png",
+      "sha256": "5de33ae68505f052435a2c38fd2cca363040ab9ff5db56192840235a33f261c8",
+      "bytes": 1709128
+    },
+    {
+      "path": "品牌资料/概念图/素材说明.json",
+      "sha256": "7a1a490c555a88cd47280fa54f49faab7b4ec159702726d71488a941266e4223",
+      "bytes": 2216
+    },
+    {
+      "path": "品牌资料/阅读说明.md",
+      "sha256": "5ae594229924c6f88c10df7f596301fe22a7251ae398807222f6ed028294c9cf",
+      "bytes": 1223
+    },
+    {
+      "path": "研究资料/Whop学习资料/feature-slide-map.json",
+      "sha256": "244a2aab34682f5e7f955469f2471d8a47b483ed25a513b370f05e71f2e2893b",
+      "bytes": 90311
+    },
+    {
+      "path": "研究资料/Whop学习资料/whop-learning-outline.md",
+      "sha256": "6c11a71c076d1647b2b47b5b9db6e715062e3416aeaaa6de3a2b9dd5c1ff3643",
+      "bytes": 11153
+    },
+    {
+      "path": "研究资料/Whop学习资料/whop-learning.json",
+      "sha256": "a4ae7c4bb3e07b7b338dec84235853d535e7b1e2713dbf625d733f1c34e134b2",
+      "bytes": 186137
+    },
+    {
+      "path": "研究资料/research/model-calculations.json",
+      "sha256": "819a24b64b985b01fbc5f1a5584df5dd8aff5facaae83729644850133c1a3f0d",
+      "bytes": 520922
+    },
+    {
+      "path": "研究资料/research/model-inputs.json",
+      "sha256": "1c1d0a8f74b40bc9790c0317bf476be49f99fa769b69a92e4d85bf1b7712965b",
+      "bytes": 21246
+    },
+    {
+      "path": "研究资料/research/model-source.py",
+      "sha256": "d121f4df029ab065c30f889cd2267542ceb1e365edcc213167c8433d885ab739",
+      "bytes": 53510
+    },
+    {
+      "path": "研究资料/research/operating-model.md",
+      "sha256": "0c8370e5518917ebb1db171a78245668e397c06c432deb4a2e01c9d756c41290",
+      "bytes": 29471
+    },
+    {
+      "path": "研究资料/research/sea-market-facts.json",
+      "sha256": "b2ce1ca1ec75da48a35a00bc566f1fcb108e4edd2be2a68e632e67c841657f68",
+      "bytes": 35348
+    },
+    {
+      "path": "研究资料/research/sea-market.md",
+      "sha256": "199959f3fad0b35ebf38c9168451826ead96cf60cdc92b4c2435268112341efa",
+      "bytes": 36899
+    },
+    {
+      "path": "研究资料/whop-full/README.md",
+      "sha256": "0ca2437d9aad8532d2b57310be9e93bd7c2971fa17df8e32f41d43a860aa0e41",
+      "bytes": 20724
+    },
+    {
+      "path": "研究资料/whop-full/build-reference.md",
+      "sha256": "3eda8648664153c09f2c1e216a558f4b4dc3c3ba140b9324aee0396f944e21f7",
+      "bytes": 2331
+    },
+    {
+      "path": "研究资料/whop-full/commerce-delivery-operations.md",
+      "sha256": "666e633565ebf028cb718c20d3943b7c8106523e4925e7a1ab62c39ae97917ab",
+      "bytes": 18447
+    },
+    {
+      "path": "研究资料/whop-full/distribution-creators-growth.md",
+      "sha256": "ba67a5c8cbeab99f61733b8663d5c88bcb7299e9615f7cd18afa17c3958bb566",
+      "bytes": 13330
+    },
+    {
+      "path": "研究资料/whop-full/evidence-guide.md",
+      "sha256": "861c6f54b761387f576669e58fcef861e9330c0a9ef87cf8ae4dfc33d4923327",
+      "bytes": 2276
+    },
+    {
+      "path": "研究资料/whop-full/malaysia-readiness.md",
+      "sha256": "6fc325467ecbfe2185066297214625acbeeaa036c500984508f5a2f37a4bba33",
+      "bytes": 2912
+    },
+    {
+      "path": "研究资料/whop-full/modules/B01.md",
+      "sha256": "b87ef9c624561f5786e376d573007cf6efd98b95eadc2accace294d18f50919d",
+      "bytes": 10475
+    },
+    {
+      "path": "研究资料/whop-full/modules/B02.md",
+      "sha256": "62b1b2df6095f5e91915fb2ac1ab9ec815366042baa9cccae414f9207b12b025",
+      "bytes": 10930
+    },
+    {
+      "path": "研究资料/whop-full/modules/B03.md",
+      "sha256": "743ebd6d0142e771a7c88cde3b4a8e0590fa09efd0c6cedb74a83938a1d68ea4",
+      "bytes": 12276
+    },
+    {
+      "path": "研究资料/whop-full/modules/B04.md",
+      "sha256": "15cc6ff39ac6c779ab84e521d2b464e68f5e683d0de81402bc11c9eb62ee5490",
+      "bytes": 11467
+    },
+    {
+      "path": "研究资料/whop-full/modules/B05.md",
+      "sha256": "f2ecfd66dd334535de81cdab0282cbca79d96a2d1465c03450a428ae68db8238",
+      "bytes": 6586
+    },
+    {
+      "path": "研究资料/whop-full/modules/B06.md",
+      "sha256": "5167c3d2482d65f0fac75f9d22256eea2ad985f832f5be7ba17880555efb6cbd",
+      "bytes": 8548
+    },
+    {
+      "path": "研究资料/whop-full/modules/B07.md",
+      "sha256": "6954c1ccdc1ad3bd6d8afc23189875535b9df50ac671f3dc84ef2941961fde19",
+      "bytes": 7450
+    },
+    {
+      "path": "研究资料/whop-full/modules/B08.md",
+      "sha256": "f9971fcc9d97b2ca925334689886db99df88745b6fbf97aae4d13afd500f8ce0",
+      "bytes": 9466
+    },
+    {
+      "path": "研究资料/whop-full/modules/B09.md",
+      "sha256": "c1dfedc7c4f4f940271ceec1c8d144fe8c0b27880a571071cd0974b10247872f",
+      "bytes": 12723
+    },
+    {
+      "path": "研究资料/whop-full/modules/B10.md",
+      "sha256": "6f47106e567f52402bb54f145da38c19822e3c4f66271191accb04c48c601591",
+      "bytes": 11466
+    },
+    {
+      "path": "研究资料/whop-full/modules/B11.md",
+      "sha256": "7e5fec1255dbaedf674ec8de715f20529334d08b61cfdf43c339c1ed5cd44495",
+      "bytes": 15945
+    },
+    {
+      "path": "研究资料/whop-full/modules/B12.md",
+      "sha256": "59debfe3f765fe56c7e3e69dd1109f1515457bade7cc1814b88da2b8c7b27884",
+      "bytes": 15817
+    },
+    {
+      "path": "研究资料/whop-full/payments-money-trust.md",
+      "sha256": "eda2990ff4b9fc5c6a1b75ae6a7f8c96a262b9ac2934b312b28c80d834e14068",
+      "bytes": 19362
+    },
+    {
+      "path": "研究资料/whop-full/platform-ai-enterprise.md",
+      "sha256": "658c2692161330efc5b3ae46356a8d25d47d4062826b3e5cf802c18e8bec57a6",
+      "bytes": 27805
+    },
+    {
+      "path": "研究资料/来源链接.md",
+      "sha256": "5150ba32e1a98fecd04fad8d2062724de8a38d9abf804deb79c0e1083b8d30fc",
+      "bytes": 16322
+    },
+    {
+      "path": "研究资料/阅读说明.md",
+      "sha256": "4efb0cebf60b9af4f9a7cefaeb074e8e7869b4de4b0fda360a0daefa66777a29",
+      "bytes": 1079
+    },
+    {
+      "path": "阅读指南.md",
+      "sha256": "2c96cf09eb457db111987cc1941cc6b054e13b5aba3badb00a5348ade711be91",
+      "bytes": 6696
+    }
+  ],
+  "release_hold": null,
+  "archive_path": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/final/Wringy-Phase0-交付包.zip",
+  "archive_sha256": "9b8eb8de6f18708767a652286db5ab6863efb94e28115aa7f2e0989d0ddee9b5",
+  "archive_bytes": 55052131,
+  "packaged_copy_link_repairs": [
+    {
+      "file": "品牌资料/brand/brand-strategy.md",
+      "target": "../brief.md"
+    },
+    {
+      "file": "品牌资料/brand/brand-strategy.md",
+      "target": "../../founder-inputs.md"
+    },
+    {
+      "file": "品牌资料/brand/design-system-spec.md",
+      "target": "../brief.md"
+    },
+    {
+      "file": "品牌资料/brand/design-system-spec.md",
+      "target": "../../founder-inputs.md"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/manifest.json"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/economysea-2025.pdf"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/google-sea-2025.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/google-malaysia-2025.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/dosm-msme-2025.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/dosm-ict-2025.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/mda-adex-2025.pdf"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/mdec-2024-investment.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/tiktok-my-2025.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/tiktok-external-2026.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/involve-commission.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/partipost.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/gushcloud.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/web-sea_pdfalt.json"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/shopee-my-case-2025.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/whop-content-rewards.html"
+    },
+    {
+      "file": "研究资料/research/sea-market.md",
+      "target": "sea-market-sources/hexa-brand-campaign-2026.html"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "../../founder-inputs.md"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "coverage-audit.md"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "source-index/docs-llms-2026-09-10.txt"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "source-index/coverage.json"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "source-index/citation-crosswalk.json"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "coverage-audit.md"
+    },
+    {
+      "file": "研究资料/whop-full/README.md",
+      "target": "verification.md"
+    },
+    {
+      "file": "研究资料/whop-full/commerce-delivery-operations.md",
+      "target": "../whop-features-flows.md"
+    },
+    {
+      "file": "研究资料/whop-full/commerce-delivery-operations.md",
+      "target": "source-index/commerce-primary-2026-09-10.json"
+    },
+    {
+      "file": "研究资料/whop-full/commerce-delivery-operations.md",
+      "target": "source-index/commerce-extra-2026-09-10.json"
+    },
+    {
+      "file": "研究资料/whop-full/commerce-delivery-operations.md",
+      "target": "source-index/commerce-mobile-2026-09-10.json"
+    },
+    {
+      "file": "研究资料/whop-full/commerce-delivery-operations.md",
+      "target": "source-index/docs-llms-2026-09-10.txt"
+    },
+    {
+      "file": "研究资料/whop-full/distribution-creators-growth.md",
+      "target": "source-index/distribution-docs-2026-09-10.json"
+    },
+    {
+      "file": "研究资料/whop-full/distribution-creators-growth.md",
+      "target": "source-index/distribution-stability-2026-09-10.md"
+    },
+    {
+      "file": "研究资料/whop-full/payments-money-trust.md",
+      "target": "source-index/money-trust-docs-2026-09-10.json"
+    },
+    {
+      "file": "研究资料/whop-full/payments-money-trust.md",
+      "target": "source-index/money-trust-extra-2026-09-10.json"
+    },
+    {
+      "file": "研究资料/whop-full/payments-money-trust.md",
+      "target": "source-index/money-trust-treasury-2026-09-10.md"
+    },
+    {
+      "file": "研究资料/whop-full/payments-money-trust.md",
+      "target": "source-index/money-trust-docs-2026-09-10.json"
+    }
+  ],
+  "package_checks": {
+    "zip_integrity": true,
+    "all_extracted_hashes_match": true,
+    "markdown_missing_local_links": [],
+    "offline_browser": {
+      "offlineFileURL": true,
+      "families": 31,
+      "fontsLoaded": true,
+      "themeSwitch": true,
+      "localAnchors": true,
+      "routes": [
+        "UI-BRAND-DESKTOP",
+        "UI-BRAND-MOBILE",
+        "UI-CREATOR-DESKTOP",
+        "UI-CREATOR-MOBILE",
+        "UI-PAYOUT-CONFIRM"
+      ],
+      "errors": [],
+      "network": [],
+      "failed": []
+    },
+    "raw_snapshots": false,
+    "nested_zip": false,
+    "files": 71,
+    "decks": [
+      {
+        "deck": "01-读懂Whop",
+        "pages": 64,
+        "pptx_sha256": "3486a3a211b085a8e7f4bb64e2afc7db40a47989dd3a59ec7a7d85b6ccabdf35",
+        "pdf_sha256": "4420836e257b5751fb0ff950b638b92701246afb71c4cb5d62ca90669fe78870"
+      },
+      {
+        "deck": "02-Wringy投资与伙伴合作提案",
+        "pages": 38,
+        "pptx_sha256": "c171971e7130f319719c67db81468846c2201fafcae428958fdd18a9159bfcfb",
+        "pdf_sha256": "fefeb6dbf3632b90e667f728ac9c4806cb651f6f96a3185a516117299409f829"
+      },
+      {
+        "deck": "03-Wringy品牌与设计系统",
+        "pages": 30,
+        "pptx_sha256": "05e863747c15fe05066adbd0627048d676fe46747b04a7be82cc4e2f92ffee9f",
+        "pdf_sha256": "da696144ceb805743a9773fe727e14b686833ce744b29f0411bc7c3ce8b527ee"
+      }
+    ],
+    "canonical_source_hashes_current": true,
+    "font_files_and_licenses_match_renderer": true,
+    "archive_final_hash_verified": true
+  },
+  "final_delivery_note": "One ZIP plus three final PDF preview links. No nested ZIP, raw third-party snapshots or private build/review files; older outputs untouched."
+}

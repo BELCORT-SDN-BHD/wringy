@@ -1,0 +1,279 @@
+{
+  "status": "QA_PASS_WITH_STATED_LIMITATIONS",
+  "currency": "MYR",
+  "months": 6,
+  "rd_all_in_cap": 50000,
+  "rd_delivery_envelope_before_internal_reserve": 45000,
+  "rd_internal_reserve_included": 5000,
+  "uses": {
+    "rd_all_in": 50000,
+    "ground_sales": 4500,
+    "paid_operations_pool": 2400,
+    "cloud_tools": 1200,
+    "recurring_maintenance_excluding_warranty": 1040,
+    "legal_accounting": 4000,
+    "trial_data_payment_pool": 480,
+    "founder_allowance": 0
+  },
+  "non_rd_spend_base": 13620,
+  "gross_spend_base": 63620,
+  "non_rd_buffer": 2043,
+  "base_funding_need": 65663,
+  "proposed_ask_rounded_5000": 70000,
+  "rounding_reserve": 4337,
+  "ending_cash_if_all_rd_cap_spent": 6380,
+  "campaign": {
+    "reward_budget_not_company_income": 2000,
+    "platform_fee_income_illustrative": 300,
+    "brand_total_outlay": 2300,
+    "paid_labor_cash": 30,
+    "unpaid_founder_labor_economic_cost": 60,
+    "data_cost": 20,
+    "payment_cost": 10,
+    "economic_variable_cost": 120,
+    "cash_variable_cost": 60,
+    "economic_contribution": 180,
+    "economic_contribution_rate": 0.6,
+    "cash_contribution_before_unpaid_labor": 240,
+    "total_manual_hours": 3,
+    "total_manual_economic_cost": 90,
+    "doubled_hours": {
+      "total_manual_hours": 6,
+      "labor_economic_cost": 180,
+      "data_cost": 20,
+      "payment_cost": 10,
+      "economic_variable_cost": 210,
+      "contribution": 90,
+      "contribution_rate": 0.3
+    },
+    "abnormal_loss_note": "本算例未计异常损失，发生时进一步扣减；工时只含处理人工。"
+  },
+  "no_double_count": {
+    "illustrative_campaign_count": 16,
+    "paid_labor_consumed_from_2400_pool": 480,
+    "data_payment_consumed_from_480_pool": 480,
+    "total_cash_unit_cost_consumed_within_pools": 960,
+    "remaining_paid_ops_pool_for_onboarding_exceptions": 1920,
+    "founder_unpaid_hours": 32,
+    "forecast_revenue_offset": 0,
+    "capacity_not_sales_target": "16场＝每月4场×4个试点月，仅为费用池容量演示，与3个品牌目标无对应关系，不是收入预测"
+  },
+  "monthly_fixed_coverage_basis": 1940,
+  "break_even_illustrations": [
+    {
+      "fee_rate": 0.1,
+      "economic_contribution": 80,
+      "campaigns_per_month": 25
+    },
+    {
+      "fee_rate": 0.15,
+      "economic_contribution": 180,
+      "campaigns_per_month": 11
+    },
+    {
+      "fee_rate": 0.2,
+      "economic_contribution": 280,
+      "campaigns_per_month": 7
+    }
+  ],
+  "break_even_scope": "数量算例，仅覆盖月度经常性固定费用；非6个月投资回收、不含研发/一次法务/缓冲/津贴；扩量须重估产能与固定费",
+  "limits": [
+    "R&D cap not validated delivery quote; do not force hours to fit",
+    "No claimed customer revenue or payment/data admission",
+    "Future raise and recoup dates intentionally absent"
+  ],
+  "monthly": [
+    {
+      "month": 1,
+      "spend": 18700,
+      "ending_cash": 51300
+    },
+    {
+      "month": 2,
+      "spend": 21200,
+      "ending_cash": 30100
+    },
+    {
+      "month": 3,
+      "spend": 17180,
+      "ending_cash": 12920
+    },
+    {
+      "month": 4,
+      "spend": 2180,
+      "ending_cash": 10740
+    },
+    {
+      "month": 5,
+      "spend": 2180,
+      "ending_cash": 8560
+    },
+    {
+      "month": 6,
+      "spend": 2180,
+      "ending_cash": 6380
+    }
+  ],
+  "xlsx": "${WRINGY_WORKSPACE}/phase-0/deliverables/content-rewards-business-v5/finance/output/Wringy-首轮资金与单场经济.xlsx",
+  "funding_selection_status": "已选择零薪资及津贴政策；RM70,000仍为拟议融资总额，尚未批准募资额",
+  "monthly_fixed_coverage_trace": {
+    "ground_sales": 750,
+    "cloud_tools": 200,
+    "maintenance": 260,
+    "accounting": 250,
+    "paid_ops_pool": 600,
+    "less_campaign_paid_labor": 120,
+    "fixed_paid_ops_remainder": 480,
+    "total": 1940,
+    "scope": "固定费用覆盖算例，非全公司利润或研发投资回收"
+  },
+  "as_of": "2026-09-13",
+  "founder_allowance_policy": {
+    "monthly_cash": 0,
+    "six_month_cash": 0,
+    "confirmed": true,
+    "source": "2026-09-13本轮用户确认"
+  },
+  "proposed_ask_approved": false,
+  "canonical_version": "content-rewards-business-v5/finance",
+  "formula_checks": [
+    {
+      "name": "base funding need",
+      "actual": 65663,
+      "expected": 65663,
+      "pass": true
+    },
+    {
+      "name": "proposed rounded ask",
+      "actual": 70000,
+      "expected": 70000,
+      "pass": true
+    },
+    {
+      "name": "confirmed zero cash allowance",
+      "actual": 0,
+      "expected": 0,
+      "pass": true
+    },
+    {
+      "name": "unpaid labor remains economic cost",
+      "actual": 60,
+      "expected": 60,
+      "pass": true
+    },
+    {
+      "name": "economic contribution",
+      "actual": 180,
+      "expected": 180,
+      "pass": true
+    },
+    {
+      "name": "cash contribution",
+      "actual": 240,
+      "expected": 240,
+      "pass": true
+    },
+    {
+      "name": "trial units inside cash pools",
+      "actual": 960,
+      "expected": 960,
+      "pass": true
+    },
+    {
+      "name": "fixed coverage",
+      "actual": 1940,
+      "expected": 1940,
+      "pass": true
+    },
+    {
+      "name": "fee scenario coverage",
+      "actual": 11,
+      "expected": 11,
+      "pass": true
+    },
+    {
+      "name": "total manual hours",
+      "actual": 3,
+      "expected": 3,
+      "pass": true
+    },
+    {
+      "name": "doubled total manual hours",
+      "actual": 6,
+      "expected": 6,
+      "pass": true
+    },
+    {
+      "name": "doubled labor contribution",
+      "actual": 90,
+      "expected": 90,
+      "pass": true
+    },
+    {
+      "name": "doubled labor rate",
+      "actual": 0.3,
+      "expected": 0.3,
+      "pass": true
+    },
+    {
+      "name": "fee change contribution",
+      "actual": 80,
+      "expected": 80,
+      "pass": true
+    },
+    {
+      "name": "fee does not offset safety funding",
+      "actual": 65663,
+      "expected": 65663,
+      "pass": true
+    },
+    {
+      "name": "paid hours update cash cost",
+      "actual": 90,
+      "expected": 90,
+      "pass": true
+    },
+    {
+      "name": "unit costs consume existing ops pool",
+      "actual": 960,
+      "expected": 960,
+      "pass": true
+    },
+    {
+      "name": "no double add of unit costs",
+      "actual": 65663,
+      "expected": 65663,
+      "pass": true
+    },
+    {
+      "name": "rd cap edit no second buffer",
+      "actual": 60663,
+      "expected": 60663,
+      "pass": true
+    },
+    {
+      "name": "zero fee ratio unavailable",
+      "pass": true
+    },
+    {
+      "name": "blank fee exposes missing input",
+      "pass": true
+    }
+  ],
+  "formula_scan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+  "verification": {
+    "all_tabs_visually_reviewed": [
+      "Summary",
+      "Cash",
+      "Campaign",
+      "Inputs"
+    ],
+    "formula_recalculation": "passed",
+    "exported_formula_errors": [],
+    "salary_scenario_removed_from_workbook": true,
+    "monthly_spend_and_campaign_unchanged": true,
+    "historical_v1_unchanged": true,
+    "native_excel_ui_tested": false,
+    "sha256": "8ea0af93dbfa53599e7f3c0a7975053758d516b75f6a8448d8c74a61e701e20f"
+  }
+}

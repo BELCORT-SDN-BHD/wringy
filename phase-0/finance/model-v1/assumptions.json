@@ -1,0 +1,311 @@
+{
+  "asOf": "2026-09-10",
+  "status": "创始人授权情景草稿；非预测或完整报价",
+  "inputs": [
+    {
+      "id": "reward",
+      "label": "每场已确认奖励",
+      "value": 10000,
+      "note": "RM；旧商业算例，非客户订单"
+    },
+    {
+      "id": "fee",
+      "label": "奖励外加服务费率",
+      "value": 0.15,
+      "note": "旧商业算例，非已批准定价"
+    },
+    {
+      "id": "cpm",
+      "label": "每千次合格播放奖励",
+      "value": 5,
+      "note": "RM；旧商业算例"
+    },
+    {
+      "id": "review",
+      "label": "审核与支持／场",
+      "value": 300,
+      "note": "RM；估计，非报价"
+    },
+    {
+      "id": "data",
+      "label": "计量与数据／场",
+      "value": 100,
+      "note": "RM；估计，非报价"
+    },
+    {
+      "id": "payment",
+      "label": "支付／场",
+      "value": 150,
+      "note": "RM；估计，非报价"
+    },
+    {
+      "id": "exceptions",
+      "label": "异常损失／场",
+      "value": 50,
+      "note": "RM；估计，非报价"
+    },
+    {
+      "id": "commission",
+      "label": "活动获取／转介佣金／场",
+      "value": 150,
+      "note": "RM；新增假设，每单发生；不属于品牌CAC"
+    },
+    {
+      "id": "fulfillFixed",
+      "label": "固定履约／月",
+      "value": 2000,
+      "note": "RM；计入销售成本，也是固定17000的一部分"
+    },
+    {
+      "id": "otherFixed",
+      "label": "固定非履约运营／月",
+      "value": 15000,
+      "note": "RM；不再另扣2000；原12000+5000重分类"
+    },
+    {
+      "id": "dev",
+      "label": "历史开发预算锚点",
+      "value": 189750,
+      "note": "RM；已含开发预备金，非新范围报价"
+    },
+    {
+      "id": "incremental",
+      "label": "新增计量与反作弊开发",
+      "value": 0,
+      "note": "未报价！零仅占位，资金需求是情景下限"
+    },
+    {
+      "id": "prelaunch",
+      "label": "建设期运营／月",
+      "value": 12000,
+      "note": "RM；历史预算假设"
+    },
+    {
+      "id": "launch",
+      "label": "一次性启动池",
+      "value": 50000,
+      "note": "RM；M5首批品牌获客、试点及专业服务；不重复计CAC"
+    },
+    {
+      "id": "cac",
+      "label": "独立销售品牌获客费",
+      "value": 1500,
+      "note": "RM／新增品牌；M6起；不含每单佣金及固定销售工资"
+    },
+    {
+      "id": "frequency",
+      "label": "每活跃品牌每月活动",
+      "value": 2,
+      "note": "说明假设；当月新品牌也完成全部活动"
+    },
+    {
+      "id": "churn",
+      "label": "月品牌流失率",
+      "value": 0.05,
+      "note": "说明假设；连续近似品牌数，不作人数承诺"
+    },
+    {
+      "id": "initialCash",
+      "label": "期初可用公司现金",
+      "value": 0,
+      "note": "RM；创始人投入未知；只影响余额，不影响回本"
+    },
+    {
+      "id": "example",
+      "label": "单位经济示例活动／月",
+      "value": 20,
+      "note": "说明情景；未含新增品牌CAC"
+    },
+    {
+      "id": "buildMonths",
+      "label": "建设月数",
+      "value": 4,
+      "note": "M1–M4等额付开发费；非已签付款安排"
+    }
+  ],
+  "cases": [
+    {
+      "name": "保守",
+      "monthlyCampaigns": [
+        0,
+        0,
+        0,
+        0,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        20,
+        22,
+        22,
+        24,
+        24,
+        24,
+        26,
+        26,
+        26,
+        28,
+        28,
+        28,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "name": "基准",
+      "monthlyCampaigns": [
+        0,
+        0,
+        0,
+        0,
+        8,
+        12,
+        16,
+        20,
+        24,
+        28,
+        32,
+        36,
+        40,
+        44,
+        48,
+        52,
+        56,
+        60,
+        64,
+        68,
+        72,
+        76,
+        80,
+        84,
+        88,
+        92,
+        96,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "name": "扩张",
+      "monthlyCampaigns": [
+        0,
+        0,
+        0,
+        0,
+        12,
+        20,
+        28,
+        36,
+        44,
+        52,
+        60,
+        68,
+        76,
+        84,
+        92,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        240,
+        240,
+        240,
+        240,
+        240,
+        240
+      ]
+    }
+  ],
+  "costPolicy": "每场佣金150独立；M5首批品牌获客归启动池50000；M6起新增与流失补充品牌×1500进入主现金流；保留品牌按95%连续近似；无重复计费",
+  "sources": [
+    "../../foundation/business-model-v2.md",
+    "../../foundation/belcort-handoff-v1.md"
+  ],
+  "additionalInputs": [
+    {
+      "label": "全量审核提交／场",
+      "value": 200,
+      "note": "包括通过与拒绝的所有提交；不是仅已付款提交",
+      "cell": "假设!D46"
+    },
+    {
+      "label": "平台平均审核分钟／提交",
+      "value": 1.5,
+      "note": "含异常及申诉的加权平均；假设，非效率基准；不含品牌自己审核",
+      "cell": "假设!D47"
+    },
+    {
+      "label": "平台审核时薪",
+      "value": 60,
+      "note": "RM／小时；假设，非报价",
+      "cell": "假设!D48"
+    },
+    {
+      "label": "支付费模式",
+      "value": 0,
+      "note": "0＝原150占位；1＝全品牌资金×费率＋每场固定费",
+      "cell": "假设!D49"
+    },
+    {
+      "label": "全品牌资金支付费率",
+      "value": 0.03,
+      "note": "3%仅敏感性假设，非Whop或市场报价",
+      "cell": "假设!D50"
+    },
+    {
+      "label": "额外每场支付固定费",
+      "value": 0,
+      "note": "RM；出款与固定费待报价，零仅占位",
+      "cell": "假设!D51"
+    },
+    {
+      "label": "服务费收款延迟（月）",
+      "value": 0,
+      "note": "0或1；基准同月收款是假设；非外部平台账期",
+      "cell": "假设!D52"
+    },
+    {
+      "label": "原支付占位／场",
+      "value": 150,
+      "note": "非市场报价；模式0采用",
+      "cell": "假设!D53"
+    }
+  ],
+  "formulaDrivers": {
+    "review": "total reviewed submissions × average minutes including flags and appeals / 60 × hourly rate",
+    "payment": "mode0 = RM150 placeholder; mode1 = full brand funding × rate + fixed fees",
+    "collection": "0 or 1 month; same-month cost payments; creator pass-through excluded under agent planning assumption"
+  }
+}

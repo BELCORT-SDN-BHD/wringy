@@ -1,0 +1,785 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/hgzapcr6",
+    "id": "hgzapcr6",
+    "slide": 13,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FAFAFA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/32ponyts",
+      "id": "7",
+      "bbox": [
+        56,
+        44,
+        1168,
+        116
+      ],
+      "geometry": "rect",
+      "text": "相邻行业已有战略收购案例",
+      "textPreview": "相邻行业已有战略收购案例",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "相邻行业已有战略收购案例"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "相邻行业已有战略收购案例",
+          "resolvedTextStyle": {
+            "fontSize": 48,
+            "typeface": "Noto Sans SC",
+            "color": "#202124",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "相邻行业已有战略收购案例",
+              "fontSize": 48,
+              "typeface": "Noto Sans SC",
+              "color": "#202124",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q50nydsj",
+      "id": "2",
+      "bbox": [
+        58,
+        664,
+        1094,
+        42
+      ],
+      "geometry": "rect",
+      "text": "公告及买方完成记录：Sprout Social 2023、Meltwater 2021／2024。",
+      "textPreview": "公告及买方完成记录：Sprout Social 2023、Meltwater 2021／2024。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "公告及买方完成记录：Sprout Social 2023、Meltwater 2021／2024。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "公告及买方完成记录：Sprout Social 2023、Meltwater 2021／2024。",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "公告及买方完成记录：Sprout Social 2023、Meltwater 2021／2024。",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bq9orito",
+      "id": "3",
+      "bbox": [
+        1164,
+        669,
+        62,
+        27
+      ],
+      "geometry": "rect",
+      "text": "13",
+      "textPreview": "13",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "13"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "13",
+          "resolvedTextStyle": {
+            "fontSize": 16,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "13",
+              "fontSize": 16,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/9sfu5cby",
+      "id": "8",
+      "bbox": [
+        56,
+        197,
+        1168,
+        333
+      ],
+      "text": "已完成交易 | 公告对价 | 战略逻辑\nSprout Social 收购\nTagger Media（2023） | US$140m\n公告现金对价 | 网红营销、工作流程\n报告与效果衡量\nMeltwater 收购\nKlear（2021） | US$17.8m\n现金＋附条件追加对价 | 连接创作者关系\n效果衡量与全球客户",
+      "textPreview": "已完成交易 | 公告对价 | 战略逻辑 | Sprout Social 收购 | Tagger Media（2023） | US$140m | 公告现金对价 | 网红营销、工作流程 | 报告与效果衡量 | Meltwater 收购 | Klear（2021） | US$17...",
+      "rows": 3,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            197,
+            418,
+            111
+          ],
+          "text": "已完成交易",
+          "textPreview": "已完成交易",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "已完成交易",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "已完成交易",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            474,
+            197,
+            323,
+            111
+          ],
+          "text": "公告对价",
+          "textPreview": "公告对价",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "公告对价",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "公告对价",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            797,
+            197,
+            427,
+            111
+          ],
+          "text": "战略逻辑",
+          "textPreview": "战略逻辑",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "战略逻辑",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "战略逻辑",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#173D2A",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            308,
+            418,
+            111
+          ],
+          "text": "Sprout Social 收购\nTagger Media（2023）",
+          "textPreview": "Sprout Social 收购 | Tagger Media（2023）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Sprout Social 收购",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Sprout Social 收购",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Tagger Media（2023）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Tagger Media（2023）",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            474,
+            308,
+            323,
+            111
+          ],
+          "text": "US$140m\n公告现金对价",
+          "textPreview": "US$140m | 公告现金对价",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "US$140m",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "US$140m",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "公告现金对价",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "公告现金对价",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            797,
+            308,
+            427,
+            111
+          ],
+          "text": "网红营销、工作流程\n报告与效果衡量",
+          "textPreview": "网红营销、工作流程 | 报告与效果衡量",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "网红营销、工作流程",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "网红营销、工作流程",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "报告与效果衡量",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "报告与效果衡量",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            419,
+            418,
+            111
+          ],
+          "text": "Meltwater 收购\nKlear（2021）",
+          "textPreview": "Meltwater 收购 | Klear（2021）",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Meltwater 收购",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Meltwater 收购",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Klear（2021）",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Klear（2021）",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            474,
+            419,
+            323,
+            111
+          ],
+          "text": "US$17.8m\n现金＋附条件追加对价",
+          "textPreview": "US$17.8m | 现金＋附条件追加对价",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "US$17.8m",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "US$17.8m",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "现金＋附条件追加对价",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "现金＋附条件追加对价",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            797,
+            419,
+            427,
+            111
+          ],
+          "text": "连接创作者关系\n效果衡量与全球客户",
+          "textPreview": "连接创作者关系 | 效果衡量与全球客户",
+          "fillColor": "#FAFAFA",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "连接创作者关系",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "连接创作者关系",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "效果衡量与全球客户",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "效果衡量与全球客户",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#202124"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p4r6p8by",
+      "id": "5",
+      "bbox": [
+        58,
+        550,
+        1165,
+        63
+      ],
+      "geometry": "rect",
+      "text": "Wringy需建立复购客户、可整合产品与可延续的合作及数据权利",
+      "textPreview": "Wringy需建立复购客户、可整合产品与可延续的合作及数据权利",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Wringy需建立复购客户、可整合产品与可延续的合作及数据权利"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Wringy需建立复购客户、可整合产品与可延续的合作及数据权利",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#202124",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Wringy需建立复购客户、可整合产品与可延续的合作及数据权利",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#202124",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/21gnuts7",
+      "id": "6",
+      "bbox": [
+        58,
+        616,
+        1160,
+        60
+      ],
+      "geometry": "rect",
+      "text": "地域、规模和模式不同，非估值对标，也无买方意向。Tagger年报调整口径不同\nKlear公告对价不等于全部即时实付现金",
+      "textPreview": "地域、规模和模式不同，非估值对标，也无买方意向。Tagger年报调整口径不同 | Klear公告对价不等于全部即时实付现金",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "地域、规模和模式不同，非估值对标，也无买方意向。Tagger年报调整口径不同"
+          },
+          {
+            "index": 2,
+            "text": "Klear公告对价不等于全部即时实付现金"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "地域、规模和模式不同，非估值对标，也无买方意向。Tagger年报调整口径不同",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "地域、规模和模式不同，非估值对标，也无买方意向。Tagger年报调整口径不同",
+              "fontSize": 22,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Klear公告对价不等于全部即时实付现金",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "typeface": "Noto Sans SC",
+            "color": "#60646C"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Klear公告对价不等于全部即时实付现金",
+              "fontSize": 22,
+              "typeface": "Noto Sans SC",
+              "color": "#60646C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

@@ -1,0 +1,9 @@
+{
+  "raw_success": true,
+  "issue_count": 13,
+  "packet_hash_matches": true,
+  "source_hash_at_review": "d84a64df98ab48138c102f6e333fb8c59e49c856ef530f3369a37602f46b3263",
+  "source_hash_at_final_check": "ac089ed75142fd42d956521d2506179cd505729f2f68f04a8b1629742805af7d",
+  "all_13_dispositions_recorded": true,
+  "source_changed_during_handoff": true
+}

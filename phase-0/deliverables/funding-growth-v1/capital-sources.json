@@ -1,0 +1,181 @@
+{
+  "as_of": "2026-09-12",
+  "purpose": "Wringy融资节奏与退出研究；供主任务合成PPT",
+  "source_count": 8,
+  "sources": [
+    {
+      "id": "CAP-01",
+      "publisher": "Y Combinator",
+      "title": "A Guide to Seed Fundraising",
+      "url": "https://www.ycombinator.com/blog/this-brief-guide-is-a-summary-of-what-startup-founders-need-to-know-about-raising-the-seed-funds-critical-to-getting-their-company-off-the-ground",
+      "published_date": "2016-01-07",
+      "type": "official_fundraising_guide",
+      "geography": "主要为美国／硅谷早期创业经验；非马来西亚统计",
+      "claims": [
+        "融资额应支持盈利或下一个可融资里程碑；文中典型间隔为12–18个月。",
+        "融资金额必须对应可信计划，可准备不同融资额下的经营方案。"
+      ],
+      "limitations": [
+        "2016年的经验指导；12–18个月不是2026年市场保证。",
+        "不引用其美国工程师成本、美元融资额或稀释比例作为Wringy预算。",
+        "一轮angel/pre-seed是本报告建议，不是YC规定。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-02",
+      "publisher": "Carta",
+      "title": "State of Pre-Seed: 2025 in review",
+      "url": "https://carta.com/uk/en/data/state-of-pre-seed-2025/",
+      "published_date": "2026-02-19",
+      "type": "original_platform_data_analysis",
+      "geography": "美国注册且使用Carta的创业企业；URL中的uk不是样本地域",
+      "period": "2025",
+      "claims": [
+        "样本企业通过50,316份SAFE及可转债筹集104亿美元。",
+        "工具数量不等于独立融资轮次数；不可据此计算每家公司必须融几轮。"
+      ],
+      "limitations": [
+        "平台样本，不代表美国全体，更不代表马来西亚。",
+        "SAFE、可转债是融资工具；不是每份工具都算新一轮。",
+        "不将文中的估值上限用作Wringy估值。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-03",
+      "publisher": "Carta",
+      "title": "Quantity is down, and quality is up: The new state of Series A fundraising",
+      "url": "https://carta.com/data/series-a-fundraising-q2-2025/",
+      "published_date": "2025-09-19",
+      "type": "original_platform_data_analysis",
+      "geography": "Carta美国创投语境的平台样本；非马来西亚／东南亚均值",
+      "period": "2025 Q2",
+      "claims": [
+        "该季度融资样本的seed至Series A间隔中位数为616天，约20个月。"
+      ],
+      "limitations": [
+        "两轮之间的间隔，不是单次募资耗时。",
+        "只描述该融资样本，不含所有未能进入A轮的公司，不能推算融资成功率。",
+        "不应推出Wringy必须在第20个月融A轮；6–9个月提前准备是本报告规划建议。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-04",
+      "publisher": "Y Combinator",
+      "title": "The SAFE — the open standard for startup fundraising",
+      "url": "https://www.ycombinator.com/safe",
+      "published_date": null,
+      "type": "official_financing_documents_and_faq",
+      "geography": "美国；国际表格仅加拿大、开曼、新加坡",
+      "claims": [
+        "当前官方页面对其他司法辖区要求与当地律师合作；没有提供马来西亚标准表格。"
+      ],
+      "limitations": [
+        "不将US SAFE当作马来西亚现成可签文件。",
+        "本报告不判断任何工具在马来西亚的法律、税务或监管适用性。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-05",
+      "publisher": "Sprout Social",
+      "title": "Sprout Social Acquires Tagger Media",
+      "url": "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx",
+      "published_date": "2023-08-03",
+      "type": "buyer_official_press_release",
+      "geography": "美国／全球营销软件",
+      "claims": [
+        "交易于2023-08-02完成，公告现金对价1.40亿美元。",
+        "买方称交易扩展其网红营销能力、整合工作流程与效果衡量，并可向现有客户推广。"
+      ],
+      "deal": {
+        "buyer": "Sprout Social",
+        "target": "Tagger Media",
+        "year": 2023,
+        "status": "completed",
+        "closed_date": "2023-08-02",
+        "amount_disclosed": true,
+        "announced_amount_usd": 140000000,
+        "amount_basis": "announcement cash consideration; see CAP-06 for subsequent adjusted accounting amount"
+      },
+      "limitations": [
+        "并非Wringy潜在买方意向证据；不推算估值倍数。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-06",
+      "publisher": "Sprout Social / SEC EDGAR",
+      "title": "Sprout Social 2023 Form 10-K — Note 4 Business Combinations",
+      "url": "https://www.sec.gov/Archives/edgar/data/1517375/000151737524000020/spt-20231231.htm",
+      "published_date": null,
+      "type": "buyer_regulatory_filing",
+      "geography": "美国",
+      "period": "year ended 2023-12-31",
+      "claims": [
+        "Tagger交易现金初步购买对价为1.44亿美元，包含营运资金、现金、债务等惯常调整。"
+      ],
+      "limitations": [
+        "与公告1.40亿美元口径不同，不能混写为两个交易价格。",
+        "本文件使用2023年报披露，不声称是最终购买价分摊。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-07",
+      "publisher": "Meltwater",
+      "title": "Meltwater announces agreement to acquire Klear",
+      "url": "https://www.meltwater.com/en/press-releases/meltwater-announces-agreement-to-acquire-klear",
+      "published_date": "2021-04-14",
+      "type": "buyer_official_press_release",
+      "geography": "全球营销软件；Klear为以色列公司",
+      "claims": [
+        "公告收购对价1,780万美元，由现金与earn-out构成。",
+        "公告时为已签收购协议、预计2021-04-14前后完成；完成情况由CAP-08补证。",
+        "战略逻辑为Klear创作者识别、关系管理及衡量能力结合Meltwater客户分销与社交分析产品。"
+      ],
+      "deal": {
+        "buyer": "Meltwater",
+        "target": "Klear",
+        "year": 2021,
+        "status_at_announcement": "agreement_signed_expected_to_close",
+        "completion_evidence": "CAP-08",
+        "amount_disclosed": true,
+        "announced_amount_usd": 17800000,
+        "amount_basis": "cash plus earn-out; not all upfront cash"
+      },
+      "limitations": [
+        "不把earn-out视为全部已支付。",
+        "不引用公告中的历史行业规模或收入倍数作为2026年市场规模或Wringy估值。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    },
+    {
+      "id": "CAP-08",
+      "publisher": "Meltwater",
+      "title": "Klear is officially part of Meltwater!",
+      "url": "https://www.meltwater.com/en/blog/klear-is-officially-part-of-meltwater",
+      "published_date": "2024-03-13",
+      "type": "buyer_official_post_acquisition_confirmation",
+      "geography": "全球",
+      "claims": [
+        "官方回顾明确Klear在2021年被Meltwater收购；2024年进一步统一产品入口及沟通渠道。"
+      ],
+      "limitations": [
+        "仅核实2021年完成收购，不将2024年渠道整合误写为收购年份。",
+        "此来源不确认earn-out最终付款。"
+      ],
+      "accessed_date": "2026-09-12",
+      "verified_live": true
+    }
+  ]
+}

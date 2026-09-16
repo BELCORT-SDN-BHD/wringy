@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-10",
+  "slides": [
+    [
+      "01",
+      "封面"
+    ],
+    [
+      "02",
+      "问题"
+    ],
+    [
+      "03",
+      "解决方案"
+    ],
+    [
+      "04",
+      "解决方案实例"
+    ],
+    [
+      "05",
+      "独特见解"
+    ],
+    [
+      "06",
+      "商业模式"
+    ],
+    [
+      "07",
+      "市场背景"
+    ],
+    [
+      "08",
+      "未来增长与市场扩展"
+    ],
+    [
+      "09",
+      "执行关系"
+    ],
+    [
+      "10",
+      "资金与拟实现成果"
+    ]
+  ],
+  "all_ten_source_images_visually_inspected": true,
+  "source_image_count": 10,
+  "story_sections": 10,
+  "visual_plans": 10,
+  "broken_local_links": [],
+  "budget_sum_myr": 576150,
+  "ppt_created": false,
+  "scope": "research/yc-deck and investor-v4/story.md only"
+}

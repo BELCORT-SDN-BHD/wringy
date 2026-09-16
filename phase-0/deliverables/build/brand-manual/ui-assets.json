@@ -1,0 +1,27 @@
+{
+  "BB-21": {
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png",
+    "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-BRAND-DESKTOP",
+    "alt": "Wringy 本地 HTML/CSS 设计示例，UI-BRAND-DESKTOP"
+  },
+  "BB-22": {
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-MOBILE.png",
+    "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-BRAND-MOBILE",
+    "alt": "Wringy 本地 HTML/CSS 设计示例，UI-BRAND-MOBILE"
+  },
+  "BB-23": {
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-DESKTOP.png",
+    "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-CREATOR-DESKTOP",
+    "alt": "Wringy 本地 HTML/CSS 设计示例，UI-CREATOR-DESKTOP"
+  },
+  "BB-24": {
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png",
+    "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-CREATOR-MOBILE",
+    "alt": "Wringy 本地 HTML/CSS 设计示例，UI-CREATOR-MOBILE"
+  },
+  "BB-25": {
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-PAYOUT-CONFIRM.png",
+    "source": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html?screen=UI-PAYOUT-CONFIRM",
+    "alt": "独立的未来支付服务示例，净额148，非首版钱包"
+  }
+}

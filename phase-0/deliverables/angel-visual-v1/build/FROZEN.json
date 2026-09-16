@@ -1,0 +1,37 @@
+{
+  "status": "frozen-main-visual-approved",
+  "date": "2026-09-10",
+  "visual_review": "All three final PNGs individually inspected. Slide 2 arrows visibly left-to-right. Final cover disclosure and revised product title verified.",
+  "validation_receipt": "validation-approved-sample.json",
+  "validated_bytes_copied_unchanged": true,
+  "limitations": [
+    "Product concept interface is a raster image; slide titles, caption and slide 2 diagram are native editable objects.",
+    "PDF is a raster preview from final PPTX renders.",
+    "No desktop PowerPoint edit-save-reopen test."
+  ],
+  "files": {
+    "output/Wringy-Angel-Visual-v1.pptx": {
+      "bytes": 2769495,
+      "sha256": "147f532eaa72024d55ffb0b31a3b83111c17773f378f889310739ac434463eb8"
+    },
+    "output/Wringy-Angel-Visual-v1.pdf": {
+      "bytes": 3287408,
+      "sha256": "b8d3b86313c9a980635fa47b80d0fd609d289add50245fd20b1922793927a7ff"
+    },
+    "output/slides/slide-01.png": {
+      "bytes": 1187268,
+      "sha256": "e8336f4d03c663c7f8016ce6fed05e62acbf933d59c54dc96d9355562f2530e1"
+    },
+    "output/slides/slide-02.png": {
+      "bytes": 168532,
+      "sha256": "1d5029e66f12be03d249bb748bb97773d5ef6dbd9438dbfefe7ea533fa533e08"
+    },
+    "output/slides/slide-03.png": {
+      "bytes": 1014433,
+      "sha256": "88e922ee488c8c8bbcb605b85723429842f8f1dd20ac8fe157c85a980f2670ab"
+    }
+  },
+  "approval": "2026-09-10 main visually approved three-page sample, including final title and disclosures.",
+  "pptx_slide_count": 3,
+  "pdf_page_count": 3
+}

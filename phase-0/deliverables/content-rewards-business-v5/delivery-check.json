@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "date": "2026-09-13",
+  "pages": 15,
+  "main": 12,
+  "appendix": 3,
+  "native_charts": 4,
+  "chart_values": [
+    [
+      11.266,
+      22.532
+    ],
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ],
+    [
+      180.0,
+      90.0,
+      0.0,
+      -90.0
+    ]
+  ],
+  "native_tables": 2,
+  "generated_photo_assets": 4,
+  "photo_placements": 10,
+  "builtin_imagegen": true,
+  "photo_provenance": "assets/provenance.json",
+  "prompts": "assets/prompts.json",
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "all_pages_individually_reviewed": true,
+  "pdf_poppler_pages": 15,
+  "source_links": 7,
+  "source_urls": [
+    "https://clipping.net/brands",
+    "https://contentrewards.com/brands-terms",
+    "https://whop.com/content-rewards-terms-of-service/",
+    "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+    "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx"
+  ],
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "salary_allowance_cash_confirmed": 0,
+  "proposed_funding": 70000,
+  "proposed_ask_approved": false,
+  "unpaid_founder_labor_economic_cost": 60,
+  "finance_source": "finance/results.json",
+  "native_powerpoint_tested": false,
+  "pdf_format": "Raster reading copy with source link annotations",
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 20737655,
+      "sha256": "1544fb64fb9e5af92d062c025d8f636ad993331774e7892fdaf0b08ac14ff6a2"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 17279131,
+      "sha256": "ca1b848baecb1b5c2cf1494e4147b81f527d9d1e2859d931367f3f41c9d68bc5"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 364416,
+      "sha256": "c601f9af5dfe509c201b2b1cc81fbf9ca5dcfba95bffd0ffef2df92d80ea1b19"
+    }
+  }
+}

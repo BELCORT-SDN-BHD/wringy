@@ -1,0 +1,24 @@
+{
+  "slides": 10,
+  "pdf_pages": 10,
+  "pdf_type": "raster preview from rendered final PPTX",
+  "native_charts": 0,
+  "limitations": [
+    "No PowerPoint desktop edit-save-reopen test",
+    "Product concept screenshot is raster"
+  ],
+  "files": {
+    "Wringy-Investor-v3.pptx": {
+      "bytes": 171085,
+      "sha256": "91b917b62ce5f6ffa9b6fc827af5edae0a5d09a4a74a32a53b7ebb94c6dbd3f4"
+    },
+    "Wringy-Investor-v3-Preview.pdf": {
+      "bytes": 1432836,
+      "sha256": "8e1d32bc524800f900a76d2c95753979f11c09b07eb80084fe06d512524d8bdf"
+    },
+    "contact-sheet.png": {
+      "bytes": 459850,
+      "sha256": "ba46d2f3359114b3936d5d97c04eac7fec3c598cd40576eb6a829702cd1b0797"
+    }
+  }
+}

@@ -1,0 +1,4189 @@
+{
+  "date": "2026-09-10",
+  "task_intent": "Audit Ramp and Linear comprehensively to rebuild Wringy visual guidelines and its YC investor deck.",
+  "target_capture_url": "https://mobbin.com/sites/ramp-ce5fe5e7-4dd5-4bf7-bd90-a4cd4945b4de/c7bdc9b7-d439-4c61-a13a-c35688970d1f/sections",
+  "method": "单类别逐次调用mcp__mobbin__search_sections，返回全部原生图片经functions.image实际显示并检查；按ID去重，仅Ramp入审计，其余记录为跨站排除。",
+  "complete_exact_capture": false,
+  "unique_ramp_count": 61,
+  "exact_supported_by_main_count": 0,
+  "batch_count": 24,
+  "media_policy": "未下载/重新分发图片；image_url由工具合法返回，短链接可能到期；原生图保留于工具会话，无本地图片文件。",
+  "pagination_limitations": [
+    "所有返回has_next_page=true仅指跨站语义搜索还有结果，不代表还有Ramp或目标capture。",
+    "导航第1页limit12、第2页limit8造成重叠；本表保留索引并按ID去重，不声称无间隙全量。",
+    "产品页1-4使用limit12；hero页1-2使用limit10；其余类别按实际batch数组保留。"
+  ],
+  "batches": [
+    {
+      "batch": 1,
+      "query": "Ramp navigation bar and expanded mega menu",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "c224c647-a876-44fc-ad18-ac01acee3004",
+          "mobbin_url": "https://mobbin.com/sites/sections/c224c647-a876-44fc-ad18-ac01acee3004",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+          "mobbin_url": "https://mobbin.com/sites/sections/7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "163fd5ff-3125-4d5d-bdc3-3a96d1502bb5",
+          "mobbin_url": "https://mobbin.com/sites/sections/163fd5ff-3125-4d5d-bdc3-3a96d1502bb5",
+          "site_name": "SOTF"
+        },
+        {
+          "id": "a3e7aeb7-b5b4-45d4-ad8c-760e31c7dc6e",
+          "mobbin_url": "https://mobbin.com/sites/sections/a3e7aeb7-b5b4-45d4-ad8c-760e31c7dc6e",
+          "site_name": "Sui"
+        },
+        {
+          "id": "47927a0a-f9b9-4a5b-82b0-ec3c7970a14e",
+          "mobbin_url": "https://mobbin.com/sites/sections/47927a0a-f9b9-4a5b-82b0-ec3c7970a14e",
+          "site_name": "Jasper"
+        },
+        {
+          "id": "63a71928-f05b-4681-a7bc-f2ff9457c04f",
+          "mobbin_url": "https://mobbin.com/sites/sections/63a71928-f05b-4681-a7bc-f2ff9457c04f",
+          "site_name": "ClickUp"
+        },
+        {
+          "id": "62984214-7e41-43f6-b3fe-4ada5446fc18",
+          "mobbin_url": "https://mobbin.com/sites/sections/62984214-7e41-43f6-b3fe-4ada5446fc18",
+          "site_name": "Frontify"
+        },
+        {
+          "id": "c1dc63b8-957a-4567-970b-bd3a21232beb",
+          "mobbin_url": "https://mobbin.com/sites/sections/c1dc63b8-957a-4567-970b-bd3a21232beb",
+          "site_name": "BitcoinOS"
+        },
+        {
+          "id": "6a54d993-ed1c-4cef-bbe8-072534e7997c",
+          "mobbin_url": "https://mobbin.com/sites/sections/6a54d993-ed1c-4cef-bbe8-072534e7997c",
+          "site_name": "Garden"
+        },
+        {
+          "id": "27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "mobbin_url": "https://mobbin.com/sites/sections/27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "07c17d1d-b504-470c-a5e8-782a0a40367e",
+          "mobbin_url": "https://mobbin.com/sites/sections/07c17d1d-b504-470c-a5e8-782a0a40367e",
+          "site_name": "Oatly"
+        },
+        {
+          "id": "4933f527-3317-4639-8adc-88b13c9bddba",
+          "mobbin_url": "https://mobbin.com/sites/sections/4933f527-3317-4639-8adc-88b13c9bddba",
+          "site_name": "Impossible Foods"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "163fd5ff-3125-4d5d-bdc3-3a96d1502bb5",
+        "a3e7aeb7-b5b4-45d4-ad8c-760e31c7dc6e",
+        "47927a0a-f9b9-4a5b-82b0-ec3c7970a14e",
+        "63a71928-f05b-4681-a7bc-f2ff9457c04f",
+        "62984214-7e41-43f6-b3fe-4ada5446fc18",
+        "c1dc63b8-957a-4567-970b-bd3a21232beb",
+        "6a54d993-ed1c-4cef-bbe8-072534e7997c",
+        "07c17d1d-b504-470c-a5e8-782a0a40367e",
+        "4933f527-3317-4639-8adc-88b13c9bddba"
+      ]
+    },
+    {
+      "batch": 2,
+      "query": "Ramp hero section",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "mobbin_url": "https://mobbin.com/sites/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "mobbin_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "mobbin_url": "https://mobbin.com/sites/sections/aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aaa4333c-a699-4fbb-9af0-6ec234b82053",
+          "mobbin_url": "https://mobbin.com/sites/sections/aaa4333c-a699-4fbb-9af0-6ec234b82053",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "a60fec48-739b-4b6b-b123-94208c79865c",
+          "mobbin_url": "https://mobbin.com/sites/sections/a60fec48-739b-4b6b-b123-94208c79865c",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+          "mobbin_url": "https://mobbin.com/sites/sections/03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "16357375-1402-4490-9be0-0a39d44ad6ff",
+          "mobbin_url": "https://mobbin.com/sites/sections/16357375-1402-4490-9be0-0a39d44ad6ff",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "mobbin_url": "https://mobbin.com/sites/sections/8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "354bdc75-5f12-45bb-9511-5cc9a56c600d",
+          "mobbin_url": "https://mobbin.com/sites/sections/354bdc75-5f12-45bb-9511-5cc9a56c600d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f8c96895-298d-47d1-b0d0-545919de6959",
+          "mobbin_url": "https://mobbin.com/sites/sections/f8c96895-298d-47d1-b0d0-545919de6959",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": []
+    },
+    {
+      "batch": 3,
+      "query": "Ramp hero section",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "b9156a42-c32b-423e-97ec-a9773e6a2809",
+          "mobbin_url": "https://mobbin.com/sites/sections/b9156a42-c32b-423e-97ec-a9773e6a2809",
+          "site_name": "Slash"
+        },
+        {
+          "id": "e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+          "mobbin_url": "https://mobbin.com/sites/sections/e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "a26a1091-37cb-4624-a949-cd3266f6f777",
+          "mobbin_url": "https://mobbin.com/sites/sections/a26a1091-37cb-4624-a949-cd3266f6f777",
+          "site_name": "Zoox"
+        },
+        {
+          "id": "5dc13e65-5c20-42bb-bcd7-e435a870872a",
+          "mobbin_url": "https://mobbin.com/sites/sections/5dc13e65-5c20-42bb-bcd7-e435a870872a",
+          "site_name": "Shopify"
+        },
+        {
+          "id": "707379bd-de88-41d2-90b5-069e476a139c",
+          "mobbin_url": "https://mobbin.com/sites/sections/707379bd-de88-41d2-90b5-069e476a139c",
+          "site_name": "Grain"
+        },
+        {
+          "id": "f6dd1119-3187-4b6e-aa6b-6dbd86f6ab9a",
+          "mobbin_url": "https://mobbin.com/sites/sections/f6dd1119-3187-4b6e-aa6b-6dbd86f6ab9a",
+          "site_name": "Contra"
+        },
+        {
+          "id": "d005746c-ec13-42df-a2dc-3e75b194e96d",
+          "mobbin_url": "https://mobbin.com/sites/sections/d005746c-ec13-42df-a2dc-3e75b194e96d",
+          "site_name": "Glide"
+        },
+        {
+          "id": "200f981e-af2c-410f-b573-b87d03d0b40f",
+          "mobbin_url": "https://mobbin.com/sites/sections/200f981e-af2c-410f-b573-b87d03d0b40f",
+          "site_name": "Loom"
+        },
+        {
+          "id": "a56789ca-9b36-4bbc-a3f6-8b079c297f5f",
+          "mobbin_url": "https://mobbin.com/sites/sections/a56789ca-9b36-4bbc-a3f6-8b079c297f5f",
+          "site_name": "Sequence"
+        },
+        {
+          "id": "dc2d4f95-b523-4103-941b-3dbf7c9bc8c6",
+          "mobbin_url": "https://mobbin.com/sites/sections/dc2d4f95-b523-4103-941b-3dbf7c9bc8c6",
+          "site_name": "Duna"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "b9156a42-c32b-423e-97ec-a9773e6a2809",
+        "a26a1091-37cb-4624-a949-cd3266f6f777",
+        "5dc13e65-5c20-42bb-bcd7-e435a870872a",
+        "707379bd-de88-41d2-90b5-069e476a139c",
+        "f6dd1119-3187-4b6e-aa6b-6dbd86f6ab9a",
+        "d005746c-ec13-42df-a2dc-3e75b194e96d",
+        "200f981e-af2c-410f-b573-b87d03d0b40f",
+        "a56789ca-9b36-4bbc-a3f6-8b079c297f5f",
+        "dc2d4f95-b523-4103-941b-3dbf7c9bc8c6"
+      ]
+    },
+    {
+      "batch": 4,
+      "query": "Ramp product features demo section",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "mobbin_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "mobbin_url": "https://mobbin.com/sites/sections/6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "bc483029-6ba0-43c1-b8b8-902ad8297853",
+          "mobbin_url": "https://mobbin.com/sites/sections/bc483029-6ba0-43c1-b8b8-902ad8297853",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b54966b6-e31a-4e18-af6a-80810799c008",
+          "mobbin_url": "https://mobbin.com/sites/sections/b54966b6-e31a-4e18-af6a-80810799c008",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "75817196-44e2-43c6-b104-21039b75d2c9",
+          "mobbin_url": "https://mobbin.com/sites/sections/75817196-44e2-43c6-b104-21039b75d2c9",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aaa4333c-a699-4fbb-9af0-6ec234b82053",
+          "mobbin_url": "https://mobbin.com/sites/sections/aaa4333c-a699-4fbb-9af0-6ec234b82053",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "mobbin_url": "https://mobbin.com/sites/sections/aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+          "mobbin_url": "https://mobbin.com/sites/sections/9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "36eff1fa-e3a0-49b3-8657-898cfb13e077",
+          "mobbin_url": "https://mobbin.com/sites/sections/36eff1fa-e3a0-49b3-8657-898cfb13e077",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+          "mobbin_url": "https://mobbin.com/sites/sections/a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+          "mobbin_url": "https://mobbin.com/sites/sections/e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "mobbin_url": "https://mobbin.com/sites/sections/57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": []
+    },
+    {
+      "batch": 5,
+      "query": "Ramp product features demo section",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "33350120-d36a-49f2-9a08-c6c93393348d",
+          "mobbin_url": "https://mobbin.com/sites/sections/33350120-d36a-49f2-9a08-c6c93393348d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "cee11f15-afd8-43ce-ae78-1bf7a4170185",
+          "mobbin_url": "https://mobbin.com/sites/sections/cee11f15-afd8-43ce-ae78-1bf7a4170185",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "6dd75499-62d4-4742-8986-5403e4df348d",
+          "mobbin_url": "https://mobbin.com/sites/sections/6dd75499-62d4-4742-8986-5403e4df348d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+          "mobbin_url": "https://mobbin.com/sites/sections/dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "13557a98-696e-456b-87af-a02a906d3e29",
+          "mobbin_url": "https://mobbin.com/sites/sections/13557a98-696e-456b-87af-a02a906d3e29",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "mobbin_url": "https://mobbin.com/sites/sections/329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "0eea1e87-ae08-41f8-9c84-2f889d397d39",
+          "mobbin_url": "https://mobbin.com/sites/sections/0eea1e87-ae08-41f8-9c84-2f889d397d39",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+          "mobbin_url": "https://mobbin.com/sites/sections/1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "16357375-1402-4490-9be0-0a39d44ad6ff",
+          "mobbin_url": "https://mobbin.com/sites/sections/16357375-1402-4490-9be0-0a39d44ad6ff",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "mobbin_url": "https://mobbin.com/sites/sections/f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+          "mobbin_url": "https://mobbin.com/sites/sections/72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "mobbin_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": []
+    },
+    {
+      "batch": 6,
+      "query": "Ramp product features demo section",
+      "page": 3,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "fe96218a-00dd-4867-8612-f339917c9dbf",
+          "mobbin_url": "https://mobbin.com/sites/sections/fe96218a-00dd-4867-8612-f339917c9dbf",
+          "site_name": "Stripe"
+        },
+        {
+          "id": "22fdf389-76be-445b-93c6-9dc5c5e9be62",
+          "mobbin_url": "https://mobbin.com/sites/sections/22fdf389-76be-445b-93c6-9dc5c5e9be62",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "40a22e6f-3abc-4402-bb05-afbd3143c83e",
+          "mobbin_url": "https://mobbin.com/sites/sections/40a22e6f-3abc-4402-bb05-afbd3143c83e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "370ad6e6-0b30-4085-8664-615713167003",
+          "mobbin_url": "https://mobbin.com/sites/sections/370ad6e6-0b30-4085-8664-615713167003",
+          "site_name": "Deel"
+        },
+        {
+          "id": "8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "mobbin_url": "https://mobbin.com/sites/sections/8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "167edd07-5357-4149-ad18-b42cfd3fddeb",
+          "mobbin_url": "https://mobbin.com/sites/sections/167edd07-5357-4149-ad18-b42cfd3fddeb",
+          "site_name": "Airtable"
+        },
+        {
+          "id": "66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+          "mobbin_url": "https://mobbin.com/sites/sections/66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "c224c647-a876-44fc-ad18-ac01acee3004",
+          "mobbin_url": "https://mobbin.com/sites/sections/c224c647-a876-44fc-ad18-ac01acee3004",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+          "mobbin_url": "https://mobbin.com/sites/sections/f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f415a036-0bfb-4855-ac38-2363ab289dd0",
+          "mobbin_url": "https://mobbin.com/sites/sections/f415a036-0bfb-4855-ac38-2363ab289dd0",
+          "site_name": "Intercom"
+        },
+        {
+          "id": "51ab125e-73dc-467c-8011-3a748af04471",
+          "mobbin_url": "https://mobbin.com/sites/sections/51ab125e-73dc-467c-8011-3a748af04471",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "754ce3a5-b6c1-40b9-a094-1b7efed9f807",
+          "mobbin_url": "https://mobbin.com/sites/sections/754ce3a5-b6c1-40b9-a094-1b7efed9f807",
+          "site_name": "Base"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "fe96218a-00dd-4867-8612-f339917c9dbf",
+        "370ad6e6-0b30-4085-8664-615713167003",
+        "167edd07-5357-4149-ad18-b42cfd3fddeb",
+        "f415a036-0bfb-4855-ac38-2363ab289dd0",
+        "754ce3a5-b6c1-40b9-a094-1b7efed9f807"
+      ]
+    },
+    {
+      "batch": 7,
+      "query": "Ramp customer logos case study testimonials",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+          "mobbin_url": "https://mobbin.com/sites/sections/66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "mobbin_url": "https://mobbin.com/sites/sections/f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8d5e762c-77e0-4cec-b386-4e285906f921",
+          "mobbin_url": "https://mobbin.com/sites/sections/8d5e762c-77e0-4cec-b386-4e285906f921",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "cee11f15-afd8-43ce-ae78-1bf7a4170185",
+          "mobbin_url": "https://mobbin.com/sites/sections/cee11f15-afd8-43ce-ae78-1bf7a4170185",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "563122ab-e611-4855-8d55-4b630981f37f",
+          "mobbin_url": "https://mobbin.com/sites/sections/563122ab-e611-4855-8d55-4b630981f37f",
+          "site_name": "Sprig"
+        },
+        {
+          "id": "53ec0f09-7b25-45e2-8cec-7efa7fbdfcd8",
+          "mobbin_url": "https://mobbin.com/sites/sections/53ec0f09-7b25-45e2-8cec-7efa7fbdfcd8",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "3478befb-f604-4531-869c-2a25e40e86bd",
+          "mobbin_url": "https://mobbin.com/sites/sections/3478befb-f604-4531-869c-2a25e40e86bd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "69618a14-bae5-43a7-8997-884965f58cc5",
+          "mobbin_url": "https://mobbin.com/sites/sections/69618a14-bae5-43a7-8997-884965f58cc5",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "9c515450-5e8b-4ad0-8c45-fe6be166f9cc",
+          "mobbin_url": "https://mobbin.com/sites/sections/9c515450-5e8b-4ad0-8c45-fe6be166f9cc",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "d358408c-5cb5-43f6-96c9-14118362137a",
+          "mobbin_url": "https://mobbin.com/sites/sections/d358408c-5cb5-43f6-96c9-14118362137a",
+          "site_name": "Linear"
+        },
+        {
+          "id": "a039a1a3-52e7-430c-8291-7c16ed0f4078",
+          "mobbin_url": "https://mobbin.com/sites/sections/a039a1a3-52e7-430c-8291-7c16ed0f4078",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8f798a18-98c5-469e-bbdd-a1a5632f5f08",
+          "mobbin_url": "https://mobbin.com/sites/sections/8f798a18-98c5-469e-bbdd-a1a5632f5f08",
+          "site_name": "Retool"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "563122ab-e611-4855-8d55-4b630981f37f",
+        "d358408c-5cb5-43f6-96c9-14118362137a",
+        "8f798a18-98c5-469e-bbdd-a1a5632f5f08"
+      ]
+    },
+    {
+      "batch": 8,
+      "query": "Ramp integrations section",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "mobbin_url": "https://mobbin.com/sites/sections/6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b54966b6-e31a-4e18-af6a-80810799c008",
+          "mobbin_url": "https://mobbin.com/sites/sections/b54966b6-e31a-4e18-af6a-80810799c008",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "ed18bcee-898b-46c4-838e-8aea1d9e7083",
+          "mobbin_url": "https://mobbin.com/sites/sections/ed18bcee-898b-46c4-838e-8aea1d9e7083",
+          "site_name": "Attio"
+        },
+        {
+          "id": "75817196-44e2-43c6-b104-21039b75d2c9",
+          "mobbin_url": "https://mobbin.com/sites/sections/75817196-44e2-43c6-b104-21039b75d2c9",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "0eea1e87-ae08-41f8-9c84-2f889d397d39",
+          "mobbin_url": "https://mobbin.com/sites/sections/0eea1e87-ae08-41f8-9c84-2f889d397d39",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "bc483029-6ba0-43c1-b8b8-902ad8297853",
+          "mobbin_url": "https://mobbin.com/sites/sections/bc483029-6ba0-43c1-b8b8-902ad8297853",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b5b16367-0324-4627-87db-791011ccde93",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5b16367-0324-4627-87db-791011ccde93",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e1ad034b-b2a5-44ce-902d-f8aea07f3f5d",
+          "mobbin_url": "https://mobbin.com/sites/sections/e1ad034b-b2a5-44ce-902d-f8aea07f3f5d",
+          "site_name": "Linear"
+        },
+        {
+          "id": "329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "mobbin_url": "https://mobbin.com/sites/sections/329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "13557a98-696e-456b-87af-a02a906d3e29",
+          "mobbin_url": "https://mobbin.com/sites/sections/13557a98-696e-456b-87af-a02a906d3e29",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "ed18bcee-898b-46c4-838e-8aea1d9e7083",
+        "e1ad034b-b2a5-44ce-902d-f8aea07f3f5d"
+      ]
+    },
+    {
+      "batch": 9,
+      "query": "Ramp pricing plans comparison table",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "1423cec4-c158-47d0-9cbc-f0e4907fd146",
+          "mobbin_url": "https://mobbin.com/sites/sections/1423cec4-c158-47d0-9cbc-f0e4907fd146",
+          "site_name": "Maze"
+        },
+        {
+          "id": "e2557f64-46b5-47f8-a9c5-aabcd8a7edfc",
+          "mobbin_url": "https://mobbin.com/sites/sections/e2557f64-46b5-47f8-a9c5-aabcd8a7edfc",
+          "site_name": "Cloudflare"
+        },
+        {
+          "id": "e3ddc28f-c8fd-403c-b9ba-fe43f044c2d5",
+          "mobbin_url": "https://mobbin.com/sites/sections/e3ddc28f-c8fd-403c-b9ba-fe43f044c2d5",
+          "site_name": "Revolut"
+        },
+        {
+          "id": "1be23719-12e4-47ca-b449-49ed8a5a2662",
+          "mobbin_url": "https://mobbin.com/sites/sections/1be23719-12e4-47ca-b449-49ed8a5a2662",
+          "site_name": "Plain"
+        },
+        {
+          "id": "0ff0c57b-edb8-445d-afd7-d8e859668466",
+          "mobbin_url": "https://mobbin.com/sites/sections/0ff0c57b-edb8-445d-afd7-d8e859668466",
+          "site_name": "Slash"
+        },
+        {
+          "id": "35206a38-caa8-441a-aa8e-c9f9807d874b",
+          "mobbin_url": "https://mobbin.com/sites/sections/35206a38-caa8-441a-aa8e-c9f9807d874b",
+          "site_name": "Charma"
+        },
+        {
+          "id": "8a09538c-ffad-4eb6-8100-ccc910872f19",
+          "mobbin_url": "https://mobbin.com/sites/sections/8a09538c-ffad-4eb6-8100-ccc910872f19",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "c121be09-906e-4469-87f9-596fa1921b4d",
+          "mobbin_url": "https://mobbin.com/sites/sections/c121be09-906e-4469-87f9-596fa1921b4d",
+          "site_name": "Clay"
+        },
+        {
+          "id": "537fd731-3f43-4788-b4c7-b7478723c49b",
+          "mobbin_url": "https://mobbin.com/sites/sections/537fd731-3f43-4788-b4c7-b7478723c49b",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "308f769a-4c1b-49ba-8658-e046cef7c645",
+          "mobbin_url": "https://mobbin.com/sites/sections/308f769a-4c1b-49ba-8658-e046cef7c645",
+          "site_name": "Rows"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "1423cec4-c158-47d0-9cbc-f0e4907fd146",
+        "e2557f64-46b5-47f8-a9c5-aabcd8a7edfc",
+        "e3ddc28f-c8fd-403c-b9ba-fe43f044c2d5",
+        "1be23719-12e4-47ca-b449-49ed8a5a2662",
+        "0ff0c57b-edb8-445d-afd7-d8e859668466",
+        "35206a38-caa8-441a-aa8e-c9f9807d874b",
+        "c121be09-906e-4469-87f9-596fa1921b4d",
+        "308f769a-4c1b-49ba-8658-e046cef7c645"
+      ]
+    },
+    {
+      "batch": 10,
+      "query": "Ramp pricing",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "mobbin_url": "https://mobbin.com/sites/sections/57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "mobbin_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+          "mobbin_url": "https://mobbin.com/sites/sections/a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "36eff1fa-e3a0-49b3-8657-898cfb13e077",
+          "mobbin_url": "https://mobbin.com/sites/sections/36eff1fa-e3a0-49b3-8657-898cfb13e077",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "mobbin_url": "https://mobbin.com/sites/sections/6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "mobbin_url": "https://mobbin.com/sites/sections/329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "mobbin_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b54966b6-e31a-4e18-af6a-80810799c008",
+          "mobbin_url": "https://mobbin.com/sites/sections/b54966b6-e31a-4e18-af6a-80810799c008",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 8,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": []
+    },
+    {
+      "batch": 11,
+      "query": "Ramp call to action email signup form",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "0addfde9-71dd-4ed4-b744-c5a713e64161",
+          "mobbin_url": "https://mobbin.com/sites/sections/0addfde9-71dd-4ed4-b744-c5a713e64161",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "mobbin_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "mobbin_url": "https://mobbin.com/sites/sections/aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "79864318-b74f-4004-90a9-f733e4f85637",
+          "mobbin_url": "https://mobbin.com/sites/sections/79864318-b74f-4004-90a9-f733e4f85637",
+          "site_name": "Aave"
+        },
+        {
+          "id": "507120c3-818a-4674-b043-5a83bcddffc9",
+          "mobbin_url": "https://mobbin.com/sites/sections/507120c3-818a-4674-b043-5a83bcddffc9",
+          "site_name": "Readymag"
+        },
+        {
+          "id": "3b372fc3-1fcd-4fe7-bb49-ed0d99d9c250",
+          "mobbin_url": "https://mobbin.com/sites/sections/3b372fc3-1fcd-4fe7-bb49-ed0d99d9c250",
+          "site_name": "Square"
+        },
+        {
+          "id": "3e3bcb98-83f1-4ce2-a9ac-bc5058ae3b17",
+          "mobbin_url": "https://mobbin.com/sites/sections/3e3bcb98-83f1-4ce2-a9ac-bc5058ae3b17",
+          "site_name": "Ragged Edge"
+        },
+        {
+          "id": "a60fec48-739b-4b6b-b123-94208c79865c",
+          "mobbin_url": "https://mobbin.com/sites/sections/a60fec48-739b-4b6b-b123-94208c79865c",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e4089100-a759-458d-b8ba-db5f0c50768c",
+          "mobbin_url": "https://mobbin.com/sites/sections/e4089100-a759-458d-b8ba-db5f0c50768c",
+          "site_name": "Maze"
+        },
+        {
+          "id": "8aa6c667-1db5-4143-bb33-6f3865eefceb",
+          "mobbin_url": "https://mobbin.com/sites/sections/8aa6c667-1db5-4143-bb33-6f3865eefceb",
+          "site_name": "Square"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "79864318-b74f-4004-90a9-f733e4f85637",
+        "507120c3-818a-4674-b043-5a83bcddffc9",
+        "3b372fc3-1fcd-4fe7-bb49-ed0d99d9c250",
+        "3e3bcb98-83f1-4ce2-a9ac-bc5058ae3b17",
+        "e4089100-a759-458d-b8ba-db5f0c50768c",
+        "8aa6c667-1db5-4143-bb33-6f3865eefceb"
+      ]
+    },
+    {
+      "batch": 12,
+      "query": "Ramp footer section",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "69a25a7e-7012-41e8-8129-9133bdcee565",
+          "mobbin_url": "https://mobbin.com/sites/sections/69a25a7e-7012-41e8-8129-9133bdcee565",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "9ee9d990-cbe1-40fe-b2ca-03ae743e3f0a",
+          "mobbin_url": "https://mobbin.com/sites/sections/9ee9d990-cbe1-40fe-b2ca-03ae743e3f0a",
+          "site_name": "Little Amps Coffee"
+        },
+        {
+          "id": "44dda7a3-0b2e-4935-a4a3-8dc42e605bb1",
+          "mobbin_url": "https://mobbin.com/sites/sections/44dda7a3-0b2e-4935-a4a3-8dc42e605bb1",
+          "site_name": "Antimetal"
+        },
+        {
+          "id": "541b0fd6-f736-44ee-a608-acb0e0a99ce5",
+          "mobbin_url": "https://mobbin.com/sites/sections/541b0fd6-f736-44ee-a608-acb0e0a99ce5",
+          "site_name": "Melius"
+        },
+        {
+          "id": "aee2ad76-2660-404b-8396-2dcf001170e1",
+          "mobbin_url": "https://mobbin.com/sites/sections/aee2ad76-2660-404b-8396-2dcf001170e1",
+          "site_name": "Zoox"
+        },
+        {
+          "id": "63f03bfd-f760-4f79-87f9-e46a067db45c",
+          "mobbin_url": "https://mobbin.com/sites/sections/63f03bfd-f760-4f79-87f9-e46a067db45c",
+          "site_name": "Reflect"
+        },
+        {
+          "id": "59cdf49d-e039-4904-a90e-aebfb09a9771",
+          "mobbin_url": "https://mobbin.com/sites/sections/59cdf49d-e039-4904-a90e-aebfb09a9771",
+          "site_name": "Railway"
+        },
+        {
+          "id": "5caa81d7-422e-41c2-93b1-d78676d665a0",
+          "mobbin_url": "https://mobbin.com/sites/sections/5caa81d7-422e-41c2-93b1-d78676d665a0",
+          "site_name": "Bevel"
+        }
+      ],
+      "image_count": 8,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "9ee9d990-cbe1-40fe-b2ca-03ae743e3f0a",
+        "44dda7a3-0b2e-4935-a4a3-8dc42e605bb1",
+        "541b0fd6-f736-44ee-a608-acb0e0a99ce5",
+        "aee2ad76-2660-404b-8396-2dcf001170e1",
+        "63f03bfd-f760-4f79-87f9-e46a067db45c",
+        "59cdf49d-e039-4904-a90e-aebfb09a9771",
+        "5caa81d7-422e-41c2-93b1-d78676d665a0"
+      ]
+    },
+    {
+      "batch": 13,
+      "query": "Ramp navigation bar and expanded mega menu",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "6a54d993-ed1c-4cef-bbe8-072534e7997c",
+          "mobbin_url": "https://mobbin.com/sites/sections/6a54d993-ed1c-4cef-bbe8-072534e7997c",
+          "site_name": "Garden"
+        },
+        {
+          "id": "27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "mobbin_url": "https://mobbin.com/sites/sections/27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "07c17d1d-b504-470c-a5e8-782a0a40367e",
+          "mobbin_url": "https://mobbin.com/sites/sections/07c17d1d-b504-470c-a5e8-782a0a40367e",
+          "site_name": "Oatly"
+        },
+        {
+          "id": "4933f527-3317-4639-8adc-88b13c9bddba",
+          "mobbin_url": "https://mobbin.com/sites/sections/4933f527-3317-4639-8adc-88b13c9bddba",
+          "site_name": "Impossible Foods"
+        },
+        {
+          "id": "3af5d3bd-ae5a-4543-bccd-20e0febfbd35",
+          "mobbin_url": "https://mobbin.com/sites/sections/3af5d3bd-ae5a-4543-bccd-20e0febfbd35",
+          "site_name": "Spade"
+        },
+        {
+          "id": "0dd0987b-88f6-4fb0-889b-722b81b92847",
+          "mobbin_url": "https://mobbin.com/sites/sections/0dd0987b-88f6-4fb0-889b-722b81b92847",
+          "site_name": "Mixpanel"
+        },
+        {
+          "id": "df6f47be-606e-488d-b2c9-a3fe010d35b9",
+          "mobbin_url": "https://mobbin.com/sites/sections/df6f47be-606e-488d-b2c9-a3fe010d35b9",
+          "site_name": "AngelList"
+        },
+        {
+          "id": "08b1da0a-e784-4a8c-8d23-0359ff00b023",
+          "mobbin_url": "https://mobbin.com/sites/sections/08b1da0a-e784-4a8c-8d23-0359ff00b023",
+          "site_name": "T1 Energy"
+        }
+      ],
+      "image_count": 8,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "6a54d993-ed1c-4cef-bbe8-072534e7997c",
+        "07c17d1d-b504-470c-a5e8-782a0a40367e",
+        "4933f527-3317-4639-8adc-88b13c9bddba",
+        "3af5d3bd-ae5a-4543-bccd-20e0febfbd35",
+        "0dd0987b-88f6-4fb0-889b-722b81b92847",
+        "df6f47be-606e-488d-b2c9-a3fe010d35b9",
+        "08b1da0a-e784-4a8c-8d23-0359ff00b023"
+      ]
+    },
+    {
+      "batch": 14,
+      "query": "Ramp product features demo section",
+      "page": 4,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "b9156a42-c32b-423e-97ec-a9773e6a2809",
+          "mobbin_url": "https://mobbin.com/sites/sections/b9156a42-c32b-423e-97ec-a9773e6a2809",
+          "site_name": "Slash"
+        },
+        {
+          "id": "7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+          "mobbin_url": "https://mobbin.com/sites/sections/7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e6f389b7-baf6-44cb-a73f-8b1242868142",
+          "mobbin_url": "https://mobbin.com/sites/sections/e6f389b7-baf6-44cb-a73f-8b1242868142",
+          "site_name": "Vanta"
+        },
+        {
+          "id": "120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "mobbin_url": "https://mobbin.com/sites/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "mobbin_url": "https://mobbin.com/sites/sections/27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "619a7270-c3e2-4b12-9d86-13d2eae28bc3",
+          "mobbin_url": "https://mobbin.com/sites/sections/619a7270-c3e2-4b12-9d86-13d2eae28bc3",
+          "site_name": "Vanta"
+        },
+        {
+          "id": "b5b16367-0324-4627-87db-791011ccde93",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5b16367-0324-4627-87db-791011ccde93",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8ff03db1-8a5e-45a1-9f2f-5dd907e057b3",
+          "mobbin_url": "https://mobbin.com/sites/sections/8ff03db1-8a5e-45a1-9f2f-5dd907e057b3",
+          "site_name": "Vanta"
+        },
+        {
+          "id": "a9a2fa70-c187-4ab6-b2b2-e4598e1ddda7",
+          "mobbin_url": "https://mobbin.com/sites/sections/a9a2fa70-c187-4ab6-b2b2-e4598e1ddda7",
+          "site_name": "Sequence"
+        },
+        {
+          "id": "354bdc75-5f12-45bb-9511-5cc9a56c600d",
+          "mobbin_url": "https://mobbin.com/sites/sections/354bdc75-5f12-45bb-9511-5cc9a56c600d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "2f5f35db-6c58-4c74-8b0c-183e340a3bf3",
+          "mobbin_url": "https://mobbin.com/sites/sections/2f5f35db-6c58-4c74-8b0c-183e340a3bf3",
+          "site_name": "Dovetail"
+        },
+        {
+          "id": "6b719553-85ed-4dd1-a974-f05e2e6acc66",
+          "mobbin_url": "https://mobbin.com/sites/sections/6b719553-85ed-4dd1-a974-f05e2e6acc66",
+          "site_name": "Tempo"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "b9156a42-c32b-423e-97ec-a9773e6a2809",
+        "e6f389b7-baf6-44cb-a73f-8b1242868142",
+        "619a7270-c3e2-4b12-9d86-13d2eae28bc3",
+        "8ff03db1-8a5e-45a1-9f2f-5dd907e057b3",
+        "a9a2fa70-c187-4ab6-b2b2-e4598e1ddda7",
+        "2f5f35db-6c58-4c74-8b0c-183e340a3bf3",
+        "6b719553-85ed-4dd1-a974-f05e2e6acc66"
+      ]
+    },
+    {
+      "batch": 15,
+      "query": "Ramp customer logos case study testimonials",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "13557a98-696e-456b-87af-a02a906d3e29",
+          "mobbin_url": "https://mobbin.com/sites/sections/13557a98-696e-456b-87af-a02a906d3e29",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b5ef9494-4d57-4a86-b1e1-cd82b6c76456",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5ef9494-4d57-4a86-b1e1-cd82b6c76456",
+          "site_name": "Granola"
+        },
+        {
+          "id": "4bd26ace-d295-46d6-b0af-5e4afd3036ff",
+          "mobbin_url": "https://mobbin.com/sites/sections/4bd26ace-d295-46d6-b0af-5e4afd3036ff",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "86971b05-e802-4805-9dd4-6359fccceb38",
+          "mobbin_url": "https://mobbin.com/sites/sections/86971b05-e802-4805-9dd4-6359fccceb38",
+          "site_name": "Notion"
+        },
+        {
+          "id": "584c4c68-a85c-49c8-9ea7-733103bafc60",
+          "mobbin_url": "https://mobbin.com/sites/sections/584c4c68-a85c-49c8-9ea7-733103bafc60",
+          "site_name": "Notion"
+        },
+        {
+          "id": "5500e5f7-6133-4dce-b5e9-cdaacb9f1c48",
+          "mobbin_url": "https://mobbin.com/sites/sections/5500e5f7-6133-4dce-b5e9-cdaacb9f1c48",
+          "site_name": "Linear"
+        },
+        {
+          "id": "b1145582-bf22-438a-bb9d-c9012df8d1a9",
+          "mobbin_url": "https://mobbin.com/sites/sections/b1145582-bf22-438a-bb9d-c9012df8d1a9",
+          "site_name": "Clay"
+        },
+        {
+          "id": "dfcc2b08-7a20-41b5-b913-1b6196860e9b",
+          "mobbin_url": "https://mobbin.com/sites/sections/dfcc2b08-7a20-41b5-b913-1b6196860e9b",
+          "site_name": "Oyster"
+        },
+        {
+          "id": "e2705594-4c2a-4f49-b89a-d2570e81b8a9",
+          "mobbin_url": "https://mobbin.com/sites/sections/e2705594-4c2a-4f49-b89a-d2570e81b8a9",
+          "site_name": "Lattice"
+        },
+        {
+          "id": "cab5b216-6833-4cef-9c2f-cdd78a08962b",
+          "mobbin_url": "https://mobbin.com/sites/sections/cab5b216-6833-4cef-9c2f-cdd78a08962b",
+          "site_name": "Linear"
+        },
+        {
+          "id": "b31e083c-8168-4e32-81a9-3dda083fdbf2",
+          "mobbin_url": "https://mobbin.com/sites/sections/b31e083c-8168-4e32-81a9-3dda083fdbf2",
+          "site_name": "Sequence"
+        },
+        {
+          "id": "14278a9c-6853-4b22-bd1c-c274192f2892",
+          "mobbin_url": "https://mobbin.com/sites/sections/14278a9c-6853-4b22-bd1c-c274192f2892",
+          "site_name": "Hex"
+        }
+      ],
+      "image_count": 12,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "b5ef9494-4d57-4a86-b1e1-cd82b6c76456",
+        "86971b05-e802-4805-9dd4-6359fccceb38",
+        "584c4c68-a85c-49c8-9ea7-733103bafc60",
+        "5500e5f7-6133-4dce-b5e9-cdaacb9f1c48",
+        "b1145582-bf22-438a-bb9d-c9012df8d1a9",
+        "dfcc2b08-7a20-41b5-b913-1b6196860e9b",
+        "e2705594-4c2a-4f49-b89a-d2570e81b8a9",
+        "cab5b216-6833-4cef-9c2f-cdd78a08962b",
+        "b31e083c-8168-4e32-81a9-3dda083fdbf2",
+        "14278a9c-6853-4b22-bd1c-c274192f2892"
+      ]
+    },
+    {
+      "batch": 16,
+      "query": "Ramp integrations section",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+          "mobbin_url": "https://mobbin.com/sites/sections/dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "mobbin_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "977f4003-17b4-40d5-bb40-c2dfc9c796d9",
+          "mobbin_url": "https://mobbin.com/sites/sections/977f4003-17b4-40d5-bb40-c2dfc9c796d9",
+          "site_name": "Zendesk"
+        },
+        {
+          "id": "7fa7a9aa-ee27-47ca-ae07-c8a3d4f02f46",
+          "mobbin_url": "https://mobbin.com/sites/sections/7fa7a9aa-ee27-47ca-ae07-c8a3d4f02f46",
+          "site_name": "Linear"
+        },
+        {
+          "id": "57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "mobbin_url": "https://mobbin.com/sites/sections/57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "89bfb1cc-52b9-4b1a-97ca-83a0a6c26d2e",
+          "mobbin_url": "https://mobbin.com/sites/sections/89bfb1cc-52b9-4b1a-97ca-83a0a6c26d2e",
+          "site_name": "Oyster"
+        },
+        {
+          "id": "20a984cc-0b25-4e5f-b97f-3eacc540a51e",
+          "mobbin_url": "https://mobbin.com/sites/sections/20a984cc-0b25-4e5f-b97f-3eacc540a51e",
+          "site_name": "Twingate"
+        },
+        {
+          "id": "f2beffe3-49f6-4a3b-80fa-75cda073e7c9",
+          "mobbin_url": "https://mobbin.com/sites/sections/f2beffe3-49f6-4a3b-80fa-75cda073e7c9",
+          "site_name": "Miro"
+        },
+        {
+          "id": "2aada7d8-3529-4444-a5a8-ba05fa746101",
+          "mobbin_url": "https://mobbin.com/sites/sections/2aada7d8-3529-4444-a5a8-ba05fa746101",
+          "site_name": "Linear"
+        },
+        {
+          "id": "19c4e24f-f5c6-4ead-b5a5-bab080eddcc1",
+          "mobbin_url": "https://mobbin.com/sites/sections/19c4e24f-f5c6-4ead-b5a5-bab080eddcc1",
+          "site_name": "Threads"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "977f4003-17b4-40d5-bb40-c2dfc9c796d9",
+        "7fa7a9aa-ee27-47ca-ae07-c8a3d4f02f46",
+        "89bfb1cc-52b9-4b1a-97ca-83a0a6c26d2e",
+        "20a984cc-0b25-4e5f-b97f-3eacc540a51e",
+        "f2beffe3-49f6-4a3b-80fa-75cda073e7c9",
+        "2aada7d8-3529-4444-a5a8-ba05fa746101",
+        "19c4e24f-f5c6-4ead-b5a5-bab080eddcc1"
+      ]
+    },
+    {
+      "batch": 17,
+      "query": "Ramp pricing plans comparison table",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "6131296f-9a1c-4a1b-a463-3e625797f684",
+          "mobbin_url": "https://mobbin.com/sites/sections/6131296f-9a1c-4a1b-a463-3e625797f684",
+          "site_name": "Maze"
+        },
+        {
+          "id": "5f3c43a1-0f60-421c-ab34-13c023a223ec",
+          "mobbin_url": "https://mobbin.com/sites/sections/5f3c43a1-0f60-421c-ab34-13c023a223ec",
+          "site_name": "Cake Equity"
+        },
+        {
+          "id": "1372a54f-9e88-4179-960c-9765e59d6046",
+          "mobbin_url": "https://mobbin.com/sites/sections/1372a54f-9e88-4179-960c-9765e59d6046",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e5d65c74-9577-475d-9025-bd84e4a8ffbd",
+          "mobbin_url": "https://mobbin.com/sites/sections/e5d65c74-9577-475d-9025-bd84e4a8ffbd",
+          "site_name": "Whereby"
+        },
+        {
+          "id": "5da6c164-bbc2-4322-ac56-a6aed51c7369",
+          "mobbin_url": "https://mobbin.com/sites/sections/5da6c164-bbc2-4322-ac56-a6aed51c7369",
+          "site_name": "Framer"
+        },
+        {
+          "id": "66b1a600-ecbd-4410-9be0-78c01ad045cb",
+          "mobbin_url": "https://mobbin.com/sites/sections/66b1a600-ecbd-4410-9be0-78c01ad045cb",
+          "site_name": "OpenPhone"
+        },
+        {
+          "id": "b86d2661-6147-4300-8c79-730b5d6828dc",
+          "mobbin_url": "https://mobbin.com/sites/sections/b86d2661-6147-4300-8c79-730b5d6828dc",
+          "site_name": "Riverside"
+        },
+        {
+          "id": "0c90cca0-49fa-476f-aa8e-bc4f2a70a611",
+          "mobbin_url": "https://mobbin.com/sites/sections/0c90cca0-49fa-476f-aa8e-bc4f2a70a611",
+          "site_name": "Plain"
+        },
+        {
+          "id": "759a2e4c-f730-4ef0-97fe-e73c00932f83",
+          "mobbin_url": "https://mobbin.com/sites/sections/759a2e4c-f730-4ef0-97fe-e73c00932f83",
+          "site_name": "Airtable"
+        },
+        {
+          "id": "55fb1f17-9133-4ef8-978c-6c9d82074dab",
+          "mobbin_url": "https://mobbin.com/sites/sections/55fb1f17-9133-4ef8-978c-6c9d82074dab",
+          "site_name": "1Password"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "6131296f-9a1c-4a1b-a463-3e625797f684",
+        "5f3c43a1-0f60-421c-ab34-13c023a223ec",
+        "e5d65c74-9577-475d-9025-bd84e4a8ffbd",
+        "5da6c164-bbc2-4322-ac56-a6aed51c7369",
+        "66b1a600-ecbd-4410-9be0-78c01ad045cb",
+        "b86d2661-6147-4300-8c79-730b5d6828dc",
+        "0c90cca0-49fa-476f-aa8e-bc4f2a70a611",
+        "759a2e4c-f730-4ef0-97fe-e73c00932f83",
+        "55fb1f17-9133-4ef8-978c-6c9d82074dab"
+      ]
+    },
+    {
+      "batch": 18,
+      "query": "Ramp footer section",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "17c6b36b-7e35-4efa-8000-9c5fdf472dc3",
+          "mobbin_url": "https://mobbin.com/sites/sections/17c6b36b-7e35-4efa-8000-9c5fdf472dc3",
+          "site_name": "Visitors"
+        },
+        {
+          "id": "5bc39154-2faf-4da2-8c59-b375379c1f7b",
+          "mobbin_url": "https://mobbin.com/sites/sections/5bc39154-2faf-4da2-8c59-b375379c1f7b",
+          "site_name": "Readymag"
+        },
+        {
+          "id": "bb332c54-0717-4314-9dd9-3361ccc1960a",
+          "mobbin_url": "https://mobbin.com/sites/sections/bb332c54-0717-4314-9dd9-3361ccc1960a",
+          "site_name": "Stripe"
+        },
+        {
+          "id": "61f753c8-c767-4205-8ede-69c505d31a52",
+          "mobbin_url": "https://mobbin.com/sites/sections/61f753c8-c767-4205-8ede-69c505d31a52",
+          "site_name": "Programa"
+        },
+        {
+          "id": "36a7d7f4-1e64-45e7-9ec8-52ca680059db",
+          "mobbin_url": "https://mobbin.com/sites/sections/36a7d7f4-1e64-45e7-9ec8-52ca680059db",
+          "site_name": "illoca"
+        },
+        {
+          "id": "578aa034-4e39-4bb1-9a32-0e8bd74adef8",
+          "mobbin_url": "https://mobbin.com/sites/sections/578aa034-4e39-4bb1-9a32-0e8bd74adef8",
+          "site_name": "Family"
+        },
+        {
+          "id": "0cc6183c-2921-48ea-bfe9-d7c3d60bfed4",
+          "mobbin_url": "https://mobbin.com/sites/sections/0cc6183c-2921-48ea-bfe9-d7c3d60bfed4",
+          "site_name": "Swap"
+        },
+        {
+          "id": "a0e601d6-0e6b-4ab6-95d7-5b6a2121e204",
+          "mobbin_url": "https://mobbin.com/sites/sections/a0e601d6-0e6b-4ab6-95d7-5b6a2121e204",
+          "site_name": "Ada"
+        }
+      ],
+      "image_count": 8,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "17c6b36b-7e35-4efa-8000-9c5fdf472dc3",
+        "5bc39154-2faf-4da2-8c59-b375379c1f7b",
+        "bb332c54-0717-4314-9dd9-3361ccc1960a",
+        "61f753c8-c767-4205-8ede-69c505d31a52",
+        "36a7d7f4-1e64-45e7-9ec8-52ca680059db",
+        "578aa034-4e39-4bb1-9a32-0e8bd74adef8",
+        "0cc6183c-2921-48ea-bfe9-d7c3d60bfed4",
+        "a0e601d6-0e6b-4ab6-95d7-5b6a2121e204"
+      ]
+    },
+    {
+      "batch": 19,
+      "query": "Ramp call to action email signup form",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "8aefc8b7-fe79-4dfa-b0ce-9aa1677e4e45",
+          "mobbin_url": "https://mobbin.com/sites/sections/8aefc8b7-fe79-4dfa-b0ce-9aa1677e4e45",
+          "site_name": "Analogue Agency"
+        },
+        {
+          "id": "4e99f509-196c-42ed-ba52-e32049886303",
+          "mobbin_url": "https://mobbin.com/sites/sections/4e99f509-196c-42ed-ba52-e32049886303",
+          "site_name": "The Performance Lab"
+        },
+        {
+          "id": "4c59c194-9728-4f3a-b3b6-a612e267f667",
+          "mobbin_url": "https://mobbin.com/sites/sections/4c59c194-9728-4f3a-b3b6-a612e267f667",
+          "site_name": "ClassPass"
+        },
+        {
+          "id": "12b53b0d-8cc2-4007-92e7-2e847a1130f2",
+          "mobbin_url": "https://mobbin.com/sites/sections/12b53b0d-8cc2-4007-92e7-2e847a1130f2",
+          "site_name": "15Five"
+        },
+        {
+          "id": "92d19817-b05d-49fc-bd61-f4c55cf8f085",
+          "mobbin_url": "https://mobbin.com/sites/sections/92d19817-b05d-49fc-bd61-f4c55cf8f085",
+          "site_name": "15Five"
+        },
+        {
+          "id": "762ee33b-2301-48fa-b8a9-150200cf5ff6",
+          "mobbin_url": "https://mobbin.com/sites/sections/762ee33b-2301-48fa-b8a9-150200cf5ff6",
+          "site_name": "Udemy"
+        },
+        {
+          "id": "415b1cd9-a398-4d5e-85e8-53f1bce0aef3",
+          "mobbin_url": "https://mobbin.com/sites/sections/415b1cd9-a398-4d5e-85e8-53f1bce0aef3",
+          "site_name": "Sprig"
+        },
+        {
+          "id": "d6793243-f00c-41d7-b5e3-14fd92dc8283",
+          "mobbin_url": "https://mobbin.com/sites/sections/d6793243-f00c-41d7-b5e3-14fd92dc8283",
+          "site_name": "In Common With"
+        },
+        {
+          "id": "026d0777-135f-4e31-a5ac-5e10c0db717f",
+          "mobbin_url": "https://mobbin.com/sites/sections/026d0777-135f-4e31-a5ac-5e10c0db717f",
+          "site_name": "Aave"
+        },
+        {
+          "id": "35776fc4-3a2a-4a9e-bb50-b6dd8c7c1992",
+          "mobbin_url": "https://mobbin.com/sites/sections/35776fc4-3a2a-4a9e-bb50-b6dd8c7c1992",
+          "site_name": "Square"
+        }
+      ],
+      "image_count": 10,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "8aefc8b7-fe79-4dfa-b0ce-9aa1677e4e45",
+        "4e99f509-196c-42ed-ba52-e32049886303",
+        "4c59c194-9728-4f3a-b3b6-a612e267f667",
+        "12b53b0d-8cc2-4007-92e7-2e847a1130f2",
+        "92d19817-b05d-49fc-bd61-f4c55cf8f085",
+        "762ee33b-2301-48fa-b8a9-150200cf5ff6",
+        "415b1cd9-a398-4d5e-85e8-53f1bce0aef3",
+        "d6793243-f00c-41d7-b5e3-14fd92dc8283",
+        "026d0777-135f-4e31-a5ac-5e10c0db717f",
+        "35776fc4-3a2a-4a9e-bb50-b6dd8c7c1992"
+      ]
+    },
+    {
+      "batch": 20,
+      "query": "Ramp background imagery illustration section",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "b5b16367-0324-4627-87db-791011ccde93",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5b16367-0324-4627-87db-791011ccde93",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "mobbin_url": "https://mobbin.com/sites/sections/8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "mobbin_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "5be7031f-a1db-4a3b-9cee-445ad083c4af",
+          "mobbin_url": "https://mobbin.com/sites/sections/5be7031f-a1db-4a3b-9cee-445ad083c4af",
+          "site_name": "Duna"
+        },
+        {
+          "id": "c81b8b72-d3eb-4319-af18-711417e238cb",
+          "mobbin_url": "https://mobbin.com/sites/sections/c81b8b72-d3eb-4319-af18-711417e238cb",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "mobbin_url": "https://mobbin.com/sites/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "mobbin_url": "https://mobbin.com/sites/sections/f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b7000804-e14d-4dcf-958c-1c4320eaf4e7",
+          "mobbin_url": "https://mobbin.com/sites/sections/b7000804-e14d-4dcf-958c-1c4320eaf4e7",
+          "site_name": "Mailchimp"
+        }
+      ],
+      "image_count": 8,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "5be7031f-a1db-4a3b-9cee-445ad083c4af",
+        "b7000804-e14d-4dcf-958c-1c4320eaf4e7"
+      ]
+    },
+    {
+      "batch": 21,
+      "query": "Ramp website section",
+      "page": 1,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "mobbin_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "db88c7b2-05b9-4caf-9c60-dfa1d864c60e",
+          "mobbin_url": "https://mobbin.com/sites/sections/db88c7b2-05b9-4caf-9c60-dfa1d864c60e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "51ab125e-73dc-467c-8011-3a748af04471",
+          "mobbin_url": "https://mobbin.com/sites/sections/51ab125e-73dc-467c-8011-3a748af04471",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+          "mobbin_url": "https://mobbin.com/sites/sections/f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b54966b6-e31a-4e18-af6a-80810799c008",
+          "mobbin_url": "https://mobbin.com/sites/sections/b54966b6-e31a-4e18-af6a-80810799c008",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "mobbin_url": "https://mobbin.com/sites/sections/27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "mobbin_url": "https://mobbin.com/sites/sections/329c945f-4a02-48ca-ab03-3a668e4e4d47",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+          "mobbin_url": "https://mobbin.com/sites/sections/7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "mobbin_url": "https://mobbin.com/sites/sections/57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "36eff1fa-e3a0-49b3-8657-898cfb13e077",
+          "mobbin_url": "https://mobbin.com/sites/sections/36eff1fa-e3a0-49b3-8657-898cfb13e077",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "mobbin_url": "https://mobbin.com/sites/sections/8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "746fc7ba-4833-4052-91b4-4fb66a8062fd",
+          "mobbin_url": "https://mobbin.com/sites/sections/746fc7ba-4833-4052-91b4-4fb66a8062fd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "mobbin_url": "https://mobbin.com/sites/sections/6f980550-08bd-41cd-8789-499be8ccd6fc",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "mobbin_url": "https://mobbin.com/sites/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "bc483029-6ba0-43c1-b8b8-902ad8297853",
+          "mobbin_url": "https://mobbin.com/sites/sections/bc483029-6ba0-43c1-b8b8-902ad8297853",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "fe96218a-00dd-4867-8612-f339917c9dbf",
+          "mobbin_url": "https://mobbin.com/sites/sections/fe96218a-00dd-4867-8612-f339917c9dbf",
+          "site_name": "Stripe"
+        },
+        {
+          "id": "13557a98-696e-456b-87af-a02a906d3e29",
+          "mobbin_url": "https://mobbin.com/sites/sections/13557a98-696e-456b-87af-a02a906d3e29",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "69a25a7e-7012-41e8-8129-9133bdcee565",
+          "mobbin_url": "https://mobbin.com/sites/sections/69a25a7e-7012-41e8-8129-9133bdcee565",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "mobbin_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+          "mobbin_url": "https://mobbin.com/sites/sections/e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 20,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "fe96218a-00dd-4867-8612-f339917c9dbf"
+      ]
+    },
+    {
+      "batch": 22,
+      "query": "Ramp website section",
+      "page": 2,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+          "mobbin_url": "https://mobbin.com/sites/sections/dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "37fef8e2-7c40-4c08-9415-af3bbb95d288",
+          "mobbin_url": "https://mobbin.com/sites/sections/37fef8e2-7c40-4c08-9415-af3bbb95d288",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+          "mobbin_url": "https://mobbin.com/sites/sections/a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "75817196-44e2-43c6-b104-21039b75d2c9",
+          "mobbin_url": "https://mobbin.com/sites/sections/75817196-44e2-43c6-b104-21039b75d2c9",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "mobbin_url": "https://mobbin.com/sites/sections/f94cb20b-8c96-4d62-ac73-7acb482f2767",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aaa4333c-a699-4fbb-9af0-6ec234b82053",
+          "mobbin_url": "https://mobbin.com/sites/sections/aaa4333c-a699-4fbb-9af0-6ec234b82053",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "mobbin_url": "https://mobbin.com/sites/sections/aa950d43-7969-42f3-a11b-f0890c66fdae",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+          "mobbin_url": "https://mobbin.com/sites/sections/9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "18a650ac-b4bc-41cd-a13f-490d8760c778",
+          "mobbin_url": "https://mobbin.com/sites/sections/18a650ac-b4bc-41cd-a13f-490d8760c778",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+          "mobbin_url": "https://mobbin.com/sites/sections/03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "6dd75499-62d4-4742-8986-5403e4df348d",
+          "mobbin_url": "https://mobbin.com/sites/sections/6dd75499-62d4-4742-8986-5403e4df348d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "cee11f15-afd8-43ce-ae78-1bf7a4170185",
+          "mobbin_url": "https://mobbin.com/sites/sections/cee11f15-afd8-43ce-ae78-1bf7a4170185",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "0addfde9-71dd-4ed4-b744-c5a713e64161",
+          "mobbin_url": "https://mobbin.com/sites/sections/0addfde9-71dd-4ed4-b744-c5a713e64161",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "22fdf389-76be-445b-93c6-9dc5c5e9be62",
+          "mobbin_url": "https://mobbin.com/sites/sections/22fdf389-76be-445b-93c6-9dc5c5e9be62",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "354bdc75-5f12-45bb-9511-5cc9a56c600d",
+          "mobbin_url": "https://mobbin.com/sites/sections/354bdc75-5f12-45bb-9511-5cc9a56c600d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "16357375-1402-4490-9be0-0a39d44ad6ff",
+          "mobbin_url": "https://mobbin.com/sites/sections/16357375-1402-4490-9be0-0a39d44ad6ff",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "33350120-d36a-49f2-9a08-c6c93393348d",
+          "mobbin_url": "https://mobbin.com/sites/sections/33350120-d36a-49f2-9a08-c6c93393348d",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b9156a42-c32b-423e-97ec-a9773e6a2809",
+          "mobbin_url": "https://mobbin.com/sites/sections/b9156a42-c32b-423e-97ec-a9773e6a2809",
+          "site_name": "Slash"
+        },
+        {
+          "id": "7ce208e1-c910-484b-876a-47c53bde0531",
+          "mobbin_url": "https://mobbin.com/sites/sections/7ce208e1-c910-484b-876a-47c53bde0531",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b5b16367-0324-4627-87db-791011ccde93",
+          "mobbin_url": "https://mobbin.com/sites/sections/b5b16367-0324-4627-87db-791011ccde93",
+          "site_name": "Ramp"
+        }
+      ],
+      "image_count": 20,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "b9156a42-c32b-423e-97ec-a9773e6a2809"
+      ]
+    },
+    {
+      "batch": 23,
+      "query": "Ramp website section",
+      "page": 3,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "0eea1e87-ae08-41f8-9c84-2f889d397d39",
+          "mobbin_url": "https://mobbin.com/sites/sections/0eea1e87-ae08-41f8-9c84-2f889d397d39",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "64b88747-2977-4b6a-a2c6-1ae6857a3718",
+          "mobbin_url": "https://mobbin.com/sites/sections/64b88747-2977-4b6a-a2c6-1ae6857a3718",
+          "site_name": "Mailchimp"
+        },
+        {
+          "id": "c81b8b72-d3eb-4319-af18-711417e238cb",
+          "mobbin_url": "https://mobbin.com/sites/sections/c81b8b72-d3eb-4319-af18-711417e238cb",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+          "mobbin_url": "https://mobbin.com/sites/sections/1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "40a22e6f-3abc-4402-bb05-afbd3143c83e",
+          "mobbin_url": "https://mobbin.com/sites/sections/40a22e6f-3abc-4402-bb05-afbd3143c83e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "1e866f03-7161-4159-a57e-14b2e31f8f94",
+          "mobbin_url": "https://mobbin.com/sites/sections/1e866f03-7161-4159-a57e-14b2e31f8f94",
+          "site_name": "Stripe"
+        },
+        {
+          "id": "cab5b216-6833-4cef-9c2f-cdd78a08962b",
+          "mobbin_url": "https://mobbin.com/sites/sections/cab5b216-6833-4cef-9c2f-cdd78a08962b",
+          "site_name": "Linear"
+        },
+        {
+          "id": "72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+          "mobbin_url": "https://mobbin.com/sites/sections/72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "a60fec48-739b-4b6b-b123-94208c79865c",
+          "mobbin_url": "https://mobbin.com/sites/sections/a60fec48-739b-4b6b-b123-94208c79865c",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8d5e762c-77e0-4cec-b386-4e285906f921",
+          "mobbin_url": "https://mobbin.com/sites/sections/8d5e762c-77e0-4cec-b386-4e285906f921",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "e6f3f689-3734-4344-8e11-9dd2772e28f2",
+          "mobbin_url": "https://mobbin.com/sites/sections/e6f3f689-3734-4344-8e11-9dd2772e28f2",
+          "site_name": "Analogue Agency"
+        },
+        {
+          "id": "8b9cb3fc-26e1-491e-9b86-49b1c47b49a3",
+          "mobbin_url": "https://mobbin.com/sites/sections/8b9cb3fc-26e1-491e-9b86-49b1c47b49a3",
+          "site_name": "Intercom"
+        },
+        {
+          "id": "d7b8268c-d948-4fd8-b80d-951b2e7c337e",
+          "mobbin_url": "https://mobbin.com/sites/sections/d7b8268c-d948-4fd8-b80d-951b2e7c337e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "36a7d7f4-1e64-45e7-9ec8-52ca680059db",
+          "mobbin_url": "https://mobbin.com/sites/sections/36a7d7f4-1e64-45e7-9ec8-52ca680059db",
+          "site_name": "illoca"
+        },
+        {
+          "id": "66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+          "mobbin_url": "https://mobbin.com/sites/sections/66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "3478befb-f604-4531-869c-2a25e40e86bd",
+          "mobbin_url": "https://mobbin.com/sites/sections/3478befb-f604-4531-869c-2a25e40e86bd",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "ee23dd32-4dde-4d89-bdb9-a9b1c1e21570",
+          "mobbin_url": "https://mobbin.com/sites/sections/ee23dd32-4dde-4d89-bdb9-a9b1c1e21570",
+          "site_name": "Customer.io"
+        },
+        {
+          "id": "dcb1dbee-7909-4cd8-9dbc-6074fa11f09c",
+          "mobbin_url": "https://mobbin.com/sites/sections/dcb1dbee-7909-4cd8-9dbc-6074fa11f09c",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "b3d6fd13-b6b4-4bcf-94d6-3ba758d6cfa9",
+          "mobbin_url": "https://mobbin.com/sites/sections/b3d6fd13-b6b4-4bcf-94d6-3ba758d6cfa9",
+          "site_name": "Pitch"
+        },
+        {
+          "id": "c89ab858-dfbc-4b75-9d66-2f2ad10c6e43",
+          "mobbin_url": "https://mobbin.com/sites/sections/c89ab858-dfbc-4b75-9d66-2f2ad10c6e43",
+          "site_name": "ClickUp"
+        }
+      ],
+      "image_count": 20,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "64b88747-2977-4b6a-a2c6-1ae6857a3718",
+        "1e866f03-7161-4159-a57e-14b2e31f8f94",
+        "cab5b216-6833-4cef-9c2f-cdd78a08962b",
+        "e6f3f689-3734-4344-8e11-9dd2772e28f2",
+        "8b9cb3fc-26e1-491e-9b86-49b1c47b49a3",
+        "36a7d7f4-1e64-45e7-9ec8-52ca680059db",
+        "ee23dd32-4dde-4d89-bdb9-a9b1c1e21570",
+        "b3d6fd13-b6b4-4bcf-94d6-3ba758d6cfa9",
+        "c89ab858-dfbc-4b75-9d66-2f2ad10c6e43"
+      ]
+    },
+    {
+      "batch": 24,
+      "query": "Ramp website section",
+      "page": 4,
+      "has_next_page": true,
+      "sections": [
+        {
+          "id": "c89ab858-dfbc-4b75-9d66-2f2ad10c6e43",
+          "mobbin_url": "https://mobbin.com/sites/sections/c89ab858-dfbc-4b75-9d66-2f2ad10c6e43",
+          "site_name": "ClickUp"
+        },
+        {
+          "id": "e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+          "mobbin_url": "https://mobbin.com/sites/sections/e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "c16eba56-58b0-4d8e-b401-48967ed44051",
+          "mobbin_url": "https://mobbin.com/sites/sections/c16eba56-58b0-4d8e-b401-48967ed44051",
+          "site_name": "PayPal"
+        },
+        {
+          "id": "af69eb4d-e764-4257-b799-88525208e7e6",
+          "mobbin_url": "https://mobbin.com/sites/sections/af69eb4d-e764-4257-b799-88525208e7e6",
+          "site_name": "PamPam"
+        },
+        {
+          "id": "6f02395a-d002-495d-933c-86973e496cf1",
+          "mobbin_url": "https://mobbin.com/sites/sections/6f02395a-d002-495d-933c-86973e496cf1",
+          "site_name": "Airtable"
+        },
+        {
+          "id": "3af5d3bd-ae5a-4543-bccd-20e0febfbd35",
+          "mobbin_url": "https://mobbin.com/sites/sections/3af5d3bd-ae5a-4543-bccd-20e0febfbd35",
+          "site_name": "Spade"
+        },
+        {
+          "id": "0b6361a0-1916-42d2-8c23-5efd205e4904",
+          "mobbin_url": "https://mobbin.com/sites/sections/0b6361a0-1916-42d2-8c23-5efd205e4904",
+          "site_name": "Aurora"
+        },
+        {
+          "id": "af2710b0-a6f7-4e17-996e-5c39314d5c6a",
+          "mobbin_url": "https://mobbin.com/sites/sections/af2710b0-a6f7-4e17-996e-5c39314d5c6a",
+          "site_name": "Raw Materials"
+        },
+        {
+          "id": "db489906-27f7-4a65-9643-8485178484f6",
+          "mobbin_url": "https://mobbin.com/sites/sections/db489906-27f7-4a65-9643-8485178484f6",
+          "site_name": "Impossible Foods"
+        },
+        {
+          "id": "6a261e3b-29de-4279-9d64-be720b7c81b9",
+          "mobbin_url": "https://mobbin.com/sites/sections/6a261e3b-29de-4279-9d64-be720b7c81b9",
+          "site_name": "Canva"
+        },
+        {
+          "id": "60c29d3f-d769-441c-ac48-a91a45cba3e3",
+          "mobbin_url": "https://mobbin.com/sites/sections/60c29d3f-d769-441c-ac48-a91a45cba3e3",
+          "site_name": "Framer"
+        },
+        {
+          "id": "2bd2f9eb-2e62-4b27-9f33-4f4f95d2204b",
+          "mobbin_url": "https://mobbin.com/sites/sections/2bd2f9eb-2e62-4b27-9f33-4f4f95d2204b",
+          "site_name": "Equals"
+        },
+        {
+          "id": "754769a3-efe7-48cb-98bb-547e66bfdfee",
+          "mobbin_url": "https://mobbin.com/sites/sections/754769a3-efe7-48cb-98bb-547e66bfdfee",
+          "site_name": "Runway"
+        },
+        {
+          "id": "1b15225b-7178-4810-a6b9-b7081c97aec3",
+          "mobbin_url": "https://mobbin.com/sites/sections/1b15225b-7178-4810-a6b9-b7081c97aec3",
+          "site_name": "Framer"
+        },
+        {
+          "id": "a039a1a3-52e7-430c-8291-7c16ed0f4078",
+          "mobbin_url": "https://mobbin.com/sites/sections/a039a1a3-52e7-430c-8291-7c16ed0f4078",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "8a7ee8b1-d0f9-437d-a53b-d0e1a3be24ca",
+          "mobbin_url": "https://mobbin.com/sites/sections/8a7ee8b1-d0f9-437d-a53b-d0e1a3be24ca",
+          "site_name": "Linear"
+        },
+        {
+          "id": "7c260dcb-6f72-469d-ae73-d11c0d27b1dc",
+          "mobbin_url": "https://mobbin.com/sites/sections/7c260dcb-6f72-469d-ae73-d11c0d27b1dc",
+          "site_name": "Wise"
+        },
+        {
+          "id": "fc167e3e-e2f2-4340-bfcf-52cc593edfbb",
+          "mobbin_url": "https://mobbin.com/sites/sections/fc167e3e-e2f2-4340-bfcf-52cc593edfbb",
+          "site_name": "Maxima Therapy"
+        },
+        {
+          "id": "37c9d378-f915-4f3f-957a-254087de18e6",
+          "mobbin_url": "https://mobbin.com/sites/sections/37c9d378-f915-4f3f-957a-254087de18e6",
+          "site_name": "Ramp"
+        },
+        {
+          "id": "86c62119-372f-4602-9e63-254535ff22f4",
+          "mobbin_url": "https://mobbin.com/sites/sections/86c62119-372f-4602-9e63-254535ff22f4",
+          "site_name": "Pitch"
+        }
+      ],
+      "image_count": 20,
+      "all_returned_images_actually_seen": true,
+      "non_ramp_excluded": [
+        "c89ab858-dfbc-4b75-9d66-2f2ad10c6e43",
+        "c16eba56-58b0-4d8e-b401-48967ed44051",
+        "af69eb4d-e764-4257-b799-88525208e7e6",
+        "6f02395a-d002-495d-933c-86973e496cf1",
+        "3af5d3bd-ae5a-4543-bccd-20e0febfbd35",
+        "0b6361a0-1916-42d2-8c23-5efd205e4904",
+        "af2710b0-a6f7-4e17-996e-5c39314d5c6a",
+        "db489906-27f7-4a65-9643-8485178484f6",
+        "6a261e3b-29de-4279-9d64-be720b7c81b9",
+        "60c29d3f-d769-441c-ac48-a91a45cba3e3",
+        "2bd2f9eb-2e62-4b27-9f33-4f4f95d2204b",
+        "754769a3-efe7-48cb-98bb-547e66bfdfee",
+        "1b15225b-7178-4810-a6b9-b7081c97aec3",
+        "8a7ee8b1-d0f9-437d-a53b-d0e1a3be24ca",
+        "7c260dcb-6f72-469d-ae73-d11c0d27b1dc",
+        "fc167e3e-e2f2-4340-bfcf-52cc593edfbb",
+        "86c62119-372f-4602-9e63-254535ff22f4"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "c224c647-a876-44fc-ad18-ac01acee3004",
+      "mobbin_url": "https://mobbin.com/sites/sections/c224c647-a876-44fc-ad18-ac01acee3004",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/c224c647-a876-44fc-ad18-ac01acee3004",
+      "queries": [
+        {
+          "batch": 1,
+          "query": "Ramp navigation bar and expanded mega menu",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底细密点阵；左上单行黑标题 Time is money. Save Both.；邮箱与黄绿按钮连成横向控件；下方大浅灰圆角画布中发票、核验节点和底部活动数字条；顶栏小字横排，未展开菜单。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "主任务历史观察指针支持此图与目标hero外观一致；当前design-v2/sources.json据主任务核对只有capture及外观无section ID。新鲜精确成员关系未确认。",
+      "pattern_exceptions": "白底细密点阵；左上单行黑标题 Time is money. Save Both.；邮箱与黄绿按钮连成横向控件；下方大浅灰圆角画布中发票、核验节点和底部活动数字条；顶栏小字横排，未展开菜单。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+      "mobbin_url": "https://mobbin.com/sites/sections/7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/7371c5ff-21d4-481c-ac3f-bcb2e402beed",
+      "queries": [
+        {
+          "batch": 1,
+          "query": "Ramp navigation bar and expanded mega menu",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 14,
+          "query": "Ramp product features demo section",
+          "page": 4,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底 FAQs；Business Account 与 Investment Account 两组；首问展开、多行灰色正文；细横线、右侧方形折叠按钮；第二组有四问。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底 FAQs；Business Account 与 Investment Account 两组；首问展开、多行灰色正文；细横线、右侧方形折叠按钮；第二组有四问。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+      "mobbin_url": "https://mobbin.com/sites/sections/27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/27bbba12-f19e-4d64-a4ae-d38eb4204f25",
+      "queries": [
+        {
+          "batch": 1,
+          "query": "Ramp navigation bar and expanded mega menu",
+          "page": 1,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 13,
+          "query": "Ramp navigation bar and expanded mega menu",
+          "page": 2,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 14,
+          "query": "Ramp product features demo section",
+          "page": 4,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底 FAQ；两账户分组；首问展开，第二组只两问；与7371文案和行数不同，不合并为同一状态。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底 FAQ；两账户分组；首问展开，第二组只两问；与7371文案和行数不同，不合并为同一状态。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "120806fe-e3c4-4992-aee7-1f99024cc6ce",
+      "mobbin_url": "https://mobbin.com/sites/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 14,
+          "query": "Ramp product features demo section",
+          "page": 4,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 20,
+          "query": "Ramp background imagery illustration section",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 13,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Become a Ramp Partner 左大标题与黑色主按钮/浅灰次按钮；右侧女性工作照片、俯拍团队照片、橄榄灰色块拼贴，叠细框账户数字；白底。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Become a Ramp Partner 左大标题与黑色主按钮/浅灰次按钮；右侧女性工作照片、俯拍团队照片、橄榄灰色块拼贴，叠细框账户数字；白底。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "d5541dd9-5262-4788-aeda-0851057f2a4b",
+      "mobbin_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/d5541dd9-5262-4788-aeda-0851057f2a4b",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 11,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 11,
+          "query": "Ramp call to action email signup form",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 18,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Ramp vs Mercury 左文字邮箱黄绿CTA；整节深绿底、白字；右浅米底双手递实体卡照片，轻圆角。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Ramp vs Mercury 左文字邮箱黄绿CTA；整节深绿底、白字；右浅米底双手递实体卡照片，轻圆角。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "aa950d43-7969-42f3-a11b-f0890c66fdae",
+      "mobbin_url": "https://mobbin.com/sites/sections/aa950d43-7969-42f3-a11b-f0890c66fdae",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/aa950d43-7969-42f3-a11b-f0890c66fdae",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 11,
+          "query": "Ramp call to action email signup form",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底 live demo 双栏；左标题、灰说明、邮箱与黄绿预约按钮；底部客户logo；右大幅Reporting屏幕裁切，蓝面积图和指针标注，边缘渐隐。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底 live demo 双栏；左标题、灰说明、邮箱与黄绿预约按钮；底部客户logo；右大幅Reporting屏幕裁切，蓝面积图和指针标注，边缘渐隐。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "aaa4333c-a699-4fbb-9af0-6ec234b82053",
+      "mobbin_url": "https://mobbin.com/sites/sections/aaa4333c-a699-4fbb-9af0-6ec234b82053",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/aaa4333c-a699-4fbb-9af0-6ec234b82053",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "小企业页：居中两行标题/说明，下面左功能文字右黑色实体卡；极大留白，右下黄绿悬浮标记。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "小企业页：居中两行标题/说明，下面左功能文字右黑色实体卡；极大留白，右下黄绿悬浮标记。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "a60fec48-739b-4b6b-b123-94208c79865c",
+      "mobbin_url": "https://mobbin.com/sites/sections/a60fec48-739b-4b6b-b123-94208c79865c",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/a60fec48-739b-4b6b-b123-94208c79865c",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 11,
+          "query": "Ramp call to action email signup form",
+          "page": 1,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "深海军蓝到亮蓝再白色纵向渐变hero；左白色双行标题、评分、邮箱黄绿CTA；右透视显示器、手机与黑卡；底部灰色logo行。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "深海军蓝到亮蓝再白色纵向渐变hero；左白色双行标题、评分、邮箱黄绿CTA；右透视显示器、手机与黑卡；底部灰色logo行。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+      "mobbin_url": "https://mobbin.com/sites/sections/03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/03c51e3d-e5f4-4e50-b007-f1d6c8658565",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Investment Account 蓝渐变大幅背景，顶部小黄绿圆点；居中白标题；底部倾斜屏幕溢出裁切，白色浮层卡配黄绿图标与阴影。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Investment Account 蓝渐变大幅背景，顶部小黄绿圆点；居中白标题；底部倾斜屏幕溢出裁切，白色浮层卡配黄绿图标与阴影。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "16357375-1402-4490-9be0-0a39d44ad6ff",
+      "mobbin_url": "https://mobbin.com/sites/sections/16357375-1402-4490-9be0-0a39d44ad6ff",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/16357375-1402-4490-9be0-0a39d44ad6ff",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 15,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "About：白底左黑标题、灰说明、黄绿按钮；右会议室三人工作照片，矩形轻圆角；不是纯软件示意。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "About：白底左黑标题、灰说明、黄绿按钮；右会议室三人工作照片，矩形轻圆角；不是纯软件示意。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+      "mobbin_url": "https://mobbin.com/sites/sections/8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/8599110d-9d19-4776-bfe1-80bbcfaa22cd",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 20,
+          "query": "Ramp background imagery illustration section",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 10,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "The Ramp Blog 左大标题、右搜索及分类按钮；横向轮播浅灰画布，左文章标题与头像、右浅蓝UI碎片拼贴；下方分页细线及圆箭头。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "The Ramp Blog 左大标题、右搜索及分类按钮；横向轮播浅灰画布，左文章标题与头像、右浅蓝UI碎片拼贴；下方分页细线及圆箭头。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "354bdc75-5f12-45bb-9511-5cc9a56c600d",
+      "mobbin_url": "https://mobbin.com/sites/sections/354bdc75-5f12-45bb-9511-5cc9a56c600d",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/354bdc75-5f12-45bb-9511-5cc9a56c600d",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 14,
+          "query": "Ramp product features demo section",
+          "page": 4,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 14,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底居中预测余额标题、蓝色星状图标；下半页浅蓝面积图和估算浮层；底部细法律胶囊；顶栏含Partners，右下圆形chat。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底居中预测余额标题、蓝色星状图标；下半页浅蓝面积图和估算浮层；底部细法律胶囊；顶栏含Partners，右下圆形chat。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "f8c96895-298d-47d1-b0d0-545919de6959",
+      "mobbin_url": "https://mobbin.com/sites/sections/f8c96895-298d-47d1-b0d0-545919de6959",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/f8c96895-298d-47d1-b0d0-545919de6959",
+      "queries": [
+        {
+          "batch": 2,
+          "query": "Ramp hero section",
+          "page": 1,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "蓝渐变设备hero，标题/设备与a60相近；截取高度、logo位置与下方留白不同；不同ID保留，不能推断同capture。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "蓝渐变设备hero，标题/设备与a60相近；截取高度、logo位置与下方留白不同；不同ID保留，不能推断同capture。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+      "mobbin_url": "https://mobbin.com/sites/sections/e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/e3e43ab6-3a8a-4669-85c0-998f4dd3ca86",
+      "queries": [
+        {
+          "batch": 3,
+          "query": "Ramp hero section",
+          "page": 2,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 24,
+          "query": "Ramp website section",
+          "page": 4,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "余额预测白底与浅蓝面积图，同354主题；顶栏不含Partners，右下黄绿方标，图底部圆角及裁切不同。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "余额预测白底与浅蓝面积图，同354主题；顶栏不含Partners，右下黄绿方标，图底部圆角及裁切不同。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "e92c227f-410f-4d47-8f54-4d8945f66ae3",
+      "mobbin_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/e92c227f-410f-4d47-8f54-4d8945f66ae3",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 16,
+          "query": "Ramp integrations section",
+          "page": 2,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 20,
+          "query": "Ramp background imagery illustration section",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "See how Ramp works：左竖卡含邮箱预约与蓝底设备；右上下两横卡分别UI导览和人物视频；浅灰卡片不等宽组合；底部logo行。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "See how Ramp works：左竖卡含邮箱预约与蓝底设备；右上下两横卡分别UI导览和人物视频；浅灰卡片不等宽组合；底部logo行。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "6f980550-08bd-41cd-8789-499be8ccd6fc",
+      "mobbin_url": "https://mobbin.com/sites/sections/6f980550-08bd-41cd-8789-499be8ccd6fc",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/6f980550-08bd-41cd-8789-499be8ccd6fc",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 12,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "居中标题；浅暖灰不等宽2列功能卡；左白色审批UI叠卡，右蓝色客服对话和头像；下方集成/全球卡仅见顶部，不能声称看全。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "居中标题；浅暖灰不等宽2列功能卡；左白色审批UI叠卡，右蓝色客服对话和头像；下方集成/全球卡仅见顶部，不能声称看全。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "bc483029-6ba0-43c1-b8b8-902ad8297853",
+      "mobbin_url": "https://mobbin.com/sites/sections/bc483029-6ba0-43c1-b8b8-902ad8297853",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/bc483029-6ba0-43c1-b8b8-902ad8297853",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 14,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Get to know Ramp：左上标题说明；4列2行八个产品入口，浅灰方图标+微型灰标签+黑说明+箭头，无整块外卡。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Get to know Ramp：左上标题说明；4列2行八个产品入口，浅灰方图标+微型灰标签+黑说明+箭头，无整块外卡。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "b54966b6-e31a-4e18-af6a-80810799c008",
+      "mobbin_url": "https://mobbin.com/sites/sections/b54966b6-e31a-4e18-af6a-80810799c008",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/b54966b6-e31a-4e18-af6a-80810799c008",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "暖灰整节；居中Build anything on Ramp；3列2行白色API能力卡，浅蓝小图标、黑标题灰说明；底部文档与Integration Directory文字链接。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "暖灰整节；居中Build anything on Ramp；3列2行白色API能力卡，浅蓝小图标、黑标题灰说明；底部文档与Integration Directory文字链接。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "75817196-44e2-43c6-b104-21039b75d2c9",
+      "mobbin_url": "https://mobbin.com/sites/sections/75817196-44e2-43c6-b104-21039b75d2c9",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/75817196-44e2-43c6-b104-21039b75d2c9",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底居中All the control；下方暖灰大画布，左文字右斜向账户卡，淡紫/淡绿阴影与面积图；含Partners顶栏和圆chat。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底居中All the control；下方暖灰大画布，左文字右斜向账户卡，淡紫/淡绿阴影与面积图；含Partners顶栏和圆chat。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+      "mobbin_url": "https://mobbin.com/sites/sections/9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/9087cbfc-878f-4d76-9bfb-627ccfe536d6",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底30天实施时间线；居中标题；Today/Day5/Day30 三节点横线，下面三张细描边白卡与勾选条目；不是抽象装饰线。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底30天实施时间线；居中标题；Today/Day5/Day30 三节点横线，下面三张细描边白卡与勾选条目；不是抽象装饰线。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "36eff1fa-e3a0-49b3-8657-898cfb13e077",
+      "mobbin_url": "https://mobbin.com/sites/sections/36eff1fa-e3a0-49b3-8657-898cfb13e077",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/36eff1fa-e3a0-49b3-8657-898cfb13e077",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "What is Ramp? 左大标题，右较大介绍正文与下方双栏小字；白底编辑式排版，无插图无CTA。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "What is Ramp? 左大标题，右较大介绍正文与下方双栏小字；白底编辑式排版，无插图无CTA。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+      "mobbin_url": "https://mobbin.com/sites/sections/a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/a5a4b003-6f96-4f4b-9c48-1e8617d89091",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "暖灰底；上方左标题右说明，下方三张白色轻描边数据卡；大号黑数字、紧随小解释。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "暖灰底；上方左标题右说明，下方三张白色轻描边数据卡；大号黑数字、紧随小解释。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+      "mobbin_url": "https://mobbin.com/sites/sections/e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/e3b9fbca-142a-421e-8be8-7ef8e180b86c",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 10,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 19,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "上下交错图文案例；上左办公室视频照片，上右标题/Perplexity证言；下左AI说明及Valence证言，下右浅灰框内政策UI；黑灰两段标题。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "上下交错图文案例；上左办公室视频照片，上右标题/Perplexity证言；下左AI说明及Valence证言，下右浅灰框内政策UI；黑灰两段标题。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+      "mobbin_url": "https://mobbin.com/sites/sections/57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/57b9bf6d-253c-4b33-8dff-f26b22a6cedb",
+      "queries": [
+        {
+          "batch": 4,
+          "query": "Ramp product features demo section",
+          "page": 1,
+          "index": 11,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 16,
+          "query": "Ramp integrations section",
+          "page": 2,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Resources：浅灰容器、居中标题；双列三行白色细框资源条，标题/说明与右侧下载小图标；紧凑而非海报卡。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Resources：浅灰容器、居中标题；双列三行白色细框资源条，标题/说明与右侧下载小图标；紧凑而非海报卡。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "33350120-d36a-49f2-9a08-c6c93393348d",
+      "mobbin_url": "https://mobbin.com/sites/sections/33350120-d36a-49f2-9a08-c6c93393348d",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/33350120-d36a-49f2-9a08-c6c93393348d",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 16,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Amex对比三理由；左大标题下三等宽暖灰卡，短标题说明在上、底部白色UI截图/手机/蓝色同步浮层；不依赖黄绿。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Amex对比三理由；左大标题下三等宽暖灰卡，短标题说明在上、底部白色UI截图/手机/蓝色同步浮层；不依赖黄绿。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "cee11f15-afd8-43ce-ae78-1bf7a4170185",
+      "mobbin_url": "https://mobbin.com/sites/sections/cee11f15-afd8-43ce-ae78-1bf7a4170185",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/cee11f15-afd8-43ce-ae78-1bf7a4170185",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 11,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Healthier businesses：居中标题；多列高低错落数据卡与品牌logo，白/浅蓝交替，蓝灰大数字；底部淡出；轮播阶段未知。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Healthier businesses：居中标题；多列高低错落数据卡与品牌logo，白/浅蓝交替，蓝灰大数字；底部淡出；轮播阶段未知。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "6dd75499-62d4-4742-8986-5403e4df348d",
+      "mobbin_url": "https://mobbin.com/sites/sections/6dd75499-62d4-4742-8986-5403e4df348d",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/6dd75499-62d4-4742-8986-5403e4df348d",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 10,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "教育场景：居中标题与灰说明，下方左政策文案、右白色实体VISA卡；微阴影，白上白。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "教育场景：居中标题与灰说明，下方左政策文案、右白色实体VISA卡；微阴影，白上白。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+      "mobbin_url": "https://mobbin.com/sites/sections/dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/dbc0e64c-c40f-4424-aee2-7f853a5a5298",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 16,
+          "query": "Ramp integrations section",
+          "page": 2,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "与758同账户斜卡构图；顶栏不含Partners、右下黄绿方标；阴影淡紫绿，不能强制归为仅暖灰。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "与758同账户斜卡构图；顶栏不含Partners、右下黄绿方标；阴影淡紫绿，不能强制归为仅暖灰。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "13557a98-696e-456b-87af-a02a906d3e29",
+      "mobbin_url": "https://mobbin.com/sites/sections/13557a98-696e-456b-87af-a02a906d3e29",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/13557a98-696e-456b-87af-a02a906d3e29",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 15,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 2,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 16,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "另一Healthier businesses数据墙；品牌/数据可见列与cee不同，白浅蓝错列、下方淡出；可能轮播状态或capture差异未定。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "另一Healthier businesses数据墙；品牌/数据可见列与cee不同，白浅蓝错列、下方淡出；可能轮播状态或capture差异未定。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "329c945f-4a02-48ca-ab03-3a668e4e4d47",
+      "mobbin_url": "https://mobbin.com/sites/sections/329c945f-4a02-48ca-ab03-3a668e4e4d47",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/329c945f-4a02-48ca-ab03-3a668e4e4d47",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 10,
+          "query": "Ramp pricing",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "浅灰大容器双栏：左四步标题和黄绿Watch video；右01至04纵向步骤，细横线分隔，编号小描边框。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "浅灰大容器双栏：左四步标题和黄绿Watch video；右01至04纵向步骤，细横线分隔，编号小描边框。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "0eea1e87-ae08-41f8-9c84-2f889d397d39",
+      "mobbin_url": "https://mobbin.com/sites/sections/0eea1e87-ae08-41f8-9c84-2f889d397d39",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/0eea1e87-ae08-41f8-9c84-2f889d397d39",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Ramp vs Amex 白底比较表：左行名，右Ramp/Amex品牌列，细横线和灰色小正文；无粗框、无彩色整列。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Ramp vs Amex 白底比较表：左行名，右Ramp/Amex品牌列，细横线和灰色小正文；无粗框、无彩色整列。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+      "mobbin_url": "https://mobbin.com/sites/sections/1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/1f9a6af6-f75c-4b8a-8e0a-bf4e7b36ca41",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "两张等宽细框白卡：左层叠盾牌和阴影，右放射细线+浅蓝Same-day ACH胶囊；底部小法律说明；未显示顶栏。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "两张等宽细框白卡：左层叠盾牌和阴影，右放射细线+浅蓝Same-day ACH胶囊；底部小法律说明；未显示顶栏。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "f94cb20b-8c96-4d62-ac73-7acb482f2767",
+      "mobbin_url": "https://mobbin.com/sites/sections/f94cb20b-8c96-4d62-ac73-7acb482f2767",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/f94cb20b-8c96-4d62-ac73-7acb482f2767",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 20,
+          "query": "Ramp background imagery illustration section",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "小企业证言：白底居中标题，黑底白字大卡横向轮播，客户小logo与署名，右侧下一卡裁切、下方圆箭头。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "小企业证言：白底居中标题，黑底白字大卡横向轮播，客户小logo与署名，右侧下一卡裁切、下方圆箭头。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+      "mobbin_url": "https://mobbin.com/sites/sections/72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/72d7b9e4-ca4a-4643-8c92-f97a71a70658",
+      "queries": [
+        {
+          "batch": 5,
+          "query": "Ramp product features demo section",
+          "page": 2,
+          "index": 10,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "与1f9同盾牌/放射线双卡；额外顶栏含Partners与底部法律胶囊、圆chat，裁切不同。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "与1f9同盾牌/放射线双卡；额外顶栏含Partners与底部法律胶囊、圆chat，裁切不同。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "22fdf389-76be-445b-93c6-9dc5c5e9be62",
+      "mobbin_url": "https://mobbin.com/sites/sections/22fdf389-76be-445b-93c6-9dc5c5e9be62",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/22fdf389-76be-445b-93c6-9dc5c5e9be62",
+      "queries": [
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 13,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "大双栏组合：左暖色握手人物照片，右深绿底白字三项圆勾优点；整块轻圆角。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "大双栏组合：左暖色握手人物照片，右深绿底白字三项圆勾优点；整块轻圆角。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "40a22e6f-3abc-4402-bb05-afbd3143c83e",
+      "mobbin_url": "https://mobbin.com/sites/sections/40a22e6f-3abc-4402-bb05-afbd3143c83e",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/40a22e6f-3abc-4402-bb05-afbd3143c83e",
+      "queries": [
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "不等宽双卡；左浅蓝渐变黑卡和绿勾/橙叉浮层标签；右深蓝几何背景OpenAI白字证言；色彩承担业务示意及客户背书。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "不等宽双卡；左浅蓝渐变黑卡和绿勾/橙叉浮层标签；右深蓝几何背景OpenAI白字证言；色彩承担业务示意及客户背书。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+      "mobbin_url": "https://mobbin.com/sites/sections/66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/66ddb62a-aa1c-48cf-9e17-53cb794efd4e",
+      "queries": [
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 14,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "浅灰整块：左上标题黄绿按钮；2x2客户证言，logo、公司名、灰标签、正文与署名，底部分隔细线；非统一白卡。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "浅灰整块：左上标题黄绿按钮；2x2客户证言，logo、公司名、灰标签、正文与署名，底部分隔细线；非统一白卡。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+      "mobbin_url": "https://mobbin.com/sites/sections/f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/f5c0cabe-f6e3-4495-9125-1df4c09c8848",
+      "queries": [
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 3,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Newsroom 暖灰底3列文章；图像含黄绿便签手写字、蓝条纹黄绿贴标、Treasury UI；图下小类别和黑标题灰摘要。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Newsroom 暖灰底3列文章；图像含黄绿便签手写字、蓝条纹黄绿贴标、Treasury UI；图下小类别和黑标题灰摘要。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "51ab125e-73dc-467c-8011-3a748af04471",
+      "mobbin_url": "https://mobbin.com/sites/sections/51ab125e-73dc-467c-8011-3a748af04471",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/51ab125e-73dc-467c-8011-3a748af04471",
+      "queries": [
+        {
+          "batch": 6,
+          "query": "Ramp product features demo section",
+          "page": 3,
+          "index": 10,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "居中媒体标题与下载文字链接；下方3x2浅灰新闻文本卡，小大写来源日期、标题、Read more箭头；无缩略图。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "居中媒体标题与下载文字链接；下方3x2浅灰新闻文本卡，小大写来源日期、标题、Read more箭头；无缩略图。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "8d5e762c-77e0-4cec-b386-4e285906f921",
+      "mobbin_url": "https://mobbin.com/sites/sections/8d5e762c-77e0-4cec-b386-4e285906f921",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/8d5e762c-77e0-4cec-b386-4e285906f921",
+      "queries": [
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 9,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Customer Stories 超大单行标题；两行密集logo；左一大故事照片、右两列多行较小照片卡，文字有图上覆盖和图下两种；底部See all。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Customer Stories 超大单行标题；两行密集logo；左一大故事照片、右两列多行较小照片卡，文字有图上覆盖和图下两种；底部See all。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "53ec0f09-7b25-45e2-8cec-7efa7fbdfcd8",
+      "mobbin_url": "https://mobbin.com/sites/sections/53ec0f09-7b25-45e2-8cec-7efa7fbdfcd8",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/53ec0f09-7b25-45e2-8cec-7efa7fbdfcd8",
+      "queries": [
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 5,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "黑色整节包围居中浅蓝到白渐变大圆角证言卡；小Zola logo、居中黑证言、署名；不是黑底白字卡。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "黑色整节包围居中浅蓝到白渐变大圆角证言卡；小Zola logo、居中黑证言、署名；不是黑底白字卡。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "3478befb-f604-4531-869c-2a25e40e86bd",
+      "mobbin_url": "https://mobbin.com/sites/sections/3478befb-f604-4531-869c-2a25e40e86bd",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/3478befb-f604-4531-869c-2a25e40e86bd",
+      "queries": [
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 15,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "全宽户外演唱会举手照片，加深遮罩；顶部横向客户logo切换与细线；左白色大证言、署名、文字链接。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "全宽户外演唱会举手照片，加深遮罩；顶部横向客户logo切换与细线；左白色大证言、署名、文字链接。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "69618a14-bae5-43a7-8997-884965f58cc5",
+      "mobbin_url": "https://mobbin.com/sites/sections/69618a14-bae5-43a7-8997-884965f58cc5",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/69618a14-bae5-43a7-8997-884965f58cc5",
+      "queries": [
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 7,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "横向双栏证言：左暖灰黑正文署名，右校园儿童照片与白KIPP logo；整体轻圆角。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "横向双栏证言：左暖灰黑正文署名，右校园儿童照片与白KIPP logo；整体轻圆角。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "9c515450-5e8b-4ad0-8c45-fe6be166f9cc",
+      "mobbin_url": "https://mobbin.com/sites/sections/9c515450-5e8b-4ad0-8c45-fe6be166f9cc",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/9c515450-5e8b-4ad0-8c45-fe6be166f9cc",
+      "queries": [
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "纯白宽留白证言，居中Webflow彩色logo、黑色多行引语、较小署名；没有外卡边界。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "纯白宽留白证言，居中Webflow彩色logo、黑色多行引语、较小署名；没有外卡边界。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "a039a1a3-52e7-430c-8291-7c16ed0f4078",
+      "mobbin_url": "https://mobbin.com/sites/sections/a039a1a3-52e7-430c-8291-7c16ed0f4078",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/a039a1a3-52e7-430c-8291-7c16ed0f4078",
+      "queries": [
+        {
+          "batch": 7,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 1,
+          "index": 10,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 24,
+          "query": "Ramp website section",
+          "page": 4,
+          "index": 14,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底客户故事轮播；大幅Barry's工作照片，下方引语署名及黑色故事按钮；右下一故事图裁切，顶部居中标题。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底客户故事轮播；大幅Barry's工作照片，下方引语署名及黑色故事按钮；右下一故事图裁切，顶部居中标题。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "b5b16367-0324-4627-87db-791011ccde93",
+      "mobbin_url": "https://mobbin.com/sites/sections/b5b16367-0324-4627-87db-791011ccde93",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/b5b16367-0324-4627-87db-791011ccde93",
+      "queries": [
+        {
+          "batch": 8,
+          "query": "Ramp integrations section",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 14,
+          "query": "Ramp product features demo section",
+          "page": 4,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 20,
+          "query": "Ramp background imagery illustration section",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 19,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Systems that never spoke 白底居中标题；多个表格、邮件、政策、聊天窗口、文件图标与曲线连接线散布，含微小彩色emoji；展示割裂流程。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Systems that never spoke 白底居中标题；多个表格、邮件、政策、聊天窗口、文件图标与曲线连接线散布，含微小彩色emoji；展示割裂流程。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "8a09538c-ffad-4eb6-8100-ccc910872f19",
+      "mobbin_url": "https://mobbin.com/sites/sections/8a09538c-ffad-4eb6-8100-ccc910872f19",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/8a09538c-ffad-4eb6-8100-ccc910872f19",
+      "queries": [
+        {
+          "batch": 9,
+          "query": "Ramp pricing plans comparison table",
+          "page": 1,
+          "index": 6,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Compare Features：Free/Plus/Enterprise三列；Plus黄绿按钮，Free浅灰，Enterprise黑色；分组横线、绿圆勾、灰小字，右侧折叠箭头。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Compare Features：Free/Plus/Enterprise三列；Plus黄绿按钮，Free浅灰，Enterprise黑色；分组横线、绿圆勾、灰小字，右侧折叠箭头。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "537fd731-3f43-4788-b4c7-b7478723c49b",
+      "mobbin_url": "https://mobbin.com/sites/sections/537fd731-3f43-4788-b4c7-b7478723c49b",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/537fd731-3f43-4788-b4c7-b7478723c49b",
+      "queries": [
+        {
+          "batch": 9,
+          "query": "Ramp pricing plans comparison table",
+          "page": 1,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Compare Features另一版本：Free黄绿、Plus与Enterprise黑色；功能行文字/旅行行与8a不同；不可合并按钮优先级。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Compare Features另一版本：Free黄绿、Plus与Enterprise黑色；功能行文字/旅行行与8a不同；不可合并按钮优先级。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "0addfde9-71dd-4ed4-b744-c5a713e64161",
+      "mobbin_url": "https://mobbin.com/sites/sections/0addfde9-71dd-4ed4-b744-c5a713e64161",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/0addfde9-71dd-4ed4-b744-c5a713e64161",
+      "queries": [
+        {
+          "batch": 11,
+          "query": "Ramp call to action email signup form",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 12,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "浅灰长页脚：顶层横链接，下方五列分组；中下logo地址、45,000+文案和邮箱黄绿CTA一行；底部法律小字、商店徽章及社交图标。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "浅灰长页脚：顶层横链接，下方五列分组；中下logo地址、45,000+文案和邮箱黄绿CTA一行；底部法律小字、商店徽章及社交图标。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "69a25a7e-7012-41e8-8129-9133bdcee565",
+      "mobbin_url": "https://mobbin.com/sites/sections/69a25a7e-7012-41e8-8129-9133bdcee565",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/69a25a7e-7012-41e8-8129-9133bdcee565",
+      "queries": [
+        {
+          "batch": 12,
+          "query": "Ramp footer section",
+          "page": 1,
+          "index": 0,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 17,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "黑底长页脚：顶部六列小字导航，横线后法律/地址/商店/社交多栏；最下左50,000+与深色邮箱黄绿CTA；和浅灰footer结构明显不同。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "黑底长页脚：顶部六列小字导航，横线后法律/地址/商店/社交多栏；最下左50,000+与深色邮箱黄绿CTA；和浅灰footer结构明显不同。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "4bd26ace-d295-46d6-b0af-5e4afd3036ff",
+      "mobbin_url": "https://mobbin.com/sites/sections/4bd26ace-d295-46d6-b0af-5e4afd3036ff",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/4bd26ace-d295-46d6-b0af-5e4afd3036ff",
+      "queries": [
+        {
+          "batch": 15,
+          "query": "Ramp customer logos case study testimonials",
+          "page": 2,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底居中客户评价标题；下方三等宽细描边白卡，G2徽章跨卡上沿，星级、黑引语、灰署名；没有大照片。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底居中客户评价标题；下方三等宽细描边白卡，G2徽章跨卡上沿，星级、黑引语、灰署名；没有大照片。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "1372a54f-9e88-4179-960c-9765e59d6046",
+      "mobbin_url": "https://mobbin.com/sites/sections/1372a54f-9e88-4179-960c-9765e59d6046",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/1372a54f-9e88-4179-960c-9765e59d6046",
+      "queries": [
+        {
+          "batch": 17,
+          "query": "Ramp pricing plans comparison table",
+          "page": 2,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Start for free 三列长价格卡：细边白底，Free/Plus/Enterprise，价格和计费微文案；每列邮箱与按钮，Free黄绿其余黑；下方密集分组勾选功能。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "Start for free 三列长价格卡：细边白底，Free/Plus/Enterprise，价格和计费微文案；每列邮箱与按钮，Free黄绿其余黑；下方密集分组勾选功能。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "c81b8b72-d3eb-4319-af18-711417e238cb",
+      "mobbin_url": "https://mobbin.com/sites/sections/c81b8b72-d3eb-4319-af18-711417e238cb",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/c81b8b72-d3eb-4319-af18-711417e238cb",
+      "queries": [
+        {
+          "batch": 20,
+          "query": "Ramp background imagery illustration section",
+          "page": 1,
+          "index": 4,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        },
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 2,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底中的黄绿色宽圆角下载横条，左二维码，右Download Ramp Mobile及App Store/Play Store说明；黄绿可承载整块信息条而非仅按钮。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP仅提供site_name和section URL，无capture ID；视觉相似不作为归属证明。",
+      "pattern_exceptions": "白底中的黄绿色宽圆角下载横条，左二维码，右Download Ramp Mobile及App Store/Play Store说明；黄绿可承载整块信息条而非仅按钮。",
+      "uncertainties": [
+        "精确CSS色值/字体/尺寸未提取",
+        "静态图不能证明动效、hover、响应式或交互行为",
+        "指定capture成员关系未确认"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "db88c7b2-05b9-4caf-9c60-dfa1d864c60e",
+      "mobbin_url": "https://mobbin.com/sites/sections/db88c7b2-05b9-4caf-9c60-dfa1d864c60e",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/db88c7b2-05b9-4caf-9c60-dfa1d864c60e",
+      "queries": [
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "白底分类文章目录；Ramp news和Business credit cards两个分区，每区三列图文；标题左、View all右；缩略图含浅蓝UI、蓝色地图、浅蓝桃色渐变卡片以及黑底场景。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "白底分类文章目录；Ramp news和Business credit cards两个分区，每区三列图文；标题左、View all右；缩略图含浅蓝UI、蓝色地图、浅蓝桃色渐变卡片以及黑底场景。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "746fc7ba-4833-4052-91b4-4fb66a8062fd",
+      "mobbin_url": "https://mobbin.com/sites/sections/746fc7ba-4833-4052-91b4-4fb66a8062fd",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/746fc7ba-4833-4052-91b4-4fb66a8062fd",
+      "queries": [
+        {
+          "batch": 21,
+          "query": "Ramp website section",
+          "page": 1,
+          "index": 11,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Saving money媒体区另一ID：白底居中标题和下载说明，下方3x2浅灰文字新闻卡；与51ab构图相近但图幅裁切不同，不合并capture。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "Saving money媒体区另一ID：白底居中标题和下载说明，下方3x2浅灰文字新闻卡；与51ab构图相近但图幅裁切不同，不合并capture。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "37fef8e2-7c40-4c08-9415-af3bbb95d288",
+      "mobbin_url": "https://mobbin.com/sites/sections/37fef8e2-7c40-4c08-9415-af3bbb95d288",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/37fef8e2-7c40-4c08-9415-af3bbb95d288",
+      "queries": [
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 1,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "Latest news：白底纯文字横向新闻列表，三列及右侧下一列裁切；黑标题、灰摘要、来源日期分层；顶部右两圆形箭头。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "Latest news：白底纯文字横向新闻列表，三列及右侧下一列裁切；黑标题、灰摘要、来源日期分层；顶部右两圆形箭头。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "18a650ac-b4bc-41cd-a13f-490d8760c778",
+      "mobbin_url": "https://mobbin.com/sites/sections/18a650ac-b4bc-41cd-a13f-490d8760c778",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/18a650ac-b4bc-41cd-a13f-490d8760c778",
+      "queries": [
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 8,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "The Ramp Blog深绿版本：左白色大标题、右搜索；下方左大浅蓝建筑/医疗图标拼贴、右白字文章题目与作者头像；底部点状轮播分页，与白底博客明显不同。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "The Ramp Blog深绿版本：左白色大标题、右搜索；下方左大浅蓝建筑/医疗图标拼贴、右白字文章题目与作者头像；底部点状轮播分页，与白底博客明显不同。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "7ce208e1-c910-484b-876a-47c53bde0531",
+      "mobbin_url": "https://mobbin.com/sites/sections/7ce208e1-c910-484b-876a-47c53bde0531",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/7ce208e1-c910-484b-876a-47c53bde0531",
+      "queries": [
+        {
+          "batch": 22,
+          "query": "Ramp website section",
+          "page": 2,
+          "index": 18,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "404式找不到页面：白底居中Something doesn't feel right、黑白人物照片及错误说明；下方两个暖灰大面板，左可播放产品demo截图，右两列工具/产品恢复链接；不只是空白报错。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "404式找不到页面：白底居中Something doesn't feel right、黑白人物照片及错误说明；下方两个暖灰大面板，左可播放产品demo截图，右两列工具/产品恢复链接；不只是空白报错。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "d7b8268c-d948-4fd8-b80d-951b2e7c337e",
+      "mobbin_url": "https://mobbin.com/sites/sections/d7b8268c-d948-4fd8-b80d-951b2e7c337e",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/d7b8268c-d948-4fd8-b80d-951b2e7c337e",
+      "queries": [
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 12,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "浅暖灰横向指标条：四等宽列，大黑数字与小灰标签；没有卡框或图标；显示节省小时/客户节省/客户数/支持国家，数值仅截图内容未核实。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "浅暖灰横向指标条：四等宽列，大黑数字与小灰标签；没有卡框或图标；显示节省小时/客户节省/客户数/支持国家，数值仅截图内容未核实。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "dcb1dbee-7909-4cd8-9dbc-6074fa11f09c",
+      "mobbin_url": "https://mobbin.com/sites/sections/dcb1dbee-7909-4cd8-9dbc-6074fa11f09c",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/dcb1dbee-7909-4cd8-9dbc-6074fa11f09c",
+      "queries": [
+        {
+          "batch": 23,
+          "query": "Ramp website section",
+          "page": 3,
+          "index": 17,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "All stories：居中标题，下方搜索+公司规模/行业/使用产品三下拉框；3列2行浅蓝渐白logo图片、图下黑标题和小大写分类；底部Load more stories。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "All stories：居中标题，下方搜索+公司规模/行业/使用产品三下拉框；3列2行浅蓝渐白logo图片、图下黑标题和小大写分类；底部Load more stories。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    },
+    {
+      "id": "37c9d378-f915-4f3f-957a-254087de18e6",
+      "mobbin_url": "https://mobbin.com/sites/sections/37c9d378-f915-4f3f-957a-254087de18e6",
+      "site_name": "Ramp",
+      "canonical_url": "https://mobbin.com/sites/sections/37c9d378-f915-4f3f-957a-254087de18e6",
+      "queries": [
+        {
+          "batch": 24,
+          "query": "Ramp website section",
+          "page": 4,
+          "index": 18,
+          "image_actually_seen": true,
+          "render_method": "functions.image(native MCP ImageContent)"
+        }
+      ],
+      "image_actually_seen": true,
+      "observed_properties": "全宽深蓝渐变证言，右向斜带/曲线几何图形；中央白色多行引语、署名和圆头像；无独立白卡。",
+      "capture_version_certainty": "notconfirmed",
+      "capture_evidence": "MCP无capture身份；成员关系未确认。",
+      "pattern_exceptions": "全宽深蓝渐变证言，右向斜带/曲线几何图形；中央白色多行引语、署名和圆头像；无独立白卡。",
+      "uncertainties": [
+        "指定capture成员关系未确认",
+        "源字体、精确色值、CSS尺寸与交互行为未验证"
+      ],
+      "local_image_path": null
+    }
+  ],
+  "final_stop_reason": "按主任务要求，最终宽泛查询Ramp website section以limit20完成页1-4；第4页20项仅3项Ramp、1项新增，停止有界检索。没有声明语义库或capture穷尽。",
+  "main_catalog_limitation": "主任务当前消息：精确目录in-app browser重定向登录；扩展AX超时；原生Chrome用户并发使用而停止干扰。没有绕过登录。历史c224 ID指针不构成新鲜AX确认。"
+}

@@ -1,0 +1,523 @@
+{
+  "checkedAt": "2026-09-11T03:02:30.422Z",
+  "nativeCount": 61,
+  "sourceMembersMatch": true,
+  "paletteMatchesCss": true,
+  "colorVariableCount": 43,
+  "allowedNewColorVariables": [
+    "attention-foreground",
+    "attention-subtle",
+    "error-foreground",
+    "error-subtle",
+    "info-foreground",
+    "info-subtle",
+    "success-foreground",
+    "success-subtle",
+    "inactive-foreground",
+    "inactive-subtle",
+    "brand",
+    "brand-foreground"
+  ],
+  "allOfficialSourcesUnchanged": true,
+  "checks": [
+    {
+      "file": "src/components/ui/accordion.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/alert-dialog.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/alert.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/aspect-ratio.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/attachment.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/avatar.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/badge.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/breadcrumb.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/bubble.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/button-group.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/button.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/calendar.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/card.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/carousel.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/chart.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/checkbox.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/collapsible.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/combobox.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/command.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/context-menu.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/dialog.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/direction.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/drawer.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/dropdown-menu.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/empty.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/field.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/hover-card.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/input-group.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/input-otp.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/input.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/item.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/kbd.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/label.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/marker.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/menubar.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/message-scroller.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/message.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/native-select.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/navigation-menu.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/pagination.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/popover.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/progress.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/questionnaire.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/radio-group.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/resizable.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/scroll-area.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/select.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/separator.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/sheet.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/sidebar.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/skeleton.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/slider.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/sonner.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/spinner.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/switch.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/table.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/tabs.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/textarea.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/toggle-group.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/toggle.tsx",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/ui/tooltip.tsx",
+      "unchanged": true
+    }
+  ],
+  "globalCss": {
+    "colorOnly": true,
+    "rootStructureUnchanged": true,
+    "outsideRootUnchanged": true,
+    "changes": [
+      {
+        "name": "background",
+        "before": "oklch(1 0 0)",
+        "after": "#FAFAFA",
+        "allowed": true
+      },
+      {
+        "name": "foreground",
+        "before": "oklch(0.145 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "card",
+        "before": "oklch(1 0 0)",
+        "after": "#FFFFFF",
+        "allowed": true
+      },
+      {
+        "name": "card-foreground",
+        "before": "oklch(0.145 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "popover",
+        "before": "oklch(1 0 0)",
+        "after": "#FFFFFF",
+        "allowed": true
+      },
+      {
+        "name": "popover-foreground",
+        "before": "oklch(0.145 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "primary",
+        "before": "oklch(0.205 0 0)",
+        "after": "#173D2A",
+        "allowed": true
+      },
+      {
+        "name": "primary-foreground",
+        "before": "oklch(0.985 0 0)",
+        "after": "#FFFFFF",
+        "allowed": true
+      },
+      {
+        "name": "secondary",
+        "before": "oklch(0.97 0 0)",
+        "after": "#F1F2F3",
+        "allowed": true
+      },
+      {
+        "name": "secondary-foreground",
+        "before": "oklch(0.205 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "muted",
+        "before": "oklch(0.97 0 0)",
+        "after": "#F1F2F3",
+        "allowed": true
+      },
+      {
+        "name": "muted-foreground",
+        "before": "oklch(0.556 0 0)",
+        "after": "#60646C",
+        "allowed": true
+      },
+      {
+        "name": "accent",
+        "before": "oklch(0.97 0 0)",
+        "after": "#E9EAEC",
+        "allowed": true
+      },
+      {
+        "name": "accent-foreground",
+        "before": "oklch(0.205 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "destructive",
+        "before": "oklch(0.577 0.245 27.325)",
+        "after": "#A52A2A",
+        "allowed": true
+      },
+      {
+        "name": "border",
+        "before": "oklch(0.922 0 0)",
+        "after": "#DEE0E3",
+        "allowed": true
+      },
+      {
+        "name": "input",
+        "before": "oklch(0.922 0 0)",
+        "after": "#747982",
+        "allowed": true
+      },
+      {
+        "name": "ring",
+        "before": "oklch(0.708 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "chart-1",
+        "before": "oklch(0.87 0 0)",
+        "after": "#173D2A",
+        "allowed": true
+      },
+      {
+        "name": "chart-2",
+        "before": "oklch(0.556 0 0)",
+        "after": "#657D70",
+        "allowed": true
+      },
+      {
+        "name": "chart-3",
+        "before": "oklch(0.439 0 0)",
+        "after": "#747982",
+        "allowed": true
+      },
+      {
+        "name": "chart-4",
+        "before": "oklch(0.371 0 0)",
+        "after": "#A16B24",
+        "allowed": true
+      },
+      {
+        "name": "chart-5",
+        "before": "oklch(0.269 0 0)",
+        "after": "#365E9D",
+        "allowed": true
+      },
+      {
+        "name": "sidebar",
+        "before": "oklch(0.985 0 0)",
+        "after": "#F4F5F6",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-foreground",
+        "before": "oklch(0.145 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-primary",
+        "before": "oklch(0.205 0 0)",
+        "after": "#173D2A",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-primary-foreground",
+        "before": "oklch(0.985 0 0)",
+        "after": "#FFFFFF",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-accent",
+        "before": "oklch(0.97 0 0)",
+        "after": "#E9EAEC",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-accent-foreground",
+        "before": "oklch(0.205 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-border",
+        "before": "oklch(0.922 0 0)",
+        "after": "#DEE0E3",
+        "allowed": true
+      },
+      {
+        "name": "sidebar-ring",
+        "before": "oklch(0.708 0 0)",
+        "after": "#202124",
+        "allowed": true
+      },
+      {
+        "name": "attention-foreground",
+        "after": "#80520D",
+        "allowed": true
+      },
+      {
+        "name": "attention-subtle",
+        "after": "#FFF4DB",
+        "allowed": true
+      },
+      {
+        "name": "error-foreground",
+        "after": "#A52A2A",
+        "allowed": true
+      },
+      {
+        "name": "error-subtle",
+        "after": "#FCEEEE",
+        "allowed": true
+      },
+      {
+        "name": "info-foreground",
+        "after": "#365E9D",
+        "allowed": true
+      },
+      {
+        "name": "info-subtle",
+        "after": "#EDF3FC",
+        "allowed": true
+      },
+      {
+        "name": "success-foreground",
+        "after": "#446B53",
+        "allowed": true
+      },
+      {
+        "name": "success-subtle",
+        "after": "#EDF4EF",
+        "allowed": true
+      },
+      {
+        "name": "inactive-foreground",
+        "after": "#60646C",
+        "allowed": true
+      },
+      {
+        "name": "inactive-subtle",
+        "after": "#F1F2F3",
+        "allowed": true
+      },
+      {
+        "name": "brand",
+        "after": "#E4F222",
+        "allowed": true
+      },
+      {
+        "name": "brand-foreground",
+        "after": "#30350C",
+        "allowed": true
+      }
+    ],
+    "radiusUnchanged": true
+  },
+  "status": "passed"
+}

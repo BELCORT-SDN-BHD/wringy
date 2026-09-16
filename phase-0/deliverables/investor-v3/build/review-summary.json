@@ -1,0 +1,28 @@
+{
+  "finalPptxSha256": "91b917b62ce5f6ffa9b6fc827af5edae0a5d09a4a74a32a53b7ebb94c6dbd3f4",
+  "reviewedSlides": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "visualReview": "All ten final slide renders inspected individually; final margin-only revision re-inspected on slide9. Contact sheet checked for flow and consistency. No clipping, collisions, placeholders or malformed table rules observed.",
+  "nativeTables": [
+    6,
+    9
+  ],
+  "nativeCharts": 0,
+  "budgetArithmetic": "189750+216000+70000+50000+50400=576150",
+  "layoutWarnings": 0,
+  "sourceHashesMatchCurrentCanonicalFiles": true,
+  "limitations": [
+    "No PowerPoint desktop edit-save-reopen check",
+    "Screenshot and PDF preview are raster"
+  ]
+}

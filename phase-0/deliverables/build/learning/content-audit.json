@@ -1,0 +1,332 @@
+{
+  "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/01-读懂Whop-v4.pptx",
+  "sha256": "3486a3a211b085a8e7f4bb64e2afc7db40a47989dd3a59ec7a7d85b6ccabdf35",
+  "slideCount": 64,
+  "featureCount": 168,
+  "nativeTableCount": 34,
+  "nativeChartCount": 3,
+  "checks": [
+    {
+      "slide": 1,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 2,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 3,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 4,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 5,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 6,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 7,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 8,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 9,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 10,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 11,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 12,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 13,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 14,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 15,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 16,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 17,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 18,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 19,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 20,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 21,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 22,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 23,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 24,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 25,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 26,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 27,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 28,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 29,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 30,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 31,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 32,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 33,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 34,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 35,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 36,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 37,
+      "sourceContentPreserved": true,
+      "editableConnectors": 3
+    },
+    {
+      "slide": 38,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 39,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 40,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 41,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 42,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 43,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 44,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 45,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 46,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 47,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 48,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 49,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 50,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 51,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 52,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 53,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 54,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 55,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 56,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 57,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 58,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 59,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 60,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 61,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 62,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 63,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    },
+    {
+      "slide": 64,
+      "sourceContentPreserved": true,
+      "editableConnectors": 0
+    }
+  ],
+  "targetApplicationEditTest": "not performed",
+  "fontsEmbedded": false
+}

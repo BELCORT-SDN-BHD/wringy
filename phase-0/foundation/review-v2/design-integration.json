@@ -1,0 +1,19 @@
+{
+  "allDesignChecksPass": true,
+  "guidePages": 7,
+  "guideHashMatches": true,
+  "tokenHashMatches": true,
+  "dashboardOnePage": true,
+  "componentsStartPage4": true,
+  "creatorNavigationPage6": true,
+  "sourceAttributionCorrect": true,
+  "specExists": true,
+  "textNormalization": "NFKC for PDF CJK compatibility glyphs",
+  "files": {
+    "tokens.json": "4094feda31f12f31ce35ffbe0d9d6fb96c3db128a1ab2ff445659f99ab2f72ec",
+    "showcase.html": "03d15c90a55d815cfbfa46cd5cb19bf09d094dea8c460057ce30874189ba23e3",
+    "brand-components-spec.md": "97d62b72e43a748dc6bdcba82a3d89bc51d9e7142327579adf69244fa77bfe32",
+    "visual-guide.pdf": "b441a7d9876be23af0e11ce938e841989802305f58a4f0a57db62a007c293392",
+    "sources.json": "8bf928d37e3ba8e2039e5efabbe00bfc02338981a31768f7ed8385da0249ad7b"
+  }
+}

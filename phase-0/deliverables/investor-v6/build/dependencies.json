@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "finance": "phase-0/finance/model-v1/",
+  "review": "phase-0/foundation/review-design-v1.md",
+  "review_sources": "phase-0/research/review-mechanisms-v1/",
+  "canonical_design": "phase-0/foundation/design-v3/tokens.json",
+  "proposed_pages": 18,
+  "finalization_authorized": true,
+  "unconfirmed_numbers_used": false,
+  "review_status": "main-approved brief and foundation integrated",
+  "review_preview": "build/review-renders/",
+  "finance_status": "manifest frozen; build verifies hashes",
+  "remaining": []
+}

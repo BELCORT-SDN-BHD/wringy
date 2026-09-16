@@ -1,0 +1,133 @@
+{
+  "date": "2026-09-10",
+  "status": "静态设计文件验证，非业务验收或完整无障碍审计",
+  "browser": "153.0.8010.12",
+  "widths": [
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "documentWidth": 1024,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "documentWidth": 768,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "documentWidth": 320,
+      "overflow": false
+    }
+  ],
+  "contrast": [
+    {
+      "fg": "ink",
+      "bg": "canvas",
+      "ratio": 16.67,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "muted",
+      "bg": "canvas",
+      "ratio": 6.52,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "onAccent",
+      "bg": "accent",
+      "ratio": 5.86,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "accent",
+      "bg": "accentSoft",
+      "ratio": 5.14,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "positive",
+      "bg": "positiveSoft",
+      "ratio": 6.2,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "warning",
+      "bg": "warningSoft",
+      "ratio": 6.43,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "negative",
+      "bg": "negativeSoft",
+      "ratio": 6.07,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "fg": "controlBorder",
+      "bg": "surface",
+      "ratio": 4.02,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "fg": "focus",
+      "bg": "canvas",
+      "ratio": 5.61,
+      "minimum": 3,
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "sourceHash": "9b0cbfc828dac0ea9f8f771623afcfead68102febe88945af008f8ccc9626047",
+  "hashMatches": true,
+  "externalResourceCount": 0,
+  "screens": 3,
+  "noPublicDiscovery": true,
+  "exampleRewardMinor": 10000,
+  "assets": [
+    "design-preview-print.pdf",
+    "desktop-full.png",
+    "mobile-full.png",
+    "screen-1-desktop.png",
+    "screen-1-mobile.png",
+    "screen-2-desktop.png",
+    "screen-2-mobile.png",
+    "screen-3-desktop.png",
+    "screen-3-mobile.png",
+    "verification.json"
+  ],
+  "print": {
+    "pages": 6,
+    "format": "A4",
+    "textPerPageChecked": true,
+    "page3VisuallyInspected": true,
+    "note": "打印版检查为静态版面检查，非带标签的无障碍PDF认证"
+  },
+  "visualReview": {
+    "inspected": [
+      "screen-1-desktop.png",
+      "screen-2-desktop.png",
+      "screen-3-desktop.png",
+      "screen-3-mobile.png"
+    ],
+    "result": "已检查邀请制、RM100、预审和最终审核区别；手机表格使用有说明的局部滚动",
+    "limitations": "未进行屏幕阅读器或真实业务交互测试"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "slides": 10,
+  "nativeTables": 2,
+  "noPlaceholder": true,
+  "stageLabel": true,
+  "pdfPages": 10,
+  "finalHashMatches": true,
+  "storyHashMatches": true,
+  "tokenHashMatches": true,
+  "layoutWarnings": 0
+}

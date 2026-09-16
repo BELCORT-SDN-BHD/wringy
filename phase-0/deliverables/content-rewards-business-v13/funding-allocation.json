@@ -1,0 +1,10 @@
+{
+  "currency": "MYR",
+  "total": 70000,
+  "research_and_development": 50000,
+  "reserve_fund": 20000,
+  "reserve_label": "储备资金",
+  "english_label": "Reserve fund",
+  "source": "User request in side conversation 2026-09-14",
+  "scope": "Funding use slide 13 only; old financial workbook unchanged"
+}

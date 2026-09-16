@@ -1,0 +1,294 @@
+{
+  "title": "Wringy Content Rewards business model primary research",
+  "as_of": "2026-09-12",
+  "timezone": "Asia/Kuala_Lumpur",
+  "owner_scope": "phase-0/deliverables/content-rewards-business-v1/research/**",
+  "no_delegation": true,
+  "no_deck_or_model_edits": true,
+  "founder_confirmed": {
+    "source": "Current user instruction",
+    "content_rewards_first": true,
+    "prototype_plus_usable_beta_RnD_cap_MYR": 50000,
+    "round_one_focus": "ground sales",
+    "round_two_focus": "marketing",
+    "future_modules": "later",
+    "qualification": "Budget cap and direction; not proof of scope feasibility, validated pricing, funding commitments or complete Whop infrastructure."
+  },
+  "sources": [
+    {
+      "id": "CR01",
+      "title": "Whop Content Rewards Terms of Service",
+      "publisher": "Whop",
+      "url": "https://whop.com/content-rewards-terms-of-service/",
+      "published_or_updated_date": null,
+      "date_note": "Undated current page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Whop own Program; not automatically the independent CR app contract",
+      "claims": "Seller funds rewards and pays fee of 10% of amounts paid to participants; legitimate-view and end/max limits.",
+      "limitations": "Exact denominator supported only for this Program contract.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR02",
+      "title": "Content Rewards - Whop Docs",
+      "publisher": "Whop",
+      "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+      "published_or_updated_date": null,
+      "date_note": "Undated current page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Embedded third-party app guide; marketing campaigns section",
+      "claims": "Clipping and original UGC; creators publish on own accounts; review; USD3/1000 and USD6 minimum example enters review at 2000 views.",
+      "limitations": "Queue threshold example is not universal current CR contract; no payout guarantee.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR03",
+      "title": "Organization Terms of Service",
+      "publisher": "Content Rewards Inc",
+      "url": "https://contentrewards.com/brands-terms",
+      "published_or_updated_date": "2026-09-03",
+      "date_note": "Date displayed in official page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Current independent web app; legacy accepted terms retained",
+      "claims": "Brand standard10%/verified8%; processing approx2.7% funded amount plus unspecified fixed amount; manual review; no guaranteed performance; Whop payment dependency.",
+      "limitations": "Brand platform-fee denominator lacks complete public invoice equation; approximate processing quote not local approved rate.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR04",
+      "title": "Creator Terms of Service",
+      "publisher": "Content Rewards Inc",
+      "url": "https://contentrewards.com/terms",
+      "published_or_updated_date": "2026-09-03",
+      "date_note": "Date displayed in official page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Current independent web app; not legacy hosted campaigns",
+      "claims": "CPM payout fee10%; per-post/retainer fee10% below USD5000 budget and0% at/above; draft not final approval; readonly account links; no automatic posting.",
+      "limitations": "Seven-day accrual and continued-accrual clauses need reconciliation; not a guaranteed bank arrival date or Wringy capability.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR05",
+      "title": "V2 is here",
+      "publisher": "Content Rewards Inc",
+      "url": "https://b4e0vdqv6zgqeqj4pfgm.apps.whop.com/articles/v2-is-here",
+      "published_or_updated_date": "2026-08-19",
+      "date_note": "Date displayed in official page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Current body of release article, not cached search snippet",
+      "claims": "Brand platform fee drawn from funded budget; processing fee on top; Discover browsable feed; current body now says flat10% creator fee with premium exemption.",
+      "limitations": "Body has changed since older indexed text; publication date does not identify last edit date. Old tier/processing example not current evidence.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR06",
+      "title": "Creator Pricing",
+      "publisher": "Content Rewards Inc",
+      "url": "https://contentrewards.com/pricing/creators",
+      "published_or_updated_date": null,
+      "date_note": "Undated current page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Current pricing page",
+      "claims": "Flat10% CPM; per-post/retainer USD5000+ no creator fee; free transfer to Whop balance.",
+      "limitations": "No withdrawal fees refers to transfer to Whop balance, not all bank and FX costs.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR07",
+      "title": "About collaborating with creators on TikTok One projects",
+      "publisher": "TikTok",
+      "url": "https://ads.tiktok.com/resources/help/article/about-working-with-creators-on-tiktok-one-campaigns?lang=en",
+      "published_or_updated_date": "2026-04",
+      "date_note": "Month precision",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "TikTok One official collaboration options",
+      "claims": "Production partners, direct invitations, open applications, authorized sync to Ads Manager.",
+      "limitations": "Does not quote agency rates or promise Wringy/local account availability; month precision date.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR08",
+      "title": "Getting paid for commissions on Shopify Collabs",
+      "publisher": "Shopify",
+      "url": "https://help.shopify.com/en/manual/promoting-marketing/collabs/creators/payments",
+      "published_or_updated_date": null,
+      "date_note": "Undated current page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Official affiliate-payment help",
+      "claims": "Links/codes attribute referred purchases and affiliate commission; brand settings govern payouts; new creator signups paused but direct invitations/applications remain.",
+      "limitations": "Affiliate sales mechanism differs from view rewards; no comparative ROI or market-wide agency cost evidence.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR09",
+      "title": "Query Videos",
+      "publisher": "TikTok",
+      "url": "https://developers.tiktok.com/docs/en/tiktok-api-v2-video-query",
+      "published_or_updated_date": "2026-08-24",
+      "date_note": "Date displayed in official page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "official primary declaration; not transaction-tested",
+      "verification": "Live official page body opened this subtask",
+      "scope": "Display API v2 video.query; authorized-user data",
+      "claims": "Requires authorized user and video.list; up to20 IDs; fields include view_count, not viewer identity/country.",
+      "limitations": "Endpoint fields alone cannot prove valid MY human audience, deduplication or Wringy production access.",
+      "currency": "USD where $ is used; no conversion"
+    },
+    {
+      "id": "CR10",
+      "title": "Malaysian Digital Adex FY2025",
+      "publisher": "MSA with MAA and MDA; hosted by MDA",
+      "url": "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+      "published_or_updated_date": "2026-08-19",
+      "date_note": "Publication date confirmed in S7 resource directory",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "reused previously verified official primary source",
+      "verification": "Direct official report summary HTML; quarterly reported amounts sum checked",
+      "reuse_from": "phase-0/deliverables/funding-growth-v1/inputs/market-sources.json#S6",
+      "reopened_this_subtask": false,
+      "scope": "FY2025",
+      "claims": [
+        "Total estimated digital adex MYR2959.40 million.",
+        "21 contributing agencies report approximately MYR1775.64 million, representing about 60% coverage.",
+        "Reported spending grew 24.8% YoY; social 46.3% does not establish creator marketing budget."
+      ],
+      "limitations": "Macro context only; NOT Content Rewards TAM or platform revenue.",
+      "currency": "MYR",
+      "unit": "million; billion; percent"
+    },
+    {
+      "id": "CR11",
+      "title": "Malaysia e-Conomy SEA 2025 launch",
+      "publisher": "Google Malaysia",
+      "url": "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+      "published_or_updated_date": "2025-11-28",
+      "date_note": "Page publication 28 November; event dateline 25 November 2025",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "reused previously verified official primary source",
+      "verification": "Direct official HTML read; English and Chinese figures consistent",
+      "reuse_from": "phase-0/deliverables/funding-growth-v1/inputs/market-sources.json#S3",
+      "reopened_this_subtask": false,
+      "scope": "2025 estimate/projection",
+      "claims": [
+        "Ecommerce GMV 20 billion; 21% YoY."
+      ],
+      "limitations": "Macro context only; NOT Content Rewards TAM or platform revenue.",
+      "currency": "USD",
+      "unit": "billion; percent"
+    },
+    {
+      "id": "CR12",
+      "title": "Malaysia Digital Economy 2024",
+      "publisher": "Department of Statistics Malaysia",
+      "url": "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+      "published_or_updated_date": "2024-12-19",
+      "date_note": "Date explicitly listed on official release page",
+      "accessed_date": "2026-09-12",
+      "timezone": "Asia/Kuala_Lumpur",
+      "evidence_class": "reused previously verified official primary source",
+      "verification": "Official search-index full text; direct HTML fetch timed out; corresponding official DOSM release PDF independently read",
+      "reuse_from": "phase-0/deliverables/funding-growth-v1/inputs/market-sources.json#S4",
+      "reopened_this_subtask": false,
+      "scope": "2022 establishment census reference year",
+      "claims": [
+        "78236 establishments engaged in ecommerce out of 1091867 total establishments.",
+        "Establishments are not necessarily unique companies, brands or buying centres; count is not 2026 active entities."
+      ],
+      "limitations": "Macro context only; NOT Content Rewards TAM or platform revenue.",
+      "currency": null,
+      "unit": "establishments"
+    }
+  ],
+  "fee_basis_resolution": {
+    "whop_own_program": "10% of actual Seller-to-Participant payments; Seller pays; exact basis explicit in CR01",
+    "current_independent_CR_brand_fee": "Standard10%, verified8%; drawn from funded budget; complete denominator/invoice algebra not proven",
+    "current_independent_CR_creator_fee": "10% of CPM payouts;10% per-post/retainer below USD5000 campaign budget;0% at or above USD5000 for per-post/retainer",
+    "third_party_processing": "CR03 approx2.7% of funded amount plus unspecified small fixed fee; not CR revenue; no local approved quote",
+    "wringy": "15% reward surcharge remains project demonstration, not validated pricing"
+  },
+  "flow_examples": [
+    {
+      "id": "FLOW_A",
+      "title": "Clipping with review-queue threshold",
+      "source_ids": [
+        "CR02"
+      ],
+      "steps": [
+        "Authorized long-form brand footage",
+        "Creator short clip",
+        "Creator publishes to own social account",
+        "Submission",
+        "Review threshold",
+        "Approval and applicable reward process"
+      ],
+      "official_example": {
+        "USD_per_1000_views": 3,
+        "minimum_USD": 6,
+        "views_to_review": 2000
+      },
+      "not_a_brand_case": true,
+      "limitation": "Review eligibility does not guarantee payout; embedded tutorial version only."
+    },
+    {
+      "id": "FLOW_B",
+      "title": "Original content with optional draft review",
+      "source_ids": [
+        "CR02",
+        "CR03",
+        "CR04"
+      ],
+      "steps": [
+        "Brand guidelines and pre-review enabled",
+        "Creator uploads unpublished draft",
+        "Brand approve/revise/reject",
+        "Creator publishes",
+        "Public URL submission",
+        "Final content and risk checks",
+        "Validated balance",
+        "Whop withdrawal"
+      ],
+      "not_a_brand_case": true,
+      "limitation": "Draft approval not final approval; no invented brand, volume, performance or guaranteed bank settlement."
+    }
+  ],
+  "critical_gaps": [
+    "No reliable MY/SEA Content Rewards-specific TAM",
+    "No verified local reward-budget and fee willingness",
+    "No Wringy data or payment admission evidence",
+    "No proof full proposed beta scope fits RM50000",
+    "No guaranteed creator supply or social distribution",
+    "No complete current CR brand-fee invoice equation",
+    "Local IP/privacy/advertising and funds-flow applicability requires specific review"
+  ],
+  "prior_report_updates": [
+    "Current V2 article body now aligns with flat10% creator fees; old search snippets still show obsolete tiers.",
+    "Do not import prior R&D budget, full platform scope or round targets into newly confirmed direction."
+  ]
+}

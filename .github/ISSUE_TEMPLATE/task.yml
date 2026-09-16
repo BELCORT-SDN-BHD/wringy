@@ -1,0 +1,31 @@
+name: Development task
+description: A verifiable user outcome linked to a specification
+title: ""
+labels: [needs-triage]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: User outcome
+      description: What will a merchant, creator or operator be able to do?
+    validations:
+      required: true
+  - type: input
+    id: spec
+    attributes:
+      label: Parent specification
+      description: Link the specification issue and acceptance IDs.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable results, failures, permissions and evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Dependencies and unresolved evidence
+      description: Link blocking issues; also add native dependencies.

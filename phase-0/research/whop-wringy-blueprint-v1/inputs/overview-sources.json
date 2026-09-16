@@ -1,0 +1,112 @@
+[
+  {
+    "id": "S01",
+    "title": "Whop Developer Platform",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "API公开产品为收款、出款、身份、嵌入聊天及应用；公开能力不等于内部架构。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S02",
+    "title": "Connected Accounts",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/manage-your-business/manage-payouts/connected-accounts",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "Platforms功能邀请制，具体用途需销售审核；企业与个人connected accounts角色。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S03",
+    "title": "Pricing built for scale",
+    "publisher": "Whop",
+    "url": "https://whop.com/network/pricing/",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "普通国内卡费2.7%+$0.30，国际卡及FX另计；不是CR活动服务费或马来西亚具体报价。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S04",
+    "title": "Privacy Policy",
+    "publisher": "Content Rewards Inc",
+    "url": "https://contentrewards.com/privacy-policy",
+    "published_or_updated": "2026-09-03",
+    "accessed": "2026-09-11",
+    "scope": "Whop-hosted与独立web两个体验并存，CR与Whop职责不可混同。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S05",
+    "title": "Articles",
+    "publisher": "Content Rewards Inc",
+    "url": "https://contentrewards.com/articles",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "当前列表可见最新编号发布公告Aug19V2，不证明最新软件构建号。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S06",
+    "title": "V2 is here",
+    "publisher": "Content Rewards Inc",
+    "url": "https://contentrewards.com/articles/v2-is-here",
+    "published_or_updated": "2026-08-19",
+    "accessed": "2026-09-11",
+    "scope": "组织、预审、周期任务发布声明；15分钟、费率等需与现行合同交叉核验；计算示例基数存在未明之处。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S07",
+    "title": "Content Rewards",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "当前可访问内嵌教程：字段、最低奖励进入审核队列、充值路径；不能套作独立web逐屏流程。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S08",
+    "title": "Manual Payouts to Connected Accounts",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/developer/platforms/manual-payouts",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "身份核验、出款方式、余额和费用覆盖前置条件；API示例非实测到账。",
+    "evidence_type": "当前一手公开文本，未进行登录或交易实测"
+  },
+  {
+    "id": "S09",
+    "title": "Launch Your Business",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/launch-your-business",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "官方商家入门；平台交付与只处理支付两类路径",
+    "evidence_type": "官方当前文档声明；正文实读，未进行账户测试"
+  },
+  {
+    "id": "S10",
+    "title": "Educational Programs",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/supported-business-models/educational-programs",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "课程、论坛、聊天、店铺及定价的组合能力",
+    "evidence_type": "官方当前文档声明；正文实读，未进行账户测试"
+  },
+  {
+    "id": "S11",
+    "title": "Affiliates",
+    "publisher": "Whop",
+    "url": "https://docs.whop.com/developer/guides/affiliates",
+    "published_or_updated": "未标日期",
+    "accessed": "2026-09-11",
+    "scope": "公开联盟归因与佣金接口；不等于CR按播放计酬",
+    "evidence_type": "官方当前文档声明；正文实读，未进行账户测试"
+  }
+]

@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "date": "2026-09-13",
+  "pages": 15,
+  "main_slides": 12,
+  "appendix_slides": 3,
+  "native_charts": 4,
+  "chart_values": [
+    [
+      2000.0,
+      300.0
+    ],
+    [
+      50000.0,
+      13620.0,
+      6380.0
+    ],
+    [
+      110000.0,
+      70000.0
+    ],
+    [
+      180.0,
+      90.0,
+      0.0,
+      -90.0
+    ]
+  ],
+  "embedded_chart_workbooks": 4,
+  "native_tables": 2,
+  "raster_pictures_in_pptx": 0,
+  "pptx_clickable_sources": 6,
+  "pdf_clickable_sources": 6,
+  "source_urls": [
+    "https://contentrewards.com/brands-terms",
+    "https://whop.com/content-rewards-terms-of-service/",
+    "https://malaysiandigitalassociation.org.my/digital-adex-fy-2025/",
+    "https://www.dosm.gov.my/portal-main/release-content/malaysia-digital-economy-2024",
+    "https://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/",
+    "https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx"
+  ],
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "overflow": 0,
+  "visual_review": "All 15 slides individually reviewed at 1920x1080; corrected slide 2 re-reviewed. Final PDF rendered with Poppler.",
+  "native_office_execution_verified": false,
+  "pdf_format": "Raster reading copy with clickable source annotations; PPTX contains editable text, diagrams, charts and tables.",
+  "finance": "Canonical content-rewards-business-v1 model unchanged; 70k/110k unselected scenarios.",
+  "markers": {
+    "pptx": 1,
+    "pdf": 1
+  },
+  "files": {
+    "Wringy-Content-Rewards-Business-Plan.pptx": {
+      "bytes": 81761,
+      "sha256": "965fbcc512f74cdb81f486501155706264e9d94182d700f65634a127fd68f3cf"
+    },
+    "Wringy-Content-Rewards-Business-Plan.pdf": {
+      "bytes": 2140459,
+      "sha256": "08f12f70e86feed301e47ccd31d5460b05d7a0931b3fa4a07a19cbcc081ca48c"
+    },
+    "contact-sheet.jpg": {
+      "bytes": 339247,
+      "sha256": "004b7a3d7348aa22aa1cda118434a378f8047c1a1db6749e620df797b68c6622"
+    }
+  }
+}

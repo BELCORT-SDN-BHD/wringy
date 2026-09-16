@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "basis": "independent recomputation of JSON scenario chains, not finalworkbook verification",
+  "cases": [
+    {
+      "scenario": "保守",
+      "paybackMonth": null,
+      "firstOperatingNonlossMonth": 18,
+      "peakCashNeed": 383200.0,
+      "finalCumulative": -325725.0
+    },
+    {
+      "scenario": "基准",
+      "paybackMonth": 25,
+      "firstOperatingNonlossMonth": 10,
+      "peakCashNeed": 326850.0,
+      "finalCumulative": 596400.0
+    },
+    {
+      "scenario": "扩张",
+      "paybackMonth": 18,
+      "firstOperatingNonlossMonth": 8,
+      "peakCashNeed": 306950.0,
+      "finalCumulative": 2256675.0
+    }
+  ]
+}

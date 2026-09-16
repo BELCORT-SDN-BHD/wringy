@@ -1,0 +1,278 @@
+{
+  "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/output/02-Wringy东南亚商业计划-v2.pptx",
+  "sha256": "c171971e7130f319719c67db81468846c2201fafcae428958fdd18a9159bfcfb",
+  "slideCount": 38,
+  "nativeChartCount": 1,
+  "exactSourceChartPoints": 72,
+  "nativeTableCount": 22,
+  "checks": [
+    {
+      "slide": 1,
+      "id": "INV01",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 2,
+      "id": "INV02",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 3,
+      "id": "INV03",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 3
+    },
+    {
+      "slide": 4,
+      "id": "INV04",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 5,
+      "id": "INV05",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 6,
+      "id": "INV06",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 4
+    },
+    {
+      "slide": 7,
+      "id": "INV07",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 8,
+      "id": "INV08",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 9,
+      "id": "INV09",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 10,
+      "id": "INV10",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 11,
+      "id": "INV11",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 2
+    },
+    {
+      "slide": 12,
+      "id": "INV12",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 13,
+      "id": "INV13",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 14,
+      "id": "INV14",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 15,
+      "id": "INV15",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 16,
+      "id": "INV16",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 17,
+      "id": "INV17",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 3
+    },
+    {
+      "slide": 18,
+      "id": "INV18",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 19,
+      "id": "INV19",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 20,
+      "id": "INV20",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 21,
+      "id": "INV21",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 22,
+      "id": "INV22",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 23,
+      "id": "INV23",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 24,
+      "id": "INV24",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 25,
+      "id": "INV25",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 26,
+      "id": "INV26",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 27,
+      "id": "INV27",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 28,
+      "id": "INV28",
+      "contentPreserved": true,
+      "nativeTables": 0,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 29,
+      "id": "APP01",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 30,
+      "id": "APP02",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 31,
+      "id": "APP03",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 32,
+      "id": "APP04",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 33,
+      "id": "APP05",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 34,
+      "id": "APP06",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 35,
+      "id": "APP07",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 36,
+      "id": "APP08",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 37,
+      "id": "APP09",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    },
+    {
+      "slide": 38,
+      "id": "APP10",
+      "contentPreserved": true,
+      "nativeTables": 1,
+      "nativeConnectors": 0
+    }
+  ],
+  "fontsEmbedded": false,
+  "targetApplicationEditTest": "not performed"
+}

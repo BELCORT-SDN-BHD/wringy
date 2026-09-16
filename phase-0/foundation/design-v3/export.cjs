@@ -1,0 +1,3 @@
+const {chromium}=require('${HOME}/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const path=require('path');
+(async()=>{const b=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});const p=await b.newPage({viewport:{width:1504,height:1000},deviceScaleFactor:1.5});await p.goto('file://'+path.join(__dirname,'product-exports.html'));await p.evaluate(()=>document.fonts.ready);for(const id of ['product-overview','review-detail','creator-progress']){await p.locator('#'+id).screenshot({path:path.join(__dirname,'assets',id+'.png')});console.log(id+'.png');}await b.close()})()

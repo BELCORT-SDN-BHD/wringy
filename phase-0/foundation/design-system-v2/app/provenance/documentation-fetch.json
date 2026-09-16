@@ -1,0 +1,188 @@
+[
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/accordion",
+    "status": 200,
+    "title": "Accordion - shadcn/ui",
+    "bytes": 866728
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/alert",
+    "status": 200,
+    "title": "Alert - shadcn/ui",
+    "bytes": 751827
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/alert-dialog",
+    "status": 200,
+    "title": "Alert Dialog - shadcn/ui",
+    "bytes": 918948
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/aspect-ratio",
+    "status": 200,
+    "title": "Aspect Ratio - shadcn/ui",
+    "bytes": 668827
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/avatar",
+    "status": 200,
+    "title": "Avatar - shadcn/ui",
+    "bytes": 937510
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/badge",
+    "status": 200,
+    "title": "Badge - shadcn/ui",
+    "bytes": 750793
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/breadcrumb",
+    "status": 200,
+    "title": "Breadcrumb - shadcn/ui",
+    "bytes": 897790
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/button",
+    "status": 200,
+    "title": "Button - shadcn/ui",
+    "bytes": 939660
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/button-group",
+    "status": 200,
+    "title": "Button Group - shadcn/ui",
+    "bytes": 1234120
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/card",
+    "status": 200,
+    "title": "Card - shadcn/ui",
+    "bytes": 946426
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/checkbox",
+    "status": 200,
+    "title": "Checkbox - shadcn/ui",
+    "bytes": 920682
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/collapsible",
+    "status": 200,
+    "title": "Collapsible - shadcn/ui",
+    "bytes": 934207
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/empty",
+    "status": 200,
+    "title": "Empty - shadcn/ui",
+    "bytes": 924936
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/field",
+    "status": 200,
+    "title": "Field - shadcn/ui",
+    "bytes": 1528209
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/input",
+    "status": 200,
+    "title": "Input - shadcn/ui",
+    "bytes": 991562
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/input-group",
+    "status": 200,
+    "title": "Input Group - shadcn/ui",
+    "bytes": 1303383
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/input-otp",
+    "status": 200,
+    "title": "Input OTP - shadcn/ui",
+    "bytes": 986899
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/item",
+    "status": 200,
+    "title": "Item - shadcn/ui",
+    "bytes": 1201490
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/label",
+    "status": 200,
+    "title": "Label - shadcn/ui",
+    "bytes": 809479
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/native-select",
+    "status": 200,
+    "title": "Native Select - shadcn/ui",
+    "bytes": 765814
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/progress",
+    "status": 200,
+    "title": "Progress - shadcn/ui",
+    "bytes": 692945
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/radio-group",
+    "status": 200,
+    "title": "Radio Group - shadcn/ui",
+    "bytes": 911929
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/separator",
+    "status": 200,
+    "title": "Separator - shadcn/ui",
+    "bytes": 687213
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/skeleton",
+    "status": 200,
+    "title": "Skeleton - shadcn/ui",
+    "bytes": 691388
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/slider",
+    "status": 200,
+    "title": "Slider - shadcn/ui",
+    "bytes": 723917
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/spinner",
+    "status": 200,
+    "title": "Spinner - shadcn/ui",
+    "bytes": 808419
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/switch",
+    "status": 200,
+    "title": "Switch - shadcn/ui",
+    "bytes": 781069
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/textarea",
+    "status": 200,
+    "title": "Textarea - shadcn/ui",
+    "bytes": 698540
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/toggle",
+    "status": 200,
+    "title": "Toggle - shadcn/ui",
+    "bytes": 697114
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/toggle-group",
+    "status": 200,
+    "title": "Toggle Group - shadcn/ui",
+    "bytes": 878336
+  },
+  {
+    "url": "https://ui.shadcn.com/docs/components/radix/questionnaire",
+    "status": 200,
+    "title": "Questionnaire - shadcn/ui",
+    "bytes": 1923637
+  }
+]

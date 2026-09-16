@@ -1,0 +1,1115 @@
+{
+  "sourceSha256": "ed0ce3a17040d6a52d6dc5daf12c2aa29b269d8f214606117beeefa2da228d24",
+  "count": 64,
+  "featureCount": 168,
+  "appendixIDs": [
+    "B01-F01",
+    "B01-F02",
+    "B01-F03",
+    "B01-F04",
+    "B01-F05",
+    "B01-F06",
+    "B01-F07",
+    "B01-F08",
+    "B01-F09",
+    "B01-F10",
+    "B01-F11",
+    "B01-F12",
+    "B01-F13",
+    "B02-F01",
+    "B02-F02",
+    "B02-F03",
+    "B02-F04",
+    "B02-F05",
+    "B02-F06",
+    "B02-F07",
+    "B02-F08",
+    "B02-F09",
+    "B02-F10",
+    "B02-F11",
+    "B02-F12",
+    "B02-F13",
+    "B02-F14",
+    "B02-F15",
+    "B03-F01",
+    "B03-F02",
+    "B03-F03",
+    "B03-F04",
+    "B03-F05",
+    "B03-F06",
+    "B03-F07",
+    "B03-F08",
+    "B03-F09",
+    "B03-F10",
+    "B03-F11",
+    "B03-F12",
+    "B03-F13",
+    "B03-F14",
+    "B04-F01",
+    "B04-F02",
+    "B04-F03",
+    "B04-F04",
+    "B04-F05",
+    "B04-F06",
+    "B04-F07",
+    "B04-F08",
+    "B04-F09",
+    "B04-F10",
+    "B04-F11",
+    "B04-F12",
+    "B05-F01",
+    "B05-F02",
+    "B05-F03",
+    "B05-F04",
+    "B05-F05",
+    "B05-F06",
+    "B05-F07",
+    "B05-F08",
+    "B05-F09",
+    "B05-F10",
+    "B05-F11",
+    "B05-F12",
+    "B06-F01",
+    "B06-F02",
+    "B06-F03",
+    "B06-F04",
+    "B06-F05",
+    "B06-F06",
+    "B06-F07",
+    "B06-F08",
+    "B06-F09",
+    "B06-F10",
+    "B06-F11",
+    "B06-F12",
+    "B06-F13",
+    "B06-F14",
+    "B06-F15",
+    "B07-F01",
+    "B07-F02",
+    "B07-F03",
+    "B07-F04",
+    "B07-F05",
+    "B07-F06",
+    "B07-F07",
+    "B07-F08",
+    "B07-F09",
+    "B07-F10",
+    "B07-F11",
+    "B07-F12",
+    "B07-F13",
+    "B07-F14",
+    "B08-F01",
+    "B08-F02",
+    "B08-F03",
+    "B08-F04",
+    "B08-F05",
+    "B08-F06",
+    "B08-F07",
+    "B08-F08",
+    "B08-F09",
+    "B08-F10",
+    "B08-F11",
+    "B08-F12",
+    "B08-F13",
+    "B08-F14",
+    "B08-F15",
+    "B09-F01",
+    "B09-F02",
+    "B09-F03",
+    "B09-F04",
+    "B09-F05",
+    "B09-F06",
+    "B09-F07",
+    "B09-F08",
+    "B09-F09",
+    "B09-F10",
+    "B09-F11",
+    "B09-F12",
+    "B09-F13",
+    "B09-F14",
+    "B09-F15",
+    "B10-F01",
+    "B10-F02",
+    "B10-F03",
+    "B10-F04",
+    "B10-F05",
+    "B10-F06",
+    "B10-F07",
+    "B10-F08",
+    "B10-F09",
+    "B10-F10",
+    "B10-F11",
+    "B10-F12",
+    "B10-F13",
+    "B10-F14",
+    "B11-F01",
+    "B11-F02",
+    "B11-F03",
+    "B11-F04",
+    "B11-F05",
+    "B11-F06",
+    "B11-F07",
+    "B11-F08",
+    "B11-F09",
+    "B11-F10",
+    "B11-F11",
+    "B11-F12",
+    "B11-F13",
+    "B11-F14",
+    "B11-F15",
+    "B12-F01",
+    "B12-F02",
+    "B12-F03",
+    "B12-F04",
+    "B12-F05",
+    "B12-F06",
+    "B12-F07",
+    "B12-F08",
+    "B12-F09",
+    "B12-F10",
+    "B12-F11",
+    "B12-F12",
+    "B12-F13",
+    "B12-F14"
+  ],
+  "records": [
+    {
+      "number": 1,
+      "id": "S01",
+      "assets": [
+        "learning-hero"
+      ],
+      "feature_ids": [],
+      "bodyInNotes": false
+    },
+    {
+      "number": 2,
+      "id": "S02",
+      "assets": [],
+      "feature_ids": [
+        "B01-F01",
+        "B01-F09"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 3,
+      "id": "S03",
+      "assets": [],
+      "feature_ids": [
+        "B06-F02",
+        "B07-F01",
+        "B11-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 4,
+      "id": "S04",
+      "assets": [],
+      "feature_ids": [
+        "B06-F02",
+        "B06-F09",
+        "B07-F04",
+        "B08-F02"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 5,
+      "id": "S05",
+      "assets": [],
+      "feature_ids": [],
+      "bodyInNotes": false
+    },
+    {
+      "number": 6,
+      "id": "S06",
+      "assets": [],
+      "feature_ids": [
+        "B09-F05",
+        "B09-F12",
+        "B12-F03",
+        "B12-F11",
+        "B11-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 7,
+      "id": "S07",
+      "assets": [],
+      "feature_ids": [],
+      "bodyInNotes": false
+    },
+    {
+      "number": 8,
+      "id": "S08",
+      "assets": [],
+      "feature_ids": [
+        "B03-F10",
+        "B03-F12"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 9,
+      "id": "S09",
+      "assets": [
+        "whop-05",
+        "whop-06"
+      ],
+      "feature_ids": [
+        "B01-F01",
+        "B01-F04",
+        "B01-F05",
+        "B01-F07",
+        "B01-F09"
+      ],
+      "bodyInNotes": true
+    },
+    {
+      "number": 10,
+      "id": "S10",
+      "assets": [],
+      "feature_ids": [
+        "B01-F10",
+        "B01-F11",
+        "B01-F12",
+        "B01-F13"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 11,
+      "id": "S11",
+      "assets": [
+        "whop-02",
+        "whop-03"
+      ],
+      "feature_ids": [
+        "B02-F01",
+        "B02-F02",
+        "B02-F04",
+        "B02-F05",
+        "B02-F11"
+      ],
+      "bodyInNotes": true
+    },
+    {
+      "number": 12,
+      "id": "S12",
+      "assets": [],
+      "feature_ids": [
+        "B02-F06",
+        "B02-F07",
+        "B02-F08",
+        "B02-F09"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 13,
+      "id": "S13",
+      "assets": [
+        "whop-04"
+      ],
+      "feature_ids": [
+        "B03-F01",
+        "B03-F03",
+        "B03-F05",
+        "B03-F07",
+        "B03-F08",
+        "B03-F09",
+        "B03-F12",
+        "B03-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 14,
+      "id": "S14",
+      "assets": [],
+      "feature_ids": [
+        "B03-F02",
+        "B03-F11",
+        "B04-F05"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 15,
+      "id": "S15",
+      "assets": [
+        "whop-07"
+      ],
+      "feature_ids": [
+        "B04-F01",
+        "B04-F02",
+        "B04-F07",
+        "B04-F08",
+        "B04-F11"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 16,
+      "id": "S16",
+      "assets": [
+        "whop-08"
+      ],
+      "feature_ids": [
+        "B04-F03",
+        "B04-F05",
+        "B04-F08",
+        "B04-F09"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 17,
+      "id": "S17",
+      "assets": [
+        "whop-01"
+      ],
+      "feature_ids": [
+        "B05-F01",
+        "B05-F02",
+        "B05-F03",
+        "B05-F05",
+        "B05-F06",
+        "B05-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 18,
+      "id": "S18",
+      "assets": [],
+      "feature_ids": [
+        "B05-F09",
+        "B05-F10",
+        "B05-F11",
+        "B05-F12"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 19,
+      "id": "S19",
+      "assets": [],
+      "feature_ids": [
+        "B06-F01",
+        "B06-F04"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 20,
+      "id": "S20",
+      "assets": [
+        "whop-15"
+      ],
+      "feature_ids": [
+        "B06-F01",
+        "B06-F02",
+        "B06-F03"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 21,
+      "id": "S21",
+      "assets": [
+        "whop-14"
+      ],
+      "feature_ids": [
+        "B06-F03",
+        "B06-F05",
+        "B06-F06",
+        "B06-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 22,
+      "id": "S22",
+      "assets": [],
+      "feature_ids": [
+        "B06-F02",
+        "B06-F06",
+        "B06-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 23,
+      "id": "S23",
+      "assets": [],
+      "feature_ids": [
+        "B06-F04",
+        "B06-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 24,
+      "id": "S24",
+      "assets": [],
+      "feature_ids": [
+        "B06-F09",
+        "B06-F10",
+        "B06-F11",
+        "B06-F12",
+        "B06-F13",
+        "B06-F14",
+        "B06-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 25,
+      "id": "S25",
+      "assets": [
+        "whop-13"
+      ],
+      "feature_ids": [
+        "B07-F01",
+        "B07-F02",
+        "B07-F03",
+        "B07-F04",
+        "B07-F05",
+        "B07-F08",
+        "B07-F09",
+        "B07-F10"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 26,
+      "id": "S26",
+      "assets": [
+        "whop-12"
+      ],
+      "feature_ids": [
+        "B07-F07",
+        "B07-F11",
+        "B07-F14",
+        "B12-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 27,
+      "id": "S27",
+      "assets": [],
+      "feature_ids": [
+        "B08-F02",
+        "B08-F03",
+        "B08-F04",
+        "B08-F05",
+        "B08-F06",
+        "B08-F07",
+        "B08-F08",
+        "B08-F09"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 28,
+      "id": "S28",
+      "assets": [],
+      "feature_ids": [
+        "B08-F10",
+        "B08-F11",
+        "B08-F12",
+        "B08-F13",
+        "B08-F14",
+        "B08-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 29,
+      "id": "S29",
+      "assets": [
+        "whop-10"
+      ],
+      "feature_ids": [
+        "B09-F01",
+        "B09-F02",
+        "B09-F03",
+        "B09-F04",
+        "B09-F05",
+        "B10-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 30,
+      "id": "S30",
+      "assets": [
+        "whop-11"
+      ],
+      "feature_ids": [
+        "B09-F04",
+        "B09-F05",
+        "B09-F06",
+        "B09-F08",
+        "B09-F11",
+        "B09-F13",
+        "B09-F14",
+        "B09-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 31,
+      "id": "S31",
+      "assets": [],
+      "feature_ids": [
+        "B10-F01",
+        "B10-F02",
+        "B10-F03",
+        "B10-F04",
+        "B10-F05",
+        "B10-F06"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 32,
+      "id": "S32",
+      "assets": [
+        "whop-09"
+      ],
+      "feature_ids": [
+        "B10-F08",
+        "B10-F09",
+        "B10-F10",
+        "B10-F12",
+        "B10-F13",
+        "B10-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 33,
+      "id": "S33",
+      "assets": [],
+      "feature_ids": [
+        "B11-F01",
+        "B11-F02",
+        "B11-F03",
+        "B11-F04",
+        "B11-F05",
+        "B11-F08",
+        "B11-F12",
+        "B11-F13",
+        "B11-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 34,
+      "id": "S34",
+      "assets": [],
+      "feature_ids": [
+        "B11-F09",
+        "B11-F10",
+        "B11-F11",
+        "B09-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 35,
+      "id": "S35",
+      "assets": [],
+      "feature_ids": [
+        "B12-F01",
+        "B12-F03",
+        "B12-F07",
+        "B12-F08",
+        "B12-F10",
+        "B12-F11",
+        "B12-F12",
+        "B12-F13"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 36,
+      "id": "S36",
+      "assets": [],
+      "feature_ids": [
+        "B12-F02",
+        "B12-F03",
+        "B12-F04",
+        "B12-F05",
+        "B12-F06",
+        "B12-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 37,
+      "id": "S37",
+      "assets": [],
+      "feature_ids": [
+        "B06-F08",
+        "B07-F04",
+        "B08-F05",
+        "B08-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 38,
+      "id": "S38",
+      "assets": [],
+      "feature_ids": [
+        "B11-F15",
+        "B12-F08",
+        "B12-F10",
+        "B12-F12",
+        "B12-F13"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 39,
+      "id": "S39",
+      "assets": [],
+      "feature_ids": [
+        "B02-F04",
+        "B02-F14",
+        "B09-F04",
+        "B09-F05",
+        "B10-F12"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 40,
+      "id": "S40",
+      "assets": [],
+      "feature_ids": [
+        "B06-F05",
+        "B06-F07",
+        "B09-F05"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 41,
+      "id": "S41",
+      "assets": [],
+      "feature_ids": [
+        "B01-F01",
+        "B01-F02",
+        "B01-F03",
+        "B01-F04",
+        "B01-F05",
+        "B01-F06",
+        "B01-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 42,
+      "id": "S42",
+      "assets": [],
+      "feature_ids": [
+        "B01-F08",
+        "B01-F09",
+        "B01-F10",
+        "B01-F11",
+        "B01-F12",
+        "B01-F13"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 43,
+      "id": "S43",
+      "assets": [],
+      "feature_ids": [
+        "B02-F01",
+        "B02-F02",
+        "B02-F03",
+        "B02-F04",
+        "B02-F05",
+        "B02-F06",
+        "B02-F07",
+        "B02-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 44,
+      "id": "S44",
+      "assets": [],
+      "feature_ids": [
+        "B02-F09",
+        "B02-F10",
+        "B02-F11",
+        "B02-F12",
+        "B02-F13",
+        "B02-F14",
+        "B02-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 45,
+      "id": "S45",
+      "assets": [],
+      "feature_ids": [
+        "B03-F01",
+        "B03-F02",
+        "B03-F03",
+        "B03-F04",
+        "B03-F05",
+        "B03-F06",
+        "B03-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 46,
+      "id": "S46",
+      "assets": [],
+      "feature_ids": [
+        "B03-F08",
+        "B03-F09",
+        "B03-F10",
+        "B03-F11",
+        "B03-F12",
+        "B03-F13",
+        "B03-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 47,
+      "id": "S47",
+      "assets": [],
+      "feature_ids": [
+        "B04-F01",
+        "B04-F02",
+        "B04-F03",
+        "B04-F04",
+        "B04-F05",
+        "B04-F06"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 48,
+      "id": "S48",
+      "assets": [],
+      "feature_ids": [
+        "B04-F07",
+        "B04-F08",
+        "B04-F09",
+        "B04-F10",
+        "B04-F11",
+        "B04-F12"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 49,
+      "id": "S49",
+      "assets": [],
+      "feature_ids": [
+        "B05-F01",
+        "B05-F02",
+        "B05-F03",
+        "B05-F04",
+        "B05-F05",
+        "B05-F06"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 50,
+      "id": "S50",
+      "assets": [],
+      "feature_ids": [
+        "B05-F07",
+        "B05-F08",
+        "B05-F09",
+        "B05-F10",
+        "B05-F11",
+        "B05-F12"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 51,
+      "id": "S51",
+      "assets": [],
+      "feature_ids": [
+        "B06-F01",
+        "B06-F02",
+        "B06-F03",
+        "B06-F04",
+        "B06-F05",
+        "B06-F06",
+        "B06-F07",
+        "B06-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 52,
+      "id": "S52",
+      "assets": [],
+      "feature_ids": [
+        "B06-F09",
+        "B06-F10",
+        "B06-F11",
+        "B06-F12",
+        "B06-F13",
+        "B06-F14",
+        "B06-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 53,
+      "id": "S53",
+      "assets": [],
+      "feature_ids": [
+        "B07-F01",
+        "B07-F02",
+        "B07-F03",
+        "B07-F04",
+        "B07-F05",
+        "B07-F06",
+        "B07-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 54,
+      "id": "S54",
+      "assets": [],
+      "feature_ids": [
+        "B07-F08",
+        "B07-F09",
+        "B07-F10",
+        "B07-F11",
+        "B07-F12",
+        "B07-F13",
+        "B07-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 55,
+      "id": "S55",
+      "assets": [],
+      "feature_ids": [
+        "B08-F01",
+        "B08-F02",
+        "B08-F03",
+        "B08-F04",
+        "B08-F05",
+        "B08-F06",
+        "B08-F07",
+        "B08-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 56,
+      "id": "S56",
+      "assets": [],
+      "feature_ids": [
+        "B08-F09",
+        "B08-F10",
+        "B08-F11",
+        "B08-F12",
+        "B08-F13",
+        "B08-F14",
+        "B08-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 57,
+      "id": "S57",
+      "assets": [],
+      "feature_ids": [
+        "B09-F01",
+        "B09-F02",
+        "B09-F03",
+        "B09-F04",
+        "B09-F05",
+        "B09-F06",
+        "B09-F07",
+        "B09-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 58,
+      "id": "S58",
+      "assets": [],
+      "feature_ids": [
+        "B09-F09",
+        "B09-F10",
+        "B09-F11",
+        "B09-F12",
+        "B09-F13",
+        "B09-F14",
+        "B09-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 59,
+      "id": "S59",
+      "assets": [],
+      "feature_ids": [
+        "B10-F01",
+        "B10-F02",
+        "B10-F03",
+        "B10-F04",
+        "B10-F05",
+        "B10-F06",
+        "B10-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 60,
+      "id": "S60",
+      "assets": [],
+      "feature_ids": [
+        "B10-F08",
+        "B10-F09",
+        "B10-F10",
+        "B10-F11",
+        "B10-F12",
+        "B10-F13",
+        "B10-F14"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 61,
+      "id": "S61",
+      "assets": [],
+      "feature_ids": [
+        "B11-F01",
+        "B11-F02",
+        "B11-F03",
+        "B11-F04",
+        "B11-F05",
+        "B11-F06",
+        "B11-F07",
+        "B11-F08"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 62,
+      "id": "S62",
+      "assets": [],
+      "feature_ids": [
+        "B11-F09",
+        "B11-F10",
+        "B11-F11",
+        "B11-F12",
+        "B11-F13",
+        "B11-F14",
+        "B11-F15"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 63,
+      "id": "S63",
+      "assets": [],
+      "feature_ids": [
+        "B12-F01",
+        "B12-F02",
+        "B12-F03",
+        "B12-F04",
+        "B12-F05",
+        "B12-F06",
+        "B12-F07"
+      ],
+      "bodyInNotes": false
+    },
+    {
+      "number": 64,
+      "id": "S64",
+      "assets": [],
+      "feature_ids": [
+        "B12-F08",
+        "B12-F09",
+        "B12-F10",
+        "B12-F11",
+        "B12-F12",
+        "B12-F13",
+        "B12-F14"
+      ],
+      "bodyInNotes": false
+    }
+  ],
+  "tables": [
+    3,
+    4,
+    6,
+    7,
+    19,
+    20,
+    25,
+    32,
+    33,
+    34,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64
+  ],
+  "charts": [
+    5,
+    22,
+    28
+  ],
+  "diagrams": [
+    2,
+    10,
+    12,
+    14,
+    24,
+    36,
+    37
+  ]
+}

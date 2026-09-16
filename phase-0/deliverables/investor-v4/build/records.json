@@ -1,0 +1,85 @@
+{
+  "tokenSource": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/tokens.json",
+  "tokenHash": "5cf398d9345627aad9a9109eedcfa9bb9cdb5b5d5b89e73d544d53573a3e73a0",
+  "draft": false,
+  "pending": [],
+  "slides": [
+    {
+      "slide": 1,
+      "title": "",
+      "assets": [
+        {
+          "role": "coverPhoto",
+          "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v4/assets/creator-studio.png",
+          "sha256": "1d66c5eb05c9cd3383eaaf5ede475cc104343c624dd5836f5238dc95f79abedd",
+          "sourceHash": "1d66c5eb05c9cd3383eaaf5ede475cc104343c624dd5836f5238dc95f79abedd",
+          "alt": "AI生成概念场景，非真实客户或团队"
+        }
+      ]
+    },
+    {
+      "slide": 2,
+      "title": "内容合作中的反复核对"
+    },
+    {
+      "slide": 3,
+      "title": "Creator Rewards：同一份合作记录",
+      "assets": [
+        {
+          "role": "activityConcept",
+          "path": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/assets/deck-activity-focus.png",
+          "sha256": "7e7b04a4d0e65011eb4e11d56e3a2d8ec00ad250078330b5e7165161cf3501f1",
+          "sourceHash": "7e7b04a4d0e65011eb4e11d56e3a2d8ec00ad250078330b5e7165161cf3501f1",
+          "alt": "原创Wringy活动要求概念聚焦图，模拟内容"
+        }
+      ]
+    },
+    {
+      "slide": 4,
+      "title": "产品演示合作示例",
+      "assets": [
+        {
+          "role": "campaignPhoto",
+          "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v4/assets/bottle-craft-detail.png",
+          "sha256": "4fd81419d43a2e20ef3f2f0441bdc2bbfba3d43590d62db2b18f7df75f3bd247",
+          "sourceHash": "4fd81419d43a2e20ef3f2f0441bdc2bbfba3d43590d62db2b18f7df75f3bd247",
+          "alt": "AI生成产品演示概念，非真实客户"
+        }
+      ]
+    },
+    {
+      "slide": 5,
+      "title": "下一次合作，有记录可依",
+      "assets": [
+        {
+          "role": "recordConcept",
+          "path": "${WRINGY_WORKSPACE}/phase-0/foundation/design-v3/assets/deck-review-focus.png",
+          "sha256": "401c1e4ceb9d90fba2fbe48fdb53be65aa92f779f680507a1bc108897d346c18",
+          "sourceHash": "401c1e4ceb9d90fba2fbe48fdb53be65aa92f779f680507a1bc108897d346c18",
+          "alt": "原创Wringy审核记录概念聚焦图，模拟内容"
+        }
+      ]
+    },
+    {
+      "slide": 6,
+      "title": "活动服务费与创作者报酬"
+    },
+    {
+      "slide": 7,
+      "title": "视频正成为电商的交易入口"
+    },
+    {
+      "slide": 8,
+      "title": "完整创作者商业平台的扩展方向"
+    },
+    {
+      "slide": 9,
+      "title": "创始人主导，Belcort开发"
+    },
+    {
+      "slide": 10,
+      "title": "18个月零收入规划：RM576,150"
+    }
+  ],
+  "budgetTotal": 576150
+}

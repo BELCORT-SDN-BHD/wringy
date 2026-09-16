@@ -1,0 +1,14 @@
+{
+  "output": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/chart-test-output/chart-smoke.pptx",
+  "pdfPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/chart-test-output/chart-smoke.pdf",
+  "previewDir": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/render-XcaSiL/slides",
+  "slideCount": 1,
+  "slideMap": [
+    {
+      "number": 1,
+      "id": "INV25",
+      "feature_ids": []
+    }
+  ],
+  "validation": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/investor/.private/render-XcaSiL/validation.json"
+}

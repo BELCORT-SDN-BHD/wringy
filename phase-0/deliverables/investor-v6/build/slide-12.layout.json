@@ -1,0 +1,966 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/8f2psfyx",
+    "id": "8f2psfyx",
+    "slide": 12,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/b6d4f2lc",
+      "id": "8",
+      "name": "回本取决于活动量与现金成本",
+      "bbox": [
+        64,
+        50,
+        1152,
+        126
+      ],
+      "geometry": "rect",
+      "text": "回本取决于活动量与现金成本",
+      "textPreview": "回本取决于活动量与现金成本",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "回本取决于活动量与现金成本"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "回本取决于活动量与现金成本",
+          "resolvedTextStyle": {
+            "fontSize": 48,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "回本取决于活动量与现金成本",
+              "fontSize": 48,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1gbm9s3a",
+      "id": "2",
+      "name": "说明假设，非客户订单 · 两项分别单独变化，不叠加 · 新播放计酬开发仍未报价",
+      "bbox": [
+        64,
+        661,
+        1149,
+        45
+      ],
+      "geometry": "rect",
+      "text": "说明假设，非客户订单 · 两项分别单独变化，不叠加 · 新播放计酬开发仍未报价",
+      "textPreview": "说明假设，非客户订单 · 两项分别单独变化，不叠加 · 新播放计酬开发仍未报价",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "说明假设，非客户订单 · 两项分别单独变化，不叠加 · 新播放计酬开发仍未报价"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "说明假设，非客户订单 · 两项分别单独变化，不叠加 · 新播放计酬开发仍未报价",
+          "resolvedTextStyle": {
+            "fontSize": 17,
+            "typeface": "Noto Sans SC",
+            "color": "#5C6258",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "说明假设，非客户订单 · 两项分别单独变化，不叠加 · 新播放计酬开发仍未报价",
+              "fontSize": 17,
+              "typeface": "Noto Sans SC",
+              "color": "#5C6258"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/ny1gzqtk",
+      "id": "9",
+      "bbox": [
+        64,
+        190,
+        1152,
+        224
+      ],
+      "text": "情景 | 月活动量：M5 至 M36 | 经营首次转正 | 峰值累计缺口\n保守 | 4 至 30 场 | 项目第18月 | RM383,200\n基准 | 8 至 100 场 | 项目第10月 | RM326,850\n扩张 | 12 至 240 场 | 项目第8月 | RM306,950",
+      "textPreview": "情景 | 月活动量：M5 至 M36 | 经营首次转正 | 峰值累计缺口 | 保守 | 4 至 30 场 | 项目第18月 | RM383,200 | 基准 | 8 至 100 场 | 项目第10月 | RM326,850 | 扩张 | 12 至 240 场 | 项目第8月...",
+      "rows": 4,
+      "cols": 4,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            64,
+            190,
+            158,
+            56
+          ],
+          "text": "情景",
+          "textPreview": "情景",
+          "fillColor": "#F6F6F3",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "情景",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "情景",
+                  "fontSize": 22,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            222,
+            190,
+            372,
+            56
+          ],
+          "text": "月活动量：M5 至 M36",
+          "textPreview": "月活动量：M5 至 M36",
+          "fillColor": "#F6F6F3",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "月活动量：M5 至 M36",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "月活动量：M5 至 M36",
+                  "fontSize": 22,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            594,
+            190,
+            280,
+            56
+          ],
+          "text": "经营首次转正",
+          "textPreview": "经营首次转正",
+          "fillColor": "#F6F6F3",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "经营首次转正",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "经营首次转正",
+                  "fontSize": 22,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "column": 4,
+          "bbox": [
+            874,
+            190,
+            342,
+            56
+          ],
+          "text": "峰值累计缺口",
+          "textPreview": "峰值累计缺口",
+          "fillColor": "#F6F6F3",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "峰值累计缺口",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "峰值累计缺口",
+                  "fontSize": 22,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            64,
+            246,
+            158,
+            56
+          ],
+          "text": "保守",
+          "textPreview": "保守",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "保守",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "保守",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            222,
+            246,
+            372,
+            56
+          ],
+          "text": "4 至 30 场",
+          "textPreview": "4 至 30 场",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "4 至 30 场",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "4 至 30 场",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            594,
+            246,
+            280,
+            56
+          ],
+          "text": "项目第18月",
+          "textPreview": "项目第18月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "项目第18月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "项目第18月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "column": 4,
+          "bbox": [
+            874,
+            246,
+            342,
+            56
+          ],
+          "text": "RM383,200",
+          "textPreview": "RM383,200",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM383,200",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM383,200",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            64,
+            302,
+            158,
+            56
+          ],
+          "text": "基准",
+          "textPreview": "基准",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "基准",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "基准",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            222,
+            302,
+            372,
+            56
+          ],
+          "text": "8 至 100 场",
+          "textPreview": "8 至 100 场",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "8 至 100 场",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "8 至 100 场",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            594,
+            302,
+            280,
+            56
+          ],
+          "text": "项目第10月",
+          "textPreview": "项目第10月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "项目第10月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "项目第10月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "column": 4,
+          "bbox": [
+            874,
+            302,
+            342,
+            56
+          ],
+          "text": "RM326,850",
+          "textPreview": "RM326,850",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM326,850",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM326,850",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            64,
+            358,
+            158,
+            56
+          ],
+          "text": "扩张",
+          "textPreview": "扩张",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "扩张",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "扩张",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            222,
+            358,
+            372,
+            56
+          ],
+          "text": "12 至 240 场",
+          "textPreview": "12 至 240 场",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "12 至 240 场",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "12 至 240 场",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            594,
+            358,
+            280,
+            56
+          ],
+          "text": "项目第8月",
+          "textPreview": "项目第8月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "项目第8月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "项目第8月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "row": 4,
+          "column": 4,
+          "bbox": [
+            874,
+            358,
+            342,
+            56
+          ],
+          "text": "RM306,950",
+          "textPreview": "RM306,950",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "RM306,950",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "RM306,950",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ra943il8",
+      "id": "4",
+      "name": "每品牌每月2场，月流失5.0%；M6起新增与替补品牌获客费 RM1,500／个",
+      "bbox": [
+        64,
+        448,
+        1152,
+        45
+      ],
+      "geometry": "rect",
+      "text": "每品牌每月2场，月流失5.0%；M6起新增与替补品牌获客费 RM1,500／个",
+      "textPreview": "每品牌每月2场，月流失5.0%；M6起新增与替补品牌获客费 RM1,500／个",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "每品牌每月2场，月流失5.0%；M6起新增与替补品牌获客费 RM1,500／个"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "每品牌每月2场，月流失5.0%；M6起新增与替补品牌获客费 RM1,500／个",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "每品牌每月2场，月流失5.0%；M6起新增与替补品牌获客费 RM1,500／个",
+              "fontSize": 24,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q903ad4n",
+      "id": "5",
+      "name": "独立敏感性：保守情景均36个月内未回本",
+      "bbox": [
+        64,
+        517,
+        1152,
+        43
+      ],
+      "geometry": "rect",
+      "text": "独立敏感性：保守情景均36个月内未回本",
+      "textPreview": "独立敏感性：保守情景均36个月内未回本",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "独立敏感性：保守情景均36个月内未回本"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "独立敏感性：保守情景均36个月内未回本",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "独立敏感性：保守情景均36个月内未回本",
+              "fontSize": 27,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dcbm583y",
+      "id": "6",
+      "name": "全品牌资金3%支付费：基准 M31，扩张 M21",
+      "bbox": [
+        64,
+        565,
+        1152,
+        35
+      ],
+      "geometry": "rect",
+      "text": "全品牌资金3%支付费：基准 M31，扩张 M21",
+      "textPreview": "全品牌资金3%支付费：基准 M31，扩张 M21",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "全品牌资金3%支付费：基准 M31，扩张 M21"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "全品牌资金3%支付费：基准 M31，扩张 M21",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "全品牌资金3%支付费：基准 M31，扩张 M21",
+              "fontSize": 24,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sb2lcnmd",
+      "id": "7",
+      "name": "晚1个月收款：基准 M28，扩张 M21",
+      "bbox": [
+        64,
+        608,
+        1152,
+        35
+      ],
+      "geometry": "rect",
+      "text": "晚1个月收款：基准 M28，扩张 M21",
+      "textPreview": "晚1个月收款：基准 M28，扩张 M21",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "晚1个月收款：基准 M28，扩张 M21"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "晚1个月收款：基准 M28，扩张 M21",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "晚1个月收款：基准 M28，扩张 M21",
+              "fontSize": 24,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

@@ -1,0 +1,75 @@
+{
+  "status": "public_report_delivered_bounded_authenticated_supplement_complete",
+  "date": "2026-09-13",
+  "pdf_pages": 17,
+  "body_sections": 15,
+  "numbered_references": 47,
+  "unique_external_urls": 44,
+  "pdf_external_link_annotations": 213,
+  "workflow_diagrams": 3,
+  "public_screenshots": 1,
+  "private_account_screenshots_in_report": 0,
+  "chinese_text_extractable": true,
+  "static_font_weights": [
+    400,
+    600
+  ],
+  "all_pdf_pages_visually_reviewed": true,
+  "text_outside_page_count": 0,
+  "pdf_marker_count": 1,
+  "approved_v12_deck_unchanged": true,
+  "authenticated_app_complete": false,
+  "prd_approved": false,
+  "implementation_approved": false,
+  "budget_repriced": false,
+  "review_changes": [
+    "Remove abandoned budget narrative",
+    "Separate paid/unpaid/unknown reconciliation branches",
+    "Business-email requirement clarified",
+    "Static regular400/semibold600 fonts"
+  ],
+  "files": {
+    "report.md": {
+      "sha256": "8ad7b18930f0495d6ba1bcdae5e83dd5cec27af33f6468505878221726f15eab",
+      "bytes": 44677
+    },
+    "output/Wringy-Clipping-Deep-Research.pdf": {
+      "sha256": "4cd576929d7784c1bb0ceb49bf97a18465cbdf933c00f77804d9b0976f4fb8ba",
+      "bytes": 366501
+    },
+    "sources.json": {
+      "sha256": "804d640688409acfc4fdb5b341c578ac3b458aab8421997288e46b2cc41e9741",
+      "bytes": 19123
+    },
+    "output/contact-sheet.jpg": {
+      "sha256": "2e25d727f1c955a1f7a0b7a4f6fb81b8296c08471c3dbc90ef2346040385ccc4",
+      "bytes": 615641
+    }
+  },
+  "record_updated_at": "2026-09-14",
+  "report_as_of": "2026-09-13",
+  "authenticated_supplement": {
+    "path": "browser/onboarding-findings.md",
+    "date": "2026-09-14",
+    "onboarding_completed": true,
+    "terms_accepted_with_action_time_user_approval": true,
+    "new_account_observable_exploration_complete": true,
+    "evidence_range": "08–26 plus 27 campaign brief and 28 main full-observation transcript",
+    "ax_diff_only_numbers": [
+      13,
+      17,
+      19,
+      21,
+      25,
+      26
+    ],
+    "social_or_payment_details_added": false,
+    "team_created": false,
+    "clip_submitted": false,
+    "review_or_real_payment_tested": false,
+    "merchant_or_operator_backend_tested": false,
+    "historic_pdf_includes_supplement": false,
+    "sha256": "939e67b78efe0f5133d46563c5b00ff8ee765713598a5f29b274c5a5127a0c6f"
+  },
+  "historic_report_hashes_unchanged": true
+}

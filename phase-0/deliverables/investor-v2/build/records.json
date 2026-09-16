@@ -1,0 +1,104 @@
+[
+  {
+    "number": 1,
+    "title": "Wringy：内容合作与创作者商业",
+    "foot": "投资讨论稿，未获批准",
+    "notes": "建议定位，不是现有产品能力。当前无获批商业模式、客户证明或产品代码。品牌 Wringy、马来西亚起步、长期完整 Whop 对标来自创始人输入。\n来源：phase-0/founder-inputs.md\nphase-0/foundation/investor-product-blueprint.md\n内容结构参考：https://sequoiacap.com/article/writing-a-business-plan\nhttps://www.ycombinator.com/blog/how-to-design-a-better-pitch-deck/"
+  },
+  {
+    "number": 2,
+    "title": "品牌需要可验收的内容，创作者需要明确的报酬",
+    "foot": "问题假设。尚无 Wringy 客户访谈或采购记录支持。",
+    "notes": "首批客户尚未选择。以下为可验证问题假设，不能写成客户原话。\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 3,
+    "title": "视频正在成为电商交易的重要入口",
+    "foot": "2025 年报告估算，非 2026 实绩。电商交易总额不等于创作者预算或 Wringy 收入。",
+    "notes": "2026-09-10重新核查Google发行方网页。马来西亚2025电商GMV预计USD20bn，同比增长21%。区域视频电商预计占电商GMV25%。区域原研究按SEA六国分析，详见报告第15页及本地市场研究。这里只用作背景，不推算可获取市场。\nhttps://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/\nhttps://blog.google/company-news/inside-google/around-the-globe/google-asia/sea-economy-2025/\nhttps://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf\nphase-0/deliverables/research/sea-market.md"
+  },
+  {
+    "number": 4,
+    "title": "首发候选：按合格帖子支付固定报酬",
+    "foot": "建议候选，未冻结。UGC 指创作者按品牌要求制作的原创内容。",
+    "notes": "建议第一轮采用邀请制品牌原创UGC、原稿预审后自行发布、最终人工审核及按获批帖子固定付费。CPM按每千次观看计酬属于未来候选，不在建议V1范围内。概念流程，不是实际产品或交易。付款路径、权利、争议机制须在PRD冻结。\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 5,
+    "title": "同一次合作，双方看到同一份履约记录",
+    "foot": "概念界面与金额示例，未上线。截图：foundation/design-preview.html。",
+    "notes": "截图来源：phase-0/foundation/design-preview.html。截图为静态概念，仅用于状态设计审阅，不是生产产品。概念示例：一家食品品牌计划收集10条产品演示短片，每条验收通过奖励RM100。拍摄、授权、发布及商业披露按活动规则确认。审核通过与支付成功分开记录，不能将页面状态当作银行到账。资金路径未决。\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 6,
+    "title": "市场空间要从重复付费的品牌数推导",
+    "foot": "内部算例，非市场规模、客户预测或报价。年活动次数、预算、费率均待验证。",
+    "notes": "算例：每100家全年活跃品牌，每家每年4次，每次奖励RM1000，服务费为奖励的10%，品牌另外承担服务费。奖励流量RM400k，平台服务收入RM40k，未扣直接成本和固定开支。100家不是已获客或可触达客户数。可服务市场仍需合格品牌名单与预算访谈。\nphase-0/foundation/investor-product-blueprint.md\n市场估算方法参考 https://www.ycombinator.com/blog/practical-design-pitching/"
+  },
+  {
+    "number": 7,
+    "title": "每场活动能留下多少，要把人工成本算进去",
+    "foot": "单场内部算例，非实际利润。奖励 RM1,000，另收服务费 RM100，品牌合计 RM1,100。",
+    "notes": "服务费10%仅为算例，品牌另付、创作者不扣平台费。支付成本占位RM20，审核支持1小时×RM60=RM60，争议损失占位RM10，共RM90；服务收入RM100减去RM90，贡献RM10，贡献率10%。贡献未扣开发、获客、固定运营和税费，不是公司净利润。支付准入、费用承担方、收款方式均未决。不是支付商费率。\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 8,
+    "title": "先获得付费活动，再围绕活动招募创作者",
+    "foot": "建议验证计划，非已建立渠道。首批行业、品牌名单及投入上限待确认。",
+    "notes": "建议客群是有持续产品演示内容需求的马来西亚消费品牌，先选一个细分行业。例子是食品饮料，但不表示首批行业已获批准。试点样本与门槛待创始人确认，不能声称拥有创作者社群或付费管道。\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 9,
+    "title": "当前处于研究与方案阶段，商业验证尚未发生",
+    "foot": "截至 2026.09.10。研究完成、概念完成与真实客户采用必须分开。",
+    "notes": "已有创始人方向输入、Whop全12板块公开研究、Content Rewards新版研究、预算蓝图和本轮基础草稿。没有可核验付费或复购证据，没有已上线产品代码或获批商业模型。设计概念不计为traction。\nphase-0/founder-inputs.md\nphase-0/foundation/product-map.md\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 10,
+    "title": "选择 Wringy 的理由，需要在现有替代方案前证明",
+    "foot": "竞品为官网公开能力，非独立性能测试。Wringy 一栏是拟验证方向。",
+    "notes": "Content Rewards官网：CPM、per-post、retainer，团队、多品牌、审核和支付公开描述。Partipost Malaysia官网：活动管理、内容审核与批准、本地创作者合作。人工协作是流程比较假设，不代表所有代理商的能力。未使用竞品规模数字或客户logo。\nhttps://contentrewards.com/\nhttps://www.partipost.com/markets/malaysia\n核查2026-09-10。"
+  },
+  {
+    "number": 11,
+    "title": "长期覆盖完整平台，扩展以重复交易为依据",
+    "foot": "三阶段为规划建议，不是已批准路线图。完整 12 板块见附录。",
+    "notes": "长期方向来自创始人明确授权，范围覆盖整个Whop公开版图。Rewards仅为首发候选。阶段进入条件是建议，不能声称已具网络效应。统一账号、履约与账务记录可作为候选复用基础，具体架构尚未批准。\nphase-0/foundation/product-map.md\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 12,
+    "title": "Wringy 负责商业与产品，Belcort 承接开发",
+    "foot": "Belcort 为创始人自有的关联公司。未签交付协议、未确认团队配置或报价。",
+    "notes": "Belcort关联关系为创始人现场确认。Wringy不自聘开发团队。没有提供可核实的创始人履历或团队交付业绩，故不编造。按项目市场价编列预算不是实际关联交易价格。\nphase-0/founder-inputs.md\nphase-0/foundation/investor-product-blueprint.md\nphase-0/foundation/belcort-handoff-v1.md"
+  },
+  {
+    "number": 13,
+    "title": "首版技术建设暂估约 RM125k–270k",
+    "foot": "规划估算，含 15% 开发预备金，非 Belcort 报价。首发范围和第三方准入未确认。",
+    "notes": "低1080小时×RM100×1.15=124200。基准1320×125×1.15=189750。高1560×150×1.15=269100。图为千MYR四舍五入至一位小数。需求梳理和核心设计已包含，不能重复计费。假设响应式Web、三角色、单一计酬、人工审核、标准支付接入可获批。排除原生App、完整12模块、持牌自建钱包及保证社交数据接口。计划12–20周非承诺。\nphase-0/foundation/investor-product-blueprint.md"
+  },
+  {
+    "number": 14,
+    "title": "Wringy 的长期方向：东南亚创作者商业平台",
+    "foot": "投资与试点合作讨论。融资金额、交易条款及首发规则尚未批准。",
+    "notes": "邀请投资人与试点品牌讨论验证计划。wringy.com仅为创始人确认品牌域名，不表示产品已上线。不编造联系邮箱或电话。长期整个Whop方向不因首发候选收窄。\nphase-0/founder-inputs.md\nphase-0/foundation/product-map.md"
+  },
+  {
+    "number": 15,
+    "title": "附录 A：市场事实与测算边界",
+    "foot": "资料核查：2026.09.10。完整链接和口径在讲者备注及 content.md。",
+    "notes": "事实1：Google Malaysia发布于2025-11-28，200亿美元为2025电商GMV预计值。\nhttps://blog.google/intl/ms-my/company-news/around-the-globe/2025_11_e-conomy-sea-report-2025-malaysias/\n事实2：Google区域发布于2025-11-11，2025视频电商占比预计25%，报告第15页。\nhttps://blog.google/company-news/inside-google/around-the-globe/google-asia/sea-economy-2025/\nhttps://services.google.com/fh/files/misc/e_conomy_sea_2025_report.pdf\n交易额不等于创作者预算。Wringy市场测算为内部算例。100×4×1000=400000奖励流量；再×10%=40000服务收入，费率采用另收口径。"
+  },
+  {
+    "number": 16,
+    "title": "附录 B：长期完整 12 板块均保留",
+    "foot": "来自全平台产品总图。规划分类不代表 Whop 内部架构，具体建设顺序未批准。",
+    "notes": "phase-0/foundation/product-map.md\n所有12板块保留，Creator Rewards候选归属品牌与创作者合作。钱包、出款、身份和风险等区域能力仍需单独核验，不能把长期范围写成首发功能承诺。"
+  },
+  {
+    "number": 17,
+    "title": "附录 C：约 RM580k 仅作内部 18 个月资金规划",
+    "foot": "零收入假设。前 4 个月建设、后 14 个月运营。非融资请求，未覆盖全部交易相关成本。",
+    "notes": "主任务提供的唯一源：phase-0/foundation/belcort-handoff-v1.md\n基准：开发189750；商业运营18×12000=216000；上线后技术14×5000=70000；启动50000；非开发15%缓冲=(216000+70000+50000)×15%=50400。合计576150，简写约580k。低366850、高869400。开发自身15%已计入，不再重复加。不是Belcort报价，不代表选定招聘人数。需另补交易成本、税费、资金路径、监管咨询与营运净资金需求，扣创始人投入和可信净现金收入后才谈真实融资。与建设加上线后12个月约250k技术费口径不同。"
+  }
+]

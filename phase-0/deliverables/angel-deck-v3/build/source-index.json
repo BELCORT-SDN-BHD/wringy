@@ -1,0 +1,113 @@
+{
+  "mapping": [
+    {
+      "page": 1,
+      "source_page": 1,
+      "slide_part": "ppt/slides/slide1.xml",
+      "title": "Wringy",
+      "xml_sha256": "0a4621966032f9ab07ca250772a2e16c56f6550e87ccf0448f523d0cd10d7074"
+    },
+    {
+      "page": 2,
+      "source_page": 2,
+      "slide_part": "ppt/slides/slide2.xml",
+      "title": "品牌需要内容分发，创作者需要收入机会",
+      "xml_sha256": "5762c38a90d2dc012e0dc837312a05224c035a03819f4e17d0d78d0db7acbb4a"
+    },
+    {
+      "page": 3,
+      "source_page": 3,
+      "slide_part": "ppt/slides/slide3.xml",
+      "title": "短视频正在成为商业渠道",
+      "xml_sha256": "e2f48953ca755539fa4833ae73ebeb0c32cf70e39985b8115f39f83ed6dc2639"
+    },
+    {
+      "page": 4,
+      "source_page": 4,
+      "slide_part": "ppt/slides/slide4.xml",
+      "title": "一笔活动预算，多位创作者",
+      "xml_sha256": "7de9cc7bb4e6069424b7287dda8e7902cbe15bce25fce18336c61e330e92d322"
+    },
+    {
+      "page": 5,
+      "source_page": 5,
+      "slide_part": "ppt/slides/slide5.xml",
+      "title": "从创建活动到查看奖励",
+      "xml_sha256": "dc058b7723337b67bfb94108606b79598dc288cd19fc3455888819d548cf5594"
+    },
+    {
+      "page": 6,
+      "source_page": 6,
+      "slide_part": "ppt/slides/slide6.xml",
+      "title": "每场活动如何产生收入",
+      "xml_sha256": "02a771df3ed9145c534ccafcc65eb412445d8f9129a0d22c323b992eba1a69c0"
+    },
+    {
+      "page": 7,
+      "source_page": 7,
+      "slide_part": "ppt/slides/slide7.xml",
+      "title": "从马来西亚的一个客户群体开始",
+      "xml_sha256": "9c9de57e986f87592e0d74def9f579c906c7624bec2434ca4995bf7d82c8da42"
+    },
+    {
+      "page": 8,
+      "source_page": 8,
+      "slide_part": "ppt/slides/slide8.xml",
+      "title": "客户还有哪些选择",
+      "xml_sha256": "a286bc0f14690b4db183d96976539059946e90d460c284283895f23bc2c26174"
+    },
+    {
+      "page": 9,
+      "source_page": 9,
+      "slide_part": "ppt/slides/slide9.xml",
+      "title": "这轮资金要验证的三件事",
+      "xml_sha256": "5e9722a6c94d83db10bf3789bd05d4cdb00eba4ab9b7af27821719663e8982cb"
+    },
+    {
+      "page": 10,
+      "source_page": 12,
+      "slide_part": "ppt/slides/slide12.xml",
+      "title": "从 Rewards 走向创作者商业平台",
+      "xml_sha256": "9e6c5529ba2d03ca5314abeecc42d0a138da2276558a604f932691fbc91c9200"
+    }
+  ],
+  "removed_source_pages": [
+    10,
+    11,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "removed_parts": [
+    "ppt/notesSlides/_rels/notesSlide10.xml.rels",
+    "ppt/notesSlides/_rels/notesSlide11.xml.rels",
+    "ppt/notesSlides/_rels/notesSlide13.xml.rels",
+    "ppt/notesSlides/_rels/notesSlide14.xml.rels",
+    "ppt/notesSlides/_rels/notesSlide15.xml.rels",
+    "ppt/notesSlides/_rels/notesSlide16.xml.rels",
+    "ppt/notesSlides/_rels/notesSlide17.xml.rels",
+    "ppt/notesSlides/notesSlide10.xml",
+    "ppt/notesSlides/notesSlide11.xml",
+    "ppt/notesSlides/notesSlide13.xml",
+    "ppt/notesSlides/notesSlide14.xml",
+    "ppt/notesSlides/notesSlide15.xml",
+    "ppt/notesSlides/notesSlide16.xml",
+    "ppt/notesSlides/notesSlide17.xml",
+    "ppt/slides/_rels/slide10.xml.rels",
+    "ppt/slides/_rels/slide11.xml.rels",
+    "ppt/slides/_rels/slide13.xml.rels",
+    "ppt/slides/_rels/slide14.xml.rels",
+    "ppt/slides/_rels/slide15.xml.rels",
+    "ppt/slides/_rels/slide16.xml.rels",
+    "ppt/slides/_rels/slide17.xml.rels",
+    "ppt/slides/slide10.xml",
+    "ppt/slides/slide11.xml",
+    "ppt/slides/slide13.xml",
+    "ppt/slides/slide14.xml",
+    "ppt/slides/slide15.xml",
+    "ppt/slides/slide16.xml",
+    "ppt/slides/slide17.xml"
+  ]
+}

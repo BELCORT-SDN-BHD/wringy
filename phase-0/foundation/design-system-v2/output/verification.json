@@ -1,0 +1,129 @@
+{
+  "checkedAt": "2026-09-11T02:40:12.056644+00:00",
+  "result": "passed",
+  "build": {
+    "command": "npm run export",
+    "typecheck": "passed (tsc -b)",
+    "viteBuild": "passed"
+  },
+  "browser": {
+    "passed": 22,
+    "total": 22,
+    "report": "browser-verification.json",
+    "uncaughtErrors": [],
+    "baseUrl": "http://127.0.0.1:8879"
+  },
+  "officialSource": {
+    "unchanged": 61,
+    "total": 61,
+    "hashManifest": "../app/provenance/official-snapshot.json",
+    "verification": "../app/provenance/verification.json",
+    "globalCssColorOnly": true,
+    "changedColorVariables": 43,
+    "radiusUnchanged": true,
+    "outsideRootUnchanged": true,
+    "originalColorVariables": 31,
+    "newNamedColorVariables": [
+      "attention-foreground",
+      "attention-subtle",
+      "error-foreground",
+      "error-subtle",
+      "info-foreground",
+      "info-subtle",
+      "success-foreground",
+      "success-subtle",
+      "inactive-foreground",
+      "inactive-subtle",
+      "brand",
+      "brand-foreground"
+    ],
+    "paletteMatchesCss": true,
+    "rootStructureUnchanged": true
+  },
+  "artifact": {
+    "file": "Wringy-Design-System.html",
+    "bytes": 1900490,
+    "sha256": "d26959a9a9f026244a2ea7e0a06c9e3fb8a0996f110a1a45379318be9760a2bf",
+    "offline64Mount": "passed",
+    "bundledFont": "Geist loaded offline",
+    "equalsBuiltHtml": true
+  },
+  "reviewFixes": [
+    "single main landmark",
+    "malformed hash fallback",
+    "official range Slider Minimum / Maximum with Chinese FieldSet context",
+    "Command open/filter/select/Escape/focus restoration",
+    "navigation sample preserves gallery route",
+    "async form failure restores focus only when body retained focus"
+  ],
+  "testPortability": {
+    "dependency": "playwright 1.62.1",
+    "command": "npm run test:browser",
+    "instructions": "../app/tests/README.md"
+  },
+  "limitations": [
+    "Only Chrome automated tests, no screen reader or real mobile device certification",
+    "Official upstream motion and state styling retained, including transition-all where shipped",
+    "This is documentation and local examples, not production auth/API/payment integration",
+    "No claim to exhaust every upstream prop or combined state",
+    "Slider single-thumb accessible naming is not exposed by current official wrapper; range sample uses unmodified Radix derived English thumb names with Chinese context.",
+    "Light-theme color roles only; no dark-theme certification.",
+    "Only the source-tab color demonstrator is bilingual; supplied Malay copy is not professionally approved."
+  ],
+  "preview": "http://127.0.0.1:8878",
+  "colorAllocation": {
+    "passed": 6,
+    "total": 6,
+    "report": "color-verification.json",
+    "minimumActualTextAndIconContrast": 5.2972686187418985,
+    "sourceTabWidths": [
+      320,
+      1440
+    ],
+    "locales": [
+      "en-MY",
+      "ms-MY"
+    ],
+    "scope": "Source-tab sample only; provisional English default, Malay draft awaiting professional review"
+  },
+  "retryHistory": [
+    "Initial dev navigation timed out before checks.",
+    "Development run: 20/22; immediate Tabs Home assertion and execution-context loss during 320px navigation.",
+    "Built preview: 21/22; old contrast parser assumed six-digit hex, while built white was #fff. Fixed parser without changing thresholds.",
+    "Final built preview: 22/22. Targeted color comparison resolves colors through browser to handle equivalent brown/#A52A2A; final targeted run 6/6."
+  ],
+  "changedFiles": [
+    "app/src/index.css",
+    "app/src/App.tsx",
+    "app/src/lib/product-copy.ts",
+    "app/provenance/palette.json",
+    "app/provenance/verification.json",
+    "app/scripts/verify-provenance.mjs",
+    "app/tests/browser-checks.cjs",
+    "app/tests/color-allocation.cjs",
+    "app/tests/README.md",
+    "app/README.md",
+    "README.md",
+    "handoff.md",
+    "review.md",
+    "reference-contract.md",
+    "color-policy.md",
+    "app/dist/index.html",
+    "output/Wringy-Design-System.html",
+    "output/browser-verification.json",
+    "output/color-verification.json",
+    "output/verification.json",
+    "output/finalverification.json",
+    "output/desktop-button.png",
+    "output/desktop-field.png",
+    "output/desktop-data-table.png",
+    "output/desktop-questionnaire.png",
+    "output/mobile-320-field.png",
+    "output/mobile-390-button.png",
+    "output/tablet-dialog.png",
+    "output/offline-file.png",
+    "output/color-source-desktop.png",
+    "output/color-source-320.png",
+    "output/color-source-320-ms.png"
+  ]
+}

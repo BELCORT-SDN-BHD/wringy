@@ -1,0 +1,16 @@
+# Local/runtime data
+node_modules/
+.next/
+dist/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+*.log
+coverage/
+playwright-report/
+test-results/
+# Local mirror and generated/reference assets remain outside the repo
+sources/

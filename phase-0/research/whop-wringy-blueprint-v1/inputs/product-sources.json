@@ -1,0 +1,251 @@
+{
+  "access_date": "2026-09-11",
+  "timezone": "Asia/Kuala_Lumpur",
+  "source_prefix": "P",
+  "method": "Primary-source live reads; anonymous public browser inspection; 2 Mobbin historical images + 2 live screenshots inspected; no login/signup/transactions/messages/API permission changes. Old local report used only as leads.",
+  "sources": [
+    {
+      "id": "P01",
+      "title": "V2 is here",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/articles/v2-is-here",
+      "publication_or_updated_date": "2026-08-19",
+      "access_date": "2026-09-11",
+      "scope_version": "Content Rewards V2 release announcement; not a build identifier",
+      "evidence_type": "declared",
+      "section": "Roles; One brand; Pre-approval; Campaign configuration; For creators; What is not here yet",
+      "evidence_paraphrase": "活动归组织；代理商下设品牌。声明草稿版本、修改反馈、获准账号限制；素材文件、申请名额/截止、超时拒绝、草稿保存、预约发布。收益页列队列中/到达中/已收到。公告当时缺批量审核及投稿/创作者CSV，分析CSV仍有。",
+      "limitations_or_contradictions": "角色任命与P05不同；不能把申请自动拒绝等同于投稿自动审核。缺失能力是否后来补齐未知。"
+    },
+    {
+      "id": "P02",
+      "title": "For creators | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/creators",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Current public creator landing page / FAQ",
+      "evidence_type": "declared",
+      "section": "FAQ: joining, submitting, rejected, reviewed; campaign model overview",
+      "evidence_paraphrase": "有开放加入或申请；发布后30分钟内交链接；错平台、漏标签/披露、重用内容及发布后编辑/删除可拒绝。三种计酬为按观看、按篇、周期交付。",
+      "limitations_or_contradictions": "P08帮助组件省略30分钟，不能推定取消；营销提现与收入数字不作为实测。"
+    },
+    {
+      "id": "P03",
+      "title": "For agencies | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/agencies",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Current public agency page / FAQ",
+      "evidence_type": "declared",
+      "section": "Reporting; Who approves; More than one client",
+      "evidence_paraphrase": "客户品牌各有活动、预算、设置；按活动/平台/日看观看、获批稿、互动及有效CPM，声明分析CSV和分享链接。FAQ列七日审核窗口。",
+      "limitations_or_contradictions": "P05称Pending等人工处理，没有定义七日超时结果；分析CSV不等于投稿CSV。"
+    },
+    {
+      "id": "P04",
+      "title": "Privacy policy | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/privacy-policy",
+      "publication_or_updated_date": "2026-09-03",
+      "access_date": "2026-09-11",
+      "scope_version": "Policy expressly covering Whop-hosted and CR web experiences",
+      "evidence_type": "declared",
+      "section": "Opening scope; §§3–4, 7",
+      "evidence_paraphrase": "两种体验并存；登录经Whop。社交连接可走官方授权或简介验证码；声明只读、不代发。Instagram限专业/Creator，Facebook限管理的Page；断开停止追踪及该平台付款。",
+      "limitations_or_contradictions": "声明不是实际平台授权验收；连接可选不证明所有活动无需所有权验证。"
+    },
+    {
+      "id": "P05",
+      "title": "Organization terms of service | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/brands-terms",
+      "publication_or_updated_date": "2026-09-03",
+      "access_date": "2026-09-11",
+      "scope_version": "New CR web campaigns/workspaces; legacy funded campaigns retain prior accepted terms",
+      "evidence_type": "declared",
+      "section": "Scope; §§5.6,6,7,11,12",
+      "evidence_paraphrase": "要求须在站内Requirements/Description；投稿人工审核，暂停关闭新稿但不取消已批付款。四角色、末位Owner保护、客户数据隔离；private不公开。未批准草稿无品牌使用权；批准与素材来源影响许可/归属。",
+      "limitations_or_contradictions": "§11允许Owner/Admin改角色，与P01冲突；不能据此声称界面权限已验证。"
+    },
+    {
+      "id": "P06",
+      "title": "Creator terms of service | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/terms",
+      "publication_or_updated_date": "2026-09-03",
+      "access_date": "2026-09-11",
+      "scope_version": "CR web creator terms with express legacy carve-out",
+      "evidence_type": "declared",
+      "section": "§§8,10,11,12.6,14.3–4,17,23",
+      "evidence_paraphrase": "草稿获批不等于成稿通过；风险申诉与拒稿客服分开；风险申诉一次、目标十工作日答复。联名发布需活动允许。撤销连接及迁移有停追踪风险；重大变更用站内/邮件告知。",
+      "limitations_or_contradictions": "§17.6引用19.3/19.2疑似编号错误；不可据此自行修复法律含义。没有完整通知事件表。"
+    },
+    {
+      "id": "P07",
+      "title": "Discover Campaigns | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/discover",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Anonymous live desktop web, 2026-09-11; screenshot and accessibility inspection",
+      "evidence_type": "observed",
+      "section": "Content style tabs; Filter dropdown; campaign cards",
+      "evidence_paraphrase": "实看All/UGC/Clipping；排序含最高剩余预算；筛选预算档与CPM/Per Post/Retainer；卡片显示平台、金额及预览/加入链接。样本Join目标为Whop。",
+      "limitations_or_contradictions": "列表样本不代表所有活动、地区资格或迁移完成度；没有验证推荐算法。"
+    },
+    {
+      "id": "P08",
+      "title": "Boxabl Official Clipping by Clip Farm | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/discover/188c3e39-7850-4896-94df-e7a5be0cfec3",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Anonymous current public campaign sample and help widget",
+      "evidence_type": "observed",
+      "section": "Campaign detail; Reference materials; Top earners; Help & support",
+      "evidence_paraphrase": "实看平台分别列费率和上下限、预算进度、外链素材、排行榜；加载后有观看/投稿图表。Help入口分人工支持与FAQ；提交FAQ写发帖后交链接。",
+      "limitations_or_contradictions": "外部文档未读，无法认定其中权利/要求有效；未点击加入或发送客服消息。"
+    },
+    {
+      "id": "P09",
+      "title": "Content Rewards — homepage / signup entry",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/signup",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Anonymous browser navigation; resolved to https://contentrewards.com/",
+      "evidence_type": "observed",
+      "section": "Signup redirect and email modal; brand launch links",
+      "evidence_paraphrase": "访问signup回首页并呈邮箱弹窗；首页Launch a Campaign/See a Demo指向book-a-demo。",
+      "limitations_or_contradictions": "搜索引擎另有/onboarding的Google登录旧索引，不能用它覆盖当前观察；未输入邮箱，登录后角色流程未知。"
+    },
+    {
+      "id": "P10",
+      "title": "Book a demo | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/book-a-demo",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Current public lead form; text extraction only",
+      "evidence_type": "observed",
+      "section": "Personal Details; Business Info",
+      "evidence_paraphrase": "表单显示角色描述、姓名、工作邮箱、电话、公司/网站、目标、月预算、业务种类、Verified Agency意愿及来源；两阶段标签。",
+      "limitations_or_contradictions": "只是销售线索表单，不能称创建活动/组织的必填字段；未提交。"
+    },
+    {
+      "id": "P11",
+      "title": "Whop — Campaign Details (Mobbin screen)",
+      "publisher": "Mobbin",
+      "url": "https://mobbin.com/screens/5e3e2301-d019-406e-86f3-12213069a8ef",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Historical Whop embedded screenshot; capture date/version unavailable",
+      "evidence_type": "observed_historical",
+      "section": "Campaign Details; Requirements; left navigation",
+      "evidence_paraphrase": "实际检查图像：预算、类别、平台、更新时间、Submit Video；外围有Support chat、Announcements、Chat、Discord等入口。",
+      "limitations_or_contradictions": "图内3/3/2026是显示数据日期，不是采集日期；外围入口不能证明CR自带同名模块。"
+    },
+    {
+      "id": "P12",
+      "title": "Whop — submission modal (Mobbin screen)",
+      "publisher": "Mobbin",
+      "url": "https://mobbin.com/screens/c525bd50-9f35-4d56-8804-77d9e91012d3",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Historical Whop embedded screenshot; capture date/version unavailable",
+      "evidence_type": "observed_historical",
+      "section": "Submission checklist modal",
+      "evidence_paraphrase": "实际检查图像：标题、链接、受众分析截图、确认勾选、提交审核；旁有30分钟提醒及账号验证成功提示。",
+      "limitations_or_contradictions": "不能由成功提示推断授权方式；这些精确字段未在当前独立站登录后验证。"
+    },
+    {
+      "id": "P13",
+      "title": "Content Rewards - Whop Docs",
+      "publisher": "Whop",
+      "url": "https://docs.whop.com/memberships-and-access/third-party-apps/content-rewards",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Currently published guide for Whop embedded app, not standalone CR brand UI",
+      "evidence_type": "declared",
+      "section": "Set up your first campaign; fields 1–11; Fund and launch",
+      "evidence_paraphrase": "安装App后配置名称、类型、类别、预算/币种、观看费率、最低/最高奖励、可选固定奖金、平台、素材和要求；最低奖励决定进入审核队列；Pending budget→Active。建议外部Google Doc可更新。",
+      "limitations_or_contradictions": "与P05站内规则政策存在范围差异；固定奖金不是独立按篇模式。页面也混列会员参与奖励，不合并为Creator Rewards同一流程。"
+    },
+    {
+      "id": "P14",
+      "title": "Product - Whop Docs",
+      "publisher": "Whop",
+      "url": "https://docs.whop.com/api-reference/products/product",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Current public Whop API reference; no API call",
+      "evidence_type": "declared",
+      "section": "Product definition",
+      "evidence_paraphrase": "Product包含定价plans与内容交付experiences。",
+      "limitations_or_contradictions": "只支持未来商业对象分离，不证明Wringy已有实现。"
+    },
+    {
+      "id": "P15",
+      "title": "Experience - Whop Docs",
+      "publisher": "Whop",
+      "url": "https://docs.whop.com/api-reference/experiences/experience",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Current public Whop API reference; no API call",
+      "evidence_type": "declared",
+      "section": "Experience definition; products",
+      "evidence_paraphrase": "Experience可为聊天、课程或自定义App；挂接产品与客户访问相关。",
+      "limitations_or_contradictions": "不是Content Rewards投稿状态定义。"
+    },
+    {
+      "id": "P16",
+      "title": "Product updates | Content Rewards",
+      "publisher": "Content Rewards",
+      "url": "https://contentrewards.com/updates",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Current public updates index; cards dated 2026-07-24",
+      "evidence_type": "observed",
+      "section": "Updates cards",
+      "evidence_paraphrase": "索引出现创建活动、招募与审核等六个视频主题；没有从文本获得详细操作顺序。",
+      "limitations_or_contradictions": "没有凭封面/标题编写流程；8月19日是本次找到的最新编号发布公告，不是最新构建证明。"
+    },
+    {
+      "id": "P17",
+      "title": "Create plan - Whop Docs",
+      "publisher": "Whop",
+      "url": "https://docs.whop.com/api-reference/plans/create-plan",
+      "publication_or_updated_date": "undated",
+      "access_date": "2026-09-11",
+      "scope_version": "Public API reference only; no mutation",
+      "evidence_type": "declared",
+      "section": "Opening definition",
+      "evidence_paraphrase": "Plan定义商品计费周期、价格与可用性。",
+      "limitations_or_contradictions": "供未来复用方向；不可把周期内容合同直接映射为会员订阅。"
+    }
+  ],
+  "exclusions": [
+    {
+      "url": "https://staging.exrok.com/docs",
+      "reason": "搜索发现的staging域名；未证实为当前正式帮助中心，不采用其信任分/更新时间/改进率。"
+    },
+    {
+      "url": "https://contentrewards.xyz/",
+      "reason": "搜索结果非指定正式域名；未验证关联，不采用智能合约与自动付款说法。"
+    },
+    {
+      "url": "https://contentrewards.com/onboarding",
+      "reason": "仅见搜索索引，未当成当前实际开户流程。"
+    }
+  ],
+  "unknowns": [
+    "登录后品牌/代理商开户字段与组织切换操作",
+    "私密活动邀请及申请状态精确标签",
+    "上传格式/大小/失败恢复与草稿对比界面",
+    "账号失联重连、改名、重复链接及删除恢复规则",
+    "消息提醒逐事件渠道/送达及客服真实服务水平",
+    "批量审核/投稿CSV是否已在8月19日后上线"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "pages": 10,
+  "retained_original_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12
+  ],
+  "retained_slide_xml_unchanged": true,
+  "removed": "original10,11andall5appendices",
+  "files": {
+    "Wringy-Angel-Deck-v3.pdf": "d713d10bbb5f2c67781f84bd2d1ef51d642012408bc145a26202157ec13f1fe4",
+    "Wringy-Angel-Deck-v3.pptx": "796a5cdbdf368ae10510ac2f4376e4224ea7b0b9b7db65cf47a077cfbd805253"
+  }
+}

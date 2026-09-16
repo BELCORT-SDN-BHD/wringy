@@ -1,0 +1,3645 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><title>Wringy — 设计系统</title><link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="styles.css"><script src="extra-specimens.js" defer></script><script src="app.js" defer></script><script type="application/json" id="embedded-tokens">{
+  "version": "1.0-prototype",
+  "source": "../design-v3/tokens.json",
+  "status": "用户授权本地设计原型；非生产设计系统",
+  "themes": {
+    "light": {
+      "status": "fully-defined"
+    },
+    "dark": {
+      "status": "future-not-implemented",
+      "requirement": "需逐对验证语义颜色与组件对比；禁止简单反转"
+    }
+  },
+  "primitive": {
+    "color": {
+      "canvas": "#FFFFFF",
+      "surface": "#F6F6F3",
+      "ink": "#171A14",
+      "citron": "#E4F222",
+      "forest": "#173D2A",
+      "line": "#E1E3DC",
+      "secondary": "#5C6258",
+      "error": "#A52A2A",
+      "success": "#24623E",
+      "focus": "#3658A4",
+      "warning": "#795000",
+      "warningBg": "#FFF4D6",
+      "successBg": "#EAF3ED",
+      "errorBg": "#FCEEEE",
+      "infoBg": "#EDF1FA"
+    },
+    "space": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 32,
+      "section": 64
+    },
+    "radius": {
+      "control": 6,
+      "panel": 12
+    },
+    "font": {
+      "sans": "Arial, Helvetica, \"Noto Sans SC\", \"PingFang SC\", sans-serif"
+    },
+    "motion": {
+      "fast": "120ms",
+      "standard": "180ms",
+      "ease": "cubic-bezier(0.23, 1, 0.32, 1)"
+    },
+    "layout": {
+      "sidebar": "232px",
+      "content": "1200px",
+      "touch": "44px",
+      "reading": "720px"
+    },
+    "border": {
+      "width": "1px",
+      "focus-width": "3px",
+      "focus-offset": "3px"
+    },
+    "elevation": {
+      "subtle": "0 1px 3px #171A140D",
+      "panel": "0 14px 36px #171A1410",
+      "popover": "0 12px 40px #171A1426",
+      "dialog": "0 24px 80px #171A1433",
+      "toast": "0 10px 40px #171A1420",
+      "overlay": "#171A1466"
+    },
+    "z": {
+      "sidebar": "30",
+      "mobile": "40",
+      "popover": "50",
+      "toast": "100",
+      "skip": "200"
+    },
+    "icon": {
+      "small": "20px",
+      "standard": "24px",
+      "stroke": "1.75"
+    },
+    "breakpoint": {
+      "mobile": "700px",
+      "tablet": "900px",
+      "desktop": "1150px",
+      "wide": "1600px"
+    }
+  },
+  "semantic": {
+    "canvas": "{primitive.color.canvas}",
+    "surface": "{primitive.color.surface}",
+    "text": "{primitive.color.ink}",
+    "muted": "{primitive.color.secondary}",
+    "border": "{primitive.color.line}",
+    "control-border": "{primitive.color.secondary}",
+    "accent": "{primitive.color.citron}",
+    "forest": "{primitive.color.forest}",
+    "danger": "{primitive.color.error}",
+    "danger-bg": "{primitive.color.errorBg}",
+    "positive": "{primitive.color.success}",
+    "positive-bg": "{primitive.color.successBg}",
+    "warning": "{primitive.color.warning}",
+    "warning-bg": "{primitive.color.warningBg}",
+    "focus": "{primitive.color.focus}",
+    "info-bg": "{primitive.color.infoBg}"
+  },
+  "component": {
+    "button-background": "{semantic.accent}",
+    "button-text": "{semantic.text}",
+    "button-height": "{primitive.layout.touch}",
+    "input-border": "{semantic.control-border}",
+    "tab-selected": "{semantic.text}",
+    "row-selected": "{semantic.surface}",
+    "dialog-background": "{semantic.canvas}"
+  },
+  "typography": {
+    "display": {
+      "size": 56,
+      "lineHeight": 1.2,
+      "weight": 600
+    },
+    "brandHeading": {
+      "size": 40,
+      "lineHeight": 1.3,
+      "weight": 600
+    },
+    "objectHeading": {
+      "size": 32,
+      "lineHeight": 1.4,
+      "weight": 600
+    },
+    "sectionHeading": {
+      "size": 24,
+      "lineHeight": 1.4,
+      "weight": 600
+    },
+    "body": {
+      "size": 18,
+      "lineHeight": 1.65,
+      "weight": 400
+    },
+    "app": {
+      "size": 15,
+      "lineHeight": 1.5,
+      "weight": 400
+    },
+    "caption": {
+      "size": 13,
+      "lineHeight": 1.5,
+      "weight": 400
+    },
+    "mobileHeading": {
+      "size": 30,
+      "lineHeight": 1.3,
+      "weight": 600
+    },
+    "deckLabel": {
+      "size": 32,
+      "lineHeight": 1.35,
+      "weight": 600
+    }
+  },
+  "rules": {
+    "money": "未知金额显示 — 并同时标注尚未确认；已知零显示 MYR 0.00；币种始终明确；示例不是奖励规则",
+    "payment": "审核、资格与处理状态不证明银行已付款",
+    "motion": "键盘触发立即响应；reduced-motion禁用位移",
+    "touch": "交互目标至少44×44px"
+  }
+}
+</script>
+<script type="application/json" id="embedded-catalog">{
+  "version": "1.0.0",
+  "components": [
+    {
+      "id": "button",
+      "name": "按钮",
+      "category": "基础",
+      "description": "触发一次明确动作；文案用动词和对象。",
+      "variants": [
+        "主要",
+        "次要",
+        "文字",
+        "危险"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "pressed",
+        "focus",
+        "disabled",
+        "loading"
+      ],
+      "keyboard": "Tab聚焦，Enter/Space激活一次；按键长按不重复发业务命令；busy时保留焦点并阻止重入。",
+      "accessibility": "原生button；只有图标时提供aria-label；加载保留可访问名称并以status说明，危险含义写进文案。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "处理中保留宽度与名称，锁住同一请求；失败由所在表单展示并恢复操作。",
+      "avoid": "同页多个同等主要动作；把点击当业务成功。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "link",
+      "name": "链接",
+      "category": "基础",
+      "description": "前往资源或页面，保留浏览器原生行为。",
+      "variants": [
+        "站内",
+        "外部",
+        "下载"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "visited",
+        "unavailable"
+      ],
+      "keyboard": "Enter打开；保留Ctrl/Cmd/Shift修饰键、新标签与复制地址；不用Space伪装按钮。",
+      "accessibility": "使用a及真实目的地址；外链/下载性质在链接文本或描述中说明。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "新窗口或下载需标明；资源无权访问时给说明，不输出受限地址。",
+      "avoid": "用链接执行付款或删除；拦截所有修饰键。",
+      "modules": [
+        "B01",
+        "B02"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "icon",
+      "name": "图标",
+      "category": "基础",
+      "description": "使用既有 Tabler 描边资产和文字标签。",
+      "variants": [
+        "装饰",
+        "语义"
+      ],
+      "states": [
+        "default",
+        "unavailable"
+      ],
+      "keyboard": "静态内容不进入Tab序列；按钮用Enter/Space，链接用Enter；焦点顺序跟随阅读顺序。",
+      "accessibility": "语义标签优先；正文用semantic.text / semantic.muted，状态必须带文字；图标装饰时从可访问树隐藏。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "缺图标时保留文本；纯图标动作由按钮承载可访问名称。",
+      "avoid": "以图形或颜色作为唯一风险、付款信息。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "text",
+      "name": "文本与标题",
+      "category": "基础",
+      "description": "建立对象名、正文、来源层级。",
+      "variants": [
+        "标题",
+        "正文",
+        "说明",
+        "等宽记录"
+      ],
+      "states": [
+        "default",
+        "truncated",
+        "masked"
+      ],
+      "keyboard": "静态内容不进入Tab序列；按钮用Enter/Space，链接用Enter；焦点顺序跟随阅读顺序。",
+      "accessibility": "语义标签优先；正文用semantic.text / semantic.muted，状态必须带文字；图标装饰时从可访问树隐藏。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "长标识允许换行及复制；截断必须有可键盘进入的完整文本。",
+      "avoid": "关键金额、拒绝理由只放悬浮提示。",
+      "modules": [
+        "B05"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "avatar",
+      "name": "头像与身份标识",
+      "category": "基础",
+      "description": "显示人或组织并明确身份类型。",
+      "variants": [
+        "个人",
+        "组织",
+        "身份组"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "fallback"
+      ],
+      "keyboard": "静态内容不进入Tab序列；按钮用Enter/Space，链接用Enter；焦点顺序跟随阅读顺序。",
+      "accessibility": "语义标签优先；正文用semantic.text / semantic.muted，状态必须带文字；图标装饰时从可访问树隐藏。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "图片失败回退首字与名称；同名靠组织和角色辨别，不靠照片猜权限。",
+      "avoid": "把头像存在当实名认证通过。",
+      "modules": [
+        "B01"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "badge",
+      "name": "状态标签",
+      "category": "基础",
+      "description": "文字同时写明状态对象，例如内容已通过。",
+      "variants": [
+        "中性",
+        "成功",
+        "错误",
+        "待处理"
+      ],
+      "states": [
+        "default",
+        "unknown",
+        "stale"
+      ],
+      "keyboard": "静态内容不进入Tab序列；按钮用Enter/Space，链接用Enter；焦点顺序跟随阅读顺序。",
+      "accessibility": "语义标签优先；正文用semantic.text / semantic.muted，状态必须带文字；图标装饰时从可访问树隐藏。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "未知显示未知；需要解释时邻接详情链接，不把静态标签做按钮。",
+      "avoid": "一个 Approved 标签代表审核、奖励和付款。",
+      "modules": [
+        "B05"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "separator",
+      "name": "分隔与分组",
+      "category": "基础",
+      "description": "用间距和装饰线建立相邻内容关系。",
+      "variants": [
+        "水平",
+        "垂直",
+        "带标题"
+      ],
+      "states": [
+        "default"
+      ],
+      "keyboard": "静态内容不进入Tab序列；按钮用Enter/Space，链接用Enter；焦点顺序跟随阅读顺序。",
+      "accessibility": "语义标签优先；正文用semantic.text / semantic.muted，状态必须带文字；图标装饰时从可访问树隐藏。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "表单组用语义分组及标题，线只作装饰。",
+      "avoid": "浅分隔线作为唯一输入边界。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "surface",
+      "name": "工作面与摘要容器",
+      "category": "基础",
+      "description": "白色工作区、中性次级面及有限品牌章节。",
+      "variants": [
+        "连续面",
+        "摘要卡",
+        "编辑章节"
+      ],
+      "states": [
+        "default"
+      ],
+      "keyboard": "静态内容不进入Tab序列；按钮用Enter/Space，链接用Enter；焦点顺序跟随阅读顺序。",
+      "accessibility": "语义标签优先；正文用semantic.text / semantic.muted，状态必须带文字；图标装饰时从可访问树隐藏。",
+      "responsive": "320px仍能读完整核心信息；动作触控目标至少primitive.layout.touch；字号不整体缩小。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "只有真实独立对象才建卡；整卡跳转时避免嵌套交互区。",
+      "avoid": "把每个字段装进卡片，或在财务区堆叠装饰。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "shell",
+      "name": "应用框架",
+      "category": "导航",
+      "description": "固定当前空间、模块导航与主内容位置。",
+      "variants": [
+        "经营",
+        "创作者",
+        "会员",
+        "运营"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "restricted"
+      ],
+      "keyboard": "Tab进入可交互项，Enter激活；集合内方向键规则见个别契约；Esc关闭临时面板并回焦。",
+      "accessibility": "导航区域有名称；当前位置与选中语义明确；异步路由成功后聚焦主标题并播报页面名。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "切换角色保留各自路径；权限未知先不展示敏感内容。",
+      "avoid": "个人购买、营业收入与创作者奖励混成同一首页余额。",
+      "modules": [
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "workspace-switcher",
+      "name": "工作空间切换",
+      "category": "导航",
+      "description": "明确当前代表谁执行操作。",
+      "variants": [
+        "个人",
+        "品牌",
+        "团队"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "open",
+        "selected",
+        "loading",
+        "error"
+      ],
+      "keyboard": "Enter/Space打开；方向键移动、Enter确认目标、Esc取消；确认前不切实际空间。",
+      "accessibility": "当前空间有可读名称与类型；切换中播报目标，成功后导航焦点进入新空间主标题。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "脏表单切换前处理未保存内容；成功后清除旧空间缓存与选择。",
+      "avoid": "切换名称但仍提交旧组织标识。",
+      "modules": [
+        "B01",
+        "B06",
+        "B09",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "sidebar",
+      "name": "侧栏导航",
+      "category": "导航",
+      "description": "以模块和真实对象分组，使用稳定名称。",
+      "variants": [
+        "展开",
+        "折叠"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "active",
+        "expanded",
+        "collapsed"
+      ],
+      "keyboard": "Tab进入可交互项，Enter激活；集合内方向键规则见个别契约；Esc关闭临时面板并回焦。",
+      "accessibility": "导航区域有名称；当前位置与选中语义明确；异步路由成功后聚焦主标题并播报页面名。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "当前页标识与未读数分开；折叠后名称仍可读取。",
+      "avoid": "把未开放金融入口画成可使用。",
+      "modules": [
+        "B01"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "breadcrumb",
+      "name": "面包屑",
+      "category": "导航",
+      "description": "帮助返回父集合，当前位置不重复链接。",
+      "variants": [
+        "页面层级",
+        "对象层级"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "current"
+      ],
+      "keyboard": "Tab进入可交互项，Enter激活；集合内方向键规则见个别契约；Esc关闭临时面板并回焦。",
+      "accessibility": "导航区域有名称；当前位置与选中语义明确；异步路由成功后聚焦主标题并播报页面名。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "长路径中间收起但可展开；保留当前对象名称。",
+      "avoid": "用面包屑替代浏览历史返回。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "tabs",
+      "name": "页签",
+      "category": "导航",
+      "description": "在同一对象的相关视图切换。",
+      "variants": [
+        "局部内容",
+        "路由页签"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "selected",
+        "disabled",
+        "loading"
+      ],
+      "keyboard": "Tab进入当前页签；方向键移动，Home/End首尾；本地即时内容可自动激活，远程内容用Enter/Space激活。",
+      "accessibility": "tablist/tab/tabpanel配对；路由导航可改用a与aria-current，不混搭两种模式。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "本地页签方向键移动；远程内容手动确认激活，保留每页筛选。",
+      "avoid": "将不同组织、付费状态用页签隐藏混淆。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "command-menu",
+      "name": "快捷命令面板",
+      "category": "导航",
+      "description": "搜索命令与对象，显示当前执行空间。",
+      "variants": [
+        "导航",
+        "已授权操作"
+      ],
+      "states": [
+        "closed",
+        "open",
+        "querying",
+        "empty",
+        "error",
+        "focused"
+      ],
+      "keyboard": "显式快捷键或按钮打开；方向键选择、Enter进入预览/导航、Esc关闭回焦；不劫持文本输入快捷键。",
+      "accessibility": "搜索框与命令列表关联；结果按权限过滤；没有匹配时简短播报，不能读出受限标题。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "高频开关与结果选择均0ms；不得等待入场动画。",
+      "usage": "高频键盘开关无动画；危险命令进入确认预览而非立即执行。",
+      "avoid": "搜索索引暴露无权访问对象标题。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "stepper",
+      "name": "步骤导航",
+      "category": "导航",
+      "description": "展示流程进度与可返回步骤。",
+      "variants": [
+        "线性",
+        "可回访"
+      ],
+      "states": [
+        "current",
+        "complete",
+        "upcoming",
+        "blocked",
+        "error"
+      ],
+      "keyboard": "Tab进入可交互项，Enter激活；集合内方向键规则见个别契约；Esc关闭临时面板并回焦。",
+      "accessibility": "导航区域有名称；当前位置与选中语义明确；异步路由成功后聚焦主标题并播报页面名。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "完成只表示该步服务端接受；保留已填值，依赖改变使后续重新检查。",
+      "avoid": "把走到最后一步当作出款到账。",
+      "modules": [
+        "B08",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "pagination",
+      "name": "分页与继续加载",
+      "category": "导航",
+      "description": "控制集合读取边界并显示已读取范围。",
+      "variants": [
+        "页码",
+        "游标"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "loading",
+        "disabled",
+        "end",
+        "error"
+      ],
+      "keyboard": "Tab进入可交互项，Enter激活；集合内方向键规则见个别契约；Esc关闭临时面板并回焦。",
+      "accessibility": "导航区域有名称；当前位置与选中语义明确；异步路由成功后聚焦主标题并播报页面名。",
+      "responsive": "窄屏侧栏变可关闭导航；当前空间和返回入口常驻；长标签可换行。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "筛选改变重置游标；加载失败保留旧行及原位置。",
+      "avoid": "游标接口虚构总页数；重复追加同一记录。",
+      "modules": [
+        "B05"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "search",
+      "name": "搜索框",
+      "category": "表单",
+      "description": "查询对象，区分未搜索与无结果。",
+      "variants": [
+        "即时搜索",
+        "提交搜索"
+      ],
+      "states": [
+        "empty",
+        "focus",
+        "typing",
+        "loading",
+        "results",
+        "no-results",
+        "error",
+        "disabled"
+      ],
+      "keyboard": "Tab依字段顺序移动；输入保留原生编辑快捷键；中文输入法组合期不提交；只读值可选择复制。",
+      "accessibility": "label与控件关联；组用fieldset/legend；错误用aria-describedby及aria-invalid；说明不只靠颜色。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "中文输入法组合期间不提交；旧请求回包不得覆盖新词结果。",
+      "avoid": "输入一个字就清空已有内容闪烁。",
+      "modules": [
+        "B05",
+        "B06",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "field",
+      "name": "字段外壳",
+      "category": "表单",
+      "description": "组合标签、说明、控件和错误关联。",
+      "variants": [
+        "普通",
+        "必填",
+        "可选"
+      ],
+      "states": [
+        "default",
+        "focus",
+        "error",
+        "disabled",
+        "readonly"
+      ],
+      "keyboard": "Tab依字段顺序移动；输入保留原生编辑快捷键；中文输入法组合期不提交；只读值可选择复制。",
+      "accessibility": "label与控件关联；组用fieldset/legend；错误用aria-describedby及aria-invalid；说明不只靠颜色。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "必填在提交前说明；错误指出如何改，保留内容；只读仍可选取。",
+      "avoid": "只用 placeholder 作标签，禁用却不解释。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "text-input",
+      "name": "单行输入",
+      "category": "表单",
+      "description": "编辑短值，使用相应输入键盘与自动填充提示。",
+      "variants": [
+        "文本",
+        "邮箱",
+        "网址",
+        "电话"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "filled",
+        "disabled",
+        "readonly",
+        "error"
+      ],
+      "keyboard": "Tab依字段顺序移动；输入保留原生编辑快捷键；中文输入法组合期不提交；只读值可选择复制。",
+      "accessibility": "label与控件关联；组用fieldset/legend；错误用aria-describedby及aria-invalid；说明不只靠颜色。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "网址提交保留原文和标准化结果；验证在合适时机，避免逐字报错。",
+      "avoid": "电话、身份证号当数值去掉前导零。",
+      "modules": [
+        "B01",
+        "B03"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "textarea",
+      "name": "多行输入",
+      "category": "表单",
+      "description": "填写自然语言，限制来自业务要求。",
+      "variants": [
+        "说明",
+        "审核理由",
+        "备注"
+      ],
+      "states": [
+        "empty",
+        "focus",
+        "filled",
+        "readonly",
+        "disabled",
+        "error"
+      ],
+      "keyboard": "Tab依字段顺序移动；输入保留原生编辑快捷键；中文输入法组合期不提交；只读值可选择复制。",
+      "accessibility": "label与控件关联；组用fieldset/legend；错误用aria-describedby及aria-invalid；说明不只靠颜色。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "超长保留输入并说明剩余/超出；自动增长有边界且不遮操作。",
+      "avoid": "单按 Enter 提交整张表。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "number-input",
+      "name": "数量输入",
+      "category": "表单",
+      "description": "输入名额、数量或比率并明确单位。",
+      "variants": [
+        "整数",
+        "小数",
+        "百分比"
+      ],
+      "states": [
+        "empty",
+        "focus",
+        "filled",
+        "readonly",
+        "disabled",
+        "error"
+      ],
+      "keyboard": "保留文本编辑及数字输入；若提供步进按钮则可Tab到达；滚轮不得改值；中文输入组合不提交。",
+      "accessibility": "单位、最小/最大、精度可读；仅真正实现增减语义时使用spinbutton。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "步长及范围来自字段契约；允许编辑中间态，滚轮不意外改值。",
+      "avoid": "把空输入自动变零；将百分数和小数率混用。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "money-input",
+      "name": "金额输入",
+      "category": "表单",
+      "description": "录入金额、币种和费项用途。",
+      "variants": [
+        "单币种",
+        "带币种选择"
+      ],
+      "states": [
+        "empty",
+        "focus",
+        "filled",
+        "readonly",
+        "disabled",
+        "error",
+        "quote-stale"
+      ],
+      "keyboard": "Tab依字段顺序移动；输入保留原生编辑快捷键；中文输入法组合期不提交；只读值可选择复制。",
+      "accessibility": "label与控件关联；组用fieldset/legend；错误用aria-describedby及aria-invalid；说明不只靠颜色。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "内部精确十进制或最小货币单位；换币不擅自换数，重取报价并确认。",
+      "avoid": "使用浮点累计资金；默认所有币种两位小数。",
+      "modules": [
+        "B02",
+        "B06",
+        "B07",
+        "B09",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "checkbox",
+      "name": "复选框",
+      "category": "表单",
+      "description": "表达可同时选取的选项。",
+      "variants": [
+        "独立",
+        "组",
+        "全选"
+      ],
+      "states": [
+        "unchecked",
+        "hover",
+        "pressed",
+        "focus",
+        "checked",
+        "indeterminate",
+        "disabled",
+        "error",
+        "readonly"
+      ],
+      "keyboard": "Tab进入；Space切换；父级mixed激活选全指定范围，再次激活清除；只读时不写入。",
+      "accessibility": "原生checkbox；父级汇总使用indeterminate/aria-checked=mixed；label与选择范围关联。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "全选注明本页或全部查询；部分选中只用于父级汇总。",
+      "avoid": "把条款默认勾选；将 indeterminate 写成第三种用户同意。",
+      "modules": [
+        "B01"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "radio",
+      "name": "单选组",
+      "category": "表单",
+      "description": "在互斥选项中作一个选择。",
+      "variants": [
+        "列表",
+        "带说明选项"
+      ],
+      "states": [
+        "unselected",
+        "hover",
+        "focus",
+        "selected",
+        "disabled",
+        "error",
+        "readonly"
+      ],
+      "keyboard": "Tab进出单选组；方向键切换同组；禁用项跳过；无默认值时首个可用项可获得焦点。",
+      "accessibility": "原生radio和fieldset/legend；required与错误作用于组，不逐项重复播报。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "组有名称；方向键选同组，Tab离组；修改可能影响金额须预览。",
+      "avoid": "无法取消的选择用独立复选框伪装。",
+      "modules": [
+        "B03"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "switch",
+      "name": "即时开关",
+      "category": "表单",
+      "description": "切换立即生效的二态设置。",
+      "variants": [
+        "偏好",
+        "非危险即时设置"
+      ],
+      "states": [
+        "off",
+        "on",
+        "hover",
+        "pressed",
+        "focus",
+        "disabled",
+        "saving",
+        "error"
+      ],
+      "keyboard": "Tab聚焦、Space切换；Enter仅按底层控件约定；请求中阻止第二次切换。",
+      "accessibility": "switch语义、aria-checked准确反映当前确认值；标签固定，保存与错误由邻接status说明。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "保存失败恢复最后确认状态并解释；加载时不再切换。",
+      "avoid": "用开关绕过发布、扣款或删除确认。",
+      "modules": [
+        "B04"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "select",
+      "name": "选择器",
+      "category": "表单",
+      "description": "从明确集合选择，支持动态来源。",
+      "variants": [
+        "原生单选",
+        "可搜索单选",
+        "多选"
+      ],
+      "states": [
+        "closed",
+        "open",
+        "focus",
+        "selected",
+        "loading",
+        "empty",
+        "error",
+        "disabled",
+        "readonly"
+      ],
+      "keyboard": "原生选择器保留系统键盘；自定义组合框方向键导航、Enter选择、Esc关闭；输入法组合期间不触发选定。",
+      "accessibility": "自定义时正确关联combobox/listbox、expanded、active-descendant及选项；远程空态需播报。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "方向键移动、Enter选择、Esc关闭；多选显示已选项及移除名称。",
+      "avoid": "未知值静默选第一项；隐藏已失效的保存值。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "segmented-control",
+      "name": "分段选择",
+      "category": "表单",
+      "description": "少量互斥呈现模式，例如日/月。",
+      "variants": [
+        "视图",
+        "短选项"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "selected",
+        "disabled"
+      ],
+      "keyboard": "Tab依字段顺序移动；输入保留原生编辑快捷键；中文输入法组合期不提交；只读值可选择复制。",
+      "accessibility": "label与控件关联；组用fieldset/legend；错误用aria-describedby及aria-invalid；说明不只靠颜色。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "用单选或页签语义按用途选一种；保持标签完整。",
+      "avoid": "把它用于长文本或高风险确认。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "date-time",
+      "name": "日期时间选择",
+      "category": "表单",
+      "description": "定义排期、账期和统计区间。",
+      "variants": [
+        "日期",
+        "日期区间",
+        "时间与时区"
+      ],
+      "states": [
+        "empty",
+        "focus",
+        "selected",
+        "unavailable",
+        "error",
+        "readonly",
+        "disabled"
+      ],
+      "keyboard": "文本字段可直接填写；日历方向键移日，Home/End按周、PageUp/Down移月；Enter选择、Esc关闭并回焦。",
+      "accessibility": "日历网格有年月说明，今日与选中分别表达；不可选日期说明原因；时区字段有独立标签。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "提供文本输入替代日历；起止、含边界规则、时区同时可见。",
+      "avoid": "把午夜UTC静默解释为用户本地日期。",
+      "modules": [
+        "B02",
+        "B06",
+        "B07",
+        "B09",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "slider",
+      "name": "范围滑杆",
+      "category": "表单",
+      "description": "探索非精确的连续范围。",
+      "variants": [
+        "单值",
+        "区间"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus",
+        "dragging",
+        "disabled",
+        "readonly"
+      ],
+      "keyboard": "方向键按步长移动，Home/End到边界；区间两个滑块分别可达；数值输入是等价替代。",
+      "accessibility": "各滑块有名称、min/max/now和含单位的valuetext；上下限不交叉；不用仅拖拽。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "方向键和Home/End可调；配数值输入，松手提交高成本查询。",
+      "avoid": "仅靠拖拽录入结算金额。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "file-upload",
+      "name": "文件上传",
+      "category": "表单",
+      "description": "上传素材或证据，区分传完与可用。",
+      "variants": [
+        "单文件",
+        "多文件",
+        "分片任务"
+      ],
+      "states": [
+        "idle",
+        "dragover",
+        "validating",
+        "uploading",
+        "processing",
+        "ready",
+        "error",
+        "canceled"
+      ],
+      "keyboard": "可聚焦的选择文件按钮调用系统选择器；删除/取消/重试每文件可达；拖拽仅是替代入口。",
+      "accessibility": "逐文件状态有名称；aria-live汇总阶段变化；不要逐字节播报百分比；说明允许类型和实际大小限制。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "校验类型和限制；失败按文件恢复；服务端就绪才允许引用。",
+      "avoid": "拖拽唯一入口；宣称支持未经接口验证的续传。",
+      "modules": [
+        "B01",
+        "B03",
+        "B05",
+        "B06",
+        "B10",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "rich-editor",
+      "name": "富文本编辑器",
+      "category": "表单",
+      "description": "编辑结构化正文并保留可访问层级。",
+      "variants": [
+        "商品介绍",
+        "内容页",
+        "帖子"
+      ],
+      "states": [
+        "empty",
+        "focus",
+        "editing",
+        "saving",
+        "saved",
+        "error",
+        "readonly"
+      ],
+      "keyboard": "Tab可离开编辑区域；工具栏方向键导航；保留复制、粘贴、撤销及输入法行为；快捷键可查。",
+      "accessibility": "有编辑区名称、工具栏名称、格式状态与文档结构；保存状态不能覆盖作者正文。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "工具栏键盘可达；粘贴清理危险内容；自动保存展示时间和冲突。",
+      "avoid": "用编辑器渲染不受信任脚本；悄悄覆盖另一人的内容。",
+      "modules": [
+        "B01",
+        "B03",
+        "B04"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "form",
+      "name": "表单提交容器",
+      "category": "表单",
+      "description": "管理整表校验、保存和重复请求。",
+      "variants": [
+        "设置",
+        "创建",
+        "多步"
+      ],
+      "states": [
+        "pristine",
+        "dirty",
+        "validating",
+        "submitting",
+        "success",
+        "error",
+        "conflict",
+        "readonly"
+      ],
+      "keyboard": "Enter仅在符合原生单行表单语义时提交；多行和输入法组合期不提交；失败聚焦错误摘要并可跳回字段。",
+      "accessibility": "错误摘要与字段一一关联；submitting标busy但不隐藏label；验证成功不重复播报整表。",
+      "responsive": "窄屏单列，label在上；软键盘出现后错误与保存可滚动到达；不固定遮挡字段。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "先校验再锁请求；错误摘要链接字段；超时未知先查原请求，再决定重试。",
+      "avoid": "双击创建两笔付款；失败清空表单或关闭弹窗。",
+      "modules": [
+        "B01",
+        "B04",
+        "B07",
+        "B09",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "filter-builder",
+      "name": "筛选条件组",
+      "category": "数据",
+      "description": "明确字段、运算符、值及组合关系。",
+      "variants": [
+        "快速筛选",
+        "组合条件",
+        "保存视图"
+      ],
+      "states": [
+        "default",
+        "editing",
+        "applied",
+        "empty",
+        "loading",
+        "error"
+      ],
+      "keyboard": "Tab仅进入真实动作；静态表格不冒充可编辑网格；排序与展开有按钮，选择使用原生控件。",
+      "accessibility": "提供表头、单位、来源与文字替代；仅当前必要结果礼貌播报；不逐行播报后台刷新。",
+      "responsive": "窄屏先保留名称、状态、金额与下一动作；表格允许标明的横向滚动或等价行详情。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "清除只清筛选；改变条件后重置选择并提示；保留可分享的合法条件。",
+      "avoid": "搜索与排序规则冲突时静默忽略条件。",
+      "modules": [
+        "B05",
+        "B06",
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "data-table",
+      "name": "数据表格",
+      "category": "数据",
+      "description": "按列比较同类对象及精确金额。",
+      "variants": [
+        "只读",
+        "可排序",
+        "可选择"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "empty",
+        "no-results",
+        "error",
+        "stale",
+        "selected",
+        "partial-selection"
+      ],
+      "keyboard": "Tab到排序、选择、链接和行操作；原生表格不用方向键劫持阅读；横向区域可聚焦滚动。",
+      "accessibility": "table/caption/th与列关联；排序有aria-sort；行复选框名称含对象；不轻率改成grid。",
+      "responsive": "窄屏先保留名称、状态、金额与下一动作；表格允许标明的横向滚动或等价行详情。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "表头说明排序；分页选择范围可见；行操作与行跳转分开。",
+      "avoid": "自动重排使正在操作的行移位；只用颜色标负数。",
+      "modules": [
+        "B04",
+        "B05",
+        "B07"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "list-detail",
+      "name": "列表与详情",
+      "category": "数据",
+      "description": "高频队列先找对象再处理。",
+      "variants": [
+        "并排",
+        "独立详情"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "no-results",
+        "unselected",
+        "selected",
+        "error",
+        "stale"
+      ],
+      "keyboard": "Tab访问行链接/选择按钮及行操作；专用列表方向键仅移动选项，Enter才进入详情；返回恢复原选择。",
+      "accessibility": "列表有名称；链接用aria-current，选择按钮用aria-pressed；未选择详情提供说明。",
+      "responsive": "窄屏先保留名称、状态、金额与下一动作；表格允许标明的横向滚动或等价行详情。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "选择写入地址；返回还原筛选滚动；窄屏详情独立显示。",
+      "avoid": "所有模块强制三栏；按箭头切行立即保存业务决定。",
+      "modules": [
+        "B04",
+        "B05",
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "property-list",
+      "name": "属性清单",
+      "category": "数据",
+      "description": "以名称和值解释当前对象。",
+      "variants": [
+        "只读",
+        "单属性编辑"
+      ],
+      "states": [
+        "default",
+        "empty",
+        "unknown",
+        "editing",
+        "saving",
+        "error",
+        "readonly"
+      ],
+      "keyboard": "Tab仅进入真实动作；静态表格不冒充可编辑网格；排序与展开有按钮，选择使用原生控件。",
+      "accessibility": "提供表头、单位、来源与文字替代；仅当前必要结果礼貌播报；不逐行播报后台刷新。",
+      "responsive": "窄屏先保留名称、状态、金额与下一动作；表格允许标明的横向滚动或等价行详情。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "未知、未填写、不适用分开；单字段保存仍校验对象版本。",
+      "avoid": "在属性标签上藏金额修改入口。",
+      "modules": [
+        "B01",
+        "B04",
+        "B07"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "metric",
+      "name": "指标摘要",
+      "category": "数据",
+      "description": "展示指标、口径、期间和比较基础。",
+      "variants": [
+        "计数",
+        "金额",
+        "比率",
+        "差值"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "zero",
+        "unknown",
+        "stale",
+        "insufficient-sample",
+        "error"
+      ],
+      "keyboard": "Tab仅进入真实动作；静态表格不冒充可编辑网格；排序与展开有按钮，选择使用原生控件。",
+      "accessibility": "提供表头、单位、来源与文字替代；仅当前必要结果礼貌播报；不逐行播报后台刷新。",
+      "responsive": "窄屏先保留名称、状态、金额与下一动作；表格允许标明的横向滚动或等价行详情。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "分母为零时比率不适用；缺失工时显示覆盖率；点击可追溯明细。",
+      "avoid": "收入、代转奖励、贡献、净利润混称收益。",
+      "modules": [
+        "B04",
+        "B07",
+        "B08",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "chart",
+      "name": "图表",
+      "category": "数据",
+      "description": "解释趋势与比较，并提供等价数据表。",
+      "variants": [
+        "条形",
+        "时间序列",
+        "构成"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "empty",
+        "partial",
+        "unknown",
+        "error"
+      ],
+      "keyboard": "Tab仅进入真实动作；静态表格不冒充可编辑网格；排序与展开有按钮，选择使用原生控件。",
+      "accessibility": "提供表头、单位、来源与文字替代；仅当前必要结果礼貌播报；不逐行播报后台刷新。",
+      "responsive": "窄屏先保留名称、状态、金额与下一动作；表格允许标明的横向滚动或等价行详情。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "坐标单位、时区、分母和来源固定可见；缺失留断点。",
+      "avoid": "用虚构补零连线；用动画滚动金额。",
+      "modules": [
+        "B04",
+        "B08",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "progress",
+      "name": "进度指示",
+      "category": "反馈",
+      "description": "告诉用户正在做什么，是否还能操作。",
+      "variants": [
+        "确定进度",
+        "不确定等待"
+      ],
+      "states": [
+        "idle",
+        "running",
+        "paused",
+        "complete",
+        "error",
+        "unknown"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "有真实总量才显示百分比；完成指处理阶段结束，业务另有状态。",
+      "avoid": "伪造99%进度或把进度完成当审核通过。",
+      "modules": [
+        "B07",
+        "B08",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "skeleton",
+      "name": "骨架占位",
+      "category": "反馈",
+      "description": "首次加载保留即将出现的结构空间。",
+      "variants": [
+        "文本行",
+        "列表",
+        "媒体"
+      ],
+      "states": [
+        "loading"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态占位优先；减少动态时不闪动。",
+      "usage": "屏幕阅读器只读一次加载说明；刷新时保留旧内容和更新时间。",
+      "avoid": "用骨架盖住用户已输入内容；长期无限闪动。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "empty-state",
+      "name": "空状态",
+      "category": "反馈",
+      "description": "说明为什么为空和能做什么。",
+      "variants": [
+        "首次无对象",
+        "无匹配",
+        "未选择",
+        "无权限"
+      ],
+      "states": [
+        "empty",
+        "no-results",
+        "unselected",
+        "restricted"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "首次给创建入口；无匹配保留过滤；无权限给请求访问路径。",
+      "avoid": "所有空状态统一写暂无数据，或以空态遮错误。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "alert",
+      "name": "持久提示",
+      "category": "反馈",
+      "description": "解释影响当前任务的事实与恢复动作。",
+      "variants": [
+        "信息",
+        "成功",
+        "警告",
+        "错误"
+      ],
+      "states": [
+        "visible",
+        "dismissible",
+        "actionable"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "关键错误留在相关区域；服务中断说明受影响范围、最近成功时间。",
+      "avoid": "把长期付款未知只做短暂Toast。",
+      "modules": [
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "toast",
+      "name": "短暂反馈",
+      "category": "反馈",
+      "description": "报告低风险操作结果，不抢焦点。",
+      "variants": [
+        "确认",
+        "可撤销提示"
+      ],
+      "states": [
+        "queued",
+        "visible",
+        "paused",
+        "dismissed"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "聚焦/悬停/页面隐藏暂停计时；撤销只在真实支持且有期限时显示。",
+      "avoid": "唯一错误或资金凭证藏在自动消失提示。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "notification-inbox",
+      "name": "通知收件箱",
+      "category": "反馈",
+      "description": "保存需要以后处理的通知。",
+      "variants": [
+        "全部",
+        "未读",
+        "按对象"
+      ],
+      "states": [
+        "loading",
+        "unread",
+        "read",
+        "empty",
+        "error",
+        "unavailable-target"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "打开跳到原对象且重新检查权限；已读与已处理分开。",
+      "avoid": "读通知即视为接受规则或完成付款。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "error-recovery",
+      "name": "错误恢复面",
+      "category": "反馈",
+      "description": "区分本地网络、身份和业务失败。",
+      "variants": [
+        "断网",
+        "服务异常",
+        "会话过期",
+        "权限变化"
+      ],
+      "states": [
+        "offline",
+        "retrying",
+        "recovered",
+        "unauthorized",
+        "unknown"
+      ],
+      "keyboard": "状态变化不抢焦点；恢复按钮可Tab到达；只在用户提交失败后把焦点送到错误摘要。",
+      "accessibility": "普通进度用status或progressbar；阻塞错误仅在出现时播报一次；不持续重复读屏。",
+      "responsive": "提示不遮挡表单和主要动作；窄屏换行保持原因及恢复按钮完整。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "保留非敏感草稿；重登后重新验证空间及请求结果；给支持关联号。",
+      "avoid": "断网后自动重放资金命令。",
+      "modules": [
+        "B01",
+        "B02",
+        "B04",
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "tooltip",
+      "name": "说明提示",
+      "category": "浮层",
+      "description": "提供非必需的短补充说明。",
+      "variants": [
+        "短说明",
+        "图标名称补充"
+      ],
+      "states": [
+        "closed",
+        "hover",
+        "focus",
+        "open"
+      ],
+      "keyboard": "Esc关闭最上层；触发点回焦；菜单方向键，模态Tab循环；无触发点时回到合理后继对象。",
+      "accessibility": "有标题及名称；模态设置dialog与aria-modal并隔离背景；tooltip只作补充描述。",
+      "responsive": "依当前布局规则及内容最小宽度适配；视口内留边；长内容内部滚动且操作可达。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。 从触发点展开；不从scale(0)开始。",
+      "usage": "首次悬停稍候、相邻即时；焦点可见且Esc关闭，内容不含交互。",
+      "avoid": "关键政策、错误恢复或唯一按钮名称只在提示里。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "popover",
+      "name": "锚定浮层",
+      "category": "浮层",
+      "description": "承载与触发点紧密关联的小任务。",
+      "variants": [
+        "属性",
+        "日期",
+        "短筛选"
+      ],
+      "states": [
+        "closed",
+        "open",
+        "focus",
+        "loading",
+        "error"
+      ],
+      "keyboard": "Tab按内容顺序；Esc关闭并回到触发点；非模态不锁住整页焦点。",
+      "accessibility": "触发器关联浮层及expanded；根据真实内容使用dialog或选择器语义，不统一声明菜单。",
+      "responsive": "依当前布局规则及内容最小宽度适配；视口内留边；长内容内部滚动且操作可达。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。 从触发点展开；不从scale(0)开始。",
+      "usage": "向触发点展开，避开视口边界；关闭回焦；表单脏值遵循表单契约。",
+      "avoid": "长篇审批或多阶段出款塞入小浮层。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "menu",
+      "name": "操作菜单",
+      "category": "浮层",
+      "description": "列出针对同一对象的动词动作。",
+      "variants": [
+        "对象操作",
+        "上下文操作"
+      ],
+      "states": [
+        "closed",
+        "open",
+        "focused",
+        "disabled"
+      ],
+      "keyboard": "Enter/Space打开；方向键/Home/End导航；Enter执行、Esc关闭回焦；禁用项可读取原因但不能执行。",
+      "accessibility": "menu/menuitem仅用于动作菜单；标明haspopup/expanded；分组及危险操作有文本。",
+      "responsive": "依当前布局规则及内容最小宽度适配；视口内留边；长内容内部滚动且操作可达。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。 从触发点展开；不从scale(0)开始。",
+      "usage": "方向键/Home/End导航，Enter执行；危险项分组并进入确认。",
+      "avoid": "菜单项兼作复选表单而不声明语义。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "dialog",
+      "name": "模态对话框",
+      "category": "浮层",
+      "description": "集中完成一个短任务。",
+      "variants": [
+        "编辑",
+        "确认",
+        "关键决定"
+      ],
+      "states": [
+        "closed",
+        "open",
+        "submitting",
+        "error",
+        "conflict"
+      ],
+      "keyboard": "打开聚焦安全字段或标题；Tab/Shift+Tab在模态循环；Esc按未保存规则关闭；回焦触发点或合理后继。",
+      "accessibility": "dialog有标题和必要说明，aria-modal并隔离背景；复杂正文不全塞aria-describedby。",
+      "responsive": "依当前布局规则及内容最小宽度适配；视口内留边；长内容内部滚动且操作可达。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "全12模块共用浮层基础；锁背景交互、焦点循环、关闭回焦；未保存时先确认舍弃。出款取消仅在服务端确认可取消时复用确认变体，不新增任意人工审批。",
+      "avoid": "失败关闭；默认聚焦不可逆确认。把每个普通操作强制变成审批流程；把确认点击当取消已完成。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "drawer",
+      "name": "抽屉",
+      "category": "浮层",
+      "description": "在保留上下文时查看详情或设置。",
+      "variants": [
+        "详情",
+        "窄屏筛选"
+      ],
+      "states": [
+        "closed",
+        "open",
+        "loading",
+        "error",
+        "dirty"
+      ],
+      "keyboard": "模态型焦点循环，非模态型可Tab到页面；Esc及明确关闭按钮等价；不依赖滑动手势。",
+      "accessibility": "模态属性必须和实际背景交互一致；有名称、返回路径及可达关闭按钮。",
+      "responsive": "依当前布局规则及内容最小宽度适配；视口内留边；长内容内部滚动且操作可达。",
+      "motion": "键盘触发0ms；指针反馈用primitive.motion.fast / standard及primitive.motion.ease；只动transform/opacity，减少动态时取消位移。",
+      "usage": "模态型遵循对话框焦点规则；非模态不锁焦点；拖动以外有关闭按钮。",
+      "avoid": "只支持手势关闭；软键盘挡住主操作。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "image",
+      "name": "图片与缩略图",
+      "category": "媒体",
+      "description": "呈现素材并保持预留比例。",
+      "variants": [
+        "内容图",
+        "证据图",
+        "概念摄影"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "error",
+        "restricted"
+      ],
+      "keyboard": "播放、暂停、放大、下载都有可聚焦控件；不依赖拖拽、鼠标悬停或手势。",
+      "accessibility": "替代文本、字幕或文本替代按素材实际提供；缺失替代内容标明并提供人工补齐路径。",
+      "responsive": "预留宽高比；证据完整查看可放大；播放器、批注和说明在窄屏按顺序堆叠。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "按内容提供替代文本；原始证据可放大，概念摄影标注非真实客户。",
+      "avoid": "裁掉证据水印；把生成图当真实业绩。",
+      "modules": [
+        "B01"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "media-player",
+      "name": "媒体播放器",
+      "category": "媒体",
+      "description": "查看作品、课程与直播回放。",
+      "variants": [
+        "视频",
+        "音频",
+        "嵌入"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "playing",
+        "paused",
+        "buffering",
+        "ended",
+        "error",
+        "restricted"
+      ],
+      "keyboard": "Tab访问播放、暂停、音量、字幕、全屏和进度；进度方向键只在控件聚焦时处理。",
+      "accessibility": "视频字幕/音频文本替代按实际素材供给；缺失明确标记；不自动出声，控制按钮有可读状态。",
+      "responsive": "预留宽高比；证据完整查看可放大；播放器、批注和说明在窄屏按顺序堆叠。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "不自动播声；支持字幕、文本替代、可见控件；切版本不沿用错误时间点。",
+      "avoid": "暗示每个外部视频都能下载或有字幕接口。",
+      "modules": [
+        "B03",
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "file-preview",
+      "name": "文件预览与下载",
+      "category": "媒体",
+      "description": "说明文件名、类型、大小、来源与可用性。",
+      "variants": [
+        "文档",
+        "证据",
+        "附件"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "unsupported",
+        "expired",
+        "error",
+        "restricted"
+      ],
+      "keyboard": "播放、暂停、放大、下载都有可聚焦控件；不依赖拖拽、鼠标悬停或手势。",
+      "accessibility": "替代文本、字幕或文本替代按素材实际提供；缺失替代内容标明并提供人工补齐路径。",
+      "responsive": "预留宽高比；证据完整查看可放大；播放器、批注和说明在窄屏按顺序堆叠。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "预览失败可在权限允许时下载；链接过期重取；附件保留与对象关系。",
+      "avoid": "不支持预览就说文件不存在；直出私密长效地址。",
+      "modules": [
+        "B01",
+        "B03",
+        "B10",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "annotation",
+      "name": "媒体批注",
+      "category": "媒体",
+      "description": "把反馈绑定具体媒体版本和位置。",
+      "variants": [
+        "时间点",
+        "选区",
+        "版本评论"
+      ],
+      "states": [
+        "draft",
+        "posting",
+        "posted",
+        "resolved",
+        "error",
+        "readonly"
+      ],
+      "keyboard": "播放、暂停、放大、下载都有可聚焦控件；不依赖拖拽、鼠标悬停或手势。",
+      "accessibility": "替代文本、字幕或文本替代按素材实际提供；缺失替代内容标明并提供人工补齐路径。",
+      "responsive": "预留宽高比；证据完整查看可放大；播放器、批注和说明在窄屏按顺序堆叠。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "编辑后另留记录；旧版本批注不会无说明移动到新版。",
+      "avoid": "批注解决当作最终内容通过。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "asset-library",
+      "name": "素材库与选择",
+      "category": "媒体",
+      "description": "选择可用于当前活动及渠道的媒体。",
+      "variants": [
+        "授权素材",
+        "个人素材",
+        "生成素材"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "selected",
+        "uploading",
+        "error",
+        "expired-rights"
+      ],
+      "keyboard": "播放、暂停、放大、下载都有可聚焦控件；不依赖拖拽、鼠标悬停或手势。",
+      "accessibility": "替代文本、字幕或文本替代按素材实际提供；缺失替代内容标明并提供人工补齐路径。",
+      "responsive": "预留宽高比；证据完整查看可放大；播放器、批注和说明在窄屏按顺序堆叠。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "显示权利来源、用途和期限；过期素材保留历史记录并阻止新使用。",
+      "avoid": "素材能看见就默认可商用、改编或投广告。",
+      "modules": [
+        "B01",
+        "B03",
+        "B06",
+        "B07",
+        "B08",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "campaign-brief",
+      "name": "奖励活动详情",
+      "category": "业务复合",
+      "description": "Creator Rewards主入口：目标、素材、规则、结果计酬与下一步。",
+      "variants": [
+        "公开",
+        "申请制",
+        "私密"
+      ],
+      "states": [
+        "draft",
+        "open",
+        "paused",
+        "ended",
+        "restricted",
+        "incomplete-rules"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "组合规则摘要、预算、日期和参与入口；未确认计量口径只预览，不承诺收益。",
+      "avoid": "把UGC形式直接当按帖计费；把公开活动当无门槛。",
+      "modules": [
+        "B06",
+        "B07"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "rule-editor",
+      "name": "活动规则与版本",
+      "category": "业务复合",
+      "description": "管理适用版本、权利、窗口、单价与启用的上限。",
+      "variants": [
+        "草拟",
+        "版本比较",
+        "参与确认"
+      ],
+      "states": [
+        "draft",
+        "invalid",
+        "preview",
+        "active",
+        "superseded",
+        "conflict",
+        "readonly"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "发布前展示差异和受影响人；既有提交不静默覆盖；条款接受留版本证据。",
+      "avoid": "预填15%为正式价格；把聊天追加要求用于拒稿。",
+      "modules": [
+        "B01",
+        "B06",
+        "B07"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "budget",
+      "name": "奖励预算面板",
+      "category": "业务复合",
+      "description": "区分预算上限、已占用、已确认义务及可退额。",
+      "variants": [
+        "活动预算",
+        "单稿上限",
+        "任务池"
+      ],
+      "states": [
+        "loading",
+        "available",
+        "low",
+        "exhausted",
+        "unknown",
+        "held",
+        "stale"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "同期竞争预算只在后端预留成功后确认；短缺给补资或等待路径。",
+      "avoid": "余额等于可退额；活动暂停取消已有应付。",
+      "modules": [
+        "B06",
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "submission",
+      "name": "投稿与公开链接提交",
+      "category": "业务复合",
+      "description": "记录版本、发布账号、平台链接和所接受规则。",
+      "variants": [
+        "草稿",
+        "公开帖子",
+        "任务证据"
+      ],
+      "states": [
+        "draft",
+        "validating",
+        "submitting",
+        "submitted",
+        "duplicate",
+        "invalid-link",
+        "error",
+        "withdrawn"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "重复帖子给原记录入口；更换媒体或账号要求重新验证，保持旧记录。",
+      "avoid": "提交按钮成功动画等于审核通过。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "review-workbench",
+      "name": "内容审核工作台",
+      "category": "业务复合",
+      "description": "要求逐项核对、媒体批注、决定理由、处理工时。",
+      "variants": [
+        "预审",
+        "终审",
+        "复审"
+      ],
+      "states": [
+        "loading",
+        "assigned",
+        "reviewing",
+        "needs-evidence",
+        "decided",
+        "conflict",
+        "readonly"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "拒绝绑定具体要求和证据；两人同时决定显示冲突；风险独立侧区。",
+      "avoid": "管理员代品牌批准；超时自动通过；新要求追溯拒稿。",
+      "modules": [
+        "B05",
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "measurement",
+      "name": "计量快照与核算",
+      "category": "业务复合",
+      "description": "显示原始、剔除、计入、既计入和本次增量。",
+      "variants": [
+        "实时观察",
+        "待核验",
+        "结算快照"
+      ],
+      "states": [
+        "waiting",
+        "collecting",
+        "unavailable",
+        "unverified",
+        "verified",
+        "correction",
+        "window-closed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "来源及采集时刻必填；修正关联原快照，correction是correction-required的界面显示别名。已被accruing/pending-settlement引用时标出受影响金额“核对中”，阻止基于该金额的新释放，待已核验调整及授权规则确认；保留原快照和金额，D01/D06方法未决不自动重算。断连显示未知并可重连。",
+      "avoid": "用实时计数覆盖结算证据；把自报升级为已核验。修正自动抹除旧金额、负数截零或按未批准算法重算；把核对中当风险裁决。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "reward-breakdown",
+      "name": "奖励拆解",
+      "category": "业务复合",
+      "description": "解释资格、计入量、单价、上限、费用及净应付。",
+      "variants": [
+        "估算",
+        "已确认",
+        "调整"
+      ],
+      "states": [
+        "estimating",
+        "eligible",
+        "accruing",
+        "pending-settlement",
+        "payable",
+        "risk-held",
+        "reversed",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "组合五状态线与本次怎么算；费用注明承担方。risk-held是独立限制，可在获授权政策下叠加于出款前的payable，保留已确认义务；不改写已付款。unknown仅指UI观察不可得，保留lastKnownState、lastConfirmedAt并查询同一对象恢复，不能推为零。引用待修正快照的accruing/pending-settlement金额标“核对中”，阻止新释放，待核验调整及授权规则；D01/D06仍未决。",
+      "avoid": "把可提现写成已到账；重复向创作者扣算例平台费。把payable限制当义务消失；把未知当零；把已支付改成未支付；未获D06政策许可自动扣回或冲销。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "creator-progress",
+      "name": "创作者进度",
+      "category": "业务复合",
+      "description": "围绕当前作品展示五条独立状态和下一处理人。",
+      "variants": [
+        "参与",
+        "投稿",
+        "追踪"
+      ],
+      "states": [
+        "needs-action",
+        "waiting",
+        "blocked",
+        "completed",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "只给一个当前主动作；等待注明谁负责、已有时间，不发明承诺时限。",
+      "avoid": "用一条绿色完成线暗示全部款项完成。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "bounty",
+      "name": "独立任务与名额",
+      "category": "业务复合",
+      "description": "为明确交付及名额组织任务，和播放计酬活动分开。",
+      "variants": [
+        "单期",
+        "排期",
+        "周期候选"
+      ],
+      "states": [
+        "draft",
+        "scheduled",
+        "open",
+        "closed-to-new",
+        "reviewing",
+        "completed",
+        "canceled",
+        "underfunded"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "每期独立预算与提交；取消先核对在途义务，金额变更展示适用范围。",
+      "avoid": "沿用竞品最低美元金额、冻结和费率作为Wringy政策。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "worklog",
+      "name": "审核工作量与成本",
+      "category": "业务复合",
+      "description": "统计所有投稿、拒稿、申诉及复审劳动。",
+      "variants": [
+        "计时",
+        "人工补记",
+        "聚合"
+      ],
+      "states": [
+        "idle",
+        "running",
+        "paused",
+        "recorded",
+        "missing",
+        "corrected",
+        "error"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "主动分钟与等待分开；同稿去重但审次累计；成本单位附来源。",
+      "avoid": "页面打开时间等于劳动；缺工时补零。",
+      "modules": [
+        "B06"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "social-connection",
+      "name": "社交账号与数据授权",
+      "category": "业务复合",
+      "description": "证明投稿账号关系及当前可取得的数据范围。",
+      "variants": [
+        "连接",
+        "重连",
+        "权限检查"
+      ],
+      "states": [
+        "disconnected",
+        "authorizing",
+        "connected",
+        "partial-scope",
+        "expired",
+        "error",
+        "revoked"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "回跳检查目标账号和空间；断开影响计量须预览；不展示授权凭据。",
+      "avoid": "连接成功等于平台认可或已具所有指标权限。",
+      "modules": [
+        "B03",
+        "B06",
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "product-editor",
+      "name": "商品与店面编排",
+      "category": "业务复合",
+      "description": "组合媒体、说明、方案引用和交付引用。",
+      "variants": [
+        "目录",
+        "组合商品",
+        "私有销售"
+      ],
+      "states": [
+        "draft",
+        "preview",
+        "published",
+        "unpublished",
+        "incomplete",
+        "conflict",
+        "readonly"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "发布检查必填与公开范围；下架保留既有购买关系；排序可键盘操作。",
+      "avoid": "把商品下架当删除会员；自动复制客户和资金。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B05"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "team-access",
+      "name": "团队、邀请与权限",
+      "category": "业务复合",
+      "description": "说明谁能在当前组织做什么。",
+      "variants": [
+        "邀请",
+        "角色矩阵",
+        "安全设置"
+      ],
+      "states": [
+        "invited",
+        "active",
+        "expired",
+        "revoked",
+        "editing",
+        "conflict",
+        "restricted"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "敏感权限变更展示前后差异；过期邀请重新发起；保留操作审计。",
+      "avoid": "把前端隐藏当权限执法；跨空间沿用已选用户。",
+      "modules": [
+        "B01",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "checkout",
+      "name": "结账摘要与付款入口",
+      "category": "业务复合",
+      "description": "商品、名额、付款方式、币种、税费及总价一次核对。",
+      "variants": [
+        "一次性",
+        "订阅",
+        "嵌入"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "needs-input",
+        "quote-expired",
+        "submitting",
+        "requires-action",
+        "unknown",
+        "failed",
+        "confirmed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "服务端确认支付；外部回跳仅查询；方式不可用给原因及可用替代。requires-action仅在提供方确认认证失败时进入failed；客户端到期或网络超时无确定终态时进入unknown并查询原请求。",
+      "avoid": "前端回跳成功等于付款成功；声称本地支持所有钱包。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B08",
+        "B09",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "price-plan",
+      "name": "价格方案",
+      "category": "业务复合",
+      "description": "显示首次费、周期、次数及试用后的真实费用。",
+      "variants": [
+        "免费",
+        "一次性",
+        "周期",
+        "分期候选"
+      ],
+      "states": [
+        "draft",
+        "active",
+        "retired",
+        "invalid",
+        "readonly"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "金额变化展示生效对象与时间；只用已确认的规则，不默认续订许可。",
+      "avoid": "把商家分期叫融资；免费试用隐藏后续扣款。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B05",
+        "B07",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "subscription",
+      "name": "订阅与权益摘要",
+      "category": "业务复合",
+      "description": "收费状态与访问权限并排显示。",
+      "variants": [
+        "买家门户",
+        "经营后台"
+      ],
+      "states": [
+        "active",
+        "past-due",
+        "paused",
+        "cancel-scheduled",
+        "canceled",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "期末取消写清日期；即时终止访问独立确认；欠费恢复先查付款。",
+      "avoid": "取消收费立刻默认删访问；套用竞品五天重试。",
+      "modules": [
+        "B02",
+        "B04",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "invoice",
+      "name": "账单与收据",
+      "category": "业务复合",
+      "description": "列明应收、已收、税项和付款凭证来源。",
+      "variants": [
+        "应收",
+        "收据",
+        "税务凭证"
+      ],
+      "states": [
+        "draft",
+        "open",
+        "overdue",
+        "paid",
+        "partially-paid",
+        "void",
+        "uncollectible",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "站外收款需单独证据；作废与退款不同；PDF和页面口径一致。",
+      "avoid": "将无法收回当退款；仅邮件发出就显示已付款。",
+      "modules": [
+        "B02",
+        "B04",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "entitlement",
+      "name": "会员访问与交付门槛",
+      "category": "业务复合",
+      "description": "解释能访问什么及哪些外部步骤尚未完成。",
+      "variants": [
+        "已购访问",
+        "外部接入",
+        "恢复"
+      ],
+      "states": [
+        "checking",
+        "granted",
+        "locked",
+        "expired",
+        "pending-sync",
+        "failed",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "购买确认与外部群同步各自记录；找回用账号关系核对，不显示别人的订单。",
+      "avoid": "支付成功必然外部群已开通。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "course",
+      "name": "课程目录与学习任务",
+      "category": "业务复合",
+      "description": "课程模块、章节、媒体和知识检查组合。",
+      "variants": [
+        "目录",
+        "课时",
+        "测验"
+      ],
+      "states": [
+        "locked",
+        "available",
+        "in-progress",
+        "submitted",
+        "passed",
+        "failed",
+        "completed",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "尝试次数、门槛按课程版本；学习保存失败保留本地答案并提示。",
+      "avoid": "用看完视频时间伪造合格；任意设统一及格线。",
+      "modules": [
+        "B03",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "conversation",
+      "name": "对话、帖子与讨论",
+      "category": "业务复合",
+      "description": "区分客服个案、群聊与公开帖子可见范围。",
+      "variants": [
+        "客服",
+        "群聊",
+        "论坛",
+        "公告"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "draft",
+        "sending",
+        "sent",
+        "failed",
+        "unread",
+        "resolved",
+        "restricted"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "发送失败保留草稿并关联原消息重试；解决会话不等于退款或申诉结案。",
+      "avoid": "默认把内部备注发送给客户；输入中自动发送。",
+      "modules": [
+        "B03",
+        "B04",
+        "B06",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "schedule",
+      "name": "活动与预约",
+      "category": "业务复合",
+      "description": "时区、时间、地点与名额共同构成一次预约。",
+      "variants": [
+        "直播",
+        "线下活动",
+        "一对一"
+      ],
+      "states": [
+        "available",
+        "selected",
+        "reserving",
+        "booked",
+        "full",
+        "rescheduled",
+        "canceled",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "确认前重查名额；支付和占位状态分开；改期展示原新时间。",
+      "avoid": "外部日历加入成功即当预订成功。",
+      "modules": [
+        "B03",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "fulfillment",
+      "name": "实物与服务履约",
+      "category": "业务复合",
+      "description": "显示地址、规格、运单或服务交付责任。",
+      "variants": [
+        "物流",
+        "服务里程碑"
+      ],
+      "states": [
+        "awaiting-details",
+        "queued",
+        "in-progress",
+        "shipped",
+        "delivered",
+        "exception",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "外部来源注明更新时间；异常指向商家或履约方，敏感地址按权限显示。",
+      "avoid": "付款成功推断已发货；宣称已有仓配集成。",
+      "modules": [
+        "B03"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "customer-record",
+      "name": "客户与候补工作台",
+      "category": "业务复合",
+      "description": "一个客户与多段会员/候补关系分别展示。",
+      "variants": [
+        "客户",
+        "会员关系",
+        "候补"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "invited",
+        "waiting",
+        "approved",
+        "denied",
+        "restricted"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "批准候补只给予购买资格；批量操作逐项结果；找回过程不泄露邮箱。",
+      "avoid": "候补通过等于付款；把顾客总消费当平台收入。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "review-rating",
+      "name": "评价与信任展示",
+      "category": "业务复合",
+      "description": "星级、正文、附件及付费三态来源可核对。",
+      "variants": [
+        "评价列表",
+        "撰写",
+        "治理"
+      ],
+      "states": [
+        "draft",
+        "pending",
+        "published",
+        "removed",
+        "paid",
+        "unpaid",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "评价发布与付费关系两维；举报给案件入口；编辑留更新日期。",
+      "avoid": "未知评价标已购验证；公开资金流当个人业绩。",
+      "modules": [
+        "B05"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "referral",
+      "name": "推荐与分成关系",
+      "category": "业务复合",
+      "description": "定义关系、适用商品、期限、费基和版本。",
+      "variants": [
+        "推广链接",
+        "邀请",
+        "非链接分成"
+      ],
+      "states": [
+        "invited",
+        "active",
+        "expired",
+        "archived",
+        "revoked",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "归因证据链接交易；复制推广链接反馈成功；关系变更不回改历史佣金。",
+      "avoid": "推荐与无链接收入分成混算；默认竞品30%。",
+      "modules": [
+        "B07",
+        "B08",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "commission",
+      "name": "佣金明细与排行",
+      "category": "业务复合",
+      "description": "拆解归因、计费基数、费率、费用及资金状态。",
+      "variants": [
+        "逐笔收益",
+        "排行",
+        "兑换奖励"
+      ],
+      "states": [
+        "estimating",
+        "pending",
+        "available",
+        "reversed",
+        "unknown",
+        "qualified",
+        "redeemed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "结算前空值显示待确认；匿名排行不泄露他人身份；自己的名次另列。",
+      "avoid": "利润分成写成GMV比例；排行榜当可提现证明。",
+      "modules": [
+        "B06",
+        "B07",
+        "B09",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "ad-editor",
+      "name": "广告层级与排期",
+      "category": "业务复合",
+      "description": "目标、受众、素材、版位和预算按层级编排。",
+      "variants": [
+        "活动",
+        "广告组",
+        "广告"
+      ],
+      "states": [
+        "draft",
+        "incomplete",
+        "in-review",
+        "rejected",
+        "scheduled",
+        "active",
+        "paused",
+        "ended",
+        "error"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "发布前显示继承与覆盖；外部拒绝保留原理由；素材权利独立检查。",
+      "avoid": "未来广告网络标已连接；复制自动启动花费。",
+      "modules": [
+        "B08",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "audience",
+      "name": "受众构建与导入",
+      "category": "业务复合",
+      "description": "展示来源、包含/排除条件、快照或持续更新。",
+      "variants": [
+        "条件集合",
+        "名单导入",
+        "相似受众候选"
+      ],
+      "states": [
+        "draft",
+        "validating",
+        "processing",
+        "ready",
+        "partial",
+        "failed",
+        "stale"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "行级导入错误可下载脱敏报告；匹配率须有分母；删除影响预览。",
+      "avoid": "把估计受众数当实际触达；默认可分享个人名单。",
+      "modules": [
+        "B08"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "attribution",
+      "name": "归因与事件诊断",
+      "category": "业务复合",
+      "description": "区分浏览器事件、外部购买声明和确认付款。",
+      "variants": [
+        "广告报告",
+        "事件流",
+        "像素检查"
+      ],
+      "states": [
+        "waiting",
+        "receiving",
+        "duplicate",
+        "delayed",
+        "partial",
+        "unknown",
+        "error"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "事件去重；显示窗口、模型及来源；ROAS不能暗示利润。",
+      "avoid": "末次触点即因果证明；同一事件多通道累计销售。",
+      "modules": [
+        "B08",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "wallet",
+      "name": "钱包与余额分区",
+      "category": "业务复合",
+      "description": "按币种分开总账余额、待结算、限制额和可操作额。",
+      "variants": [
+        "个人",
+        "企业",
+        "用途可用额"
+      ],
+      "states": [
+        "loading",
+        "ready",
+        "zero",
+        "unknown",
+        "restricted",
+        "stale"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "提现、消费、转账可用额由各能力返回；来源与更新时间可展开。",
+      "avoid": "available等于balance；多币种直接相加。",
+      "modules": [
+        "B07",
+        "B09",
+        "B10",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "ledger",
+      "name": "账务流水与对账",
+      "category": "业务复合",
+      "description": "保留金额、方向、币种、业务来源与外部凭证关系。",
+      "variants": [
+        "流水",
+        "关联明细",
+        "对账"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "posted",
+        "pending",
+        "adjusted",
+        "unmatched",
+        "unknown",
+        "error"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "退款/逆转新增关联记录；对账差异不得隐藏；充值与收入分开。",
+      "avoid": "改写历史流水使总数好看；认为表格就是完整账本实现。",
+      "modules": [
+        "B02",
+        "B05",
+        "B07",
+        "B09",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "payout",
+      "name": "出款与收款目的地",
+      "category": "业务复合",
+      "description": "核对收款人、方式、净额、费用和执行结果。",
+      "variants": [
+        "目的地",
+        "报价",
+        "进度"
+      ],
+      "states": [
+        "incomplete",
+        "validating",
+        "quoted",
+        "quote-expired",
+        "initiated",
+        "processing",
+        "unknown",
+        "failed",
+        "confirmed",
+        "returned",
+        "requires-action",
+        "cancel-confirmation",
+        "canceling",
+        "canceled"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "报价过期重新确认；未知先查原请求。requires-action仅凭提供方确认认证失败进入failed，客户端到期/网络超时无终态仍为unknown。仅服务端确认当前阶段可取消时打开dialog确认变体，显示原付款、金额、收款人及实际费用影响；确认后请求取消，保留原付款状态与canceling请求标记，提供方确认才显示canceled。这不是新增人工审批。",
+      "avoid": "服务商受理等于银行到账；超时重新打款。把取消点击当资金已退；结果未知时重复付款或重复取消；按客户端倒计时宣判认证失败。",
+      "modules": [
+        "B06",
+        "B09",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "transfer",
+      "name": "充值、转账与兑换确认",
+      "category": "业务复合",
+      "description": "说明资金从哪里到哪里，汇率、链网络或费用。",
+      "variants": [
+        "充值",
+        "转账",
+        "换汇",
+        "领取链接"
+      ],
+      "states": [
+        "draft",
+        "quoted",
+        "expired",
+        "confirming",
+        "processing",
+        "unknown",
+        "completed",
+        "failed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "收款身份与币种完整核对；外部授权后查询结果；不能凭客户端完成记账。",
+      "avoid": "把入金当购买；默认数字资产和法币可互换。",
+      "modules": [
+        "B02",
+        "B09",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "financial-product",
+      "name": "受限金融产品入口",
+      "category": "业务复合",
+      "description": "展示资格来源、产品种类和实际开放范围。",
+      "variants": [
+        "发卡",
+        "融资",
+        "收益产品",
+        "数字资产"
+      ],
+      "states": [
+        "unverified",
+        "unavailable",
+        "eligible",
+        "application-pending",
+        "active",
+        "restricted",
+        "closed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "未验证提供方与地区时只展示研究候选；每类产品另有正式合同才能开放动作。",
+      "avoid": "把收益产品叫存款；虚构保本、实时到账或当地可用。",
+      "modules": [
+        "B02",
+        "B08",
+        "B09",
+        "B10",
+        "B11"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "verification",
+      "name": "身份核验与补件",
+      "category": "业务复合",
+      "description": "核验对象、所需材料、处理方和能力结果分开。",
+      "variants": [
+        "个人",
+        "企业",
+        "补件"
+      ],
+      "states": [
+        "not-started",
+        "in-progress",
+        "submitted",
+        "needs-info",
+        "verified",
+        "rejected",
+        "expired",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "补件逐项状态；敏感资料最小展示；核验通过仍重查具体金融能力。",
+      "avoid": "公司通过即个人通过；采用尚未选定供应商名称做默认。",
+      "modules": [
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "risk-case",
+      "name": "风险案件与限制",
+      "category": "业务复合",
+      "description": "显示事实、辅助信号、决定与影响操作。",
+      "variants": [
+        "疑点",
+        "复核",
+        "限制处置"
+      ],
+      "states": [
+        "clear",
+        "flagged",
+        "reviewing",
+        "needs-evidence",
+        "appealing",
+        "cleared",
+        "maintained",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "分数不可作最终理由；内容决定不变；限制释放有审计和原案件关联。获授权政策可对出款前payable叠加risk-held而保留义务；D05/D06权限仍待确认。unknown仅为UI观察不可得，保留lastKnownState、lastConfirmedAt及已有案件/限制，重新读取同一caseId恢复，不新增风险业务状态。",
+      "avoid": "risk hold等于拒稿或欺诈成立；客服越权解除资金限制。把unknown解释为clear、无风险或解除限制；恢复读取就自动清案。",
+      "modules": [
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "appeal",
+      "name": "复议与争议工作台",
+      "category": "业务复合",
+      "description": "按案件类型呈现参与者、证据、期限和决定权。",
+      "variants": [
+        "内容复议",
+        "平台退款案",
+        "银行拒付"
+      ],
+      "states": [
+        "draft",
+        "submitted",
+        "needs-evidence",
+        "awaiting-owner",
+        "decided",
+        "closed",
+        "expired"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "品牌拒稿仍交品牌；退款决定交执行模块；银行期限按原通知时区。",
+      "avoid": "给所有案件套同样次数、七天时限或裁决者。",
+      "modules": [
+        "B04",
+        "B06",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "reserve",
+      "name": "限制资金与释放计划",
+      "category": "业务复合",
+      "description": "展示限制金额、来源规则、预计日期及实际释放。",
+      "variants": [
+        "滚动准备金",
+        "固定限制",
+        "风险留置"
+      ],
+      "states": [
+        "active",
+        "partially-released",
+        "released",
+        "extended",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "预计日期不保证到账；规则变更记录通知及影响范围；与账本关联。",
+      "avoid": "限制额消失就当打款；多限制重复减余额。",
+      "modules": [
+        "B02",
+        "B09",
+        "B10"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "tax-document",
+      "name": "税务资料与费用政策",
+      "category": "业务复合",
+      "description": "展示征税模式、责任方、地区和文件用途。",
+      "variants": [
+        "税号",
+        "税项说明",
+        "申报文件候选"
+      ],
+      "states": [
+        "missing",
+        "draft",
+        "submitted",
+        "validated",
+        "needs-correction",
+        "expired",
+        "unavailable"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "未知税额不默认0；退款调税关联原凭证；本地规则待验证。",
+      "avoid": "把美国税表/公司服务直接移植马来西亚。",
+      "modules": [
+        "B10",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "app-connection",
+      "name": "应用安装与授权",
+      "category": "业务复合",
+      "description": "显示目标空间、用途、必需/可选权限及数据范围。",
+      "variants": [
+        "安装",
+        "OAuth授权",
+        "连接器"
+      ],
+      "states": [
+        "not-installed",
+        "consent",
+        "connecting",
+        "connected",
+        "partial",
+        "expired",
+        "revoked",
+        "error"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "新增权限重新同意；拒绝可选权限可降级；解绑显示后续影响。",
+      "avoid": "一次授权让所有商家共用数据；把文档接口当账户操作权。",
+      "modules": [
+        "B02",
+        "B03",
+        "B04",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "credential",
+      "name": "开发凭证管理",
+      "category": "业务复合",
+      "description": "分开测试/生产、账户/应用作用域。",
+      "variants": [
+        "密钥",
+        "令牌",
+        "环境配置"
+      ],
+      "states": [
+        "masked",
+        "revealed",
+        "creating",
+        "active",
+        "expired",
+        "revoked",
+        "error"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "仅创建时展示完整密钥的行为须后端支持；复制、轮换、撤销明确作用域。",
+      "avoid": "真实密钥进入日志、导出或通用分析事件。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B09",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "event-log",
+      "name": "接口事件与投递日志",
+      "category": "业务复合",
+      "description": "排查投递、业务处理和补查三种结果。",
+      "variants": [
+        "请求日志",
+        "Webhook",
+        "运行日志"
+      ],
+      "states": [
+        "queued",
+        "processing",
+        "delivered",
+        "failed",
+        "retrying",
+        "rate-limited",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "脱敏载荷；重放前说明目标和去重标识；已投递不当业务成功。",
+      "avoid": "日志中暴露凭据；重复事件重复履约。",
+      "modules": [
+        "B01",
+        "B03",
+        "B04",
+        "B08",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "import-export",
+      "name": "导入、导出与同步任务",
+      "category": "业务复合",
+      "description": "选择空间、范围、字段并查看逐项结果。",
+      "variants": [
+        "导入",
+        "导出",
+        "连接同步"
+      ],
+      "states": [
+        "configuring",
+        "preview",
+        "queued",
+        "processing",
+        "partial",
+        "completed",
+        "failed",
+        "expired",
+        "canceled"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "失败只重跑失败项且服务端去重；导出下载重新检查权限；给实际保留期限。",
+      "avoid": "列表里存在资源就声称能创建导出；复制客户到错误空间。",
+      "modules": [
+        "B02",
+        "B04",
+        "B08",
+        "B09",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "ai-workbench",
+      "name": "AI会话与生成任务",
+      "category": "业务复合",
+      "description": "明确上下文、草稿输出、来源和可执行范围。",
+      "variants": [
+        "会话",
+        "媒体生成",
+        "经营建议"
+      ],
+      "states": [
+        "idle",
+        "generating",
+        "streaming",
+        "ready",
+        "stopped",
+        "partial",
+        "failed",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "停止生成不等于退费；失败保留已生成草稿；资料指令不能覆盖用户授权。",
+      "avoid": "生成内容标客户事实；显示token数推断收费。",
+      "modules": [
+        "B04",
+        "B08",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "action-preview",
+      "name": "代理操作预览与确认",
+      "category": "业务复合",
+      "description": "确认前展示对象、参数、影响、费用及目标空间。",
+      "variants": [
+        "资金",
+        "权限",
+        "发布",
+        "删除"
+      ],
+      "states": [
+        "proposed",
+        "reviewing",
+        "confirmed",
+        "executing",
+        "expired",
+        "unknown",
+        "failed",
+        "completed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "确认绑定参数摘要与版本；参数变更重新确认；执行后查询真实结果。",
+      "avoid": "一次同意永久授权后续操作；聊天回复当服务端完成。",
+      "modules": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B09",
+        "B10",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "site-lifecycle",
+      "name": "网站与版本发布",
+      "category": "业务复合",
+      "description": "区分工作稿、预览和线上版本。",
+      "variants": [
+        "编辑",
+        "预览",
+        "发布",
+        "恢复"
+      ],
+      "states": [
+        "draft",
+        "building",
+        "preview-ready",
+        "publishing",
+        "live",
+        "failed",
+        "rollback-pending"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "发布目标及变更可核对；失败保留现在线上版本；恢复说明数据边界。",
+      "avoid": "恢复网站代码等于撤销已发生订单。",
+      "modules": [
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "blueprint",
+      "name": "业务蓝图与迁移向导",
+      "category": "业务复合",
+      "description": "确认来源、目标、复制范围和不可迁移对象。",
+      "variants": [
+        "蓝图复制",
+        "配置导入",
+        "订阅迁移"
+      ],
+      "states": [
+        "selecting",
+        "preview",
+        "blocked",
+        "confirmed",
+        "running",
+        "partial",
+        "completed",
+        "failed"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "预览逐项包含/排除；迁移订阅需独立执行计划和原系统证据；不复制资金。",
+      "avoid": "把网址重建等于迁移数据库；重跑重复收费或取消。",
+      "modules": [
+        "B07",
+        "B12"
+      ],
+      "maturity": "specified"
+    },
+    {
+      "id": "service-application",
+      "name": "创业服务与成长资格",
+      "category": "业务复合",
+      "description": "区别申请服务、法律实体申请和按业绩解锁的权益。",
+      "variants": [
+        "辅导申请",
+        "企业接入",
+        "公司成立候选",
+        "成长社群"
+      ],
+      "states": [
+        "unverified",
+        "available",
+        "applying",
+        "needs-info",
+        "under-review",
+        "qualified",
+        "not-qualified",
+        "unknown"
+      ],
+      "keyboard": "按对象摘要→证据/输入→主操作→历史顺序Tab；内含控件遵循其契约；决定不得绑定单字全局快捷键。",
+      "accessibility": "对象、作用空间、当前状态、下一责任人均为可读文本；受限证据不进入DOM或通用导出。",
+      "responsive": "桌面按任务用连续面或列表详情；窄屏先摘要、阻塞原因及下一步，再证据与历史；不裁掉资金字段。",
+      "motion": "静态内容不动；数值和业务状态立即更新，不滚动计数。",
+      "usage": "资格读取有期间及来源；资料不足显示补件；人工服务给真实下一联系人。",
+      "avoid": "付申请费等于批准；把美国服务当马来西亚准入。",
+      "modules": [
+        "B01",
+        "B10",
+        "B11",
+        "B12"
+      ],
+      "maturity": "specified"
+    }
+  ]
+}
+</script>
+<script type="application/json" id="embedded-demo-data">{
+  "version": "1.0",
+  "source": "../business-model-v2.md#统一算例全部为说明假设",
+  "classification": "说明算例，非批准奖励费率；不代表真实业绩",
+  "currency": "MYR",
+  "qualifiedViews": 50000,
+  "ratePerThousand": 5,
+  "reward": 250,
+  "budgetCap": 10000,
+  "rewardFormatted": "MYR 250.00",
+  "budgetFormatted": "MYR 10,000.00",
+  "rateFormatted": "MYR 5 / 1,000 次",
+  "formattedViews": "50,000"
+}
+</script>
+</head>
+<body><a class="skip" href="#main">跳到主要内容</a>
+<aside id="sidebar"><a class="wordmark" href="#overview">Wringy<span>设计系统</span></a><div class="edition">FOUNDATION / 01 <span class="dot"></span></div><nav aria-label="文档导航"><p class="nav-label">开始使用</p><a href="#overview">概览 <span>↗</span></a><a href="#foundations">品牌与设计变量</a><a href="#principles">交互原则</a><p class="nav-label">组件实验室</p><a href="#controls">按钮与选择</a><a href="#forms">表单与上传</a><a href="#overlays">导航与反馈</a><a href="#data">数据与表格</a><a href="#rewards">Creator Rewards</a><p class="nav-label">完整规范</p><a href="#catalog">组件目录 <span id="nav-count">…</span></a><a href="#coverage">验证与边界</a></nav><div class="sidebar-foot"><span class="dot"></span> Light · 本地原型<br><small>设计可体验，能力不夸大。</small></div></aside>
+<div class="mobile-bar"><a href="#overview" class="wordmark">Wringy</a><button id="nav-toggle" aria-controls="sidebar" aria-expanded="false">目录 ☰</button></div>
+<main id="main" tabindex="-1"><header class="topbar"><span>Wringy / Foundation</span><span>设计文档 <b>v1.0</b> <span class="pill">原型</span></span></header>
+<section id="overview" class="hero"><div class="eyebrow">A CLEARER WAY TO CREATE</div><h1>让每一步，<br>清楚而有分寸。</h1><div class="hero-bottom"><p>Wringy 设计系统。<br>从品牌语言到交互细节，<br>让创作、审核与奖励各有依据。</p><a class="button primary" href="#catalog">探索组件目录 <span>↗</span></a></div><div class="hero-index">01 — FOUNDATION</div><div class="hero-art" aria-hidden="true"><div class="tile tile-one">Wringy<span>Clarity in every step.</span></div><div class="tile tile-two"><span>下一个清楚的动作</span><strong>让好内容<br>走向下一步。</strong><div>作品 001 <span>↗</span></div></div></div></section>
+<div class="intro-grid"><article><small>01 / 品牌表达</small><h3>留白，给重要的事。</h3><p>白色工作面、克制的酸柠黄与可靠的深色文字。让内容成为主角。</p></article><article><small>02 / 产品表达</small><h3>先看对象，再做决定。</h3><p>清楚的标签、连续的信息层级、可恢复的操作。每种状态都有名字。</p></article><article><small>03 / 交付边界</small><h3>可体验，也可核对。</h3><p>本页交互仅在浏览器内运行。没有真实上传、审批、资格判断或资金操作。</p></article></div>
+<section id="foundations"><div class="section-head"><div><div class="eyebrow">01 / FOUNDATIONS</div><h2>共同语言，从基础开始。</h2></div><span class="pill">Light 完整 · Dark 预留</span></div><p class="lead">原始值 → 语义角色 → 组件变量。修改同一份源文件，让界面一起变化。</p><div id="swatches" class="swatches"></div><div class="two-col foundation-detail"><article><h3>文字是界面的骨架。</h3><div class="type-display">清楚的下一步</div><div class="type-body">水瓶日常使用演示</div><p>Arial / Helvetica / 中文系统字体<br>正文 15px · 注释 13px · 触控目标 44px</p><div class="spacing" aria-label="间距序列 4、8、16、24、32、64"></div></article><article><div class="code-head">Token architecture <a href="tokens.json">查看源文件 ↗</a></div><pre><code>primitive.color.citron
+  ↓ semantic.accent
+    ↓ component.button-background
+
+#E4F222 → 行动强调 → 主按钮</code></pre><p>酸柠黄不是“成功”或“已付款”。未来深色主题需逐对验证语义颜色，本版没有深色模式开关。</p><a href="tokens.css">生成后的 CSS ↗</a></article></div></section>
+<section id="principles"><div class="section-head"><div><div class="eyebrow">02 / INTERACTION</div><h2>反馈明确，操作轻快。</h2></div></div><div class="principle-row"><strong>120–180<span>ms</span></strong><p>短促、自然的指针反馈。键盘操作立即响应；减少动态效果时关闭位移。</p><strong>44 × 44<span>px</span></strong><p>触控目标有足够余地。焦点清晰可见，不依赖颜色解释状态。</p></div></section>
+<section id="controls"><div class="section-head"><div><div class="eyebrow">03 / CONTROLS</div><h2>每一个动作，都有回应。</h2></div><span class="pill live">可交互原型</span></div><div class="panel"><div class="panel-title"><h3>按钮 / Button</h3><span>常态、悬停、按下、焦点、加载与禁用</span></div><div class="button-grid"><div><button class="primary" data-toast="已触发主要操作（本地演示）">主要操作 ↗</button><small>Primary</small></div><div><button data-toast="已触发次要操作（本地演示）">次要操作</button><small>Secondary</small></div><div><button class="ghost" data-toast="已触发文字操作（本地演示）">文字操作 →</button><small>Ghost</small></div><div><button class="danger" data-open-dialog>移除草稿</button><small>Danger · 先确认</small></div><div><button class="primary demo-hover" data-toast="悬停样例已触发">悬停样例</button><small>Hover · 视觉样例</small></div><div><button class="demo-pressed" data-toast="按下样例已触发">按下样例</button><small>Pressed · 视觉样例</small></div><div><button class="demo-focus" data-toast="焦点样例已触发">焦点样例</button><small>Focus · 视觉样例</small></div><div><button id="load-button" class="primary">模拟提交</button><small>Loading · 点击体验</small></div><div><button disabled>无权限操作</button><small>Disabled · 此演示账号无权限</small></div></div></div>
+<div class="two-col"><div class="panel"><h3>选择与偏好</h3><label>审核视图<select id="view-select"><option>全部作品</option><option>仅待审核</option><option>已审核</option></select></label><fieldset><legend>展示密度</legend><label class="choice"><input type="radio" name="density" value="舒适" checked>舒适</label><label class="choice"><input type="radio" name="density" value="紧凑">紧凑</label></fieldset><label class="choice"><input id="notify-check" type="checkbox">接收作品更新提醒</label><label class="choice"><input id="preview-switch" type="checkbox" role="switch">显示内容预览</label><p id="choice-status" role="status">全部作品 · 舒适 · 提醒关闭 · 预览关闭</p></div><div class="panel"><h3>状态不是一种颜色。</h3><p>每条事实都写出对象和含义。未知值不补成零，审核通过不等于收到款项。</p><div class="status-lines"><span>○ 发布前审核</span><strong>待审核</strong><span>✓ 最终审核</span><strong class="positive-text">审核通过</strong><span>◷ 奖励资格</span><strong>尚未确认</strong><span>! 银行实际付款</span><strong class="warning-text">尚未付款</strong></div></div></div></section>
+<section id="forms"><div class="section-head"><div><div class="eyebrow">04 / INPUT & RECOVERY</div><h2>失败之后，仍能继续。</h2></div><span class="pill live">可交互原型</span></div><div class="two-col"><div class="panel"><div class="panel-title"><h3>内容说明</h3><small>模拟网络，不发送数据</small></div><form id="sample-form" novalidate><label for="work-title">作品标题 <span class="required">必填</span></label><input id="work-title" name="title" autocomplete="off" aria-describedby="title-error" placeholder="例如：水瓶日常使用演示"><p id="title-error" class="error field-message"></p><label for="work-email">通知邮箱 <span class="required">必填</span></label><input type="email" id="work-email" name="email" autocomplete="email" aria-describedby="email-error" placeholder="name@example.com"><p id="email-error" class="error field-message"></p><label for="work-note">补充说明</label><textarea id="work-note" rows="3" placeholder="描述使用场景与作品重点"></textarea><label class="choice"><input id="simulate-fail" type="checkbox" checked>模拟服务失败（重试后成功）</label><div id="form-result" role="status"></div><button id="save-form" class="primary" type="submit">保存说明</button></form></div><div class="panel"><h3>上传预览</h3><p>仅本地读取图片，不传送到服务器。支持 PNG / JPEG / WebP，最大 5 MB。</p><label class="drop-zone" for="upload"><span class="upload-icon">↑</span><strong>选择一张作品图片</strong><span>可随时移除，重新选择</span><input id="upload" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="upload-result"></label><div id="upload-result" role="status"></div><div id="upload-preview"></div><button id="remove-upload" hidden>移除图片</button><div class="note"><strong>恢复原则</strong><p>必填项就地解释；提交失败保留标题、邮箱与说明。上传类型错误时保留已有有效预览。</p></div></div></div></section>
+<section id="overlays"><div class="section-head"><div><div class="eyebrow">05 / NAVIGATION & FEEDBACK</div><h2>适时出现，适时退让。</h2></div></div><div class="two-col"><div class="panel"><h3>标签页</h3><div role="tablist" aria-label="作品详情"><button role="tab" id="tab-content" aria-controls="panel-content" aria-selected="true" tabindex="0">作品内容</button><button role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1">审核记录</button><button role="tab" id="tab-files" aria-controls="panel-files" aria-selected="false" tabindex="-1">附件</button></div><div role="tabpanel" id="panel-content" aria-labelledby="tab-content" tabindex="0"><h3>水瓶日常使用演示</h3><p>主体清晰 · 使用过程完整</p><div class="content-placeholder">作品预览区域 · 未上传媒体</div></div><div role="tabpanel" id="panel-history" aria-labelledby="tab-history" tabindex="0" hidden><ol class="timeline"><li><strong>发布前审核通过</strong><p>示例审核员 · 09:30 · 模拟记录</p></li><li><strong>作品已提交</strong><p>示例创作者 A · 09:00 · 模拟记录</p></li></ol></div><div role="tabpanel" id="panel-files" aria-labelledby="tab-files" tabindex="0" hidden><div class="empty"><strong>尚无附件</strong><p>本示例没有存储任何文件。</p></div></div><p class="hint">← → 切换 · Home / End 到首尾</p></div><div class="panel"><h3>渐进展示</h3><details><summary>查看提交要求</summary><p>请提供完整的使用过程与清晰主体；实际产品要求尚待确认。</p></details><div class="actions"><button data-open-dialog>打开说明弹窗</button><div class="anchor"><button id="popover-trigger" popovertarget="attribute-popover" aria-expanded="false">属性浮层 ▾</button><div id="attribute-popover" popover><h4>演示属性</h4><label>负责人<select id="owner"><option>示例审核员 A</option><option>示例审核员 B</option></select></label><button popovertarget="attribute-popover" popovertargetaction="hide">完成</button></div></div></div><div class="actions"><button id="toast-trigger">显示保存反馈</button><div class="tooltip-anchor"><button id="tooltip-trigger" aria-describedby="helper-tooltip">帮助 ⓘ</button><div id="helper-tooltip" role="tooltip" hidden>仅保存到当前页面，刷新后重置。</div></div><div class="tooltip-anchor"><button id="tooltip-trigger-two" aria-describedby="helper-tooltip-two">数据来源 ⓘ</button><div id="helper-tooltip-two" role="tooltip" hidden>所有示例数据均为设计演示，无真实平台数据。</div></div></div><p class="hint">Tooltip：指针延迟 450ms，键盘焦点立即显示。Toast：5 秒后消失；悬停、焦点与页面隐藏时暂停。</p></div></div></section>
+<section id="data"><div class="section-head"><div><div class="eyebrow">06 / DATA</div><h2>让信息，成为判断的依据。</h2></div><span class="pill live">数据原型 · 模拟对象</span></div><div class="panel table-panel"><div class="toolbar"><label class="search-field">搜索作品<input id="table-search" type="search" placeholder="搜索标题或创作者"></label><label>审核状态<select id="table-filter"><option value="all">全部状态</option><option value="待审核">待审核</option><option value="发布前通过">发布前通过</option></select></label><label>场景<select id="table-mode"><option value="normal">正常</option><option value="loading">正在读取</option><option value="error">读取失败</option><option value="empty">首次空态</option></select></label></div><div id="selection-status" role="status">已选择 0 项</div><div id="table-area"></div><div class="pagination"><span id="page-info" role="status"></span><div><button id="prev-page" aria-label="上一页">←</button><button id="next-page" aria-label="下一页">→</button></div></div></div><div class="two-col"><div class="panel"><h3>金额表达 / Money</h3><dl class="money-list"><dt>金额未知</dt><dd>— <small>尚未确认</small></dd><dt>确认为零</dt><dd>MYR 0.00</dd><dt>正数示例</dt><dd>MYR 250.00</dd><dt>负数示例</dt><dd>−MYR 250.00</dd><dt>其他币种</dt><dd>USD 120.00</dd></dl><p class="hint">仅排版示例，不是奖励金额。缺失与零不同；不同币种不相加。</p></div><div class="panel"><h3>状态矩阵</h3><div class="state-matrix"><div><span>中性</span><p>尚未开始</p></div><div class="positive"><span>明确的成功</span><p>说明已保存</p></div><div class="warning"><span>需要注意</span><p>资格尚未确认</p></div><div class="negative"><span>可恢复错误</span><p>读取失败 · 请重试</p></div></div><p class="hint">图标、文字、颜色共同表达。关键错误保留在原处。</p></div></div></section>
+<section id="rewards"><div class="section-head"><div><div class="eyebrow">07 / CREATOR REWARDS</div><h2>五条事实，各自成立。</h2></div><span class="pill">业务规则待批准</span></div><p class="lead">内容、计量、奖励、付款、风险分别展示。改变一条轴，不会自动改变另一条。</p><div class="reward-workspace"><div class="reward-main"><div class="eyebrow">示例作品 001 / 日常好物演示</div><h3>水瓶日常使用演示</h3><p>示例创作者 A · 所有状态仅供设计验证</p><div class="reward-summary"><span>奖励金额</span><strong aria-label="金额尚未确认">—</strong><small>尚未确认 · 金额与奖励规则未批准</small></div><div id="reward-facts"></div><p id="reward-warning" class="note" role="status"></p></div><div class="reward-controls"><h3>独立状态控制台</h3><p>用不一致的组合，检查误读风险。</p><div id="axis-controls"></div><button id="reset-axes">恢复示例状态</button></div></div></section>
+<section id="catalog"><div class="section-head"><div><div class="eyebrow">08 / COMPONENT LIBRARY</div><h2>一个目录，完整契约。</h2></div><span id="catalog-count" class="pill">等待读取</span></div><p class="lead">搜索组件名称、状态或使用场景。每个条目保留变体、键盘、无障碍与响应契约；演示覆盖单独说明。</p><div class="catalog-toolbar"><label class="search-field">搜索组件<input id="catalog-search" type="search" placeholder="如：对话框、错误、键盘"></label><label>组件家族<select id="category-filter"><option value="all">全部家族</option></select></label></div><p id="catalog-status" role="status"></p><div id="catalog-grid" class="catalog-grid"></div><p class="hint">目录内容来自 catalog.json；页面不会把 specified（已定义规范）升级为生产已实现。</p></section>
+<section id="coverage"><div class="section-head"><div><div class="eyebrow">09 / TRUST & COVERAGE</div><h2>把边界，写在明处。</h2></div></div><p id="maturity-counts" class="lead"></p><div class="coverage-grid"><article><span class="pill live">交互原型</span><h3>可以亲手验证</h3><p>表单恢复、键盘标签页、弹窗、浮层、提示、表格、上传预览与独立业务状态控制。数据仅存在当前页面。</p></article><article><span class="pill">视觉样例</span><h3>只证明表达方式</h3><p>排版、金额矩阵、按钮状态图与目录中的家族样例。不能证明真实服务、权限或边界处理。</p></article><article><span class="pill">仅规范</span><h3>保留未来契约</h3><p>复杂组件显示其完整定义与明确缺口。生产组件库、API、真实审批、支付、深色模式与持久存储均未交付。</p></article></div><div class="source-note"><strong>依据与验证</strong><p>继承 design-v3 品牌规范与设计变量；遵循 Emil 的快速反馈、焦点与动效原则。完整测试事实见 <a href="verification.json">verification.json</a>，不会以视觉截图代替交互验证。</p><div class="actions"><a href="brand-foundations.md">品牌基础 ↗</a><a href="domain-states.md">五轴领域契约 ↗</a><a href="sources.md">来源与证据 ↗</a><a href="handoff.md">工程交接 ↗</a><a href="components.md">完整组件规范 ↗</a></div></div></section><footer><a class="wordmark" href="#overview">Wringy</a><span>Designed for clarity. Built to be questioned.</span><small>独立设计提案 · 本地原型 · 2026</small></footer></main>
+<dialog id="sample-dialog" aria-labelledby="dialog-title"><form method="dialog"><div class="dialog-head"><h2 id="dialog-title">编辑审核说明</h2><button value="cancel" aria-label="关闭弹窗">×</button></div><p>仅更改当前页面的说明，不提交审批或删除数据。</p><label for="dialog-note">审核说明</label><textarea id="dialog-note" autofocus rows="4" placeholder="写下需要补充的内容"></textarea><div class="actions"><button value="cancel">取消</button><button class="primary" value="save">保存演示说明</button></div></form></dialog>
+<div id="toast" hidden><span id="toast-message" role="status"></span><button id="toast-dismiss" aria-label="关闭提示">×</button></div>
+</body></html>

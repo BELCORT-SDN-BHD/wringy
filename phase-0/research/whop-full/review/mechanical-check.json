@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-10",
+  "research_files_checked": 22,
+  "feature_records": 168,
+  "per_module": {
+    "B01": 13,
+    "B02": 15,
+    "B03": 14,
+    "B04": 12,
+    "B05": 12,
+    "B06": 15,
+    "B07": 14,
+    "B08": 15,
+    "B09": 15,
+    "B10": 14,
+    "B11": 15,
+    "B12": 14
+  },
+  "indexed_unique_urls": 993,
+  "indexed_urls_cited": 215,
+  "missing_local_links": [],
+  "external_live_testing": false
+}

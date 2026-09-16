@@ -1,0 +1,18 @@
+{
+  "status": "complete",
+  "root": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v5",
+  "deck": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v5/output/Wringy-Investor-v5.pptx",
+  "pdf": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v5/output/Wringy-Investor-v5-Preview.pdf",
+  "contact_sheet": "${WRINGY_WORKSPACE}/phase-0/deliverables/investor-v5/output/contact-sheet.png",
+  "slides": 12,
+  "sha256": "aee72b26c18bf9350ab15521f773527394c9f889bc9cdc6b0b432e24e43a3add",
+  "source": "phase-0/foundation/business-model-v2.md",
+  "only_write_scope": "phase-0/deliverables/investor-v5/**",
+  "validation": "passed",
+  "visual_review": "all12 final slides inspected",
+  "gaps": [
+    "PowerPoint desktop edit-save-reopen not performed",
+    "PDF is raster preview",
+    "Noto Sans SC font not embedded"
+  ]
+}

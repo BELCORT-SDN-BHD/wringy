@@ -1,0 +1,38 @@
+{
+  "slides": 17,
+  "main_slides": 14,
+  "appendix_slides": 3,
+  "native_charts": 2,
+  "native_table_slides": [
+    10,
+    15,
+    16,
+    17
+  ],
+  "pdf_pages": 17,
+  "pdf_type": "raster preview from rendered final PPTX",
+  "visual_review": "Every slide inspected. Revisions corrected title length, step wrapping, chart units and shared screenshot.",
+  "limitations": [
+    "No PowerPoint desktop opening/edit-resave test",
+    "All business defaults and economics are unapproved examples",
+    "Image on slide 5 is static concept, text within screenshot is not editable"
+  ],
+  "files": {
+    "Wringy-Investor-v2-Reviewed.pptx": {
+      "bytes": 249110,
+      "sha256": "642ef8fd2f35ca7bfee7004cf1f48a943b05cdf2ba34248b073afa1b625958b0"
+    },
+    "Wringy-Investor-v2-Preview.pdf": {
+      "bytes": 2359995,
+      "sha256": "a104db71f38bc6b2a58caf82c23d320a1a9a378f8a1b40ca41fcb36a604a3cdc"
+    },
+    "Wringy-Investor-v2-Contact-Sheet.png": {
+      "bytes": 855789,
+      "sha256": "89cff543038700493569b4df2da55c6ff245324c3166af4fa12fc4c698fbc32f"
+    },
+    "content.md": {
+      "bytes": 16743,
+      "sha256": "67f2ae09e422536521e3d8c65689ab47fe54c81bc6f329a6060bf1afa2e56e39"
+    }
+  }
+}

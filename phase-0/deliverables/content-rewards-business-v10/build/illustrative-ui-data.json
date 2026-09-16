@@ -1,0 +1,22 @@
+{
+  "status": "fictional_presentation_example",
+  "approved_by": "main relay of user-requested UI graph on 2026-09-13",
+  "campaign": "青柠饮料推广",
+  "days": [
+    1,
+    4,
+    7,
+    10,
+    14
+  ],
+  "cumulative_qualified_views": [
+    0,
+    80000,
+    180000,
+    300000,
+    400000
+  ],
+  "reward_cap": 2000,
+  "rate_per_1000_qualified_views": 5,
+  "scope": "Illustrative observation points only. Not campaign deadline, payment SLA, forecast, achieved traction, unique reach, or Malaysian people. Does not modify finance model."
+}

@@ -1,0 +1,11 @@
+{
+  "version": 4,
+  "changedFromV3": [
+    32
+  ],
+  "change": "S32 table manual line breaks only; all other 63 PNGs byte-identical to v3",
+  "selfCheckedChangedPage": 32,
+  "result": "result.json",
+  "contentAudit": "content-audit.json",
+  "independentReview": "v3 review ongoing; only S32 requires extra review"
+}

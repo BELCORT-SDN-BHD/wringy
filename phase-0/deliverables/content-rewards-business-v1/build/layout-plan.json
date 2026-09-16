@@ -1,0 +1,81 @@
+{
+  "count": 18,
+  "main": 16,
+  "appendix": 2,
+  "basis": "story-outline.md; final copy and financial values pending",
+  "slides": [
+    {
+      "slide": 1,
+      "layout": "minimal cover"
+    },
+    {
+      "slide": 2,
+      "layout": "two audiences, concise needs and hypotheses"
+    },
+    {
+      "slide": 3,
+      "layout": "native business diagram; external social viewing clearly separate"
+    },
+    {
+      "slide": 4,
+      "layout": "native illustrated campaign flow and editable amount relation"
+    },
+    {
+      "slide": 5,
+      "layout": "native unit contribution chart; exact costs pending model"
+    },
+    {
+      "slide": 6,
+      "layout": "public mechanism with separate service responsibilities"
+    },
+    {
+      "slide": 7,
+      "layout": "single main market figure, visible limits"
+    },
+    {
+      "slide": 8,
+      "layout": "native capacity model and explicit assumptions"
+    },
+    {
+      "slide": 9,
+      "layout": "native comparison table"
+    },
+    {
+      "slide": 10,
+      "layout": "beta scope and compact native manual-review flow; no prototype screenshots"
+    },
+    {
+      "slide": 11,
+      "layout": "parallel brand field sales and creator recruitment"
+    },
+    {
+      "slide": 12,
+      "layout": "native use-of-funds chart; R&D cap separate"
+    },
+    {
+      "slide": 13,
+      "layout": "milestones and conditional second-round marketing"
+    },
+    {
+      "slide": 14,
+      "layout": "future modules with customer need and candidate fee, excluded from first-round revenue"
+    },
+    {
+      "slide": 15,
+      "layout": "expansion conditions and verified acquisition context"
+    },
+    {
+      "slide": 16,
+      "layout": "minimal investment discussion"
+    },
+    {
+      "slide": 17,
+      "layout": "native budget and unit-economics assumptions table"
+    },
+    {
+      "slide": 18,
+      "layout": "source links with native PPTX hyperlinks and matching PDF annotations"
+    }
+  ],
+  "no_working_product_implication": "Existing design system is not proof of usable beta; do not use its screenshots as built-product evidence"
+}

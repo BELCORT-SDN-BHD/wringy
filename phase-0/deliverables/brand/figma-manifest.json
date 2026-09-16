@@ -1,0 +1,1915 @@
+{
+  "file_key": "qw2UHml58nEnQLtUbC058Z",
+  "file_url": "https://www.figma.com/design/qw2UHml58nEnQLtUbC058Z",
+  "name": "Wringy — Brand & Design System v1",
+  "status": "blocked_figma_starter_mcp_call_limit",
+  "updated": "2026-09-10",
+  "completed": {
+    "collections": 4,
+    "variables": 130,
+    "textStyles": 0,
+    "effectStyles": 0,
+    "componentFamilies": 0,
+    "variants": 0,
+    "productScreens": 0,
+    "exports": 0
+  },
+  "blocker": "Figma MCP account quota confirmed blocked; stopped calls. Authorized local HTML/CSS fallback delivered; no retry or bypass.",
+  "upgrade_url": "https://www.figma.com/files/team/1564572283073170523/all-projects?upgrade=mcp_rate_limit_paywall",
+  "manifest": "figma-manifest.json",
+  "sourceTokens": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/tokens.json",
+  "sourceTokensSHA256": "f912ee370ef92e6bd17885e939b25dadf30ae4ce6a745f5e2ca6a6100b868e51",
+  "paletteChanged": false,
+  "collections": [
+    {
+      "id": "VariableCollectionId:3:4",
+      "name": "Wringy Primitives",
+      "modeId": "3:2"
+    },
+    {
+      "id": "VariableCollectionId:3:5",
+      "name": "Wringy Semantic Light",
+      "modeId": "3:3"
+    },
+    {
+      "id": "VariableCollectionId:3:6",
+      "name": "Wringy Semantic Dark",
+      "modeId": "3:4"
+    },
+    {
+      "id": "VariableCollectionId:3:7",
+      "name": "Wringy Metrics",
+      "modeId": "3:5"
+    }
+  ],
+  "variables": [
+    {
+      "name": "color/ink",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/inkHover",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/inkPressed",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/paper",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/white",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/mist",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/muted",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/line",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/citron",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/citronHover",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/citronPressed",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/iris",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/irisSoft",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/irisLight",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/night",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/surfaceDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/raisedDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/textDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/mutedDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/lineDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/success",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/successSoft",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/successDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/successBgDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/warning",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/warningSoft",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/warningDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/warningBgDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/danger",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/dangerSoft",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/dangerDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/dangerBgDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/info",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/infoSoft",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/infoDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/infoBgDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/chartTeal",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/chartTealDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/chartOrange",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "color/chartOrangeDark",
+      "collectionName": "Wringy Primitives",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/0",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/2",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/4",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/8",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/12",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/16",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/20",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/24",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/32",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/40",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/48",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/64",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/80",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/96",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "space/128",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "radius/none",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "radius/small",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "radius/control",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "radius/card",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "radius/feature",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "radius/pill",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "borderWidth/hairline",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "borderWidth/strong",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "borderWidth/focus",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "duration/instant",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "duration/fast",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "duration/standard",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "duration/enter",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "duration/exit",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "easing/standard",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "easing/enter",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "easing/exit",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "easing/linear",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/base",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/sticky",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/dropdown",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/scrim",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/modal",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/toast",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "zIndex/tooltip",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "breakpoint/sm",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "breakpoint/md",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "breakpoint/lg",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "breakpoint/xl",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "breakpoint/xxl",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "fontFamily/latin",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "fontFamily/cjk",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/contentMax",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/readingMaxCh",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/formMax",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/controlMinHeight",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/controlLargeHeight",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/touchTarget",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/mobileGutter",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/tabletGutter",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/desktopGutter",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/columnGap",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/focusOffset",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "layout/focusWidth",
+      "collectionName": "Wringy Metrics",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "bg/canvas",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "bg/surface",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "bg/raised",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "bg/subtle",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "text/primary",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "text/secondary",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "text/placeholder",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "text/link",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "border/default",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "border/decorative",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "focus/ring",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "focus/gap",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/primary/bg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/primary/fg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/primary/hover",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/primary/pressed",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/secondary/bg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/secondary/fg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/secondary/hover",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/secondary/pressed",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/ghost/bg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/ghost/fg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/ghost/hover",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/ghost/pressed",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/accent/bg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/accent/fg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/accent/hover",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/accent/pressed",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/danger/bg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/danger/fg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    },
+    {
+      "name": "action/disabled/bg",
+      "collectionName": "Wringy Semantic Light",
+      "id": null,
+      "status": "successful batch reported; individual ID requires read-back after quota reset"
+    }
+  ],
+  "countEvidence": "13 successful batches of10; final read-back rejected. Individual variable IDs were not retained in local result ledger; recover by collection+exact name before resume.",
+  "pages": [
+    {
+      "id": "0:1",
+      "lastObservedName": "Page 1",
+      "status": "blank on initial inspection; no canvas nodes created by worker"
+    }
+  ],
+  "boundVariableNodeCount": 0,
+  "createdCanvasNodeIds": [],
+  "styles": [],
+  "components": [],
+  "screens": [],
+  "exports": [],
+  "visualChecks": [
+    {
+      "asset": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/brand-logo-concept.png",
+      "result": "Inspected supplied bitmap; not imported because MCP quota reached."
+    },
+    {
+      "asset": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/generated/logo-lockup-transparent.png",
+      "result": "Inspected supplied bitmap; not imported because MCP quota reached."
+    }
+  ],
+  "fonts": {
+    "independentlyVerifiedFigma": [
+      {
+        "family": "Manrope",
+        "styles": [
+          "Regular",
+          "Medium",
+          "SemiBold",
+          "Bold"
+        ]
+      },
+      {
+        "family": "Noto Sans SC",
+        "styles": [
+          "Regular",
+          "Medium",
+          "Bold"
+        ]
+      }
+    ],
+    "mappingNote": "Noto600 proposed text style maps to verified Medium; no canonical file edit."
+  },
+  "limitations": [
+    {
+      "id": "FIGMA-MODE-01",
+      "error": "Error: in addMode: Limited to 1 modes only",
+      "handling": "Separate single-mode Light and Dark semantic collections, aliased to shared primitives. Native mode switching unavailable; future migration requires multi-mode access.",
+      "status": "communicated_to_main"
+    },
+    {
+      "id": "FIGMA-QUOTA-01",
+      "error": "You've reached the Figma MCP tool call limit on the Starter plan.",
+      "handling": "Stopped calls; no component/screen/export completion claimed.",
+      "status": "blocking"
+    }
+  ],
+  "resume": {
+    "queuePath": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/figma/foundation-queue.json",
+    "nextQueueIndex": 13,
+    "totalFoundationCalls": 26,
+    "successfulSteps": [
+      "P1 variables 0",
+      "P1 variables 10",
+      "P1 variables 20",
+      "P1 variables 30",
+      "P1 variables 40",
+      "P1 variables 50",
+      "P1 variables 60",
+      "P1 variables 70",
+      "P1 variables 80",
+      "P1 variables 90",
+      "P1 variables 100",
+      "P1 variables 110",
+      "P1 variables 120"
+    ],
+    "resultsPath": "${WRINGY_WORKSPACE}/phase-0/deliverables/build/figma/results.json",
+    "workflow": "Restore access; inspect IDs; continue remaining import; then three pages, native components, examples and export QA.",
+    "plannedCounts": {
+      "variables": 207,
+      "textStyles": 32,
+      "effectStyles": 4,
+      "componentFamilies": 31,
+      "screens": 4
+    }
+  },
+  "componentCoveragePlan": [
+    {
+      "id": "button",
+      "name": "操作按钮",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "primary",
+        "secondary",
+        "ghost",
+        "destructive",
+        "icon-only",
+        "accent-marketing"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "success"
+      ]
+    },
+    {
+      "id": "input",
+      "name": "文本输入",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "text",
+        "email",
+        "password",
+        "search",
+        "number",
+        "money",
+        "textarea"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "read-only",
+        "invalid",
+        "filled"
+      ]
+    },
+    {
+      "id": "form",
+      "name": "表单",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "single-column",
+        "multi-step",
+        "inline-filter"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "dirty",
+        "saving",
+        "saved",
+        "validation-error",
+        "conflict"
+      ]
+    },
+    {
+      "id": "select",
+      "name": "选择器",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "native-single",
+        "searchable-single",
+        "multi-select"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "no-results",
+        "selected"
+      ]
+    },
+    {
+      "id": "dropdown",
+      "name": "操作菜单",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "row-actions",
+        "account",
+        "overflow"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "open",
+        "closed"
+      ]
+    },
+    {
+      "id": "checkbox-radio-switch",
+      "name": "选择与开关",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "checkbox",
+        "checkbox-group",
+        "radio-group",
+        "switch"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "checked",
+        "unchecked",
+        "mixed"
+      ]
+    },
+    {
+      "id": "date-time",
+      "name": "日期时间",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "date",
+        "range",
+        "deadline"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "invalid-range",
+        "timezone-unavailable"
+      ]
+    },
+    {
+      "id": "upload",
+      "name": "文件上传",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "single",
+        "multiple",
+        "video",
+        "image",
+        "document"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "queued",
+        "uploading",
+        "paused",
+        "scanning",
+        "failed",
+        "rejected",
+        "cancelled"
+      ]
+    },
+    {
+      "id": "table",
+      "name": "数据表",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "basic",
+        "sortable",
+        "selectable",
+        "financial"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "sorted",
+        "filtered",
+        "partial-error",
+        "refreshing"
+      ]
+    },
+    {
+      "id": "pagination",
+      "name": "分页",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "numbered",
+        "cursor",
+        "load-more"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "first-page",
+        "last-page",
+        "fetching"
+      ]
+    },
+    {
+      "id": "tabs",
+      "name": "页签",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "page-section",
+        "segmented-view"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "active",
+        "inactive"
+      ]
+    },
+    {
+      "id": "modal",
+      "name": "对话框",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "confirm",
+        "destructive",
+        "form",
+        "money-confirm"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "open",
+        "submitting",
+        "failed",
+        "closed"
+      ]
+    },
+    {
+      "id": "toast",
+      "name": "短消息",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "success",
+        "info",
+        "error"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "visible",
+        "dismissed"
+      ]
+    },
+    {
+      "id": "navigation",
+      "name": "导航",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "desktop-sidebar",
+        "topbar",
+        "mobile-bottom",
+        "breadcrumb",
+        "role-switcher"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "active",
+        "collapsed",
+        "expanded"
+      ]
+    },
+    {
+      "id": "status",
+      "name": "状态标签",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "neutral",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "pending",
+        "failed",
+        "banned",
+        "approved",
+        "paid"
+      ]
+    },
+    {
+      "id": "empty-state",
+      "name": "空状态",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "first-use",
+        "no-results",
+        "no-permission",
+        "unavailable"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied"
+      ]
+    },
+    {
+      "id": "onboarding",
+      "name": "入门流程",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "creator",
+        "brand",
+        "team-invite"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "not-started",
+        "in-progress",
+        "resumable",
+        "verification-pending",
+        "failed",
+        "completed"
+      ]
+    },
+    {
+      "id": "campaign-card",
+      "name": "活动卡片",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "discovery",
+        "joined",
+        "brand-owned",
+        "compact"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "draft",
+        "open",
+        "paused",
+        "closed",
+        "expired",
+        "budget-exhausted"
+      ]
+    },
+    {
+      "id": "campaign-brief",
+      "name": "活动简报",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "creator-read",
+        "brand-edit",
+        "version-comparison"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "draft",
+        "published",
+        "changed",
+        "acceptance-required",
+        "closed"
+      ]
+    },
+    {
+      "id": "submission",
+      "name": "作品提交",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "link",
+        "file",
+        "revision"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "draft",
+        "uploading",
+        "submitted",
+        "reviewing",
+        "changes-requested",
+        "resubmitted",
+        "approved",
+        "rejected",
+        "withdrawn"
+      ]
+    },
+    {
+      "id": "review",
+      "name": "作品审核",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "single",
+        "comparison",
+        "bulk-safe-preview"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "pending",
+        "in-review",
+        "changes-requested",
+        "approved",
+        "rejected",
+        "conflict"
+      ]
+    },
+    {
+      "id": "reward-ledger",
+      "name": "报酬账本",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "creator-summary",
+        "entry-detail",
+        "brand-liability",
+        "export"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "estimated",
+        "pending-review",
+        "approved-held",
+        "available",
+        "reserved-for-payout",
+        "paid",
+        "reversed",
+        "disputed",
+        "unknown"
+      ]
+    },
+    {
+      "id": "payout-flow",
+      "name": "提现流程",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "request",
+        "confirmation",
+        "receipt",
+        "failure-recovery"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "unavailable",
+        "verification-required",
+        "available",
+        "confirming",
+        "submitted",
+        "processing",
+        "paid",
+        "failed",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    {
+      "id": "notification-center",
+      "name": "通知中心",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "in-app",
+        "email-preference",
+        "push-preference"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "unread",
+        "read",
+        "pending",
+        "delivery-failed",
+        "muted"
+      ]
+    },
+    {
+      "id": "profile-avatar",
+      "name": "资料与头像",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "creator",
+        "brand",
+        "team-member"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "missing-image",
+        "verified-scope",
+        "restricted"
+      ]
+    },
+    {
+      "id": "search-filter",
+      "name": "搜索筛选",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "campaign",
+        "submission",
+        "ledger"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "typing",
+        "fetching",
+        "no-results",
+        "applied",
+        "failed"
+      ]
+    },
+    {
+      "id": "tooltip-popover",
+      "name": "辅助说明",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "tooltip",
+        "nonmodal-popover"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "open",
+        "closed"
+      ]
+    },
+    {
+      "id": "accordion",
+      "name": "折叠区",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "faq",
+        "brief-section"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "expanded",
+        "collapsed"
+      ]
+    },
+    {
+      "id": "skeleton-progress",
+      "name": "加载与进度",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "skeleton",
+        "determinate",
+        "indeterminate"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "stalled",
+        "completed",
+        "failed"
+      ]
+    },
+    {
+      "id": "alert-support",
+      "name": "持久提示与申诉",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "inline-alert",
+        "service-banner",
+        "restriction",
+        "appeal"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "info",
+        "warning",
+        "submitted",
+        "pending",
+        "resolved",
+        "banned"
+      ]
+    },
+    {
+      "id": "chart",
+      "name": "数据图表",
+      "status": "not_built_due_to_api_quota",
+      "requiredVariants": [
+        "bar",
+        "line",
+        "stacked-status",
+        "metric"
+      ],
+      "requiredStates": [
+        "default",
+        "hover",
+        "pressed",
+        "keyboard-focus",
+        "disabled",
+        "loading",
+        "error",
+        "ready",
+        "empty",
+        "offline",
+        "permission-denied",
+        "no-data",
+        "partial-data",
+        "stale"
+      ]
+    }
+  ],
+  "screenPlan": [
+    {
+      "slot": "BB21",
+      "role": "brand",
+      "viewport": "desktop",
+      "purpose": "Draft blocked from publishing; no submissions",
+      "status": "local-reference-exported; native-not-built",
+      "localExport": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png"
+    },
+    {
+      "slot": "BB22",
+      "role": "brand",
+      "viewport": "mobile",
+      "purpose": "Independent published campaign review queue",
+      "status": "local-reference-exported; native-not-built",
+      "localExport": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-MOBILE.png"
+    },
+    {
+      "slot": "BB23",
+      "role": "creator",
+      "viewport": "desktop",
+      "purpose": "Approved MYR150.00 waiting brand direct payment, receipt unconfirmed",
+      "status": "local-reference-exported; native-not-built",
+      "localExport": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-DESKTOP.png"
+    },
+    {
+      "slot": "BB24",
+      "role": "creator",
+      "viewport": "mobile",
+      "purpose": "Approved MYR150.00 waiting brand direct payment, no withdrawable balance",
+      "status": "local-reference-exported; native-not-built",
+      "localExport": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png"
+    }
+  ],
+  "latestProductConstraint": {
+    "source": "2026-09-10 live main handoff",
+    "launchModel": "Brand direct pay; no wallet MVP claim.",
+    "paymentExample": "Provider status display or explicitly labeled future integrated route. All data marked 示例数据.",
+    "doNotEditBrandBook": true
+  },
+  "review": "Local reference worker QA complete; four main PNG visual/state handoff approved by main. Native Figma remains incomplete. Independent cross-vendor review not performed by worker.",
+  "lastAccessCheck": {
+    "time": "2026-09-09T18:54:39.830726+00:00",
+    "result": "Rejected: Figma MCP Starter plan call limit. Read-only access still blocked."
+  },
+  "executionPriority": [
+    "Authorized local fallback completed; Figma remains stopped at quota"
+  ],
+  "screenExportPaths": [
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-MOBILE.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-DESKTOP.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png",
+    "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-PAYOUT-CONFIRM.png"
+  ],
+  "preferredLogoSource": "../assets/generated/brand-logo-concept.png",
+  "logoDerivativePolicy": "Transparent derivatives are review-only; preserve original concept as stable source.",
+  "localFallback": {
+    "status": "complete-local-design-reference-v1",
+    "entrypoint": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/index.html",
+    "manifest": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/manifest.json",
+    "archive": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/Wringy-Design-Reference-v1.zip",
+    "componentFamilies": 31,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "stateCoverage": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/implementation-coverage.json",
+    "verification": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/verification-report.json",
+    "exports": [
+      {
+        "slot": "BB21",
+        "id": "UI-BRAND-DESKTOP",
+        "role": "brand",
+        "meaning": "Draft blocked from publishing; no submissions",
+        "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png",
+        "portablePath": "screens/UI-BRAND-DESKTOP.png",
+        "width": 1440,
+        "height": 1000,
+        "sha256": "e6d8b683d72f22ab7bd06d66abab812e88eb29634e8e549e37b80dc68b55b1eb"
+      },
+      {
+        "slot": "BB22",
+        "id": "UI-BRAND-MOBILE",
+        "role": "brand",
+        "meaning": "Independent published campaign review queue",
+        "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-MOBILE.png",
+        "portablePath": "screens/UI-BRAND-MOBILE.png",
+        "width": 390,
+        "height": 844,
+        "sha256": "afae8b2c706b785e8698f34a6f5e088b67b718fd45baf07d12f5958765542b3f"
+      },
+      {
+        "slot": "BB23",
+        "id": "UI-CREATOR-DESKTOP",
+        "role": "creator",
+        "meaning": "Approved MYR150.00 waiting brand direct payment, receipt unconfirmed",
+        "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-DESKTOP.png",
+        "portablePath": "screens/UI-CREATOR-DESKTOP.png",
+        "width": 1440,
+        "height": 1000,
+        "sha256": "5a1c88989b1257f37e7615be178b986d3af4422ae92a33e30d4268204faec882"
+      },
+      {
+        "slot": "BB24",
+        "id": "UI-CREATOR-MOBILE",
+        "role": "creator",
+        "meaning": "Approved MYR150.00 waiting brand direct payment, no withdrawable balance",
+        "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png",
+        "portablePath": "screens/UI-CREATOR-MOBILE.png",
+        "width": 390,
+        "height": 844,
+        "sha256": "df4b2a815562e61611f277cfffd3cdc1a062f20503fdc420340b1f995daecf56"
+      },
+      {
+        "slot": "BB25-optional",
+        "id": "UI-PAYOUT-CONFIRM",
+        "role": "creator",
+        "meaning": "Future integrated route, MYR150.00 minus MYR2.00 equals MYR148.00; not launch wallet",
+        "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-PAYOUT-CONFIRM.png",
+        "portablePath": "screens/UI-PAYOUT-CONFIRM.png",
+        "width": 390,
+        "height": 844,
+        "sha256": "a43bcffb5ae958be7b0cd198979bc6df4e32a8301f64625a84ae1562e3aab0fa"
+      }
+    ],
+    "packageVerification": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/package-verification.json",
+    "canonicalSync": {
+      "date": "2026-09-10",
+      "files": [
+        "../design-system-spec.md",
+        "../brand-strategy.md",
+        "../component-inventory.json"
+      ],
+      "result": "Launch direct-pay and future integrated money models separated; delivery status and coverage updated; canonical tokens unchanged."
+    }
+  }
+}

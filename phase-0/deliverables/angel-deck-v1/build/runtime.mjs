@@ -1,0 +1,13 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {GlobalFonts} from '@napi-rs/canvas';
+import {Presentation,PresentationFile,FileBlob} from '@oai/artifact-tool';
+import {finalizePresentation,applyPresentationChartFont} from '${HOME}/.codex/plugins/cache/openai-primary-runtime/presentations/26.905.11957/skills/presentations/container_tools/artifact_tool_utils.mjs';
+export {fs,path,Presentation,PresentationFile,FileBlob,finalizePresentation,applyPresentationChartFont};
+export const ROOT=path.resolve(import.meta.dirname,'..'),BUILD=import.meta.dirname;
+export const DEP='${HOME}/.cache/codex-runtimes/codex-primary-runtime/dependencies';
+export const SKILL='${HOME}/.codex/plugins/cache/openai-primary-runtime/presentations/26.905.11957/skills/presentations';
+export const PY=path.join(DEP,'python/bin/python3');
+export const FONT='Noto Sans SC';
+process.env.RUNTIME_NODE_MODULES=path.join(DEP,'node/node_modules');
+GlobalFonts.registerFromPath(path.resolve(ROOT,'../brand/showcase/fonts/NotoSansSC.ttf'),FONT);

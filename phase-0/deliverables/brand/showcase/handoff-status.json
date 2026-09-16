@@ -1,0 +1,13 @@
+{
+  "status": "complete-local-reference-v1",
+  "archive": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/Wringy-Design-Reference-v1.zip",
+  "archiveBytes": 15482490,
+  "archiveSHA256": "abe6a14a3319ea027e5dc24529c4f3ee4715ddbf31d98f84875d94a0ff39440a",
+  "manifest": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/showcase/manifest.json",
+  "figmaManifest": "${WRINGY_WORKSPACE}/phase-0/deliverables/brand/figma-manifest.json",
+  "rootDocsReadyForPack": true,
+  "families": 31,
+  "nativeFigmaComponents": 0,
+  "nativeFigmaVariablesReported": 130,
+  "remaining": "Specification-only combinations and production backend outside local-reference scope; full accessibility/independent review not claimed."
+}

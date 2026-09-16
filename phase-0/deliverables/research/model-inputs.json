@@ -1,0 +1,566 @@
+{
+  "version": "1.0",
+  "as_of": "2026-09-10",
+  "currency": "MYR",
+  "status": "研究粗估；全部客户、团队、费率、融资与未来支出为假设；非投资/税务/法律意见",
+  "canonical_brief": "../brief.md",
+  "horizon_months": 24,
+  "illustration_months": 36,
+  "launch_month": 4,
+  "existing_capital_myr": 0,
+  "existing_capital_status": "未知；零仅用于计算需筹资金，不表示创始人没有资金",
+  "illustrative_opening_financing_myr": 1500000,
+  "fee_rate": 0.15,
+  "fee_sensitivity": [
+    0.1,
+    0.15
+  ],
+  "refund_rate": 0.02,
+  "collection_lag_fraction": 0.2,
+  "reserve_fraction": 0.05,
+  "reserve_hold_months": 2,
+  "payment_mode": "brand_direct",
+  "payment_assumption": "品牌通过持牌银行/支付服务商直接付创作者并承担该通道费用；Wringy仅收服务费。集成代收另作压力测试，不假设获准。",
+  "processor_rate": 0.03,
+  "processor_fixed": 1,
+  "unrecovered_loss_rate": 0.003,
+  "dispute_incidence": 0.002,
+  "received_dispute_fee": 90,
+  "counter_dispute_fee": 90,
+  "payout_rate": 0.0025,
+  "routing_rate": 0.0025,
+  "payout_fixed": 1.5,
+  "active_account_fee": 6,
+  "creators_per_campaign": 10,
+  "variable_cost_per_campaign": 40,
+  "campaign_capacity_per_ops": 50,
+  "overflow_cost_per_campaign": 90,
+  "fx": {
+    "reference_usd_myr": 4.0688,
+    "reference_date": "2026-09-09",
+    "budget_usd_myr": 4.2,
+    "source": "fx"
+  },
+  "cloud": {
+    "supabase_pro_usd": 25,
+    "second_project_usd": 10,
+    "workers_usd": 5,
+    "email_pro_usd": 20,
+    "email_included": 50000,
+    "email_overage_per_1000_usd": 0.9,
+    "emails_per_campaign": 200,
+    "gb_per_campaign": 1,
+    "retention_months": 12,
+    "r2_free_gb": 10,
+    "r2_gb_usd": 0.015,
+    "request_allowance_myr_per_campaign": 1
+  },
+  "payroll_assumptions": {
+    "local_citizens_under_60": true,
+    "epf_low": 0.13,
+    "epf_high": 0.12,
+    "epf_boundary": 5000,
+    "socso": 0.0175,
+    "eis": 0.002,
+    "ceiling": 6000,
+    "schedule_rounding_buffer_per_employee": 10,
+    "benefits_fraction": 0.03,
+    "annual_salary_increase": 0.05,
+    "hrd_threshold": 10,
+    "hrd_rate": 0.01,
+    "voluntary_hrd": false
+  },
+  "funding": {
+    "contingency_rate": 0.15,
+    "buffer_months": 3,
+    "round_to_myr": 10000
+  },
+  "adoption": {
+    "low": {
+      "label": "低采用",
+      "clients": [
+        0,
+        0,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        22,
+        24,
+        25
+      ],
+      "campaigns_per_client": 1,
+      "creator_budget_per_campaign": 5000,
+      "churn_rate": 0.08,
+      "year3_monthly_client_growth": 0.01
+    },
+    "base": {
+      "label": "中采用",
+      "clients": [
+        0,
+        0,
+        0,
+        3,
+        5,
+        7,
+        9,
+        11,
+        14,
+        17,
+        20,
+        24,
+        28,
+        32,
+        36,
+        40,
+        45,
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "campaigns_per_client": 1.5,
+      "creator_budget_per_campaign": 8000,
+      "churn_rate": 0.05,
+      "year3_monthly_client_growth": 0.035
+    },
+    "high": {
+      "label": "高采用",
+      "clients": [
+        0,
+        0,
+        0,
+        5,
+        8,
+        12,
+        17,
+        23,
+        30,
+        38,
+        47,
+        57,
+        68,
+        80,
+        94,
+        109,
+        125,
+        141,
+        155,
+        167,
+        177,
+        186,
+        193,
+        200
+      ],
+      "campaigns_per_client": 2,
+      "creator_budget_per_campaign": 10000,
+      "churn_rate": 0.03,
+      "year3_monthly_client_growth": 0.04
+    }
+  },
+  "build": {
+    "lean": {
+      "label": "精简团队",
+      "roles": [
+        [
+          "创始人/产品销售",
+          4000
+        ],
+        [
+          "全栈工程师",
+          9000
+        ],
+        [
+          "创作者运营",
+          4000
+        ]
+      ],
+      "ops_staff": 1,
+      "contractors_first3": 3000,
+      "contractors_ongoing": 1500,
+      "workspace": 600,
+      "admin": 1200,
+      "tools_per_person": 200,
+      "acquisition_prelaunch": 500,
+      "acquisition_live": 2000,
+      "acquisition_y2": 3500,
+      "setup": {
+        "devices": 15000,
+        "legal_provider_privacy": 12000,
+        "security_review": 8000
+      },
+      "compute_allowance_usd": 30
+    },
+    "base": {
+      "label": "标准团队",
+      "roles": [
+        [
+          "创始人/产品",
+          6000
+        ],
+        [
+          "技术主管",
+          12000
+        ],
+        [
+          "全栈工程师",
+          9000
+        ],
+        [
+          "设计师",
+          6000
+        ],
+        [
+          "创作者运营",
+          5000
+        ],
+        [
+          "品牌销售",
+          6000
+        ]
+      ],
+      "ops_staff": 1,
+      "contractors_first3": 3000,
+      "contractors_ongoing": 1500,
+      "workspace": 1800,
+      "admin": 2500,
+      "tools_per_person": 250,
+      "acquisition_prelaunch": 1000,
+      "acquisition_live": 5000,
+      "acquisition_y2": 8000,
+      "setup": {
+        "devices": 30000,
+        "legal_provider_privacy": 25000,
+        "security_review": 20000
+      },
+      "compute_allowance_usd": 100
+    },
+    "staffed": {
+      "label": "完整团队",
+      "roles": [
+        [
+          "创始人/产品",
+          8000
+        ],
+        [
+          "技术主管",
+          15000
+        ],
+        [
+          "工程师A",
+          10000
+        ],
+        [
+          "工程师B",
+          10000
+        ],
+        [
+          "设计师",
+          8000
+        ],
+        [
+          "运营A",
+          5000
+        ],
+        [
+          "运营B",
+          5000
+        ],
+        [
+          "品牌销售",
+          8000
+        ],
+        [
+          "测试工程师",
+          6000
+        ],
+        [
+          "客户成功",
+          5000
+        ]
+      ],
+      "ops_staff": 3,
+      "contractors_first3": 2000,
+      "contractors_ongoing": 1000,
+      "workspace": 3500,
+      "admin": 4000,
+      "tools_per_person": 300,
+      "acquisition_prelaunch": 1500,
+      "acquisition_live": 9000,
+      "acquisition_y2": 14000,
+      "setup": {
+        "devices": 50000,
+        "legal_provider_privacy": 45000,
+        "security_review": 35000
+      },
+      "compute_allowance_usd": 200
+    }
+  },
+  "year3": {
+    "non_payroll_opex_growth": 0.15,
+    "sea_discovery_monthly_myr": 5000,
+    "scope": "仅市场探索差旅/专业咨询预算；不含第二国正式上线。"
+  },
+  "exclusions": [
+    "品牌直接支付的创作者款项及其支付通道费用",
+    "创始人未披露的既有债务、资本及团队",
+    "股权期权估值、融资交易费用、所得税及折旧；亏损情景不据此推定税务结果",
+    "销售税按另加另缴处理，若价格须含税需下调净收入；非税务适用结论",
+    "自建银行、银行卡、储值钱包、托管、信贷、资金管理及正式第二国上线"
+  ],
+  "sources": [
+    {
+      "id": "salary2026",
+      "title": "Randstad 2026技术岗位薪资",
+      "url": "https://www.randstad.com.my/most-in-demand-jobs-malaysia-emerging-technology/",
+      "evidence": "软件工程师基本月薪RM7,000–14,000；招聘机构第一方研究，非报价。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "salary2025",
+      "title": "Randstad 2025薪资指南",
+      "url": "https://www.randstad.com.my/s3fs-media/my/public/2024-12/randstad-malaysia-2025-job-market-outlook-and-salary-guide.pdf",
+      "evidence": "工程师3,500/10,000/17,000；设计4,000/13,000/25,000；技术主管10,000/17,000/25,000，基本月薪。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "dosm",
+      "title": "DOSM 2024工资调查，2025-09-29发布",
+      "url": "https://www.dosm.gov.my/portal-main/release-content/salaries-and-wages-survey-report-2024",
+      "evidence": "公民中位月薪2,793，平均3,652；吉隆坡平均4,782。全国基准不是技术招聘报价。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "epf",
+      "title": "KWSP雇主缴费",
+      "url": "https://www.kwsp.gov.my/en/employer/responsibilities/mandatory-contribution",
+      "evidence": "本地60岁以下员工：5,000及以下雇主13%，以上12%；实际必须按工资档表，不能直接套百分比。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "socso",
+      "title": "PERKESO缴费",
+      "url": "https://www.perkeso.gov.my/en/uncategorised/778-contributions.html",
+      "evidence": "第一类雇主SOCSO约1.75%，EIS雇主0.2%；实际按法定表。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "socso_ceiling",
+      "title": "PERKESO工资上限公告",
+      "url": "https://perkeso.gov.my/images/kenyataan_media/2024/011024%20-%20SIARAN%20MEDIA%20KUATKUASA%20PENINGKATAN%20SILING%20GAJI%20RM5000%20KEPADA%20RM6000%20FINAL.pdf",
+      "evidence": "2024-10-01上限提高至RM6,000。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "hrd",
+      "title": "HRD Corp雇主FAQ",
+      "url": "https://hrdcorp.gov.my/faq",
+      "evidence": "适用行业10名或以上本地员工强制1%；5–9名可选择0.5%；本模型未选择自愿注册。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "stripe",
+      "title": "Stripe马来西亚标准价",
+      "url": "https://stripe.com/en-my/pricing",
+      "evidence": "本地卡/FPX 3%+RM1；国际卡另1%，换汇另2%；争议收到90、手动应对90。退款不退原处理费。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "connect",
+      "title": "Stripe Connect马来西亚公开价",
+      "url": "https://stripe.com/en-my/connect/pricing",
+      "evidence": "自行定价方案：活跃账户6/月；出款0.25%+1.50，资金路由另列0.25%；压力测试都计入，合同待确认。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "connect_my",
+      "title": "Stripe马来西亚Connect适用说明",
+      "url": "https://support.stripe.com/questions/connect-availability-for-businesses-located-in-malaysia?locale=en-GB",
+      "evidence": "搜索索引支持Stripe收费并承担损失责任的模式可用；页面直取失败。不据此保证多收款人分账获准。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "supabase",
+      "title": "Supabase定价",
+      "url": "https://supabase.com/pricing",
+      "evidence": "Pro 25美元/月包含首个微型项目，第二项目10美元/月；含每日备份7天。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "workers",
+      "title": "Cloudflare Workers定价",
+      "url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "evidence": "付费最低5美元/月；额度外另计。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "r2",
+      "title": "Cloudflare R2定价",
+      "url": "https://developers.cloudflare.com/r2/pricing/",
+      "evidence": "标准储存0.015美元/GB月；免费10GB；A类4.50美元/百万，B类0.36美元/百万；互联网出口不收费。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "email",
+      "title": "Resend定价",
+      "url": "https://resend.com/pricing?volume=50000",
+      "evidence": "事务邮件Pro 20美元/月含50,000封；超额0.90美元/千封。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "fx",
+      "title": "BNM金融市场参考汇率",
+      "url": "https://financialmarkets.bnm.gov.my/",
+      "evidence": "2026-09-09 KL USD/MYR参考4.0688；模型按4.20预算，非交易报价。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "bnm",
+      "title": "BNM审批及注册申请",
+      "url": "https://www.bnm.gov.my/application-for-approval-and-registration",
+      "evidence": "支付系统、指定支付工具及商户收单分别涉及审批/注册；具体角色需要本地专业确认。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "bnm_directory",
+      "title": "BNM受监管机构名单",
+      "url": "https://www.bnm.gov.my/list-of-regulatees",
+      "evidence": "签约前核对实际收款/出款主体、许可类别；不能只核对品牌名。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "bnm_policy",
+      "title": "BNM支付政策文件目录",
+      "url": "https://www.bnm.gov.my/payment-systems",
+      "evidence": "列出2025-01-31电子货币、2021-09-15商户收单及2024-04-15电子身份核验政策。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "pdpa",
+      "title": "JPDP个人资料保护FAQ",
+      "url": "https://www.pdp.gov.my/ppdpv1/en/faq/",
+      "evidence": "DPO触发：超过20,000人资料，超过10,000人敏感/财务资料，或规律系统监测；2025-06-01生效。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "pdpa_transfer",
+      "title": "JPDP跨境资料传输指引",
+      "url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_CBPDT_EN.pdf",
+      "evidence": "跨境传输须满足Act 709第129条条件；使用海外云服务不是自动豁免。",
+      "accessed": "2026-09-10"
+    },
+    {
+      "id": "pdpa_breach",
+      "title": "JPDP资料泄露通报指引",
+      "url": "https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DBN_ENG.pdf",
+      "evidence": "官方指引已找到；直取文件超限，具体时限未作为本模型法律结论。",
+      "accessed": "2026-09-10"
+    }
+  ],
+  "formulas": {
+    "clients": "Explicit hypothetical monthly active paying-brand trajectory. churned=prior_clients*churn_rate; new=clients-prior_clients+churned. Fractional expected cohorts allowed.",
+    "campaigns": "active_clients * campaigns_per_client; expected volume, not historical counts",
+    "gmv": "campaigns * creator_budget_per_campaign (creator funds only, excludes platform fee)",
+    "net_gmv": "gmv * (1-refund_rate)",
+    "gross_fee": "gmv * proposed_fee_rate",
+    "revenue": "gross_fee * (1-refund_rate); only Wringy fee, excludes creator funds and sales tax",
+    "collections": "revenue*(1-collection_lag_fraction) + prior_revenue*collection_lag_fraction",
+    "accounts_receivable": "revenue*collection_lag_fraction",
+    "reserve_balance": "sum(last reserve_hold_months fee collections)*reserve_fraction; own fees only",
+    "payment_cogs_direct": "actual gross service-fee cash collected (80% current +20% previous gross fee) * processor_rate + actual paid transaction count * processor_fixed; Wringy bears; routine refund cash deducted separately, original processing fees retained",
+    "payment_cogs_integrated_stress": "actual gross creator-budget cash collected + actual gross service-fee cash collected, times processor_rate; plus actual paid transaction count * fixed; plus net_gmv*(payout_rate+routing_rate)+campaigns*creators_per_campaign*(active_account_fee+payout_fixed); all borne by Wringy in stress only",
+    "dispute_cogs": "actual_charge_volume*unrecovered_loss_rate + actual paid transaction count*dispute_incidence*(received_dispute_fee+counter_dispute_fee); distinct from routine refunds",
+    "fulfilment_cogs": "campaigns*variable_cost_per_campaign + max(0,campaigns-ops_staff*campaign_capacity_per_ops)*overflow_cost_per_campaign",
+    "cloud_cogs": "(25+10+5+20 + max(0,stored_GB-10)*.015 + email_overage + build_compute_allowance_USD)*budget_fx + campaigns*request_allowance_MYR",
+    "payroll": "sum(salary + approximate EPF + min(salary,6000)*(.0175+.002) + schedule_rounding_buffer + salary*benefits_fraction) + HRD if eligible",
+    "contribution_profit": "revenue - COGS; COGS includes payment, disputes, variable fulfilment and cloud; fixed delivery staff stays in payroll",
+    "opex": "contractors + workspace + admin + tools + acquisition + country_research; excludes payroll, COGS, setup",
+    "burn": "COGS+payroll+opex+setup_cash - collections + change_in_reserve; positive=net cash consumption, negative=cash generation",
+    "cash": "prior_cash - burn; month1 begins with hypothetical opening financing + declared existing capital",
+    "funding": "max(0,peak cumulative burn through H) + 3*fixed monthly cost at H + contingency_rate*(payroll+opex+setup through H) - existing capital; round up to RM10,000; contingency NOT in monthly burn",
+    "annual": "Y1=sum(month1:12), Y2=sum(month13:24), Y3=sum(month25:36) illustration; no exit-multiple or TAM",
+    "year3_clients": "month24_clients * (1+year3_monthly_client_growth) ** (month-24)",
+    "budget_cap_stress": "annual eligible budget = market annual spend * eligible share; average campaigns/client/month = annual eligible budget /12 /campaign budget = 30000/12/8000 =0.3125. Same retained client pool and base team; all campaign-driven costs recomputed; fixed payroll/opex unchanged.",
+    "combined_execution_stress": "budget_cap_stress client trajectory/cadence/team; fee=10%; acquisition=max(existing budget,new_clients*RM2000) replaces one opex bucket; creator recruitment/support=campaigns*10 paid participation slots*RM20 added to fulfilment COGS; overflow=RM200 per excess campaign; no joint tax, launch-delay, or financing-tranche stress"
+  },
+  "profit_status": "Positive profits are unvalidated scenario arithmetic, not achieved traction or proof of unit economics. All cash is pre-income-tax.",
+  "budget_cap_stress": {
+    "label": "每品牌年预算RM30,000上限压力测试",
+    "source": "sea-market.md §5：中间假设；不是已验证市场事实",
+    "market_annual_spend_myr": 120000,
+    "eligible_share": 0.25,
+    "annual_eligible_budget_myr": 30000,
+    "campaigns_per_client": 0.3125,
+    "creator_budget_per_campaign": 8000,
+    "adoption": "base",
+    "build": "base",
+    "client_definition": "沿用原客户数轨迹，解释为留存可采购品牌池；不是每月每家都有付费活动。0.3125为跨品牌及跨月份平均频率。",
+    "status": "新增压力情景，原9组不覆盖；100%可适配预算迁入仍是偏乐观上限，未验证。"
+  },
+  "change_register": [
+    {
+      "date": "2026-09-10",
+      "authorization": "本轮用户明确授权：保留原中采用情景，新增预算上限压力测试，并刷新密封审查包。",
+      "issue": "市场中间假设每品牌年度可适配预算120000×25%=30000；原经营中采用1.5×8000×12=144000，是4.8倍；原低采用1×5000×12=60000，是该中间预算的2倍。不同客群解释尚无证据。",
+      "decision": "原9组保留为历史规划情景；新增same-clients/base-team budget_cap_stress，将平均活动频率改为0.3125；所有活动驱动成本同步。投资稿不得把原中采用与市场中间假设视为同一客群而直接拼接。"
+    },
+    {
+      "date": "2026-09-10",
+      "authorization": "主会话明确授权回应密封审查H2/H3/H6：新增一组联合执行压力测试，保留原9组及预算上限。",
+      "decision": {
+        "label": "联合执行压力测试",
+        "parent": "budget_cap_stress",
+        "fee_rate": 0.1,
+        "brand_acquisition_myr_per_new_client": 2000,
+        "acquisition_rule": "max(existing monthly brand acquisition budget, expected new_clients * 2000); replaces bucket, not additive",
+        "creator_cost_myr_per_paid_participation": 20,
+        "paid_participation_slots_per_campaign": 10,
+        "overflow_cost_myr_per_campaign": 200,
+        "status": "全部为规划成本假设，不是招聘/获客研究基准或实测报价。付费参与次数不等于独立创作者人数；原模型未单列创作者获客费用不等于已证实零成本。",
+        "excluded_joint_stresses": [
+          "所得税",
+          "上线延迟",
+          "融资分期到账"
+        ],
+        "client_definition": "沿用原客户数轨迹，解释为留存可采购品牌池；不是每月每家都有付费活动。0.3125为跨品牌及跨月份平均频率。"
+      },
+      "governance": "M12品牌池低于原中采用70%触发范围/招聘复核；不自动裁员，不假造节省。"
+    }
+  ],
+  "combined_execution_stress": {
+    "label": "联合执行压力测试",
+    "parent": "budget_cap_stress",
+    "fee_rate": 0.1,
+    "brand_acquisition_myr_per_new_client": 2000,
+    "acquisition_rule": "max(existing monthly brand acquisition budget, expected new_clients * 2000); replaces bucket, not additive",
+    "creator_cost_myr_per_paid_participation": 20,
+    "paid_participation_slots_per_campaign": 10,
+    "overflow_cost_myr_per_campaign": 200,
+    "status": "全部为规划成本假设，不是招聘/获客研究基准或实测报价。付费参与次数不等于独立创作者人数；原模型未单列创作者获客费用不等于已证实零成本。",
+    "excluded_joint_stresses": [
+      "所得税",
+      "上线延迟",
+      "融资分期到账"
+    ],
+    "client_definition": "沿用原客户数轨迹，解释为留存可采购品牌池；不是每月每家都有付费活动。0.3125为跨品牌及跨月份平均频率。"
+  },
+  "gmv_display_label": "记录的活动预算，非平台收款"
+}

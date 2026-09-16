@@ -1,0 +1,87 @@
+[
+  {
+    "name": "UI-BRAND-DESKTOP",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-DESKTOP.png",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "errors": [],
+    "scrollWidth": 1440,
+    "width": 1440,
+    "height": 1000,
+    "scrollHeight": 1086,
+    "fonts": [
+      true,
+      true
+    ]
+  },
+  {
+    "name": "UI-BRAND-MOBILE",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-BRAND-MOBILE.png",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "scrollWidth": 390,
+    "width": 390,
+    "height": 844,
+    "scrollHeight": 844,
+    "fonts": [
+      true,
+      true
+    ]
+  },
+  {
+    "name": "UI-CREATOR-DESKTOP",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-DESKTOP.png",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "errors": [],
+    "scrollWidth": 1440,
+    "width": 1440,
+    "height": 1000,
+    "scrollHeight": 1102,
+    "fonts": [
+      true,
+      true
+    ]
+  },
+  {
+    "name": "UI-CREATOR-MOBILE",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-CREATOR-MOBILE.png",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "scrollWidth": 390,
+    "width": 390,
+    "height": 844,
+    "scrollHeight": 868,
+    "fonts": [
+      true,
+      true
+    ]
+  },
+  {
+    "name": "UI-PAYOUT-CONFIRM",
+    "path": "${WRINGY_WORKSPACE}/phase-0/deliverables/assets/ui/UI-PAYOUT-CONFIRM.png",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "errors": [],
+    "scrollWidth": 390,
+    "width": 390,
+    "height": 844,
+    "scrollHeight": 956,
+    "fonts": [
+      true,
+      true
+    ]
+  }
+]

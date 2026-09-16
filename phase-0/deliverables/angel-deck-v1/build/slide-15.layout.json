@@ -1,0 +1,686 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/vaxsvy10",
+    "id": "vaxsvy10",
+    "slide": 15,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Noto Sans SC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s7y5sv2x",
+      "id": "7",
+      "name": "支付成本与账期改变现金回本",
+      "bbox": [
+        52,
+        39,
+        1176,
+        85
+      ],
+      "geometry": "rect",
+      "text": "支付成本与账期改变现金回本",
+      "textPreview": "支付成本与账期改变现金回本",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "支付成本与账期改变现金回本"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "支付成本与账期改变现金回本",
+          "resolvedTextStyle": {
+            "fontSize": 51,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "支付成本与账期改变现金回本",
+              "fontSize": 51,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/u9cjyd8n",
+      "id": "8",
+      "bbox": [
+        56,
+        173,
+        1168,
+        308
+      ],
+      "text": "基准情景的单项变化 | 公司累计现金回本\n原假设：支付 RM150 / 场，同月收款 | 第 25 个月\n仅改支付费：品牌全额的 3% | 第 31 个月\n仅改收款：服务费晚 1 个月 | 第 28 个月",
+      "textPreview": "基准情景的单项变化 | 公司累计现金回本 | 原假设：支付 RM150 / 场，同月收款 | 第 25 个月 | 仅改支付费：品牌全额的 3% | 第 31 个月 | 仅改收款：服务费晚 1 个月 | 第 28 个月",
+      "rows": 4,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            173,
+            853,
+            77
+          ],
+          "text": "基准情景的单项变化",
+          "textPreview": "基准情景的单项变化",
+          "fillColor": "#F6F6F3",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "基准情景的单项变化",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "基准情景的单项变化",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            909,
+            173,
+            315,
+            77
+          ],
+          "text": "公司累计现金回本",
+          "textPreview": "公司累计现金回本",
+          "fillColor": "#F6F6F3",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "公司累计现金回本",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "公司累计现金回本",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            250,
+            853,
+            77
+          ],
+          "text": "原假设：支付 RM150 / 场，同月收款",
+          "textPreview": "原假设：支付 RM150 / 场，同月收款",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "原假设：支付 RM150 / 场，同月收款",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "原假设：支付 RM150 / 场，同月收款",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            909,
+            250,
+            315,
+            77
+          ],
+          "text": "第 25 个月",
+          "textPreview": "第 25 个月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "第 25 个月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "第 25 个月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            327,
+            853,
+            77
+          ],
+          "text": "仅改支付费：品牌全额的 3%",
+          "textPreview": "仅改支付费：品牌全额的 3%",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "仅改支付费：品牌全额的 3%",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "仅改支付费：品牌全额的 3%",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            909,
+            327,
+            315,
+            77
+          ],
+          "text": "第 31 个月",
+          "textPreview": "第 31 个月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "第 31 个月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "第 31 个月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            56,
+            404,
+            853,
+            77
+          ],
+          "text": "仅改收款：服务费晚 1 个月",
+          "textPreview": "仅改收款：服务费晚 1 个月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "仅改收款：服务费晚 1 个月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "仅改收款：服务费晚 1 个月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            909,
+            404,
+            315,
+            77
+          ],
+          "text": "第 28 个月",
+          "textPreview": "第 28 个月",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "第 28 个月",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "第 28 个月",
+                  "fontSize": 26,
+                  "typeface": "Noto Sans SC",
+                  "color": "#171A14"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/k3y5ov21",
+      "id": "3",
+      "name": "RM326,850",
+      "bbox": [
+        54,
+        516,
+        706,
+        96
+      ],
+      "geometry": "rect",
+      "text": "RM326,850",
+      "textPreview": "RM326,850",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "RM326,850"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "RM326,850",
+          "resolvedTextStyle": {
+            "fontSize": 64,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "RM326,850",
+              "fontSize": 64,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/76p4jqls",
+      "id": "4",
+      "name": "基准峰值现金缺口",
+      "bbox": [
+        59,
+        614,
+        705,
+        40
+      ],
+      "geometry": "rect",
+      "text": "基准峰值现金缺口",
+      "textPreview": "基准峰值现金缺口",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "基准峰值现金缺口"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "基准峰值现金缺口",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "基准峰值现金缺口",
+              "fontSize": 26,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/65gnqlk7",
+      "id": "5",
+      "name": "新增计量与反作弊开发\n以 0 占位，尚未报价",
+      "bbox": [
+        812,
+        531,
+        412,
+        102
+      ],
+      "geometry": "rect",
+      "text": "新增计量与反作弊开发\n以 0 占位，尚未报价",
+      "textPreview": "新增计量与反作弊开发 | 以 0 占位，尚未报价",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "新增计量与反作弊开发"
+          },
+          {
+            "index": 2,
+            "text": "以 0 占位，尚未报价"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "新增计量与反作弊开发",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "新增计量与反作弊开发",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "以 0 占位，尚未报价",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans SC",
+            "color": "#171A14",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "以 0 占位，尚未报价",
+              "fontSize": 28,
+              "typeface": "Noto Sans SC",
+              "color": "#171A14",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t87ml0ji",
+      "id": "6",
+      "name": "附录｜两项敏感性分别变化、不叠加；现金缺口不是完整融资需要。",
+      "bbox": [
+        54,
+        670,
+        1173,
+        37
+      ],
+      "geometry": "rect",
+      "text": "附录｜两项敏感性分别变化、不叠加；现金缺口不是完整融资需要。",
+      "textPreview": "附录｜两项敏感性分别变化、不叠加；现金缺口不是完整融资需要。",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "附录｜两项敏感性分别变化、不叠加；现金缺口不是完整融资需要。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "附录｜两项敏感性分别变化、不叠加；现金缺口不是完整融资需要。",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "typeface": "Noto Sans SC",
+            "color": "#5C6258"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "附录｜两项敏感性分别变化、不叠加；现金缺口不是完整融资需要。",
+              "fontSize": 18,
+              "typeface": "Noto Sans SC",
+              "color": "#5C6258"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}
