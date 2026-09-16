@@ -5,6 +5,7 @@ Content Rewards 平台：商家发布活动，创作者按有效观看获得奖�
 ## 从这里开始
 
 - [全阶段规格与任务分类](docs/planning/README.md)
+- [全部规格和票据链接](docs/planning/github-index.md)
 - [Projects 看板](https://github.com/orgs/BELCORT-SDN-BHD/projects/2)
 - [开发任务](https://github.com/BELCORT-SDN-BHD/wringy/issues)
 - [五个开发阶段](https://github.com/BELCORT-SDN-BHD/wringy/milestones)

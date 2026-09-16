@@ -11,3 +11,13 @@ Founder authorised all-stage planning and public publication on 2026-09-16. Earl
 ## Bootstrap and inherited rules
 
 This is a new repository: the initial documentation commit bootstraps main once. Subsequent implementation uses separate worktrees and PRs. The repository rules supplement, rather than weaken or replace, the founder's global AGENTS instructions. Existing organisation project-template has CI/deploy/gates workflows; adapting its runtime harness is tracked foundation work, not silently claimed installed. No deployment pipeline is enabled by this migration.
+
+## Implemented during migration
+
+GitHub Issues, native sub-issues and blocking dependencies; five Milestones; public organisation Projects board; default skill labels; issue/PR templates; planning validation workflow for spec paths and acyclic dependencies. Application runtime, money, permissions and provider acceptance are still unexecuted.
+
+Root CLAUDE.md is a one-line AGENTS.md import as required by founder governance. This takes precedence over the setup skill's default to avoid creating the second filename. Secret scanning and secret push protection are enabled on the public repository.
+
+After bootstrap, main is configured to require pull requests and the `planning` check, with force-push and deletion disabled. Review count is zero because the project currently has one human; this is not an automatic implementation or merge approval. Founder approval and cross-vendor evidence still apply, and runtime gates remain the tracked foundation work.
+
+The project has four views: all stages, execution board, unblocked agent tasks, and evidence/approval gates. Readiness is a planning snapshot; native dependencies and actual acceptance determine execution eligibility.

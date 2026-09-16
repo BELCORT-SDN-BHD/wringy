@@ -1,0 +1,759 @@
+{
+  "repo": "BELCORT-SDN-BHD/wringy",
+  "milestones": {
+    "M1": 1,
+    "M2": 2,
+    "M3": 3,
+    "M4": 4,
+    "M5": 5
+  },
+  "issues": {
+    "SPEC-M1": {
+      "number": 1,
+      "id": 5470205731,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/1",
+      "title": "三端交互原型：完整流程与验收规格",
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki2Q"
+    },
+    "M1-01": {
+      "number": 2,
+      "id": 5470205910,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/2",
+      "title": "用户能浏览公开活动并进入模拟工作区",
+      "parent_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3M"
+    },
+    "M1-02": {
+      "number": 3,
+      "id": 5470206295,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/3",
+      "title": "商家能配置、预览并模拟发布活动",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3Q",
+      "dependencies": [
+        "M1-01"
+      ]
+    },
+    "M1-03": {
+      "number": 4,
+      "id": 5470206621,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/4",
+      "title": "创作者能提交链接并看懂模拟观看收益",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3U",
+      "dependencies": [
+        "M1-02"
+      ]
+    },
+    "M1-04": {
+      "number": 5,
+      "id": 5470206948,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/5",
+      "title": "达标后能申请奖励并处理预算不足",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3c",
+      "dependencies": [
+        "M1-03"
+      ]
+    },
+    "M1-05": {
+      "number": 6,
+      "id": 5470207408,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/6",
+      "title": "商家与运营能审核，创作者能申诉",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3g",
+      "dependencies": [
+        "M1-04"
+      ]
+    },
+    "M1-06": {
+      "number": 7,
+      "id": 5470207702,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/7",
+      "title": "财务能模拟发放奖励并核对未知付款",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3s",
+      "dependencies": [
+        "M1-05"
+      ]
+    },
+    "M1-07": {
+      "number": 8,
+      "id": 5470207994,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/8",
+      "title": "各方能看清申请延期、保留期限与结案",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki3w",
+      "dependencies": [
+        "M1-06"
+      ]
+    },
+    "M1-08": {
+      "number": 9,
+      "id": 5470208298,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/9",
+      "title": "创办人能独立重复体验全部主流程和异常",
+      "parent_linked": true,
+      "dependency_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Ki30",
+      "dependencies": [
+        "M1-07"
+      ]
+    },
+    "M2-SPEC": {
+      "number": 10,
+      "id": 5470252902,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/10",
+      "title": "用户登录后能跨浏览器保存活动与投稿",
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km2o"
+    },
+    "M3-SPEC": {
+      "number": 11,
+      "id": 5470253065,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/11",
+      "title": "三端在真实数据库上完成全部模拟奖励业务",
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km3w"
+    },
+    "M4-SPEC": {
+      "number": 12,
+      "id": 5470253359,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/12",
+      "title": "只开放有真实数据和收付款证据的平台能力",
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5Y"
+    },
+    "M5-SPEC": {
+      "number": 13,
+      "id": 5470253479,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/13",
+      "title": "获邀用户能在可恢复且有人负责的环境试运营",
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7Q"
+    },
+    "M2-00": {
+      "number": 14,
+      "id": 5470253755,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/14",
+      "title": "内部版本开工前由创办人冻结身份和保存规格",
+      "parent_linked": true,
+      "dependencies": [
+        "M1-08"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km3c"
+    },
+    "M4-01": {
+      "number": 15,
+      "id": 5470253902,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/15",
+      "title": "提前查明社交数据与支付路径的可行性缺口",
+      "parent_linked": true,
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km64"
+    },
+    "M2-01": {
+      "number": 16,
+      "id": 5470254035,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/16",
+      "title": "确认原型交接并建立可重复启动的内部环境",
+      "parent_linked": true,
+      "dependencies": [
+        "M1-08",
+        "M2-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km3k"
+    },
+    "M4-00": {
+      "number": 17,
+      "id": 5470254147,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/17",
+      "title": "真实适配开工前由创办人冻结接入规格",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km6w"
+    },
+    "M4-02": {
+      "number": 18,
+      "id": 5470254461,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/18",
+      "title": "取得实际主体及授权测试账号的使用证据",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km68"
+    },
+    "M4-03": {
+      "number": 19,
+      "id": 5470254533,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/19",
+      "title": "商家和创作者在真实收付款前得到明确责任费用与退款规则",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7E"
+    },
+    "M5-01": {
+      "number": 20,
+      "id": 5470254620,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/20",
+      "title": "试运营参与者和处理负责人有明确范围与承诺",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km88"
+    },
+    "M2-02": {
+      "number": 21,
+      "id": 5470254700,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/21",
+      "title": "用户用Google登录后能安全刷新和退出",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km3o"
+    },
+    "M4-04": {
+      "number": 22,
+      "id": 5470254783,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/22",
+      "title": "TikTok能力获得可核验的准入结论",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-02"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7I"
+    },
+    "M4-05": {
+      "number": 23,
+      "id": 5470254906,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/23",
+      "title": "Instagram能力获得可核验的准入结论",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-02"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7M"
+    },
+    "M4-06": {
+      "number": 24,
+      "id": 5470255123,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/24",
+      "title": "YouTube能力获得可核验的准入结论",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-02"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7U"
+    },
+    "M4-07": {
+      "number": 25,
+      "id": 5470255224,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/25",
+      "title": "收付款提供方证明指定主体和国家路径可行",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-02",
+        "M4-03"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7Y"
+    },
+    "M2-03": {
+      "number": 26,
+      "id": 5470255400,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/26",
+      "title": "同一用户能在本人和获授权商家组织间切换",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-02"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km3s"
+    },
+    "M2-04": {
+      "number": 27,
+      "id": 5470255559,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/27",
+      "title": "用户换设备仍能恢复语言并继续表单",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-02"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km38"
+    },
+    "M4-14": {
+      "number": 28,
+      "id": 5470255658,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/28",
+      "title": "数据撤权与隐私处理不会销毁必要资金证据",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-04",
+        "M4-05",
+        "M4-06",
+        "M4-07"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km8I"
+    },
+    "M2-05": {
+      "number": 29,
+      "id": 5470255751,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/29",
+      "title": "商家保存规则草稿并明确知道为何不能真实发布",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-03",
+        "M2-04"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km4A"
+    },
+    "M5-02": {
+      "number": 30,
+      "id": 5470255835,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/30",
+      "title": "上线前集中复核规则和三语关键披露",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-03",
+        "M4-14",
+        "M5-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9A"
+    },
+    "M2-06": {
+      "number": 31,
+      "id": 5470255982,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/31",
+      "title": "访客能分享公开活动并登录继续参与",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-05"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km4M"
+    },
+    "M2-07": {
+      "number": 32,
+      "id": 5470256066,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/32",
+      "title": "创作者提交外部链接后能查回自己的投稿",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-06",
+        "M2-03"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km4U"
+    },
+    "M2-08": {
+      "number": 33,
+      "id": 5470256148,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/33",
+      "title": "保存投稿后通知可靠到达且任务中断可恢复",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-07",
+        "M2-04"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km4Y"
+    },
+    "M2-09": {
+      "number": 34,
+      "id": 5470256395,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/34",
+      "title": "内部版本能在预发布环境恢复并保留已存数据",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-08"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km4g"
+    },
+    "M2-10": {
+      "number": 35,
+      "id": 5470256636,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/35",
+      "title": "三端能重复完成真实保存内部版的交接验收",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-09",
+        "M2-04"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km4k"
+    },
+    "M3-00": {
+      "number": 36,
+      "id": 5470256750,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/36",
+      "title": "模拟奖励开工前由创办人冻结资金事务规格",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-10"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5E"
+    },
+    "M3-01": {
+      "number": 37,
+      "id": 5470256843,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/37",
+      "title": "创作者在可核验基线后开始固定窗口计量",
+      "parent_linked": true,
+      "dependencies": [
+        "M2-10",
+        "M3-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5I"
+    },
+    "M3-02": {
+      "number": 38,
+      "id": 5470256950,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/38",
+      "title": "创作者看到正确的累计奖励和本次可申请增量",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5Q"
+    },
+    "M4-08": {
+      "number": 39,
+      "id": 5470257056,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/39",
+      "title": "TikTok投稿能读取真实且有来源的合格数据",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-04",
+        "M3-01",
+        "M4-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7c"
+    },
+    "M4-09": {
+      "number": 40,
+      "id": 5470257166,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/40",
+      "title": "Instagram投稿能读取已核准口径的真实数据",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-05",
+        "M3-01",
+        "M4-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7g"
+    },
+    "M4-10": {
+      "number": 41,
+      "id": 5470257275,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/41",
+      "title": "YouTube投稿能以独立授权取得可靠计量",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-06",
+        "M3-01",
+        "M4-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7k"
+    },
+    "M3-03": {
+      "number": 42,
+      "id": 5470257403,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/42",
+      "title": "达标申请原子预留且并发争额不超配",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-02",
+        "M2-08"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5c"
+    },
+    "M3-04": {
+      "number": 43,
+      "id": 5470257651,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/43",
+      "title": "预算不足时创作者确认确切部分金额才预留",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-03"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5g"
+    },
+    "M3-06": {
+      "number": 44,
+      "id": 5470257769,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/44",
+      "title": "内容和计量分别审核并给出可申诉拒绝理由",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-03"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5s"
+    },
+    "M3-05": {
+      "number": 45,
+      "id": 5470257886,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/45",
+      "title": "候补者收到额度恢复通知后重新申请",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-04"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5k"
+    },
+    "M3-07": {
+      "number": 46,
+      "id": 5470257984,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/46",
+      "title": "创作者申诉后保留原预留并获可追溯结论",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-06",
+        "M3-05"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km5w"
+    },
+    "M3-08": {
+      "number": 47,
+      "id": 5470258295,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/47",
+      "title": "受阻创作者获得明确新截止且不多计观看",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-07",
+        "M3-01"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km50"
+    },
+    "M3-09": {
+      "number": 48,
+      "id": 5470258399,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/48",
+      "title": "审核确认后形成唯一待付义务和准确资金汇总",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-07"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km54"
+    },
+    "M3-10": {
+      "number": 49,
+      "id": 5470258498,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/49",
+      "title": "财务能模拟付款并区分发放与银行到账",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-09"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km6A"
+    },
+    "M3-11": {
+      "number": 50,
+      "id": 5470258689,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/50",
+      "title": "付款未知时只查原交易并在确认未付后受控重试",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-10"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km6E"
+    },
+    "M3-12": {
+      "number": 51,
+      "id": 5470258822,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/51",
+      "title": "活动报告在结案时保留未清义务和正确内容期限",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-08",
+        "M3-11"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km6M"
+    },
+    "M4-12": {
+      "number": 52,
+      "id": 5470258923,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/52",
+      "title": "提供方回调和查询只结清一次真实付款义务",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-07",
+        "M3-11",
+        "M4-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7w"
+    },
+    "M3-13": {
+      "number": 53,
+      "id": 5470259056,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/53",
+      "title": "运营在统一队列处理异常且通知失败不会丢业务",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-12",
+        "M3-05"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km6Y"
+    },
+    "M3-14": {
+      "number": 54,
+      "id": 5470259144,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/54",
+      "title": "三端重复跑通完整模拟业务并证明恢复不重奖",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-13"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km6c"
+    },
+    "M4-11": {
+      "number": 55,
+      "id": 5470259235,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/55",
+      "title": "真实收款资格和备款依据决定活动能否发布",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-07",
+        "M3-14",
+        "M4-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km7s"
+    },
+    "M5-00": {
+      "number": 56,
+      "id": 5470259366,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/56",
+      "title": "试运营实施前由创办人冻结验证与开放规格",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-14"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km84"
+    },
+    "M4-13": {
+      "number": 57,
+      "id": 5470259631,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/57",
+      "title": "活动剩余可退款金额经核对后沿批准路径退回",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-11",
+        "M4-12",
+        "M3-12",
+        "M4-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km74"
+    },
+    "M5-03": {
+      "number": 58,
+      "id": 5470259894,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/58",
+      "title": "固定环境混合压力下仍不会超配或越权",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-14",
+        "M5-01",
+        "M5-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9E"
+    },
+    "M5-04": {
+      "number": 59,
+      "id": 5470259995,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/59",
+      "title": "告警能到达值班人并指导安全处理异常",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-13",
+        "M5-01",
+        "M5-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9I"
+    },
+    "M5-05": {
+      "number": 60,
+      "id": 5470260106,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/60",
+      "title": "备份恢复与应用回退后仍能查清原付款",
+      "parent_linked": true,
+      "dependencies": [
+        "M3-14",
+        "M5-01",
+        "M5-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9M"
+    },
+    "M4-15": {
+      "number": 61,
+      "id": 5470260229,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/61",
+      "title": "仅验证通过的真实能力进入发布候选范围",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-08",
+        "M4-09",
+        "M4-10",
+        "M4-11",
+        "M4-12",
+        "M4-13",
+        "M4-14",
+        "M3-14"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km8Q"
+    },
+    "M5-06": {
+      "number": 62,
+      "id": 5470260359,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/62",
+      "title": "受邀用户入口和关闭开关能限制真实开放范围",
+      "parent_linked": true,
+      "dependencies": [
+        "M4-15",
+        "M3-14",
+        "M5-01",
+        "M5-00"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9Q"
+    },
+    "M5-07": {
+      "number": 63,
+      "id": 5470260460,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/63",
+      "title": "创办人根据完整证据批准具体生产发布",
+      "parent_linked": true,
+      "dependencies": [
+        "M5-02",
+        "M5-03",
+        "M5-04",
+        "M5-05",
+        "M5-06"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9U"
+    },
+    "M5-08": {
+      "number": 64,
+      "id": 5470260560,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/64",
+      "title": "按批准范围发布并完成首批邀请旅程",
+      "parent_linked": true,
+      "dependencies": [
+        "M5-07"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9Y"
+    },
+    "M5-09": {
+      "number": 65,
+      "id": 5470260715,
+      "url": "https://github.com/BELCORT-SDN-BHD/wringy/issues/65",
+      "title": "用真实试运营结果决定继续修复或扩大开放",
+      "parent_linked": true,
+      "dependencies": [
+        "M5-08"
+      ],
+      "project_item": "PVTI_lADOEI5Nys4BjpSozg7Km9k"
+    }
+  },
+  "project": "https://github.com/orgs/BELCORT-SDN-BHD/projects/2"
+}

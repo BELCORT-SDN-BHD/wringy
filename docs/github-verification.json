@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-16",
+  "repository": "BELCORT-SDN-BHD/wringy",
+  "specifications": 5,
+  "tasks": 60,
+  "native_dependency_edges": 108,
+  "project_items": 65,
+  "milestones": 5,
+  "errors": [],
+  "runtime_acceptance": "not executed; repository planning migration only"
+}
