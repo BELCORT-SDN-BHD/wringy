@@ -1,0 +1,12 @@
+# Finance model and financial data are product/business artefacts, not part of the code knowledge graph.
+# Decided by the founder on 2026-09-17. Files stay in the repo; graphify just does not index them.
+phase-0/finance/
+phase-0/deliverables/*/finance/
+phase-0/deliverables/funding-growth-v2/finance-options.md
+phase-0/deliverables/*/build/finance.mjs
+phase-0/deliverables/*/build/finance-slides.mjs
+phase-0/deliverables/*/build/render-finance-layout.mjs
+phase-0/deliverables/*/build/finance-layout-input.json
+# graphify's own outputs and Claude Code settings
+graphify-out/
+.claude/

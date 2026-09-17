@@ -1,0 +1,20 @@
+{
+  "runs": [
+    {
+      "date": "2026-09-17T06:24:15.166266+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 871,
+      "note": "semantic extraction via 32 Claude Code subagents; token counts not captured"
+    },
+    {
+      "date": "2026-09-17T06:44:25.741285+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 833,
+      "note": "rebuild after .graphifyignore excluded finance artefacts; semantic results from cache"
+    }
+  ],
+  "total_input_tokens": 0,
+  "total_output_tokens": 0
+}
