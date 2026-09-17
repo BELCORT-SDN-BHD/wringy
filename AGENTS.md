@@ -1,39 +1,87 @@
-# ChatGPT project context
+# 产品名字 — agent entry point
 
-This directory is a local mirror of the ChatGPT project “wringy.com”.
+**一两句产品的HIGHEST VISION SENTENCES**
 
-- Treat every file under `sources/` as read-only reference material.
-- Do not edit, rename, move, or delete synced project files.
-- These files may be replaced the next time a task is created from this ChatGPT project.
+## The Harness menu — what you need, where the truth lives
 
+| Source | Responsibility | Read when |
+|---|---|---|
+| [PRD](docs/PRD.md) | Highest-level product blueprint: context, vision, users, problems, product behaviour, core journeys, scope, non-goals and success criteria | Understanding or changing what Clara should do and why |
+| [Architecture](docs/ARCHITECTURE.md) | Highest-level technical blueprint: stack and rationale, system boundaries, module responsibilities, dependencies, data flows and tradeoffs; distinguish implemented state from accepted target | Understanding or changing how Clara works |
+| graphify | maps your entire project (code, docs, PDFs, images, videos) into a knowledge graph you can query instead of grepping through files. |
+| [Context](CONTEXT.md) | Shared accounting and product vocabulary | Naming concepts or resolving domain ambiguity |
+| [PROGRESS](docs/PROGRESS.md) | Minimal session state: current commit, verification, active work, known blockers and next steps | Starting, resuming or handing off a session |
 
-## Project instructions
+PRD and Architecture are the enduring human-readable sources of truth. GitHub specs describe a
+particular delivery scope; tickets own its work, dependencies and completion evidence. Later accepted
+decisions may supersede older specs: update the relevant blueprint instead of accumulating conflicting
+instructions. Source code and deployment evidence establish what is actually implemented.
 
-This project has no custom instructions.
+## Working protocol
 
+1. Ground to the codebase with `graphify`. Use it to query anything for implementation or clarify.
+2. Use `grilling` to settle ambiguity that changes product scope or acceptance before a non-trivial
+   build. Look up repository facts directly; ask the owner about unresolved product decisions.
+3. Check current official documentation, through Context7 or the vendor, before changing a stack
+   integration. Installed versions and lockfiles describe this repository's dependencies.
+4. Verify the affected behaviour and update its existing source of truth in the same change. For an
+   implementation ticket that source of truth is the module's README, `CONTEXT.md` and the ticket's own
+   evidence — never the PRD or Architecture.
+5. PRD and Architecture are blueprints, refreshed only after Wayfinder or to-spec settles a product or
+   technical decision and before to-tickets: overwrite the affected section (never append ticket
+   history), keep each file's maintenance frame in its header, and mark accepted technical targets
+   separately from current implementation. Resolve contradictions explicitly; keep detailed acceptance
+   in the delivery spec.
+6. Push back with real examples: When you push back or recommend, include one real practice close to the case — a 
+   company, product, or method you actually know (Linear, Shape Up, Figma), or better, one you can point to (a Mobbin 
+   screenshot, a documentation link). Never invent or embellish one: if you know no close example, say so and argue 
+   from the Founder's own product instead. An example you cannot point to is labeled as recalled, not presented as 
+   fact. 
+7. Claims need evidence: Any statement about the state of the world ("the design system covers this", "this rule is 
+   already enforced", "that was fixed") 
+   must be backed by a checkable source: a file path, a commit, a test or command run, or a link. A real-world 
+   anecdote is an argument (7.2), not evidence. 
+   If you cannot point to a source, say "unverified" instead of asserting. No evidence, no claim.
+8. Wayfinder or grillwithdocs session 的 map / specs 可以add "Milestone" in Github as a 版本控制, 版本控制型号可以在
+   wayfinder和agent 一起讨论.
+9. 当用户主动说" Idea session " , 这个时期讨论出来的东西可以 as "idea" and "need-triages" lable publish in GitHub 
+   Issues.
+
+## CI/CD
+
+## At session start (clock in)
+1. Read PROGRESS.md for current state
+2. Check to confirm repo is in consistent state
+3. Grill user to whether to continue from PROGRESS.md "Next Steps" section.
+
+## Before session end (clock out)
+1. Update PROGRESS.md
+2. Check to confirm consistent state
+3. Commit all completed work
+4. IF FOUND OUT edit that didint done by you , grill user to comfirm it as commit and merge to main.
+5. Refresh graphify of this project, ensure all local and github main is sync also.
 
 ## Agent skills
 
 ### Issue tracker
 
-Use GitHub Issues in BELCORT-SDN-BHD/wringy for specs, tickets, dependencies and milestone status. Read `docs/agents/issue-tracker.md` before creating or changing tracked work.
+GitHub Issues via the `gh` CLI (repo inferred from `git remote -v`). See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
-Use the five default triage roles. Read `docs/agents/triage-labels.md` before triaging issues.
+The five default labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
-Single-context layout. Read `CONTEXT.md` and relevant decisions via `docs/agents/domain.md` before changing product behavior.
+Single-context: a root `CONTEXT.md` plus `docs/adr/`, created lazily by the domain-modeling skill. See `docs/agents/domain.md`.
 
-## Development governance
 
-Verify upstream foundations and recorded approval before implementation: product intent, discovery, blueprint and spec; design work also checks brand, design system and components; backend work checks domain, schema and contracts. Report gaps and let the founder choose whether to fill or explicitly carry them. Planning is not evidence of working software.
+## graphify
 
-Light work changes wording/values without behavior changes; medium work needs intent and checkable acceptance; heavy work (new surfaces, auth, tenant boundaries, money, schema, deletion) requires a full approved spec before coding. Record approval, evidence, appetite, success measures and non-goals. Scope changes enter the spec change register. Do not treat ticket migration as blanket implementation approval.
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
 
-Use short-lived `codex/` or `claude/` branches in separate worktrees; main remains the integration baseline. Every PR references its spec and acceptance evidence. Cross-module PRs declare why. Tests scale to task risk, including integration for behavior changes and end-to-end/rollback evidence for heavy work. Cross-vendor review is required; unavailable review is reported, never fabricated. User-facing titles describe outcomes with identifiers secondary.
-
-Production deployments and real funds movement require explicit founder approval. Never publish credentials or account/session exports. Existing .scratch records are migration archives, not a parallel tracker.
-
-CI/harness coverage and gaps are recorded in `docs/repository-status.md`; missing gates are not waived by setup. Add and index module rules when implementation introduces modules. Apply ownership and protected-delivery rules before real releases.
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
