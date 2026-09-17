@@ -44,12 +44,3 @@ Used by `/wayfinder`. The **map** is a single issue with **child** issues as tic
 - **Claim**: `gh issue edit <n> --add-assignee @me`, the session's first write.
 - **Resolve**: `gh issue comment <n> --body "<answer>"`, then `gh issue close <n>`, then append a context pointer (gist + link) to the map's Decisions-so-far.
 
-## Wringy conventions
-
-Milestones M1–M5 represent delivery stages. Spec issues own task lists; tickets use native sub-issues and blocking dependencies. A ready-for-agent label never overrides an open dependency, an approval gate, or failed acceptance. Use needs-info for unresolved evidence and ready-for-human for explicit founder decisions. Pull requests link their spec and close their implementation tickets only after acceptance. Existing .scratch records are a migration archive, not a second active tracker. Versioned specification documents remain canonical for detailed product rules; issue bodies link them and record execution status.
-
-Planning authorised by founder on 2026-09-16. Public publication authorised; production release and real funds movement require separate approval.
-
-## Project board
-
-https://github.com/orgs/BELCORT-SDN-BHD/projects/2 is public and linked to this repository. Every active spec/task belongs to its milestone and project. Status tracks execution; Readiness tracks Ready / Blocked / Needs evidence / Needs founder. Re-evaluate dependencies when closing predecessors; an old label or project value is not evidence a dependency completed. Native issue dependencies remain authoritative.
