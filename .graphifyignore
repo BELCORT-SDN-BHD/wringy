@@ -7,6 +7,8 @@ phase-0/deliverables/*/build/finance.mjs
 phase-0/deliverables/*/build/finance-slides.mjs
 phase-0/deliverables/*/build/render-finance-layout.mjs
 phase-0/deliverables/*/build/finance-layout-input.json
-# graphify's own outputs and Claude Code settings
-graphify-out/
+# graphify's regenerable outputs (graphify-out/memory/ is intentionally left indexed: graphify files Q&A back into the graph) and Claude Code settings
+graphify-out/cache/
+graphify-out/converted/
+graphify-out/20*/
 .claude/

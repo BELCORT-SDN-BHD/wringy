@@ -59,7 +59,7 @@ instructions. Source code and deployment evidence establish what is actually imp
 2. Check to confirm consistent state
 3. Commit all completed work
 4. IF FOUND OUT edit that didint done by you , grill user to comfirm it as commit and merge to main.
-5. Refresh graphify of this project, ensure all local and github main is sync also.
+5. Refresh graphify of this project, ensure all local and github main is sync also. ` /graphify . --update `
 
 ## Agent skills
 
