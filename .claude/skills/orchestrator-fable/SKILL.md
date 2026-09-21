@@ -46,6 +46,6 @@ Heavy implementation may require detailed technical reasoning. The orchestrator 
   Never use a global CLAUDE_CODE_SUBAGENT_MODEL override.
   Pin every dispatch to a full model ID and explicit effort.
   Use independent verification and deterministic quality gates.
- 2. **Codex lane:** for execution-heavy and objectively testable implementation, debugging, test fixing. Prefer `--model gpt-5.6-sol --effort xhigh`. Keep Codex tasks focused and specific.
+ 2. **Codex lane:** for execution-heavy and objectively testable implementation, debugging, test fixing. Prefer `--model gpt-6-astra --effort medium`. Keep Codex tasks focused and specific.
 - **Grill only when it changes scope.** Use the /grilling skill (`/grill-me`,`/grill-with-docs`,`/loop-me`) when ambiguity would change *what* gets built or its acceptance — not for every bounded task whose spec is already clear.
 - After a worker (Codex or a native lanes) finishes, inspect the result yourself before accepting it. Do not blindly trust worker output.

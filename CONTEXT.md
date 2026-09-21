@@ -4,12 +4,16 @@ Wringy connects merchants funding content campaigns with content creators earnin
 
 ## Canonical sources
 
-- [Product scope and acceptance](phase-0/foundation/prd-content-rewards-v2.md)
+- [Product blueprint: vision, users, journeys, scope and success measures](docs/PRD.md)
+- [Technical blueprint: implemented state, accepted target and boundaries](docs/ARCHITECTURE.md)
 - [Business rules and merchant-adjustable defaults](phase-0/foundation/campaign-defaults-v1.md)
-- [Delivery stages](phase-0/foundation/milestones/roadmap-v1.md)
-- [Accepted architecture direction](phase-0/foundation/full-stack-proposal-v1.md)
+- [Delivery scope and detailed acceptance](docs/planning/README.md)
+- [Foundational business acceptance A01–A40](phase-0/foundation/prd-content-rewards-v2.md)
+- [Accepted stack decision provenance](phase-0/foundation/full-stack-proposal-v1.md)
 - [Design system](phase-0/foundation/design-system-v2/README.md)
 - [External capability boundaries](phase-0/foundation/external-interface-contracts-v1.md)
+
+Blueprints maintain the current product and technical understanding; their frontmatter defines how accepted Wayfinder / to-spec decisions replace affected sections. Exact business rules remain in the defaults source, acceptance in specs, and execution state in GitHub. Older foundation notes do not reopen rules superseded by later accepted decisions.
 
 ## Vocabulary
 
