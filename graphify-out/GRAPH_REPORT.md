@@ -1,12 +1,12 @@
-# Graph Report - wringy  (2026-09-17)
+# Graph Report - wringy  (2026-09-21)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 5918 nodes · 10244 edges · 290 communities (254 shown, 36 thin omitted)
-- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 1356 edges (avg confidence: 0.81)
-- Token cost: 177,989 input · 4,510 output
+- 5955 nodes · 10293 edges · 294 communities (252 shown, 42 thin omitted)
+- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 1357 edges (avg confidence: 0.81)
+- Token cost: 0 input · 0 output
 
 ## Graph Freshness
 - Built from commit: `3d7a6e2a`
@@ -14,52 +14,51 @@
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- Official UI Base Components
-- Official Alert Dialog
-- Alert Dialog Component
-- Design System App Shell
+- cn
+- gallery-core.tsx
+- App.tsx
 - Content Rewards Delivery Rules
 - Official Item Component
-- Avatar Badge Card Components
-- M2 Identity and Save Spec
-- Official Accordion and Breadcrumb
+- gallery-advanced.tsx
+- Source: campaign-defaults-v1 (canonical default business rules)
+- lucide-react
 - M5 Invited Pilot Spec
-- Official Combobox Component
-- M1 Prototype Ticket Board
+- ui/button.tsx
+- M1-03: Creators can submit links and understand simulated view earnings
 - Design System v1 Catalog App
-- Ramp and Linear Design References
-- Official Sidebar Component
+- Linear Mobbin Visual Research: Bounded Audit (zh-CN)
+- ui/sidebar.tsx
 - Business Plan Review v2
-- Whop Commerce Operations Research
-- M2-M3 Reward Acceptance Criteria
+- B03 Content, Community, Services and Physical Delivery (Module Card)
+- Source: prd-content-rewards-v2 (PRD, acceptance A01-A40)
 - Wringy Visual Guide v3 Tokens
-- Harness Blueprints and Sources
-- Stack Audit Acceptance Review
+- Historical Wringy full-platform product, design and architecture foundation map (through 2026-09-15)
+- Minimum Acceptance Evidence Matrix
 - Brand Expression and Component Contracts
 - Wringy Brand Editorial Imagery
 - Angel Deck and Brand Tokens
-- PRD Pending Decisions
+- Clipping.net Public Business Mechanism Audit (2026-09-13)
 - Visual Guide v3 Pages
 - Showcase Manifest
-- Clipping Public UI Evidence
+- Clipping.net Direct Competitor Check (2026-09-13)
 - Smoke Test Scripts
 - Design System Export Pipeline
 - Business Plan v10 Sources
 - Full-Stack Proposal v1
-- M4 Feasibility and Admission
-- Malaysia-First Foundations Decisions
-- AGENTS.md Working Protocol
+- M4-SPEC: Open only platform capabilities with real data and payment evidence
+- Issue 19: Whop mechanism deep research and Wringy blueprint recommendations
+- Working protocol for grounded decisions, evidence, blueprint maintenance and GitHub governance
 - Report Build Script
 - Business Model Deck v6 Finance
 - Deck v7 Demo Campaign
 - M4 Real Data Integration Spec
 - Design System Browser Tests
 - YC Deck Source Audit
-- Content Rewards Review Mechanisms
+- Content Rewards / Whop Review Mechanism Check (2026-09-10)
 - Approved Rules and Acceptance Mapping
-- M5 Pilot Release Gates
-- Whop Research Coverage Audit
-- Content Rewards Deep Research
+- M5-SPEC: Invited users pilot in a recoverable, owned environment
+- Whop Full Business Map and Module Build Reference (README)
+- Content Rewards Current Product Flow Evidence (2026-09-10)
 - Wringy Foundation Brief
 - Design Reference Manifest
 - Design System Handoff and Whop Modules
@@ -67,24 +66,24 @@
 - Whop Wringy Research Report
 - Vite Project Config
 - Design v3 Guide Mockups
-- Component Catalog and Handoff Events
+- Selected component catalog JSON (12 components with states, keyboard, a11y, responsive, motion, modules)
 - Whop Developer Platform Research
 - Delivery Slices S0-S6
 - Content Rewards Business Mechanics
-- GitHub Issue Dependency Chain
+- All-stage delivery plan: five specs and 60 execution/verification records; all implementation acceptance remains unexecuted
 - Wringy V1 PRD Rules
 - Official Carousel Component
-- Whop Developer APIs and Stripe
+- B11 Developer Platform, Installable Apps & Enterprise Embedding
 - Design System v2 Docs Shell
 - Business Plan v1 and v11 Pages
 - Whop Research Cross-Vendor Review
-- Platform API and Verification Constraints
-- Content Rewards Money Rules
-- Content Rewards Source Ledger
+- ui/command.tsx
+- Content Rewards New Version Deep Research (2026-09-10)
+- Whop Content Rewards Mechanism & Wringy Product Landing Report
 - Unit Economics Narrative
-- Content Rewards First-Launch Research
+- Wringy first-version blueprint: Malaysia, single verified channel, invite-only, single CPM contract pilot (pending approval)
 - Design Showcase Accessibility Delivery
-- Whop Risk and Disputes Research
+- B10 Identity Verification, Risk, Refund Disputes & Tax Policy
 - Business Plan v9 Acceptance
 - Malaysia Market Sizing
 - Data and Payment Integration Plan
@@ -99,49 +98,49 @@
 - Business Plan v3 Funding Scenarios
 - Clipping Onboarding Observations
 - Design System v1 Coverage Mapping
-- Phase 0 Delivery Package
+- Delivery package reading guide (final)
 - Investor Deck Design Research
 - Implementation Spec v1 Schema
 - Design System v2 Mobile Docs
-- GitHub Planning and Issue Tracker
+- README — Wringy Content Rewards, Malaysia first, English/Bahasa Melayu/Simplified Chinese UI
 - Unit Economics and Campaign Fields
 - Malaysia Payments and Whop Checkout
 - Creator Progress Screen Mockup
 - Business Model Deck v6
 - Deck Acceptance and Clipping Comparables
-- Whop Content Rewards Flow Review
-- Whop Bounties and Money Flows
-- Clipping Platform Mechanism Research
+- Whop / Content Rewards product flows and Wringy recommendations (2026-09-11)
+- Whop business model and feature teardown v1 (first-round focused research)
+- Clipping and Reference Platform Business Mechanism Research (final report)
 - Malaysia Execution Feasibility
 - Shadcn Components Config
 - Shadcn Init Config
 - Business Plan v1 Brief
-- Foundation Issues Closure
+- Development Handoff v1 (phase-0/foundation/development-handoff-v1.md)
 - Review Design Fact Lines
 - Design System Catalog App
-- Whop Features and Lifecycle
-- GitHub Issue Tracker Conventions
+- Feature Matrix: User, Problem, Action, Business Effect
+- M2-01: Confirm prototype handoff and build repeatable internal environment
+- M2-SPEC: Users save campaigns and submissions across browsers after login
 - Provenance Verification Scripts
 - App TypeScript Config
 - Malaysia Revenue Scenarios
 - Deck v11 Page Copy
 - Content Rewards Business Loop
-- Phase-0 Delivery ZIP
+- Wringy Decks, SEA Investor Materials and Brand System Map (historical)
 - SVG Icon Assets
 - Campaign Default Rules
 - Capital and Exit Research
 - Malaysia Operating Model and Budget
-- Wringy Domain Vocabulary
-- Foundation and Investor Deck Decisions
+- Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views
+- Issue 13: Complete visual reference audit and YC deck rewrite (closed)
 - Angel Deck Source Brief
 - Historical Drafts and Status Vocabulary
-- First-Version Blueprint Gates
-- Investor Deck Build Pipeline
+- Foundation README — historical product and investment source index with current blueprint pointers
 - Approved Rules and Stack Decisions
 - Investor Deck Review Rounds
 - Ops Back-office and Reviews
 - Issue and PR Templates
-- Finance Model and Angel Visuals
+- Review Design v1 (phase-0/foundation/review-design-v1.md)
 - Business Deck Series Rules
 - Angel Deck v1 Build
 - Backend Module Architecture
@@ -149,13 +148,13 @@
 - Competitor Operations Comparison
 - Button Page and Theme Demo
 - Angel Deck Appendix and Sources
-- TJR Case and Positioning
+- Wringy Investor Deck v6 (18 pages, finance + review mechanisms)
 - Visual Guide States and Responsive
 - SEA Market Research Facts
 - Repository Governance and Publication
 - Node TypeScript Config
 - Whop Full Research Tickets
-- Business Model v2 and Wallet
+- Business Model v2 (phase-0/foundation/business-model-v2.md)
 - Color Tokens and Motion Rules
 - Color Provenance Verification
 - Chinese Business Model Deck
@@ -172,36 +171,35 @@
 - Whop Ads and Attribution
 - Business Plan v10 Funding
 - Review Detail and Creator Progress
-- Content Rewards Acceptance Journeys
-- Malaysia Payment Rails
+- Creator side journey (discover, join/apply, draft pre-review, publish, submit link)
+- Malaysia payment rails: collection and payout are two separate things
 - Foundations Map and Investor Deck V2
 - Investor Deck v4 YC
 - Whop 168 Feature Entries
-- Architecture Decisions and Skills
+- Domain Docs consumption protocol
 - Design v3 Build Scripts
 - Data Revocation and Privacy Gates
 - Color Allocation Checks
 - Payback Scenarios and Review Division
 - Brand Strategy v1
-- Three-Party Campaign Storyboard
+- Clipping Public UI Evidence -> Wringy Continuous Mockups
 - Visual Spec v3 References
 - Design System v2 Build
-- Official Creator Rewards Flow Evidence
-- Design System Acceptance Criteria
+- Official Creator/Content Rewards Flow Evidence (2026-09-10)
 - Wordmark and Typography
 - Official Chart Component
 - Browser Check Tests
 - Phase 0 Delivery Package
 - Planning Migration and Whop Flows
-- Angel Review Arithmetic Findings
+- Per-campaign contribution RM750 (1500-600-150), 50% rate
 - Angel Deck Blueprint and Belcort Split
 - Creator Commerce Vision and Handoff
 - Merchant Setup and Delivery Phases
-- Whop Funds and Fee Evidence
+- Whop Business Model and Funds Responsibility Evidence Report
 - Whop Marketplace and Reviews
 - Business Plan v3 Story
 - Evidence Labels and Source Register
-- Claim Deadline Timing Rules
+- Content Rewards Timing and Claim Rules Check (2026-09-14)
 - Chinese Revenue Scenario Deck
 - Chinese Creator Campaign Demo
 - Token Generation Scripts
@@ -212,7 +210,7 @@
 - Whop Affiliates and Partners
 - Clipping Platform Research
 - Confirmed Constraints and Funding
-- Stage Gates and Stack Audit
+- Full-Stack Parallel Audit README (2026-09-15)
 - Business Plan Deck v12
 - Reward Verification States
 - Fund Flow and Review Rules
@@ -227,14 +225,14 @@
 - Design v3 Queue and States
 - Business Model and Finance
 - Whop Modules and Deck Narrative
-- Operations Review and Appeals
+- M1-05: Merchants and operations review, creators appeal
 - Brand and Design System Deliverables
 - Demo Campaign Economics
 - First-round Funding Use
 - Design v3 Brand Showcase
 - Demo Photography Scenes
 - Trilingual Copy Verification
-- Domain State Model Spec
+- Wringy Domain State and Cross-Domain Handoff v1 (PROPOSED, 2026-09-11)
 - Package Scripts
 - Official UI Navigation Menu
 - UI Navigation Menu
@@ -247,13 +245,13 @@
 - Resizable Panels
 - DOSM Market Data and Sources
 - Deck Pages and Pilot Targets
-- Auth and Backend Architecture
+- B01 Accounts, Teams, Business and Product Catalog (Module Card)
 - Service Revenue Scenarios
 - Publish Readiness and Eligibility Gates
 - Official UI Empty State
-- Official UI Bubble
+- class-variance-authority
 - Deck v11-v12 Acceptance
-- UI Bubble Component
+- System boundary: browser → Next.js page/session/proxy → Fastify domain API → PostgreSQL facts/outbox/queue, with an independent worker and narrow provider callbacks
 - Malaysia Market Sizing
 - Mermaid Flowchart Rendering
 - Design Rules Query
@@ -265,12 +263,14 @@
 - Platform Integration Feasibility
 - Design Token Generator
 - v1 Control Matrix
-- Social Data Boundaries
+- Social data boundaries: three platforms' views are not the same metric; API vs OAuth vs commercial use permission
+- Outbox and pg-boss provide one durable async path; idempotency, provider reconciliation and human recovery protect notifications and payments
 - Metering Window and Claim Rules
 - Callback and Notification Handling
 - TypeScript Config
 - Tabler Icons Notices
 - Blocked Milestone Gates
+- Tradeoffs: modular monolith, PostgreSQL-backed facts/tasks and staged real-capability admission are reconsidered only from measured constraints or accepted scope changes
 - Brand Claim and Copy Tone
 - Cross-vendor Review Results
 - CR Discover Campaign Samples
@@ -290,6 +290,8 @@
 - Review v6 Stderr
 - Beta Validation Proposal
 - Funding Verification
+- Verification separates accepted load assumptions, untested quantitative proposals, correctness invariants, recovery tests and release evidence
+- Launch non-goals include native apps, video processing, full marketplace/course scope, FX, global payments promises and unapproved wallet/escrow/advance funding
 
 ## God Nodes (most connected - your core abstractions)
 1. `cn` - 116 edges
@@ -304,16 +306,16 @@
 10. `Historical Wringy full-platform product, design and architecture foundation map (through 2026-09-15)` - 35 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `P01-P11 actually executed with recorded results and evidence; no to-do lists or screenshots in place of operable flows` --semantically_similar_to--> `Rule 7: claims need checkable evidence (file path, commit, test run, link) or say unverified`  [INFERRED] [semantically similar]
+- `P01-P11 actually executed with recorded results and evidence; no to-do lists or screenshots in place of operable flows` --semantically_similar_to--> `Claims require a file, commit, test/command or link; otherwise label them unverified`  [INFERRED] [semantically similar]
   .scratch/wringy-prototype/issues/08-repeatable-demo.md → AGENTS.md
-- `README: Wringy Content Rewards platform, Malaysia first, EN/MS/ZH-Hans UI` --semantically_similar_to--> `CONTEXT.md: Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views`  [INFERRED] [semantically similar]
-  README.md → CONTEXT.md
 - `Local Markdown Ticket Tracker Convention (Blocked by, Status claimed/resolved)` --semantically_similar_to--> `Dependencies and Unresolved Evidence Field`  [INFERRED] [semantically similar]
   .scratch/whop-teardown/map.md → .github/ISSUE_TEMPLATE/task.yml
-- `Five stages: prototype, saved internal version, simulated Beta, real integration, pilot operation` --semantically_similar_to--> `Development order: three-end prototype -> saveable internal version -> full simulated Beta -> real integration -> small pilot`  [INFERRED] [semantically similar]
+- `Accepted Wayfinder/to-spec decisions rewrite affected PRD or Architecture sections before tickets; preserve frontmatter and separate rules, rationale and execution evidence` --semantically_similar_to--> `Rationale: drafting authorisation never equals freeze or implementation approval; document freeze, simulated acceptance and production verification are separate gates`  [INFERRED] [semantically similar]
+  AGENTS.md → .scratch/wringy-foundations/map-history-through-2026-09-15.md
+- `Five stages: prototype, saved internal version, simulated Beta, real integration, pilot operation` --semantically_similar_to--> `Delivery order: three-role prototype → persisted internal version → full simulated Beta → real integrations → limited pilot`  [INFERRED] [semantically similar]
   .scratch/wringy-foundations/map.md → README.md
-- `'Clara' named in harness menu (likely template placeholder for Wringy)` --conceptually_related_to--> `CONTEXT.md: Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views`  [AMBIGUOUS]
-  AGENTS.md → CONTEXT.md
+- `README — Wringy Content Rewards, Malaysia first, English/Bahasa Melayu/Simplified Chinese UI` --semantically_similar_to--> `Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views`  [INFERRED] [semantically similar]
+  README.md → CONTEXT.md
 
 ## Import Cycles
 - None detected.
@@ -322,7 +324,6 @@
 - **M4 per-platform capability admission chain (matrix -> authorized accounts -> TikTok/Instagram/YouTube verdicts)** — docs_planning_tickets_m4_01_platform_feasibility_matrix, docs_planning_tickets_m4_02_authorized_test_accounts, docs_planning_tickets_m4_04_tiktok_capability_verdict, docs_planning_tickets_m4_05_instagram_insights_metrics, docs_planning_tickets_m4_06_youtube_metrics_verification, docs_planning_tickets_m3_01_negative_capability_finding_rule [EXTRACTED 0.95]
 - **Approved Content Rewards rule chain: defaults -> PRD -> D01-D06 -> prototype flow** — phase_0_foundation_prd_content_rewards_v2_core_defaults, phase_0_foundation_prd_content_rewards_v2_approved_rules_table, phase_0_foundation_implementation_spec_content_rewards_v1_six_rules_d01_d06, phase_0_foundation_milestones_prototype_spec_v1_main_flow, phase_0_foundation_prd_content_rewards_v2_approval_change_log [EXTRACTED 1.00]
 - **Blueprint publisher attribution: B12 copy relation -> B07 obligation -> B09 settlement** — phase_0_research_whop_full_modules_b12_blueprints, phase_0_research_whop_full_modules_b07_f14_blueprint_attribution, phase_0_research_whop_full_modules_b12_ac05_blocked_by_b07_f14, pae_websites_blueprints_10pct, ir_blocker2_missing_entries, ver_review_fix_table [EXTRACTED 1.00]
-- **Canonical phase-0 sources of truth referenced by README, CONTEXT and the resolved map** — scratch_wringy_foundations_map_history_through_2026_09_15_prd_content_rewards_v2, scratch_wringy_foundations_map_history_through_2026_09_15_campaign_defaults_v1, scratch_wringy_foundations_map_history_through_2026_09_15_roadmap_v1, scratch_wringy_foundations_map_history_through_2026_09_15_full_stack_proposal_v1, scratch_wringy_foundations_map_history_through_2026_09_15_design_system_v2_readme, scratch_wringy_foundations_map_history_through_2026_09_15_external_interface_contracts_v1, context_canonical_sources, readme_wringy_overview, scratch_wringy_foundations_map_wayfinder_map_resolved [EXTRACTED 1.00]
 - **Clipping authenticated research evidence chain (2026-09-13/14)** — clipping_app_onboarding_first_screen, phase_0_research_clipping_deep_v2_browser_observations, phase_0_research_clipping_deep_v2_browser_onboarding_findings, walkthrough_28, campaign_brief_27, phase_0_research_clipping_deep_v2_coverage_inventory [EXTRACTED 1.00]
 - **Content Rewards business plan deck lineage v3 -> v4 -> v5 -> v6 -> v7 -> v8 (all 2026-09-13)** — phase_0_deliverables_content_rewards_business_v3_readme_v3_deliverable, phase_0_deliverables_content_rewards_business_v4_readme_v4_deliverable, phase_0_deliverables_content_rewards_business_v5_readme_v5_deliverable, phase_0_deliverables_content_rewards_business_v6_readme_v6_deliverable, phase_0_deliverables_content_rewards_business_v7_readme_v7_deliverable, phase_0_deliverables_content_rewards_business_v8_readme_v8_deliverable [EXTRACTED 1.00]
 - **Worked Content Rewards campaign example: RM5/1,000 views, RM2,000 cap, 22k→20k verification, RM100 confirmed, RM2,000 + RM300 settlement, closed report** — crb_v10_story_reward_budget_service_fee, crb_v10_story_creator_campaign_selection, crb_v10_story_submission_estimate, crb_v10_story_view_verification, crb_v10_story_campaign_settlement, crb_v10_story_campaign_report [EXTRACTED 1.00]
@@ -339,7 +340,6 @@
 - **Design System Lineage: brand-design-v1 -> design-system-v1 -> design-system-v2** — phase_0_foundation_brand_design_v1_design_tokens_v1_json, phase_0_foundation_design_system_v1_readme_design_system_v1, phase_0_foundation_design_system_v2_readme_design_system_v2, phase_0_foundation_design_system_v2_app_readme_color_maintenance_workflow [EXTRACTED 1.00]
 - **Design system v2 verification evidence chain (tests → verifier → reports → acceptance)** — ds_v2_tests_readme_browser_check_workflow, ds_v2_tests_readme_verify_source, phase_0_foundation_design_system_v2_color_policy_verify_provenance_script, ds_v2_browser_verification_json, ds_v2_verification_json, phase_0_foundation_design_system_v2_color_policy_finalverification_json, ds_v2_localized_verification_json, phase_0_foundation_design_system_v2_handoff_final_acceptance_2026_09_11, phase_0_foundation_design_system_v2_review_v2_acceptance_record [EXTRACTED 1.00]
 - **Foundation grilling ticket dependency chain 01 -> 02/03/04 -> 05/06/07 -> 08** — scratch_wringy_foundations_issues_01_product_loop_issue, scratch_wringy_foundations_issues_02_positioning_issue, scratch_wringy_foundations_issues_03_journey_domain_issue, scratch_wringy_foundations_issues_04_brand_direction_issue, scratch_wringy_foundations_issues_05_prd_issue, scratch_wringy_foundations_issues_06_design_spec_issue, scratch_wringy_foundations_issues_07_architecture_issue, scratch_wringy_foundations_issues_08_foundation_gate_issue [EXTRACTED 1.00]
-- **Investor deck lineage v4 (YC per-post) -> v5 (pay-per-view) -> v6 (finance + review)** — phase_0_deliverables_investor_v4_readme_deck, phase_0_deliverables_investor_v5_readme_deck, phase_0_deliverables_investor_v6_readme_deck, phase_0_foundation_readme_entry [EXTRACTED 1.00]
 - **M1 prototype vertical-slice tickets forming a linear dependency chain** — scratch_wringy_prototype_issues_01_browse_and_enter_ticket_m1_01, scratch_wringy_prototype_issues_02_create_campaign_ticket_m1_02, scratch_wringy_prototype_issues_03_submit_and_track_ticket_m1_03, scratch_wringy_prototype_issues_04_claim_and_budget_ticket_m1_04, scratch_wringy_prototype_issues_05_review_and_appeal_ticket_m1_05, scratch_wringy_prototype_issues_06_payout_and_reconcile_ticket_m1_06, scratch_wringy_prototype_issues_07_deadlines_and_close_ticket_m1_07, scratch_wringy_prototype_issues_08_repeatable_demo_ticket_m1_08, prototype_readme_m1_ticket_board, scratch_wringy_foundations_map_history_through_2026_09_15_prototype_spec_v1 [EXTRACTED 1.00]
 - **M2 ticket dependency chain (M2-00 -> M2-10) feeding M3-00** — docs_planning_tickets_m2_00_ticket, docs_planning_tickets_m2_01_ticket, docs_planning_tickets_m2_02_ticket, docs_planning_tickets_m2_03_ticket, docs_planning_tickets_m2_04_ticket, docs_planning_tickets_m2_05_ticket, docs_planning_tickets_m2_06_ticket, docs_planning_tickets_m2_07_ticket, docs_planning_tickets_m2_08_ticket, docs_planning_tickets_m2_09_ticket, docs_planning_tickets_m2_10_ticket, docs_planning_tickets_m3_00_ticket [EXTRACTED 1.00]
 - **M3 simulated reward lifecycle: metering -> claim -> review -> confirm -> payout -> report -> ops -> beta** — docs_planning_tickets_m3_01_ticket, docs_planning_tickets_m3_02_ticket, docs_planning_tickets_m3_03_ticket, docs_planning_tickets_m3_04_ticket, docs_planning_tickets_m3_05_ticket, docs_planning_tickets_m3_06_ticket, docs_planning_tickets_m3_07_ticket, docs_planning_tickets_m3_08_ticket, docs_planning_tickets_m3_09_ticket, docs_planning_tickets_m3_10_ticket, docs_planning_tickets_m3_11_ticket, docs_planning_tickets_m3_12_ticket, docs_planning_tickets_m3_13_ticket, docs_planning_tickets_m3_14_ticket [EXTRACTED 1.00]
@@ -356,7 +356,10 @@
 - **Explained state system: empty, no-match, none-selected, loading, load-error, field-error** — visual_guide_v3_state_first_empty, visual_guide_v3_state_no_match, visual_guide_v3_state_none_selected, visual_guide_v3_state_loading, visual_guide_v3_state_load_error, visual_guide_v3_state_field_error [EXTRACTED 1.00]
 - **Visual v3 Reference Audit Program (Ramp + Linear via Mobbin, Design-v2 Errata)** — phase_0_research_visual_v3_readme_doc, linear_audit_doc, phase_0_research_visual_v3_linear_coverage_matrix_doc, reference_audit_doc, final_inventory_addendum_doc, phase_0_research_visual_v3_readme_mobbin, linear_audit_design_v2_spec [EXTRACTED 1.00]
 - **Whop Full-Map Research Pipeline: five tickets feed sector synthesis** — scratch_whop_full_map_issues_01_commerce_research_ticket, scratch_whop_full_map_issues_02_money_research_ticket, scratch_whop_full_map_issues_03_growth_research_ticket, scratch_whop_full_map_issues_04_platform_research_ticket, scratch_whop_full_map_issues_05_coverage_research_ticket, whop_full_map_task_graph, whop_full_map_twelve_candidate_sectors [EXTRACTED 1.00]
+- **Current authority chain: harness → product/technical blueprints → delivery specs → GitHub execution → implementation evidence** — agents_harness_menu, docs_prd_greenfield_placeholder, docs_architecture_greenfield_placeholder, docs_planning_readme_delivery_authority, readme_github_issues_source_of_truth, docs_prd_accepted_vs_implemented [EXTRACTED 1.00]
+- **Five-stage delivery separates simulation, persistence, database-verified business rules, live capability admission and limited pilot** — docs_planning_readme_m1_prototype_stage, docs_planning_readme_m2_internal_stage, docs_planning_readme_m3_simulated_beta_stage, docs_planning_readme_m4_live_integrations_stage, docs_planning_readme_m5_limited_pilot_stage [EXTRACTED 1.00]
 - **Wringy Phase 0 Deliverable Package: eight deck/brand tickets accepted into one ZIP** — scratch_wringy_decks_brand_issues_01_market_research_ticket, scratch_wringy_decks_brand_issues_02_economics_research_ticket, scratch_wringy_decks_brand_issues_03_learning_research_ticket, scratch_wringy_decks_brand_issues_04_brand_research_ticket, scratch_wringy_decks_brand_issues_05_renderer_research_ticket, scratch_wringy_decks_brand_issues_06_images_research_ticket, scratch_wringy_decks_brand_issues_07_investor_deck_research_ticket, scratch_wringy_decks_brand_issues_08_design_assets_research_ticket, scratch_wringy_decks_brand_issues_01_market_phase0_delivery_zip [EXTRACTED 1.00]
+- **Reward lifecycle vocabulary: submission → eligible views → claim → reservation → confirmed reward → payout with operations oversight** — context_submission, context_eligible_views, context_claim, context_reservation, context_confirmed_reward, context_payout, context_operations [EXTRACTED 1.00]
 - **tokens.json single-source chain across brief, brand strategy, design spec, asset briefs and showcase projections** — phase_0_deliverables_brief_tokens_json_root, phase_0_deliverables_brand_design_system_spec_tokens_json_single_source, phase_0_deliverables_brand_asset_briefs_tokens_json_root, phase_0_deliverables_brand_showcase_readme_tokens_projection, phase_0_deliverables_brand_showcase_readme_generate_py, phase_0_deliverables_brand_brand_strategy_color_palette [EXTRACTED 1.00]
 - **YC seed deck forensics feeding Wringy investor story v4** — phase_0_research_yc_deck_source_audit_document, phase_0_research_yc_deck_source_audit_yc_seed_deck_article, phase_0_research_yc_deck_source_audit_ten_template_images, phase_0_research_yc_deck_template_mapping_document, phase_0_research_yc_deck_template_mapping_final_page_order_v4, phase_0_research_yc_deck_source_audit_investor_v4_story [EXTRACTED 1.00]
 - **Wringy design lineage: design-v2 (Ramp/Linear tokens) → design-v3 (independent draft) → design-system-v2 (official shadcn + palette only)** — phase_0_foundation_design_v2_brand_components_spec_v2_deliverable, phase_0_foundation_design_v3_brand_components_spec_v3_draft, phase_0_foundation_design_system_v2_reference_contract_user_directive, phase_0_foundation_design_system_v2_reference_contract_v1_deprecated_scope, domain_states_v1_contract [INFERRED 0.75]
@@ -380,23 +383,19 @@
 - **Five fact lines realized by C/M/R/P/K domain flows and business composite components** — scratch_wringy_foundations_design_system_review_packet_five_fact_lines, scratch_wringy_foundations_design_system_review_packet_content_review_flow, scratch_wringy_foundations_design_system_review_packet_measurement_flow, scratch_wringy_foundations_design_system_review_packet_reward_obligation_flow, scratch_wringy_foundations_design_system_review_packet_payment_flow, scratch_wringy_foundations_design_system_review_packet_risk_case_flow, scratch_wringy_foundations_design_system_review_packet_component_measurement, scratch_wringy_foundations_design_system_review_packet_component_reward_breakdown, scratch_wringy_foundations_design_system_review_packet_component_payout, scratch_wringy_foundations_design_system_review_packet_component_risk_case, scratch_wringy_foundations_design_system_review_packet_component_appeal [INFERRED 0.90]
 - **Unknown payment result: check original attempt, never re-pay** — phase_0_foundation_prd_v1_payout_attempt_states, phase_0_foundation_prd_content_rewards_v2_payout_idempotency, phase_0_foundation_implementation_spec_content_rewards_v1_payout_transaction, phase_0_foundation_implementation_spec_content_rewards_v1_payment_completion_rule, phase_0_foundation_full_stack_proposal_v1_permanent_transaction_record, phase_0_foundation_milestones_prototype_spec_v1_exception_scenarios [INFERRED 0.90]
 
-## Communities (290 total, 36 thin omitted)
+## Communities (294 total, 42 thin omitted)
 
-### Community 0 - "Official UI Base Components"
+### Community 0 - "cn"
 Cohesion: 0.02
-Nodes (31): Alert(), alertVariants, Badge(), badgeVariants, Button(), buttonVariants, ButtonGroup(), buttonGroupVariants (+23 more)
+Nodes (19): Button(), buttonVariants, ButtonGroup(), buttonGroupVariants, Marker(), markerVariants, Toggle(), toggleVariants (+11 more)
 
-### Community 1 - "Official Alert Dialog"
-Cohesion: 0.02
-Nodes (17): Calendar(), PaginationLinkProps, QuestionnaireNext(), QuestionnairePrevious(), QuestionnaireSkip(), QuestionnaireSubmit(), Button(), buttonVariants (+9 more)
-
-### Community 2 - "Alert Dialog Component"
+### Community 2 - "gallery-core.tsx"
 Cohesion: 0.04
-Nodes (53): AlertDialog(), AlertDialogAction(), AlertDialogCancel(), AlertDialogContent(), AlertDialogDescription(), AlertDialogFooter(), AlertDialogHeader(), AlertDialogTitle() (+45 more)
+Nodes (59): QuestionnaireNext(), QuestionnairePrevious(), QuestionnaireSkip(), QuestionnaireSubmit(), AlertDialog(), AlertDialogAction(), AlertDialogCancel(), AlertDialogContent() (+51 more)
 
-### Community 3 - "Design System App Shell"
+### Community 3 - "App.tsx"
 Cohesion: 0.05
-Nodes (50): phase_0_foundation_design_system_v2_app_provenance_palette, phase_0_foundation_design_system_v2_app_public_registry_manifest, allocation, badgeColors(), categories, ColorAllocation(), selectedFromHash(), sources (+42 more)
+Nodes (49): phase_0_foundation_design_system_v2_app_provenance_palette, phase_0_foundation_design_system_v2_app_public_registry_manifest, allocation, badgeColors(), categories, ColorAllocation(), selectedFromHash(), sources (+41 more)
 
 ### Community 4 - "Content Rewards Delivery Rules"
 Cohesion: 0.10
@@ -406,65 +405,65 @@ Nodes (79): Canonical campaign defaults v1 (single source of business constants)
 Cohesion: 0.18
 Nodes (4): Item(), ItemMedia(), itemMediaVariants, itemVariants
 
-### Community 6 - "Avatar Badge Card Components"
+### Community 6 - "gallery-advanced.tsx"
 Cohesion: 0.04
-Nodes (31): Avatar(), AvatarFallback(), AvatarImage(), Badge(), badgeVariants, Card(), CardContent(), CardDescription() (+23 more)
+Nodes (32): Avatar(), AvatarFallback(), AvatarImage(), Badge(), badgeVariants, Card(), CardContent(), CardDescription() (+24 more)
 
-### Community 7 - "M2 Identity and Save Spec"
-Cohesion: 0.09
-Nodes (61): M2-AC00: founder freezes identity/save spec, heavy-start approval recorded, M2-AC03: organisation creation/join with grants; cross-org composition rejected; audited denial, M2-AC04: language preference resolution, cross-device restore, trilingual keys, no double submit, M2-AC05: campaign draft from canonical defaults; version conflict detection; real publish rejected when funds/data/payment not ready, M2-AC06: public catalog/detail leak-free; share metadata; join requires Google identity, M2-AC07: allowed-platform URL normalisation; fixture ownership; duplicate URL returns same submission, M2-AC08: outbox same-transaction; relay->pg-boss dedup; in-app notifications; SSE + polling fallback, M2-AC10: full M2 handoff: verify AC01-AC09 on mobile/desktop; cross-vendor review; production writes closed (+53 more)
+### Community 7 - "Source: campaign-defaults-v1 (canonical default business rules)"
+Cohesion: 0.14
+Nodes (37): Unified evidence record (AC id, version, env, steps, expected, actual, time, refs); all currently unexecuted, Source: campaign-defaults-v1 (canonical default business rules), Source: development-plan-content-rewards-v1 (dev slices & handoff), Testing decisions: browser journey -> single business API -> real PostgreSQL -> controlled provider adapter; fixture replaces only external sources, M2-00: Founder freezes identity and save spec before internal version start, M2-00 verification & recovery: check upstream->spec->AC->ticket evidence chain; stay pending without explicit approval; no default consent or date inference, Rule: tests named with the stage AC id; evidence records version, env, action, expected, actual; real PostgreSQL for funds/org/job state; at least one failure/over-reach case, Rule: negative capability investigation only permits a disabled implementation, never authorises live opening (+29 more)
 
-### Community 8 - "Official Accordion and Breadcrumb"
-Cohesion: 0.04
+### Community 8 - "lucide-react"
+Cohesion: 0.03
 Nodes (6): NativeSelectProps, Toaster(), input-otp, lucide-react, next-themes, sonner
 
 ### Community 9 - "M5 Invited Pilot Spec"
 Cohesion: 0.08
 Nodes (51): M5-SPEC: Invited users pilot in a recoverable, owned environment, Upstream approval references, verifiable evidence and gap costs; founder chooses fix-first or accept-with-gaps, Founder-reviewable implementation package: beta results, capacity/recovery plan, invite scope, ops handover, M5-AC00 acceptance criteria, M5-00 Founder freezes pilot verification and opening spec before implementation, Fixed-environment capacity targets, allowed data loss, recovery time targets, rollback triggers, M5-01 gate=true: blocked: founder/provider evidence required, Concrete invite scope, entry/exit conditions, country/currency assumptions; no growth targets, no invites sent (+43 more)
 
-### Community 10 - "Official Combobox Component"
+### Community 10 - "ui/button.tsx"
 Cohesion: 0.03
-Nodes (21): InputGroupAddon(), inputGroupAddonVariants, InputGroupButton(), inputGroupButtonVariants, Dialog(), DialogContent(), DialogDescription(), DialogHeader() (+13 more)
+Nodes (21): Calendar(), InputGroupAddon(), inputGroupAddonVariants, InputGroupButton(), inputGroupButtonVariants, PaginationLinkProps, Button(), Calendar() (+13 more)
 
-### Community 11 - "M1 Prototype Ticket Board"
+### Community 11 - "M1-03: Creators can submit links and understand simulated view earnings"
 Cohesion: 0.08
-Nodes (54): P01-P11 prototype acceptance coverage mapping to tickets, Linear prerequisite chain M1-01 -> M1-08, M1 prototype development ticket board (M1-01 to M1-08), M2-M5 refined per stage later; no fictitious production tickets, Each ticket carries its own trilingual, mobile, persistence and notification checks (quality not deferred to the end), Rationale: linear chain because each ticket consumes the business records created by the previous one; no artificial UI/API split, to-tickets vertical-slice method (each ticket ships a demonstrable user path), Rationale: pull real components via official CLI and keep control source untouched so version/source consistency is verifiable (+46 more)
+Nodes (55): P01-P11 prototype acceptance coverage mapping to tickets, Linear prerequisite chain M1-01 -> M1-08, M1 prototype development ticket board (M1-01 to M1-08), M2-M5 refined per stage later; no fictitious production tickets, Each ticket carries its own trilingual, mobile, persistence and notification checks (quality not deferred to the end), Rationale: linear chain because each ticket consumes the business records created by the previous one; no artificial UI/API split, to-tickets vertical-slice method (each ticket ships a demonstrable user path), Planning closure record 2026-09-15 (limits kept explicit) (+47 more)
 
 ### Community 12 - "Design System v1 Catalog App"
 Cohesion: 0.06
 Nodes (40): applyIndeterminate(), axes, catalogData, choices(), COMPONENT_FAMILIES, componentCoverage(), contractLabels, DEMO (+32 more)
 
-### Community 13 - "Ramp and Linear Design References"
-Cohesion: 0.07
-Nodes (49): Ramp 404 Recovery Page Pattern, Capture Membership All notconfirmed (c224 Pointer Only), Ramp Final Inventory Addendum (8 New IDs), Eight New Ramp Section IDs (News, Dark Green Blog, 404, Metrics Bar, Stories, Testimonial), Distinct Reference Families (White AI, Blue Gradient, Dark Green Blog, Black Testimonial), Board View Information Budget (Light/Dark), Citron Accent Reserved for Primary Actions; Neutral Selection Surface, Create, Property Edit and Filter Must Be Separate Contracts (+41 more)
+### Community 13 - "Linear Mobbin Visual Research: Bounded Audit (zh-CN)"
+Cohesion: 0.06
+Nodes (51): Ramp 404 Recovery Page Pattern, Capture Membership All notconfirmed (c224 Pointer Only), Ramp Final Inventory Addendum (8 New IDs), Eight New Ramp Section IDs (News, Dark Green Blog, 404, Metrics Bar, Stories, Testimonial), Distinct Reference Families (White AI, Blue Gradient, Dark Green Blog, Black Testimonial), Board View Information Budget (Light/Dark), Citron Accent Reserved for Primary Actions; Neutral Selection Surface, Create, Property Edit and Filter Must Be Separate Contracts (+43 more)
 
-### Community 14 - "Official Sidebar Component"
+### Community 14 - "ui/sidebar.tsx"
 Cohesion: 0.04
-Nodes (41): Sidebar(), SidebarContext, SidebarContextProps, SidebarMenuButton(), sidebarMenuButtonVariants, SidebarProvider(), SidebarRail(), SidebarTrigger() (+33 more)
+Nodes (42): Sidebar(), SidebarContext, SidebarContextProps, SidebarMenuButton(), sidebarMenuButtonVariants, SidebarProvider(), SidebarRail(), SidebarTrigger() (+34 more)
 
 ### Community 15 - "Business Plan Review v2"
 Cohesion: 0.08
 Nodes (31): Note: superseded by business-model-v2 (qualified views, percentage fee), Example: 50,000 qualified views x RM5/1k = RM250 (from business-model-v2), Counted-views snapshot record ('how this was computed'), Accepted: 18 months = 4 build + 14 operate, zero-revenue note, rewards not revenue, Contrast ratios computed (body 16.15, secondary 6.27, button 13.18), Review v2 Disposition: new design and investor narrative, Final 10-page PPT with native tables; limits stated, Rejected: forcing ~RM580k to RM576k; repeating 'not a quote' per row (+23 more)
 
-### Community 16 - "Whop Commerce Operations Research"
-Cohesion: 0.08
-Nodes (44): Analytics MRR/ARR Estimates Include Past-Due, Courses (Modules, Chapters, Lessons, Quizzes, Certificates), Business Family Coverage Table (Paid Groups, Courses, Coaching, Agencies, SaaS, Newsletters, Events, DTC, Retail, Platforms), No Verifiable Unified Whop Changelog, Whop Commerce, Delivery and Operations Research (B01/B03/B04), Lifetime Access Example vs Current Ban on Indefinite Access, Role Version Difference (Admin in Screenshot vs Five Presets), Two Modes: Build/Host/Sell on Whop vs Payments-Only External Delivery (+36 more)
-
-### Community 17 - "M2-M3 Reward Acceptance Criteria"
+### Community 16 - "B03 Content, Community, Services and Physical Delivery (Module Card)"
 Cohesion: 0.09
-Nodes (48): Issue #54: three-role full simulated business run (M3 exit), M2-AC02: Google-only login; refresh/logout; forged identity, CSRF, stale token, shared-cache tests, M2-AC09: staging topology (web/API/worker, DB region/TLS); health/heartbeat/backlog; rollback drill keeps data, Decision 2: Fastify is the sole business/authorisation entry; Next.js only pages, session refresh, thin proxy; Supabase only Google + PostgreSQL; separate pg-boss worker, Source: architecture-content-rewards-v2 (domain boundaries), Source: implementation-spec-content-rewards-v1 (transactions D01-D06), Source: prd-content-rewards-v2 (PRD, acceptance A01-A40), M3-AC01: verifiable baseline then fixed-window metering; zero/missing/revoked/rate-limited/unsupported states; cross-platform per merchant permission (+40 more)
+Nodes (28): Courses (Modules, Chapters, Lessons, Quizzes, Certificates), Whop Object Model (Account, Product, Plan, Membership, Experience), Business Family Coverage Table (Paid Groups, Courses, Coaching, Agencies, SaaS, Newsletters, Events, DTC, Retail, Platforms), No Verifiable Unified Whop Changelog, Whop Commerce, Delivery and Operations Research (B01/B03/B04), Lifetime Access Example vs Current Ban on Indefinite Access, Two Modes: Build/Host/Sell on Whop vs Payments-Only External Delivery, Waitlist Approval Payment Semantics Unverified (+20 more)
+
+### Community 17 - "Source: prd-content-rewards-v2 (PRD, acceptance A01-A40)"
+Cohesion: 0.08
+Nodes (56): Issue #35: three-role M2 handoff acceptance, Issue #36: founder freezes funds-transaction spec before M3 (gate), Issue #54: three-role full simulated business run (M3 exit), M3 spec issue #11 / Milestone 3: simulated rewards on real DB, M2-AC02: Google-only login; refresh/logout; forged identity, CSRF, stale token, shared-cache tests, M2-AC08: outbox same-transaction; relay->pg-boss dedup; in-app notifications; SSE + polling fallback, M2-AC09: staging topology (web/API/worker, DB region/TLS); health/heartbeat/backlog; rollback drill keeps data, Decision 2: Fastify is the sole business/authorisation entry; Next.js only pages, session refresh, thin proxy; Supabase only Google + PostgreSQL; separate pg-boss worker (+48 more)
 
 ### Community 18 - "Wringy Visual Guide v3 Tokens"
 Cohesion: 0.08
 Nodes (46): Breakpoint 1440: brand 12-col grid; body + right properties; compact queue; creator steps centered constrained, Breakpoint 320: single column, title down to 30, hide decorative sidebar, properties after body, no overflow, Color token canvas #FFFFFF, Color token citron #E4F222 (酸柠黄), Color token ink #171A14, Color token line #E1E3DC, Color token secondary #5C6258, Color token surface #F6F6F3 (+38 more)
 
-### Community 19 - "Harness Blueprints and Sources"
-Cohesion: 0.09
-Nodes (36): Rule 5: PRD/Architecture refreshed only after Wayfinder or to-spec settles a decision and before to-tickets; overwrite sections, keep maintenance frame, Harness menu: PRD, Architecture, graphify, Context, PROGRESS as sources of truth, Rationale: PRD and Architecture are enduring blueprints; specs describe delivery scope; tickets own work and evidence; later decisions supersede older specs, Canonical sources list (PRD v2, campaign defaults, roadmap, full-stack proposal, design system v2, external interface contracts), Rationale: glossary names concepts only; exact values and transitions live in canonical rules, docs/ARCHITECTURE.md: greenfield placeholder awaiting agents to construct it, Intended contents: stack and rationale, system boundaries, module responsibilities, module README index, dependencies, data flows, trade-offs, docs/PRD.md: greenfield placeholder awaiting agents to construct it (+28 more)
+### Community 19 - "Historical Wringy full-platform product, design and architecture foundation map (through 2026-09-15)"
+Cohesion: 0.10
+Nodes (32): Canonical source routing: product/technical blueprints, campaign defaults, delivery specs, accepted provenance, design system and external boundaries, The glossary names concepts but does not redefine exact values or transitions, Technical blueprint focus: stack/rationale, boundaries, module ownership, dependencies/data flows and tradeoffs, Accepted full-stack direction: Next.js, Fastify, Supabase, independent worker (three technical checks), A27-A31 acceptance additions (31 items, none executed), phase-0/foundation/architecture-content-rewards-v2.md, phase-0/foundation/campaign-defaults-v1.md (business default rules single source), phase-0/foundation/design-system-v2/README.md (+24 more)
 
-### Community 20 - "Stack Audit Acceptance Review"
-Cohesion: 0.09
-Nodes (37): Accurate Funds Acceptance (No Double Confirmation), Stack Audit Acceptance Review (2026-09-15), In-App plus Email Notification Acceptance, Initial Scale Load Report Acceptance, Minimum Acceptance Evidence Matrix, Operations Exception Handling Acceptance, Public Event Browsing and Sharing Acceptance, Recoverability Acceptance (Worker/DB/Migration/Rollback) (+29 more)
+### Community 20 - "Minimum Acceptance Evidence Matrix"
+Cohesion: 0.07
+Nodes (42): Accurate Funds Acceptance (No Double Confirmation), Stack Audit Acceptance Review (2026-09-15), In-App plus Email Notification Acceptance, Initial Scale Load Report Acceptance, Minimum Acceptance Evidence Matrix, Operations Exception Handling Acceptance, Public Event Browsing and Sharing Acceptance, Recoverability Acceptance (Worker/DB/Migration/Rollback) (+34 more)
 
 ### Community 21 - "Brand Expression and Component Contracts"
 Cohesion: 0.11
@@ -478,9 +477,9 @@ Nodes (41): Chartreuse ribbon accent, Flat-lay editorial composition with left n
 Cohesion: 0.08
 Nodes (36): Wringy Angel Deck v1 (17-page, read-only retained), Shared production rules: Paper background, Ink text, Citron emphasis, little Iris; editable text layers for copy and money, tokens.json as root (brandColors/theme for renderer; semantic.light/dark for UI), Authorization and foundation chain: brief.md + founder-inputs.md + live confirmation of Citron/Ink/Paper+Iris, Colour roles: Citron (youth/identity), Ink (text and primary actions), Paper (reading base), Iris (secondary), Known gap: no interview evidence; proposed 5 brand operators + 8 creators, ~1 week, ../../founder-inputs.md (founder background input, Malaysia first), Identity structure: single master brand Wringy; brand/creator sides are roles, not sub-brands (+28 more)
 
-### Community 24 - "PRD Pending Decisions"
-Cohesion: 0.08
-Nodes (34): Blocked-claim rule: full 7 days after data restored / block lifted, Rationale: campaign terms are a versioned fulfilment contract, Rationale: first version must cover one failure outcome, Rationale: choose dispute service the team can staff, Pending: Asset Ownership and IP, Pending: Budget and Concurrent Submissions, Pending: Campaign Closure and Refund, Wringy PRD Pending Decision Template (+26 more)
+### Community 24 - "Clipping.net Public Business Mechanism Audit (2026-09-13)"
+Cohesion: 0.07
+Nodes (42): Payments doc: estimates may decrease after review; cycle -> staff -> sponsor -> payment, Blocked-claim rule: full 7 days after data restored / block lifted, Rationale: campaign terms are a versioned fulfilment contract, Rationale: first version must cover one failure outcome, Rationale: choose dispute service the team can staff, Pending: Asset Ownership and IP, Pending: Budget and Concurrent Submissions, Pending: Campaign Closure and Refund (+34 more)
 
 ### Community 25 - "Visual Guide v3 Pages"
 Cohesion: 0.11
@@ -490,9 +489,9 @@ Nodes (37): Visual Guide v3 page 01: Brand Foundation, Visual Guide v3 page 03: 
 Cohesion: 0.05
 Nodes (36): canonicalSync, date, files, result, canonicalTokenSHA256, canonicalTokenSource, componentFamilies, coverage (+28 more)
 
-### Community 27 - "Clipping Public UI Evidence"
-Cohesion: 0.11
-Nodes (21): Brands Page Dashboard Illustration: KPI cells -> views chart -> budget bar -> clip cards, Public /campaigns is a marketing landing page, not a catalog, Clips doc: Tracking / Stopped / Banned primary; Paid / Bounty badges, Dashboard doc: active first, past below, discovery card, Clipping Public UI Evidence -> Wringy Continuous Mockups, Payments doc: estimates may decrease after review; cycle -> staff -> sponsor -> payment, Eight Screenshot Index (images/01-08), Settlement Caveat: no fixed SLA; CPM != take rate; MYR unverified (+13 more)
+### Community 27 - "Clipping.net Direct Competitor Check (2026-09-13)"
+Cohesion: 0.12
+Nodes (18): Brands Page Dashboard Illustration: KPI cells -> views chart -> budget bar -> clip cards, Settlement Caveat: no fixed SLA; CPM != take rate; MYR unverified, Forbidden: RM48,000 split, RM8,000 stop-loss, weekly commitments, Fully Managed vs Enterprise Client Permissions Tension (C08), Marketing Numbers ($45/100k, $0.41 CPM, 13.1M views) Are Not a Fee Table (C21/C38), Partnership Entry Minimum Budget US$5,000 (C06), Brand Buys Managed Creator Distribution (Section 2), Rule: US$5,000 entry threshold not transplanted to Wringy pilot price (+10 more)
 
 ### Community 28 - "Smoke Test Scripts"
 Cohesion: 0.08
@@ -510,17 +509,17 @@ Nodes (35): v10 来源及假设 (per-page source ledger), Clipping.net public pa
 Cohesion: 0.08
 Nodes (35): Confirmed product requirements (Google-only login, web only, EN/MS/ZH, no video upload, MYR), Fastify + TypeScript single business API, Rationale: keep Fastify for independent scaling of render/API/jobs; cost acknowledged, Wringy Full-Stack Proposal v1 (confirmed 2026-09-15), Load assumptions: 10k creators, 1000 submissions/day, 300 active users, p95<=500ms, next-intl for trilingual UI, Next.js App Router + React + TypeScript (pages), Official docs review 2026-09-15 (Supabase pooling, SSR, Next.js self-host, pg-boss engines) (+27 more)
 
-### Community 32 - "M4 Feasibility and Admission"
-Cohesion: 0.09
-Nodes (37): Issue #15: early feasibility of social data and payment paths (no prerequisites), M4 spec issue #12 / Milestone 4: real data and payment evidence, Rationale: external feasibility investigation can start in parallel; heavy implementation waits on prerequisites, Problem: prototype persists only in browser; no reliable merchant/creator collaboration; simulated roles cannot protect other organisations' data, Solution: internal version with real Google identity, organisation authorisation, persisted campaigns and link submissions; no formal application/payment obligations, Source: external-interface-contracts-v1 (provider internal contracts), Source: founder-inputs.md (founder evidence), M4-AC00: founder freezes integration spec; feasibility matrix, interface/failure samples, live/fixture isolation, per-capability disable policy (+29 more)
-
-### Community 33 - "Malaysia-First Foundations Decisions"
+### Community 32 - "M4-SPEC: Open only platform capabilities with real data and payment evidence"
 Cohesion: 0.11
-Nodes (20): Malaysia is the first market, English, Malay and Simplified Chinese share one design system, Trilingual EN/MS/ZH-Hans and preferred-language prompt, verification.json / browser-verification.json (22/22) / localized-verification.json, Business model v2: qualified effect + percentage fee (rules not frozen), Economics fix: contribution and gross margin definitions; participation quota vs per-post reward recorded separately, Closed cross-vendor read-only review timed out at 240s (recorded unverified), Current / historical / unknown source layering (+12 more)
+Nodes (32): External feasibility may run immediately in parallel; implementation still waits for actual prerequisites, Source: external-interface-contracts-v1 (provider internal contracts), M4-AC00: founder freezes integration spec; feasibility matrix, interface/failure samples, live/fixture isolation, per-capability disable policy, M4-AC01: feasibility gap matrix for TikTok/Instagram/YouTube and payment paths with official URLs, dates, unknowns; Stripe candidate only, M4-AC02: founder confirms entity, countries, currency assumption; per-platform app/test-account/scope evidence; funds test authorisation, M4-AC04: TikTok admission: app permission, account control, raw metrics, baseline/window coverage; zero/revoked/rate-limit samples, M4-AC05: Instagram admission: login route, account type, Page conditions, API version/scope; per-media-type metrics, M4-AC06: YouTube admission: Google login vs channel control proof; scopes; raw statistics/analytics coverage (+24 more)
 
-### Community 34 - "AGENTS.md Working Protocol"
-Cohesion: 0.11
-Nodes (21): Rule 7: claims need checkable evidence (file path, commit, test run, link) or say unverified, Clock in (read PROGRESS, check repo state, grill on next steps) and clock out (update PROGRESS, commit, refresh graphify, sync main), Rule 3: check current official docs via Context7/vendor before changing a stack integration, Domain docs: root CONTEXT.md plus docs/adr/ created lazily by domain-modeling skill (docs/agents/domain.md), AGENTS.md agent entry point (template with placeholder product name and vision), Rule 1: ground to the codebase with graphify, Rule 2: grilling to settle scope/acceptance ambiguity before non-trivial build, Rule 9: 'Idea session' outputs published as GitHub Issues labelled idea and needs-triage (+13 more)
+### Community 33 - "Issue 19: Whop mechanism deep research and Wringy blueprint recommendations"
+Cohesion: 0.07
+Nodes (35): Malaysia is Wringy's first market; international capabilities open only when verified, English, Bahasa Melayu and Simplified Chinese share one design system, Acceptance criteria DS01-DS08, Brand direction: white / acid lime yellow / dark, Unfrozen business rules (rates, reserve, data source, risk, payout) marked as proposals, catalog.json / components.md / domain-states.md / module-coverage.md, Colour optimisation 2026-09-11: neutral navigation, attention colours separated from brand, DS04: review, measurement, reward, payment, risk axes separated; unknown is not zero (+27 more)
+
+### Community 34 - "Working protocol for grounded decisions, evidence, blueprint maintenance and GitHub governance"
+Cohesion: 0.12
+Nodes (22): Claims require a file, commit, test/command or link; otherwise label them unverified, Clock-in and clock-out protocol: inspect PROGRESS/repo state, then update, commit, graphify-refresh and sync, Check current official vendor documentation before changing a stack integration, Domain documentation: root CONTEXT.md plus docs/adr, AGENTS.md — Wringy agent entry point and product summary, Ground implementation questions through graphify before raw source browsing, Resolve product-scope or acceptance ambiguity before a non-trivial build, Harness navigation: PRD, Architecture, graphify, CONTEXT and PROGRESS (+14 more)
 
 ### Community 35 - "Report Build Script"
 Cohesion: 0.09
@@ -546,25 +545,25 @@ Nodes (24): {chromium}, errors, fs, path, results, ROOT, {chromium}, {chromium} 
 Cohesion: 0.08
 Nodes (34): Aaron Harris (author, verified), Acceptance checklist (article, images, order flexibility, no editable template, v4 story, facts), Actual YC template order: cover, problem, solution, usage growth, more metrics, unique insight, business model, future growth/market, team, funding ask, Rejected misattribution: not Anu Hariharan 2016 article, Author's stated flexibility: one cover page; other groups ideally one page, max three; growth data shown only if it exists, Copyright handling: snapshot internal-only; original copy and visuals for Wringy, Creator Rewards first-launch direction still exploratory; invite-only and fixed per-post reward not approved, Forensic extraction path: HTTP GET -> data-page attribute JSON -> props.article.content -> image URLs in order (+26 more)
 
-### Community 41 - "Content Rewards Review Mechanisms"
-Cohesion: 0.11
-Nodes (28): Whop blog tutorial 2025-05-14: legacy brand creation and review, Approval rules by version: 48h auto (2025) vs manual only (2026), Refund: pending blocks; 5-7 working days; up to 20% retention; fees non-refundable, No evidence of public CR API / webhooks, Review Mechanisms Deck Brief: two pages + design appendix, phase-0/foundation/review-design-v1.md, F: submit link within 30 minutes of posting, 7+3 appears in PC, F, C Section 7.3 and O Section 6.2 (+20 more)
+### Community 41 - "Content Rewards / Whop Review Mechanism Check (2026-09-10)"
+Cohesion: 0.08
+Nodes (38): Organization Terms 2026-09-03: brand sequence, $1,000 minimum, Whop blog tutorial 2025-05-14: legacy brand creation and review, Approval rules by version: 48h auto (2025) vs manual only (2026), CR runs reward logic; Whop handles funds, Content Rewards (platform entity), No automatic approval in current CR, Refund: pending blocks; 5-7 working days; up to 20% retention; fees non-refundable, Legacy Whop-embedded and new CR web app coexist (+30 more)
 
 ### Community 42 - "Approved Rules and Acceptance Mapping"
 Cohesion: 0.10
 Nodes (23): Claim deadline: 7-day measurement + 7 calendar day grace, blocked-claim extension, D04 Content retention endpoint (latest of 30d, claim deadline, cases, payout), D01 Cumulative rounding (cap first, floor to cent, subtract occupied), Dev handoff addendum: A32-A40, schema needs notifications/session revocation, D02 Minimum eligibility comparison (cap before threshold), D03 Partial quote, queue and remainder (quote reserves nothing), Six approved rules with acceptance D01-D06 (2026-09-15), Slice-to-acceptance mapping S1-S9 -> A01-A31 (+15 more)
 
-### Community 43 - "M5 Pilot Release Gates"
-Cohesion: 0.10
-Nodes (33): Issue #61: only verified real capabilities enter release candidate, Issue #63: founder approves specific production release, M5 spec issue #13 / Milestone 5: invited pilot, Rule: approved defaults and 2026-09-15 full-stack direction override historical draft wording, Source: follow-through-v1 (unverified items carry-over), Source: full-stack-proposal-v1 (technical direction, 2026-09-15), Source: three-role-flows-v1 (three-role blueprint), Rule: approved defaults and 2026-09-15 full-stack direction override historical draft wording (+25 more)
+### Community 43 - "M5-SPEC: Invited users pilot in a recoverable, owned environment"
+Cohesion: 0.11
+Nodes (27): Rule: approved defaults and 2026-09-15 full-stack direction override historical draft wording, Source: follow-through-v1 (unverified items carry-over), Source: full-stack-proposal-v1 (technical direction, 2026-09-15), Source: three-role-flows-v1 (three-role blueprint), Rule: approved defaults and 2026-09-15 full-stack direction override historical draft wording, M4-AC15: capability list enabled/disabled with evidence; at least one social + matching payment path; controlled real funds ops under authorisation; M5 input, Rule: approved defaults and 2026-09-15 full-stack direction override historical draft wording, Decision 7: real publish requires funds guarantee, fee/refund rules, data-use and creator payout eligibility together; capability withdrawal stops new participation only (+19 more)
 
-### Community 44 - "Whop Research Coverage Audit"
+### Community 44 - "Whop Full Business Map and Module Build Reference (README)"
 Cohesion: 0.08
-Nodes (31): Capability Verification Table (Prototype vs Real Business Prerequisites), Rationale: Simulated Verification/Payout Must Never Display as Real, API Stability: Current vs Legacy, beta Path Not Maturity Signal, Source Snapshots (commerce-primary/extra/mobile JSON, docs-llms), 993 Index Entries, 993 Unique URLs, 0 Unassigned, Citation Crosswalk (215 Cited / 993 Index URLs), Easily Misclassified Boundaries (Optional, API Reference, Products, Members, SDK), coverage.json Per-Entry Classification (+23 more)
+Nodes (32): GMV vs Processing Volume vs Payout Volume vs Revenue ($4.6B Claim), API Stability: Current vs Legacy, beta Path Not Maturity Signal, Source Snapshots (commerce-primary/extra/mobile JSON, docs-llms), 993 Index Entries, 993 Unique URLs, 0 Unassigned, Citation Crosswalk (215 Cited / 993 Index URLs), Easily Misclassified Boundaries (Optional, API Reference, Products, Members, SDK), coverage.json Per-Entry Classification, Whop Research Coverage Audit (+24 more)
 
-### Community 45 - "Content Rewards Deep Research"
-Cohesion: 0.07
-Nodes (37): Organization Terms 2026-09-03: brand sequence, $1,000 minimum, Approved / verifying / withdrawable / Whop transfer / bank receipt distinct, CR runs reward logic; Whop handles funds, Rationale: define service relationship before choosing first payment model, Content Rewards New Version Deep Research (2026-09-10), Rationale: organization ownership before team UI, Rationale: permissions as sensitive business actions, not copied role names, Rationale: application / draft / post / risk case must not share one Approved (+29 more)
+### Community 45 - "Content Rewards Current Product Flow Evidence (2026-09-10)"
+Cohesion: 0.11
+Nodes (21): Accounts doc: Verified / Pending / Error / Expired, Rationale: organization ownership before team UI, Five-Digit Profile Code Account Verification; OAuth ambiguity (C10), Assets: video, image, brand assets, PSD, PDF, Content Rewards Current Product Flow Evidence (2026-09-10), Lovable campaign example: $1/1k per platform, min 0.99, max 1000, Main researcher UI observation: Discover sorts, Lovable, Join -> Whop, Organization owns campaigns; agencies hold brands (+13 more)
 
 ### Community 46 - "Wringy Foundation Brief"
 Cohesion: 0.07
@@ -594,7 +593,7 @@ Nodes (28): name, private, type, version, date-fns, eslint, ref_eslint_config, @
 Cohesion: 0.11
 Nodes (30): Design v3 guide page 06: Review Detail (每一次审核，都指向一个对象), Design v3 guide page 07: Creator Progress (只呈现当下需要做的事), Design v3 guide page 10: Responsive & Handoff (同一套原则，不同大小的工作面), Deliverable spec key-value table (拍什么 · 怎样交付: 产品 / 内容形式 / 画面要求 / 提交材料), Product UI mockup: Activity Brief overview (活动 / 概览 · 日常好物演示), 发布前先确认 note: review pass precedes publish; final review, reward eligibility and actual payment recorded separately, Primary CTA 查看参与要求 → (yellow, top-right of header), Product UI mockup: Work Review Detail (作品审核 / 作品 001 · 水瓶日常使用演示) (+22 more)
 
-### Community 53 - "Component Catalog and Handoff Events"
+### Community 53 - "Selected component catalog JSON (12 components with states, keyboard, a11y, responsive, motion, modules)"
 Cohesion: 0.14
 Nodes (27): Base components: button, tabs, select, data-table, tooltip, dialog, Bounties lifecycle kept separate from Creator Rewards play windows, Component: appeal & dispute workbench (content appeal, platform refund case, bank chargeback), Selected component catalog JSON (12 components with states, keyboard, a11y, responsive, motion, modules), Component: measurement snapshot & reconciliation (B06), Component: payout & receiving destination (quote, progress, unknown, returned), Component: reward breakdown (eligibility, counted volume, rate, cap, fees, net payable), Component: risk case & restrictions (+19 more)
 
@@ -610,9 +609,9 @@ Nodes (26): Executable dependency and integration closure table (spec handoff, r
 Cohesion: 0.08
 Nodes (39): Affiliate, Referral and Content Rewards Must Be Separated, Campaign Lifecycle: Create, Fund, Apply, Submit, Review, Pay Out, Clipping (Re-cutting Brand Long-Form Video), Content License Rights (Perpetual Worldwide for Approved Content), Content Rewards (Whop Third-Party App / Product), Content Rewards Inc (Operator of New Web App; Whop as Payment Company), Contradiction Register (Operator, Auto-Approval, External Brief, Fees, Anti-Fraud), Whop Brand + Creator Evidence Breakdown (+31 more)
 
-### Community 57 - "GitHub Issue Dependency Chain"
-Cohesion: 0.12
-Nodes (24): Claim / Resolve operations, Frontier query (open, unblocked, unassigned children), GitHub native issue dependencies (blocked_by), Prerequisite chain encoded per row (前置 column), GitHub spec and ticket link index (migration snapshot), Issue #14: founder freezes identity/save spec before M2 (gate), Issue #35: three-role M2 handoff acceptance, Issue #36: founder freezes funds-transaction spec before M3 (gate) (+16 more)
+### Community 57 - "All-stage delivery plan: five specs and 60 execution/verification records; all implementation acceptance remains unexecuted"
+Cohesion: 0.06
+Nodes (38): Wayfinder child ticket (GitHub sub-issue), Claim / Resolve operations, Rationale: old label/project value is not evidence a dependency completed; native dependencies authoritative, Frontier query (open, unblocked, unassigned children), gh CLI conventions (create/view/list/comment/label/close), GitHub Issues tracker (BELCORT-SDN-BHD/wringy), GitHub native issue dependencies (blocked_by), PRs as triage surface: no (+30 more)
 
 ### Community 58 - "Wringy V1 PRD Rules"
 Cohesion: 0.10
@@ -622,7 +621,7 @@ Nodes (26): Metric definitions (repurchase window, payable != bank arrival), Cor
 Cohesion: 0.09
 Nodes (25): CarouselApi, CarouselContent(), CarouselContext, CarouselContextProps, CarouselItem(), CarouselNext(), CarouselOptions, CarouselPlugin (+17 more)
 
-### Community 60 - "Whop Developer APIs and Stripe"
+### Community 60 - "B11 Developer Platform, Installable Apps & Enterprise Embedding"
 Cohesion: 0.09
 Nodes (23): Fix 4: inconsistent beta-path handling; B11 mislabels /elements/beta/ as prerelease, Stripe Connect MY: separate charges and transfers supported; platform bears refunds/chargebacks, Developer pricing examples ($500-2,000, 10-30%, $1/member) are examples, not policy, Direct charge (platform application fee, account bears fees) vs collect-then-transfer, B09-F07 Enterprise connected accounts: direct charge + application fee, or collect-then-transfer, B11-F07 Date versioning, idempotency, webhooks with signing/retry, chunked uploads, B11-F02 App Store discovery and install links, B11-F03 Experience (member) vs Dashboard (operator) views (+15 more)
 
@@ -638,31 +637,31 @@ Nodes (28): Rationale: Wringy does not advance, escrow or build wallet; rewards 
 Cohesion: 0.09
 Nodes (29): Blocker 2: Pulse Feed (B05), blueprint attribution (B07), Exports refs (B04-F11) missing; 166 not closed, Blocker 3: B10 and README sec 6 contradict on cashback ownership, Reviewer could not verify web, snapshots, or the four domain reports, Fix 5: 12 cards use inconsistent evidence legends, Fix 6: 166 is not a workload unit; granularity varies, Fix 8: dependency tables need 'stub-able vs must-be-real'; B12-AC05 blocked by B07, Independent read-only cross-vendor review of the Whop research package, Verdict: PASS WITH FIXES (+21 more)
 
-### Community 64 - "Platform API and Verification Constraints"
-Cohesion: 0.13
-Nodes (18): Accounts doc: Verified / Pending / Error / Expired, API Rule Caution: no rewarding viewer engagement != no creator pay, Methodology Section Editorial Constraints (2026-09-13), Forbidden: RM48,000 split, RM8,000 stop-loss, weekly commitments, Global Qualified Views Narrow Fallback if MY data unavailable, Retain: owner authorization vs public link; ownership != copyright; YT/TikTok/IG region limits, Pending: Geography and MY Audience Verification, Pending: Source Platform and Data Availability (+10 more)
+### Community 64 - "ui/command.tsx"
+Cohesion: 0.08
+Nodes (6): Dialog(), DialogContent(), DialogDescription(), DialogHeader(), DialogTitle(), cmdk
 
-### Community 65 - "Content Rewards Money Rules"
+### Community 65 - "Content Rewards New Version Deep Research (2026-09-10)"
+Cohesion: 0.09
+Nodes (31): V2 is here (2026-08-19): Queued / Arriving / Received, wallet, pre-post review, Approved / verifying / withdrawable / Whop transfer / bank receipt distinct, Rationale: define service relationship before choosing first payment model, Content Rewards New Version Deep Research (2026-09-10), Rationale: earnings states built around payment obligations, Fees: brand 10% / Verified 8%, min $1,000; creator CPM 10%, $5,000 zero, Four Evidence Layers: 2025 tutorial, Mobbin, Aug V2, Sept terms, Rationale: permissions as sensitive business actions, not copied role names (+23 more)
+
+### Community 66 - "Whop Content Rewards Mechanism & Wringy Product Landing Report"
 Cohesion: 0.10
-Nodes (26): Creator Terms 2026-09-03: creator sequence, 7-day earn + 3-day hold, V2 is here (2026-08-19): Queued / Arriving / Received, wallet, pre-post review, CR Inc terms 2026-09-03: 7-day earn + 3-day hold; pause does not cancel approved, Whop Program Section 1: max payout or end date stops accrual, Rationale: earnings states built around payment obligations, Four Evidence Layers: 2025 tutorial, Mobbin, Aug V2, Sept terms, Processing fee conflict: 2.7% + fixed; $270.37 vs ~$307, CR 7-Day Earning + 3-Day Hold to Whop Balance (+18 more)
-
-### Community 66 - "Content Rewards Source Ledger"
-Cohesion: 0.15
-Nodes (17): [R05] Content Rewards Creator Pricing page, [R01] Content Rewards Creator Terms of Service (2026-09-03), [R02] Content Rewards Organization Terms of Service (2026-09-03), [R04] Content Rewards brand Pricing page, [P11] Mobbin screen: Whop Campaign Details (historical), [P12] Mobbin screen: Whop submission modal (historical), [R08] Whop blog: How to set up Whop Content Rewards (2025-05-14), [S07] Whop docs: Content Rewards embedded app tutorial (+9 more)
+Nodes (27): Content Rewards first-launch research findings (deliverables/content-rewards-business-v1) — supersedes fee evidence, [R05] Content Rewards Creator Pricing page, [R01] Content Rewards Creator Terms of Service (2026-09-03), [R02] Content Rewards Organization Terms of Service (2026-09-03), [R04] Content Rewards brand Pricing page, [P11] Mobbin screen: Whop Campaign Details (historical), [P12] Mobbin screen: Whop submission modal (historical), [R08] Whop blog: How to set up Whop Content Rewards (2025-05-14) (+19 more)
 
 ### Community 67 - "Unit Economics Narrative"
 Cohesion: 0.33
 Nodes (7): Rationale: separate fixed ops cost to avoid copying old RM750 contribution and double-deducting review, Narrative working draft: 14 main pages + up to 3 appendix, internal only, Zero-revenue funding safety method over 18 months, P7 Per-campaign unit economics: RM100 fee - RM90 (20 payment, 60 review, 10 dispute) = RM10, Per-post example: RM100/post, 10 posts RM1,000, 10% fee RM100, RM90 direct cost, RM10 contribution, 07 Business model: brand pays per-campaign fee, creator not charged, contribution = fee - direct costs, Rationale: no approved take rate; v2's 10% was an example and is not carried as pricing
 
-### Community 68 - "Content Rewards First-Launch Research"
-Cohesion: 0.14
-Nodes (21): Balanced ledger records and idempotent payment requests (unique business id, at most one payment per id), Belcort (affiliated development partner), Buy vs build: buy identity/payments/storage/monitoring; build campaign contract, quota, review workbench, reward rules, [L01] Wringy business-model-v2.md (local), Content Rewards first-launch research findings (deliverables/content-rewards-business-v1) — supersedes fee evidence, [L02] Wringy design-system-v2 README and localization-v1 (local), Content Forum Malaysia Content Code 2022 (commercial content disclosure), Per-data-class retention policy (social raw data, consents, financial records, dispute evidence) (+13 more)
+### Community 68 - "Wringy first-version blueprint: Malaysia, single verified channel, invite-only, single CPM contract pilot (pending approval)"
+Cohesion: 0.10
+Nodes (27): 15% service fee (demo assumption, not priced), Balanced ledger records and idempotent payment requests (unique business id, at most one payment per id), Belcort (affiliated development partner), Campaign rule versioning (freeze rule copy at join; changes after acceptance create new version), [L01] Wringy business-model-v2.md (local), [L02] Wringy design-system-v2 README and localization-v1 (local), Per-data-class retention policy (social raw data, consents, financial records, dispute evidence), Design System 2.0 (Linear + shadcn direction; EN/BM/ZH language spec) (+19 more)
 
 ### Community 69 - "Design Showcase Accessibility Delivery"
 Cohesion: 0.09
 Nodes (29): PHOTO-CREATIVE-COLLAB slot: brand imagery, 2400x1600, Malaysian urban work context (BB-02/17), component-inventory.json stateCoverage (actual implementation status), 2026-09-10 addendum: Figma quota blocked (4 collections, 130 variables, 0 components) → offline showcase/index.html and ZIP, WCAG 2.2 (https://www.w3.org/TR/WCAG22/) accessibility reference, Accessibility target WCAG 2.2 AA (not a certification); 200% text, 400% zoom, 320px reflow, component-inventory.json (31 component families, interactions, states, stateCoverage), figma-manifest.json (Figma status: 4 collections, 130 variables, quota blocked), Interaction states: focus/disabled/loading/error for all interactives; destructive hover with 2px inset border (+21 more)
 
-### Community 70 - "Whop Risk and Disputes Research"
+### Community 70 - "B10 Identity Verification, Risk, Refund Disputes & Tax Policy"
 Cohesion: 0.05
 Nodes (48): Whop Platforms API invite-only; Malaysia payout list != platform disbursement rights, C08: pricing page tax 2% vs docs fees 0.5% scrape, C10: whop.com/terms/ shows a user community, not legal text; use /tos, Conflict register C01-C12 (beta paths, Elements prerelease, stale SDK samples, OAuth revocation, iOS, tax fee, MoR), B04-F09 After-sales workbench (references B10 Resolution Center), B10-F04 Prohibited businesses and sanctioned countries, B10-F11 Card decline reasons, blocked merchant categories, B10-F10 Bank chargebacks: early warning, evidence, issuer decides (+40 more)
 
@@ -722,9 +721,9 @@ Nodes (23): Observations B01-B07: onboarding, public brands page, dashboard redi
 Cohesion: 0.07
 Nodes (31): design-system-v1/domain-states.md (independent PROPOSED business contract, D01/D06 pending), Color signals urgency/action, not business state; always pair with icon and label, Linear Mobbin reference screens (5) for restrained color, Rationale: restrained colored area helps prioritization; palette is Wringy's own, Semantic color role table (workspace, primary, attention, blocked, info, success, inactive, brand), Business domain rows (campaign-brief, budget, submission, review-workbench, measurement, reward-breakdown, wallet, ledger, payout...), G gaps: stepper, file-upload, rich-editor, media-player, file-preview, annotation, review-rating, 103 legacy requirement families mapped to official components (+23 more)
 
-### Community 85 - "Phase 0 Delivery Package"
-Cohesion: 0.11
-Nodes (24): 31 local component family references, Figma: only partial variables imported, Phase 0 delivery scope v1 (Whop 64p, brand 30p, investor 38p), 168-item Whop feature research index, 03-Wringy brand & design system (30 pages), Brand tokens.json & component-inventory.json as design source, Figma file (partial variables), 24-month funding plan RM2,160,000 (joint stress test) (+16 more)
+### Community 85 - "Delivery package reading guide (final)"
+Cohesion: 0.10
+Nodes (26): 31 local component family references, Figma: only partial variables imported, Phase 0 delivery scope v1 (Whop 64p, brand 30p, investor 38p), 168-item Whop feature research index, 03-Wringy brand & design system (30 pages), Brand tokens.json & component-inventory.json as design source, Figma file (partial variables), 24-month funding plan RM2,160,000 (joint stress test) (+18 more)
 
 ### Community 86 - "Investor Deck Design Research"
 Cohesion: 0.11
@@ -738,9 +737,9 @@ Nodes (24): Database outbox + relay to pg-boss (idempotent consumers), account_c
 Cohesion: 0.12
 Nodes (24): Collapsed Sidebar Mobile Header with Component Selector, Component Canvas (组件画布) Interactive Demo, Demo Form: 作品标题 / 通知邮箱 / 补充说明 with 保存说明 Button, Form Field / field Component (Radix Nova), Mobile 320px Field Component Doc Page (Wringy Design System v2), Doc Tabs: 交互示例 / 使用与边界 / 源码与配色, Button / button Component (Radix Nova), Component Canvas with 添加作品 / 取消 Buttons (+16 more)
 
-### Community 89 - "GitHub Planning and Issue Tracker"
-Cohesion: 0.15
-Nodes (17): Rule 8: Wayfinder/grillwithdocs maps and specs may add a GitHub Milestone as version control, Issue tracker: GitHub Issues via gh CLI (docs/agents/issue-tracker.md), phase-0/foundation/design-system-v2/app local component showcase (reference library, not the business prototype), Development order: three-end prototype -> saveable internal version -> full simulated Beta -> real integration -> small pilot, docs/planning/github-index.md (all specs and ticket links), GitHub Issues at BELCORT-SDN-BHD/wringy are the single source of task status, GitHub Milestones: five development stages, GitHub Projects board BELCORT-SDN-BHD/projects/2 (+9 more)
+### Community 89 - "README — Wringy Content Rewards, Malaysia first, English/Bahasa Melayu/Simplified Chinese UI"
+Cohesion: 0.06
+Nodes (40): Accepted Wayfinder/to-spec decisions rewrite affected PRD or Architecture sections before tickets; preserve frontmatter and separate rules, rationale and execution evidence, Wayfinder/grillwithdocs maps and specs may use GitHub Milestones for version control, GitHub Issues via gh CLI are the issue-tracker workflow, PRD and Architecture own enduring blueprints; specs own delivery acceptance; tickets own work and evidence; code/deployment prove implementation, ADR flow: record spec, rationale and approval, then replace the affected Architecture blueprint section before tickets, Verified current state is planning plus a Vite design-system showcase; Next.js product, Fastify API, migrations, worker and live integrations remain accepted targets, Wringy Technical Blueprint — accepted modular-monolith target, explicitly separate from current greenfield implementation, Architecture maintenance contract: rewrite accepted technical decisions before tickets; update implemented state only from code/test/deployment evidence (+32 more)
 
 ### Community 90 - "Unit Economics and Campaign Fields"
 Cohesion: 0.13
@@ -762,17 +761,17 @@ Nodes (12): Success criteria: who pays, campaign split, fee, per-campaign contri
 Cohesion: 0.22
 Nodes (14): v3 acceptance: visible copy first, 15-page native PPTX + PDF + contact sheet, complete citation notes, clickable sources, zero overflow, v3 acceptance: 15 pages visually checked, 4 native charts, 2 native tables, 0 overflow, 6 clickable sources, Content Rewards brand terms and Whop content-rewards terms of service, v4 acceptance: opportunity observation and fictional case visible; no first/only/zero-competition claims; CPM not conflated with platform fee, v4 acceptance: financial pages 7/9/13/14 byte-identical to v3 render; 7 clickable sources; 4 native charts, 2 tables, 0 overflow, 15% is a demo rate; Clipping CPM does not represent platform fee, Clipping (clipping.net/brands): fully managed content campaigns with clipper network - official self-description, not audited, 7 clickable official sources incl. Clipping (verified 2026-09-13), others 2026-09-12 (+6 more)
 
-### Community 95 - "Whop Content Rewards Flow Review"
+### Community 95 - "Whop / Content Rewards product flows and Wringy recommendations (2026-09-11)"
 Cohesion: 0.10
 Nodes (21): Conflicts: Owner-only vs Owner/Admin role changes; CSV exports, Conditional draft pre-approval with versions and feedback threads, Evidence grades O/D/H/I/U (observed, declared, historical, inference, unknown), 12-step two-sided journey matrix with evidence granularity, Legacy Whop embedded campaign creation path (undated tutorial), FAQ: submit public link within 30 minutes of posting -> manual review, Organization -> client brand -> campaign; Owner/Admin/Moderator/Member, Seven PRD-freeze blocking questions (first payer, join model, pre-review, rights, account types, timeouts, tri-lingual authority) (+13 more)
 
-### Community 96 - "Whop Bounties and Money Flows"
+### Community 96 - "Whop business model and feature teardown v1 (first-round focused research)"
 Cohesion: 0.06
 Nodes (39): Four money flows: buyer->merchant, merchant->developer, connected merchant->platform, merchant/platform->Whop, Bounties subdomain (Whop first-party task mechanism), Bounty prefunds gross x winner slots, min $5; 'escrow' is doc wording not legal custody, Bounty gross, post-fee quote and executor referral share recorded separately, Bounty states: scheduled/open/submitted/denied/closed/canceled/completed, Content Rewards Inc is the CR web contract party; Whop is separate payment provider, Content Rewards subdomain (Clipping, UGC; CPM / per-post / retainer), CR fees: brand 10% (Verified 8%); creator CPM 10%; per-post/retainer 10% under $5,000 else 0% (+31 more)
 
-### Community 97 - "Clipping Platform Mechanism Research"
+### Community 97 - "Clipping and Reference Platform Business Mechanism Research (final report)"
 Cohesion: 0.09
-Nodes (35): Fees: brand 10% / Verified 8%, min $1,000; creator CPM 10%, $5,000 zero, Clipping.net (platform entity), Fully Managed vs Enterprise Client Permissions Tension (C08), Partnership Entry Minimum Budget US$5,000 (C06), Team Leader Commission 5-10%, default 5% (C02), Brand Buys Managed Creator Distribution (Section 2), Wringy Candidate Judgment Flow with unknown-result loop (Figure 3), Clip.farm (platform entity) (+27 more)
+Nodes (37): API Rule Caution: no rewarding viewer engagement != no creator pay, Methodology Section Editorial Constraints (2026-09-13), Global Qualified Views Narrow Fallback if MY data unavailable, Retain: owner authorization vs public link; ownership != copyright; YT/TikTok/IG region limits, Pending: Geography and MY Audience Verification, Clipping.net (platform entity), Wringy Candidate Judgment Flow with unknown-result loop (Figure 3), Clip.farm (platform entity) (+29 more)
 
 ### Community 98 - "Malaysia Execution Feasibility"
 Cohesion: 0.11
@@ -790,7 +789,7 @@ Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent 
 Cohesion: 0.11
 Nodes (22): v1 Acceptance: CR narrative, 50k cap prominent, field-sales evidence, Round 2 gate, future modules last, editable PPTX/PDF/Excel, Baseline Checks: business model v2, Whop blueprint report, DS Linear+shadcn, funding-growth-v1 retired, funding-growth-v2 replaced, Founder Direction: CR first, R&D <= RM50,000, then field sales; Round 2 marketing; modules added later, Rationale: authorising research and deck is not approval of launch, fee rate, fund flow, contract or round size, v1 Brief: Content Rewards Business Plan Scope and Acceptance (2026-09-12), Task Graph: researcher -> research; finance -> finance; main -> story; deck builder -> build/output; main verifies, Founder Confirmation: CR first, RM50,000 R&D cap, Round 1 field sales, Round 2 marketing, v1 Research: Content Rewards Primary Research Inputs (verified 2026-09-12, CR slice only, no login/payment tests) (+14 more)
 
-### Community 102 - "Foundation Issues Closure"
+### Community 102 - "Development Handoff v1 (phase-0/foundation/development-handoff-v1.md)"
 Cohesion: 0.21
 Nodes (17): Product Map (phase-0/foundation/product-map.md), Issue 01: Whole platform as product scope (grilling, resolved), Closure 2026-09-15: first-launch role value and multi-workspace per account confirmed; three-role flow, Development Handoff v1 (phase-0/foundation/development-handoff-v1.md), Follow-through v1 milestones (phase-0/foundation/milestones/follow-through-v1.md), Issue 02: Platform-wide user value and role relationships (grilling), Closure 2026-09-15: first-launch three-end workspaces and domain boundaries defined; buyer/developer modules deferred, Issue 03: Platform workspaces, navigation and domain boundaries (grilling, closed) (+9 more)
 
@@ -802,13 +801,17 @@ Nodes (21): Wringy Review Design Proposal Page, file-upload Component Contract, 
 Cohesion: 0.13
 Nodes (18): button Component Contract, shell Component Contract, Embedded Component Catalog JSON, Interactive Design System Catalog Page (v1), Shared Base: shell, sidebar, button, field, form, badge, alert, dialog, App Entry HTML (root div, /src/main.tsx), questionnaire Component (no legacy form docs), Radix Base Components (accordion ... toggle-group) (+10 more)
 
-### Community 105 - "Whop Features and Lifecycle"
-Cohesion: 0.11
-Nodes (25): 27 Mobbin MCP Searches (search_flows, search_screens), Mobbin (MCP Screen/Flow/Section Source), Affiliate Program (30-Day Hold, Clawback on Refund/Dispute), Automated Messaging (User Joined / User Left DM), Core Bundle: Sales Promise + Pricing Plan + Access + Membership + Distribution Incentive, Whop Features and Lifecycle Breakdown, Failed Renewal: Past Due, Five-Day Retry, Configurable Access, Feature Matrix: User, Problem, Action, Business Effect (+17 more)
+### Community 105 - "Feature Matrix: User, Problem, Action, Business Effect"
+Cohesion: 0.12
+Nodes (22): Affiliate Program (30-Day Hold, Clawback on Refund/Dispute), Analytics MRR/ARR Estimates Include Past-Due, Automated Messaging (User Joined / User Left DM), Core Bundle: Sales Promise + Pricing Plan + Access + Membership + Distribution Incentive, Whop Features and Lifecycle Breakdown, Failed Renewal: Past Due, Five-Day Retry, Configurable Access, Feature Matrix: User, Problem, Action, Business Effect, Lifecycle Failure Paths (Misconfigured Access, Renewal Failure, Cancel, Refund, Chargeback) (+14 more)
 
-### Community 106 - "GitHub Issue Tracker Conventions"
-Cohesion: 0.07
-Nodes (35): Wayfinder child ticket (GitHub sub-issue), Rationale: old label/project value is not evidence a dependency completed; native dependencies authoritative, gh CLI conventions (create/view/list/comment/label/close), GitHub Issues tracker (BELCORT-SDN-BHD/wringy), Planning authorised by founder 2026-09-16 (production release/real funds need separate approval), PRs as triage surface: no, GitHub Project board (orgs/BELCORT-SDN-BHD/projects/2), Rule: ready-for-agent never overrides open dependency, approval gate or failed acceptance (+27 more)
+### Community 106 - "M2-01: Confirm prototype handoff and build repeatable internal environment"
+Cohesion: 0.11
+Nodes (26): Planning authorised by founder 2026-09-16 (production release/real funds need separate approval), Rule: ready-for-agent never overrides open dependency, approval gate or failed acceptance, .scratch records as migration archive, Versioned spec documents remain canonical for product rules, Wringy conventions: Milestones M1-M5, spec issues, sub-issues, Triage label mapping (five canonical roles), mattpocock/skills label vocabulary, Label: needs-info (+18 more)
+
+### Community 107 - "M2-SPEC: Users save campaigns and submissions across browsers after login"
+Cohesion: 0.11
+Nodes (27): M2-AC00: founder freezes identity/save spec, heavy-start approval recorded, M2-AC03: organisation creation/join with grants; cross-org composition rejected; audited denial, M2-AC04: language preference resolution, cross-device restore, trilingual keys, no double submit, M2-AC05: campaign draft from canonical defaults; version conflict detection; real publish rejected when funds/data/payment not ready, M2-AC06: public catalog/detail leak-free; share metadata; join requires Google identity, M2-AC07: allowed-platform URL normalisation; fixture ownership; duplicate URL returns same submission, M2-AC10: full M2 handoff: verify AC01-AC09 on mobile/desktop; cross-vendor review; production writes closed, Appetite: 15 working days agent timebox; first 3 days check minimal login/save path; cut secondary filters before permissions and recovery (+19 more)
 
 ### Community 108 - "Provenance Verification Scripts"
 Cohesion: 0.10
@@ -830,7 +833,7 @@ Nodes (21): v5 AI-generated Fictional Campaign Photos (4 images) reused, v11 Dec
 Cohesion: 0.11
 Nodes (21): Manual Verification; No Claim of Automatic Fraud Detection, Alternative: Shopify Collabs affiliate commissions by attributed sales [CR08], Alternative: TikTok One production partners and influencer collaboration [CR07], CR Business Loop: brand funds rewards, creators post on own socials, platform organises/reviews/reconciles/pays, CR Brand Platform Fee: 10% standard, 8% verified, deducted from funded budget [CR03/CR05], CR Creator Fee: CPM 10% fixed; per-post/period 10% under US$5,000, 0% at/above [CR04/CR06], CR Payment Processing Fee: ~2.7% + small fixed fee (Whop processing) [CR03 s4.2], Flow Example A: clip licensed long content -> CPM reward -> review queue at 2,000 views (US$3/1k, US$6 min) [CR02] (+13 more)
 
-### Community 113 - "Phase-0 Delivery ZIP"
+### Community 113 - "Wringy Decks, SEA Investor Materials and Brand System Map (historical)"
 Cohesion: 0.12
 Nodes (22): Issue 09: Complete Delivery and Independent Review (decks-brand), Research/asset delivery allowed, product launch not approved, 71-file ZIP acceptance (hash, offline browsing, fonts, page counts), Old Brand Manual (30 pages, 31 component references, 5 UI examples), deck-withdrawal.json deletion audit, Wringy Decks, SEA Investor Materials and Brand System Map (historical), Wringy Phase-0 Delivery ZIP (71 files, SHA-256 9b8eb8de...), Figma quota block: native components unfinished (4 collections / 130 variables) (+14 more)
 
@@ -850,11 +853,11 @@ Nodes (41): Confirmed basics: Malaysia first, SEA long-term, Creator Rewards fir
 Cohesion: 0.12
 Nodes (20): Model recalculation: edit model-inputs.json, run model-source.py, Chart 4: low/mid/high adoption paths (brands, campaigns, churn), Simple architecture: Cloudflare + Supabase + R2 + Resend + Stripe hosted page, BNM licensing / regulatee checks before signing payment providers, Build plan M1-M6 (interviews, prototype, isolation, pilot, repeat), Cash rules: 80/20 collection, 3%+RM1 acquiring, 5% 2-month hold, Chart 2: public cost benchmarks (Randstad, DOSM, EPF, SOCSO, HRD, cloud, Stripe, FX), Launch payment: brand pays creators directly; Wringy collects only service fee via Stripe (+12 more)
 
-### Community 118 - "Wringy Domain Vocabulary"
+### Community 118 - "Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views"
 Cohesion: 0.11
-Nodes (25): 'Clara' named in harness menu (likely template placeholder for Wringy), Campaign: published reward rules, budget, eligibility and deadlines, Claim: request for an eligible unpaid increment; submitting content alone does not reserve budget, Content creator: participant submitting published social post URLs, Eligible views: verified increments accepted under published rules, distinct from raw views, Merchant: organisation publishing and funding campaigns, Reservation: budget held for a valid claim under review and queue rules, Submission: social post linked to a campaign and its measurement baseline (+17 more)
+Nodes (27): Campaign: published reward rules, budget, eligibility and deadlines, Claim: request for an eligible unpaid increment; submitting content alone does not reserve budget, Confirmed reward: approved obligation, distinct from issued funds, Content creator: participant submitting published social post URLs, Eligible views: verified increments accepted under published rules, distinct from raw views, Merchant: organisation publishing and funding campaigns, Payout: delivery of confirmed funds through a verified provider path, Reservation: budget held for a valid claim under review and queue rules (+19 more)
 
-### Community 119 - "Foundation and Investor Deck Decisions"
+### Community 119 - "Issue 13: Complete visual reference audit and YC deck rewrite (closed)"
 Cohesion: 0.14
 Nodes (20): Decision 2026-09-15: Linear + shadcn shared components and current palette; design-system-v2 is the source, Belcort market-rate development budget (founder's own company, no in-house hires; planning assumption), Investor deck v1 (17 pages PPT + PDF), First PRD draft with 20 future acceptance items + architecture + brand design (3 desktop/mobile screens), Foundation README unified entry (phase-0/foundation/README.md), design-v2: brand & components spec + interactive showcase (Ramp style, Linear ops; adapted values, not official tokens), Famous deck originals research (Airbnb referenced Sequoia guide; no claim of replicating Airbnb order), Issue 12: Ramp brand, Linear back-office and classic investor narrative rewrite (resolved) (+12 more)
 
@@ -866,13 +869,9 @@ Nodes (19): C1: Content Rewards supports CPM, per-post, retainer payout models, 
 Cohesion: 0.13
 Nodes (20): Architecture v1 Marked Historical Candidate, Candidate Pilot Chain: Invite-Only, Single Platform, Fixed Per-Post Reward, design-tokens-v1.json Single Source of Values, Four Separated Facts: Draft Approved -> Final Qualified -> Payable -> Bank Arrival, Money Status Vocabulary, RM100 Shared Example Amount, Three Core Screens, Token Sync Workflow JSON -> CSS -> SHA256 -> Screenshots (+12 more)
 
-### Community 122 - "First-Version Blueprint Gates"
+### Community 123 - "Foundation README — historical product and investment source index with current blueprint pointers"
 Cohesion: 0.15
-Nodes (16): 15% service fee (demo assumption, not priced), Campaign rule versioning (freeze rule copy at join; changes after acceptance create new version), Core Judgment: run one evidenced, explainable, settleable creator reward first, Eight pre-launch gates (demand, supply, payments, data, business rules, operations, local obligations, economics), Wringy first-version blueprint: Malaysia, single verified channel, invite-only, single CPM contract pilot (pending approval), First-version positioning: content rewards platform for Malaysian brands, First-version scope table (must deliver / manual with records / later), Language preference vs fulfilment language separation (UI language switch must not change accepted rule version) (+8 more)
-
-### Community 123 - "Investor Deck Build Pipeline"
-Cohesion: 0.11
-Nodes (25): TJR banner notice (v6), design-v3 tokens.json as sole colour source, Build pipeline: build.mjs / finish.mjs, artifact-tool, bundled Node, business-model-v2.md as business source, Wringy Investor Deck v5 (12 pages, pay-for-performance), Wringy Investor Deck v6 (18 pages, finance + review mechanisms), Finance read from model-v1 results.json / assumptions.json (hash-checked), Key numbers: 53.3% gross margin, 50% contribution, 23-campaign breakeven (+17 more)
+Nodes (16): Historical source index — Modular monolith architecture v2 + 9 development slices, Historical source index — Content Rewards business plan v12 (accepted deck, RM70,000 proposal), Historical source index — Campaign configuration v1 and campaign-defaults v1, Historical source index — Clipping deep research v2 (47 sources, 17-page PDF), Historical source record: 2026-09-15 Content Rewards planning handoff, superseded for later detail by five-stage specs, Foundation README — historical product and investment source index with current blueprint pointers, Accepted-decision provenance: full-stack proposal for Next.js, Fastify and an independent worker; not deployment evidence, Foundation README body is a historical source index; older 'current/latest/pending' wording cannot override newer accepted blueprint decisions (+8 more)
 
 ### Community 124 - "Approved Rules and Stack Decisions"
 Cohesion: 0.14
@@ -890,13 +889,13 @@ Nodes (11): Ops back-office full scope (no magic re-pay / balance-edit buttons),
 Cohesion: 0.15
 Nodes (16): Acceptance Criteria Field, Dependencies and Unresolved Evidence Field, Development Task Issue Template, needs-triage Default Label, Parent Specification Link Field, User Outcome Field (merchant/creator/operator), PR Acceptance Evidence Mapping (acceptance ID to test), cross-module: Marker for Multi-Module Changes (+8 more)
 
-### Community 128 - "Finance Model and Angel Visuals"
+### Community 128 - "Review Design v1 (phase-0/foundation/review-design-v1.md)"
 Cohesion: 0.21
 Nodes (15): Review Design v1 (phase-0/foundation/review-design-v1.md), Content Rewards new-version deep research report (12 changes, three-party flows, fee timing), Unverified: Mobbin capture date unknown, private flows and bank settlement untested, Six acceptance criteria: editable inputs, margin vs contribution split, no double counting, review sources, product draft roles/states, deck consistency, Investor deck v6 (18 pages, same finance source), Finance model v1: 36-month cash flow Excel, three scenarios, 3973 formulas (phase-0/finance/model-v1), Issue 15: Gross margin, payback model and review design basis (resolved), review-v6 final-verification.json (+7 more)
 
 ### Community 129 - "Business Deck Series Rules"
 Cohesion: 0.07
-Nodes (34): Rights: public readability is not an open-source licence; third-party components keep their licences; screenshots not redistributed, 15% demonstration service fee (assumption, not approved), v8: remove AI boilerplate, use specific business headings, phase-0/research/clipping-app-v1 (README + development-reference), Content Rewards business deck series v1-v12 (content-rewards-business-vN), delivery-check.json receipts per deck version, DOSM statistics (re-verified 2026-09-13), Founder salary allowance RM0; unpaid labour counted as economic cost (+26 more)
+Nodes (34): Public readability grants no open-source licence; third-party licences remain and external screenshots are not redistributed, 15% demonstration service fee (assumption, not approved), v8: remove AI boilerplate, use specific business headings, phase-0/research/clipping-app-v1 (README + development-reference), Content Rewards business deck series v1-v12 (content-rewards-business-vN), delivery-check.json receipts per deck version, DOSM statistics (re-verified 2026-09-13), Founder salary allowance RM0; unpaid labour counted as economic cost (+26 more)
 
 ### Community 130 - "Angel Deck v1 Build"
 Cohesion: 0.15
@@ -922,9 +921,9 @@ Nodes (18): src/components/ui/button.tsx Source (shadcn-style buttonVariants via
 Cohesion: 0.13
 Nodes (28): Belcort: founder-affiliated development company (no in-house hiring), Old 36-month model and RM576,150 per-post budget marked historical, Investor 'concept OK' is founder hearsay, not an investment commitment, Two-sided acquisition: confirm brand demand first, creators around specific activities, P16 Appendix B: full 12 blocks retained long-term, P17 Appendix C: 18-month internal plan RM576,150 (dev 189,750; ops 216,000; post-launch 70,000; launch 50,000; buffer 50,400), P15 Appendix A market facts and boundaries, Rationale: content approved, payment-eligible, and paid recorded separately (+20 more)
 
-### Community 136 - "TJR Case and Positioning"
-Cohesion: 0.28
-Nodes (9): TJR campaign banner sourced from reachclipping.com, TJR $23,000 vs $23,100 discrepancy disclosure, Malaysian merchant clipping campaign: RM5/1000 qualified views, Economic flow: brand budget, Wringy matching/verification, creator reward, Positioning: pay-for-performance creator distribution network, Qualified views definition (period, audience, rules, dedup, anti-fraud), TJR $23,100 Weekly Clipping Campaign (Reach on Whop, $1/1K views), Phase 2: Whop-style commerce tools (payments, shops, courses, memberships) (+1 more)
+### Community 136 - "Wringy Investor Deck v6 (18 pages, finance + review mechanisms)"
+Cohesion: 0.15
+Nodes (19): TJR campaign banner sourced from reachclipping.com, TJR banner notice (v6), design-v3 tokens.json as sole colour source, Build pipeline: build.mjs / finish.mjs, artifact-tool, bundled Node, business-model-v2.md as business source, Wringy Investor Deck v5 (12 pages, pay-for-performance), TJR $23,000 vs $23,100 discrepancy disclosure, Malaysian merchant clipping campaign: RM5/1000 qualified views (+11 more)
 
 ### Community 137 - "Visual Guide States and Responsive"
 Cohesion: 0.16
@@ -946,7 +945,7 @@ Nodes (17): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib
 Cohesion: 0.19
 Nodes (17): Report: phase-0/research/whop-full/commerce-delivery-operations.md, Research Ticket: Merchant Commerce, Delivery and Customer Ops Boundary, Report: phase-0/research/whop-full/payments-money-trust.md, Research Ticket: Payments, Money Products and Risk Boundary, Report: phase-0/research/whop-full/distribution-creators-growth.md, Research Ticket: Discovery, Content Partnership, Promotion and Ads Boundary, Report: phase-0/research/whop-full/platform-ai-enterprise.md, Research Ticket: Enterprise, Developer and AI Business Tools Boundary (+9 more)
 
-### Community 142 - "Business Model v2 and Wallet"
+### Community 142 - "Business Model v2 (phase-0/foundation/business-model-v2.md)"
 Cohesion: 0.25
 Nodes (9): Business Model v2 (phase-0/foundation/business-model-v2.md), Component: wallet & balance partitions by currency (available != balance), Amount, date, currency and statistics localization contract (ISO currency, unknown placeholder, no float accumulation, absolute time with timezone), Rationale: unknown is not zero - disconnect must not record 0 or generate a definite payable, Founder hand-drawn business loop: brand budget -> creator qualified results -> platform fee -> profit, Investor deck v5 (12 pages; old execution page removed; business loop per founder sketch), Issue 14: Brand results distribution and platform profit narrative rewrite (resolved), review-v5 disposition (cross-vendor review and math check) (+1 more)
 
@@ -1014,13 +1013,13 @@ Nodes (16): Acceptance: P12 review + PDF render pass; 14 pages, 4 native charts,
 Cohesion: 0.20
 Nodes (16): Deck Review Focus (work 001 review status card), Visual Guide v3 page 06: Review Detail screen, Visual Guide v3 page 07: Creator Progress screen, Creator Progress screen: single-column steps; done / current / pending explained in text, Flow is a proposal: step order for demo only; live flow redefined after business model approval, Object detail pattern: body keeps space, attributes on right, no forced review queue (Linear full object detail), Rationale: every review points to one object (每一次审核，都指向一个对象), Record first: review note sits next to the work; payment status confirmed only by actual payment record (+8 more)
 
-### Community 160 - "Content Rewards Acceptance Journeys"
-Cohesion: 0.11
-Nodes (22): Acceptance journeys for brand, creator, operations, and exit/wrap-up, Brand side journey (business ownership, configure, fund, review, results, wrap-up), CR campaign flow: brand sets task/budget -> creator produces -> submit link -> content/risk review -> metering & reward confirmation -> balance & external payout, [P07/P08] Content Rewards Discover page and Boxabl campaign sample, [S04] Content Rewards Privacy Policy, [S03] Whop pricing (2.7% + $0.30 domestic card), Clipping (cutting licensed existing footage into short videos), CPM pay-per-thousand-views model (+14 more)
+### Community 160 - "Creator side journey (discover, join/apply, draft pre-review, publish, submit link)"
+Cohesion: 0.16
+Nodes (16): Acceptance journeys for brand, creator, operations, and exit/wrap-up, Brand side journey (business ownership, configure, fund, review, results, wrap-up), CR campaign flow: brand sets task/budget -> creator produces -> submit link -> content/risk review -> metering & reward confirmation -> balance & external payout, [P07/P08] Content Rewards Discover page and Boxabl campaign sample, [S04] Content Rewards Privacy Policy, Clipping (cutting licensed existing footage into short videos), CPM pay-per-thousand-views model, Creator side journey (discover, join/apply, draft pre-review, publish, submit link) (+8 more)
 
-### Community 161 - "Malaysia Payment Rails"
-Cohesion: 0.33
-Nodes (7): [S08] Whop docs: Manual Payouts to Connected Accounts, DuitNow services via PayNet acquirer onboarding, FPX collection (MY merchants, MYR, via Stripe), Malaysia payment rails: collection and payout are two separate things, Stripe Connect (MY supported separate charges and transfers), Whop Platforms / Connected Accounts (invite-only, use-case review), PDF §7.1 Malaysia payment paths (Whop Platforms, Stripe Connect, FPX, DuitNow)
+### Community 161 - "Malaysia payment rails: collection and payout are two separate things"
+Cohesion: 0.13
+Nodes (16): Buy vs build: buy identity/payments/storage/monitoring; build campaign contract, quota, review workbench, reward rules, [P14/P15/P17/S11] Whop public API references (Product, Experience, Plan, Affiliates), [S08] Whop docs: Manual Payouts to Connected Accounts, [S03] Whop pricing (2.7% + $0.30 domestic card), Creator Rewards block (first-version core: campaign, submission, metering, review, reward), DuitNow services via PayNet acquirer onboarding, FPX collection (MY merchants, MYR, via Stripe), Malaysia payment rails: collection and payout are two separate things (+8 more)
 
 ### Community 162 - "Foundations Map and Investor Deck V2"
 Cohesion: 0.14
@@ -1034,9 +1033,9 @@ Nodes (18): Tabler Icons v3.34.1 (MIT) usage notice, 18-month zero-revenue budge
 Cohesion: 0.17
 Nodes (15): Sectors B01/B03/B04: 39 Feature Entries (accounts/products, entitlement delivery, customer support), Physical/Service Goods and Mobile Account Recovery Attribution, Sectors B02/B09/B10: 44 Feature Entries (payments, fund records, verification/adjudication), Known Gaps: Card, Redemption, Earnings Marketing and Tax Forms; Fee Conflicts Not Merged, API Paths and Component Pre-release Status Marked Separately, Sectors B05-B08: 56 Feature Entries (marketplace, Content Rewards/Bounties, affiliates, ads), Final Review Addendum: Public Activity Feed (B05-F12) and Blueprint Revenue Share (B07-F14), Sectors B11/B12: 29 Feature Entries (apps/enterprise vs AI/website/blueprint/migration/registration/education) (+7 more)
 
-### Community 168 - "Architecture Decisions and Skills"
-Cohesion: 0.17
-Nodes (15): Architecture Decisions Register (docs/adr), Full-Stack Proposal v1 (accepted direction), Rationale: provider assumptions are not approved capabilities, docs/adr/ decision records, CONTEXT-MAP.md (multi-context pointer), CONTEXT.md root glossary, Domain Docs consumption protocol, /domain-modeling skill (lazy creation) (+7 more)
+### Community 168 - "Domain Docs consumption protocol"
+Cohesion: 0.16
+Nodes (16): Architecture decision register routes current truth back to Architecture, Full-stack proposal preserves accepted technical direction and original rationale, Provider assumptions are not approved capabilities; accepted targets are not implementation evidence, docs/adr/ decision records, CONTEXT-MAP.md (multi-context pointer), CONTEXT.md root glossary, Domain Docs consumption protocol, /domain-modeling skill (lazy creation) (+8 more)
 
 ### Community 169 - "Design v3 Build Scripts"
 Cohesion: 0.24
@@ -1058,9 +1057,9 @@ Nodes (13): Packet claims: 15% fee, 750 contribution, payback none/25/18, CR man
 Cohesion: 0.16
 Nodes (16): LOGO-DIRECTION slot: Wringy wordmark + open junction, abstract W symbol (BB-10/11), Acceptance criteria and follow-up research: six files, one token source, contrast, fonts, 30-page brand book, 4 UI briefs, Audience assumptions table: Malaysian SME brand marketers, adult short-video creators, agencies/creator teams, Brand motif: 让创意碰面，让合作说清楚 / Creative work. Clear agreements., Brand promise: 把要求、下一步和报酬条件写清楚, Visual motif 接点: an open, slightly offset connecting line joining two surfaces, Rule: money copy is generated only from ledger facts; no success template without rate/net/status, Logo direction: custom geometric sans wordmark, open junction on g, abstract W symbol; clear-space half W height (+8 more)
 
-### Community 174 - "Three-Party Campaign Storyboard"
+### Community 174 - "Clipping Public UI Evidence -> Wringy Continuous Mockups"
 Cohesion: 0.14
-Nodes (14): Campaigns doc: first submission joins; private campaigns need approval, Eight-Step Wringy Storyboard (H proposals), Submit doc: paste URL -> detect platform/account -> bounty choice -> submit, Brand/Agency, Creator, Reviewer workflows, Rationale: measure transaction completion, not views, Pending: Private/Deleted Post and API Outage, Role Responsibility Map: brand / ops / enterprise / creator / leader / reviewer / external (C07), Submit Errors: duplicate URL, account mismatch, age cutoff, missing sound (C04) (+6 more)
+Nodes (16): Campaigns doc: first submission joins; private campaigns need approval, Public /campaigns is a marketing landing page, not a catalog, Clips doc: Tracking / Stopped / Banned primary; Paid / Bounty badges, Dashboard doc: active first, past below, discovery card, Clipping Public UI Evidence -> Wringy Continuous Mockups, Eight Screenshot Index (images/01-08), Eight-Step Wringy Storyboard (H proposals), Submit doc: paste URL -> detect platform/account -> bounty choice -> submit (+8 more)
 
 ### Community 175 - "Visual Spec v3 References"
 Cohesion: 0.14
@@ -1070,13 +1069,9 @@ Nodes (14): User directive: only Linear page patterns + official shadcn; Wringy 
 Cohesion: 0.14
 Nodes (18): build.py generates CSS custom properties, embeds JSON + SHA256 in showcase.html; tokens.css snapshot, example.rewardMinor (MYR minor unit) generates all RM amount strings; no duplicated amounts, Change log 2026-09-10 (cobalt rejected, neutral checklist icons, canonical amounts, PDF pagination + dialog Tab loop fixes), Color standard table (canvas, surface, composition, ink, muted, accent citron, accentSoft, line, controlBorder, focus olive, positive, warning, negative), Wringy brand & design system v2 (2026-09-10 reviewable design deliverable), Rule: green only for real completion; unverified checklist uses neutral icons (13.18:1 primary button contrast), Responsive: ≤1023 detail below queue, ≤639 single column; creator view single column, 44px targets, 390/320 tested, Success criteria (warm white, black text, citron actions; sidebar/topbar/filter/grouped rows/detail; no overflow) (+10 more)
 
-### Community 177 - "Official Creator Rewards Flow Evidence"
-Cohesion: 0.15
-Nodes (15): Mobbin query-level absence for Clipping brand campaign flow, Coverage gaps: no end-to-end tutorial through bank receipt, Official Creator/Content Rewards Flow Evidence (2026-09-10), Homepage payment FAQ: card, Apple Pay, Google Pay, Cash App, US bank transfer, Mobbin coverage table (main-reported previews), Whop Clips blog 2025-04-08: legacy creator join / submit / earn / withdraw, Whop Docs: Add budget -> payment method -> amount -> Send -> Active, Payment-setup YouTube embed linked but not inspected (+7 more)
-
-### Community 178 - "Design System Acceptance Criteria"
-Cohesion: 0.18
-Nodes (14): Acceptance criteria DS01-DS08, Brand direction: white / acid lime yellow / dark, Unfrozen business rules (rates, reserve, data source, risk, payout) marked as proposals, catalog.json / components.md / domain-states.md / module-coverage.md, Colour optimisation 2026-09-11: neutral navigation, attention colours separated from brand, DS04: review, measurement, reward, payment, risk axes separated; unknown is not zero, Issue 18: Complete Design System (local delivery), phase-0/foundation/localization-v1.md (+6 more)
+### Community 177 - "Official Creator/Content Rewards Flow Evidence (2026-09-10)"
+Cohesion: 0.13
+Nodes (18): Mobbin query-level absence for Clipping brand campaign flow, Coverage gaps: no end-to-end tutorial through bank receipt, Creator Terms 2026-09-03: creator sequence, 7-day earn + 3-day hold, Official Creator/Content Rewards Flow Evidence (2026-09-10), Homepage payment FAQ: card, Apple Pay, Google Pay, Cash App, US bank transfer, Mobbin coverage table (main-reported previews), Whop Clips blog 2025-04-08: legacy creator join / submit / earn / withdraw, Whop Docs: Add budget -> payment method -> amount -> Send -> Active (+10 more)
 
 ### Community 179 - "Wordmark and Typography"
 Cohesion: 0.26
@@ -1098,9 +1093,9 @@ Nodes (13): Wringy Phase 0 Delivery Package (Wringy-Phase0-交付包.zip), 64-Pa
 Cohesion: 0.15
 Nodes (16): Rationale: Closing Planning Is Not Implementation Acceptance, 2026-09-16 Migration of Specs and Tasks to GitHub Issues, .scratch Historical Planning Archive, Read Milestone, Parent and Native Blockers Before Work, Core Connection: Product, Pricing Plan and Delivery Access Right, Feature Matrix and Failure/Exit Paths (pause, refund windows), Mobbin UI Evidence: 7 Searches, 6 Whop Flows, 23 Previews, Report: phase-0/research/whop-features-flows.md (+8 more)
 
-### Community 184 - "Angel Review Arithmetic Findings"
-Cohesion: 0.15
-Nodes (13): Accepted: label commission as promotion expense; keep 20-campaign loss in appendix, Finding: RM30,000 = 20 x 1,500 net service fee, not gross throughput, Finding: RM600 already includes RM150 payment; 3% is separate sensitivity, Angel review v1 disposition (sealed reviewer objections rejected), Sealed reviewer packet: angel deck logic summary (12 main + 5 appendix), review.stderr.txt (empty), Per-campaign contribution RM900 (1500-600) with sensitivity, 15% platform fee on top of RM10,000 reward = RM1,500 (+5 more)
+### Community 184 - "Per-campaign contribution RM750 (1500-600-150), 50% rate"
+Cohesion: 0.18
+Nodes (11): Accepted: label commission as promotion expense; keep 20-campaign loss in appendix, Finding: RM30,000 = 20 x 1,500 net service fee, not gross throughput, Finding: RM600 already includes RM150 payment; 3% is separate sensitivity, Angel review v1 disposition (sealed reviewer objections rejected), Sealed reviewer packet: angel deck logic summary (12 main + 5 appendix), review.stderr.txt (empty), 20-campaign month: GP 16,000 (53.33%), operating -2,000, Monthly breakeven ceil(17000/750)=23 campaigns (+3 more)
 
 ### Community 185 - "Angel Deck Blueprint and Belcort Split"
 Cohesion: 0.17
@@ -1114,9 +1109,9 @@ Nodes (13): Customer Alternatives: Whop/Content Rewards, Agencies, DIY, From Rew
 Cohesion: 0.12
 Nodes (18): Link Acceptance, Baseline and 7-Day Measurement, Three Key Choices: Cap Unit, Data Path, Payout Path, TikTok Query Videos and YouTube videos.list Doc Check, Delivery Slices F0-F4, Foundation Chain Check Result, Payment Provider Decision Gates G1-G6, Provider Switch Is Not a Button, Suggested Delivery Phases (+10 more)
 
-### Community 188 - "Whop Funds and Fee Evidence"
-Cohesion: 0.17
-Nodes (17): Explicit-Assumption Arithmetic Cases A-F, Whop Business Model and Funds Responsibility Evidence Report, Rationale: Decompose Whop as Software Entry + Payment Infra + Paid Distribution, Public Fee Table (2.7%+$0.30 Card, Intl/FX, Routing, Billing, Tax, Payouts), GMV vs Processing Volume vs Payout Volume vs Revenue ($4.6B Claim), Merchant of Record Scope (Card Rules and Settlement Only), Refund Rules (Full Original Amount, Auto-Refund for BNPL Cases), Reserves (Rolling/Fixed, up to 180 Days, Financing Partner Reserves) (+9 more)
+### Community 188 - "Whop Business Model and Funds Responsibility Evidence Report"
+Cohesion: 0.23
+Nodes (13): Explicit-Assumption Arithmetic Cases A-F, Whop Business Model and Funds Responsibility Evidence Report, Rationale: Decompose Whop as Software Entry + Payment Infra + Paid Distribution, Public Fee Table (2.7%+$0.30 Card, Intl/FX, Routing, Billing, Tax, Payouts), Merchant of Record Scope (Card Rules and Settlement Only), Refund Rules (Full Original Amount, Auto-Refund for BNPL Cases), Reserves (Rolling/Fixed, up to 180 Days, Financing Partner Reserves), Staleness Conflicts (Tax Summary, Reserve Summary, Product Naming) (+5 more)
 
 ### Community 189 - "Whop Marketplace and Reviews"
 Cohesion: 0.18
@@ -1130,9 +1125,9 @@ Nodes (32): Main-task editorial review: full story structure approved, 15 pages 
 Cohesion: 0.17
 Nodes (12): V / D / H / U Evidence Labels, Dated Inconsistencies Register (Section 9), Four Evidence Types: official terms / docs / marketing / audit judgment, Unresolved Questions U01-U16 (sources.json), Authenticated Exploration Paused under ToS Section 4, Evidence Type Table: what each type can and cannot claim, Source Conflict Recording Rule: marketing cannot override observation, Source Register and Merge Rules (+4 more)
 
-### Community 192 - "Claim Deadline Timing Rules"
-Cohesion: 0.23
-Nodes (14): 30-day retention is not an industry rule; Dr Squatch 90 days campaign-specific, Wringy proposal: 7-day metering + 7 calendar-day claim grace, Claim-deadline proposal approved 2026-09-14 by user 'ok', campaign-defaults-v1.md (approved default source), Clipping terms: deadline/budget campaigns, 12h reads, 1k/25k, no withdrawal, Content Rewards Timing and Claim Rules Check (2026-09-14), Example: Sep 1 12:00 accept -> Sep 8 stop -> Sep 15 deadline (Asia/Kuala_Lumpur), implementation-spec-content-rewards-v1.md Section 7 supplement (+6 more)
+### Community 192 - "Content Rewards Timing and Claim Rules Check (2026-09-14)"
+Cohesion: 0.19
+Nodes (16): 30-day retention is not an industry rule; Dr Squatch 90 days campaign-specific, Wringy proposal: 7-day metering + 7 calendar-day claim grace, Claim-deadline proposal approved 2026-09-14 by user 'ok', campaign-defaults-v1.md (approved default source), Clipping terms: deadline/budget campaigns, 12h reads, 1k/25k, no withdrawal, Content Rewards Timing and Claim Rules Check (2026-09-14), Example: Sep 1 12:00 accept -> Sep 8 stop -> Sep 15 deadline (Asia/Kuala_Lumpur), implementation-spec-content-rewards-v1.md Section 7 supplement (+8 more)
 
 ### Community 193 - "Chinese Revenue Scenario Deck"
 Cohesion: 0.26
@@ -1170,9 +1165,9 @@ Nodes (12): Onboarding: Let's set up your profile; Discord username; Continue ac
 Cohesion: 0.24
 Nodes (11): Confirmed constraints: Malaysia first, Content Rewards first, RM50k Prototype+Beta cap, Belcort affiliated development, no in-house engineering team, RM50,000 R&D cap: Prototype + usable Beta incl. RM5,000 internal reserve, Belcort: founder-affiliated development company (not a confirmed quote), First funding: RM50k R&D via Belcort; M1-2 scope & prototype, M3 Beta acceptance, M3-6 controlled pilot, First funding supports Beta, market education and pilot; RM50k R&D cap; M1-2 explain model & prototype, M3 Beta acceptance, M3-6 small paid pilot, First version (RM50k cap): brand provides assets/budget & views progress; creator sees rules/assets & submits links; ops verifies content/results & confirms reward records, Founder correction: '不需要说产品太多，而是专注商业模式多一些' - editorial shift, not a frozen product-spec change, Decision: product explained only through a single campaign; standalone feature-scope page removed; cost-composition chart added (+3 more)
 
-### Community 203 - "Stage Gates and Stack Audit"
-Cohesion: 0.24
-Nodes (10): Stages Written as Conditions Only, Discovery / Build / Pilot Stage Gates (2-4 months, RM50k not a promise), Feasibility Gates under 2-4 Months: discovery / build / paid pilot / expansion (Section 15), acceptance-review.md, database-jobs-audit.md, deployment-ops-audit.md, Full-Stack Parallel Audit README (2026-09-15), Fastify separate API layer recommended; Next.js single backend accepted alternative (+2 more)
+### Community 203 - "Full-Stack Parallel Audit README (2026-09-15)"
+Cohesion: 0.20
+Nodes (12): Rationale: measure transaction completion, not views, Stages Written as Conditions Only, Discovery / Build / Pilot Stage Gates (2-4 months, RM50k not a promise), Feasibility Gates under 2-4 Months: discovery / build / paid pilot / expansion (Section 15), Workload minutes feedback to finance (proposal), acceptance-review.md, database-jobs-audit.md, deployment-ops-audit.md (+4 more)
 
 ### Community 204 - "Business Plan Deck v12"
 Cohesion: 0.21
@@ -1226,9 +1221,9 @@ Nodes (11): Amount glossary: reward pool, confirmed reward, platform service fee
 Cohesion: 0.13
 Nodes (20): P1 Wringy business model: merchant pays, creator rewarded, Wringy takes service fee, Activity business chain: publish, budget, submit, review, reward, payout via qualified provider, Bottom-up market range with visible assumptions (non-official TAM), Core entry hypothesis: brand-creator collaboration, not yet customer-validated, Competition and alternatives: e-commerce affiliates, creator tools/networks, agencies, Whop, Investor and partner deck narrative framework (28 slides, 2026-09-10), Rationale: production constraints (native editable charts, no mixing GMV / platform revenue / cash balance, no fake traction), Whop 12 blocks as long-term reference in product roadmap (+12 more)
 
-### Community 219 - "Operations Review and Appeals"
-Cohesion: 0.11
-Nodes (26): Confirmed reward: approved obligation, distinct from issued funds, Operations: authorised review, appeals, exceptions, reconciliation and audit, Payout: delivery of confirmed funds through a verified provider path, Brand payable rewards vs paid status explicitly distinguished (v7), Demo tool to switch to operations identity (not real permission verification), Missing data is not converted to zero or judged as fraud, Operations can view and simulate re-sync with reason and result recorded, 7 calendar-day appeal window displayed per rules (+18 more)
+### Community 219 - "M1-05: Merchants and operations review, creators appeal"
+Cohesion: 0.16
+Nodes (19): Operations: authorised review, appeals, exceptions, reconciliation and audit, Demo tool to switch to operations identity (not real permission verification), Missing data is not converted to zero or judged as fraud, Operations can view and simulate re-sync with reason and result recorded, 7 calendar-day appeal window displayed per rules, Upheld appeal returns to verification keeping original reservation and order; dismissal and release recorded, Operations queue/detail traces operator, reason and changes, Rationale: clicking reject must not immediately return budget, so appeals can restore the original reservation and order (+11 more)
 
 ### Community 220 - "Brand and Design System Deliverables"
 Cohesion: 0.24
@@ -1254,7 +1249,7 @@ Nodes (10): Brand pitch scene (founder demonstrating product to a prospective br
 Cohesion: 0.29
 Nodes (8): output/localized-verification.json (trilingual evidence, artifact SHA-256), tests/color-allocation.cjs (43 vars, contrast, 320px, localized-verification.json), Trilingual en-MY / ms-MY / zh-Hans-MY verification and hex normalization, Future first-use language prompt (owned by main task, not implemented), app/src/lib/product-copy.ts trilingual copy catalog, Bounded product-language demonstrator (en-MY, ms-MY, zh-Hans-MY via official Select), Acceptance for trilingual extension (identical keys, approval≠payment, unknown≠zero, 320px), Scope: public campaigns, three-role web, Google login, EN/MS/zh-Hans, single currency MYR, email + in-app notifications; no native app/video upload/marketplace/FX
 
-### Community 226 - "Domain State Model Spec"
+### Community 226 - "Wringy Domain State and Cross-Domain Handoff v1 (PROPOSED, 2026-09-11)"
 Cohesion: 0.22
 Nodes (9): Embedded B01 module card (accounts, teams, products), Verifiable acceptance scenarios DS-C01..DS-X02 (spec-level, not yet run), B06 research (phase-0/research/whop-full/modules/B06.md), Wringy Domain State and Cross-Domain Handoff v1 (PROPOSED, 2026-09-11), Rationale: UI issues commands and waits for business confirmation; permissions checked server-side; evidence sources never silently upgrade trust, Sealed cross-vendor design-spec reviewer prompt (five axes C/M/R/P/K), State combination display and action priority table (disabled+focus, busy, risk-held+approved, payable+unknown ...), Two-layer state model: component layer (capability/request/interaction/validation/selection) + domain layer (C/M/R/P/K) (+1 more)
 
@@ -1294,9 +1289,9 @@ Nodes (9): DOSM 2022: 78,236 E-commerce Establishments (statistical base), Clipp
 Cohesion: 0.22
 Nodes (9): v11 p10 Merchant Goal: Real Views and Organic Spread, v11 p14 Future Merchant and Creator Tools (storefront, creator tools; subscription/transaction fees), Pilot Targets: 20 interviews, 3 paying merchants, >=1 repurchase (planning, unrealised), v12 Pages 11-15 = v11 Pages 10-14 (renumbered, unchanged), Discover = public task list, not guaranteed distribution or views [CR03 s21, CR04], v1 p11 Field Sales and Creator Recruitment (20 interviews / 3 paying brands / 1 repurchase), v1 p14 Future Business Layers (CR repurchase tools; creator stores; courses/community/affiliate), v2 p11 Field Sales for Brands, Manual Creator Recruitment (20/3/1 targets) (+1 more)
 
-### Community 239 - "Auth and Backend Architecture"
-Cohesion: 0.29
-Nodes (8): Google Login and Organization Switching Acceptance, Rationale: Dual Backend (Next.js + Fastify) Is Conditional, Not Prerequisite, Fastify API Service, Google-Only OAuth Login with Callback Whitelist, Next.js Backend-for-Frontend as Single Business Backend, Single Responsibility for Cookie/Session Refresh, B01 First Vertical Slice and Acceptance (A01-A05), B01 Normal and Failure Flows
+### Community 239 - "B01 Accounts, Teams, Business and Product Catalog (Module Card)"
+Cohesion: 0.13
+Nodes (23): Google Login and Organization Switching Acceptance, Capability Verification Table (Prototype vs Real Business Prerequisites), Rationale: Simulated Verification/Payout Must Never Display as Real, Pulse Feed (Anonymous Platform Activity Stream) Classified B05, Individual/Company KYC, Minors, Custody and Payment Liability, PDPA, Cross-Border Processing, Retention and Deletion, B01-F03 Account Security, 2FA and Deletion, B01-F06 Business Profile and Multi-Business Participation (+15 more)
 
 ### Community 240 - "Service Revenue Scenarios"
 Cohesion: 0.32
@@ -1306,17 +1301,17 @@ Nodes (8): 50 / 100 / 300 merchants -> RM180k / RM360k / RM1.08m annual service 
 Cohesion: 0.21
 Nodes (15): Versioned fee and refund disclosure derived from M4 funding/liability conclusions, Funding basis needs provider or approved-path evidence, not a typed reward-pool number, M4-11 gate=false: blocked: dependencies, M4-AC11 acceptance criteria, Eligibility change / insufficient funds / capability withdrawal blocks new participation with notification; pause keeps old metering, Rationale: tampered client readiness flags must not allow publish or participation, Server-side publish readiness: social capability + currency/country/payout eligibility + funding basis + rule version, M4-11 Real payout eligibility and funding basis decide whether a campaign can publish (+7 more)
 
-### Community 243 - "Official UI Bubble"
-Cohesion: 0.38
-Nodes (4): Bubble(), BubbleReactions(), bubbleReactionsVariants, bubbleVariants
+### Community 243 - "class-variance-authority"
+Cohesion: 0.06
+Nodes (24): Alert(), alertVariants, Badge(), badgeVariants, Bubble(), BubbleReactions(), bubbleReactionsVariants, bubbleVariants (+16 more)
 
 ### Community 245 - "Deck v11-v12 Acceptance"
 Cohesion: 0.25
 Nodes (8): v11 Acceptance: RM150.21m Reward Spend, 1/3/5% Share Scenarios, v11 Acceptance Result: 14-page text diff, 4 native charts, 5 source links, v11 Market Share and Service Revenue Revision (2026-09-13), v11 Scope: Only Page 9 Changes, 14 Pages Kept, v11 Native Charts: proportion bar (p7), cumulative line (p8), share bar (p9), network (p10), flow (p11), donut (p12), roadmap (p13), branch (p14), v12 Acceptance: 80%/10% flagged as unverified; RM2,000 fee base is confirmed rewards; 2-4 months and 70k kept, v12 Brief: Two-page Market Calculation and Merchant Revenue, Decision: Split v11 Market Page into Stats/Assumptions Page and Merchant-Count Revenue Page
 
-### Community 246 - "UI Bubble Component"
-Cohesion: 0.38
-Nodes (4): Bubble(), BubbleReactions(), bubbleReactionsVariants, bubbleVariants
+### Community 246 - "System boundary: browser → Next.js page/session/proxy → Fastify domain API → PostgreSQL facts/outbox/queue, with an independent worker and narrow provider callbacks"
+Cohesion: 0.32
+Nodes (8): Campaign and rule-version module owns configuration, snapshots, calendars and publish readiness, without inventing funding evidence, Identity and organisation module owns users, membership, role scope and language preference; login alone is not eligibility, Reward ledger owns mutually exclusive available/reserved/confirmed-unpaid/paid records and append-only adjustments, Measurement module owns raw metrics, coverage windows, baselines/snapshots, missing-data reasons and verification evidence, Payment and reconciliation module owns obligations, attempts, provider references, stage evidence and authorised refunds, not reward eligibility, Claim, review and appeal module owns valid order, frozen increments, content/risk decisions, appeals and deadlines, Submission and account-verification module owns platform accounts, control evidence, post IDs, submissions and accepted baselines, System boundary: browser → Next.js page/session/proxy → Fastify domain API → PostgreSQL facts/outbox/queue, with an independent worker and narrow provider callbacks
 
 ### Community 247 - "Malaysia Market Sizing"
 Cohesion: 0.33
@@ -1362,9 +1357,9 @@ Nodes (5): flatten(), generate(), Generate CSS only from tokens.json. References
 Cohesion: 0.50
 Nodes (5): v1 control matrix, fonts, sizes, touch minimums and Emil motion no longer execution basis, Component contract table (Button, Input, Select, Tabs, Filter, Grouped rows, Detail, Badge, Dialog, Empty, Loading, Error, Creator submission, Activity), Motion & a11y: 120ms hover, 180ms max, reduced-motion off, ≥4.5:1 / ≥3:1, skip link, dialog focus loop, Typography/spacing: system font stack, 76/42/36/16/14/13/12px, 4px scale, 1320px max, radii 6/10/4, Native <dialog>s: review-dialog, creator-dialog (HTTPS link form), reward-dialog; Tab focus loop + toast role=status
 
-### Community 258 - "Social Data Boundaries"
+### Community 258 - "Social data boundaries: three platforms' views are not the same metric; API vs OAuth vs commercial use permission"
 Cohesion: 0.33
-Nodes (7): Audience-share multiplication fallacy (60% MY audience x 100k views != 60k verified MY views), [M27/M28] YouTube API Services Developer Policies and derived-metrics policy, Recommended data commitment hierarchy (prove account/video/period metrics first, region conditions later), Instagram Platform Media/Account Insights (v25.0; advanced access for third-party accounts), Social data boundaries: three platforms' views are not the same metric; API vs OAuth vs commercial use permission, YouTube Data API v3 + Analytics API v2 (country aggregate reports; derived-metrics & storage policies), PDF §7.2 TikTok / Instagram / YouTube data boundaries
+Nodes (7): TikTok Display API video.query / video.list, Audience-share multiplication fallacy (60% MY audience x 100k views != 60k verified MY views), [M27/M28] YouTube API Services Developer Policies and derived-metrics policy, Recommended data commitment hierarchy (prove account/video/period metrics first, region conditions later), Instagram Platform Media/Account Insights (v25.0; advanced access for third-party accounts), Social data boundaries: three platforms' views are not the same metric; API vs OAuth vs commercial use permission, YouTube Data API v3 + Analytics API v2 (country aggregate reports; derived-metrics & storage policies)
 
 ### Community 260 - "Metering Window and Claim Rules"
 Cohesion: 0.13
@@ -1401,8 +1396,6 @@ Nodes (3): Boxabl Official Clipping Campaign Sample ($0.50 CPM), CR Discover Opp
 ## Ambiguous Edges - Review These
 - `[L03] Wringy 36-month finance model-v1 README (local)` → `Budget spec: RM576,150 / 18 months / 4 build + 14 operate / zero-revenue plan`  [AMBIGUOUS]
   phase-0/research/yc-deck/source-audit.md · relation: conceptually_related_to
-- `'Clara' named in harness menu (likely template placeholder for Wringy)` → `CONTEXT.md: Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views`  [AMBIGUOUS]
-  AGENTS.md · relation: conceptually_related_to
 - `Per-video cumulative reward cap set by merchant` → `CR CPM: 7 days earning after approval plus 3-day hold`  [AMBIGUOUS]
   phase-0/founder-inputs.md · relation: conceptually_related_to
 - `Belcort: founder-affiliated development company (no in-house hiring)` → `08 Team: founder owns business/product, Belcort develops`  [AMBIGUOUS]
@@ -1429,16 +1422,14 @@ Nodes (3): Boxabl Official Clipping Campaign Sample ($0.50 CPM), CR Discover Opp
   phase-0/research/clipping-deep-v2/public/mechanism-audit.md · relation: conceptually_related_to
 
 ## Knowledge Gaps
-- **1411 isolated node(s):** `PaginationLinkProps`, `PaginationLinkProps`, `SidebarContextProps`, `SidebarContextProps`, `ChartConfig` (+1406 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2001 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **1431 isolated node(s):** `PaginationLinkProps`, `PaginationLinkProps`, `SidebarContextProps`, `SidebarContextProps`, `ChartConfig` (+1426 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2021 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `[L03] Wringy 36-month finance model-v1 README (local)` and `Budget spec: RM576,150 / 18 months / 4 build + 14 operate / zero-revenue plan`?**
-  _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
-- **What is the exact relationship between `'Clara' named in harness menu (likely template placeholder for Wringy)` and `CONTEXT.md: Wringy connects merchants funding campaigns with creators earning rewards for verified eligible views`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
 - **What is the exact relationship between `Per-video cumulative reward cap set by merchant` and `CR CPM: 7 days earning after approval plus 3-day hold`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
@@ -1450,3 +1441,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: cites) - confidence is low._
 - **What is the exact relationship between `User directive: only Linear page patterns + official shadcn; Wringy provides accepted palette only` and `Wringy visual & component spec v3 · independent draft (2026-09-10)`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
+- **What is the exact relationship between `Pattern reference: Linear (compact list, full object detail, constrained settings, property popover, create dialog, no-match / first-empty / none-selected / field-error states)` and `State: loading — keep page position; honor reduced-motion`?**
+  _Edge tagged AMBIGUOUS (relation: cites) - confidence is low._

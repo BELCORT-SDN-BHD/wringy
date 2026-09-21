@@ -2298,10 +2298,10 @@
     "semantic_hash": "0243a71ccad24a8f97574419d1eb21e6"
   },
   "AGENTS.md": {
-    "mtime": 1789637442.934771,
-    "seen": 1789637476.2998116,
+    "mtime": 1789971260.4558864,
+    "seen": 1789972259.300053,
     "ast_hash": "7d390aa67809b113f80f0e63172e7267",
-    "semantic_hash": ""
+    "semantic_hash": "316c7cdd4c0cdc32fa981c9f6bdc9709"
   },
   "CLAUDE.md": {
     "mtime": 1789630131.5569124,
@@ -2310,28 +2310,28 @@
     "semantic_hash": ""
   },
   "CONTEXT.md": {
-    "mtime": 1789620926.5180514,
-    "seen": 1789626255.1450117,
+    "mtime": 1789971260.4578872,
+    "seen": 1789972259.300053,
     "ast_hash": "4623720bc46b4810750936973a723219",
-    "semantic_hash": "4623720bc46b4810750936973a723219"
+    "semantic_hash": "8572c248874a104422b1348d1f2c2620"
   },
   "README.md": {
-    "mtime": 1789620926.523069,
-    "seen": 1789626255.1450117,
+    "mtime": 1789971260.4568875,
+    "seen": 1789972259.300053,
     "ast_hash": "cf65a36abb57676d599ac52efd6d995d",
-    "semantic_hash": "cf65a36abb57676d599ac52efd6d995d"
+    "semantic_hash": "c1d955c938f27ee51150410f57b67b4e"
   },
   "docs/ARCHITECTURE.md": {
-    "mtime": 1789630131.5569124,
-    "seen": 1789636801.6524174,
+    "mtime": 1789971180.6879158,
+    "seen": 1789972259.300053,
     "ast_hash": "6cd20520f1aceb1d293f71137def3e85",
-    "semantic_hash": ""
+    "semantic_hash": "933fe9934725018891681e3cf23da9ce"
   },
   "docs/PRD.md": {
-    "mtime": 1789630131.5579166,
-    "seen": 1789636801.6524174,
+    "mtime": 1789971751.3039749,
+    "seen": 1789972259.300053,
     "ast_hash": "798ad238b413f50cec049bf685626b95",
-    "semantic_hash": ""
+    "semantic_hash": "3bbd59872551743a1f9f6439e0cfbfbf"
   },
   "docs/PROGRESS.md": {
     "mtime": 1789630809.6651535,
@@ -2340,10 +2340,10 @@
     "semantic_hash": ""
   },
   "docs/adr/README.md": {
-    "mtime": 1789620926.534072,
-    "seen": 1789626255.1450117,
+    "mtime": 1789971260.4588902,
+    "seen": 1789972259.300053,
     "ast_hash": "f47489417e30ca304ca46d8d4cc5f992",
-    "semantic_hash": "f47489417e30ca304ca46d8d4cc5f992"
+    "semantic_hash": "4b2f16f1818130f8f7ba1c3f431446f3"
   },
   "docs/agents/domain.md": {
     "mtime": 1789620926.5406318,
@@ -2364,10 +2364,10 @@
     "semantic_hash": "85409347dbf487c8a25c9dac59708b83"
   },
   "docs/planning/README.md": {
-    "mtime": 1789620926.5746315,
-    "seen": 1789626255.1450117,
+    "mtime": 1789971260.4588902,
+    "seen": 1789972259.300053,
     "ast_hash": "de4501a447e9b1a4da187980a4ad2617",
-    "semantic_hash": "de4501a447e9b1a4da187980a4ad2617"
+    "semantic_hash": "93712644619eff6a23c556d5f4b01710"
   },
   "docs/planning/github-index.md": {
     "mtime": 1789620926.5876315,
@@ -3324,10 +3324,10 @@
     "semantic_hash": "ea929080c31a27129141eab9e536f37e"
   },
   "phase-0/foundation/README.md": {
-    "mtime": 1789620939.8826265,
-    "seen": 1789626255.1450117,
+    "mtime": 1789971260.4602044,
+    "seen": 1789972259.300053,
     "ast_hash": "db7efe7723256417596f1e56d15a8afd",
-    "semantic_hash": "db7efe7723256417596f1e56d15a8afd"
+    "semantic_hash": "3ea4572125d8ad8a982206bfe3442942"
   },
   "phase-0/foundation/angel-review-v1/disposition.md": {
     "mtime": 1789620939.8921432,

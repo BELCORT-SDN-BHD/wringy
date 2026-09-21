@@ -1,6 +1,8 @@
-# Wringy 产品与投资基础稿
+# Wringy 产品与投资基础资料
 
-**开发交接入口（2026-09-15）：** [Content Rewards交接包](development-handoff-v1.md)。方向与业务规则已确认，Wayfinder已于2026-09-15按首发规划交接范围关闭。下方历史材料不覆盖最新默认规则与全栈方向。
+**当前入口：** [产品蓝图](../../docs/PRD.md)、[技术蓝图](../../docs/ARCHITECTURE.md)、[全阶段 specs / tickets](../../docs/planning/README.md)。后续 Wayfinder / to-spec 原位维护两份蓝图，具体数值仍由 [活动默认规则](campaign-defaults-v1.md)维护，不在本索引追加另一份当前状态。
+
+下方为历史基础材料及决策来源，保留原日期供追溯；“当前”“最新”“待定”仅描述当时状态，冲突以蓝图指向的较新接受决定为准。[2026-09-15 开发交接包](development-handoff-v1.md)记录 Content Rewards 规划结案，2026-09-16 全阶段 specs 替代其后续再细化安排；都不代表产品实现或验收完成。
 
 **2026-09-14最新执行顺序：** 先依据官方文档准备TikTok、Instagram／Meta、YouTube与付款接口、模拟数据及内部测试；真实授权和联调放在上线前，不阻塞设计及模拟开发。规格冻结审批独立保留；模拟成功不解除生产数据、资金和准入门槛。见[外部接口内部契约](external-interface-contracts-v1.md)。
 

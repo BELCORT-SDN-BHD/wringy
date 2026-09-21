@@ -1,5 +1,7 @@
 # 全阶段规格与开发任务
 
+长期共识从 [PRD](../PRD.md) 与 [Architecture](../ARCHITECTURE.md) 进入；本文及以下 specs 拥有阶段交付范围与详细验收。Wayfinder / to-spec 接受新决定后先按蓝图 frontmatter 原位更新，再调整 specs / tickets；不要把 ticket 历史复制进蓝图。
+
 当前共5份阶段规格、60张执行与验证票：56张开发/验证/运营任务，另有4张阶段实施规格签核记录。所有实施验收未执行。
 
 | 阶段 | 规格 | 任务数 |

@@ -1,13 +1,13 @@
-# 产品名字 — agent entry point
+# Wringy — agent entry point
 
-**一两句产品的HIGHEST VISION SENTENCES**
+Wringy helps merchants run clearly defined content-reward campaigns and creators earn rewards for verified eligible views, with review, appeals and traceable payouts. Content Rewards is the first release toward a broader creator-commerce platform; Malaysia is the first market, with international capabilities opened only when verified.
 
 ## The Harness menu — what you need, where the truth lives
 
 | Source | Responsibility | Read when |
 |---|---|---|
-| [PRD](docs/PRD.md) | Highest-level product blueprint: context, vision, users, problems, product behaviour, core journeys, scope, non-goals and success criteria | Understanding or changing what Clara should do and why |
-| [Architecture](docs/ARCHITECTURE.md) | Highest-level technical blueprint: stack and rationale, system boundaries, module responsibilities, dependencies, data flows and tradeoffs; distinguish implemented state from accepted target | Understanding or changing how Clara works |
+| [PRD](docs/PRD.md) | Highest-level product blueprint: context, vision, users, problems, product behaviour, core journeys, scope, non-goals and success criteria | Understanding or changing what Wringy should do and why; read its frontmatter maintenance contract |
+| [Architecture](docs/ARCHITECTURE.md) | Highest-level technical blueprint: stack and rationale, system boundaries, module responsibilities, dependencies, data flows and tradeoffs; distinguish implemented state from accepted target | Understanding or changing how Wringy works; read its frontmatter maintenance contract |
 | graphify | maps your entire project (code, docs, PDFs, images, videos) into a knowledge graph you can query instead of grepping through files. |
 | [Context](CONTEXT.md) | Shared accounting and product vocabulary | Naming concepts or resolving domain ambiguity |
 | [PROGRESS](docs/PROGRESS.md) | Minimal session state: current commit, verification, active work, known blockers and next steps | Starting, resuming or handing off a session |
@@ -24,8 +24,7 @@ instructions. Source code and deployment evidence establish what is actually imp
    build. Look up repository facts directly; ask the owner about unresolved product decisions.
 3. Check current official documentation, through Context7 or the vendor, before changing a stack
    integration. Installed versions and lockfiles describe this repository's dependencies.
-4. PRD and Architecture are blueprints, best to refreshs / update /adjust the possible stale sections only after 
-   Wayfinder or to-spec session when settles a product or technical decision and before to-tickets: overwrite the affected section (never append ticket history), keep each file's maintenance frame in its header, and mark accepted technical targets separately from current implementation. Resolve contradictions explicitly; keep detailed acceptance in the delivery spec.
+4. After Wayfinder or to-spec accepts a product or technical decision, refresh the affected PRD / Architecture sections before to-tickets. Read and preserve each file's YAML frontmatter (`required_focus` and `maintenance`); rewrite current sections instead of appending session or ticket history. Keep specific business values and algorithms in [campaign defaults](phase-0/foundation/campaign-defaults-v1.md), detailed acceptance in the delivery spec, decision rationale in the spec / ADR, and execution evidence on the ticket. Resolve contradictions explicitly. Update implemented state only with code / test / deployment evidence; an accepted target is not an implemented capability. Git retains history.
 5. Push back with real examples: When you push back or recommend, include one real practice close to the case — a 
    company, product, or method you actually know (Linear, Shape Up, Figma), or better, one you can point to (a Mobbin 
    screenshot, a documentation link). Never invent or embellish one: if you know no close example, say so and argue 
