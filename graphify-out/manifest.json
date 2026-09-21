@@ -2334,10 +2334,10 @@
     "semantic_hash": "3bbd59872551743a1f9f6439e0cfbfbf"
   },
   "docs/PROGRESS.md": {
-    "mtime": 1789630809.6651535,
-    "seen": 1789636801.6524174,
+    "mtime": 1789979313.340113,
+    "seen": 1789979494.5750947,
     "ast_hash": "76eb845cd8433b107f4e626c371dc24b",
-    "semantic_hash": ""
+    "semantic_hash": "94e2e1f6df8b30dd73fce1c5cb445a7f"
   },
   "docs/adr/README.md": {
     "mtime": 1789971260.4588902,

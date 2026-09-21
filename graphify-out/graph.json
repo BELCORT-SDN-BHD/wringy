@@ -21,6 +21,22 @@
         "_origin": "semantic"
       },
       {
+        "id": "docs_progress_documentation_setup_delivery",
+        "label": "Documentation and Agent Setup Delivery",
+        "nodes": [
+          "docs_progress_pr_71_delivery",
+          "docs_progress_blueprint_maintenance",
+          "docs_progress_matt_pocock_installation",
+          "docs_progress_graphify_project_setup",
+          "docs_progress_owner_authorized_inclusion"
+        ],
+        "relation": "form",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1,
+        "source_file": "docs/PROGRESS.md",
+        "_origin": "semantic"
+      },
+      {
         "id": "approved_content_rewards_rules_chain",
         "label": "Approved Content Rewards rule chain: defaults -> PRD -> D01-D06 -> prototype flow",
         "nodes": [
@@ -84065,13 +84081,13 @@
     },
     {
       "id": "docs_progress_empty_state",
-      "label": "PROGRESS current state: project-local Matt Pocock skills installed on the documentation branch while the product runtime remains greenfield",
+      "label": "PROGRESS: product runtime remains greenfield; PRD and Architecture separate accepted targets from verified implementation",
       "_origin": "semantic",
       "community": 34,
-      "file_type": "document",
-      "norm_label": "progress current state: project-local matt pocock skills installed on the documentation branch while the product runtime remains greenfield",
+      "file_type": "concept",
+      "norm_label": "progress: product runtime remains greenfield; prd and architecture separate accepted targets from verified implementation",
       "source_file": "docs/PROGRESS.md",
-      "source_location": "Current State L3-L7"
+      "source_location": "Current State, line 5"
     },
     {
       "id": "argparse",
@@ -84877,6 +84893,66 @@
       "source_location": "L1-L3"
     },
     {
+      "id": "docs_progress_blueprint_maintenance",
+      "label": "Blueprint maintenance: preserve owner focus in frontmatter; replace affected sections after decisions; keep acceptance and ticket history elsewhere",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "concept",
+      "norm_label": "blueprint maintenance: preserve owner focus in frontmatter; replace affected sections after decisions; keep acceptance and ticket history elsewhere",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, line 11; Next Steps, line 32"
+    },
+    {
+      "id": "docs_progress_documentation_verification",
+      "label": "Documentation verified: valid YAML, 88 links, planning 5 specs / 60 tasks acyclic; no product runtime verification",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "concept",
+      "norm_label": "documentation verified: valid yaml, 88 links, planning 5 specs / 60 tasks acyclic; no product runtime verification",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, line 13"
+    },
+    {
+      "id": "docs_progress_graphify_project_setup",
+      "label": "Graphify 0.9.63 project Codex skill and official no-op hook discovered; Claude guards tested; hook trust pending and automatic host dispatch unverified",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "concept",
+      "norm_label": "graphify 0.9.63 project codex skill and official no-op hook discovered; claude guards tested; hook trust pending and automatic host dispatch unverified",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, line 17; Known Issues, line 26"
+    },
+    {
+      "id": "docs_progress_matt_pocock_installation",
+      "label": "Matt Pocock: 25 published skills for each agent, 74 files each verified upstream; duplicate Claude plugin disabled only in project settings",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "concept",
+      "norm_label": "matt pocock: 25 published skills for each agent, 74 files each verified upstream; duplicate claude plugin disabled only in project settings",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, lines 15-16"
+    },
+    {
+      "id": "docs_progress_next_implementation",
+      "label": "Next separate task: M1-01 / #2 implementation, with M4 / #15 feasibility parallel after checking dependencies; implementation not started",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "concept",
+      "norm_label": "next separate task: m1-01 / #2 implementation, with m4 / #15 feasibility parallel after checking dependencies; implementation not started",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "In Progress, line 22; Next Steps, line 33"
+    },
+    {
+      "id": "docs_progress_owner_authorized_inclusion",
+      "label": "Owner-approved orchestrator edits included verbatim: Claude Codex execution lane gpt-6-astra / medium and Codex-facing variant",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "concept",
+      "norm_label": "owner-approved orchestrator edits included verbatim: claude codex execution lane gpt-6-astra / medium and codex-facing variant",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, line 18"
+    },
+    {
       "id": "docs_agents_matt_pocock_license",
       "label": "Matt Pocock skills MIT License",
       "_origin": "semantic",
@@ -85017,34 +85093,14 @@
       "source_location": "Updating L48-L62"
     },
     {
-      "id": "docs_progress_matt_pocock_installation",
-      "label": "Completed: 25 published skills installed project-locally for Codex and Claude Code; existing managed plugin disabled only in project settings; 74 files per agent verified against upstream",
+      "id": "docs_progress_pr_71_delivery",
+      "label": "PR #71 consolidates blueprints, agent setup and owner edits; owner authorized merge; PR owns live merge/check status",
       "_origin": "semantic",
       "community": null,
       "file_type": "document",
-      "norm_label": "completed: 25 published skills installed project-locally for codex and claude code; existing managed plugin disabled only in project settings; 74 files per agent verified against upstream",
+      "norm_label": "pr #71 consolidates blueprints, agent setup and owner edits; owner authorized merge; pr owns live merge/check status",
       "source_file": "docs/PROGRESS.md",
-      "source_location": "Completed L9-L16"
-    },
-    {
-      "id": "docs_progress_next_implementation",
-      "label": "Next separate task remains M1-01 product implementation, with M4 feasibility able to proceed in parallel",
-      "_origin": "semantic",
-      "community": null,
-      "file_type": "document",
-      "norm_label": "next separate task remains m1-01 product implementation, with m4 feasibility able to proceed in parallel",
-      "source_file": "docs/PROGRESS.md",
-      "source_location": "Next Steps L28-L31"
-    },
-    {
-      "id": "docs_progress_preserved_unrelated_changes",
-      "label": "Known unrelated local changes remain preserved and excluded from the installation",
-      "_origin": "semantic",
-      "community": null,
-      "file_type": "document",
-      "norm_label": "known unrelated local changes remain preserved and excluded from the installation",
-      "source_file": "docs/PROGRESS.md",
-      "source_location": "Known Issues L22-L26"
+      "source_location": "Current State, line 6"
     }
   ],
   "links": [
@@ -123086,6 +123142,50 @@
       "weight": 1.0
     },
     {
+      "source": "docs_progress_empty_state",
+      "target": "docs_progress_next_implementation",
+      "relation": "conceptually_related_to",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "In Progress, line 22; Next Steps, line 33",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_graphify_project_setup",
+      "target": "docs_progress_documentation_verification",
+      "relation": "conceptually_related_to",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, line 17",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_matt_pocock_installation",
+      "target": "docs_progress_documentation_verification",
+      "relation": "conceptually_related_to",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, lines 15-16",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_pr_71_delivery",
+      "target": "docs_progress_empty_state",
+      "relation": "conceptually_related_to",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Current State, lines 5-6",
+      "weight": 1.0
+    },
+    {
       "source": "docs_publication_scope_document",
       "target": "docs_publication_scope_held_locally",
       "relation": "conceptually_related_to",
@@ -135186,39 +135286,6 @@
       "weight": 1.0
     },
     {
-      "source": "docs_progress_empty_state",
-      "target": "docs_progress_matt_pocock_installation",
-      "relation": "records",
-      "_origin": "semantic",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/PROGRESS.md",
-      "source_location": "Completed L9-L16",
-      "weight": 1.0
-    },
-    {
-      "source": "docs_progress_empty_state",
-      "target": "docs_progress_preserved_unrelated_changes",
-      "relation": "records",
-      "_origin": "semantic",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/PROGRESS.md",
-      "source_location": "Known Issues L22-L26",
-      "weight": 1.0
-    },
-    {
-      "source": "docs_progress_empty_state",
-      "target": "docs_progress_next_implementation",
-      "relation": "records",
-      "_origin": "semantic",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/PROGRESS.md",
-      "source_location": "Next Steps L28-L31",
-      "weight": 1.0
-    },
-    {
       "source": "agents_clock_in_clock_out",
       "target": "docs_progress_empty_state",
       "relation": "references",
@@ -146879,14 +146946,25 @@
       "weight": 1.0
     },
     {
-      "source": "docs_progress_matt_pocock_installation",
-      "target": "docs_agents_matt_pocock_skills_installation",
+      "source": "docs_progress_pr_71_delivery",
+      "target": "docs_progress_blueprint_maintenance",
       "relation": "references",
       "_origin": "semantic",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/PROGRESS.md",
-      "source_location": "L15-L16",
+      "source_location": "Current State, line 6; Completed, line 11",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_pr_71_delivery",
+      "target": "docs_progress_owner_authorized_inclusion",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Current State, line 6; Completed, line 18",
       "weight": 1.0
     },
     {
@@ -199052,6 +199130,17 @@
       "weight": 1.0
     },
     {
+      "source": "docs_progress_documentation_verification",
+      "target": "docs_progress_blueprint_maintenance",
+      "relation": "conceptually_related_to",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed, lines 11-13",
+      "weight": 1.0
+    },
+    {
       "source": "fg_v1_market_dosm_digital_economy_2024",
       "target": "crb_v9_source_ledger_dosm_digital_economy_2024",
       "relation": "conceptually_related_to",
@@ -199728,6 +199817,22 @@
       "confidence": "EXTRACTED",
       "confidence_score": 0.95,
       "source_file": "docs/planning/tickets/m4-01.md",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_progress_documentation_setup_delivery",
+      "label": "Documentation and Agent Setup Delivery",
+      "nodes": [
+        "docs_progress_pr_71_delivery",
+        "docs_progress_blueprint_maintenance",
+        "docs_progress_matt_pocock_installation",
+        "docs_progress_graphify_project_setup",
+        "docs_progress_owner_authorized_inclusion"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "docs/PROGRESS.md",
       "_origin": "semantic"
     },
     {
