@@ -1,6 +1,6 @@
 ---
 name: orchestrator-fable
-description: The session orchestration workflow — the main model (Fable) is the orchestrator (the brain), workers are the hands. Use this on ANY substantive task in this repo — multi-step implementation, debugging, test fixing, refactoring, environment/build work, research, or pre-ship review — to plan the work, pick the most reliable available worker lane (Claude native subagents, or Codex via direct `codex exec`), delegate bounded work orders when parallelism or specialist-isolation helps, verify every result, and run cross-model review through the available native or Codex review lanes. Apply it whenever work is big enough to delegate, not only when the user says "orchestrate".
+description: The session orchestration workflow — the main model (Fable) is the orchestrator (the brain), workers are the hands. Use this on ANY substantive task in this repo — multi-step implementation, debugging, test fixing, refactoring, environment/build work, research, or pre-ship review — to plan the work, pick the most reliable available worker lane (Claude native subagents, or Codex via direct `codex exec`), delegate bounded work orders when parallelism or specialist-isolation helps, verify every result. Apply it whenever work is big enough to delegate, not only when the user says "orchestrate".
 ---
 
 # Orchestrator Fable — session orchestration workflow
