@@ -1649,12 +1649,6 @@
     "ast_hash": "d97e469fcf85310223e66305855c535e",
     "semantic_hash": "d97e469fcf85310223e66305855c535e"
   },
-  "phase-0/foundation/design-v3/product-fragments.json": {
-    "mtime": 1789620950.710971,
-    "seen": 1790025174.8456657,
-    "ast_hash": "",
-    "semantic_hash": ""
-  },
   "phase-0/foundation/design-v3/shared.py": {
     "mtime": 1789620950.7178228,
     "seen": 1789626255.1450117,

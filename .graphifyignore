@@ -16,3 +16,6 @@ graphify-out/20*/
 .agents/skills/
 # Codex hook configuration is also agent tooling, not product knowledge.
 .codex/
+# Zero-node data file: graphify classes it as code but its AST pass yields no nodes, so the commit hook stamps
+# its manifest hash and a full `graphify update .` clears it again, dirtying manifest.json after every run.
+phase-0/foundation/design-v3/product-fragments.json
