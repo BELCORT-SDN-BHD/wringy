@@ -4996,5 +4996,17 @@
     "seen": 1789636801.6614108,
     "ast_hash": "844a5b4ee74cc3f7425b37daa9d89ef1",
     "semantic_hash": "844a5b4ee74cc3f7425b37daa9d89ef1"
+  },
+  "docs/agents/matt-pocock-skills.md": {
+    "mtime": 1789973080.1159172,
+    "seen": 1789973266.251083,
+    "ast_hash": "",
+    "semantic_hash": "325fd87db207e73f6c4ae52a9e6ee593"
+  },
+  "docs/agents/matt-pocock-LICENSE.txt": {
+    "mtime": 1789972876.507074,
+    "seen": 1789973266.251083,
+    "ast_hash": "",
+    "semantic_hash": "a1d7928c55a5ecdd70e8b1946d0ca7a0"
   }
 }

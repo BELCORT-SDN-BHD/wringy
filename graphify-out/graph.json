@@ -453,6 +453,25 @@
         "_origin": "semantic"
       },
       {
+        "id": "matt_pocock_project_installation_bundle_20260921",
+        "label": "Pinned project-local Matt Pocock skill installation: published bundle, dual destinations, repository reuse, guarded updates and MIT license",
+        "nodes": [
+          "docs_agents_matt_pocock_skills_installation",
+          "docs_agents_matt_pocock_skills_pinned_bundle",
+          "docs_agents_matt_pocock_skills_dual_destination",
+          "docs_agents_matt_pocock_skills_plugin_boundary",
+          "docs_agents_matt_pocock_skills_repository_reuse",
+          "docs_agents_matt_pocock_skills_update_protocol",
+          "docs_agents_matt_pocock_license"
+        ],
+        "relation": "form",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "docs/agents/matt-pocock-skills.md",
+        "source_location": "frontmatter L1-L12; body L14-L61",
+        "_origin": "semantic"
+      },
+      {
         "id": "phase0_foundation_source_chain",
         "label": "Phase-0 foundation source chain cited by every stage spec (intent -> blueprint -> PRD/defaults -> full-stack/architecture -> stage spec)",
         "nodes": [
@@ -57681,21 +57700,6 @@
       "source_url": null
     },
     {
-      "id": "docs_progress_empty_state",
-      "label": "docs/PROGRESS.md: empty session-state template (current state, completed, in progress, known issues, next steps)",
-      "_origin": "semantic",
-      "author": null,
-      "captured_at": null,
-      "community": 34,
-      "community_name": "Working protocol for grounded decisions, evidence, blueprint maintenance and GitHub governance",
-      "contributor": null,
-      "file_type": "document",
-      "norm_label": "docs/progress.md: empty session-state template (current state, completed, in progress, known issues, next steps)",
-      "source_file": "docs/PROGRESS.md",
-      "source_location": "L1-L18",
-      "source_url": null
-    },
-    {
       "id": "prototype_readme_ready_for_agent_label",
       "label": "ready-for-agent label is not a completion marker; unblock only when prior output is usable",
       "_origin": "semantic",
@@ -84060,6 +84064,16 @@
       "source_location": "L20-L41"
     },
     {
+      "id": "docs_progress_empty_state",
+      "label": "PROGRESS current state: project-local Matt Pocock skills installed on the documentation branch while the product runtime remains greenfield",
+      "_origin": "semantic",
+      "community": 34,
+      "file_type": "document",
+      "norm_label": "progress current state: project-local matt pocock skills installed on the documentation branch while the product runtime remains greenfield",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Current State L3-L7"
+    },
+    {
       "id": "argparse",
       "label": "argparse",
       "_origin": "semantic",
@@ -84861,6 +84875,176 @@
       "norm_label": "readme \u2014 wringy content rewards, malaysia first, english/bahasa melayu/simplified chinese ui",
       "source_file": "README.md",
       "source_location": "L1-L3"
+    },
+    {
+      "id": "docs_agents_matt_pocock_license",
+      "label": "Matt Pocock skills MIT License",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "matt pocock skills mit license",
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "L1-L20"
+    },
+    {
+      "id": "docs_agents_matt_pocock_license_disclaimer",
+      "label": "MIT software is provided without warranty and limits author/copyright-holder liability",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "mit software is provided without warranty and limits author/copyright-holder liability",
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "Disclaimer L15-L20"
+    },
+    {
+      "id": "docs_agents_matt_pocock_license_notice",
+      "label": "MIT condition requires retaining the copyright and permission notice in substantial copies",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "mit condition requires retaining the copyright and permission notice in substantial copies",
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "Condition L12-L13"
+    },
+    {
+      "id": "docs_agents_matt_pocock_license_permission",
+      "label": "MIT grant permits use, copy, modification, merge, publication, distribution, sublicensing and sale",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "mit grant permits use, copy, modification, merge, publication, distribution, sublicensing and sale",
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "Permission L5-L10"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_configuration_boundary",
+      "label": "AGENTS.md, CLAUDE.md, orchestrator-fable skills and hooks were not changed; the only settings change is the project-scoped plugin disablement",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "agents.md, claude.md, orchestrator-fable skills and hooks were not changed; the only settings change is the project-scoped plugin disablement",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L19-L21; L31-L33; L37-L41; Updating L54-L56"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_dual_destination",
+      "label": "Project-local byte-identical copies for Codex in .agents/skills and Claude Code in .claude/skills",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "project-local byte-identical copies for codex in .agents/skills and claude code in .claude/skills",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L8-L10; L16-L21"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_installation",
+      "label": "Matt Pocock skills project-installation record",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "matt pocock skills project-installation record",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L1-L12; title L14"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_invocation",
+      "label": "Skills are invoked explicitly; new sessions may be required for discovery, and installation executes no scripts, hooks or product tickets",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "skills are invoked explicitly; new sessions may be required for discovery, and installation executes no scripts, hooks or product tickets",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L43-L46"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_license_reference",
+      "label": "Vendored Matt Pocock skill files are covered by the upstream MIT license",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "vendored matt pocock skill files are covered by the upstream mit license",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L64-L64"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_pinned_bundle",
+      "label": "Published bundle: 25 skills from mattpocock/skills 1.2.3 at revision c55ee46073ed923f86ce59a5eb3b6d895095d1b7",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "published bundle: 25 skills from mattpocock/skills 1.2.3 at revision c55ee46073ed923f86ce59a5eb3b6d895095d1b7",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L2-L7; bundle L16-L27"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_plugin_boundary",
+      "label": "No managed plugin was added: the existing Matt Pocock Claude plugin is disabled only for this project to prevent duplicate loading; its installation, global state and other settings remain",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "no managed plugin was added: the existing matt pocock claude plugin is disabled only for this project to prevent duplicate loading; its installation, global state and other settings remain",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L19-L21; Updating L58-L62"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_repository_reuse",
+      "label": "Installation reuses Wringy's GitHub tracker, five triage labels and single-context domain layout",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "installation reuses wringy's github tracker, five triage labels and single-context domain layout",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "Repository setup L35-L41"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_selection_scope",
+      "label": "Published plugin manifest selects the 25 installed skills; upstream in-progress and misc directories are excluded",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "published plugin manifest selects the 25 installed skills; upstream in-progress and misc directories are excluded",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L6-L7; L23-L33"
+    },
+    {
+      "id": "docs_agents_matt_pocock_skills_update_protocol",
+      "label": "Update protocol: pin and review a new commit, stage manifest-selected paths, compare, replace only bundle directories, verify Git blob hashes, then update header and list",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "update protocol: pin and review a new commit, stage manifest-selected paths, compare, replace only bundle directories, verify git blob hashes, then update header and list",
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "Updating L48-L62"
+    },
+    {
+      "id": "docs_progress_matt_pocock_installation",
+      "label": "Completed: 25 published skills installed project-locally for Codex and Claude Code; existing managed plugin disabled only in project settings; 74 files per agent verified against upstream",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "completed: 25 published skills installed project-locally for codex and claude code; existing managed plugin disabled only in project settings; 74 files per agent verified against upstream",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed L9-L16"
+    },
+    {
+      "id": "docs_progress_next_implementation",
+      "label": "Next separate task remains M1-01 product implementation, with M4 feasibility able to proceed in parallel",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "next separate task remains m1-01 product implementation, with m4 feasibility able to proceed in parallel",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Next Steps L28-L31"
+    },
+    {
+      "id": "docs_progress_preserved_unrelated_changes",
+      "label": "Known unrelated local changes remain preserved and excluded from the installation",
+      "_origin": "semantic",
+      "community": null,
+      "file_type": "document",
+      "norm_label": "known unrelated local changes remain preserved and excluded from the installation",
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Known Issues L22-L26"
     }
   ],
   "links": [
@@ -113002,6 +113186,17 @@
       "weight": 1.0
     },
     {
+      "source": "docs_agents_matt_pocock_skills_pinned_bundle",
+      "target": "docs_agents_matt_pocock_skills_selection_scope",
+      "relation": "bounded_by",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L23-L33",
+      "weight": 1.0
+    },
+    {
       "source": "docs_agents_domain_grill_with_docs_skill",
       "target": "docs_agents_domain_domain_modeling_skill",
       "relation": "calls",
@@ -125905,6 +126100,39 @@
       "weight": 1.0
     },
     {
+      "source": "docs_agents_matt_pocock_license",
+      "target": "docs_agents_matt_pocock_license_notice",
+      "relation": "contains",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "Condition L12-L13",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_license",
+      "target": "docs_agents_matt_pocock_license_disclaimer",
+      "relation": "contains",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "Disclaimer L15-L20",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_license",
+      "target": "docs_agents_matt_pocock_license_permission",
+      "relation": "contains",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-LICENSE.txt",
+      "source_location": "Permission L5-L10",
+      "weight": 1.0
+    },
+    {
       "source": "docs_architecture_greenfield_placeholder",
       "target": "docs_architecture_stack",
       "relation": "contains",
@@ -126122,6 +126350,17 @@
       "confidence_score": 1.0,
       "source_file": "docs/ARCHITECTURE.md",
       "source_location": "section 1, L32-L42",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_invocation",
+      "relation": "documents",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L43-L46",
       "weight": 1.0
     },
     {
@@ -129535,6 +129774,17 @@
       "weight": 1.0
     },
     {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_update_protocol",
+      "relation": "maintained_by",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "Updating L48-L62",
+      "weight": 1.0
+    },
+    {
       "source": "context_claim",
       "target": "context_reservation",
       "relation": "may_create",
@@ -129598,6 +129848,17 @@
       "confidence_score": 1.0,
       "source_file": "docs/planning/README.md",
       "source_location": "stage table L7-L13",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_update_protocol",
+      "target": "docs_agents_matt_pocock_skills_configuration_boundary",
+      "relation": "protects",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L54-L56",
       "weight": 1.0
     },
     {
@@ -134892,6 +135153,72 @@
       "weight": 1.0
     },
     {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_plugin_boundary",
+      "relation": "records",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L19-L21; L58-L62",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_pinned_bundle",
+      "relation": "records",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L1-L12; L16-L27",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_dual_destination",
+      "relation": "records",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L8-L10; L16-L21",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_empty_state",
+      "target": "docs_progress_matt_pocock_installation",
+      "relation": "records",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Completed L9-L16",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_empty_state",
+      "target": "docs_progress_preserved_unrelated_changes",
+      "relation": "records",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Known Issues L22-L26",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_empty_state",
+      "target": "docs_progress_next_implementation",
+      "relation": "records",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "Next Steps L28-L31",
+      "weight": 1.0
+    },
+    {
       "source": "agents_clock_in_clock_out",
       "target": "docs_progress_empty_state",
       "relation": "references",
@@ -139883,6 +140210,50 @@
       "confidence_score": 1.0,
       "source_file": "docs/agents/issue-tracker.md",
       "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_license_reference",
+      "target": "docs_agents_matt_pocock_license",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L64-L64",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_repository_reuse",
+      "target": "docs_agents_issue_tracker_github_issues",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L37-L37",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_repository_reuse",
+      "target": "docs_agents_domain_single_context_layout",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L37-L39",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_repository_reuse",
+      "target": "docs_agents_triage_labels_mapping",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L37-L39",
       "weight": 1.0
     },
     {
@@ -146505,6 +146876,17 @@
       "confidence_score": 1.0,
       "source_file": "docs/PRD.md",
       "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_progress_matt_pocock_installation",
+      "target": "docs_agents_matt_pocock_skills_installation",
+      "relation": "references",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/PROGRESS.md",
+      "source_location": "L15-L16",
       "weight": 1.0
     },
     {
@@ -182148,6 +182530,28 @@
       "weight": 1.0
     },
     {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_configuration_boundary",
+      "relation": "respects",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "L19-L21; L31-L33; L37-L41",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_matt_pocock_skills_installation",
+      "target": "docs_agents_matt_pocock_skills_repository_reuse",
+      "relation": "reuses",
+      "_origin": "semantic",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "Repository setup L35-L41",
+      "weight": 1.0
+    },
+    {
       "source": "docs_prd_authority_map",
       "target": "docs_planning_readme_delivery_authority",
       "relation": "routes_acceptance_to",
@@ -199756,6 +200160,25 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/planning/tickets/m5-07.md",
+      "_origin": "semantic"
+    },
+    {
+      "id": "matt_pocock_project_installation_bundle_20260921",
+      "label": "Pinned project-local Matt Pocock skill installation: published bundle, dual destinations, repository reuse, guarded updates and MIT license",
+      "nodes": [
+        "docs_agents_matt_pocock_skills_installation",
+        "docs_agents_matt_pocock_skills_pinned_bundle",
+        "docs_agents_matt_pocock_skills_dual_destination",
+        "docs_agents_matt_pocock_skills_plugin_boundary",
+        "docs_agents_matt_pocock_skills_repository_reuse",
+        "docs_agents_matt_pocock_skills_update_protocol",
+        "docs_agents_matt_pocock_license"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/agents/matt-pocock-skills.md",
+      "source_location": "frontmatter L1-L12; body L14-L61",
       "_origin": "semantic"
     },
     {
