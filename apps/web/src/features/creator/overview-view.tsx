@@ -10,7 +10,15 @@
  */
 
 import Link from 'next/link';
-import { ArrowRight, Bell, FileVideo, HandCoins, UserRound, Wallet } from 'lucide-react';
+import {
+  ArrowRight,
+  Bell,
+  FileVideo,
+  HandCoins,
+  TriangleAlert,
+  UserRound,
+  Wallet,
+} from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -353,7 +361,12 @@ function SummaryCard({
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {children}
-        {hint ? <p className="text-attention-foreground text-xs break-words">{hint}</p> : null}
+        {hint ? (
+          <p className="text-attention-foreground flex items-start gap-1.5 text-xs break-words">
+            <TriangleAlert aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+            {hint}
+          </p>
+        ) : null}
         <div className="flex">
           <Button asChild variant="outline" size="sm">
             <Link href={action.href}>

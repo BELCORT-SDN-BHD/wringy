@@ -52,6 +52,7 @@ import {
 } from '@/components/ui/select';
 import type { Obligation, PayoutAttempt } from '@/domain/types';
 import { formatDateTime, formatSen } from '@/lib/format';
+import { reconcileOutcomeLabel } from '@/lib/reason-copy';
 import { useAppLocale } from '@/lib/use-app-locale';
 import { useDemoSnapshot } from '@/store/demo-store';
 import {
@@ -451,7 +452,8 @@ export function OpsPayoutView({ id }: { id: string }) {
                       </span>
                       <span className="flex flex-wrap items-center gap-1">
                         {t('startedAt')} <DateTimeText iso={attempt.startedAt} hideOffset /> ·{' '}
-                        {t('startedBy')} {actorName(state, attempt.startedBy)}
+                        {t('startedBy')}{' '}
+                        {actorName(state, attempt.startedBy, tShared('actorNoIdentity'))}
                       </span>
                       <span className="flex flex-wrap items-center gap-1">
                         {t('resolvedAt')} <DateTimeText iso={attempt.resolvedAt} hideOffset />
@@ -470,10 +472,13 @@ export function OpsPayoutView({ id }: { id: string }) {
                             <span key={`${attempt.id}-rec-${index}`} className="break-words">
                               <DateTimeText iso={record.at} hideOffset /> ·{' '}
                               {t('reconciliationRow', {
-                                outcome: t(`reconcileOutcome.${record.outcome}`),
+                                outcome: reconcileOutcomeLabel(record.outcome, tCommon),
                                 note: record.note,
                               })}{' '}
-                              · {tCommon('timeline.by', { actor: actorName(state, record.by) })}
+                              ·{' '}
+                              {tCommon('timeline.by', {
+                                actor: actorName(state, record.by, tShared('actorNoIdentity')),
+                              })}
                             </span>
                           ))
                         )}
@@ -521,6 +526,7 @@ function ReconcilePanel({
 }) {
   const t = useTranslations('ops.payout');
   const tShared = useTranslations('ops.shared');
+  const tCommon = useTranslations('common');
   const [outcome, setOutcome] = useState<ReconcileOutcome>('still_unknown');
 
   return (
@@ -556,7 +562,7 @@ function ReconcilePanel({
             <SelectContent>
               {RECONCILE_OUTCOMES.map((option) => (
                 <SelectItem key={option} value={option} data-outcome={option}>
-                  {t(`reconcileOutcome.${option}`)}
+                  {reconcileOutcomeLabel(option, tCommon)}
                 </SelectItem>
               ))}
             </SelectContent>

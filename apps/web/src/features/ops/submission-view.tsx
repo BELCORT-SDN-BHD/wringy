@@ -17,7 +17,7 @@
  */
 
 import Link from 'next/link';
-import { FileVideo, RefreshCw } from 'lucide-react';
+import { CircleCheck, CircleQuestionMark, FileVideo, RefreshCw } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -308,7 +308,7 @@ export function OpsSubmissionView({ submissionId }: { submissionId: string }) {
                       <TableCell>
                         {snapshot.missingReason !== null &&
                         MISSING_REASONS.includes(snapshot.missingReason)
-                          ? t(`missing.${snapshot.missingReason}`)
+                          ? tCommon(`missingReason.${snapshot.missingReason}`)
                           : tCommon('state.notApplicable')}
                       </TableCell>
                       <TableCell>
@@ -316,10 +316,15 @@ export function OpsSubmissionView({ submissionId }: { submissionId: string }) {
                           variant="outline"
                           className={
                             snapshot.trusted
-                              ? 'bg-success-subtle text-success-foreground border-transparent'
-                              : 'bg-inactive-subtle text-inactive-foreground border-transparent'
+                              ? 'bg-success-subtle text-success-foreground gap-1 border-transparent'
+                              : 'bg-inactive-subtle text-inactive-foreground gap-1 border-transparent'
                           }
                         >
+                          {snapshot.trusted ? (
+                            <CircleCheck aria-hidden="true" />
+                          ) : (
+                            <CircleQuestionMark aria-hidden="true" />
+                          )}
                           {snapshot.trusted ? t('trustedYes') : t('trustedNo')}
                         </Badge>
                       </TableCell>
@@ -384,7 +389,7 @@ export function OpsSubmissionView({ submissionId }: { submissionId: string }) {
                   <Item key={extension.id} variant="outline" size="sm" className="items-start">
                     <ItemContent className="min-w-0">
                       <ItemTitle className="break-words">
-                        {t(`extensionReason.${extension.reason}`)}
+                        {tCommon(`extensionReason.${extension.reason}`)}
                       </ItemTitle>
                       <ItemDescription className="break-words">
                         {t('extensionRow', {
@@ -513,10 +518,15 @@ function ResyncPanel({
               variant="outline"
               className={
                 lastResync.failed
-                  ? 'bg-inactive-subtle text-inactive-foreground border-transparent'
-                  : 'bg-success-subtle text-success-foreground border-transparent'
+                  ? 'bg-inactive-subtle text-inactive-foreground gap-1 border-transparent'
+                  : 'bg-success-subtle text-success-foreground gap-1 border-transparent'
               }
             >
+              {lastResync.failed ? (
+                <CircleQuestionMark aria-hidden="true" />
+              ) : (
+                <CircleCheck aria-hidden="true" />
+              )}
               {lastResync.failed ? t('resultFailed') : t('resultOk')}
             </Badge>
           </p>

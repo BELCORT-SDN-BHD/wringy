@@ -126,6 +126,7 @@ function NotificationRow({ notification }: { notification: Notification }) {
   const tKinds = useTranslations('notifications.kinds');
   const tState = useTranslations('common.state');
   const tEmail = useTranslations('common.email');
+  const tCommon = useTranslations('common');
   const locale = useAppLocale();
   const dispatch = useDispatch();
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -137,6 +138,7 @@ function NotificationRow({ notification }: { notification: Notification }) {
     notification.params,
     locale,
     tState('unknown'),
+    tCommon,
   );
 
   const markRead = () => {
@@ -150,7 +152,8 @@ function NotificationRow({ notification }: { notification: Notification }) {
         <ItemTitle className="flex flex-wrap items-center gap-2">
           <span className="break-words">{tKinds(`${notification.kind}.title`)}</span>
           {unread ? (
-            <Badge className="bg-attention-subtle text-attention-foreground border-transparent">
+            <Badge className="bg-attention-subtle text-attention-foreground gap-1 border-transparent">
+              <Mail aria-hidden="true" />
               {t('unread')}
             </Badge>
           ) : null}

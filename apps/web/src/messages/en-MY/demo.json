@@ -14,7 +14,8 @@
     "toClaimDeadline": "Jump to claim deadline",
     "needsSubmission": "Choose a submission first.",
     "noTarget": "That submission has no date for this yet.",
-    "advanced": "Clock moved to {time}."
+    "advanced": "Clock moved to {time}.",
+    "targetPassed": "The simulated clock has already passed this target, and it only ever moves forward."
   },
   "role": {
     "title": "Identity",
@@ -33,10 +34,9 @@
     "add": "Add views",
     "added": "Added {count} qualified views.",
     "none": "No submission to meter yet.",
-    "scopeMine": "My submissions",
-    "scopeAll": "All submissions",
     "ignoredAfterMeteringEnd": "Nothing was added: the metering window has closed, so later views do not count.",
-    "ignoredSourceUnreachable": "The read failed because the source is unreachable. The last trusted number is kept."
+    "ignoredSourceUnreachable": "The read failed because the source is unreachable. The last trusted number is kept.",
+    "foreignNote": "None of these submissions belongs to the identity you are acting as, so a change here lands on another creator’s record and will not appear on your own pages."
   },
   "outage": {
     "title": "Data outage",
@@ -56,7 +56,7 @@
   },
   "payout": {
     "title": "Payout outcome",
-    "description": "Set the simulated provider result for an attempt that is processing or unknown.",
+    "description": "Set the simulated provider result for an attempt that is processing. An attempt that came back unknown is reconciled against the original transaction on the operations payout page, never re-decided here.",
     "succeeded": "Funds available",
     "failed": "Failed",
     "unknown": "Unknown",

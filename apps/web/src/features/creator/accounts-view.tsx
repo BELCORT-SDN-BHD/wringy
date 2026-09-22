@@ -20,6 +20,7 @@ import { DateTimeText } from '@/components/app/date-time-text';
 import { DIALOG_FIT_CLASS } from '@/components/app/dialog-fit';
 import { EmptyState } from '@/components/app/empty-state';
 import { CommandErrorAlert } from '@/components/app/error-state';
+import { DialogCloseIcon } from '@/components/app/close-icon-button';
 import { HydrationGate } from '@/components/app/hydration-gate';
 import { StatusBadge } from '@/components/app/status-badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -168,8 +169,9 @@ function ConnectionRow({ connection }: { connection: AccountConnection }) {
             {t('updatedLabel')}
             <DateTimeText iso={connection.updatedAt} hideOffset />
           </span>
-          {error ? <CommandErrorAlert code={error.code} detail={error.detail} /> : null}
         </ItemDescription>
+        {/* Outside ItemDescription: that is a <p>, and the alert is a <div role="alert">. */}
+        {error ? <CommandErrorAlert code={error.code} detail={error.detail} /> : null}
       </ItemContent>
       {connection.status === 'valid' ? null : (
         <ItemActions>
@@ -239,7 +241,8 @@ function ConnectDialog() {
           <span className="truncate">{t('connect')}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className={DIALOG_FIT_CLASS}>
+      <DialogContent className={DIALOG_FIT_CLASS} showCloseButton={false}>
+        <DialogCloseIcon />
         <DialogHeader>
           <DialogTitle>{t('connectTitle')}</DialogTitle>
           <DialogDescription>{t('connectDescription')}</DialogDescription>

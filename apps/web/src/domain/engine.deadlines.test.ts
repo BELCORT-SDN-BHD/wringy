@@ -403,3 +403,124 @@ describe('campaign closure', () => {
     });
   });
 });
+
+describe('the claim deadline instant itself', () => {
+  /**
+   * campaign-defaults-v1.md 申请期限 names the instant ("正常9月15日12:00申请截止") and
+   * the metering-ended copy promises "you can still claim until {claimDeadlineAt}",
+   * so the deadline is inclusive. The "claims are closed" notice therefore has to go
+   * out strictly after it, or it would contradict a claim the creator can still file
+   * at that very instant.
+   */
+  /** Notices about THIS submission; the seed has another creator's post too. */
+  function passedNotices(harness: Harness, submissionId: string): number {
+    return Object.values(harness.state.notifications).filter(
+      (entry) =>
+        entry.kind === 'deadline.claim_deadline_passed' &&
+        entry.params.submissionId === submissionId,
+    ).length;
+  }
+
+  it('is still inside the window: no notice, and the claim succeeds', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    const deadline = selectSubmissionDeadlines(harness.state, submissionId)
+      ?.effectiveClaimDeadlineAt;
+    expect(deadline).toBe('2026-09-15T12:00:00+08:00');
+
+    harness.ok({ type: 'demo.setClock', toIso: deadline as string });
+    expect(passedNotices(harness, submissionId)).toBe(0);
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      claimWindowOpen: true,
+      canClaim: true,
+      blockReason: null,
+    });
+    expect(harness.ok({ type: 'claim.request', submissionId }).outcome).toBe('claim');
+  });
+
+  it('is closed one millisecond later, and says so', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    harness.ok({ type: 'demo.setClock', toIso: '2026-09-15T12:00:00.001+08:00' });
+    expect(passedNotices(harness, submissionId)).toBe(1);
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      claimWindowOpen: false,
+      canClaim: false,
+      blockReason: 'claim_deadline_passed',
+    });
+    harness.fail({ type: 'claim.request', submissionId }, 'claim_deadline_passed');
+  });
+});
+
+describe('an extension needs a block that actually blocked something', () => {
+  /**
+   * campaign-defaults-v1.md 申请期限: the extra grace exists "平台数据故障或同视频既有
+   * 待审／申诉阻挡新增申请时…阻挡解除后仍有完整公布宽限". A block that started and cleared
+   * in the same instant blocked nothing, and moving a published deadline for it is
+   * the "暗中无限延期" D04 forbids.
+   */
+  it('grants nothing for an outage of zero duration', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    harness.ok({ type: 'demo.advanceClock', byMs: 9 * DAY_MS }); // past the metering end
+    harness.ok({ type: 'demo.setDataOutage', submissionId, outage: true });
+    harness.ok({ type: 'demo.setDataOutage', submissionId, outage: false });
+
+    const deadlines = selectSubmissionDeadlines(harness.state, submissionId);
+    expect(deadlines?.extensions).toHaveLength(0);
+    expect(deadlines?.effectiveClaimDeadlineAt).toBe('2026-09-15T12:00:00+08:00');
+    expect(
+      Object.values(harness.state.notifications).filter(
+        (entry) => entry.kind === 'deadline.claim_deadline_extended',
+      ),
+    ).toHaveLength(0);
+  });
+
+  it('still grants the published grace for an outage that ran across the metering end', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    harness.ok({ type: 'demo.advanceClock', byMs: 2 * DAY_MS }); // 2026-09-03
+    harness.ok({ type: 'demo.setDataOutage', submissionId, outage: true });
+    harness.ok({ type: 'demo.advanceClock', byMs: 6 * DAY_MS }); // 2026-09-09
+    harness.ok({ type: 'demo.setDataOutage', submissionId, outage: false });
+
+    const deadlines = selectSubmissionDeadlines(harness.state, submissionId);
+    expect(deadlines?.extensions).toHaveLength(1);
+    expect(deadlines?.extensions[0]).toMatchObject({
+      reason: 'data_outage',
+      blockedFrom: '2026-09-03T12:00:00+08:00',
+      unblockedAt: '2026-09-09T12:00:00+08:00',
+      newDeadlineAt: '2026-09-16T12:00:00+08:00',
+    });
+  });
+});
+
+describe('the retention end names which of the four points decided it', () => {
+  /**
+   * D04 lists four terminal points ("保留至公布保留期、该视频适用申请截止、已提交申请／申诉
+   * 处理完成、已确认款项发放完成四者的较晚点"), so the label has to be able to name all
+   * four. A settlement that completes after the published period is not "the
+   * published retention period".
+   */
+  it('names the settlement when a late payment decided the end', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    harness.ok({ type: 'claim.request', submissionId });
+    const claimId = latestClaim(harness.state, submissionId).id;
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    harness.ok({ type: 'session.switchWorkspace', workspace: 'merchant' });
+    harness.ok({ type: 'submission.reviewContent', submissionId, decision: 'approve', reason: null });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    harness.ok({ type: 'claim.reviewMetering', claimId, decision: 'approve', reason: null });
+
+    // Day 35: past the published 30-day retention end (2026-10-01).
+    harness.ok({ type: 'demo.advanceClock', byMs: 35 * DAY_MS });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsFinance });
+    const obligation = obligationOf(harness.state, claimId);
+    harness.ok({ type: 'payout.start', obligationId: obligation.id });
+    harness.ok({
+      type: 'demo.setPayoutOutcome',
+      attemptId: latestAttemptOf(harness.state, obligation.id).id,
+      outcome: 'succeeded',
+    });
+
+    const deadlines = selectSubmissionDeadlines(harness.state, submissionId);
+    expect(deadlines?.retentionEndsAt).toBe('2026-10-06T12:00:00+08:00');
+    expect(deadlines?.retentionReason).toBe('settlement');
+  });
+});

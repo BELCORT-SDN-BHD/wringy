@@ -54,9 +54,7 @@ export function CreatorClaimsView() {
 function Claims() {
   const t = useTranslations('creator.claims');
   const claims = useCreatorClaims();
-  const offers = useCreatorOffers().filter(
-    (offer) => offer.offer.status === 'open' || offer.offer.status === 'stale',
-  );
+  const offers = useCurrentOffers();
   const waitlist = useCreatorWaitlist();
 
   return (
@@ -84,7 +82,10 @@ function Claims() {
           <div className="flex flex-col gap-3" data-testid="offers-list">
             {offers.map((offer) => (
               <PartialOfferPanel
-                key={offer.offer.id}
+                // Keyed by submission, not by offer: asking for the amount again
+                // supersedes the offer in place, so the panel and its dialog follow
+                // the live quote instead of staying on the one that went stale.
+                key={offer.offer.submissionId}
                 offer={offer}
                 submissionId={offer.offer.submissionId}
               />
@@ -109,6 +110,25 @@ function Claims() {
   );
 }
 
+/**
+ * The offer still awaiting an answer, one per submission.
+ *
+ * `claim.request` invalidates the previous quote and mints a new one ("旧报价失效，重新
+ * 展示并取得同意"), so only the newest offer for a submission is a live question. The
+ * superseded ones stay in the record and in the audit trail, but listing them would
+ * show several panels for the same money.
+ */
+function useCurrentOffers() {
+  const offers = useCreatorOffers();
+  const bySubmission = new Map<string, (typeof offers)[number]>();
+  for (const offer of offers) {
+    if (offer.offer.status !== 'open' && offer.offer.status !== 'stale') continue;
+    // `selectOffersForCreator` sorts by minted id, so the last one wins.
+    bySubmission.set(offer.offer.submissionId, offer);
+  }
+  return [...bySubmission.values()];
+}
+
 function ClaimRowItem({ row }: { row: ClaimRow }) {
   const t = useTranslations('creator.claims');
   const { claim, campaign } = row;
@@ -125,6 +145,12 @@ function ClaimRowItem({ row }: { row: ClaimRow }) {
           <MoneyText sen={claim.amountSen} tabular />
           <StatusBadge group="claim" code={claim.status} />
           <StatusBadge group="metering" code={claim.meteringReview.status} />
+          {/*
+            The appeal outcome belongs in the row: a rejected appeal puts the claim
+            back into `rejected_appealable`, and the claim badge alone cannot say
+            whether an appeal is still to come, running, or already decided.
+          */}
+          {row.appeal ? <StatusBadge group="appeal" code={row.appeal.status} /> : null}
         </ItemTitle>
         <ItemDescription className="flex flex-col gap-1">
           <span className="break-words">{campaign?.title ?? claim.campaignId}</span>
@@ -155,6 +181,12 @@ function WaitlistRowItem({ row }: { row: WaitlistRow }) {
   const [error, setError] = useState<{ code: string; detail?: string } | null>(null);
   const { entry, campaign } = row;
 
+  /**
+   * A resubmit has the three outcomes `claim.request` has, and the engine returns
+   * which one happened. Below the minimum claim nothing is filed and nothing is
+   * reserved — the entry simply takes a new queue time — so saying "filed again"
+   * there would report a record that does not exist ("不能伪装成功").
+   */
   const resubmit = () => {
     const result = dispatch({ type: 'waitlist.resubmit', entryId: entry.id });
     if (!result.ok) {
@@ -162,6 +194,14 @@ function WaitlistRowItem({ row }: { row: WaitlistRow }) {
       return;
     }
     setError(null);
+    if (result.outcome === 'waitlisted') {
+      toast.info(t('resubmitStillWaitingToast'));
+      return;
+    }
+    if (result.outcome === 'partial_offer') {
+      toast.info(t('resubmitOfferToast'));
+      return;
+    }
     toast.success(t('resubmitToast'));
   };
 
@@ -199,8 +239,9 @@ function WaitlistRowItem({ row }: { row: WaitlistRow }) {
               </span>
             ) : null}
           </span>
-          {error ? <CommandErrorAlert code={error.code} detail={error.detail} /> : null}
         </ItemDescription>
+        {/* Outside ItemDescription: that is a <p>, and the alert is a <div role="alert">. */}
+        {error ? <CommandErrorAlert code={error.code} detail={error.detail} /> : null}
       </ItemContent>
       <ItemActions className="flex-col items-stretch gap-2 sm:flex-row sm:items-center">
         <Button asChild variant="ghost" size="sm">

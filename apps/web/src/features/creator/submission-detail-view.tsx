@@ -347,6 +347,8 @@ function ClaimsOnSubmission({ view }: { view: SubmissionView }) {
 
 function retentionReasonKey(reason: string): string {
   if (reason === 'claim_deadline') return 'retentionReasonClaimDeadline';
+  if (reason === 'case_resolved') return 'retentionReasonCaseResolved';
+  if (reason === 'settlement') return 'retentionReasonSettlement';
   if (reason === 'open_cases') return 'retentionReasonOpenCases';
   if (reason === 'confirmed_unpaid') return 'retentionReasonConfirmedUnpaid';
   return 'retentionReasonPublished';

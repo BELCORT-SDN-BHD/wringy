@@ -78,8 +78,11 @@ Two things to try before moving on:
 
 - Set the **minimum claim** to 200 and press Save. It is refused: a minimum above the cap can never
   be paid. Set it back to 5.
-- Set the **view threshold** to 100,000 and the **cap** to 50. This is allowed, and the page states
-  the capped amount, so a creator can see that reaching the threshold still pays at most RM50.
+- Set the **view threshold** to 100,000 and the **cap** to 50. This is allowed, and the editor states
+  the capped amount straight away: "At 100,000 qualified views the reward is capped at RM 50.00".
+  Save it, and the same sentence appears on the **Preview** in the next step and on the public
+  campaign page — that rule sheet is literally the component a creator reads, so reaching the
+  threshold visibly still pays at most RM50.
 
 ### 2. Preview the rules, then publish
 
@@ -126,8 +129,8 @@ confirmed amount are labelled separately, and the last trusted read time is show
 Press **Claim**. Confirm the exact amount. The claim is reserved and takes a queue position. Watch:
 
 - the buckets move to **1,995 / 5 / 0 / 0**;
-- pressing Claim again does nothing new — one pending claim per submission, and a repeated press
-  replays rather than reserving twice;
+- pressing Claim again does nothing new — one pending claim per submission, so the second press is
+  refused with "a claim for this submission is already pending" rather than reserving twice;
 - the merchant and operations both see the same claim as reserved and awaiting review.
 
 ### 6. Both reviews pass, then finance pays
@@ -203,13 +206,23 @@ and the appeal deadline is shown. **Click:** file an appeal with a reason. The c
 **blocked** while the appeal is open — the release is a check, never a timer. Uphold the appeal and
 the check continues with the same queue position and the same amount; nothing closes itself.
 
+**Worth going off-script here.** Once the appeal is upheld the claim is back in review, so reject it
+a second time. The second rejection is a decision of its own: it carries a fresh 7-day window, the
+creator can appeal it, and after the window operations can release the reservation — the queue lists
+it as work to finalise. Then advance past the window, finalise, and look at the creator's page: the
+RM5 is back in the pool, and the same 1,000 views cannot be claimed again, because that amount has
+already been through the process. New qualified views can.
+
 ### payout_unknown
 
 A payout attempt whose result the simulated provider never returned.
 
 **Look at:** there is **no "pay again" button**, and the page says why. The only actions are viewing
-the original attempt and reconciling against it. **Click:** Reconcile → "still unknown" and watch it
-recorded without inventing an outcome.
+the original attempt and reconciling against it — including in the demo tools, which list only
+attempts the simulated provider has not answered yet, so an unknown attempt is not offered an outcome
+there either. **Click:** Reconcile → "still unknown" and watch it recorded without inventing an
+outcome. The reconciliation reads as a sentence on the creator's own payment record too, in whichever
+language is selected.
 
 ### payout_failed
 
@@ -243,8 +256,11 @@ Operations reads the same verdict at `/ops/campaigns/<id>/readiness`.
 A submission whose source cannot be read right now.
 
 **Look at:** the last trusted number and its time are kept. Nothing shows 0 views and nothing treats
-the gap as fraud. **Click:** as operations, request a re-sync with a reason and watch it recorded.
-Turn the outage off in the demo tools and the next read succeeds again.
+the gap as fraud. The claim button is disabled while the source is unreadable, with the reason on the
+page: a valid claim needs verifiable data, and an unreadable source must not put a claim into the
+reserved queue. **Click:** as operations, request a re-sync with a reason and watch it recorded.
+Turn the outage off in the demo tools and the next read succeeds again — and the claim becomes
+possible again. That is also the block the `deadline_extension` grace is granted for.
 
 ## Switching roles
 

@@ -12,8 +12,9 @@ a production control, and M3 has to re-verify every money rule in a server trans
 | | |
 |---|---|
 | Executed | 2026-09-22 |
+| Re-executed | 2026-09-22, after the wave-4 adversarial review (see "Wave 4" below) |
 | Branch | `feat/m1-prototype` |
-| Executed by | agent run, wave 3 (the integration worker) |
+| Executed by | agent run, wave 3 (the integration worker); re-run by the wave-4 fix worker |
 | Browser engine | Chromium only, via `devices['Desktop Chrome']` (`@playwright/test` 1.63.0) |
 | Viewports | `mobile` 390×844, `desktop` 1440×900, `small` 320×568 |
 | Runtime | Node 20.19.5, pnpm 10.33.0, Next 16.3.5 |
@@ -30,8 +31,8 @@ Supporting suites, run on the same commit:
 
 | Suite | Command | Result |
 |---|---|---|
-| Engine and copy catalogue | `pnpm --filter web test` | 267 passed, 0 failed, 21 files |
-| Whole end-to-end suite | `pnpm --filter web e2e` | **306 passed, 33 skipped, 0 failed**, 4.0 min |
+| Engine and copy catalogue | `pnpm --filter web test` | 297 passed, 0 failed, 23 files |
+| Whole end-to-end suite | `pnpm --filter web e2e` | **312 passed, 33 skipped, 0 failed**, 4.7 min |
 | Lint | `pnpm --filter web lint` | clean |
 | Types | `pnpm --filter web typecheck` | clean |
 | Production build | `pnpm --filter web build` | succeeds, 36 routes, all `ƒ (Dynamic)` |
@@ -40,9 +41,9 @@ The end-to-end totals per Playwright project:
 
 | Project | Viewport | Passed | Skipped | Failed |
 |---|---|---|---|---|
-| `mobile` | 390×844 | 108 | 5 | 0 |
-| `desktop` | 1440×900 | 108 | 5 | 0 |
-| `small` | 320×568 | 90 | 23 | 0 |
+| `mobile` | 390×844 | 110 | 5 | 0 |
+| `desktop` | 1440×900 | 110 | 5 | 0 |
+| `small` | 320×568 | 92 | 23 | 0 |
 
 All 33 skips are deliberate viewport scoping, not unfinished work: 29 are the acceptance split
 described above, and 4 pre-date this run — `merchant.spec.ts` › "the editor keeps its primary action
@@ -77,7 +78,12 @@ read in all three roles and matched.
 RM100, 7-day metering, 7-day grace) and the service fee reads "pending configuration, not charged in
 demo" rather than a number. A minimum claim above the cap is refused with a readable summary. A view
 threshold of 100,000 with a cap of RM50 is accepted and the capped amount is explained. The preview
-states the same numbers the editor holds.
+states the same numbers the editor holds **and the same derived sentence** — "At 100,000 qualified
+views the reward is capped at RM 50.00" — because the arithmetic now lives in one engine function
+(`capAtThreshold`) that both the editor's live alert and the shared rule sheet render from. The rule
+sheet is literally the component the public campaign page and the creator's submit page render, so a
+creator reads the capped amount too, which is what campaign-defaults asks
+("必须明确展示'达10万观看，奖励封顶RM100'"). Until wave 4 only the editor stated it.
 
 - Spec: `acceptance.spec.ts` › "P02 the configuration is clear and validated"
 - Evidence: `screenshots/p02-390.png`, `screenshots/p02-1440.png`,
@@ -99,6 +105,11 @@ password or one-time-code control at all.
 **PASS.** No upload entry anywhere and no `input[type=file]` in the document. The same post link
 submitted again is refused with `duplicate_post` and exactly one submission remains stored. With the
 source unreadable, the last trusted number and its time are kept and the page never shows 0 views.
+A submission that never had a trusted reading at all now reports its money as **unknown** rather than
+RM 0.00, and the cap progress bar is replaced by the cap figure alone: localization-v1 keeps a known
+zero, an unknown and a not-applicable apart, and the recorded reserved / confirmed / paid amounts stay
+numbers because those are read from the claims, not from the source. Until wave 4 that page printed
+"Estimated reward RM 0.00" two rows under its own "unknown does not mean zero" note.
 
 - Spec: `acceptance.spec.ts` › "P04 the link and the simulated data are explicit"
 - Evidence: `screenshots/p04-duplicate-390.png`, `screenshots/p04-duplicate-1440.png`,
@@ -139,10 +150,37 @@ change the queue position or the amount. Operations cannot finalise the rejectio
 open — the release is a check, not a timer. An upheld appeal continues the check with the same
 sequence number and the same amount.
 
+**What happens after that continued check is now covered too, and was broken until wave 4.** An
+upheld appeal returns the claim to verification, where reject is one of the three sanctioned
+outcomes. That second rejection used to be a dead end: the creator could not appeal it
+(`appeal_already_filed`) and operations could never release it (`appeal_upheld`, forever), so RM5 sat
+reserved with no exit and the claim vanished from the operations queue. The appeal right and the
+release now belong to the **rejection round** rather than to the claim, which is how
+campaign-defaults words them ("拒绝后7个日历日可申诉", release once "待处理结束"). A second rejection
+carries a fresh 7-day window, a second appeal, and a release once that window closes; the queue shows
+it as work to finalise. The `appeal_upheld` block reason and its copy are gone because they were only
+ever reachable in the broken state.
+
+A release is also final for the evidence it judged. The reservation returns to the pool, but the
+amount was claimed once ("追加申请仍须新增奖励≥RM5，不能重复使用已申请的金额"), so a further claim on the
+post needs qualified views the rejected claim did not cover — while the uncovered remainder of a
+partly rejected claim stays claimable. Until wave 4 the identical frozen snapshot could be re-filed
+the moment operations released it, and with the post already accepted into a second campaign one post
+id could hold a live claim in two campaigns at once (D06).
+
+A claim can no longer be filed against content the merchant rejected. Such a claim could never
+confirm (both reviews must approve) and a content decision is one-shot, so it only minted a
+reservation with no way out; the creator's page now says `content_rejected` instead of offering an
+enabled button.
+
 - Spec: `acceptance.spec.ts` › "P07 review and appeal"
 - Evidence: `screenshots/p07-rejected-390.png`, `screenshots/p07-rejected-1440.png`,
   `screenshots/p07-390.png`, `screenshots/p07-1440.png`
-- Engine tests: `engine.review.test.ts` (including the 48-hour escalation that never auto-approves)
+- Engine tests: `engine.review.test.ts` (including the 48-hour escalation that never auto-approves,
+  and "a rejection after an upheld appeal": a fresh appeal right, a release once the new window
+  closes, and the queue item for it); `engine.claim.test.ts` ("content review as a claim
+  precondition", "a finalised rejection is final for the evidence it judged", "D06 as a standing
+  invariant")
 
 ### P08 — payouts and the operations exceptions
 
@@ -151,10 +189,19 @@ start button is disabled, the retry control is absent, and the page states why. 
 is the evidence a controlled retry needs, and only then is the retry control enabled. "Paid" is the
 simulated provider account and bank settlement is shown as a separate fact.
 
+The demo tools agree with that rule now. The panel used to list an **unknown** attempt with three
+enabled outcome buttons — including "Funds available" — that the engine refuses one and all, and its
+description claimed it could set a result for an unknown attempt in all three languages. The panel
+offers only attempts the provider has not answered yet, and the description says an unknown attempt is
+reconciled against the original transaction on the operations page. The creator's own payment record
+also reads "Confirmed succeeded" rather than the raw `confirmed_succeeded`, from the same shared copy
+operations reads.
+
 - Spec: `acceptance.spec.ts` › "P08 payouts and the operations exceptions"
 - Evidence: `screenshots/p08-unknown-390.png`, `screenshots/p08-unknown-1440.png`,
   `screenshots/p08-390.png`, `screenshots/p08-1440.png`
-- Engine tests: `engine.payout.test.ts`
+- Engine tests: `engine.payout.test.ts`, `src/store/selectors.test.ts`
+  (`selectUnresolvedPayoutAttempts` offers exactly the processing attempt)
 
 ### P09 — the deadlines and the retention end are clear
 
@@ -172,21 +219,40 @@ simulated provider account and bank settlement is shown as a separate fact.
    (`data_outage`), new deadline 16 Sep 12:00 computed from the unblock time, metering end unchanged
    at 8 Sep 12:00, and one notification each to the creator, the merchant and the operations
    reviewer. Evidence: `screenshots/p09-extension-*.png`.
+   Two things behind this row changed in wave 4. The premise is now enforced: while the source is
+   unreadable a new claim is refused, so the outage really did block the claims the grace is granted
+   for ("有效申请须满足资格、门槛和可核验数据条件"), and it is no longer possible to claim off an
+   untrusted reading. And a block of **zero duration** — the outage switch flipped on and straight
+   off — grants nothing, because "阻挡新增申请时" needs a block to have existed. The extension reason
+   also reads as a sentence in the notification and its simulated email in all three languages
+   instead of interpolating the raw `data_outage`.
+   The deadline instant itself is now consistent: at exactly 15 Sep 12:00 the window is open, the
+   claim succeeds and no "claims are closed" notice goes out; one millisecond later the claim is
+   refused and the notice is sent. The engine used to emit the notice at the instant while still
+   accepting the claim, which contradicted the metering-ended copy's own promise
+   ("you can still claim until …").
 4. **A link accepted on the last submission day keeps a full window.** Accepted 15 Sep 11:00, one
    hour before intake closes: metering to 22 Sep 11:00 and the claim deadline to 29 Sep 11:00.
-5. **A closing campaign never reads as fully settled.** With an open appeal and a confirmed unpaid
+5. **The retention end names which of the four terminal points decided it.** D04 lists four
+   ("公布保留期、适用申请截止、申请／申诉处理完成、已确认款项发放完成"), and a settlement that completes
+   after the published period is now labelled as the settlement rather than as "the published
+   retention period". Covered by `engine.deadlines.test.ts` › "names the settlement when a late
+   payment decided the end".
+6. **A closing campaign never reads as fully settled.** With an open appeal and a confirmed unpaid
    amount, both the merchant panel and the operations panel read "not fully settled" and list what
    they are waiting on; the unconfirmed tail below the minimum is disclosed before closure and the
    refund reads "pending verification". Evidence: `screenshots/p09-closure-merchant-*.png`,
    `screenshots/p09-closure-ops-*.png`.
 
-- Engine tests: `engine.deadlines.test.ts`, 14 tests, including "runs 7 days of metering and 7
+- Engine tests: `engine.deadlines.test.ts`, 19 tests, including "runs 7 days of metering and 7
   calendar days of grace from acceptance", "gives a link accepted on the last day a full metering
   window", "grants the full published grace after a data outage spanning the metering end", "grants a
   grace when an open case blocked the submission past the metering end", "has no end date while a
   case is open or money is confirmed unpaid", "never shows fully settled while an appeal or confirmed
-  money is open" and "shows fully settled only once every case and payout is resolved". Also
-  `engine.campaign.test.ts` › "refuses a close without a reason and stores the one it is given".
+  money is open", "shows fully settled only once every case and payout is resolved", "the claim
+  deadline instant itself" (two tests) and "an extension needs a block that actually blocked
+  something" (two tests). Also `engine.campaign.test.ts` › "refuses a close without a reason and
+  stores the one it is given" and › "demo.setReadiness and who is told about it".
 - **Deviation to note.** Test 4 sets the clock with the `demo.advanceClock` command the panel sends
   rather than by pressing the panel's buttons: reaching publish + 13 days 23 hours needs about thirty
   panel interactions because the presets are +1 hour, +1 day and +7 days. The submission itself is
@@ -213,7 +279,24 @@ and says "not sent".
   route a role may read does not land on the simulated refusal.
 - Unit tests: `src/i18n/messages.test.ts` (identical key sets, identical interpolation parameters, no
   empty strings, every notification kind has a title, body and simulated email subject and body),
-  `src/lib/audit-copy.test.ts` (every locale has copy for every audit action key)
+  `src/lib/audit-copy.test.ts` (every locale has copy for every audit action key),
+  `src/lib/reason-copy.test.ts` (every generated reason code has copy in every locale, the engine's
+  own numbers survive inside the localized wrapper, and a reason a person typed is passed through
+  unchanged)
+- **Engine codes no longer leak into the prose**, which they did until wave 4. The audit *reason*
+  column rendered `qualified_views_added`, `claimable:500` and `read_failed_source_unreachable` raw on
+  the merchant, creator and operations timelines and in the operations exception log; three
+  notification parameters (`reason`, `outcome`, `missingReason`) interpolated the raw code into an
+  otherwise translated sentence and its simulated email. Both go through shared `common.*` copy now,
+  and one vocabulary serves every surface: `reconcileOutcome`, `missingReason` and `extensionReason`
+  moved out of the operations namespace so the creator's payment record and the notification cannot
+  drift from what operations reads.
+- **Accessible names follow the language too**, for every product dialog and sheet: the official
+  `DialogContent`/`SheetContent` render a hardcoded English `sr-only` "Close", so the call sites pass
+  `showCloseButton={false}` and render `components/app/close-icon-button.tsx`, which reads
+  `common.shell.close`. The mobile navigation panel's own `sr-only` title is still the vendor's
+  English and is recorded in [known-issues.md](known-issues.md): it lives inside
+  `src/components/ui/sidebar.tsx`, which the project re-runs from the CLI rather than hand-edits.
 - **The Malay and Chinese wording is a draft.** Key parity is enforced; the register and the legal
   phrasing have not been reviewed by a native speaker. See [known-issues.md](known-issues.md).
 
@@ -232,7 +315,8 @@ to the control rather than something on top of it, and Playwright's full actiona
 | Payout page, unresolved attempt | Reconcile | `screenshots/p10-320-payout-320.png` |
 | Payout page, payable obligation | Start payout | `screenshots/p10-320-payout-start-320.png` |
 
-Two layout defects were found and fixed at the cause during this run, not worked around in the test:
+Two layout defects were found and fixed at the cause during the wave-3 run, not worked around in the
+test:
 
 - The official `DialogContent` and `AlertDialogContent` are `fixed`, centred and unbounded in
   height, so the partial-offer dialog at 320×568 hung off both edges with nothing to scroll and its
@@ -279,6 +363,90 @@ resulting computed durations. Recorded in [known-issues.md](known-issues.md).
   the demo tools could not return to the merchant workspace — the operations users have no org, so
   the button was disabled and there was no way back to Demo User. Both the panel and the guide now
   switch identity through one shared `useBecomeRole`, which signs in as the workspace identity first.
+
+## Wave 4 — the adversarial review, and what it changed
+
+The rows above were first executed in wave 3. Wave 4 read every ticket's acceptance list back against
+the running prototype and the rule sources, and the confirmed findings were **fixed at the cause**
+rather than recorded as limitations. Every row above was then re-executed and is still PASS. What
+follows is the audit trail for that pass; the fixes themselves are described in the rows they belong
+to.
+
+Rule and state defects, each now covered by a test:
+
+| What was wrong | Where the rule says otherwise | Fix |
+|---|---|---|
+| A rejection after an upheld appeal could be neither appealed nor released: a permanently locked reservation, invisible to the operations queue | 拒绝后7个日历日可申诉 (unqualified); release once 待处理结束 | The appeal right and the release belong to the rejection round (`Claim.rejection.appealId`), not to the claim |
+| A finally rejected claim could be re-filed on the identical frozen evidence, and one post id could then hold a live claim in two campaigns | 追加申请仍须新增奖励≥RM5，不能重复使用已申请的金额; 同一平台发布ID默认不能跨活动重复计奖 | The adjudicated amount is deducted from what is newly claimable; D06 is a standing rung in the ladder, not only a submit-time gate |
+| A claim could be filed against content the merchant had rejected, and never confirm or release | 以上均以内容合规…为前提 | `content_rejected` in the eligibility ladder |
+| A claim could be filed while the source was unreadable, which also left the outage grace resting on a block the engine never enforced | 有效申请须满足资格、门槛和可核验数据条件 | `data_unavailable` while `dataOutage` is on |
+| A zero-duration outage moved a published claim deadline and notified three roles | 阻挡新增申请时…阻挡解除后仍有完整公布宽限 | An extension needs `blockedFrom` strictly before the unblock |
+| The "claims are closed" notice fired at the deadline instant, while the claim still succeeded | 正常9月15日12:00申请截止, and the app's own "you can still claim until …" | The notice is emitted strictly after the deadline |
+| Money derived from a reading that never existed rendered as RM 0.00 | 数据缺失不显示0观看; 未知金额不得显示 MYR 0.00 | The derived money is nullable and renders as unknown |
+| A live campaign's readiness switch told the merchant the campaign "cannot be published" | readiness gates publishing, and the operations page already said it is a record on a live campaign | The notice is emitted for a draft only |
+| A claim filed from the submission page left its waitlist entry open, offering a "file again" control the one-pending-claim rule could only refuse | 额度恢复后通知重提 describes one queue position | `requestClaim` closes the entry it supersedes |
+| Retention driven by a late settlement was labelled "the published retention period" | D04 names four terminal points | Two more reasons, and the label names the one that won |
+
+Controls and copy that described something other than what happened:
+
+- The claim button minted its command id from the *state* (submission, reading version, claimable
+  amount), so declining a partial offer left the signature unchanged and the next genuine press
+  replayed the old command and reported "the demo kept the one claim that already exists" with no
+  claim in the store. Every press is its own id now, and the engine's guards do the deduplication —
+  which is what ticket #5's line asks for anyway.
+- "Ask for the amount again" appended a superseded offer row per press and never updated the dialog it
+  was pressed in. The claims page lists the current offer per submission, keyed by submission, so the
+  panel and its dialog follow the live quote.
+- Waitlist "Resubmit" reported "The request was filed again with a new queue time" even when nothing
+  was filed because the budget was still below the minimum. It branches on the engine's outcome now.
+- The demo tools' submission picker labelled a record `platform · postId`, so at the baseline — where
+  the acting identity owns no submission — "+1,000 views" reported success against another creator's
+  post with nothing on screen naming the owner. The label names the creator and the campaign, and the
+  panel says out loud when the only records on offer are someone else's.
+- The clock section's "jump to the metering end" / "jump to the claim deadline" stayed enabled after
+  the clock had passed them and refused with "Check the values and try again" — advice about a form,
+  for a press with nothing to correct. They are disabled with the reason once the target is behind.
+- The operations work queue showed "Nothing is waiting · no readiness, review, appeal, re-sync or
+  payout is waiting" when a *filter* matched nothing, directly under a badge counting the items.
+  A filtered no-match is its own page condition with its own copy and a Clear-filters action
+  (`state-policy.md`, `reference-contract.md`).
+- "Rejected · appeal open" was the label for `rejected_appealable`, which is also the status a claim
+  returns to after **losing** an appeal. It reads "Rejected · reservation held", and the appeal's own
+  badge sits beside it in the creator and operations lists.
+- Signing in with a `/merchant` return path landed on "You do not have access to this workspace" for
+  the org this identity owns, because `session.signIn` always selects the creator workspace and the
+  engine derives the role from it. Sign-in derives the workspace from the return path
+  (`ROLE_ROUTE_PREFIX`, the same map the route guard uses); an `/ops` return path — where the refusal
+  would be true — says why and continues to the creator workspace.
+- "Independent cap per platform" promised that switching it off makes one piece of content share a
+  cap across platforms, which the prototype cannot express. The editor now says what it does, and the
+  gap is in [known-issues.md](known-issues.md).
+- A money-moving audit row written while nobody was signed in dropped its actor line silently. It
+  reads "No signed-in identity (demo tools)".
+
+Documentation corrected:
+
+- `apps/web/README.md` claimed `prefers-reduced-motion` was **not** honoured and that the rule had
+  deliberately not been added to `globals.css`. The rule is there and has been since the scaffold
+  (both landed in the same commit), and it is the one deliberate departure from
+  `color-policy.md`'s "no CSS outside `:root`". The README now says so, and still says that no test
+  asserts the resulting computed durations.
+- [known-issues.md](known-issues.md) listed `baseline_unavailable` as unreachable with no demo control
+  for it. The campaign-readiness switch reaches it, and an end-to-end test drives it through the real
+  submit form.
+- Every tracked screenshot was recaptured. Next's dev badge is anchored bottom-left, which is where
+  the sidebar footer names the identity being acted as, so the delivered evidence had the badge on top
+  of that line (and, at 320px, on top of body copy). `devIndicators: false` in `next.config.ts` —
+  development only; `next build`/`next start` never showed it.
+
+Findings left unfixed on purpose, with the reason, are in
+[known-issues.md](known-issues.md) under "Rules the prototype records but does not simulate".
+
+**One thing a reviewer with stored progress will notice.** Keying the appeal to its rejection round
+adds a field to the stored records, so `SCHEMA_VERSION` moved from 1 to 2. A demo state saved by an
+earlier build cannot answer "does this rejection already have an appeal?", so the app offers a reset
+rather than guessing — which is the path [kickoff decision 9](kickoff.md) describes. Nothing is lost
+but demo progress, and every scenario is reproducible from the panel.
 
 ## Limitations of this record
 

@@ -140,6 +140,8 @@
     "retentionLabel": "Retention ends",
     "retentionReasonPublished": "The published retention period after the campaign went live.",
     "retentionReasonClaimDeadline": "The claim deadline in force for this post runs later than the published retention.",
+    "retentionReasonCaseResolved": "The last claim or appeal on this post was resolved later than the published retention period.",
+    "retentionReasonSettlement": "The confirmed payment for this post completed later than the published retention period.",
     "retentionReasonOpenCases": "A submitted claim or appeal is still open, so no end date exists yet.",
     "retentionReasonConfirmedUnpaid": "A confirmed amount has not been paid yet, so no end date exists yet.",
     "contentReviewTitle": "Content review (merchant)",
@@ -164,6 +166,7 @@
     "capLabel": "Cap for this post",
     "capReached": "Capped at {cap} for this post in this campaign. Reaching a view threshold does not raise the cap.",
     "capProgress": "{percent}% of the cap for this post",
+    "capProgressUnknown": "Progress against the cap is unknown until the source can be read again.",
     "occupiedTitle": "Already taken by earlier claims",
     "reservedLabel": "Reserved",
     "confirmedUnpaidLabel": "Confirmed unpaid",
@@ -191,7 +194,6 @@
     "bucketsTitle": "Reward pool after this claim",
     "openClaim": "Open the claim",
     "blockedTitle": "Claiming is not possible now",
-    "idempotentNotice": "That press repeated the same request, so the demo kept the one claim that already exists.",
     "waitlistedTitle": "You are on the waitlist",
     "waitlistedDescription": "Nothing is reserved and no payment is promised. You are notified when budget recovers, and you have to file again to take a new queue position.",
     "openWaitlist": "Open claims and waitlist"
@@ -234,6 +236,8 @@
     "waitlistWaiting": "No reservation and no payment guarantee while you wait.",
     "resubmit": "Resubmit",
     "resubmitToast": "The request was filed again with a new queue time.",
+    "resubmitStillWaitingToast": "The entry took a new queue time. The available budget is still below the minimum claim, so nothing was filed and nothing is reserved.",
+    "resubmitOfferToast": "Only part of the amount is available. Review the offer and consent to the exact amount.",
     "claimableAtEntryLabel": "Claimable when waitlisted",
     "notifiedAtLabel": "Notified at",
     "openSubmission": "Open submission"

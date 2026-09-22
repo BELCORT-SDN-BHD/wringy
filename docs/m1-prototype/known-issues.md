@@ -4,7 +4,9 @@ What the prototype does not do, what it does in a way a reviewer should know abo
 deferred. Nothing here is a business-rule change: where a rule and the prototype differ, the rule
 wins and the gap is written down.
 
-Recorded 2026-09-22 against branch `feat/m1-prototype`.
+Recorded 2026-09-22 against branch `feat/m1-prototype`, and revised the same day after the wave-4
+adversarial review. Defects that review found were fixed rather than recorded; what is recorded here
+is what M1 genuinely does not do, plus the rules it can only record and not simulate.
 
 ## Demo-only by design (not defects)
 
@@ -61,9 +63,53 @@ than faked because a scenario that needs a rule bent is not a demo state.
   reached from the demo. What *is* reachable and is covered is the refusal path (a creator opening
   `/merchant`). Adding a scenario or a demo-tool action purely to reach this branch was considered and
   rejected: the scenario list should describe business situations, not code coverage.
-- **`baseline_unavailable` as a persistent state.** The engine models a submission whose source could
-  not give a baseline at all, and the creator page has the copy for it, but no demo control sets it:
-  the data outage toggle affects reads *after* acceptance. Covered by engine tests only.
+- **The mobile navigation panel's accessible name is the vendor's English.** `ui/sidebar.tsx` renders
+  the mobile `Sheet` with an `sr-only` `SheetTitle` "Sidebar" and description "Displays the mobile
+  sidebar.", which is the dialog's accessible name in ms-MY and zh-Hans-MY too. Those files are
+  upstream registry sources the project re-runs from the CLI rather than hand-edits
+  ([kickoff](kickoff.md), `apps/web/README.md`), and localization-v1 says to record a gap the official
+  composition cannot hold rather than modify the component. The close controls on every product dialog
+  and sheet **were** fixed at the call site — `showCloseButton={false}` plus
+  `components/app/close-icon-button.tsx`, which reads `common.shell.close` — because a call site is
+  reachable; the sidebar's own header is not. Fixing it needs either an upstream change or a decision
+  to fork that one file.
+
+*(`baseline_unavailable` used to be listed here as unreachable. It is not: the demo tools' campaign
+readiness switch turns a published campaign's data source off, and a submission made after that lands
+in exactly that state. It is reached through the panel and the real submit form by
+`tests/e2e/creator.spec.ts` "a missing baseline is not fabricated".)*
+
+## Rules the prototype records but does not simulate
+
+Where the prototype cannot evaluate an approved rule, it says so on the control rather than letting
+the copy promise behaviour the engine does not have. Each one needs an owner decision before M3.
+
+- **"Independent cap per platform" records the merchant's permission and changes no amount.**
+  campaign-defaults-v1 (approved 2026-09-14) allows independent per-platform caps only
+  "商家明确允许时", and D06 keeps that permission. `crossPlatformIndependentCap` is stored, validated,
+  editable and displayed, and the engine reads it nowhere: a `Submission` is identified by (campaign,
+  platform, post id) and carries **no content identity**, so the prototype cannot tell one video
+  re-posted on two platforms from two different videos. Every accepted post is therefore capped on its
+  own whichever way the switch is set, which honours the cap as campaign-defaults defines it
+  ("单条上限|同一视频在本活动累计RM100") but does not demonstrate the OFF case. The editor now states
+  this next to the switch in all three languages instead of promising shared-cap grouping. Making the
+  flag load-bearing needs a content-identity decision (what makes two posts "the same content", and on
+  whose evidence), which is a product decision, not an implementation one.
+- **A deadline extension is not scoped to a remaining claimable amount.** campaign-defaults-v1 申请期限
+  says "受阻延展针对受影响申请", and the engine now refuses an extension for a block of zero duration
+  (nothing was blocked). It still grants one when the block has cleared but nothing is left to claim —
+  for example a full-amount claim that has just been confirmed. The same paragraph says the grace
+  explicitly does not guarantee budget ("不保证预算"), and the pending-case extension is the one P09
+  demonstrates to all three roles, so narrowing it to "only when an amount remains" would remove a
+  recorded acceptance result on a reading the rule does not settle. Left as is, with the reason
+  recorded, for the owner to decide.
+- **The demo tools work without a signed-in identity, and the audit row says so.** `checkPermission`
+  admits every `demo.*` command before the guest check, deliberately and with a unit test
+  (`permissions.test.ts`: "Demo tools stay available: they are an explicitly simulated panel"), because
+  the panel is a simulation surface rather than a product surface. That means a settlement decided by
+  the simulated provider while nobody is signed in has no operator. The audit row no longer drops the
+  actor line silently — it reads "No signed-in identity (demo tools)" — but the panel is still not
+  identity-gated. M3 re-verifies every one of these server-side anyway.
 
 ## Deferred
 
@@ -80,7 +126,9 @@ than faked because a scenario that needs a rule bent is not a demo state.
   baseline (`animation-duration` and `transition-duration` collapsed to 0.01 ms under
   `prefers-reduced-motion: reduce`; an accessibility affordance, not a motion redesign). The
   acceptance suite verifies that reduced-motion emulation *renders correctly and raises no error*;
-  it does not assert that every animation is suppressed.
+  it does not assert that every animation is suppressed. That baseline is also the **one deliberate
+  departure** from `design-system-v2/color-policy.md`, which reserves "CSS outside `:root`"; the v2
+  showcase carries the same rule, and `apps/web/README.md` names the departure too.
 - **No dark theme.** The prototype ships light only. The `.dark` block in `globals.css` is the shadcn
   CLI's neutral default and is not part of the carried-over palette.
 - **`/campaigns/[id]` metadata comes from the baseline seed.** The server cannot read the visitor's
@@ -129,4 +177,25 @@ than faked because a scenario that needs a rule bent is not a demo state.
 - **Why do the timelines all read the same now?** One shared map (`src/lib/audit-copy.ts` with
   `common.actions.*` in all three locales) covers every command type, and a type error is raised if a
   command is added without copy. The merchant and creator timelines used to render raw command codes
-  such as `claim.reviewMetering`.
+  such as `claim.reviewMetering`. The *reason* column got the same treatment in wave 4
+  (`src/lib/reason-copy.ts` with `common.reasons.*`): a generated code such as `qualified_views_added`
+  or `claimable:500` now reads as a sentence with the engine's own number inside it, while a reason a
+  person typed is still rendered verbatim, which localization-v1 requires. The one deliberate
+  exception is the operations audit badge, which shows `before → after` in a monospace face as a
+  technical value rather than prose.
+- **Why can a claim not be filed while the source is unreadable?** campaign-defaults-v1 申请、排队与预留
+  makes verifiable data a condition of a valid claim ("有效申请须满足资格、门槛和可核验数据条件"), and the
+  PRD forbids entering the reserved queue on an unverifiable reading. The last trusted number and its
+  time stay on screen — unknown is never read as zero — but the claim waits. That is also what makes
+  the outage deadline extension honest: the outage really did block new claims while it ran.
+- **Why is a finally rejected amount still deducted from what is claimable?** The reservation itself
+  goes back to the pool, which is what "最终拒绝才释放" means, and the four buckets show it. What the
+  per-post accounting remembers is that the amount was already claimed once:
+  "追加申请仍须新增奖励≥RM5，不能重复使用已申请的金额". So a further claim needs qualified views the
+  rejected claim did not cover, and the uncovered remainder of a partly rejected claim stays
+  claimable. Without this, "最终拒绝" would decide nothing and the same frozen evidence could be re-filed
+  the moment operations released it.
+- **Why is "Rejected · appeal open" gone?** A rejected appeal returns the claim to the same
+  `rejected_appealable` status, so the old label asserted an appeal was open on a claim that had
+  already lost one. The badge now reads "Rejected · reservation held", which is true in both cases, and
+  the appeal's own status badge appears beside it in the creator and operations lists.

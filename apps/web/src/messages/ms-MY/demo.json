@@ -14,7 +14,8 @@
     "toClaimDeadline": "Lompat ke tarikh akhir permohonan",
     "needsSubmission": "Pilih penghantaran dahulu.",
     "noTarget": "Penghantaran itu belum mempunyai tarikh untuk ini.",
-    "advanced": "Jam dipindahkan ke {time}."
+    "advanced": "Jam dipindahkan ke {time}.",
+    "targetPassed": "Jam simulasi sudah melepasi sasaran ini, dan ia hanya bergerak ke hadapan."
   },
   "role": {
     "title": "Identiti",
@@ -33,10 +34,9 @@
     "add": "Tambah tontonan",
     "added": "Menambah {count} tontonan layak.",
     "none": "Tiada penghantaran untuk diukur.",
-    "scopeMine": "Penghantaran saya",
-    "scopeAll": "Semua penghantaran",
     "ignoredAfterMeteringEnd": "Tiada apa ditambah: tempoh pengukuran telah ditutup, jadi tontonan kemudian tidak dikira.",
-    "ignoredSourceUnreachable": "Bacaan gagal kerana sumber tidak dapat dihubungi. Nombor terakhir yang dipercayai dikekalkan."
+    "ignoredSourceUnreachable": "Bacaan gagal kerana sumber tidak dapat dihubungi. Nombor terakhir yang dipercayai dikekalkan.",
+    "foreignNote": "Tiada satu pun penyerahan ini milik identiti yang anda gunakan, jadi perubahan di sini jatuh pada rekod pencipta lain dan tidak akan muncul pada halaman anda sendiri."
   },
   "outage": {
     "title": "Gangguan data",
@@ -56,7 +56,7 @@
   },
   "payout": {
     "title": "Keputusan pengeluaran",
-    "description": "Tetapkan keputusan penyedia simulasi untuk percubaan yang sedang diproses atau tidak diketahui.",
+    "description": "Tetapkan keputusan penyedia simulasi untuk percubaan yang sedang diproses. Percubaan yang kembali tidak diketahui diselaraskan dengan transaksi asal di halaman pembayaran operasi, bukan diputuskan semula di sini.",
     "succeeded": "Dana tersedia",
     "failed": "Gagal",
     "unknown": "Tidak diketahui",

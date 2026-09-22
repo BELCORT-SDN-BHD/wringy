@@ -20,7 +20,14 @@
  */
 
 import Link from 'next/link';
-import { CalendarClock, CircleCheck, CircleSlash, ExternalLink, FileVideo } from 'lucide-react';
+import {
+  CalendarClock,
+  CircleCheck,
+  CircleSlash,
+  ExternalLink,
+  FileVideo,
+  TriangleAlert,
+} from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { useTranslations } from 'next-intl';
@@ -42,6 +49,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatAuditAction } from '@/lib/audit-copy';
 import { formatDateTime, formatViewsOrUnknown } from '@/lib/format';
+import { reasonLabel } from '@/lib/reason-copy';
 import { useAppLocale } from '@/lib/use-app-locale';
 import { useDemoSnapshot } from '@/store/demo-store';
 import { selectAuditFor } from '@/store/selectors';
@@ -72,6 +80,7 @@ function Review({ submissionId }: { submissionId: string }) {
   const tPublic = useTranslations('public.campaign');
   const tDetail = useTranslations('merchant.detail');
   const tActions = useTranslations('common.actions');
+  const tCommon = useTranslations('common');
   const locale = useAppLocale();
   const state = useDemoSnapshot();
   const detail = useOwnSubmission(submissionId);
@@ -117,7 +126,7 @@ function Review({ submissionId }: { submissionId: string }) {
     at: entry.at,
     title: formatAuditAction(entry.action, tActions),
     actor: state.users[entry.actorUserId]?.displayName ?? entry.actorUserId,
-    reason: entry.reason,
+    reason: reasonLabel(entry.reason, tCommon, locale),
   }));
 
   return (
@@ -450,7 +459,8 @@ function DeadlinesCard({ deadlines }: { deadlines: SubmissionDeadlinesView | nul
                 className="bg-attention-subtle text-attention-foreground flex flex-col gap-0.5 rounded-lg border border-transparent p-3"
                 data-extension-reason={extension.reason}
               >
-                <span className="text-sm break-words">
+                <span className="flex items-start gap-1.5 text-sm break-words">
+                  <TriangleAlert aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
                   {t(EXTENSION_REASON_KEY[extension.reason])}
                 </span>
                 <span className="text-xs break-words">
@@ -475,6 +485,8 @@ function DeadlinesCard({ deadlines }: { deadlines: SubmissionDeadlinesView | nul
 const RETENTION_REASON_KEY: Record<SubmissionDeadlinesView['retentionReason'], string> = {
   published_retention: 'retentionReasonPublished',
   claim_deadline: 'retentionReasonClaimDeadline',
+  case_resolved: 'retentionReasonCaseResolved',
+  settlement: 'retentionReasonSettlement',
   open_cases: 'retentionReasonOpenCases',
   confirmed_unpaid: 'retentionReasonConfirmedUnpaid',
 };

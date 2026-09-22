@@ -14,7 +14,7 @@
  */
 
 import Link from 'next/link';
-import { ListChecks } from 'lucide-react';
+import { Filter, Hourglass, ListChecks } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -129,11 +129,35 @@ export function OpsQueueView() {
       </div>
 
       {groups.length === 0 ? (
-        <EmptyState
-          icon={ListChecks}
-          title={t('emptyTitle')}
-          description={t('emptyDescription')}
-        />
+        // state-policy.md keeps no-match and first-time-empty apart as two different
+        // page conditions, and reference-contract.md's filtered-no-result row asks for
+        // the filter to be kept plus a clear action. Saying "nothing is waiting" while
+        // the badge above counts items would state the opposite of the truth.
+        items.length > 0 ? (
+          <EmptyState
+            icon={Filter}
+            title={t('noMatchTitle')}
+            description={t('noMatchDescription')}
+            state="no-match"
+          >
+            <Button
+              variant="outline"
+              data-testid="ops-queue-clear-filters"
+              onClick={() => {
+                setScope('all');
+                setKind('all');
+              }}
+            >
+              {t('clearFilters')}
+            </Button>
+          </EmptyState>
+        ) : (
+          <EmptyState
+            icon={ListChecks}
+            title={t('emptyTitle')}
+            description={t('emptyDescription')}
+          />
+        )
       ) : (
         <div className="flex min-w-0 flex-col gap-5" data-testid="ops-queue-groups">
           {groups.map((group) => (
@@ -143,9 +167,10 @@ export function OpsQueueView() {
                   <span className="break-words">{t(`kind.${group.kind}`)}</span>
                   <Badge
                     variant="outline"
-                    className="bg-attention-subtle text-attention-foreground border-transparent"
+                    className="bg-attention-subtle text-attention-foreground gap-1 border-transparent"
                     data-testid={`ops-queue-count-${group.kind}`}
                   >
+                    <Hourglass aria-hidden="true" />
                     {t('groupCount', { count: group.rows.length })}
                   </Badge>
                 </CardTitle>

@@ -204,13 +204,17 @@ dev-server `/_next/hmr` requests Playwright makes over that host. Development on
   data table actually needs it.
 - `pnpm typecheck` runs `next typegen` first. Next 16 puts `LayoutProps` / `PageProps` in
   `.next/types`, so a bare `tsc --noEmit` on a clean checkout fails on `src/app/layout.tsx`.
-- `prefers-reduced-motion` is **not** honoured by the enter/exit animations. The only
-  reduced-motion rule in the served CSS comes from `shadcn/tailwind.css` and covers the
-  `.shimmer` utility; `tw-animate-css` 1.4.0 ships no such rule, so `animate-in` /
-  `animate-out` and the Radix overlay transitions still play. Suppressing them means adding
-  a rule to `globals.css`, which the design-system contract reserves, so it is recorded here
-  rather than done locally. The acceptance suite verifies that reduced-motion emulation renders
-  every dialog and panel without an error; it does not claim the animations stop.
+- `prefers-reduced-motion` **is** honoured, by one global baseline rule in
+  `globals.css` (`animation-duration` / `transition-duration` collapsed to `0.01ms`,
+  `animation-iteration-count: 1`, `scroll-behavior: auto`). `shadcn/tailwind.css` only covers
+  the `.shimmer` utility and `tw-animate-css` 1.4.0 ships no such rule, so without that
+  baseline `animate-in` / `animate-out` and the Radix overlay transitions would still play.
+  The rule is **the one deliberate departure** from `design-system-v2/color-policy.md`, which
+  reserves "CSS outside `:root`"; the v2 showcase carries the same baseline, and it is recorded
+  here and in [`known-issues.md`](../../docs/m1-prototype/known-issues.md) rather than left
+  undocumented. The acceptance suite verifies that reduced-motion emulation renders every
+  dialog and panel without an error; **no test asserts the resulting computed durations**, so
+  per-animation compliance is unverified.
 - The official `DialogContent` and `AlertDialogContent` are `fixed`, centred and **unbounded in
   height**, so a dialog taller than the viewport hangs off both edges with nothing to scroll — at
   320x568 the partial-offer footer was unreachable for a pointer, a keyboard and Playwright alike.

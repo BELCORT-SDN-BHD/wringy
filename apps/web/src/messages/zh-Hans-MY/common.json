@@ -47,7 +47,8 @@
     "signOut": "退出登录",
     "signedOutToast": "已退出模拟身份。",
     "simulatedIdentity": "模拟身份 · 非权限验证",
-    "demoTools": "演示工具"
+    "demoTools": "演示工具",
+    "close": "关闭"
   },
   "state": {
     "emptyTitle": "这里还没有内容",
@@ -171,7 +172,7 @@
     "claim": {
       "pending_review": "待审核",
       "confirmed_unpaid": "确认未付",
-      "rejected_appealable": "已拒绝 · 可申诉",
+      "rejected_appealable": "已拒绝 · 预留保留中",
       "appealing": "申诉中",
       "rejected_final": "已拒绝 · 终审",
       "paid": "已发放"
@@ -212,6 +213,49 @@
       "unknown": "银行到账未知",
       "settled": "银行到账已确认"
     }
+  },
+  "auditStatus": {
+    "unknown": "未知（{code}）",
+    "pair": "{first} / {second}",
+    "resyncFailed": "{status} · 重新同步失败",
+    "retryOf": "重试 {id}",
+    "readiness": "资金凭证：{funding} · 数据源：{data}",
+    "yes": "已记录",
+    "no": "未记录"
+  },
+  "reasons": {
+    "qualified_views_added": "演示工具增加了合格观看。",
+    "ignored_after_metering_end": "已忽略：计量窗口已经结束。",
+    "read_failed_source_unreachable": "读取失败：无法连接数据来源，保留最后一次可信数值。",
+    "data_outage_started": "已开始模拟数据中断。",
+    "data_outage_cleared": "模拟数据中断已解除。",
+    "readiness_set": "在演示工具中设置了活动就绪条件。",
+    "simulated_provider_success": "模拟渠道回报资金已可用。",
+    "simulated_provider_timeout": "模拟渠道没有回应，结果未知。",
+    "payout_started": "已启动一次出款尝试。",
+    "partial_offer_declined": "已拒绝部分报价，未预留任何金额。",
+    "connection_reconnected": "账号连接已重新连接（模拟）。",
+    "draft_updated": "草稿已更新。",
+    "post": "作品：{platform} {postId}",
+    "claimable": "可申请金额：{amount}",
+    "offer": "报价 {offered}，完整金额 {full}",
+    "waitlisted": "候补 {amount}；未预留任何金额。",
+    "partialConsent": "已同意部分报价 {offerId}。",
+    "reconciled": "{outcome} — {note}"
+  },
+  "reconcileOutcome": {
+    "still_unknown": "仍然未知",
+    "confirmed_succeeded": "确认成功",
+    "confirmed_failed": "确认失败"
+  },
+  "missingReason": {
+    "source_unreachable": "数据源无法访问",
+    "permission_revoked": "授权已被撤销",
+    "post_private": "作品已设为私密"
+  },
+  "extensionReason": {
+    "data_outage": "数据中断",
+    "pending_case": "有案件阻挡了新申请"
   },
   "errors": {
     "forbidden": "当前身份在演示中无权执行该操作。",

@@ -39,7 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { isAfter } from '@/domain';
+import { isAfter, normalizePostUrl } from '@/domain';
 import { errorCopyKey } from '@/lib/error-copy';
 import { newCommandId } from '@/store/command-id';
 import { useDemoSnapshot, useDispatch } from '@/store/demo-store';
@@ -150,8 +150,16 @@ function Submit() {
     );
     if (!created) {
       // An idempotent replay of the same press: go to the entry it created.
+      // Matched on the normalized post id, not on the typed string: the engine
+      // stores the canonical absolute URL, so a scheme-less paste never equals
+      // `url.trim()` and this replay would otherwise find nothing and go nowhere.
+      const normalized = normalizePostUrl(url);
       const existing = Object.values(result.state.submissions).find(
-        (submission) => submission.url === url.trim() && submission.campaignId === campaign.id,
+        (submission) =>
+          submission.campaignId === campaign.id &&
+          normalized.ok &&
+          submission.platform === normalized.platform &&
+          submission.postId === normalized.postId,
       );
       if (existing) router.push(`/creator/submissions/${existing.id}`);
       return;

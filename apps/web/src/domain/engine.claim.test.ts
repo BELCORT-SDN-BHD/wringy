@@ -460,3 +460,296 @@ describe('waitlist and budget recovery', () => {
     expect(Object.keys(harness.state.waitlist)).toHaveLength(1);
   });
 });
+
+describe('content review as a claim precondition', () => {
+  /**
+   * campaign-defaults-v1.md 一条视频的例子: "以上均以内容合规、观看有效、预算可分配及最终
+   * 核验通过为前提". A claim against rejected content could never confirm
+   * (`confirmIfReady` needs an approved content review) and a content decision is
+   * one-shot, so accepting one would only mint a reservation with no exit.
+   */
+  function contentRejected(): { harness: Harness; submissionId: string } {
+    const { harness, submissionId } = readyCreator();
+    harness.ok({ type: 'session.switchWorkspace', workspace: 'merchant' });
+    harness.ok({
+      type: 'submission.reviewContent',
+      submissionId,
+      decision: 'reject',
+      reason: 'off brief',
+    });
+    harness.ok({ type: 'session.switchWorkspace', workspace: 'creator' });
+    return { harness, submissionId };
+  }
+
+  it('refuses a new claim and says why on the page', () => {
+    const { harness, submissionId } = contentRejected();
+    harness.fail({ type: 'claim.request', submissionId }, 'content_rejected');
+    expect(claimsOf(harness.state, submissionId)).toHaveLength(0);
+    expect(selectBudget(harness.state, SEED_IDS.campaignKopiRaya)).toMatchObject({
+      availableSen: 200_000,
+      reservedSen: 0,
+    });
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      canClaim: false,
+      blockReason: 'content_rejected',
+    });
+  });
+
+  it('allows the claim again once an upheld appeal reopens the content review', () => {
+    const { harness, submissionId } = readyCreator();
+    harness.ok({ type: 'claim.request', submissionId });
+    const claimId = latestClaim(harness.state, submissionId).id;
+    harness.ok({ type: 'session.switchWorkspace', workspace: 'merchant' });
+    harness.ok({
+      type: 'submission.reviewContent',
+      submissionId,
+      decision: 'reject',
+      reason: 'off brief',
+    });
+    harness.ok({ type: 'session.switchWorkspace', workspace: 'creator' });
+    harness.ok({ type: 'appeal.file', claimId, reason: 'it follows the brief' });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    const appealId = Object.values(harness.state.appeals)[0].id;
+    harness.ok({ type: 'appeal.resolve', appealId, decision: 'uphold', note: 'agreed' });
+    expect(harness.state.submissions[submissionId].contentReview.status).toBe('pending');
+    // Back in review, so the block is the one-pending-claim rule, not the content.
+    expect(selectSubmissionReward(harness.state, submissionId)?.blockReason).toBe(
+      'pending_claim_exists',
+    );
+  });
+});
+
+describe('a finalised rejection is final for the evidence it judged', () => {
+  /**
+   * campaign-defaults-v1.md 门槛必须能达到: "追加申请仍须新增奖励≥RM5，不能重复使用已申请
+   * 的金额". Releasing the reservation returns the budget to the pool for other
+   * creators, but the amount was claimed once, so a further claim on this post needs
+   * qualified views the rejected claim did not already cover.
+   */
+  function rejectAndRelease(harness: Harness, submissionId: string): void {
+    const claimId = latestClaim(harness.state, submissionId).id;
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    harness.ok({
+      type: 'claim.reviewMetering',
+      claimId,
+      decision: 'reject',
+      reason: 'views not verifiable',
+    });
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    harness.ok({ type: 'claim.finalizeRejection', claimId, reason: 'appeal window closed' });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+  }
+
+  it('releases the reservation but does not re-offer the same amount', () => {
+    const { harness, submissionId } = readyCreator();
+    harness.ok({ type: 'claim.request', submissionId });
+    rejectAndRelease(harness, submissionId);
+
+    expect(selectBudget(harness.state, SEED_IDS.campaignKopiRaya)).toMatchObject({
+      availableSen: 200_000,
+      reservedSen: 0,
+    });
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      cappedSen: 500,
+      claimableSen: 0,
+      blockReason: 'nothing_claimable',
+    });
+    harness.fail({ type: 'claim.request', submissionId }, 'nothing_claimable');
+  });
+
+  it('allows a claim for qualified views the rejected claim did not cover', () => {
+    const harness = createHarness();
+    // A long metering window, so the 7-day appeal window closes while it is open.
+    const campaignId = publishCampaign(harness, 'Long window', { meteringDays: 30 });
+    const submissionId = submitAndMeter(
+      harness,
+      campaignId,
+      SEED_IDS.connectionDemoTiktok,
+      URLS.demoTiktok,
+      1000,
+    );
+    harness.ok({ type: 'claim.request', submissionId });
+    rejectAndRelease(harness, submissionId);
+    expect(selectSubmissionReward(harness.state, submissionId)?.claimableSen).toBe(0);
+
+    harness.ok({ type: 'demo.addQualifiedViews', submissionId, views: 1000 });
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      cappedSen: 1000,
+      claimableSen: 500,
+    });
+    const again = harness.ok({ type: 'claim.request', submissionId });
+    expect(again.outcome).toBe('claim');
+    expect(latestClaim(harness.state, submissionId).amountSen).toBe(500);
+  });
+
+  it('keeps the uncovered remainder of a partly rejected claim claimable', () => {
+    const harness = createHarness();
+    const campaignId = publishCampaign(harness, 'Tight pool', { poolSen: 1000 });
+
+    // Ben takes RM5 of the RM10 pool first.
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userBen });
+    const bensId = submitAndMeter(
+      harness,
+      campaignId,
+      SEED_IDS.connectionBenTiktok,
+      URLS.benTiktok,
+      1000,
+    );
+    harness.ok({ type: 'claim.request', submissionId: bensId });
+
+    // Demo User can claim RM10 but only RM5 is allocatable, so consents to RM5.
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    const submissionId = submitAndMeter(
+      harness,
+      campaignId,
+      SEED_IDS.connectionDemoTiktok,
+      URLS.demoTiktok,
+      2000,
+    );
+    expect(harness.ok({ type: 'claim.request', submissionId }).outcome).toBe('partial_offer');
+    const offer = onlyOffer(harness.state, submissionId);
+    harness.ok({
+      type: 'claim.consentPartial',
+      offerId: offer.id,
+      consentedSen: offer.offeredSen,
+      snapshotVersion: offer.snapshotVersion,
+      budgetVersion: offer.budgetVersion,
+    });
+    expect(latestClaim(harness.state, submissionId)).toMatchObject({
+      amountSen: 500,
+      unreservedRemainderSen: 500,
+    });
+
+    rejectAndRelease(harness, submissionId);
+    // The RM5 that was adjudicated is spent; the RM5 that never was is not.
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      cappedSen: 1000,
+      claimableSen: 500,
+      canClaim: true,
+    });
+    expect(harness.ok({ type: 'claim.request', submissionId }).outcome).toBe('claim');
+  });
+});
+
+describe('D06 as a standing invariant', () => {
+  /**
+   * campaign-defaults-v1.md 复用: "同一平台发布ID默认不能跨活动重复计奖". The submit-time
+   * gate alone is not enough — once the post has legitimately entered a second
+   * campaign, a further claim in the first one would make one post id earn in two
+   * campaigns at the same time.
+   */
+  it('refuses a claim in the original campaign once the post entered another one', () => {
+    const harness = createHarness();
+    const campaignId = publishCampaign(harness, 'Long window', { meteringDays: 30 });
+    const submissionId = submitAndMeter(
+      harness,
+      campaignId,
+      SEED_IDS.connectionDemoTiktok,
+      URLS.demoTiktok,
+      1000,
+    );
+    harness.ok({ type: 'claim.request', submissionId });
+    const claimId = latestClaim(harness.state, submissionId).id;
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    harness.ok({
+      type: 'claim.reviewMetering',
+      claimId,
+      decision: 'reject',
+      reason: 'views not verifiable',
+    });
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    harness.ok({ type: 'claim.finalizeRejection', claimId, reason: 'appeal window closed' });
+
+    // A finally rejected post may enter a second campaign; D06 allows that reuse.
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    const second = publishCampaign(harness, 'Second campaign');
+    harness.ok({
+      type: 'submission.create',
+      campaignId: second,
+      connectionId: SEED_IDS.connectionDemoTiktok,
+      url: URLS.demoTiktok,
+    });
+    // And the original campaign must not resurrect it.
+    expect(selectSubmissionReward(harness.state, submissionId)?.blockReason).toBe(
+      'cross_campaign_blocked',
+    );
+    harness.fail({ type: 'claim.request', submissionId }, 'cross_campaign_blocked');
+  });
+});
+
+describe('a data outage blocks a new claim', () => {
+  /**
+   * campaign-defaults-v1.md 申请、排队与预留: "有效申请须满足资格、门槛和可核验数据条件",
+   * and prd-content-rewards-v2.md: "来源延迟使资格暂不可核验时显示待数据，不冒称已进入有
+   * 预留队列". It is also the premise the outage deadline extension rests on.
+   */
+  it('refuses while the source is unreadable and allows it again once cleared', () => {
+    const { harness, submissionId } = readyCreator();
+    harness.ok({ type: 'demo.setDataOutage', submissionId, outage: true });
+    expect(selectSubmissionReward(harness.state, submissionId)).toMatchObject({
+      canClaim: false,
+      blockReason: 'data_unavailable',
+      // The last trusted reading stays on screen; unknown is never read as zero.
+      qualifiedViews: 1000,
+    });
+    harness.fail({ type: 'claim.request', submissionId }, 'data_unavailable');
+    expect(claimsOf(harness.state, submissionId)).toHaveLength(0);
+
+    harness.ok({ type: 'demo.setDataOutage', submissionId, outage: false });
+    expect(selectSubmissionReward(harness.state, submissionId)?.canClaim).toBe(true);
+    expect(harness.ok({ type: 'claim.request', submissionId }).outcome).toBe('claim');
+  });
+});
+
+describe('the waitlist entry a claim supersedes', () => {
+  it('closes when the claim is filed from the submission page', () => {
+    const harness = createHarness();
+    const campaignId = publishCampaign(harness, 'Tight pool', { poolSen: 900 });
+
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userBen });
+    const bensId = submitAndMeter(
+      harness,
+      campaignId,
+      SEED_IDS.connectionBenTiktok,
+      URLS.benTiktok,
+      1000,
+    );
+    harness.ok({ type: 'claim.request', submissionId: bensId });
+
+    // RM4 left against an RM5 minimum: the waitlist, with no reservation.
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    const mine = submitAndMeter(
+      harness,
+      campaignId,
+      SEED_IDS.connectionDemoTiktok,
+      URLS.demoTiktok,
+      1000,
+    );
+    expect(harness.ok({ type: 'claim.request', submissionId: mine }).outcome).toBe('waitlisted');
+    expect(onlyWaitlistEntry(harness.state, mine).status).toBe('waiting');
+
+    // Ben's claim is finally rejected, so the budget comes back and the entry is notified.
+    const bensClaim = latestClaim(harness.state, bensId).id;
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    harness.ok({
+      type: 'claim.reviewMetering',
+      claimId: bensClaim,
+      decision: 'reject',
+      reason: 'not eligible',
+    });
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    harness.ok({ type: 'claim.finalizeRejection', claimId: bensClaim, reason: 'window closed' });
+    expect(onlyWaitlistEntry(harness.state, mine).status).toBe('notified');
+
+    // The creator uses the claim button rather than the entry's resubmit button.
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    expect(harness.ok({ type: 'claim.request', submissionId: mine }).outcome).toBe('claim');
+    expect(onlyWaitlistEntry(harness.state, mine).status).toBe('resubmitted');
+    // So the entry no longer offers a control the one-pending-claim rule must refuse.
+    expect(
+      Object.values(harness.state.waitlist).filter(
+        (entry) => entry.status === 'waiting' || entry.status === 'notified',
+      ),
+    ).toHaveLength(0);
+  });
+});

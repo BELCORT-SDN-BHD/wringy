@@ -11,7 +11,7 @@
  */
 
 import Link from 'next/link';
-import { CircleAlert, ShieldCheck } from 'lucide-react';
+import { CircleAlert, CircleCheck, Hourglass, ShieldCheck, TriangleAlert } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -76,10 +76,15 @@ export function OpsReadinessListView() {
                     variant="outline"
                     className={
                       campaign.readiness.fundingEvidence
-                        ? 'bg-success-subtle text-success-foreground border-transparent'
-                        : 'bg-attention-subtle text-attention-foreground border-transparent'
+                        ? 'bg-success-subtle text-success-foreground gap-1 border-transparent'
+                        : 'bg-attention-subtle text-attention-foreground gap-1 border-transparent'
                     }
                   >
+                    {campaign.readiness.fundingEvidence ? (
+                      <CircleCheck aria-hidden="true" />
+                    ) : (
+                      <TriangleAlert aria-hidden="true" />
+                    )}
                     {t('rowFunding')} ·{' '}
                     {campaign.readiness.fundingEvidence ? t('ready') : t('notReady')}
                   </Badge>
@@ -87,10 +92,15 @@ export function OpsReadinessListView() {
                     variant="outline"
                     className={
                       campaign.readiness.dataSourceReady
-                        ? 'bg-success-subtle text-success-foreground border-transparent'
-                        : 'bg-attention-subtle text-attention-foreground border-transparent'
+                        ? 'bg-success-subtle text-success-foreground gap-1 border-transparent'
+                        : 'bg-attention-subtle text-attention-foreground gap-1 border-transparent'
                     }
                   >
+                    {campaign.readiness.dataSourceReady ? (
+                      <CircleCheck aria-hidden="true" />
+                    ) : (
+                      <TriangleAlert aria-hidden="true" />
+                    )}
                     {t('rowDataSource')} ·{' '}
                     {campaign.readiness.dataSourceReady ? t('ready') : t('notReady')}
                   </Badge>
@@ -297,9 +307,10 @@ function ClosureCard({ campaignId }: { campaignId: string }) {
               value: (
                 <Badge
                   variant="outline"
-                  className="bg-inactive-subtle text-inactive-foreground border-transparent"
+                  className="bg-inactive-subtle text-inactive-foreground gap-1 border-transparent"
                   data-testid="ops-closure-refund"
                 >
+                  <Hourglass aria-hidden="true" />
                   {t('refundValue')}
                 </Badge>
               ),
@@ -350,11 +361,12 @@ function ReadinessRow({
             variant="outline"
             className={
               ready
-                ? 'bg-success-subtle text-success-foreground border-transparent'
-                : 'bg-attention-subtle text-attention-foreground border-transparent'
+                ? 'bg-success-subtle text-success-foreground gap-1 border-transparent'
+                : 'bg-attention-subtle text-attention-foreground gap-1 border-transparent'
             }
             data-testid={`ops-readiness-state-${testId}`}
           >
+            {ready ? <CircleCheck aria-hidden="true" /> : <TriangleAlert aria-hidden="true" />}
             {ready ? t('ready') : t('notReady')}
           </Badge>
         </ItemTitle>

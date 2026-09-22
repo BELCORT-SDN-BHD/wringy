@@ -14,6 +14,7 @@
  * screen — never 0, never "fraud" (localization-v1).
  */
 
+import { TriangleAlert } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { BudgetBuckets } from '@/components/app/budget-buckets';
@@ -40,9 +41,12 @@ export function RewardPanel({ view }: { view: SubmissionView }) {
 
   const rules = campaign?.rules ?? null;
   const capSen = rules?.capPerSubmissionSen ?? null;
+  // No trusted reading → no progress against the cap either. A 0% bar would be the
+  // same "unknown read as zero" the panel's own note rules out, so the bar is
+  // replaced by the cap figure alone until a reading exists.
   const capPercent =
-    capSen === null || capSen === 0
-      ? 0
+    capSen === null || capSen === 0 || reward.exactRewardMilliSen === null
+      ? null
       : Math.min(100, Math.floor(reward.exactRewardMilliSen / (capSen * 10)));
 
   return (
@@ -95,15 +99,22 @@ export function RewardPanel({ view }: { view: SubmissionView }) {
                 <MoneyText sen={capSen} tabular />
               </span>
             </div>
-            <Progress value={capPercent} aria-label={t('capProgress', { percent: capPercent })} />
-            <span className="text-muted-foreground text-xs">
-              {t('capProgress', { percent: capPercent })}
-            </span>
+            {capPercent === null ? (
+              <span className="text-muted-foreground text-xs">{t('capProgressUnknown')}</span>
+            ) : (
+              <>
+                <Progress value={capPercent} aria-label={t('capProgress', { percent: capPercent })} />
+                <span className="text-muted-foreground text-xs">
+                  {t('capProgress', { percent: capPercent })}
+                </span>
+              </>
+            )}
             {reward.capReached ? (
               <span
-                className="text-attention-foreground bg-attention-subtle rounded-md px-2 py-1 text-xs break-words"
+                className="text-attention-foreground bg-attention-subtle flex items-start gap-1.5 rounded-md px-2 py-1 text-xs break-words"
                 data-testid="reward-cap-reached"
               >
+                <TriangleAlert aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
                 {t('capReached', { cap: formatSen(capSen, locale) })}
               </span>
             ) : null}

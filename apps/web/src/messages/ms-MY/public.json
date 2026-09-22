@@ -36,6 +36,7 @@
     "viewThreshold": "Ambang tontonan",
     "viewThresholdNone": "Tiada",
     "viewThresholdNote": "Kedua-dua ambang dan permohonan minimum perlu dipenuhi. Mencapai ambang tidak menaikkan had.",
+    "viewThresholdCapNote": "Pada {views} tontonan sah, ganjaran dihadkan pada {amount}. Mencapai ambang tidak menaikkan had.",
     "submissionsClose": "Penghantaran ditutup",
     "metering": "Tempoh pengukuran",
     "meteringValue": "{days} hari selepas siaran anda diterima",
@@ -72,6 +73,7 @@
     "nextNote": "Selepas masuk anda akan diteruskan ke {path}.",
     "signedInToast": "Masuk sebagai pengguna demo simulasi.",
     "alreadySignedIn": "Anda sudah berada dalam identiti simulasi.",
-    "continue": "Teruskan"
+    "continue": "Teruskan",
+    "opsNotice": "Identiti operasi ialah pengguna simulasi yang berasingan dan hanya boleh dicapai daripada alat demo, jadi identiti ini diteruskan ke ruang kerja pencipta."
   }
 }

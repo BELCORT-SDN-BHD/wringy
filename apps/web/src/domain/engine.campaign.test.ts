@@ -274,3 +274,49 @@ describe('campaign lifecycle', () => {
     ]);
   });
 });
+
+describe('demo.setReadiness and who is told about it', () => {
+  /**
+   * Readiness only gates PUBLISHING — `campaign.publish` refuses on it. On a live
+   * campaign it is a record rather than a gate, which is what the operations
+   * readiness page says, so a "cannot be published" notice there would be wrong
+   * about the state the merchant can see.
+   */
+  /** Distinct readiness-blocked events; one event fans out to several recipients. */
+  function blockedEvents(harness: Harness, campaignId: string): number {
+    const rows = Object.values(harness.state.notifications).filter(
+      (entry) =>
+        entry.kind === 'campaign.readiness_blocked' && entry.params.campaignId === campaignId,
+    );
+    return new Set(rows.map((entry) => entry.eventId)).size;
+  }
+
+  it('tells the merchant a DRAFT cannot be published', () => {
+    const harness = merchant();
+    const campaignId = draft(harness, 'Not funded yet');
+    harness.ok({ type: 'demo.setReadiness', campaignId, dataSourceReady: true });
+    expect(blockedEvents(harness, campaignId)).toBe(1);
+    harness.fail({ type: 'campaign.publish', campaignId }, 'campaign_not_ready');
+  });
+
+  it('says nothing about publishing when the campaign is already published', () => {
+    const harness = merchant();
+    expect(harness.state.campaigns[SEED_IDS.campaignKopiRaya].status).toBe('published');
+    harness.ok({
+      type: 'demo.setReadiness',
+      campaignId: SEED_IDS.campaignKopiRaya,
+      dataSourceReady: false,
+    });
+    expect(harness.state.campaigns[SEED_IDS.campaignKopiRaya]).toMatchObject({
+      status: 'published',
+      readiness: { fundingEvidence: true, dataSourceReady: false },
+    });
+    expect(blockedEvents(harness, SEED_IDS.campaignKopiRaya)).toBe(0);
+    // The change is still recorded, so it stays traceable.
+    const entries = harness.state.audit.filter(
+      (entry) => entry.action === 'demo.setReadiness' && entry.targetId === SEED_IDS.campaignKopiRaya,
+    );
+    expect(entries).toHaveLength(1);
+    expect(entries[0].after).toBe('funding=true,data=false');
+  });
+});

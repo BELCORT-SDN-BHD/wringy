@@ -265,11 +265,17 @@ test.describe('P02 the configuration is clear and validated', () => {
     expect(saved?.campaigns[KOPI_DRAFT].rules.viewThreshold).toBe(100_000);
     expect(saved?.campaigns[KOPI_DRAFT].rules.capPerSubmissionSen).toBe(5_000);
 
-    // The preview states the same numbers the editor holds.
+    // The preview states the same numbers the editor holds, AND the derived fact
+    // the rule asks to be shown: "必须明确展示'达10万观看，奖励封顶RM100'". The rule sheet
+    // here is literally the component the public campaign page renders, so a
+    // creator reads the same sentence.
     await open(page, `/merchant/campaigns/${KOPI_DRAFT}/preview`);
     const preview = page.locator('body');
     await expect(preview).toContainText('100,000');
     await expect(preview).toContainText('50.00');
+    await expect(page.getByTestId('campaign-cap-at-threshold')).toContainText(
+      'At 100,000 qualified views the reward is capped at RM 50.00',
+    );
 
     await expectNoHorizontalOverflow(page);
     await acceptanceShot(page, 'p02', shotSuffix(testInfo));

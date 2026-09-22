@@ -13,7 +13,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Megaphone, Plus } from 'lucide-react';
+import { Hourglass, Megaphone, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -140,7 +140,8 @@ function CampaignList() {
                       <span className="flex flex-col items-end gap-1">
                         <span>{t('submissionsCount', { count: row.submissionCount })}</span>
                         {row.pendingContentReviews > 0 ? (
-                          <Badge className="bg-attention-subtle text-attention-foreground border-transparent">
+                          <Badge className="bg-attention-subtle text-attention-foreground gap-1 border-transparent">
+                            <Hourglass aria-hidden="true" />
                             {t('reviewsPending', { count: row.pendingContentReviews })}
                           </Badge>
                         ) : null}

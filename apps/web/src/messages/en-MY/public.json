@@ -36,6 +36,7 @@
     "viewThreshold": "View threshold",
     "viewThresholdNone": "None",
     "viewThresholdNote": "Both the threshold and the minimum claim must be met. Reaching the threshold does not raise the cap.",
+    "viewThresholdCapNote": "At {views} qualified views the reward is capped at {amount}. Reaching the threshold does not raise the cap.",
     "submissionsClose": "Submissions close",
     "metering": "Metering window",
     "meteringValue": "{days} days after your post is accepted",
@@ -72,6 +73,7 @@
     "nextNote": "After signing in you continue to {path}.",
     "signedInToast": "Signed in as the simulated demo user.",
     "alreadySignedIn": "You are already in the simulated identity.",
-    "continue": "Continue"
+    "continue": "Continue",
+    "opsNotice": "Operations identities are separate simulated users and are only reachable from the demo tools, so this identity continues to the creator workspace instead."
   }
 }

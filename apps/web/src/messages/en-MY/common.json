@@ -47,7 +47,8 @@
     "signOut": "Sign out",
     "signedOutToast": "Signed out of the simulated identity.",
     "simulatedIdentity": "Simulated identity · not authorisation",
-    "demoTools": "Demo tools"
+    "demoTools": "Demo tools",
+    "close": "Close"
   },
   "state": {
     "emptyTitle": "Nothing here yet",
@@ -171,7 +172,7 @@
     "claim": {
       "pending_review": "Pending review",
       "confirmed_unpaid": "Confirmed unpaid",
-      "rejected_appealable": "Rejected · appeal open",
+      "rejected_appealable": "Rejected · reservation held",
       "appealing": "Appeal in progress",
       "rejected_final": "Rejected · final",
       "paid": "Paid"
@@ -212,6 +213,49 @@
       "unknown": "Bank settlement unknown",
       "settled": "Bank settlement confirmed"
     }
+  },
+  "auditStatus": {
+    "unknown": "Unknown ({code})",
+    "pair": "{first} / {second}",
+    "resyncFailed": "{status} · resync failed",
+    "retryOf": "Retry of {id}",
+    "readiness": "Funding evidence: {funding} · Data source: {data}",
+    "yes": "recorded",
+    "no": "not recorded"
+  },
+  "reasons": {
+    "qualified_views_added": "Qualified views were added by the demo tools.",
+    "ignored_after_metering_end": "Ignored: the metering window had already closed.",
+    "read_failed_source_unreachable": "The read failed: the source could not be reached, so the last trusted value is kept.",
+    "data_outage_started": "A simulated data outage was started.",
+    "data_outage_cleared": "The simulated data outage was cleared.",
+    "readiness_set": "Campaign readiness was set in the demo tools.",
+    "simulated_provider_success": "The simulated provider reported the funds as available.",
+    "simulated_provider_timeout": "The simulated provider did not answer, so the result is unknown.",
+    "payout_started": "A payout attempt was started.",
+    "partial_offer_declined": "The partial offer was declined; nothing was reserved.",
+    "connection_reconnected": "The account connection was reconnected (simulated).",
+    "draft_updated": "The draft was updated.",
+    "post": "Post: {platform} {postId}",
+    "claimable": "Claimable amount: {amount}",
+    "offer": "Offered {offered} of {full}",
+    "waitlisted": "Waitlisted for {amount}; nothing is reserved.",
+    "partialConsent": "Consented to the partial offer {offerId}.",
+    "reconciled": "{outcome} — {note}"
+  },
+  "reconcileOutcome": {
+    "still_unknown": "Still unknown",
+    "confirmed_succeeded": "Confirmed succeeded",
+    "confirmed_failed": "Confirmed failed"
+  },
+  "missingReason": {
+    "source_unreachable": "Source unreachable",
+    "permission_revoked": "Permission revoked",
+    "post_private": "Post is private"
+  },
+  "extensionReason": {
+    "data_outage": "Data outage",
+    "pending_case": "A case was blocking new claims"
   },
   "errors": {
     "forbidden": "This identity is not allowed to do that in the demo.",

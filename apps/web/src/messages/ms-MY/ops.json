@@ -33,7 +33,8 @@
     "roleOpsReviewer": "Penyemak operasi",
     "roleOpsFinance": "Kewangan operasi",
     "roleMerchant": "Peniaga",
-    "roleCreator": "Pencipta"
+    "roleCreator": "Pencipta",
+    "actorNoIdentity": "Tiada identiti yang dimasuki (alat demo)"
   },
   "queue": {
     "metaTitle": "Barisan kerja · Operasi",
@@ -69,7 +70,10 @@
       "payout_unknown": "Satu percubaan kembali sebagai tidak diketahui. Selaraskan transaksi asal; jangan sekali bayar lagi."
     },
     "noCreator": "Tiada pencipta (peringkat kempen)",
-    "unknownCampaign": "Kempen tidak diketahui"
+    "unknownCampaign": "Kempen tidak diketahui",
+    "noMatchTitle": "Tiada yang sepadan dengan penapis ini",
+    "noMatchDescription": "Masih ada item menunggu, tetapi tiada satu pun sepadan dengan skop dan jenis yang dipilih di atas. Penapis dibiarkan seperti sedia ada.",
+    "clearFilters": "Kosongkan penapis"
   },
   "readiness": {
     "metaTitle": "Kesediaan kempen · Operasi",
@@ -123,11 +127,6 @@
     "colTrusted": "Dipercayai",
     "trustedYes": "Dipercayai",
     "trustedNo": "Tidak dipercayai",
-    "missing": {
-      "source_unreachable": "Sumber tidak dapat dihubungi",
-      "permission_revoked": "Kebenaran ditarik",
-      "post_private": "Siaran adalah peribadi"
-    },
     "resyncTitle": "Segarkan semula sumber",
     "resyncDescription": "Penyegaran semula membaca sumber sekali lagi pada masa simulasi sekarang. Ia tidak pernah menanda tarikh lampau dan tidak pernah mencipta nombor: bacaan yang gagal direkod sebagai bacaan yang gagal.",
     "resyncAction": "Segarkan semula (simulasi)",
@@ -148,15 +147,13 @@
     "retentionReason": {
       "published_retention": "Ditetapkan oleh tempoh pengekalan yang diterbitkan.",
       "claim_deadline": "Ditetapkan oleh tarikh akhir tuntutan berkesan.",
+      "case_resolved": "Ditetapkan oleh tuntutan atau rayuan terakhir pada siaran ini yang diselesaikan.",
+      "settlement": "Ditetapkan oleh pembayaran disahkan terakhir pada siaran ini yang selesai.",
       "open_cases": "Kes yang terbuka belum ada tarikh tamat, jadi pengekalan belum ditentukan.",
       "confirmed_unpaid": "Wang yang disahkan masih belum dibayar, jadi pengekalan belum ditentukan."
     },
     "extensionsTitle": "Lanjutan tarikh akhir tuntutan",
     "extensionsEmpty": "Tiada lanjutan diberikan.",
-    "extensionReason": {
-      "data_outage": "Gangguan data",
-      "pending_case": "Satu kes menyekat tuntutan baharu"
-    },
     "extensionRow": "Disekat dari {from}, dilepaskan {unblocked}. Tarikh akhir baharu {deadline}.",
     "extensionNote": "Satu lanjutan memulangkan tempoh tangguh yang diterbitkan peniaga dari saat sekatan itu hilang. Ia tidak memanjangkan tetingkap pengukuran dan tidak membuka semula kedudukan barisan lama.",
     "contentReviewTitle": "Semakan kandungan (peniaga)",
@@ -224,7 +221,6 @@
     "finalizeBlocked": {
       "appeal_open": "Satu rayuan terbuka. Selesaikan rayuan itu dahulu; pelepasan bukan tugas berjadual.",
       "appeal_window_open": "Tempoh rayuan masih terbuka sehingga {deadline}. Tempahan ditahan sehingga ketika itu.",
-      "appeal_upheld": "Rayuan diterima, jadi tuntutan itu kembali ke semakan dan tiada apa-apa untuk dilepaskan.",
       "claim_not_rejected_appealable": "Tuntutan ini tidak berada dalam keadaan ditolak yang boleh dilepaskan.",
       "no_rejection_record": "Tiada rekod penolakan bagi tuntutan ini.",
       "other": "Enjin menolak pelepasan itu buat masa ini."
@@ -301,11 +297,6 @@
     "reconcileTitle": "Selaraskan dengan transaksi asal",
     "reconcileDescription": "Keputusan yang tidak diketahui bukan kegagalan dan bukan pembayaran. Satu-satunya tindakan ialah memeriksa transaksi asal dan merekod apa yang ditunjukkannya. Tiada kawalan bayar-lagi di sini.",
     "reconcileOutcomeLabel": "Apa yang ditunjukkan transaksi asal",
-    "reconcileOutcome": {
-      "still_unknown": "Masih tidak diketahui",
-      "confirmed_succeeded": "Disahkan berjaya",
-      "confirmed_failed": "Disahkan gagal"
-    },
     "reconcileAction": "Rekod penyelarasan",
     "reconcileConfirmTitle": "Rekod penyelarasan ini?",
     "reconcileConfirmDescription": "Kejayaan yang disahkan menyelesaikan obligasi sekali sahaja. Kegagalan yang disahkan membuka percubaan semula terkawal. Masih tidak diketahui mengekalkan percubaan itu tidak selesai.",

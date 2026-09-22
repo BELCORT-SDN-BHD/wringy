@@ -33,7 +33,8 @@
     "roleOpsReviewer": "Ops reviewer",
     "roleOpsFinance": "Ops finance",
     "roleMerchant": "Merchant",
-    "roleCreator": "Creator"
+    "roleCreator": "Creator",
+    "actorNoIdentity": "No signed-in identity (demo tools)"
   },
   "queue": {
     "metaTitle": "Work queue · Operations",
@@ -69,7 +70,10 @@
       "payout_unknown": "An attempt came back unknown. Reconcile the original transaction; never pay again."
     },
     "noCreator": "No creator (campaign-level)",
-    "unknownCampaign": "Unknown campaign"
+    "unknownCampaign": "Unknown campaign",
+    "noMatchTitle": "Nothing matches these filters",
+    "noMatchDescription": "Items are still waiting, but none of them matches the scope and kind selected above. The filters are left as they are.",
+    "clearFilters": "Clear filters"
   },
   "readiness": {
     "metaTitle": "Campaign readiness · Operations",
@@ -123,11 +127,6 @@
     "colTrusted": "Trusted",
     "trustedYes": "Trusted",
     "trustedNo": "Not trusted",
-    "missing": {
-      "source_unreachable": "Source unreachable",
-      "permission_revoked": "Permission revoked",
-      "post_private": "Post is private"
-    },
     "resyncTitle": "Re-sync the source",
     "resyncDescription": "A re-sync reads the source again at the current simulated time. It never back-dates a reading and never fabricates a number: a failed read is recorded as a failed read.",
     "resyncAction": "Re-sync (simulated)",
@@ -148,15 +147,13 @@
     "retentionReason": {
       "published_retention": "Set by the published retention period.",
       "claim_deadline": "Set by the effective claim deadline.",
+      "case_resolved": "Set by the last claim or appeal on this post to be resolved.",
+      "settlement": "Set by the last confirmed payment on this post to complete.",
       "open_cases": "An open case has no end date yet, so retention is not decided.",
       "confirmed_unpaid": "Confirmed money is still unpaid, so retention is not decided."
     },
     "extensionsTitle": "Claim deadline extensions",
     "extensionsEmpty": "No extension has been granted.",
-    "extensionReason": {
-      "data_outage": "Data outage",
-      "pending_case": "A case was blocking new claims"
-    },
     "extensionRow": "Blocked from {from}, unblocked {unblocked}. New deadline {deadline}.",
     "extensionNote": "An extension gives back the merchant's published grace from the moment the block cleared. It never extends the metering window and never re-opens an old queue position.",
     "contentReviewTitle": "Content review (merchant)",
@@ -224,7 +221,6 @@
     "finalizeBlocked": {
       "appeal_open": "An appeal is open. Resolve the appeal first; a release is never a timed job.",
       "appeal_window_open": "The appeal window is still open until {deadline}. The reservation is held until then.",
-      "appeal_upheld": "The appeal was upheld, so the claim is back in review and there is nothing to release.",
       "claim_not_rejected_appealable": "This claim is not in a rejected state that can be released.",
       "no_rejection_record": "No rejection record exists for this claim.",
       "other": "The engine refuses the release for now."
@@ -301,11 +297,6 @@
     "reconcileTitle": "Reconcile against the original transaction",
     "reconcileDescription": "An unknown result is not a failure and not a payment. The only action is to check the original transaction and record what it says. There is no pay-again control here.",
     "reconcileOutcomeLabel": "What the original transaction says",
-    "reconcileOutcome": {
-      "still_unknown": "Still unknown",
-      "confirmed_succeeded": "Confirmed succeeded",
-      "confirmed_failed": "Confirmed failed"
-    },
     "reconcileAction": "Record the reconciliation",
     "reconcileConfirmTitle": "Record this reconciliation?",
     "reconcileConfirmDescription": "A confirmed success settles the obligation once. A confirmed failure opens a controlled retry. Still unknown keeps the attempt unresolved.",

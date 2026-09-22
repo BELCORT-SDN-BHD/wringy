@@ -6,12 +6,39 @@ import { createSeedState, SEED_IDS } from './seed';
 describe('normalizePostUrl', () => {
   it('extracts a stable TikTok post id', () => {
     const canonical = normalizePostUrl('https://www.tiktok.com/@demouser/video/7400000000000000001');
-    expect(canonical).toEqual({ ok: true, platform: 'tiktok', postId: '7400000000000000001' });
+    expect(canonical).toEqual({
+      ok: true,
+      platform: 'tiktok',
+      postId: '7400000000000000001',
+      canonicalUrl: 'https://www.tiktok.com/@demouser/video/7400000000000000001',
+    });
     // A different link shape for the same post gives the same id, so dedup works.
+    // Only the id is compared: the canonical URL deliberately keeps the host and
+    // query the creator actually pasted, so two shapes of one post differ there.
     const mobile = normalizePostUrl(
       'https://m.tiktok.com/@demouser/video/7400000000000000001?is_from_webapp=1',
     );
-    expect(mobile).toEqual(canonical);
+    expect(mobile.ok).toBe(true);
+    expect(mobile).toMatchObject({ platform: 'tiktok', postId: '7400000000000000001' });
+  });
+
+  it('returns an absolute https URL for a scheme-less paste', () => {
+    // The reason this field exists: the raw input is a RELATIVE href, so an
+    // "Open the post" anchor built from it navigates inside the prototype.
+    expect(normalizePostUrl('tiktok.com/@demouser/video/7400000000000000001')).toEqual({
+      ok: true,
+      platform: 'tiktok',
+      postId: '7400000000000000001',
+      canonicalUrl: 'https://tiktok.com/@demouser/video/7400000000000000001',
+    });
+    expect(normalizePostUrl('www.instagram.com/reel/CxAbCdEfGhI/')).toMatchObject({
+      canonicalUrl: 'https://www.instagram.com/reel/CxAbCdEfGhI/',
+    });
+    // http is upgraded: every accepted host is https-only and the post id does
+    // not depend on the scheme.
+    expect(normalizePostUrl('http://youtu.be/abc123XYZ_-')).toMatchObject({
+      canonicalUrl: 'https://youtu.be/abc123XYZ_-',
+    });
   });
 
   it('refuses TikTok short links instead of guessing the post', () => {
@@ -30,11 +57,13 @@ describe('normalizePostUrl', () => {
       ok: true,
       platform: 'instagram',
       postId: 'CxAbCdEfGhI',
+      canonicalUrl: 'https://www.instagram.com/reel/CxAbCdEfGhI/',
     });
     expect(normalizePostUrl('https://instagram.com/p/CxAbCdEfGhI')).toEqual({
       ok: true,
       platform: 'instagram',
       postId: 'CxAbCdEfGhI',
+      canonicalUrl: 'https://instagram.com/p/CxAbCdEfGhI',
     });
   });
 
@@ -43,16 +72,19 @@ describe('normalizePostUrl', () => {
       ok: true,
       platform: 'youtube',
       postId: 'abc123XYZ_-',
+      canonicalUrl: 'https://www.youtube.com/watch?v=abc123XYZ_-',
     });
     expect(normalizePostUrl('https://youtu.be/abc123XYZ_-')).toEqual({
       ok: true,
       platform: 'youtube',
       postId: 'abc123XYZ_-',
+      canonicalUrl: 'https://youtu.be/abc123XYZ_-',
     });
     expect(normalizePostUrl('https://www.youtube.com/shorts/abc123XYZ_-')).toEqual({
       ok: true,
       platform: 'youtube',
       postId: 'abc123XYZ_-',
+      canonicalUrl: 'https://www.youtube.com/shorts/abc123XYZ_-',
     });
   });
 

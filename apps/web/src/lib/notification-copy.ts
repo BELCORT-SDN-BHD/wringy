@@ -11,8 +11,12 @@ import { formatDateTime, formatSen } from './format';
  * `claimDeadlineAt`, …). So the rule is by key and by value shape:
  *   - a numeric `…Sen` key becomes a formatted MYR amount;
  *   - an ISO timestamp becomes an absolute Malaysia-time string with its offset;
- *   - anything else is passed through unchanged, including stable server codes
- *     such as `source_unreachable`, which stay readable in all three languages.
+ *   - a parameter listed in `CODE_PARAMS` is an engine code and gets its localized
+ *     label, because the sentence around it is translated and #10/P10 asks the whole
+ *     notification and its simulated email to work in all three languages;
+ *   - anything else is passed through unchanged. That is what keeps a person's own
+ *     words intact: `reason` is a typed rejection reason in `content.rejected` and
+ *     `claim.rejected`, so the map is keyed by (kind, parameter) and not by name.
  *
  * A placeholder the copy declares but the event did not supply is filled with
  * the localized word for unknown, so a message can never degrade into a raw key
@@ -56,6 +60,20 @@ const DECLARED: Record<string, string[]> = flattenKinds(
   notifications.kinds as unknown as KindTree,
 );
 
+/**
+ * The interpolated parameters that carry an engine code, with the `common.*` key
+ * prefix their label lives under. Everything not listed here is either a number, a
+ * timestamp or a person's words.
+ */
+const CODE_PARAMS: Record<string, Record<string, string>> = {
+  'deadline.claim_deadline_extended': { reason: 'extensionReason' },
+  'payout.reconciled': { outcome: 'reconcileOutcome' },
+  'submission.data_unavailable': { missingReason: 'missingReason' },
+};
+
+/** `useTranslations('common')`, so this module stays React-free. */
+export type CommonTranslate = (key: string, values?: Record<string, string | number>) => string;
+
 function formatParam(key: string, value: string | number, locale: Locale): string {
   if (key.endsWith('Sen') && typeof value === 'number') return formatSen(value, locale);
   if (typeof value === 'string' && ISO_DATETIME.test(value)) return formatDateTime(value, locale);
@@ -67,9 +85,16 @@ export function notificationValues(
   params: Record<string, string | number>,
   locale: Locale,
   unknownLabel: string,
+  tCommon?: CommonTranslate,
 ): Record<string, string> {
+  const codes = CODE_PARAMS[kind] ?? {};
   const values: Record<string, string> = {};
   for (const [key, value] of Object.entries(params)) {
+    const prefix = codes[key];
+    if (prefix !== undefined && tCommon !== undefined && typeof value === 'string') {
+      values[key] = tCommon(`${prefix}.${value}`);
+      continue;
+    }
     values[key] = formatParam(key, value, locale);
   }
   for (const name of DECLARED[kind] ?? []) {

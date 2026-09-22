@@ -28,6 +28,14 @@ function currencyFormatter(locale: Locale): Intl.NumberFormat {
     formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: CURRENCY,
+      // `narrowSymbol` is what pins the prefix to "RM" in all three locales.
+      // ICU's default for `zh-Hans-MY` is the CODE, so the same page rendered
+      // "MYR 5.00" from here next to the merchant editor's own "RM" unit prefix
+      // (`merchant.editor.unitRm`) — two money formats on one screen, which
+      // localization-v1 does not allow. The currency code may still appear as a
+      // transaction-detail label ("交易明细显示币种代码"), which is
+      // `common.money.currencyNote`, not a second format for an amount.
+      currencyDisplay: 'narrowSymbol',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -79,9 +87,9 @@ function dateFormatter(locale: Locale): Intl.DateTimeFormat {
 }
 
 /**
- * Integer sen to a currency string, e.g. 500 -> "RM 5.00" (en-MY, ms-MY) or
- * "MYR 5.00" (zh-Hans-MY, where ICU prefers the code). The number is identical
- * in all three; only the presentation differs.
+ * Integer sen to a currency string, e.g. 500 -> "RM 5.00" in all three locales.
+ * The number and the prefix are identical everywhere; only the grouping and
+ * decimal separators are the locale's.
  */
 export function formatSen(sen: Sen, locale: Locale): string {
   return currencyFormatter(locale).format(sen / 100);

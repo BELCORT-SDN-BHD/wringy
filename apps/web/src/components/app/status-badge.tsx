@@ -36,6 +36,7 @@ import {
 import { useTranslations } from 'next-intl';
 
 import { Badge } from '@/components/ui/badge';
+import type { StatusCodeOf, StatusGroup } from '@/lib/status-copy';
 import { cn } from '@/lib/utils';
 
 /**
@@ -54,26 +55,25 @@ const TONE_CLASS: Record<StatusTone, string> = {
   unknown: 'bg-inactive-subtle text-inactive-foreground',
 };
 
-export type StatusGroup =
-  | 'campaign'
-  | 'submission'
-  | 'content'
-  | 'metering'
-  | 'claim'
-  | 'payout'
-  | 'connection'
-  | 'appeal'
-  | 'obligation'
-  | 'offer'
-  | 'waitlist'
-  | 'bankSettlement';
+/**
+ * The groups and their codes are `STATUS_CODES` in `@/lib/status-copy`, which the
+ * audit trail also reads; re-exported so existing call sites keep importing the
+ * type from here.
+ */
+export type { StatusGroup };
 
 interface StatusStyle {
   tone: StatusTone;
   icon: LucideIcon;
 }
 
-const STATUS: Record<StatusGroup, Record<string, StatusStyle>> = {
+/**
+ * Typed against the registry rather than `Record<string, …>`: color-policy.md
+ * pairs every status colour with an icon AND a label, so a code added to
+ * `STATUS_CODES` with no icon here must not compile, and an icon for a code the
+ * engine cannot produce must not either.
+ */
+const STATUS: { [G in StatusGroup]: Record<StatusCodeOf<G>, StatusStyle> } = {
   campaign: {
     draft: { tone: 'inactive', icon: CircleDashed },
     published: { tone: 'success', icon: CircleCheck },
@@ -158,13 +158,18 @@ export interface StatusBadgeProps {
   className?: string;
 }
 
+/** The style for a code the engine produced, which is a plain `string`. */
+function styleFor(group: StatusGroup, code: string): StatusStyle | undefined {
+  return (STATUS[group] as Record<string, StatusStyle>)[code];
+}
+
 export function StatusBadge({ group, code, className }: StatusBadgeProps) {
   const t = useTranslations('common');
   const tUnknown = useTranslations('common.state');
-  const style = STATUS[group][code] ?? UNKNOWN_STYLE;
+  const known = styleFor(group, code);
+  const style = known ?? UNKNOWN_STYLE;
   const Icon = style.icon;
 
-  const known = STATUS[group][code] !== undefined;
   const label = known ? t(`status.${group}.${code}`) : `${tUnknown('unknown')} (${code})`;
 
   return (
@@ -182,5 +187,5 @@ export function StatusBadge({ group, code, className }: StatusBadgeProps) {
 
 /** The tone a status maps to, for callers that need the same colour elsewhere. */
 export function statusTone(group: StatusGroup, code: string): StatusTone {
-  return (STATUS[group][code] ?? UNKNOWN_STYLE).tone;
+  return (styleFor(group, code) ?? UNKNOWN_STYLE).tone;
 }

@@ -10,11 +10,11 @@ import { checkPermission, resolveActor } from './permissions';
 import {
   DEFAULT_RULES,
   OPEN_CASE_STATUSES,
-  appealFor,
   attemptsFor,
   budgetOf,
   claimsForCampaign,
   claimsForSubmission,
+  currentAppealFor,
   effectiveClaimDeadlineAt,
   evaluateClaimRequest,
   finalizeRejectionBlock,
@@ -92,11 +92,13 @@ export function selectSubmissionReward(
         : 'trusted';
 
   const occupancy = occupancyOf(state, submissionId);
-  const views = qualifiedViews ?? 0;
-  const exactMilli = exactRewardMilliSen(views, rules.ratePerThousandSen);
+  // No trusted reading at all → the money derived from it is UNKNOWN, not zero.
+  // localization-v1: "已知零、未知、未填写与不适用分别表达；未知金额／费用不得显示 MYR 0.00".
   const capMilli = rules.capPerSubmissionSen * 1000;
-  const cappedSen = Math.floor(Math.min(exactMilli, capMilli) / 1000);
-  const claimable = Math.max(0, cappedSen - occupancy.occupiedSen);
+  const exactMilli =
+    qualifiedViews === null ? null : exactRewardMilliSen(qualifiedViews, rules.ratePerThousandSen);
+  const cappedSen = exactMilli === null ? null : Math.floor(Math.min(exactMilli, capMilli) / 1000);
+  const claimable = cappedSen === null ? null : Math.max(0, cappedSen - occupancy.occupiedSen);
 
   // One ladder for the engine and the UI: the block reason is the code the engine
   // would return for claim.request right now.
@@ -111,13 +113,14 @@ export function selectSubmissionReward(
     dataStatus,
     exactRewardMilliSen: exactMilli,
     cappedSen,
-    capReached: exactMilli >= capMilli && capMilli > 0,
+    capReached: exactMilli !== null && exactMilli >= capMilli && capMilli > 0,
     reservedSen: occupancy.reservedSen,
     confirmedUnpaidSen: occupancy.confirmedUnpaidSen,
     paidSen: occupancy.paidSen,
     claimableSen: claimable,
-    meetsMinClaim: claimable >= rules.minClaimSen,
-    meetsViewThreshold: rules.viewThreshold === null || views >= rules.viewThreshold,
+    meetsMinClaim: claimable !== null && claimable >= rules.minClaimSen,
+    meetsViewThreshold:
+      rules.viewThreshold === null || (qualifiedViews ?? 0) >= rules.viewThreshold,
     pendingClaimId: openCase?.id ?? null,
     meteringActive: isMeteringActive(submission, state.clock.nowIso),
     claimWindowOpen: isClaimWindowOpen(submission, state.clock.nowIso),
@@ -156,7 +159,7 @@ export function selectSubmissionDeadlines(
 
   for (const claim of claims) {
     if (OPEN_CASE_STATUSES.includes(claim.status)) {
-      const appeal = appealFor(state, claim.id);
+      const appeal = currentAppealFor(state, claim);
       if (appeal && appeal.status !== 'open' && claim.status === 'rejected_appealable') {
         lastCaseResolvedAt = maxIso(lastCaseResolvedAt, appeal.resolvedAt);
       }
@@ -186,10 +189,20 @@ export function selectSubmissionDeadlines(
     retentionReason = 'confirmed_unpaid';
   } else {
     retentionEndsAt = maxIso(publishedRetentionEnd, effective, lastCaseResolvedAt, lastSettlementAt);
+    // D04 lists four terminal points, so the label names whichever one won rather
+    // than calling a late settlement "the published retention period". Ties resolve
+    // towards the published period, then the claim deadline, because those are the
+    // dates the merchant announced.
     retentionReason =
-      retentionEndsAt !== null && effective !== null && retentionEndsAt === effective
-        ? 'claim_deadline'
-        : 'published_retention';
+      retentionEndsAt === null || retentionEndsAt === publishedRetentionEnd
+        ? 'published_retention'
+        : retentionEndsAt === effective
+          ? 'claim_deadline'
+          : retentionEndsAt === lastSettlementAt
+            ? 'settlement'
+            : retentionEndsAt === lastCaseResolvedAt
+              ? 'case_resolved'
+              : 'published_retention';
   }
 
   return {
@@ -240,7 +253,7 @@ export function selectCampaignClosure(
     // Only after metering ended is a tail final.
     if (!isAtOrAfter(state.clock.nowIso, submission.meteringEndsAt)) continue;
     const reward = selectSubmissionReward(state, submission.id);
-    if (!reward) continue;
+    if (!reward || reward.claimableSen === null) continue;
     if (reward.claimableSen > 0 && reward.claimableSen < campaign.rules.minClaimSen) {
       unconfirmedTailSen += reward.claimableSen;
     }
@@ -446,8 +459,13 @@ export function selectClaim(state: DemoState, claimId: string): Claim | null {
   return state.claims[claimId] ?? null;
 }
 
+/**
+ * The appeal the claim's current rejection round carries. A claim rejected again
+ * after an upheld appeal shows the new round (no appeal yet), not the old outcome.
+ */
 export function selectAppealForClaim(state: DemoState, claimId: string): Appeal | null {
-  return appealFor(state, claimId);
+  const claim = state.claims[claimId];
+  return claim ? currentAppealFor(state, claim) : null;
 }
 
 export function selectObligationForClaim(state: DemoState, claimId: string): Obligation | null {

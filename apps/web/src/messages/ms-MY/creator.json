@@ -140,6 +140,8 @@
     "retentionLabel": "Penyimpanan tamat",
     "retentionReasonPublished": "Tempoh penyimpanan yang diterbitkan selepas kempen mula berjalan.",
     "retentionReasonClaimDeadline": "Tarikh akhir tuntutan yang berkuat kuasa bagi siaran ini berakhir lebih lewat daripada tempoh penyimpanan yang diterbitkan.",
+    "retentionReasonCaseResolved": "Tuntutan atau rayuan terakhir pada siaran ini diselesaikan lebih lewat daripada tempoh penyimpanan yang diterbitkan.",
+    "retentionReasonSettlement": "Pembayaran yang disahkan untuk siaran ini selesai lebih lewat daripada tempoh penyimpanan yang diterbitkan.",
     "retentionReasonOpenCases": "Tuntutan atau rayuan yang dihantar masih terbuka, jadi belum ada tarikh tamat.",
     "retentionReasonConfirmedUnpaid": "Jumlah yang disahkan belum dibayar, jadi belum ada tarikh tamat.",
     "contentReviewTitle": "Semakan kandungan (pedagang)",
@@ -164,6 +166,7 @@
     "capLabel": "Had bagi siaran ini",
     "capReached": "Dihadkan pada {cap} bagi siaran ini dalam kempen ini. Mencapai ambang tontonan tidak menaikkan had itu.",
     "capProgress": "{percent}% daripada had bagi siaran ini",
+    "capProgressUnknown": "Kemajuan terhadap had tidak diketahui sehingga sumber boleh dibaca semula.",
     "occupiedTitle": "Sudah diambil oleh tuntutan terdahulu",
     "reservedLabel": "Ditempah",
     "confirmedUnpaidLabel": "Disahkan belum dibayar",
@@ -191,7 +194,6 @@
     "bucketsTitle": "Kolam ganjaran selepas tuntutan ini",
     "openClaim": "Buka tuntutan",
     "blockedTitle": "Tuntutan tidak boleh dibuat sekarang",
-    "idempotentNotice": "Tekanan itu mengulang permintaan yang sama, jadi demo mengekalkan satu tuntutan yang sudah ada.",
     "waitlistedTitle": "Anda dalam senarai menunggu",
     "waitlistedDescription": "Tiada apa-apa ditempah dan tiada pembayaran dijanjikan. Anda diberitahu apabila bajet kembali, dan anda perlu memfailkan semula untuk mengambil giliran baharu.",
     "openWaitlist": "Buka tuntutan dan senarai menunggu"
@@ -234,6 +236,8 @@
     "waitlistWaiting": "Tiada tempahan dan tiada jaminan pembayaran semasa anda menunggu.",
     "resubmit": "Failkan semula",
     "resubmitToast": "Permintaan difailkan semula dengan masa giliran baharu.",
+    "resubmitStillWaitingToast": "Entri mendapat masa giliran baharu. Bajet yang tersedia masih di bawah tuntutan minimum, jadi tiada tuntutan difailkan dan tiada apa-apa ditempah.",
+    "resubmitOfferToast": "Hanya sebahagian jumlah tersedia. Semak tawaran dan setujui jumlah yang tepat.",
     "claimableAtEntryLabel": "Boleh dituntut ketika masuk senarai menunggu",
     "notifiedAtLabel": "Diberitahu pada",
     "openSubmission": "Buka penghantaran"

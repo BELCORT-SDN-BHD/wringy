@@ -56,6 +56,36 @@ export function claimableSen(cappedSen: Sen, occupiedSen: Sen): Sen {
   return Math.max(0, cappedSen - occupiedSen);
 }
 
+export interface CapAtThreshold {
+  views: number;
+  /** What the threshold would earn if there were no cap. */
+  uncappedSen: Sen;
+  /** What it actually earns. */
+  cappedSen: Sen;
+}
+
+/**
+ * The capped result of reaching a view threshold, or null when there is no threshold
+ * or the threshold does not reach the cap.
+ *
+ * campaign-defaults-v1.md 门槛必须能达到: "例如100,000观看×RM5／1,000＝RM500，若单条上限
+ * RM100，则达到观看门槛后最多申请RM100，这个配置可以成立，但必须明确展示'达10万观看，奖励封顶
+ * RM100'". The derived sentence is one fact, so one function computes it for the
+ * merchant editor and for the shared public rule sheet.
+ */
+export function capAtThreshold(
+  rules: Pick<CampaignRules, 'ratePerThousandSen' | 'capPerSubmissionSen'> & {
+    viewThreshold: number | null;
+  },
+): CapAtThreshold | null {
+  const views = rules.viewThreshold;
+  if (views === null || views <= 0) return null;
+  if (rules.ratePerThousandSen <= 0 || rules.capPerSubmissionSen <= 0) return null;
+  const uncappedSen = Math.floor(exactRewardMilliSen(views, rules.ratePerThousandSen) / MILLI_PER_SEN);
+  if (uncappedSen <= rules.capPerSubmissionSen) return null;
+  return { views, uncappedSen, cappedSen: rules.capPerSubmissionSen };
+}
+
 /** Guard for values that must be whole non-negative sen. */
 export function isNonNegativeInteger(value: unknown): value is number {
   return typeof value === 'number' && Number.isInteger(value) && value >= 0;

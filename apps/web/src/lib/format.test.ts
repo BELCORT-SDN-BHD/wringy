@@ -28,6 +28,17 @@ describe('formatSen', () => {
     }
   });
 
+  it('prefixes RM in every locale and never the currency code', () => {
+    // The merchant editor put this formatter's output next to its own "RM" unit
+    // prefix; ICU's default for zh-Hans-MY is "MYR", so one screen carried two
+    // money formats. `currencyDisplay: 'narrowSymbol'` is what fixes it.
+    for (const locale of LOCALES) {
+      const rendered = formatSen(6000, locale);
+      expect(rendered).not.toContain('MYR');
+      expect(rendered.startsWith('RM')).toBe(true);
+    }
+  });
+
   it('keeps the sign for negative amounts', () => {
     expect(formatSen(-1995, 'en-MY')).toContain('19.95');
     expect(formatSen(-1995, 'en-MY').startsWith('-')).toBe(true);

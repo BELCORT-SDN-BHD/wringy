@@ -128,6 +128,8 @@ export interface ClaimRow {
   claim: Claim;
   campaign: Campaign | null;
   submission: Submission | null;
+  /** The appeal for the claim's current rejection round, if any. */
+  appeal: Appeal | null;
 }
 
 export function useCreatorClaims(): ClaimRow[] {
@@ -140,6 +142,7 @@ export function useCreatorClaims(): ClaimRow[] {
         claim,
         campaign: selectCampaign(state, claim.campaignId),
         submission: selectSubmission(state, claim.submissionId),
+        appeal: selectAppealForClaim(state, claim.id),
       })),
     [state, creatorId],
   );

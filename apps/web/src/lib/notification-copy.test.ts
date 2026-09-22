@@ -80,6 +80,52 @@ describe('notification copy', () => {
     expect(values.amountSen).not.toContain('0');
   });
 
+  it('localizes the engine codes a message interpolates, and only those', () => {
+    // The sentence around the code is translated, so leaving the code English would
+    // put `data_outage` inside a Malay or Chinese notification and its simulated
+    // email (#10/P10). `reason` in a rejection is a person's words, so it stays.
+    const tCommon = (key: string) => `copy:${key}`;
+
+    const extended = notificationValues(
+      'deadline.claim_deadline_extended',
+      { submissionId: 'sub_1', reason: 'data_outage', newDeadlineAt: '2026-09-16T12:00:00+08:00' },
+      'en-MY',
+      'Unknown',
+      tCommon,
+    );
+    expect(extended.reason).toBe('copy:extensionReason.data_outage');
+    expect(extended.newDeadlineAt).toContain('UTC+08:00');
+
+    const reconciled = notificationValues(
+      'payout.reconciled',
+      { attemptId: 'pa_1', outcome: 'confirmed_succeeded', note: 'statement shows it' },
+      'en-MY',
+      'Unknown',
+      tCommon,
+    );
+    expect(reconciled.outcome).toBe('copy:reconcileOutcome.confirmed_succeeded');
+    expect(reconciled.note).toBe('statement shows it');
+
+    const unavailable = notificationValues(
+      'submission.data_unavailable',
+      { submissionId: 'sub_1', missingReason: 'source_unreachable' },
+      'en-MY',
+      'Unknown',
+      tCommon,
+    );
+    expect(unavailable.missingReason).toBe('copy:missingReason.source_unreachable');
+
+    // A typed rejection reason is never rewritten.
+    const rejected = notificationValues(
+      'claim.rejected',
+      { claimId: 'cl_1', reason: 'views look off', appealDeadlineAt: '2026-09-08T12:00:00+08:00' },
+      'en-MY',
+      'Unknown',
+      tCommon,
+    );
+    expect(rejected.reason).toBe('views look off');
+  });
+
   it('covers every notification the scenarios actually produce', () => {
     const kinds = new Set<string>();
     for (const scenario of [

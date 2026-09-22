@@ -13,6 +13,7 @@ import { Mail } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { DIALOG_FIT_CLASS } from '@/components/app/dialog-fit';
+import { DialogCloseIcon } from '@/components/app/close-icon-button';
 import {
   Dialog,
   DialogContent,
@@ -47,6 +48,7 @@ export function EmailPreviewDialog({
   const t = useTranslations('common.email');
   const tState = useTranslations('common.state');
   const tKinds = useTranslations('notifications.kinds');
+  const tCommon = useTranslations('common');
   const locale = useAppLocale();
 
   const values = notificationValues(
@@ -54,6 +56,7 @@ export function EmailPreviewDialog({
     notification.params,
     locale,
     tState('unknown'),
+    tCommon,
   );
 
   const subject = tKinds(`${notification.kind}.emailSubject`, values);
@@ -62,7 +65,12 @@ export function EmailPreviewDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
-      <DialogContent className={DIALOG_FIT_CLASS} data-app-widget="email-preview">
+      <DialogContent
+        className={DIALOG_FIT_CLASS}
+        data-app-widget="email-preview"
+        showCloseButton={false}
+      >
+        <DialogCloseIcon />
         <DialogHeader>
           <DialogTitle className="flex flex-wrap items-center gap-2">
             <Mail aria-hidden="true" className="size-4" />

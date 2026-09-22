@@ -69,7 +69,6 @@ import {
 const BLOCK_KEYS = [
   'appeal_open',
   'appeal_window_open',
-  'appeal_upheld',
   'claim_not_rejected_appealable',
   'no_rejection_record',
 ] as const;
@@ -116,6 +115,7 @@ export function OpsClaimsListView() {
                   <MoneyText sen={claim.amountSen} tabular />
                   <StatusBadge group="claim" code={claim.status} />
                   <StatusBadge group="metering" code={claim.meteringReview.status} />
+                  <ClaimAppealBadge claimId={claim.id} />
                   {claim.escalatedAt !== null ? (
                     <Badge
                       variant="outline"
@@ -149,6 +149,20 @@ export function OpsClaimsListView() {
       )}
     </div>
   );
+}
+
+/**
+ * The appeal state of a claim, in the row.
+ *
+ * A rejected appeal returns the claim to `rejected_appealable`, so without this the
+ * row reads as though an appeal were still open while the release is in fact already
+ * permitted — the opposite of the claim's real state.
+ */
+function ClaimAppealBadge({ claimId }: { claimId: string }) {
+  const state = useDemoSnapshot();
+  const appeal = useMemo(() => selectAppealForClaim(state, claimId), [state, claimId]);
+  if (appeal === null) return null;
+  return <StatusBadge group="appeal" code={appeal.status} />;
 }
 
 // ---------------------------------------------------------------------------

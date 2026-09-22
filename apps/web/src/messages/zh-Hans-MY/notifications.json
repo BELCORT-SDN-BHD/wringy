@@ -114,7 +114,7 @@
       },
       "rejected": {
         "title": "申请已拒绝",
-        "body": "该申请已被拒绍。理由：{reason}。你可在 {appealDeadlineAt} 前申诉。",
+        "body": "该申请已被拒绝。理由：{reason}。你可在 {appealDeadlineAt} 前申诉。",
         "emailSubject": "你的申请已被拒绝",
         "emailBody": "理由：{reason}。在 {appealDeadlineAt} 前的申诉窗口内，预留金额继续保留而非释放。系统不会自动结案。"
       },

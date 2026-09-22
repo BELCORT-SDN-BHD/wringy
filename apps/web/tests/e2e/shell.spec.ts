@@ -151,6 +151,47 @@ test.describe('workspaces', () => {
     await page.goto('/creator');
     await expect(page).toHaveURL(/\/sign-in\?next=%2Fcreator/);
   });
+
+  /**
+   * `session.signIn` always lands in the creator workspace (it is the baseline a
+   * reset returns to) and the engine derives the role from the active workspace, so
+   * a `/merchant` return path has to select that workspace before navigating.
+   * Otherwise the only sign-in control in the demo deposits the visitor on "you do
+   * not have access to this workspace" for the org this very identity owns — a
+   * refusal the demo is supposed to show on purpose, not by accident.
+   */
+  test('signing in with a merchant return path lands in the merchant workspace', async ({
+    page,
+  }) => {
+    await loadScenarioAsGuest(page, 'baseline');
+    await page.goto('/merchant/campaigns');
+    await expect(page).toHaveURL(/\/sign-in\?next=%2Fmerchant%2Fcampaigns/);
+
+    await page.getByTestId('sign-in-google').click();
+    await expect(page).toHaveURL(/\/merchant\/campaigns/);
+    await waitForHydration(page);
+    await expect(page.locator('[data-app-state="forbidden"]')).toHaveCount(0);
+    await expect(page.getByTestId('new-campaign')).toBeVisible();
+    expect((await readStoredState(page))!.session.workspace).toBe('merchant');
+  });
+
+  /**
+   * The operations identities are separate simulated users reachable only from the
+   * demo tools, so for an /ops return path the refusal would be TRUE. Saying so and
+   * routing to the workspace this identity does own beats handing it a dead end.
+   */
+  test('signing in with an operations return path says why and goes to the creator workspace', async ({
+    page,
+  }) => {
+    await loadScenarioAsGuest(page, 'baseline');
+    await page.goto('/ops/claims');
+    await expect(page).toHaveURL(/\/sign-in\?next=%2Fops%2Fclaims/);
+    await expect(page.getByTestId('sign-in-ops-notice')).toContainText('demo tools');
+
+    await page.getByTestId('sign-in-google').click();
+    await expect(page).toHaveURL(/\/creator$/);
+    await expect(page.locator('[data-app-state="forbidden"]')).toHaveCount(0);
+  });
 });
 
 test.describe('notifications', () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { RotateCcw } from 'lucide-react';
+import { CircleCheck, RotateCcw, TriangleAlert } from 'lucide-react';
 import { useId, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -79,11 +79,13 @@ function Settings() {
 
           {saveState === 'saved' ? (
             <Alert className="bg-success-subtle">
+              <CircleCheck aria-hidden="true" />
               <AlertTitle>{t('language.saved')}</AlertTitle>
             </Alert>
           ) : null}
           {saveState === 'unsaved' ? (
             <Alert className="bg-attention-subtle">
+              <TriangleAlert aria-hidden="true" />
               <AlertTitle>{t('language.switchedNotSaved')}</AlertTitle>
             </Alert>
           ) : null}

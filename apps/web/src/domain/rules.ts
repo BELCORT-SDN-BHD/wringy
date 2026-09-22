@@ -11,6 +11,7 @@
 import { cappedRewardSen, claimableSen, exactRewardMilliSen, isCapReached } from './money';
 import { calendarDaysAfter, diffMs, isAfter, isAtOrBefore, maxIso } from './time';
 import type {
+  Appeal,
   BudgetBuckets,
   Campaign,
   CampaignRules,
@@ -66,9 +67,12 @@ export const OPEN_CASE_STATUSES: readonly ClaimStatus[] = [
 ];
 
 /**
- * Statuses that occupy the per-submission cap exclusively
+ * Statuses that hold money in one of the three mutually exclusive budget buckets
  * ("新申请扣除互斥分类的预留、确认未付及已付金额（同笔不能重复计入）").
- * `rejected_final` is excluded: its reservation was released.
+ * `rejected_final` is excluded: its reservation really was released to the pool.
+ * It is still deducted from what is newly CLAIMABLE, separately — see
+ * `Occupancy.finallyRejectedSen`, which is about an amount already claimed rather
+ * than money currently held.
  */
 export const OCCUPYING_STATUSES: readonly ClaimStatus[] = [
   'pending_review',
@@ -94,7 +98,18 @@ export interface Occupancy {
   reservedSen: Sen;
   confirmedUnpaidSen: Sen;
   paidSen: Sen;
-  /** reserved + confirmedUnpaid + paid */
+  /**
+   * Amounts a finally rejected claim already put through the process. The
+   * reservation itself WAS released back to the pool for other creators (that is
+   * what `rejected_final` means and why it is not in `OCCUPYING_STATUSES`), but the
+   * amount was still claimed once, and campaign-defaults-v1.md 门槛必须能达到 says
+   * "追加申请仍须新增奖励≥RM5，不能重复使用已申请的金额" — a further claim needs a NEW
+   * amount and may not re-use an amount already claimed. Without this the identical
+   * frozen evidence could be re-filed the moment operations released it, and
+   * "最终拒绝" would decide nothing.
+   */
+  finallyRejectedSen: Sen;
+  /** reserved + confirmedUnpaid + paid + finallyRejected */
   occupiedSen: Sen;
 }
 
@@ -102,16 +117,19 @@ export function occupancyOf(state: DemoState, submissionId: string): Occupancy {
   let reservedSen = 0;
   let confirmedUnpaidSen = 0;
   let paidSen = 0;
+  let finallyRejectedSen = 0;
   for (const claim of claimsForSubmission(state, submissionId)) {
     if (claim.status === 'paid') paidSen += claim.amountSen;
     else if (claim.status === 'confirmed_unpaid') confirmedUnpaidSen += claim.amountSen;
+    else if (claim.status === 'rejected_final') finallyRejectedSen += claim.amountSen;
     else if (OPEN_CASE_STATUSES.includes(claim.status)) reservedSen += claim.amountSen;
   }
   return {
     reservedSen,
     confirmedUnpaidSen,
     paidSen,
-    occupiedSen: reservedSen + confirmedUnpaidSen + paidSen,
+    finallyRejectedSen,
+    occupiedSen: reservedSen + confirmedUnpaidSen + paidSen + finallyRejectedSen,
   };
 }
 
@@ -198,7 +216,24 @@ export function budgetOf(state: DemoState, campaignId: string): BudgetBuckets {
 // ---------------------------------------------------------------------------
 
 export type NormalizedPost =
-  | { ok: true; platform: Platform; postId: string }
+  | {
+      ok: true;
+      platform: Platform;
+      postId: string;
+      /**
+       * The input as an absolute `https://` address.
+       *
+       * A creator may paste `tiktok.com/@x/video/123`, which this function already
+       * accepted by prefixing a scheme to read the post id from. The prefix used to
+       * be thrown away, so the raw input was what got stored and what the creator's
+       * and the merchant's "Open the post" anchors used as `href` — a scheme-less
+       * string is a *relative* href, so the link navigated inside the prototype
+       * instead of out to the platform. The canonical form is stored instead; the
+       * scheme is forced to `https:` because every accepted host is https-only and
+       * the post id (which is what dedup keys on) does not depend on the scheme.
+       */
+      canonicalUrl: string;
+    }
   | { ok: false; detail: 'short_link_unresolvable' | 'unsupported_url' | 'malformed_url' };
 
 /**
@@ -219,6 +254,8 @@ export function normalizePostUrl(url: string): NormalizedPost {
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
     return { ok: false, detail: 'malformed_url' };
   }
+  parsed.protocol = 'https:';
+  const canonicalUrl = parsed.href;
 
   const host = parsed.hostname.toLowerCase().replace(/^(www|m)\./, '');
   const segments = parsed.pathname.split('/').filter((segment) => segment !== '');
@@ -229,30 +266,30 @@ export function normalizePostUrl(url: string): NormalizedPost {
   if (host === 'tiktok.com') {
     const videoIndex = segments.indexOf('video');
     const id = videoIndex >= 0 ? segments[videoIndex + 1] : undefined;
-    if (id && /^\d+$/.test(id)) return { ok: true, platform: 'tiktok', postId: id };
+    if (id && /^\d+$/.test(id)) return { ok: true, platform: 'tiktok', postId: id, canonicalUrl };
     return { ok: false, detail: 'unsupported_url' };
   }
   if (host === 'instagram.com') {
     const kind = segments[0];
     const code = segments[1];
     if ((kind === 'reel' || kind === 'reels' || kind === 'p') && code && /^[\w-]+$/.test(code)) {
-      return { ok: true, platform: 'instagram', postId: code };
+      return { ok: true, platform: 'instagram', postId: code, canonicalUrl };
     }
     return { ok: false, detail: 'unsupported_url' };
   }
   if (host === 'youtu.be') {
     const code = segments[0];
-    if (code && /^[\w-]+$/.test(code)) return { ok: true, platform: 'youtube', postId: code };
+    if (code && /^[\w-]+$/.test(code)) return { ok: true, platform: 'youtube', postId: code, canonicalUrl };
     return { ok: false, detail: 'unsupported_url' };
   }
   if (host === 'youtube.com') {
     if (segments[0] === 'watch') {
       const code = parsed.searchParams.get('v');
-      if (code && /^[\w-]+$/.test(code)) return { ok: true, platform: 'youtube', postId: code };
+      if (code && /^[\w-]+$/.test(code)) return { ok: true, platform: 'youtube', postId: code, canonicalUrl };
       return { ok: false, detail: 'unsupported_url' };
     }
     if (segments[0] === 'shorts' && segments[1] && /^[\w-]+$/.test(segments[1])) {
-      return { ok: true, platform: 'youtube', postId: segments[1] };
+      return { ok: true, platform: 'youtube', postId: segments[1], canonicalUrl };
     }
     return { ok: false, detail: 'unsupported_url' };
   }
@@ -317,9 +354,42 @@ export function evaluateClaimRequest(
     return { ok: false, code: 'data_unavailable', detail: 'baseline_unavailable' };
   }
 
+  // Content compliance is a precondition of the whole example, not only of payment:
+  // campaign-defaults-v1.md 一条视频的例子 — "以上均以内容合规、观看有效、预算可分配及最终
+  // 核验通过为前提". A claim filed against rejected content can never confirm
+  // (`confirmIfReady` needs an approved content review) and a content decision is
+  // one-shot, so accepting it would only mint a reservation with no way out.
+  if (submission.contentReview.status === 'rejected') {
+    return { ok: false, code: 'content_rejected', detail: submission.id };
+  }
+
+  // D06 as a standing invariant and not only a submit-time gate:
+  // campaign-defaults-v1.md 复用 — "同一平台发布ID默认不能跨活动重复计奖". Once the post
+  // has legitimately entered another campaign, a further claim here would make one
+  // post id earn in two campaigns at the same time.
+  const elsewhere = Object.values(state.submissions).find(
+    (entry) =>
+      entry.id !== submission.id &&
+      entry.platform === submission.platform &&
+      entry.postId === submission.postId &&
+      entry.acceptedAt !== null &&
+      !isFinallyRejected(state, entry),
+  );
+  if (elsewhere) return { ok: false, code: 'cross_campaign_blocked', detail: elsewhere.id };
+
   const deadline = effectiveClaimDeadlineAt(submission);
   if (deadline !== null && isAfter(nowIso, deadline)) {
     return { ok: false, code: 'claim_deadline_passed', detail: deadline };
+  }
+
+  // An unreadable source cannot support a new claim, however good the last trusted
+  // reading was: campaign-defaults-v1.md 申请、排队与预留 — "有效申请须满足资格、门槛和可
+  // 核验数据条件". prd-content-rewards-v2.md says the same from the creator's side:
+  // "来源延迟使资格暂不可核验时显示待数据，不冒称已进入有预留队列". This is also what makes
+  // the data-outage deadline extension honest, because the outage really did block
+  // new claims while it ran.
+  if (submission.dataOutage) {
+    return { ok: false, code: 'data_unavailable', detail: 'source_unreachable' };
   }
 
   const trusted = lastTrustedSnapshot(submission);
@@ -385,23 +455,52 @@ export function partialOfferStaleReason(state: DemoState, offer: PartialOffer): 
  * "最终拒绝释放须检查申诉已结束，不能定时任务到点盲目释放".
  */
 export function finalizeRejectionBlock(state: DemoState, claim: Claim): string | null {
-  const appeal = Object.values(state.appeals).find((entry) => entry.claimId === claim.id);
+  const appeal = currentAppealFor(state, claim);
   // An active appeal is the most specific reason, and it is checked first because
   // the claim then sits in 'appealing': "若已申诉，则待处理结束才释放相应预留".
   if (appeal && appeal.status === 'open') return 'appeal_open';
   if (claim.status !== 'rejected_appealable') return 'claim_not_rejected_appealable';
   if (claim.rejection === null) return 'no_rejection_record';
-  if (appeal && appeal.status === 'upheld') return 'appeal_upheld';
-  if (appeal && appeal.status === 'rejected') return null; // appeal decided against the creator
-  // No appeal was ever filed: wait for the window to run out.
+  // The appeal against THIS rejection has concluded either way, so the pending
+  // handling has ended: "若已申诉，则待处理结束才释放相应预留". An upheld appeal from an
+  // earlier round is not this rejection's business.
+  if (appeal !== null) return null;
+  // No appeal was filed against this rejection: wait for the window to run out.
   if (isAtOrBefore(state.clock.nowIso, claim.rejection.appealDeadlineAt)) {
     return 'appeal_window_open';
   }
   return null;
 }
 
+/** Every appeal ever filed against this claim, oldest first. */
+export function appealsForClaim(state: DemoState, claimId: string): Appeal[] {
+  return Object.values(state.appeals)
+    .filter((appeal) => appeal.claimId === claimId)
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * The appeal that belongs to the claim's CURRENT rejection round, or null when this
+ * rejection has not been appealed.
+ *
+ * A claim can be rejected more than once, because an upheld appeal returns it to
+ * verification ("成立后继续核验") where approve, hold and reject are all available
+ * again. The appeal right is attached to the rejection — campaign-defaults-v1.md
+ * 审核与申诉 "拒绝后7个日历日可申诉" — so it is looked up through the rejection record
+ * rather than by claim id. When no rejection stands (an upheld appeal put the claim
+ * back into review) the most recent appeal is returned so its outcome stays readable.
+ */
+export function currentAppealFor(state: DemoState, claim: Claim): Appeal | null {
+  if (claim.rejection !== null) {
+    const id = claim.rejection.appealId;
+    return id === null ? null : (state.appeals[id] ?? null);
+  }
+  return appealsForClaim(state, claim.id).at(-1) ?? null;
+}
+
 export function appealFor(state: DemoState, claimId: string) {
-  return Object.values(state.appeals).find((appeal) => appeal.claimId === claimId) ?? null;
+  const claim = state.claims[claimId];
+  return claim ? currentAppealFor(state, claim) : null;
 }
 
 export function obligationFor(state: DemoState, claimId: string) {

@@ -12,7 +12,7 @@
  */
 
 import Link from 'next/link';
-import { Bell, Megaphone } from 'lucide-react';
+import { Bell, Hourglass, Megaphone } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -61,6 +61,7 @@ function Overview() {
   const tDetail = useTranslations('merchant.detail');
   const tKinds = useTranslations('notifications.kinds');
   const tState = useTranslations('common.state');
+  const tCommon = useTranslations('common');
   const locale = useAppLocale();
   const actor = useActor();
   const state = useDemoSnapshot();
@@ -168,9 +169,10 @@ function Overview() {
         ) : (
           <>
             <Badge
-              className="bg-attention-subtle text-attention-foreground w-fit border-transparent"
+              className="bg-attention-subtle text-attention-foreground w-fit gap-1 border-transparent"
               data-testid="pending-review-count"
             >
+              <Hourglass aria-hidden="true" />
               {t('reviewsCount', { count: pendingReviews.length })}
             </Badge>
             <ItemGroup>
@@ -227,6 +229,7 @@ function Overview() {
                           notification.params,
                           locale,
                           tState('unknown'),
+                          tCommon,
                         ),
                       )}
                     </span>

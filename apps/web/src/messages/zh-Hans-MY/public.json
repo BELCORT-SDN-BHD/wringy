@@ -36,6 +36,7 @@
     "viewThreshold": "观看门槛",
     "viewThresholdNone": "无",
     "viewThresholdNote": "门槛与最低申请金额都必须满足。达到门槛不会提高封顶。",
+    "viewThresholdCapNote": "达到 {views} 次合格观看时，奖励封顶为 {amount}。达到门槛不会提高封顶。",
     "submissionsClose": "投稿截止",
     "metering": "计量窗口",
     "meteringValue": "作品被接受后 {days} 天",
@@ -72,6 +73,7 @@
     "nextNote": "登录后将继续前往 {path}。",
     "signedInToast": "已以模拟演示用户身份登录。",
     "alreadySignedIn": "你已处于模拟身份中。",
-    "continue": "继续"
+    "continue": "继续",
+    "opsNotice": "运营身份是独立的模拟用户，只能从演示工具进入，因此此身份将改为前往创作者工作区。"
   }
 }

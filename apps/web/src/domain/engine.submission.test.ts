@@ -116,6 +116,39 @@ describe('submission.create', () => {
     expect(Object.keys(harness.state.submissions)).toHaveLength(2); // seed + this one
   });
 
+  it('stores a scheme-less paste as an absolute https URL and dedups against the schemed form', () => {
+    // `normalizePostUrl` has always prefixed a scheme to read the post id, but the
+    // engine used to store `command.url` verbatim — so a scheme-less paste became a
+    // RELATIVE href on the creator's and merchant's "Open the post" anchors and
+    // navigated inside the prototype instead of out to the platform.
+    const harness = creator();
+    harness.ok({
+      type: 'submission.create',
+      campaignId: SEED_IDS.campaignKopiRaya,
+      connectionId: SEED_IDS.connectionDemoTiktok,
+      url: 'tiktok.com/@demouser/video/7400000000000000001',
+    });
+    const stored = findSubmissionByUrl(
+      harness.state,
+      'https://tiktok.com/@demouser/video/7400000000000000001',
+    );
+    expect(stored.url.startsWith('https://')).toBe(true);
+    expect(stored.postId).toBe('7400000000000000001');
+
+    // The same post pasted with its scheme is the same post, not a second one.
+    const failure = harness.fail(
+      {
+        type: 'submission.create',
+        campaignId: SEED_IDS.campaignKopiRaya,
+        connectionId: SEED_IDS.connectionDemoTiktok,
+        url: URLS.demoTiktok,
+      },
+      'duplicate_post',
+    );
+    expect(failure.detail).toBe(stored.id);
+    expect(Object.keys(harness.state.submissions)).toHaveLength(2); // seed + this one
+  });
+
   it('blocks the same post in a second campaign while the first is not finally rejected (D06)', () => {
     const harness = creator();
     const first = submitDemoTiktok(harness);
@@ -387,5 +420,55 @@ describe('data outage', () => {
     expect(after.status).toBe('metering');
     expect(after.acceptedAt).toBe('2026-09-01T12:00:00+08:00');
     expect(after.meteringEndsAt).toBe('2026-09-08T12:00:00+08:00');
+  });
+});
+
+describe('money derived from a reading that never existed', () => {
+  /**
+   * prototype-spec-v1.md 必须提供的异常场景: "数据缺失不显示0观看或直接判作弊", and
+   * localization-v1.md: "已知零、未知、未填写与不适用分别表达；未知金额／费用不得显示
+   * MYR 0.00". A submission with no trusted reading has an UNKNOWN reward, not a
+   * zero one, so the derived money is null and the UI renders the word for unknown.
+   */
+  it('reports the reward as unknown rather than zero', () => {
+    const harness = creator();
+    harness.ok({
+      type: 'demo.setReadiness',
+      campaignId: SEED_IDS.campaignKopiRaya,
+      dataSourceReady: false,
+    });
+    const submission = submitDemoTiktok(harness);
+    expect(submission.status).toBe('baseline_unavailable');
+
+    expect(selectSubmissionReward(harness.state, submission.id)).toMatchObject({
+      dataStatus: 'no_baseline',
+      qualifiedViews: null,
+      lastTrustedAt: null,
+      exactRewardMilliSen: null,
+      cappedSen: null,
+      claimableSen: null,
+      capReached: false,
+      meetsMinClaim: false,
+      canClaim: false,
+      blockReason: 'data_unavailable',
+      // The recorded amounts are known zeros, read from the claims, not readings.
+      reservedSen: 0,
+      confirmedUnpaidSen: 0,
+      paidSen: 0,
+    });
+  });
+
+  it('keeps the last trusted reading and its money through a later outage', () => {
+    const harness = creator();
+    const submission = submitDemoTiktok(harness);
+    harness.ok({ type: 'demo.addQualifiedViews', submissionId: submission.id, views: 1000 });
+    harness.ok({ type: 'demo.setDataOutage', submissionId: submission.id, outage: true });
+
+    expect(selectSubmissionReward(harness.state, submission.id)).toMatchObject({
+      dataStatus: 'unavailable',
+      qualifiedViews: 1000,
+      cappedSen: 500,
+      claimableSen: 500,
+    });
   });
 });

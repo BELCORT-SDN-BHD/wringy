@@ -140,6 +140,8 @@
     "retentionLabel": "保留结束",
     "retentionReasonPublished": "活动上线后的已公布保留期。",
     "retentionReasonClaimDeadline": "该发布当前生效的申请截止晚于已公布的保留期。",
+    "retentionReasonCaseResolved": "这条投稿最后一件申请或申诉的结案时间晚于公布的保留期。",
+    "retentionReasonSettlement": "这条投稿的已确认款项发放完成时间晚于公布的保留期。",
     "retentionReasonOpenCases": "已提交的申请或申诉仍未结案，因此暂无结束日期。",
     "retentionReasonConfirmedUnpaid": "已确认金额尚未发放，因此暂无结束日期。",
     "contentReviewTitle": "内容审核（商家）",
@@ -164,6 +166,7 @@
     "capLabel": "该发布上限",
     "capReached": "该发布在本活动已封顶于 {cap}。达到观看门槛不会提高上限。",
     "capProgress": "已达该发布上限的 {percent}%",
+    "capProgressUnknown": "在数据来源恢复可读之前，距离封顶的进度未知。",
     "occupiedTitle": "此前申请已占用",
     "reservedLabel": "已预留",
     "confirmedUnpaidLabel": "确认未付",
@@ -191,7 +194,6 @@
     "bucketsTitle": "本次申请后的奖励池",
     "openClaim": "打开申请",
     "blockedTitle": "当前无法申请",
-    "idempotentNotice": "该次点击重复了同一请求，演示保留了已存在的那一条申请。",
     "waitlistedTitle": "你已进入候补",
     "waitlistedDescription": "不预留任何金额，也不保证付款。额度恢复后会通知你，你需要重新提交才能取得新的排队次序。",
     "openWaitlist": "打开申请与候补"
@@ -234,6 +236,8 @@
     "waitlistWaiting": "候补期间不预留金额，也不保证付款。",
     "resubmit": "重新提交",
     "resubmitToast": "已按新的排队时间重新提交。",
+    "resubmitStillWaitingToast": "候补已取得新的排队时间。可用预算仍低于最低申请金额，因此没有提交申请，也没有预留任何金额。",
+    "resubmitOfferToast": "只有部分金额可用。请查看报价并同意确切金额。",
     "claimableAtEntryLabel": "进入候补时可申请金额",
     "notifiedAtLabel": "通知时间",
     "openSubmission": "打开投稿"

@@ -47,7 +47,8 @@
     "signOut": "Keluar",
     "signedOutToast": "Telah keluar daripada identiti simulasi.",
     "simulatedIdentity": "Identiti simulasi · bukan kebenaran",
-    "demoTools": "Alat demo"
+    "demoTools": "Alat demo",
+    "close": "Tutup"
   },
   "state": {
     "emptyTitle": "Tiada apa-apa di sini",
@@ -171,7 +172,7 @@
     "claim": {
       "pending_review": "Menunggu semakan",
       "confirmed_unpaid": "Disahkan belum dibayar",
-      "rejected_appealable": "Ditolak · rayuan dibuka",
+      "rejected_appealable": "Ditolak · tempahan ditahan",
       "appealing": "Rayuan sedang berjalan",
       "rejected_final": "Ditolak · akhir",
       "paid": "Telah dibayar"
@@ -212,6 +213,49 @@
       "unknown": "Penyelesaian bank tidak diketahui",
       "settled": "Penyelesaian bank disahkan"
     }
+  },
+  "auditStatus": {
+    "unknown": "Tidak diketahui ({code})",
+    "pair": "{first} / {second}",
+    "resyncFailed": "{status} · segerak semula gagal",
+    "retryOf": "Cuba semula bagi {id}",
+    "readiness": "Bukti dana: {funding} · Sumber data: {data}",
+    "yes": "direkodkan",
+    "no": "belum direkodkan"
+  },
+  "reasons": {
+    "qualified_views_added": "Tontonan sah ditambah oleh alat demo.",
+    "ignored_after_metering_end": "Diabaikan: tempoh pengukuran sudah ditutup.",
+    "read_failed_source_unreachable": "Bacaan gagal: sumber tidak dapat dihubungi, jadi nilai dipercayai terakhir dikekalkan.",
+    "data_outage_started": "Gangguan data simulasi dimulakan.",
+    "data_outage_cleared": "Gangguan data simulasi telah dibersihkan.",
+    "readiness_set": "Kesediaan kempen ditetapkan dalam alat demo.",
+    "simulated_provider_success": "Penyedia simulasi melaporkan dana sebagai tersedia.",
+    "simulated_provider_timeout": "Penyedia simulasi tidak menjawab, jadi keputusannya tidak diketahui.",
+    "payout_started": "Percubaan pembayaran dimulakan.",
+    "partial_offer_declined": "Tawaran sebahagian ditolak; tiada apa-apa ditempah.",
+    "connection_reconnected": "Sambungan akaun disambung semula (simulasi).",
+    "draft_updated": "Draf telah dikemas kini.",
+    "post": "Siaran: {platform} {postId}",
+    "claimable": "Jumlah boleh dituntut: {amount}",
+    "offer": "Ditawarkan {offered} daripada {full}",
+    "waitlisted": "Dalam senarai menunggu untuk {amount}; tiada apa-apa ditempah.",
+    "partialConsent": "Bersetuju dengan tawaran sebahagian {offerId}.",
+    "reconciled": "{outcome} — {note}"
+  },
+  "reconcileOutcome": {
+    "still_unknown": "Masih tidak diketahui",
+    "confirmed_succeeded": "Disahkan berjaya",
+    "confirmed_failed": "Disahkan gagal"
+  },
+  "missingReason": {
+    "source_unreachable": "Sumber tidak dapat dihubungi",
+    "permission_revoked": "Kebenaran ditarik",
+    "post_private": "Siaran adalah peribadi"
+  },
+  "extensionReason": {
+    "data_outage": "Gangguan data",
+    "pending_case": "Satu kes menyekat tuntutan baharu"
   },
   "errors": {
     "forbidden": "Identiti ini tidak dibenarkan melakukannya dalam demo.",

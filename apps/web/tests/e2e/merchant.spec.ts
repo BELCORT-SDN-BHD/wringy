@@ -458,7 +458,13 @@ test.describe('events and review', () => {
     // reserved rather than paid.
     await page.goto(`/merchant/campaigns/${stored.claims[claimId].campaignId}`);
     await waitForHydration(page);
-    await expect(page.locator(`[data-claim-id="${claimId}"]`)).toContainText('appeal');
+    // The row names the claim's real state: rejected, with the reservation still
+    // held. It deliberately does not say "appeal open" — an appeal may or may not
+    // be filed from here, and after one is rejected the claim returns to this same
+    // status with no appeal left to run.
+    const row = page.locator(`[data-claim-id="${claimId}"]`);
+    await expect(row).toContainText('Rejected');
+    await expect(row).toContainText('reservation held');
     expect(await moneyOf(page, '[data-bucket="reserved"] [data-money]')).toBe('500');
     expect(await moneyOf(page, '[data-bucket="paid"] [data-money]')).toBe('0');
   });

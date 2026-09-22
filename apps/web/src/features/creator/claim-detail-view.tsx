@@ -36,6 +36,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { REVIEW_TARGET_HOURS } from '@/domain';
 import { formatAuditAction } from '@/lib/audit-copy';
 import { formatSen, formatViews } from '@/lib/format';
+import { reasonLabel } from '@/lib/reason-copy';
 import { useAppLocale } from '@/lib/use-app-locale';
 import type { ClaimStatus } from '@/domain/types';
 
@@ -82,6 +83,7 @@ function ClaimDetail({ view, nowIso }: { view: ClaimView; nowIso: string }) {
   const t = useTranslations('creator.claimDetail');
   const tClaims = useTranslations('creator.claims');
   const tActions = useTranslations('common.actions');
+  const tCommon = useTranslations('common');
   const locale = useAppLocale();
   const { claim, campaign, submission, appeal, obligation, audit, actorNames } = view;
 
@@ -90,7 +92,7 @@ function ClaimDetail({ view, nowIso }: { view: ClaimView; nowIso: string }) {
     at: entry.at,
     title: formatAuditAction(entry.action, tActions),
     actor: actorNames[entry.actorUserId] ?? entry.actorUserId,
-    reason: entry.reason,
+    reason: reasonLabel(entry.reason, tCommon, locale),
   }));
 
   return (

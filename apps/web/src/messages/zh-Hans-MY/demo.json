@@ -14,7 +14,8 @@
     "toClaimDeadline": "跳到申请截止",
     "needsSubmission": "请先选择一条投稿。",
     "noTarget": "该投稿还没有相应的时间。",
-    "advanced": "时钟已调整到 {time}。"
+    "advanced": "时钟已调整到 {time}。",
+    "targetPassed": "模拟时钟已经越过这个时间点，而且只能向前推进。"
   },
   "role": {
     "title": "身份",
@@ -33,10 +34,9 @@
     "add": "增加观看",
     "added": "已增加 {count} 次合格观看。",
     "none": "暂无可计量的投稿。",
-    "scopeMine": "我的投稿",
-    "scopeAll": "全部投稿",
     "ignoredAfterMeteringEnd": "没有增加任何观看：计量窗口已关闭，之后的观看不计入。",
-    "ignoredSourceUnreachable": "读取失败，来源不可访问。已保留最后一次可信数值。"
+    "ignoredSourceUnreachable": "读取失败，来源不可访问。已保留最后一次可信数值。",
+    "foreignNote": "这些投稿都不属于你当前使用的身份，因此在这里的改动会落在其他创作者的记录上，不会出现在你自己的页面。"
   },
   "outage": {
     "title": "数据中断",
@@ -56,7 +56,7 @@
   },
   "payout": {
     "title": "出款结果",
-    "description": "为处理中或结果未知的出款尝试设定模拟通道结果。",
+    "description": "为处理中的出款尝试设定模拟通道结果。结果未知的尝试要在运营出款页面对照原交易对账，不在这里重新判定。",
     "succeeded": "资金已可用",
     "failed": "失败",
     "unknown": "未知",

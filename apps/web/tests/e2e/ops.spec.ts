@@ -259,6 +259,13 @@ test('a rejection needs a reason, holds the reservation and is released only aft
   await expect(audit).toContainText('Ops Reviewer');
   await expect(audit).toContainText('Appeal window closed with no appeal filed.');
 
+  // And the before/after badge is words, not the engine's status codes: these
+  // used to render `rejected_appealable → rejected_final` inside a translated
+  // page (`src/lib/status-copy.ts`).
+  await expect(audit).toContainText('Rejected · reservation held → Rejected · final');
+  await expect(audit).not.toContainText('rejected_appealable');
+  await expect(audit).not.toContainText('rejected_final');
+
   const stored = await readStoredState(page);
   const finalized = Object.values(stored?.notifications ?? {}).filter(
     (notification) => notification.kind === 'claim.rejection_finalized',
@@ -791,6 +798,29 @@ test('the work queue filters, groups and does not scroll sideways at 320px', asy
   await expect(page.locator('[data-queue-kind="readiness"]')).toHaveCount(0);
 
   await expectNoHorizontalOverflow(page);
+
+  /**
+   * A filter that matched nothing is its own page condition: state-policy.md keeps
+   * no-match and first-run-empty apart by text, and reference-contract.md's
+   * filtered-no-result row asks for the filter to be kept plus a clear action.
+   * Saying "nothing is waiting" while the badge above counts items would state the
+   * opposite of the truth.
+   */
+  await page.getByTestId('ops-queue-kind').click();
+  await page.getByRole('option', { name: 'Campaign readiness', exact: true }).click();
+  await page.getByTestId('ops-queue-scope').getByRole('tab', { name: 'Finance' }).click();
+  await expect(page.getByTestId('ops-queue-groups')).toHaveCount(0);
+  await expect(page.getByTestId('ops-queue-total')).toContainText('items waiting');
+  const noMatch = page.locator('[data-app-state="no-match"]');
+  await expect(noMatch).toBeVisible();
+  await expect(noMatch).not.toContainText('Nothing is waiting');
+  await expect(page.locator('[data-app-state="empty"]')).toHaveCount(0);
+  // The filters stay as they are, and clearing them is one press away.
+  await expect(
+    page.getByTestId('ops-queue-scope').getByRole('tab', { name: 'Finance' }),
+  ).toHaveAttribute('aria-selected', 'true');
+  await page.getByTestId('ops-queue-clear-filters').click();
+  await expect(page.getByTestId('ops-queue-groups')).toBeVisible();
 
   // The 320px spot check acceptance P10 asks for, on the busiest ops page.
   await page.setViewportSize({ width: 320, height: 568 });

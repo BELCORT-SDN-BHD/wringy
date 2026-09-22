@@ -217,13 +217,18 @@ export function selectObligations(state: DemoState): Obligation[] {
 }
 
 /**
- * Payout attempts the demo tools can still give an outcome to: the simulated
- * provider has not answered, or answered "unknown". A succeeded or confirmed
- * failed attempt is final and is not offered here.
+ * Payout attempts the demo tools can still give an outcome to: exactly the ones
+ * the simulated provider has not answered yet.
+ *
+ * `demo.setPayoutOutcome` refuses anything but `processing`, and an attempt that
+ * came back "unknown" is never re-decided — it is reconciled against the original
+ * transaction from the operations payout page ("未知结果先对账，不能重复付款"). So an
+ * unknown attempt is deliberately absent here rather than offered as three buttons
+ * the engine would refuse.
  */
 export function selectUnresolvedPayoutAttempts(state: DemoState): PayoutAttempt[] {
   return Object.values(state.payoutAttempts)
-    .filter((attempt) => attempt.status === 'processing' || attempt.status === 'unknown')
+    .filter((attempt) => attempt.status === 'processing')
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 

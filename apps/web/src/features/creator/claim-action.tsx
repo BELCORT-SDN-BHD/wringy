@@ -3,11 +3,15 @@
 /**
  * "Claim reward" and what comes back.
  *
- * One press is one intent: the command id is minted per (submission, reading
- * version, claimable amount), so a second press of the same intent — or a press
- * that arrives twice — replays through the engine's idempotency instead of
- * filing a second claim. The engine is the guarantee; this only stops the UI
- * from spamming it (ticket #5: 重复点击或同视频已有待处理申请不新增记录).
+ * Every press is its own command id and the engine decides what happens to it.
+ * That is what keeps "重复点击或同视频已有待处理申请不新增记录" (ticket #5) true without
+ * the UI guessing: a second press while a claim is pending is refused with
+ * `pending_claim_exists`, a second press that would re-offer a partial amount
+ * supersedes the old offer instead of minting a second money record, and a second
+ * press on the waitlist reuses the one entry. An id derived from the state would
+ * be a state key rather than an intent key — declining an offer changes no
+ * reading, no money and no claim, so the next genuine press would replay the old
+ * command and report a claim that does not exist.
  *
  * A claim request has three possible outcomes and each one is explained in its
  * own terms: a reservation with the four pool buckets, a partial offer that
@@ -17,7 +21,7 @@
 
 import Link from 'next/link';
 import { CircleCheck, HandCoins, Hourglass } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { BudgetBuckets } from '@/components/app/budget-buckets';
@@ -38,34 +42,30 @@ import type { SubmissionView } from './use-creator-data';
 type Outcome =
   | { kind: 'claim'; claimId: string; amountSen: number }
   | { kind: 'waitlisted'; entryId: string }
-  | { kind: 'replay' }
   | null;
 
 export function ClaimAction({ view }: { view: SubmissionView }) {
   const t = useTranslations('creator.claim');
-  const tReward = useTranslations('creator.reward');
+  const tState = useTranslations('common.state');
   const locale = useAppLocale();
   const dispatch = useDispatch();
 
   const [outcome, setOutcome] = useState<Outcome>(null);
   const [error, setError] = useState<{ code: string; detail?: string } | null>(null);
   const [offerOpen, setOfferOpen] = useState(false);
-  const intent = useRef<{ signature: string; commandId: string } | null>(null);
 
   const { reward, budget, openOffer, submission } = view;
   if (!reward) return null;
 
+  // With no trusted reading the amount is unknown, not zero, so the confirmation
+  // says so rather than offering to claim RM 0.00 (the button is disabled anyway).
+  const claimableLabel =
+    reward.claimableSen === null ? tState('unknown') : formatSen(reward.claimableSen, locale);
+
   const request = () => {
-    const signature = `${submission.id}|${reward.lastSnapshotVersion ?? 'none'}|${reward.claimableSen}`;
-    if (intent.current?.signature !== signature) {
-      intent.current = { signature, commandId: newCommandId() };
-    }
     // The claims already on this submission, so the new one can be named.
     const knownClaims = new Set(view.claims.map((claim) => claim.id));
-    const result = dispatch(
-      { type: 'claim.request', submissionId: submission.id },
-      intent.current.commandId,
-    );
+    const result = dispatch({ type: 'claim.request', submissionId: submission.id }, newCommandId());
 
     if (!result.ok) {
       setOutcome(null);
@@ -86,10 +86,6 @@ export function ClaimAction({ view }: { view: SubmissionView }) {
       setOutcome(entry ? { kind: 'waitlisted', entryId: entry.id } : null);
       return;
     }
-    if (result.outcome === 'idempotent_replay') {
-      setOutcome({ kind: 'replay' });
-      return;
-    }
     const created = Object.values(result.state.claims).find(
       (claim) => claim.submissionId === submission.id && !knownClaims.has(claim.id),
     );
@@ -102,10 +98,8 @@ export function ClaimAction({ view }: { view: SubmissionView }) {
     <div className="flex flex-col gap-3" data-testid="claim-action">
       <div className="flex flex-col gap-2">
         <ConfirmDialog
-          title={t('confirmTitle', { amount: formatSen(reward.claimableSen, locale) })}
-          description={t('confirmDescription', {
-            amount: formatSen(reward.claimableSen, locale),
-          })}
+          title={t('confirmTitle', { amount: claimableLabel })}
+          description={t('confirmDescription', { amount: claimableLabel })}
           confirmLabel={t('confirmAction')}
           onConfirm={request}
           trigger={
@@ -149,14 +143,6 @@ export function ClaimAction({ view }: { view: SubmissionView }) {
               <Link href="/creator/claims">{t('openWaitlist')}</Link>
             </Button>
           </AlertAction>
-        </Alert>
-      ) : null}
-
-      {outcome?.kind === 'replay' ? (
-        <Alert data-testid="claim-replay">
-          <Hourglass aria-hidden="true" />
-          <AlertTitle>{t('idempotentNotice')}</AlertTitle>
-          <AlertDescription>{tReward('pendingClaimNotice')}</AlertDescription>
         </Alert>
       ) : null}
     </div>

@@ -21,7 +21,7 @@
  */
 
 import Link from 'next/link';
-import { CircleAlert, Info, TriangleAlert } from 'lucide-react';
+import { CircleAlert, Info, PencilLine, TriangleAlert } from 'lucide-react';
 import { useId, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
@@ -181,9 +181,10 @@ function DraftForm({ campaign }: { campaign: Campaign }) {
           <StatusBadge group="campaign" code={campaign.status} />
           {dirty ? (
             <Badge
-              className="bg-attention-subtle text-attention-foreground border-transparent"
+              className="bg-attention-subtle text-attention-foreground gap-1 border-transparent"
               data-testid="editor-dirty"
             >
+              <PencilLine aria-hidden="true" />
               {t('unsaved')}
             </Badge>
           ) : null}
@@ -460,6 +461,17 @@ function DraftForm({ campaign }: { campaign: Campaign }) {
           <FieldDescription data-testid="cross-platform-rule">
             {t('fieldCrossPlatformRule')}
           </FieldDescription>
+          {/*
+            The switch records the merchant's declared permission, which is what
+            D06 keeps ("同活动跨平台独立封顶仍按已批准商家许可执行"). It changes no amount
+            in M1: a Submission is identified by (campaign, platform, post id) and
+            carries no content identity, so the prototype cannot tell one video
+            re-posted on two platforms from two different videos. Saying so beats
+            letting the rule sentence promise grouping the engine cannot express.
+          */}
+          <FieldDescription data-testid="cross-platform-not-simulated">
+            {t('fieldCrossPlatformNotSimulated')}
+          </FieldDescription>
         </FieldGroup>
       </FieldSet>
 
@@ -628,7 +640,7 @@ function ReadOnlyConfiguration({ campaign }: { campaign: Campaign }) {
           <ReadOnlyDefinition
             label={t('fieldCrossPlatform')}
             value={campaign.rules.crossPlatformIndependentCap ? t('valueOn') : t('valueOff')}
-            hint={t('fieldCrossPlatformRule')}
+            hint={`${t('fieldCrossPlatformRule')} ${t('fieldCrossPlatformNotSimulated')}`}
           />
           <ReadOnlyDefinition
             label={t('fieldRegion')}

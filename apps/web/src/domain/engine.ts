@@ -24,7 +24,6 @@ import {
   DEFAULT_RULES,
   REVIEW_TARGET_HOURS,
   appealDeadlineFrom,
-  appealFor,
   attemptsFor,
   budgetOf,
   claimsForSubmission,
@@ -384,6 +383,11 @@ function grantExtension(
   reason: 'data_outage' | 'pending_case',
   blockedFrom: IsoDateTime,
 ): void {
+  // A block that started and cleared in the same instant blocked nothing, and the
+  // grace exists because something WAS blocked: "平台数据故障或同视频既有待审／申诉阻挡新增
+  // 申请时…阻挡解除后仍有完整公布宽限". Moving a published deadline for a zero-length
+  // block would be the "暗中无限延期" D04 forbids.
+  if (!isBefore(blockedFrom, c.now)) return;
   const current = effectiveClaimDeadlineAt(submission);
   const newDeadlineAt = calendarDaysAfter(c.now, campaign.rules.claimGraceDays);
   // Extensions never shorten a deadline and never re-open metering.
@@ -438,6 +442,9 @@ function applyRejection(
     decidedBy: c.actor.userId,
     decidedAt: c.now,
     appealDeadlineAt: appealDeadlineFrom(c.now),
+    // A fresh rejection carries a fresh appeal right, even when an earlier round of
+    // this claim was appealed: "拒绝后7个日历日可申诉".
+    appealId: null,
   };
   emit(c, {
     kind: 'claim.rejected',
@@ -522,7 +529,12 @@ function runClockEffects(c: Ctx): void {
   //    cleared: "及时提交申请及已确认奖励不因截止清除".
   for (const submission of Object.values(c.state.submissions)) {
     const deadline = effectiveClaimDeadlineAt(submission);
-    if (deadline === null || isBefore(c.now, deadline)) continue;
+    // The deadline itself is still inside the window: `isClaimWindowOpen` and
+    // `evaluateClaimRequest` both treat "at the deadline" as open, and the
+    // metering-ended copy promises "you can still claim until {claimDeadlineAt}".
+    // So the notice goes out strictly after it, or it would contradict a claim the
+    // creator can still file at that very instant.
+    if (deadline === null || isAtOrBefore(c.now, deadline)) continue;
     emit(c, {
       kind: 'deadline.claim_deadline_passed',
       targetType: 'submission',
@@ -884,7 +896,12 @@ function handleDemo(c: Ctx, command: Command): HandlerResult {
       const blocked: string[] = [];
       if (!campaign.readiness.fundingEvidence) blocked.push('funding_evidence');
       if (!campaign.readiness.dataSourceReady) blocked.push('data_source');
-      if (blocked.length > 0) {
+      // Readiness only gates PUBLISHING (`campaign.publish` refuses on it), so the
+      // "cannot be published" notice belongs to a draft. On a live campaign readiness
+      // is a record, not a gate — which is what the operations readiness page says —
+      // and telling the merchant a published campaign cannot be published would be
+      // wrong about the state they can see.
+      if (blocked.length > 0 && campaign.status === 'draft') {
         emit(c, {
           kind: 'campaign.readiness_blocked',
           targetType: 'campaign',
@@ -1425,7 +1442,13 @@ function handleCreator(c: Ctx, command: Command): HandlerResult {
         connectionId: connection.id,
         platform: normalized.platform,
         postId: normalized.postId,
-        url: command.url.trim(),
+        // The canonical absolute form, not `command.url`: a creator may paste
+        // `tiktok.com/@x/video/123`, and the raw input is a RELATIVE href, so the
+        // creator's and the merchant's "Open the post" anchors used to navigate
+        // inside the prototype. `Submission` has no field for the raw input, so the
+        // canonical form is the only one stored; the post id it deduped on is
+        // unchanged.
+        url: normalized.canonicalUrl,
         rulesVersion: campaign.rulesVersion,
         status: 'pending_baseline',
         submittedAt: c.now,
@@ -1562,12 +1585,10 @@ function handleCreator(c: Ctx, command: Command): HandlerResult {
         return fail('invalid_transition', `entry_${entry.status}`);
       }
       // "通知后重提取得新优先级" — the resubmit time is the new queue time.
-      const result = requestClaim(c, entry.submissionId);
-      if (!result.ok) return result;
-      // Still nothing allocatable: the entry stays on the waitlist (requestClaim
-      // refreshed it) rather than being marked resubmitted and lost.
-      if (result.outcome !== 'waitlisted') entry.status = 'resubmitted';
-      return result;
+      // `requestClaim` closes the entry itself when the request got past the
+      // waitlist, so a claim filed from the submission page and a claim filed from
+      // here leave the same record behind.
+      return requestClaim(c, entry.submissionId);
     }
     case 'appeal.file': {
       const claim = c.state.claims[command.claimId];
@@ -1579,7 +1600,9 @@ function handleCreator(c: Ctx, command: Command): HandlerResult {
       if (isAfter(c.now, claim.rejection.appealDeadlineAt)) {
         return fail('appeal_window_closed', claim.rejection.appealDeadlineAt);
       }
-      if (appealFor(c.state, claim.id) !== null) return fail('appeal_already_filed', claim.id);
+      // One appeal per rejection, not per claim: a rejection that follows an upheld
+      // appeal is a new decision with its own 7-day window.
+      if (claim.rejection.appealId !== null) return fail('appeal_already_filed', claim.id);
       const reason = command.reason.trim();
       if (reason === '') return fail('invalid_input', 'reason_required');
       const id = mint(c, 'ap');
@@ -1594,6 +1617,7 @@ function handleCreator(c: Ctx, command: Command): HandlerResult {
         resolvedAt: null,
         note: null,
       };
+      claim.rejection.appealId = id;
       claim.status = 'appealing'; // reservation stays held
       claim.updatedAt = c.now;
       emit(c, {
@@ -1698,6 +1722,20 @@ function createClaim(c: Ctx, input: CreateClaimInput): Claim {
  * A21/A28: a claim is always for the WHOLE claimable amount; only the budget decides
  * between a claim, a partial offer and the waitlist.
  */
+/**
+ * An entry waiting on this submission is superseded the moment the request gets
+ * past the waitlist: "额度恢复后通知重提" describes ONE queue position, so leaving the
+ * entry open would offer a "file again" control that the one-pending-claim rule can
+ * only refuse, and would keep counting the creator as waiting.
+ */
+function closeWaitlistEntryFor(c: Ctx, submissionId: string): void {
+  for (const entry of Object.values(c.state.waitlist)) {
+    if (entry.submissionId !== submissionId) continue;
+    if (entry.status !== 'waiting' && entry.status !== 'notified') continue;
+    entry.status = 'resubmitted';
+  }
+}
+
 function requestClaim(c: Ctx, submissionId: string): HandlerResult {
   const eligibility = evaluateClaimRequest(c.state, submissionId, c.actor.userId);
   if (!eligibility.ok) return fail(eligibility.code, eligibility.detail);
@@ -1705,6 +1743,7 @@ function requestClaim(c: Ctx, submissionId: string): HandlerResult {
   const budget = budgetOf(c.state, campaign.id);
 
   if (budget.availableSen >= math.claimableSen) {
+    closeWaitlistEntryFor(c, submission.id);
     const claim = createClaim(c, {
       campaign,
       submission,
@@ -1729,6 +1768,7 @@ function requestClaim(c: Ctx, submissionId: string): HandlerResult {
   }
 
   if (budget.availableSen >= campaign.rules.minClaimSen) {
+    closeWaitlistEntryFor(c, submission.id);
     // Partial offer: no reservation, no queue position, no countdown.
     for (const existing of Object.values(c.state.partialOffers)) {
       if (existing.submissionId === submission.id && existing.status === 'open') {

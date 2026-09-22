@@ -26,6 +26,7 @@ import {
   Building2,
   CircleAlert,
   Clock,
+  FlaskConical,
   HandCoins,
   RotateCcw,
   ShieldCheck,
@@ -396,7 +397,8 @@ function ScenarioCard({ id }: { id: ScenarioId }) {
     <Card data-scenario-id={id}>
       <CardHeader className="gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline" className="bg-attention-subtle border-transparent">
+          <Badge variant="outline" className="bg-attention-subtle gap-1 border-transparent">
+            <FlaskConical aria-hidden="true" />
             {tScenario(scenarioLabelKey(id))}
           </Badge>
           <RoleBadge role={landing.role} />

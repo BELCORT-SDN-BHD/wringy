@@ -225,6 +225,23 @@ test.describe('creator', () => {
       'data-views',
       'unknown',
     );
+    // And the money derived from that reading is UNKNOWN, not RM 0.00:
+    // localization-v1 "未知金额／费用不得显示 MYR 0.00".
+    await expect(page.getByTestId('reward-estimate').locator('[data-money]')).toHaveAttribute(
+      'data-money',
+      'unknown',
+    );
+    await expect(page.getByTestId('reward-claimable').locator('[data-money]')).toHaveAttribute(
+      'data-money',
+      'unknown',
+    );
+    await expect(page.getByTestId('reward-cap')).not.toContainText('0%');
+    // The recorded amounts are known zeros and stay numbers.
+    await expect(page.getByTestId('reward-reserved').locator('[data-money]')).toHaveAttribute(
+      'data-money',
+      '0',
+    );
+
     await expect(page.getByTestId('claim-reward')).toBeDisabled();
     await expect(page.getByTestId('claim-block-reason')).toHaveAttribute(
       'data-block-reason',

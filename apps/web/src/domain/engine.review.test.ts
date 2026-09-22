@@ -355,3 +355,99 @@ describe('audit trail', () => {
     expect(harness.state.audit).toHaveLength(auditLength);
   });
 });
+
+describe('a rejection after an upheld appeal', () => {
+  /**
+   * An upheld appeal returns the claim to verification ("成立后继续核验"), where
+   * reject is one of the three sanctioned outcomes. That later rejection is a new
+   * decision: campaign-defaults-v1.md 审核与申诉 says "拒绝后7个日历日可申诉"
+   * unqualified, and campaign-defaults-v1.md 申请、排队与预留 releases the reservation
+   * once "待处理结束". The appeal right and the release therefore belong to the
+   * rejection round, not to the claim as a whole.
+   */
+  function rejectedAfterUphold(): {
+    harness: Harness;
+    submissionId: string;
+    claimId: string;
+  } {
+    const { harness, submissionId, claimId } = claimed();
+    asReviewer(harness);
+    harness.ok({
+      type: 'claim.reviewMetering',
+      claimId,
+      decision: 'reject',
+      reason: 'views look off',
+    });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    harness.ok({ type: 'appeal.file', claimId, reason: 'the numbers are right' });
+    asReviewer(harness);
+    harness.ok({
+      type: 'appeal.resolve',
+      appealId: appealOf(harness.state, claimId).id,
+      decision: 'uphold',
+      note: 'reopening the check',
+    });
+    expect(harness.state.claims[claimId].status).toBe('pending_review');
+    harness.ok({
+      type: 'claim.reviewMetering',
+      claimId,
+      decision: 'reject',
+      reason: 'second look: still invalid',
+    });
+    return { harness, submissionId, claimId };
+  }
+
+  it('carries a fresh appeal right with its own window', () => {
+    const { harness, claimId } = rejectedAfterUphold();
+    const claim = harness.state.claims[claimId];
+    expect(claim.status).toBe('rejected_appealable');
+    expect(claim.rejection?.appealId).toBeNull();
+
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    harness.ok({ type: 'appeal.file', claimId, reason: 'appealing the second rejection' });
+    expect(harness.state.claims[claimId].status).toBe('appealing');
+    const appeals = Object.values(harness.state.appeals).filter(
+      (appeal) => appeal.claimId === claimId,
+    );
+    expect(appeals.map((appeal) => appeal.status)).toEqual(['upheld', 'open']);
+
+    // Still one appeal per rejection: once that appeal is decided against the
+    // creator the claim returns to `rejected_appealable`, and this round's appeal
+    // right is spent.
+    asReviewer(harness);
+    harness.ok({
+      type: 'appeal.resolve',
+      appealId: appeals[1].id,
+      decision: 'reject',
+      note: 'the numbers were checked again',
+    });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
+    expect(harness.state.claims[claimId].status).toBe('rejected_appealable');
+    harness.fail({ type: 'appeal.file', claimId, reason: 'again' }, 'appeal_already_filed');
+  });
+
+  it('can be released once the new appeal window closes', () => {
+    const { harness, claimId } = rejectedAfterUphold();
+    asReviewer(harness);
+    // Inside the new window the reservation is still held.
+    harness.fail(
+      { type: 'claim.finalizeRejection', claimId, reason: 'release' },
+      'release_not_allowed',
+    );
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    harness.ok({ type: 'claim.finalizeRejection', claimId, reason: 'window closed' });
+
+    expect(harness.state.claims[claimId].status).toBe('rejected_final');
+    expect(selectBudget(harness.state, SEED_IDS.campaignKopiRaya)).toMatchObject({
+      availableSen: 200_000,
+      reservedSen: 0,
+    });
+  });
+
+  it('shows up in the operations queue as a release to finalise', () => {
+    const { harness, claimId } = rejectedAfterUphold();
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    const items = selectOpsQueue(harness.state).filter((item) => item.targetId === claimId);
+    expect(items.map((item) => item.kind)).toEqual(['finalize_rejection']);
+  });
+});

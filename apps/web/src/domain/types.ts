@@ -12,7 +12,13 @@
 
 export const CURRENCY = 'MYR' as const;
 export const TIMEZONE = 'Asia/Kuala_Lumpur' as const;
-export const SCHEMA_VERSION = 1;
+/**
+ * 2 adds `Claim.rejection.appealId`, which keys the appeal right to the rejection
+ * round it answers instead of to the claim as a whole. A stored state from schema 1
+ * cannot answer "does this rejection already have an appeal?", so the app offers a
+ * reset rather than guessing (kickoff decision 9).
+ */
+export const SCHEMA_VERSION = 2;
 
 /** Integer minor units of MYR (1 RM = 100 sen). Never a float. */
 export type Sen = number;
@@ -270,6 +276,16 @@ export interface Claim {
     decidedAt: IsoDateTime;
     /** decidedAt + 7 calendar days. */
     appealDeadlineAt: IsoDateTime;
+    /**
+     * The appeal filed against THIS rejection, if any.
+     *
+     * campaign-defaults-v1.md 审核与申诉: "拒绝后7个日历日可申诉" is written of a
+     * rejection, unqualified. An upheld appeal returns the claim to review, where it
+     * can be rejected again, so the appeal right belongs to the round and not to the
+     * claim: an earlier round's appeal must neither consume the later round's appeal
+     * right nor block its release.
+     */
+    appealId: string | null;
   } | null;
   /** Set when pending_review exceeded the 48h target; escalation only, never auto-approval. */
   escalatedAt: IsoDateTime | null;
@@ -569,6 +585,7 @@ export type ErrorCode =
   | 'unsupported_platform'
   | 'duplicate_post'
   | 'cross_campaign_blocked'
+  | 'content_rejected'
   | 'pending_claim_exists'
   | 'below_min_claim'
   | 'view_threshold_not_met'
@@ -622,16 +639,28 @@ export interface SubmissionRewardView {
   lastTrustedAt: IsoDateTime | null;
   lastSnapshotVersion: number | null;
   dataStatus: 'trusted' | 'unavailable' | 'no_baseline';
-  /** Exact cumulative reward before cap, in thousandths of a sen (integer arithmetic). */
-  exactRewardMilliSen: number;
-  /** min(cap, exact) floored to sen. */
-  cappedSen: Sen;
+  /**
+   * Exact cumulative reward before cap, in thousandths of a sen (integer arithmetic),
+   * or null when the source was never readable.
+   *
+   * The three derived money fields below are nullable for the same reason: with no
+   * trusted reading the amount is UNKNOWN, not zero. localization-v1: "未知金额／费用不得
+   * 显示 MYR 0.00", and prototype-spec-v1.md 必须提供的异常场景: "数据缺失不显示0观看".
+   * The recorded reserved / confirmed / paid amounts stay plain numbers: those are
+   * known zeros read from the claims, not readings.
+   */
+  exactRewardMilliSen: number | null;
+  /** min(cap, exact) floored to sen; null when there is no trusted reading. */
+  cappedSen: Sen | null;
   capReached: boolean;
   reservedSen: Sen;
   confirmedUnpaidSen: Sen;
   paidSen: Sen;
-  /** cappedSen − (reserved + confirmedUnpaid + paid); never negative. */
-  claimableSen: Sen;
+  /**
+   * cappedSen − (reserved + confirmedUnpaid + paid + finally rejected); never
+   * negative, and null when there is no trusted reading.
+   */
+  claimableSen: Sen | null;
   meetsMinClaim: boolean;
   meetsViewThreshold: boolean;
   pendingClaimId: string | null;
@@ -651,7 +680,18 @@ export interface SubmissionDeadlinesView {
   extensions: ClaimDeadlineExtension[];
   /** Latest of: publish + retentionDays, effective claim deadline, open cases resolved, confirmed payouts settled. */
   retentionEndsAt: IsoDateTime | null;
-  retentionReason: 'published_retention' | 'claim_deadline' | 'open_cases' | 'confirmed_unpaid';
+  /**
+   * Which of the four terminal points the end date came from. D04 names all four
+   * ("保留至公布保留期、该视频适用申请截止、已提交申请／申诉处理完成、已确认款项发放完成四者
+   * 的较晚点"), so the label has to be able to name all four too.
+   */
+  retentionReason:
+    | 'published_retention'
+    | 'claim_deadline'
+    | 'case_resolved'
+    | 'settlement'
+    | 'open_cases'
+    | 'confirmed_unpaid';
 }
 
 export interface CampaignClosureView {

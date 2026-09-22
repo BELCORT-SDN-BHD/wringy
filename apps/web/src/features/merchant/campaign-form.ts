@@ -18,7 +18,8 @@
  * so the person sees the refusal on the field instead of after the command.
  */
 
-import { DEFAULT_RULES, exactRewardMilliSen } from '@/domain';
+import { DEFAULT_RULES } from '@/domain';
+import { capAtThreshold, type CapAtThreshold } from '@/domain/money';
 import type {
   Campaign,
   CampaignRules,
@@ -253,12 +254,7 @@ export function validateCampaignForm(values: CampaignFormValues): CampaignFormRe
 // The threshold / cap explanation
 // ---------------------------------------------------------------------------
 
-export interface CapExplanation {
-  views: number;
-  /** The reward the threshold would earn if there were no cap. */
-  uncappedSen: Sen;
-  cappedSen: Sen;
-}
+export type CapExplanation = CapAtThreshold;
 
 /**
  * "达10万观看，奖励封顶RM100": when a view threshold is set and the reward it earns
@@ -267,8 +263,10 @@ export interface CapExplanation {
  * threshold is unset or does not reach the cap, because then there is nothing to
  * explain.
  *
- * Uses the engine's own `exactRewardMilliSen`, so the number in the explanation is
- * the number the engine will pay.
+ * The arithmetic itself is `capAtThreshold` in the engine, the same function the
+ * shared public rule sheet renders from, so the editor's live explanation and the
+ * saved campaign's rule sheet cannot state different amounts. This wrapper only
+ * adds "the form is still half-typed" handling.
  */
 export function capExplanation(values: CampaignFormValues): CapExplanation | null {
   if (values.viewThreshold.trim() === '') return null;
@@ -276,12 +274,11 @@ export function capExplanation(values: CampaignFormValues): CapExplanation | nul
   const rate = ringgitToSen(values.ratePerThousand);
   const cap = ringgitToSen(values.capPerSubmission);
   if (!views.ok || !rate.ok || !cap.ok) return null;
-  if (views.value <= 0 || rate.sen <= 0 || cap.sen <= 0) return null;
-
-  const exactMilli = exactRewardMilliSen(views.value, rate.sen);
-  const uncappedSen = Math.floor(exactMilli / 1000);
-  if (uncappedSen <= cap.sen) return null;
-  return { views: views.value, uncappedSen, cappedSen: cap.sen };
+  return capAtThreshold({
+    viewThreshold: views.value,
+    ratePerThousandSen: rate.sen,
+    capPerSubmissionSen: cap.sen,
+  });
 }
 
 /** True when nothing in the form differs from the saved campaign. */

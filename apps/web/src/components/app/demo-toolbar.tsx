@@ -37,6 +37,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { ConfirmDialog } from '@/components/app/confirm-dialog';
+import { SheetCloseIcon } from '@/components/app/close-icon-button';
 import { DateTimeText } from '@/components/app/date-time-text';
 import { MoneyText } from '@/components/app/money-text';
 import { Button } from '@/components/ui/button';
@@ -62,6 +63,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SCENARIO_IDS, scenarioLabelKey } from '@/config/scenarios';
+import { isAfter } from '@/domain';
 import { errorCopyKey } from '@/lib/error-copy';
 import { formatDateTime } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
@@ -111,7 +113,9 @@ export function DemoToolbar() {
         side={isMobile ? 'bottom' : 'right'}
         className="max-h-svh overflow-y-auto"
         data-testid="demo-toolbar"
+        showCloseButton={false}
       >
+        <SheetCloseIcon />
         <SheetHeader className="bg-attention-subtle">
           <SheetTitle className="flex items-center gap-2">
             <FlaskConical aria-hidden="true" className="text-attention-foreground size-4" />
@@ -221,7 +225,16 @@ function SectionTitle({ icon: Icon, children }: { icon: LucideIcon; children: st
   );
 }
 
-/** Submission picker shared by the clock, views and outage sections. */
+/**
+ * Submission picker shared by the clock, views and outage sections.
+ *
+ * The fallback to every submission is deliberate: an operations identity owns no
+ * submission of its own, and at the baseline neither does the acting creator, so
+ * without it the views and outage levers would be dead for exactly the identities
+ * whose job is to meter someone else's post. What the label has to do is name WHOSE
+ * post it is — otherwise "+1,000 views" reports a success the acting identity cannot
+ * see on any page it can open.
+ */
 function useSubmissionOptions() {
   const state = useDemoSnapshot();
   const actor = useActor();
@@ -230,12 +243,29 @@ function useSubmissionOptions() {
     const mine = selectSubmissionsForUser(state, actor.userId || null);
     const all = selectAllSubmissions(state);
     const list = mine.length > 0 ? mine : all;
+    const ownIds = new Set(mine.map((submission) => submission.id));
     return list.map((submission) => ({
       id: submission.id,
-      label: `${submission.platform} · ${submission.postId}`,
+      label: [
+        state.users[submission.creatorId]?.displayName ?? submission.creatorId,
+        state.campaigns[submission.campaignId]?.title ?? submission.campaignId,
+        submission.platform,
+      ].join(' · '),
+      foreign: !ownIds.has(submission.id),
       submission,
     }));
   }, [state, actor.userId]);
+}
+
+/** Says out loud that the only records on offer belong to another identity. */
+function ForeignSubmissionNote({ options }: { options: Array<{ foreign: boolean }> }) {
+  const t = useTranslations('demo.views');
+  if (options.length === 0 || options.some((option) => !option.foreign)) return null;
+  return (
+    <p className="text-muted-foreground text-xs" data-testid="demo-foreign-submission">
+      {t('foreignNote')}
+    </p>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -258,6 +288,13 @@ function ClockSection() {
 
   const meteringEndsAt = selected?.submission.meteringEndsAt ?? null;
   const claimDeadlineAt = reward?.claimDeadlineAt ?? null;
+  // The simulated clock only moves forward, so a target already behind it is not a
+  // jump the engine can make. Offering the button anyway produced a refusal about
+  // "the values" for a press that has nothing to correct.
+  const meteringAhead = meteringEndsAt !== null && isAfter(meteringEndsAt, state.clock.nowIso);
+  const deadlineAhead = claimDeadlineAt !== null && isAfter(claimDeadlineAt, state.clock.nowIso);
+  const jumpHint = (target: string | null, ahead: boolean) =>
+    target === null ? t('clock.noTarget') : ahead ? undefined : t('clock.targetPassed');
 
   const movedTo = (result: OkResult) =>
     t('clock.advanced', { time: formatDateTime(result.state.clock.nowIso, locale) });
@@ -326,8 +363,8 @@ function ClockSection() {
             <Button
               variant="outline"
               size="sm"
-              disabled={!meteringEndsAt}
-              title={meteringEndsAt ? undefined : t('clock.noTarget')}
+              disabled={!meteringAhead}
+              title={jumpHint(meteringEndsAt, meteringAhead)}
               onClick={() => jumpTo(meteringEndsAt)}
               data-testid="demo-clock-metering-end"
             >
@@ -336,8 +373,8 @@ function ClockSection() {
             <Button
               variant="outline"
               size="sm"
-              disabled={!claimDeadlineAt}
-              title={claimDeadlineAt ? undefined : t('clock.noTarget')}
+              disabled={!deadlineAhead}
+              title={jumpHint(claimDeadlineAt, deadlineAhead)}
               onClick={() => jumpTo(claimDeadlineAt)}
               data-testid="demo-clock-claim-deadline"
             >
@@ -346,7 +383,12 @@ function ClockSection() {
           </div>
           {!meteringEndsAt || !claimDeadlineAt ? (
             <FieldDescription>{t('clock.noTarget')}</FieldDescription>
+          ) : !meteringAhead || !deadlineAhead ? (
+            <FieldDescription data-testid="demo-clock-target-passed">
+              {t('clock.targetPassed')}
+            </FieldDescription>
           ) : null}
+          <ForeignSubmissionNote options={options} />
         </Field>
       )}
     </section>
@@ -511,6 +553,7 @@ function ViewsSection() {
             ))}
           </SelectContent>
         </Select>
+        <ForeignSubmissionNote options={options} />
       </Field>
       <Button size="sm" onClick={() => add(1000)} data-testid="demo-add-1000">
         {t('add1000')}
@@ -563,6 +606,7 @@ function OutageSection() {
     <section className="flex flex-col gap-3">
       <SectionTitle icon={WifiOff}>{t('title')}</SectionTitle>
       <p className="text-muted-foreground text-xs">{t('description')}</p>
+      <ForeignSubmissionNote options={options} />
       <ul className="flex flex-col gap-2">
         {options.map((option) => (
           <li key={option.id} className="flex items-center justify-between gap-3">

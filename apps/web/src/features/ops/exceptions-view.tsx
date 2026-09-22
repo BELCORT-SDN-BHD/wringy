@@ -15,7 +15,7 @@
  */
 
 import Link from 'next/link';
-import { TriangleAlert } from 'lucide-react';
+import { CircleAlert, TriangleAlert } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -36,6 +36,8 @@ import {
 import type { AuditEntry, DemoState, IsoDateTime } from '@/domain/types';
 import { useDemoSnapshot } from '@/store/demo-store';
 import { formatAuditAction } from '@/lib/audit-copy';
+import { reasonLabel } from '@/lib/reason-copy';
+import { useAppLocale } from '@/lib/use-app-locale';
 import {
   selectAllSubmissions,
   selectAuditFor,
@@ -151,6 +153,8 @@ export function OpsExceptionsView() {
   const tQueue = useTranslations('ops.queue');
   const tShared = useTranslations('ops.shared');
   const tActions = useTranslations('common.actions');
+  const tCommon = useTranslations('common');
+  const locale = useAppLocale();
   const state = useDemoSnapshot();
 
   const unknownCampaign = tQueue('unknownCampaign');
@@ -191,10 +195,11 @@ export function OpsExceptionsView() {
                   <span className="break-words">{t(`kind.${group.kind}`)}</span>
                   <Badge
                     variant="outline"
-                    className="bg-attention-subtle text-attention-foreground border-transparent"
+                    className="bg-attention-subtle text-attention-foreground gap-1 border-transparent"
                     data-testid={`ops-exceptions-count-${group.kind}`}
                   >
-                    {group.rows.length}
+                    <CircleAlert aria-hidden="true" />
+                    {tQueue('groupCount', { count: group.rows.length })}
                   </Badge>
                 </CardTitle>
                 <CardDescription className="break-words">
@@ -224,11 +229,14 @@ export function OpsExceptionsView() {
                           </span>
                           <span className="break-words">
                             {t('colActor')}:{' '}
-                            {row.audit ? actorName(state, row.audit.actorUserId) : t('noActor')}
+                            {row.audit
+                              ? actorName(state, row.audit.actorUserId, tShared('actorNoIdentity'))
+                              : t('noActor')}
                             {row.audit ? ` · ${formatAuditAction(row.audit.action, tActions)}` : ''}
                           </span>
                           <span className="break-words">
-                            {t('colReason')}: {row.audit?.reason ?? t('noReason')}
+                            {t('colReason')}:{' '}
+                            {reasonLabel(row.audit?.reason, tCommon, locale) ?? t('noReason')}
                           </span>
                         </ItemDescription>
                       </ItemContent>

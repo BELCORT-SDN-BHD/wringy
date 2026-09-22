@@ -10,12 +10,14 @@
  * does not raise the cap, and that is said out loud rather than implied.
  */
 
+import { TriangleAlert } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 
 import { DateTimeText } from '@/components/app/date-time-text';
 import { MoneyText, RateText, ServiceFeeText } from '@/components/app/money-text';
-import { formatViews } from '@/lib/format';
+import { capAtThreshold } from '@/domain/money';
+import { formatSen, formatViews } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
 import type { Campaign } from '@/domain/types';
 
@@ -48,6 +50,11 @@ export function CampaignRulesList({ campaign }: { campaign: Campaign }) {
   const tMoney = useTranslations('common.money');
   const locale = useAppLocale();
   const { rules } = campaign;
+  // "必须明确展示'达10万观看，奖励封顶RM100'" (campaign-defaults-v1.md 门槛必须能达到).
+  // The threshold and the cap are two figures; the fact a creator has to read is the
+  // third, derived one, so the rule sheet states it wherever it is rendered — the
+  // merchant preview, the public detail page and the creator's submit page.
+  const capped = capAtThreshold(rules);
 
   return (
     <dl className="flex flex-col" data-app-widget="campaign-rules">
@@ -67,9 +74,25 @@ export function CampaignRulesList({ campaign }: { campaign: Campaign }) {
         label={t('viewThreshold')}
         hint={rules.viewThreshold === null ? undefined : t('viewThresholdNote')}
       >
-        {rules.viewThreshold === null
-          ? t('viewThresholdNone')
-          : formatViews(rules.viewThreshold, locale)}
+        <span className="flex flex-col gap-0.5">
+          <span>
+            {rules.viewThreshold === null
+              ? t('viewThresholdNone')
+              : formatViews(rules.viewThreshold, locale)}
+          </span>
+          {capped ? (
+            <span
+              className="text-attention-foreground bg-attention-subtle flex items-start gap-1.5 rounded-md px-2 py-1 text-xs break-words"
+              data-testid="campaign-cap-at-threshold"
+            >
+              <TriangleAlert aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+              {t('viewThresholdCapNote', {
+                views: formatViews(capped.views, locale),
+                amount: formatSen(capped.cappedSen, locale),
+              })}
+            </span>
+          ) : null}
+        </span>
       </Row>
       <Row label={t('submissionsClose')}>
         <DateTimeText iso={campaign.submissionsCloseAt} />

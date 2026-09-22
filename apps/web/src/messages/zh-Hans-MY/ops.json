@@ -33,7 +33,8 @@
     "roleOpsReviewer": "运营审核员",
     "roleOpsFinance": "运营财务",
     "roleMerchant": "商家",
-    "roleCreator": "创作者"
+    "roleCreator": "创作者",
+    "actorNoIdentity": "无登录身份（演示工具）"
   },
   "queue": {
     "metaTitle": "工作队列 · 运营",
@@ -69,7 +70,10 @@
       "payout_unknown": "一次尝试返回未知。请对账原交易；绝不重复付款。"
     },
     "noCreator": "无创作者（活动级别）",
-    "unknownCampaign": "未知活动"
+    "unknownCampaign": "未知活动",
+    "noMatchTitle": "没有符合当前筛选的项目",
+    "noMatchDescription": "仍有待处理项目，但没有一项符合上面选择的范围和类型。筛选条件保持不变。",
+    "clearFilters": "清除筛选"
   },
   "readiness": {
     "metaTitle": "活动就绪 · 运营",
@@ -123,11 +127,6 @@
     "colTrusted": "可信",
     "trustedYes": "可信",
     "trustedNo": "不可信",
-    "missing": {
-      "source_unreachable": "数据源无法访问",
-      "permission_revoked": "授权已被撤销",
-      "post_private": "作品已设为私密"
-    },
     "resyncTitle": "重新同步数据源",
     "resyncDescription": "重新同步会在当前模拟时间再读取一次数据源。它绝不回填过去的时间，也绝不编造数字：读取失败就按读取失败记录。",
     "resyncAction": "重新同步（模拟）",
@@ -148,15 +147,13 @@
     "retentionReason": {
       "published_retention": "由已公布的留存期决定。",
       "claim_deadline": "由实际申请截止时间决定。",
+      "case_resolved": "由这条投稿最后结案的申请或申诉决定。",
+      "settlement": "由这条投稿最后完成发放的已确认款项决定。",
       "open_cases": "尚有未结案件，因此留存期还没有确定。",
       "confirmed_unpaid": "已确认的金额仍未支付，因此留存期还没有确定。"
     },
     "extensionsTitle": "申请截止顺延",
     "extensionsEmpty": "没有授予任何顺延。",
-    "extensionReason": {
-      "data_outage": "数据中断",
-      "pending_case": "有案件阻挡了新申请"
-    },
     "extensionRow": "自 {from} 起被阻挡，{unblocked} 解除。新截止时间 {deadline}。",
     "extensionNote": "顺延从阻挡解除的那一刻起，把商家已公布的宽限期完整还给创作者。它不延长计量窗口，也不补回旧的队列位次。",
     "contentReviewTitle": "内容审核（商家）",
@@ -224,7 +221,6 @@
     "finalizeBlocked": {
       "appeal_open": "有申诉正在进行。请先处理申诉；释放绝不是到点执行的定时任务。",
       "appeal_window_open": "申诉期在 {deadline} 之前仍然开放。在那之前预留保持保留。",
-      "appeal_upheld": "申诉已成立，申请回到审核状态，没有需要释放的预留。",
       "claim_not_rejected_appealable": "这笔申请不处于可释放的拒绝状态。",
       "no_rejection_record": "这笔申请没有拒绝记录。",
       "other": "引擎目前拒绝执行释放。"
@@ -301,11 +297,6 @@
     "reconcileTitle": "对账原交易",
     "reconcileDescription": "未知结果既不是失败也不是已付款。唯一的操作是核对原交易并记录结果。这里没有重复付款的控件。",
     "reconcileOutcomeLabel": "原交易显示的结果",
-    "reconcileOutcome": {
-      "still_unknown": "仍然未知",
-      "confirmed_succeeded": "确认成功",
-      "confirmed_failed": "确认失败"
-    },
     "reconcileAction": "记录对账结果",
     "reconcileConfirmTitle": "记录这次对账？",
     "reconcileConfirmDescription": "确认成功只结清义务一次。确认失败会开放受控重试。仍然未知则保持该尝试未结。",

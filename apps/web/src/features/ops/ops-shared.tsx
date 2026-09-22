@@ -41,6 +41,9 @@ import {
 import { checkPermission, resolveActor } from '@/domain';
 import type { AuditEntry, Command, DemoState, ErrorCode } from '@/domain/types';
 import { formatAuditAction } from '@/lib/audit-copy';
+import { reasonLabel } from '@/lib/reason-copy';
+import { auditStatusLabel } from '@/lib/status-copy';
+import { useAppLocale } from '@/lib/use-app-locale';
 import { useDemoSnapshot, useDispatch } from '@/store/demo-store';
 import { selectAuditFor } from '@/store/selectors';
 
@@ -265,8 +268,17 @@ export function FinanceOnly({
 // Audit trail
 // ---------------------------------------------------------------------------
 
-/** Display name for an audit actor; falls back to the raw id. */
-export function actorName(state: DemoState, userId: string): string {
+/**
+ * Display name for an audit actor.
+ *
+ * An empty id is what the engine records when the demo tools acted with nobody
+ * signed in, and a money-moving row must still name what acted: without a label
+ * `TimelineList` drops the "by …" line altogether and a settlement reads as
+ * unattributable on the one page whose job is to prove every operation is
+ * traceable (#7 "所有模拟操作留原因/原交易/记录"). Callers pass the localized label.
+ */
+export function actorName(state: DemoState, userId: string, noIdentityLabel?: string): string {
+  if (userId === '') return noIdentityLabel ?? userId;
   return state.users[userId]?.displayName ?? userId;
 }
 
@@ -290,6 +302,8 @@ export function AuditTrail({
 }) {
   const t = useTranslations('ops.shared');
   const tActions = useTranslations('common.actions');
+  const tCommon = useTranslations('common');
+  const locale = useAppLocale();
   const state = useDemoSnapshot();
 
   const entries = useMemo<TimelineEntry[]>(() => {
@@ -301,18 +315,33 @@ export function AuditTrail({
       id: entry.id,
       at: entry.at,
       title: formatAuditAction(entry.action, tActions),
-      actor: actorName(state, entry.actorUserId),
-      reason: entry.reason,
+      actor: actorName(state, entry.actorUserId, t('actorNoIdentity')),
+      reason: reasonLabel(entry.reason, tCommon, locale),
       trailing:
         entry.before !== null || entry.after !== null ? (
-          <Badge variant="outline" className="font-mono text-[10px]">
-            {t('auditBeforeAfter', { before: entry.before ?? '—', after: entry.after ?? '—' })}
+          // Words, not the engine's codes. `before`/`after` are short status
+          // summaries the engine writes, so this badge used to read
+          // "pending_review → rejected_appealable" inside an otherwise
+          // translated page; `auditStatusLabel` maps them through the same
+          // `common.status.*` copy `StatusBadge` uses. No longer `font-mono`:
+          // that typeface was for codes.
+          // `whitespace-normal break-words` because the labels are now sentences:
+          // `Badge` is `whitespace-nowrap` upstream, which at 320px pushed the row
+          // sideways once the codes became words.
+          <Badge
+            variant="outline"
+            className="max-w-full text-[10px] break-words whitespace-normal"
+          >
+            {t('auditBeforeAfter', {
+              before: auditStatusLabel(entry.before, entry.targetType, tCommon, locale) ?? '—',
+              after: auditStatusLabel(entry.after, entry.targetType, tCommon, locale) ?? '—',
+            })}
           </Badge>
         ) : undefined,
     }));
     // `extra` is a literal at every call site, so its identity is stable enough.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, targetType, targetId, t, tActions]);
+  }, [state, targetType, targetId, t, tActions, tCommon, locale]);
 
   return (
     <Card data-testid="ops-audit">

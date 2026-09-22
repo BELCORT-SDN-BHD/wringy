@@ -32,6 +32,7 @@ import {
   ItemGroup,
   ItemTitle,
 } from '@/components/ui/item';
+import { reconcileOutcomeLabel } from '@/lib/reason-copy';
 import type { PaymentRecordView } from '@/store/selectors';
 import type { PayoutAttempt } from '@/domain/types';
 
@@ -135,6 +136,7 @@ function PaymentCard({ record }: { record: PaymentRecordView }) {
 
 function AttemptRow({ attempt }: { attempt: PayoutAttempt }) {
   const t = useTranslations('creator.payments');
+  const tCommon = useTranslations('common');
 
   const note =
     attempt.status === 'processing'
@@ -186,8 +188,13 @@ function AttemptRow({ attempt }: { attempt: PayoutAttempt }) {
                 <span key={`${attempt.id}-rec-${index}`} className="flex flex-wrap items-center gap-1 text-xs">
                   <Info aria-hidden="true" className="size-3" />
                   <DateTimeText iso={entry.at} hideOffset />
+                  {/*
+                    The reconciliation outcome is an engine enum, so it goes through
+                    the same shared copy operations reads. The note beside it is what
+                    a person typed and stays verbatim (localization-v1).
+                  */}
                   <span className="break-words">
-                    {entry.outcome} — {entry.note}
+                    {reconcileOutcomeLabel(entry.outcome, tCommon)} — {entry.note}
                   </span>
                 </span>
               ))}
