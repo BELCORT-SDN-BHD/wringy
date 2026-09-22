@@ -54931,7 +54931,7 @@
     },
     {
       "id": "docs_progress_codex_orchestrator_fable_restored",
-      "label": "Codex's orchestrator-fable skill restored at .agents/skills/orchestrator-fable with valid agents/openai.yaml (allow_implicit_invocation: true), owner's 2026-09-22 decision",
+      "label": "Codex's orchestrator-fable skill restored at .agents/skills/orchestrator-fable with valid agents/openai.yaml (allow_implicit_invocation: false, explicit invocation only), owner's 2026-09-22 decision",
       "_origin": "semantic",
       "author": null,
       "captured_at": null,
@@ -54939,7 +54939,7 @@
       "community_name": "Agent Tooling Setup And Audit",
       "contributor": null,
       "file_type": "document",
-      "norm_label": "codex's orchestrator-fable skill restored at .agents/skills/orchestrator-fable with valid agents/openai.yaml (allow_implicit_invocation: true), owner's 2026-09-22 decision",
+      "norm_label": "codex's orchestrator-fable skill restored at .agents/skills/orchestrator-fable with valid agents/openai.yaml (allow_implicit_invocation: false, explicit invocation only), owner's 2026-09-22 decision",
       "source_file": "docs/PROGRESS.md",
       "source_location": "Completed, L15",
       "source_url": null
