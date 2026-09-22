@@ -1,12 +1,44 @@
 packages:
   - 'apps/*'
+  - 'packages/*'
 
-# sharp/unrs-resolver: hoisted from the create-next-app template's own
-# apps/web/pnpm-workspace.yaml (pnpm reads this key only at the workspace root).
-# @parcel/watcher/@swc/core: optional native builds pulled in transitively; pnpm
-# warns on every install until they are listed, and the prototype does not need them.
-ignoredBuiltDependencies:
-  - '@parcel/watcher'
-  - '@swc/core'
-  - sharp
-  - unrs-resolver
+# Build scripts (preinstall/install/postinstall) are opt-in per package
+# (pnpm 10.26+ `allowBuilds`, which replaces onlyBuiltDependencies and
+# ignoredBuiltDependencies).
+# - sharp/unrs-resolver: hoisted from the create-next-app template's own
+#   apps/web/pnpm-workspace.yaml (pnpm reads this key only at the workspace root).
+# - @parcel/watcher/@swc/core: optional native builds pulled in transitively;
+#   the prototype does not need them.
+# - esbuild (through tsx): its postinstall only verifies the binary; esbuild
+#   finds the binary from its optional @esbuild/<platform> package without it.
+# - @embedded-postgres/<platform>: the local PostgreSQL binaries (ruling D29).
+#   Their postinstall re-creates the library symlinks npm tarballs cannot carry
+#   (the list is empty on Windows; Linux and macOS need it).
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
+  esbuild: false
+  sharp: false
+  unrs-resolver: false
+  '@embedded-postgres/darwin-arm64': true
+  '@embedded-postgres/darwin-x64': true
+  '@embedded-postgres/linux-arm': true
+  '@embedded-postgres/linux-arm64': true
+  '@embedded-postgres/linux-ia32': true
+  '@embedded-postgres/linux-ppc64': true
+  '@embedded-postgres/linux-x64': true
+  '@embedded-postgres/windows-x64': true
+
+# embedded-postgres publishes only -beta versions and its platform packages are
+# optional dependencies on a caret range. Pin every platform binary to the same
+# exact PostgreSQL 17 build as packages/db pins embedded-postgres itself
+# (kickoff-package.md §5.3, §6.2).
+overrides:
+  '@embedded-postgres/darwin-arm64': 17.10.0-beta.17
+  '@embedded-postgres/darwin-x64': 17.10.0-beta.17
+  '@embedded-postgres/linux-arm': 17.10.0-beta.17
+  '@embedded-postgres/linux-arm64': 17.10.0-beta.17
+  '@embedded-postgres/linux-ia32': 17.10.0-beta.17
+  '@embedded-postgres/linux-ppc64': 17.10.0-beta.17
+  '@embedded-postgres/linux-x64': 17.10.0-beta.17
+  '@embedded-postgres/windows-x64': 17.10.0-beta.17

@@ -1,5 +1,7 @@
 # Local/runtime data
 node_modules/
+# Embedded PostgreSQL data directory (pnpm db:start)
+.local/
 .next/
 dist/
 .env
@@ -31,6 +33,9 @@ apps/web/tests/e2e/__screenshots__/
 apps/web/playwright-report/
 apps/web/test-results/
 apps/web/tests/e2e/test-results/
+
+# pnpm depcruise plants this file for one cruise and always deletes it
+apps/web/src/lib/__dependency-violation__.ts
 
 # Claude Code agent worktrees (local only)
 .claude/worktrees/

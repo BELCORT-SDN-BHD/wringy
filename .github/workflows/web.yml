@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'apps/**'
+      - 'packages/**'
+      - 'tsconfig.base.json'
       - 'package.json'
       - 'pnpm-workspace.yaml'
       - 'pnpm-lock.yaml'
@@ -14,6 +16,8 @@ on:
   pull_request:
     paths:
       - 'apps/**'
+      - 'packages/**'
+      - 'tsconfig.base.json'
       - 'package.json'
       - 'pnpm-workspace.yaml'
       - 'pnpm-lock.yaml'

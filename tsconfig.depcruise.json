@@ -1,0 +1,12 @@
+{
+  "//": "Read only by dependency-cruiser (.dependency-cruiser.cjs): the web app's @/* alias, resolved from the repository root. It type-checks nothing.",
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["apps/web/src/*"]
+    }
+  },
+  "include": ["apps/*/src", "packages/*/src"]
+}

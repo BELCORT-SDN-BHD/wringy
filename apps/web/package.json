@@ -19,6 +19,8 @@
   "dependencies": {
     "@base-ui/react": "^1.8.0",
     "@shadcn/react": "^0.3.1",
+    "@wringy/config": "workspace:*",
+    "@wringy/contracts": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
     "cn": "^0.3.2",
