@@ -51,7 +51,9 @@ rather than an assertion, warm the route once with `pnpm dev` and run again.
 
 ## What is installed
 
-Node 20.19.5, pnpm 10.33.0. Resolved versions, read from the root `pnpm-lock.yaml`:
+Node 24.21.0 (pinned by the root `.npmrc` `use-node-version`, so pnpm downloads and runs it even
+when the machine's own `node` is older; CI reads the root `.nvmrc`), pnpm 10.33.0. Resolved
+versions, read from the root `pnpm-lock.yaml`:
 
 | Package | Range | Resolved |
 |---|---|---|
@@ -64,11 +66,11 @@ Node 20.19.5, pnpm 10.33.0. Resolved versions, read from the root `pnpm-lock.yam
 | vitest | ^4.1.11 | 4.1.11 |
 | @playwright/test | 1.63.0 | 1.63.0 |
 | eslint / eslint-config-next | ^9 / 16.3.5 | 9.39.5 / 16.3.5 |
-| @types/node | ^20 | 20.19.43 |
+| @types/node | ^24 | 24.13.6 |
 | @types/react / @types/react-dom | ^19 | 19.3.0 |
 
-`@types/node` stays on the `^20` line that create-next-app chose, matching the Node 20
-runtime used locally and in CI.
+`@types/node` follows the Node 24 runtime used locally and in CI (M2-01 W0 moved it from the `^20`
+line that create-next-app chose).
 
 Pulled in by the shadcn CLI, not chosen here: `@base-ui/react` 1.8.0, `@shadcn/react` 0.3.1,
 `shadcn` 4.21.0, `radix-ui` 1.6.7, `lucide-react` 1.47.0, `cn` 0.3.2,

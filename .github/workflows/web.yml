@@ -9,6 +9,8 @@ on:
       - 'pnpm-workspace.yaml'
       - 'pnpm-lock.yaml'
       - '.github/workflows/web.yml'
+      - '.nvmrc'
+      - '.npmrc'
   pull_request:
     paths:
       - 'apps/**'
@@ -16,6 +18,8 @@ on:
       - 'pnpm-workspace.yaml'
       - 'pnpm-lock.yaml'
       - '.github/workflows/web.yml'
+      - '.nvmrc'
+      - '.npmrc'
 
 permissions:
   contents: read
@@ -28,7 +32,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: pnpm
       - name: Install
         run: pnpm install --frozen-lockfile
@@ -49,7 +53,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: pnpm
       - name: Install
         run: pnpm install --frozen-lockfile
