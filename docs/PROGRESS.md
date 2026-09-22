@@ -4,7 +4,7 @@
 
 - 2026-09-22: `main` carries the owner's self-edits through [PR #72](https://github.com/BELCORT-SDN-BHD/wringy/pull/72): the orchestrator-fable skill line change, Codex interface metadata added under the Claude skill, the Codex-facing orchestrator variant removed, and AGENTS.md working-protocol item 4 shortened. Use `git log -1` for the current checkout commit.
 - Agent tooling: 25 Matt Pocock skills vendored for both agents, the Graphify Claude hooks and Codex skill / hook, and the owner's orchestrator-fable skill for both agents. A read-only setup audit on 2026-09-22 found both installations sound; the owner ruled on its findings the same day (applied ones under Completed, accepted quirks and the one pending action under Known Issues).
-- 2026-09-22: M1 three-role prototype built on branch `feat/m1-prototype` / [PR #77](https://github.com/BELCORT-SDN-BHD/wringy/pull/77): `apps/web` (Next.js 16.3.5 App Router, official shadcn radix-nova components, next-intl en-MY / ms-MY / zh-Hans-MY, zustand persist, pure-TypeScript demo engine under `src/domain`). Kickoff record, demo script, executed P01–P11 acceptance record and known issues live in [docs/m1-prototype](m1-prototype/kickoff.md). Gates on the final tree: lint and typecheck clean, 320 Vitest tests, 312 Playwright tests passed with 33 viewport-scoped skips across 390 / 1440 / 320, production build OK; `web` and `planning` CI jobs green. The founder's own acceptance walk (#9 / spec #1 "创办人最终确认体验") has not happened.
+- 2026-09-22: M1 three-role prototype built on branch `feat/m1-prototype` / [PR #77](https://github.com/BELCORT-SDN-BHD/wringy/pull/77): `apps/web` (Next.js 16.3.5 App Router, official shadcn radix-nova components, next-intl en-MY / ms-MY / zh-Hans-MY, zustand persist, pure-TypeScript demo engine under `src/domain`). Kickoff record, demo script, executed P01–P11 acceptance record and known issues live in [docs/m1-prototype](m1-prototype/kickoff.md). Gates on the final tree: lint and typecheck clean, 322 Vitest tests, 318 Playwright tests passed with 33 viewport-scoped skips across 390 / 1440 / 320, production build OK; `web` and `planning` CI jobs green. **Founder acceptance recorded 2026-09-23 on [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9): PASSED** after a guided walk of the main flow and all five exception scenarios in the founder's own Chrome plus their own browse; #2–#9 closed, spec #1 left open as the milestone record. Owner rulings applied in [PR #78](https://github.com/BELCORT-SDN-BHD/wringy/pull/78), graph refreshed in [PR #79](https://github.com/BELCORT-SDN-BHD/wringy/pull/79). A shareable copy of `docs/m1-prototype` (with a colleague-facing README) was placed at `~/Desktop/wringy-m1-demo/` on the owner's machine (not tracked).
 - [PRD](PRD.md) and [Architecture](ARCHITECTURE.md) still describe the product as greenfield beyond M1; their implemented-state sections are due for an in-place update once the owner accepts the prototype. GitHub owns live execution state.
 
 ## Completed
@@ -20,7 +20,7 @@
 
 ## In Progress
 
-- M1 handover: PR #77 merge, ticket evidence on #2–#8, and the founder's acceptance walk for #9 (see Next Steps).
+- Nothing in flight. M1 is accepted; the next session starts M2 preparation (see Next Steps).
 
 ## Known Issues
 
@@ -34,5 +34,5 @@
 ## Next Steps
 
 - Future accepted decisions replace affected blueprint sections using each file's frontmatter; do not append session history.
-- Founder: run the prototype (`pnpm install && pnpm dev`, then `/demo`) following [demo-script.md](m1-prototype/demo-script.md) (the three owner decisions above were ruled on 2026-09-22 and are applied in the engine and the records), and record the acceptance on [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9); feedback that touches an approved rule goes to the spec change log, not into the engine.
-- After acceptance: update the implemented-state sections of PRD §5 / Architecture §1 in place, then [M2 kickoff / #14](https://github.com/BELCORT-SDN-BHD/wringy/issues/14) and [#16](https://github.com/BELCORT-SDN-BHD/wringy/issues/16); [M4 feasibility / #15](https://github.com/BELCORT-SDN-BHD/wringy/issues/15) can proceed in parallel after checking live dependencies.
+- Next session (M2 preparation): read [M2 spec](planning/specs/m2-spec.md) and its tickets, then update the implemented-state sections of PRD §5 / Architecture §1 in place for the accepted M1 prototype (frontmatter rules; no session history), then take [M2-00 sign-off / #14](https://github.com/BELCORT-SDN-BHD/wringy/issues/14) with the founder (identity and save spec freeze) and [#16](https://github.com/BELCORT-SDN-BHD/wringy/issues/16) (repeatable internal environment); [M4 feasibility / #15](https://github.com/BELCORT-SDN-BHD/wringy/issues/15) can proceed in parallel after checking live dependencies. The founder asked to be grilled on anything unclear before M2 work starts.
+- Owner may close the M1 milestone on GitHub (only spec #1 remains open there, as the record).
