@@ -46,7 +46,8 @@ try {
           setTimeout(() => process.exit(0), 50);
         },
         (error: unknown) => {
-          console.error(`wringy-e2e-database: shutdown failed: ${error instanceof Error ? error.name : 'error'}`);
+          const { name, code } = (error ?? {}) as { name?: string; code?: string };
+          console.error(`wringy-e2e-database: shutdown failed: ${name ?? 'error'} ${code ?? ''}`.trimEnd());
           response.statusCode = 500;
           response.end('failed');
           setTimeout(() => process.exit(1), 50);

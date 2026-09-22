@@ -95,7 +95,12 @@ async function startEmbedded(): Promise<{ adminUrl: string; stop: () => Promise<
     password,
     port,
     authMethod: 'scram-sha-256',
-    persistent: false,
+    // The data directory is removed by stop() below, with retries: on Windows
+    // embedded-postgres stops the server with `taskkill /f /t` and removes the
+    // directory at once, while an exiting backend can still hold a file, so its
+    // own removal (persistent: false) intermittently failed with the directory
+    // left behind (seen on 2026-09-23 as a failed internal-suite teardown).
+    persistent: true,
     initdbFlags: ['--encoding=UTF8', '--locale=C'],
     postgresFlags: ['-c', 'listen_addresses=127.0.0.1', '-c', 'TimeZone=UTC', '-c', 'log_timezone=UTC'],
     onLog: () => {},
@@ -105,9 +110,8 @@ async function startEmbedded(): Promise<{ adminUrl: string; stop: () => Promise<
   return {
     adminUrl: postgresUrl({ user: 'postgres', password, host: '127.0.0.1', port, database: 'postgres' }),
     stop: async () => {
-      // persistent: false makes stop() delete the data directory; the parent goes too.
       await embedded.stop();
-      rmSync(root, { recursive: true, force: true });
+      rmSync(root, { recursive: true, force: true, maxRetries: 20, retryDelay: 250 });
     },
   };
 }
