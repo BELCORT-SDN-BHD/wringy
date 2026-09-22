@@ -7,7 +7,7 @@
 | Item | State | Source |
 |---|---|---|
 | Date and scope | 2026-09-23. Prepared for GitHub #14 (M2-00), acceptance M2-AC00/1–3 | `docs/planning/tickets/m2-00.md` L13–L15 |
-| Approval | **Unsigned.** M2-00 is `blocked: founder approval required`, `Gate: true`. Nothing in this file is approved or built | `m2-00.md` L27, L29 |
+| Approval | **Signed 2026-09-23** (§9.1, §11, and the sign-off comment on #14). Sections 1–8 stay proposals until each ticket implements and proves them; nothing is built yet | `m2-00.md` L27, L29; #14 |
 | Branch | `feat/m2-kickoff` at `15df257`. This file is uncommitted until the orchestrator commits it; the frozen commit is the commit that contains it | `git rev-parse --short HEAD` (2026-09-23) |
 | Blueprints | Blueprint implemented-state refreshed 2026-09-23, in this branch: `docs/PRD.md` and `docs/ARCHITECTURE.md` now read `implementation_status: m1-prototype-accepted; product-runtime-unbuilt` (uncommitted when this was written) | `git status --short` (2026-09-23) |
 | How it was produced | Eight read-only investigations (M1 evidence, governance, identity/org, session/migration, dependencies, test boundary, external accounts, workspace shape). Verifiers checked each one, and their corrections are applied here. No account was created, no GitHub setting changed and no product code written | this preparation run |
@@ -815,6 +815,26 @@ The sources already decide five questions the reports raised, so this table leav
 
 D28–D33 are engineering choices that the sources delegate to implementation (`ARCHITECTURE.md` L20, L52; `full-stack-proposal-v1.md` L95; `m2-spec.md` L41, L47). They are listed so the founder can overrule them, and the §11 sign-off line covers them explicitly.
 
+### 9.1 Founder rulings (2026-09-23)
+
+Given by the founder in the working session of 2026-09-23, question by question, after a plain-language explanation of each item; recorded here by the orchestrator. Where the founder chose the recommendation, the table above is the ruling. Departures and clarifications:
+
+| ID | Ruling |
+|---|---|
+| D1 | (a) Self-service; the creator becomes admin. |
+| D2 | (a) Admin invites by email; single-use link; expiry 7 days (the default offered was accepted); the verified Google email must match. |
+| D4 | (a) A named person runs the audited bootstrap script with the migration account; no admin console in M2. |
+| D13 | (b) Tester allowlist checked against the verified email at first sign-in, maintained by script, never committed. |
+| D15 | (a) The Malaysian operating entity's own Google Workspace, created now. |
+| D16 / D17 | Free plan first; upgrade to Pro once staging is used across several days. Two projects (dev/test and staging). |
+| D18 | (a) Three Render Starter instances; the founder confirms the per-instance price in the dashboard before paying. |
+| D22 | (a) Once M2-01's CI lands, `check`, `integration` and `e2e` become required checks on `main`, and the required workflows lose their `paths:` filters so documentation PRs run them too. |
+| D23 | **Founder ruling, not an option in the table:** nothing is enforced. The per-ticket review is the repository's `code-review` skill (Standards + Spec, two parallel sub-agents) that `/implement` ends with. The cross-vendor (Codex) read-only review is at the orchestrator's discretion under the orchestrator-fable Codex lane; when it runs, its result is saved as a PR comment and registered in the evidence row. M2-AC01/3 and M2-AC10/2 are satisfied by registering what was actually run. G8 is therefore accepted open by design. |
+| D27 | (a) The founder walks M2-AC10 personally on phone and desktop on staging. |
+| D28 / D29 | (a) Node 24 LTS pinned at 24.21.0; embedded-postgres 17 locally with a `TEST_DATABASE_URL` override, `postgres:17` in CI. The founder may install Node 24 on the machine; the pnpm pin does not require it. |
+| D3, D5–D12, D14, D19–D21, D24–D26, D30–D33 | Recommendation accepted as written ("整体按推荐批准"). Any single item may be reopened later on its own. |
+| G1–G20 | Dispositions accepted as recommended in §10. |
+
 ## 10. Gaps the founder chooses to close first or accept
 
 | # | Gap | What closing it takes | Cost | Consequence if accepted open | Recommended choice |
@@ -846,13 +866,13 @@ M2-AC00/3 requires a real signature. The 2026-09-16 date was planning authorisat
 
 | Field | Entry |
 |---|---|
-| 签署人 (signer) | |
-| 真实日期 (real date of signing) | |
-| 冻结版本 (frozen commit) | |
-| 批准范围 (approved scope) | |
-| 不批准事项 (not approved) | |
-| 带缺口推进的缺口清单 (gaps accepted open; §10 row numbers) | |
-| §9 rulings (for example "D1–D33: recommendation accepted, except …") | |
+| 签署人 (signer) | 创办人 (the founder), rulings given in the working session of 2026-09-23 and recorded on #14 by the orchestrator through the `belcorttao` GitHub account, the same channel that recorded the M1 acceptance on #9 |
+| 真实日期 (real date of signing) | 2026-09-23 |
+| 冻结版本 (frozen commit) | The squash-merge commit of PR #81 on `main`, which contains this file with §9.1 filled in; its SHA is quoted in the sign-off comment on #14 |
+| 批准范围 (approved scope) | Heavy implementation of M2 per `m2-spec.md` M2-AC01–AC10 and tickets M2-01–M2-10 (#16, #21, #26, #27, #29, #31, #32, #33, #34, #35), under the §9 recommendations as ruled in §9.1, the §10 dispositions, the §6 test boundary, and the engineering choices D28–D33 |
+| 不批准事项 (not approved) | Everything in the spec's Out of Scope (真实社交OAuth/计量、正式奖励预留/审核/付款、生产发布、完整官网、视频上传、钱包及未来Whop商城); unverified third-party capabilities; entity, fee, fund and refund decisions; real money operations; production release; the M3–M5 gates (#36, #17, #18, #19, #20, #56, #63, #65) stay their own decisions |
+| 带缺口推进的缺口清单 (gaps accepted open; §10 row numbers) | G8 (by D23), G9 (until M2-09), G10, G13, G14, G17, G18, G19, G20. All other gaps close on the schedule in §10 |
+| §9 rulings | D1–D33 as in §9.1: recommendations accepted, except D23 (nothing enforced; review at the orchestrator's discretion) and the D2 expiry, D16 upgrade timing and D18 price confirmation as noted there |
 
 For reference only, and not an entry: the spec's Out of Scope already excludes "真实社交OAuth/计量、正式奖励预留/审核/付款、生产发布、完整官网、视频上传、钱包及未来Whop商城" (`m2-spec.md` L73–L75). Unverified third-party capabilities, finance, entity and fee decisions, real money operations and production release are outside the 2026-09-16 authorisation (`m2-spec.md` L83), and they stay outside this approval unless the signature names them.
 
