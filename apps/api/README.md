@@ -80,6 +80,14 @@ pino through Fastify's `logger` option, at `LOG_LEVEL` (src/logger.ts):
 Tests capture the real pino output and assert that neither the connection
 string nor its password appears in any log line or response body.
 
+`pnpm canary` (scripts/check-secret-canary.mjs) checks the built artefacts and
+the running processes as well: it gives every variable of the five env schemas
+a canary value (the database URLs carry canary passwords), builds web, api and
+worker with them, searches `apps/web/.next/static`, `apps/web/.next/server`,
+`apps/api/dist` and `apps/worker/dist` for every value, then runs the built api
+and worker for 10 s against an unreachable database and searches their logs.
+It fails on any hit, naming the file and the variable, never the value.
+
 ## Worker state thresholds (operational, not business rules)
 
 Each worker row gets two independent judgements on the **database clock**

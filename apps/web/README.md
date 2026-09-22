@@ -30,6 +30,7 @@ pnpm test                          # vitest run in every workspace
 pnpm --filter web e2e:install      # one-off: download Chromium (~310 MB)
 pnpm e2e                           # playwright test, 3 viewports (the M1 demo suite)
 pnpm e2e:internal                  # the M2 internal-build suite on the real api, worker and database
+pnpm canary                        # secret canary: builds web/api/worker with canary values, greps bundles and logs
 ```
 
 The root scripts also cover `packages/*` (M2-01); `pnpm --filter web lint|typecheck|test|build`
