@@ -28,6 +28,16 @@ PRD 与 Architecture 是长期蓝图，文件头保留维护关注点；Wayfinde
 
 GitHub Issues 是任务状态的唯一来源。历史 `.scratch` 文档仅供追溯；详细规格与业务规则在版本控制中维护，关联规格 issue 记录执行、变更和验收。开始开发前检查任务的原生依赖及批准记录。
 
+## 克隆后的代理工具设置
+
+仓库自带两个代理的 Matt Pocock 技能、Codex 的 graphify 技能与钩子（`.agents/skills`、`.codex/hooks.json`），以及 Claude Code 的 graphify 钩子（`.claude/settings.json`）。Git 钩子和合并驱动只存在于本机的 `.git`，每个克隆都要自己安装：
+
+1. `pip install --upgrade graphifyy`，然后在仓库根目录运行 `graphify hook install`：安装 post-commit / post-checkout 钩子，并注册 `.gitattributes` 引用的 `graph.json` 合并驱动。
+2. Claude Code 使用全局技能：`graphify install` 只写入用户主目录（`~/.claude/skills/graphify` 与 `~/.claude/CLAUDE.md`），不改动仓库。
+3. Codex 首次发现 `.codex/hooks.json` 时会弹出信任提示，需在 Codex 应用中批准。
+
+知识图谱在 `graphify-out/`；用法规则见 [AGENTS.md](AGENTS.md) 的 graphify 一节。
+
 ## 本地设计系统
 
 已有组件展示在 `phase-0/foundation/design-system-v2/app`，按其中 package.json 的脚本安装和启动。它是参考组件库，不是商家/创作者/运营三端业务原型。
