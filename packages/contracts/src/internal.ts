@@ -29,10 +29,14 @@ export const internalCampaignsResponseSchema = z.object({
 export type InternalCampaignsResponse = z.output<typeof internalCampaignsResponseSchema>;
 
 /**
- * - `healthy`: both beats are recent on the database clock.
- * - `stale`: the process beat or the queue round trip is overdue.
+ * Computed by the API on the database clock (apps/api/src/worker-state.ts):
+ * - `healthy`: the process beat (`lastBeatAt`) is recent.
+ * - `stale`: the process beat is overdue. The queue round trip
+ *   (`lastQueueRoundTripAt`) is reported but does not change the state in
+ *   M2-01; whether an overdue round trip should also count is an open owner
+ *   question (kickoff-package.md §8.3, Beat B).
  * - `never_seen`: registered, but no beat has arrived yet (shown as "unknown").
- * - `stopped`: the worker drained and recorded a clean stop.
+ * - `stopped`: the worker drained and recorded a clean stop at or after its last beat.
  */
 export const WORKER_STATES = ['healthy', 'stale', 'never_seen', 'stopped'] as const;
 export const workerStateSchema = z.enum(WORKER_STATES);

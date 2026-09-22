@@ -18,7 +18,11 @@ the API. It serves no HTTP, reads no business table and runs no DDL.
 
 ## Environment
 
-Names only; copy `.env.example` to the gitignored `apps/worker/.env`. The worker
+Names only; copy `.env.example` to `apps/worker/.env`, which `dev` and `start`
+load with `--env-file-if-exists` (the process environment wins over the file). It
+is gitignored by the root `.gitignore` rule `.env` (`git check-ignore -v
+apps/worker/.env` prints `.gitignore:7:.env`); the worker does not read the
+repository-root `.env`, which belongs to the packages/db scripts. The worker
 reads exactly these through `@wringy/config/worker`, which fails fast and names a
 missing or invalid variable without echoing its value.
 

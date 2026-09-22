@@ -92,10 +92,15 @@ live only in `phase-0/foundation/campaign-defaults-v1.md` and never here.
 
 ## Environment
 
-`apps/api/.env.example` lists the names; copy it to the untracked
-`apps/api/.env`, which `pnpm dev` and `pnpm start` load with
-`--env-file-if-exists`. For the local embedded cluster (`pnpm db:start`), the
-API login's development URL is `localUrls().api` in `packages/db/src/local-dev.ts`.
+`apps/api/.env.example` lists the names; copy it to `apps/api/.env`, which
+`pnpm dev` and `pnpm start` load with `--env-file-if-exists` (the process
+environment wins over the file). `apps/api/.env` is gitignored by the root
+`.gitignore` rule `.env` (`git check-ignore -v apps/api/.env` prints
+`.gitignore:7:.env`); the API does not read the repository-root `.env`, which
+belongs to the packages/db scripts. For the local embedded cluster
+(`pnpm db:start`), the API login's development URL is the `wringy_api_login` line
+that `pnpm db:start` prints (`localUrls().api` in `packages/db/src/local-dev.ts`),
+with `WRINGY_ENV=local`.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -131,9 +136,10 @@ Each file clones the template with `createTestDatabase()`, seeds it with
 `seedFixtures()` where needed, and drives `buildApp()` with `app.inject()` on a
 pool as `wringy_api_login`. The harness is reached by path from
 tests/integration/support.ts because `@wringy/db` does not export its test code.
-tests/integration/exit-code-guard.ts restores a failing exit code: the
-embedded-postgres import registers async-exit-hook, whose `beforeExit` handler
-calls `process.exit(0)` and would otherwise turn a failed run into exit 0.
+The global setup also installs packages/db/test/exit-code-guard.ts, which
+restores a failing exit code: the embedded-postgres import registers
+async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would
+otherwise turn a failed run into exit 0.
 
 Titles carrying `M2-AC01/2` prove that sub-item: the page→Fastify→PostgreSQL
 read, the runtime role unable to write, and no secret in bodies or logs.

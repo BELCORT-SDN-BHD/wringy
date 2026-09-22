@@ -11,11 +11,8 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/integration/**/*.int.test.ts'],
-    globalSetup: [
-      // Restores a failing exit code that embedded-postgres's exit hook would reset to 0.
-      'tests/integration/exit-code-guard.ts',
-      fileURLToPath(new URL('../../packages/db/test/global-setup.ts', import.meta.url)),
-    ],
+    // The harness's global setup also keeps a failing run's exit code (packages/db/test/exit-code-guard.ts).
+    globalSetup: [fileURLToPath(new URL('../../packages/db/test/global-setup.ts', import.meta.url))],
     testTimeout: 30_000,
     hookTimeout: 60_000,
   },

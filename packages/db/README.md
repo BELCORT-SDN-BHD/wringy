@@ -91,6 +91,9 @@ pnpm db:bootstrap       # once: groups, logins, database `wringy` (development p
 pnpm db:migrate         # pg-boss schema, then all pending SQL migrations, as the migrator; rerunning changes nothing
 pnpm db:env             # the ops.environment marker for WRINGY_ENV (fixtures allowed except in production)
 pnpm db:seed:fixtures   # two fixture orgs and three fixture campaigns; refused unless the marker allows fixtures
+# api and worker: copy apps/api/.env.example to apps/api/.env and apps/worker/.env.example
+# to apps/worker/.env (both gitignored), with WRINGY_ENV=local and the api / worker URL
+# that db:start printed; then `pnpm dev`, or `pnpm --filter api dev` and `pnpm --filter worker dev`
 pnpm db:stop
 ```
 
@@ -144,7 +147,7 @@ string or password.
 | Script | Does |
 |---|---|
 | `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, and the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin) |
-| `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint |
+| `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
 
 Integration test titles carry `M2-AC01/2` where they prove that sub-item: a fresh

@@ -15,7 +15,8 @@ another's secret.
 | `@wringy/config` | all of the above | |
 
 `WRINGY_ENV` is one of `local`, `ci`, `staging`, `production`. The names and a
-comment for each are in the repository-root `.env.example`.
+comment for each are in the repository-root `.env.example` (web, migrate,
+bootstrap, tests), `apps/api/.env.example` and `apps/worker/.env.example`.
 
 ## Rules
 

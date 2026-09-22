@@ -26,8 +26,12 @@ import { setEnvironment } from '../src/environment';
 import { LOCAL_PASSWORDS, postgresUrl } from '../src/local-dev';
 import { migrateDatabase } from '../src/migrate';
 import { ROLES } from '../src/roles';
+import { installExitCodeGuard } from './exit-code-guard';
 import type { ClusterInfo } from './harness';
 import { TEST_WRINGY_ENV } from './test-env';
+
+// embedded-postgres (imported above) would turn a failed run into exit 0; see exit-code-guard.ts.
+installExitCodeGuard();
 
 declare module 'vitest' {
   export interface ProvidedContext {
