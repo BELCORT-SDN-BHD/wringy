@@ -1,7 +1,244 @@
 {
   "app": {
     "name": "Wringy",
-    "demoBadge": "Data demo",
-    "loading": "Memuatkan…"
+    "tagline": "Ganjaran kandungan untuk tontonan layak yang disahkan.",
+    "demoBadge": "Data demo · simulasi",
+    "demoBadgeDetail": "Setiap rekod, jumlah, masa dan mesej pada halaman ini adalah simulasi. Tiada permintaan Google, e-mel atau pembayaran dibuat.",
+    "loading": "Memuatkan…",
+    "skipToContent": "Langkau ke kandungan"
+  },
+  "nav": {
+    "overview": "Gambaran keseluruhan",
+    "accounts": "Akaun",
+    "submissions": "Penghantaran",
+    "claims": "Permohonan",
+    "payments": "Pembayaran",
+    "campaigns": "Kempen",
+    "reports": "Laporan",
+    "queue": "Baris tugas",
+    "appeals": "Rayuan",
+    "payouts": "Pengeluaran",
+    "exceptions": "Kes luar biasa",
+    "readiness": "Kesediaan",
+    "notifications": "Pemberitahuan",
+    "settings": "Tetapan",
+    "groupCreator": "Kreator",
+    "groupMerchant": "Peniaga",
+    "groupOps": "Operasi",
+    "groupAccount": "Akaun",
+    "browseCampaigns": "Lihat kempen",
+    "home": "Laman utama"
+  },
+  "shell": {
+    "toggleNav": "Menu",
+    "workspaceLabel": "Ruang kerja",
+    "workspaceCreator": "Anda",
+    "switchWorkspace": "Tukar ruang kerja",
+    "opsReviewer": "Penyemak operasi",
+    "opsFinance": "Kewangan operasi",
+    "opsActive": "Bertindak sebagai {role}. Identiti operasi hanya wujud dalam alat demo.",
+    "notificationsLabel": "Pemberitahuan",
+    "unreadCount": "{count} belum dibaca",
+    "noUnread": "Tiada pemberitahuan belum dibaca",
+    "languageLabel": "Bahasa",
+    "accountLabel": "Akaun",
+    "signIn": "Masuk",
+    "signOut": "Keluar",
+    "signedOutToast": "Telah keluar daripada identiti simulasi.",
+    "simulatedIdentity": "Identiti simulasi · bukan kebenaran",
+    "demoTools": "Alat demo"
+  },
+  "state": {
+    "emptyTitle": "Tiada apa-apa di sini",
+    "emptyDescription": "Apabila ada sesuatu untuk ditunjukkan, ia akan muncul di sini. Ini data demo.",
+    "loadingLabel": "Memuatkan data demo…",
+    "errorTitle": "Ini tidak dapat dibaca",
+    "errorDescription": "Demo tidak dapat membaca ini. Tiada apa-apa diubah. Cuba lagi.",
+    "retry": "Cuba lagi",
+    "forbiddenTitle": "Tiada akses ke ruang kerja ini",
+    "forbiddenDescription": "Anda tiada akses ke ruang kerja ini dalam demo. Ini pemeriksaan simulasi, bukan kebenaran pengeluaran.",
+    "forbiddenBack": "Pergi ke ruang kerja anda",
+    "unavailableTitle": "Data tidak tersedia",
+    "unavailableDescription": "Sumber tidak dapat dibaca. Nilai terakhir yang dipercayai ditunjukkan dengan masanya. Tidak diketahui bukan bermaksud sifar.",
+    "lastTrusted": "Terakhir dipercayai {time}",
+    "lastTrustedLabel": "Terakhir dipercayai",
+    "neverTrusted": "Belum ada nilai yang dipercayai",
+    "unknown": "Tidak diketahui",
+    "notZero": "Tidak diketahui bukan sifar",
+    "notSet": "Belum ditetapkan",
+    "notApplicable": "Tidak berkenaan"
+  },
+  "money": {
+    "unknown": "Tidak diketahui",
+    "perThousand": "{amount} bagi setiap 1,000 tontonan layak",
+    "currencyNote": "Jumlah dalam ringgit Malaysia (MYR).",
+    "serviceFee": "Fi perkhidmatan",
+    "serviceFeeValue": "Menunggu konfigurasi · tidak dikenakan dalam demo"
+  },
+  "time": {
+    "timezoneHint": "Waktu Malaysia (UTC+08:00)",
+    "simulatedClock": "Jam simulasi"
+  },
+  "views": {
+    "qualified": "{count} tontonan layak",
+    "qualifiedLabel": "Tontonan layak",
+    "definition": "Tontonan layak ialah tontonan yang disahkan mengikut peraturan kempen. Ia bukan tontonan mentah, orang unik, pesanan atau jualan."
+  },
+  "budget": {
+    "title": "Kolam ganjaran",
+    "pool": "Kolam",
+    "available": "Tersedia",
+    "reserved": "Ditempah",
+    "confirmedUnpaid": "Disahkan belum dibayar",
+    "paid": "Telah dibayar",
+    "note": "Keempat-empat jumlah ini sentiasa berjumlah kolam ganjaran.",
+    "paidMeaning": "Telah dibayar bermaksud dana tersedia dalam akaun penyedia simulasi. Penyelesaian bank ialah fakta yang berasingan."
+  },
+  "timeline": {
+    "title": "Sejarah",
+    "empty": "Belum ada catatan.",
+    "by": "oleh {actor}",
+    "reason": "Sebab: {reason}"
+  },
+  "confirm": {
+    "defaultTitle": "Sahkan tindakan ini?",
+    "cancel": "Batal",
+    "confirm": "Sahkan",
+    "reasonLabel": "Sebab",
+    "reasonPlaceholder": "Tulis sebab yang akan direkodkan.",
+    "reasonRequired": "Sebab diperlukan.",
+    "demoNote": "Tindakan ini adalah simulasi dan direkodkan dalam demo sahaja."
+  },
+  "email": {
+    "previewTitle": "Pratonton e-mel simulasi — tidak dihantar",
+    "previewDescription": "Demo ini tidak menghantar e-mel. Ini adalah kandungan mesej tersebut.",
+    "to": "Kepada",
+    "subject": "Subjek",
+    "body": "Mesej",
+    "close": "Tutup",
+    "open": "Lihat e-mel simulasi"
+  },
+  "reset": {
+    "title": "Tetapkan semula data demo",
+    "description": "Ini memulangkan setiap rekod demo ke garis dasar. Hanya rekod demo disimpan, dan hanya dalam pelayar ini.",
+    "action": "Tetapkan semula demo",
+    "done": "Data demo ditetapkan semula ke garis dasar.",
+    "needsResetTitle": "Data demo yang disimpan tidak dapat dibaca",
+    "needsResetDescription": "Data demo yang disimpan tidak sepadan dengan versi ini dan tidak digunakan. Garis dasar ditunjukkan. Tetapkan semula untuk membersihkan salinan yang disimpan.",
+    "storageBlockedTitle": "Data demo tidak dapat disimpan dalam pelayar ini",
+    "storageBlockedDescription": "Storan tempatan tidak tersedia, jadi demo berfungsi tetapi tidak menyimpan kemajuan selepas muat semula. Penukar bahasa masih berfungsi; pilihan itu tidak disimpan."
+  },
+  "locale": {
+    "en-MY": "English",
+    "ms-MY": "Bahasa Melayu",
+    "zh-Hans-MY": "简体中文"
+  },
+  "localePrompt": {
+    "title": "Bahasa manakah yang anda pilih?",
+    "description": "Anda boleh menukarnya pada bila-bila masa dalam Tetapan.",
+    "continue": "Teruskan",
+    "skip": "Langkau buat masa ini",
+    "draftNote": "Teks bahasa Melayu dan Cina ialah draf yang menunggu semakan profesional."
+  },
+  "status": {
+    "campaign": {
+      "draft": "Draf",
+      "published": "Diterbitkan",
+      "paused": "Dijeda",
+      "submissions_closed": "Penghantaran ditutup",
+      "settling": "Sedang diselesaikan",
+      "closed": "Ditutup"
+    },
+    "submission": {
+      "pending_baseline": "Menunggu garis dasar",
+      "baseline_unavailable": "Garis dasar tidak tersedia",
+      "metering": "Sedang diukur",
+      "data_unavailable": "Data tidak tersedia",
+      "metering_ended": "Pengukuran tamat"
+    },
+    "content": {
+      "pending": "Semakan kandungan menunggu",
+      "approved": "Kandungan diluluskan",
+      "rejected": "Kandungan ditolak"
+    },
+    "metering": {
+      "pending": "Semakan pengukuran menunggu",
+      "approved": "Pengukuran diluluskan",
+      "held": "Pengukuran ditahan",
+      "rejected": "Pengukuran ditolak"
+    },
+    "claim": {
+      "pending_review": "Menunggu semakan",
+      "confirmed_unpaid": "Disahkan belum dibayar",
+      "rejected_appealable": "Ditolak · rayuan dibuka",
+      "appealing": "Rayuan sedang berjalan",
+      "rejected_final": "Ditolak · akhir",
+      "paid": "Telah dibayar"
+    },
+    "payout": {
+      "processing": "Sedang diproses",
+      "succeeded": "Dana tersedia",
+      "failed": "Gagal",
+      "unknown": "Keputusan tidak diketahui"
+    },
+    "connection": {
+      "valid": "Disambungkan",
+      "invalid": "Perlu sambung semula",
+      "unlinked": "Tidak disambungkan"
+    },
+    "appeal": {
+      "open": "Rayuan dibuka",
+      "upheld": "Rayuan diterima",
+      "rejected": "Rayuan ditolak"
+    },
+    "obligation": {
+      "open": "Boleh dibayar",
+      "settled": "Diselesaikan"
+    },
+    "offer": {
+      "open": "Tawaran dibuka",
+      "stale": "Tawaran perlu disahkan semula",
+      "consented": "Tawaran diterima",
+      "declined": "Tawaran ditolak"
+    },
+    "waitlist": {
+      "waiting": "Dalam senarai menunggu",
+      "notified": "Bajet tersedia",
+      "resubmitted": "Dihantar semula",
+      "withdrawn": "Ditarik balik"
+    },
+    "bankSettlement": {
+      "unknown": "Penyelesaian bank tidak diketahui",
+      "settled": "Penyelesaian bank disahkan"
+    }
+  },
+  "errors": {
+    "forbidden": "Identiti ini tidak dibenarkan melakukannya dalam demo.",
+    "not_found": "Rekod itu tidak wujud.",
+    "invalid_input": "Periksa nilai dan cuba lagi.",
+    "not_signed_in": "Masuk ke identiti simulasi dahulu.",
+    "campaign_not_ready": "Kempen belum bersedia: bukti pembiayaan atau sumber data tiada.",
+    "campaign_not_open": "Kempen tidak dibuka untuk tindakan ini.",
+    "min_claim_above_cap": "Permohonan minimum tidak boleh melebihi had bagi setiap penghantaran.",
+    "connection_invalid": "Sambungan akaun itu perlu disambung semula.",
+    "unsupported_platform": "Platform itu bukan sebahagian daripada kempen ini.",
+    "duplicate_post": "Siaran itu telah dihantar ke kempen ini.",
+    "cross_campaign_blocked": "Siaran itu telah digunakan dalam kempen lain.",
+    "pending_claim_exists": "Permohonan untuk penghantaran ini sedang menunggu. Tunggu semakan selesai.",
+    "below_min_claim": "Jumlah baharu yang boleh dimohon adalah di bawah permohonan minimum.",
+    "view_threshold_not_met": "Ambang tontonan kempen belum dicapai.",
+    "nothing_claimable": "Tiada apa-apa baharu untuk dimohon.",
+    "data_unavailable": "Data sumber tidak dapat dibaca, jadi ini tidak dapat disahkan sekarang.",
+    "claim_deadline_passed": "Tarikh akhir permohonan telah berlalu.",
+    "offer_stale": "Bajet berubah, jadi tawaran perlu disahkan semula.",
+    "offer_amount_mismatch": "Jumlah tidak sepadan dengan tawaran. Sahkan semula jumlah yang tepat.",
+    "appeal_window_closed": "Tempoh rayuan telah ditutup.",
+    "appeal_already_filed": "Rayuan telah difailkan untuk permohonan ini.",
+    "release_not_allowed": "Tempahan belum boleh dilepaskan.",
+    "attempt_unresolved": "Percubaan pengeluaran terdahulu belum diselesaikan. Selaraskan dahulu.",
+    "retry_not_allowed": "Percubaan semula memerlukan kegagalan yang disahkan dahulu.",
+    "already_settled": "Obligasi itu telah diselesaikan.",
+    "invalid_transition": "Perubahan itu tidak dibenarkan daripada keadaan semasa.",
+    "unknown": "Demo menolak tindakan itu."
   }
 }

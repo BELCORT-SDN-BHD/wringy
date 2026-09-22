@@ -5,8 +5,10 @@ simulated: identity, clock, view data, notifications, email previews and payouts
 [`docs/m1-prototype/kickoff.md`](../../docs/m1-prototype/kickoff.md) for scope and the
 decisions this scaffold was built against.
 
-This workspace is the scaffold only. Routes, the demo engine beyond `src/domain/types.ts`,
-the store and the role features arrive in later waves.
+The scaffold, the demo engine, the store, the app shell, the public pages, the
+notification centre, settings and the demo tools are in place. The three role
+feature areas (`src/app/(workspace)/{creator,merchant,ops}/**` beyond their
+placeholder overview, and `src/features/**`) arrive in wave 2.
 
 ## Run
 
@@ -106,15 +108,31 @@ part of the carried-over palette.
 
 next-intl without locale routing (kickoff decision 8). `src/i18n/request.ts` reads the
 `wringy-locale` cookie, falls back to `en-MY`, sets the time zone to `Asia/Kuala_Lumpur`, and
-loads `src/messages/<locale>/common.json`. `src/i18n/config.ts` holds the cookie name, the
-default, and the `isLocale` guard. `next.config.ts` wires the plugin.
+loads the merged catalogue from `src/i18n/messages.ts`. `src/i18n/config.ts` holds the cookie
+name, the default, and the `isLocale` guard. `next.config.ts` wires the plugin.
+
+That request config only drives server-rendered output: page metadata and the initial
+`<html lang>`. Client components take their messages from `AppProviders`
+(`src/components/app/providers.tsx`), which swaps the catalogue in place from the persisted
+session, so a language change re-renders without navigating and keeps form input.
+
+A message key may not contain a `.`: next-intl reads a dot as nesting and refuses the
+catalogue outright. Notification kinds are therefore stored nested
+(`notifications.kinds.claim.reserved.title`), which `t('claim.reserved.title')` still
+resolves; `src/lib/notification-copy.ts` flattens them back for the placeholder check.
 
 Reading a cookie there makes every route server-rendered on demand; `next build` reports
 `ƒ (Dynamic)` for `/` and `/_not-found`. That is expected for a prototype whose locale and
 demo state are per visitor.
 
-`src/messages/{en-MY,ms-MY,zh-Hans-MY}/common.json` currently carry `app.name`,
-`app.demoBadge` and `app.loading` only. Later waves add one file per namespace.
+Eight namespaces per locale: `common`, `public`, `notifications`, `demo`, `settings`,
+`merchant`, `creator`, `ops`. `src/i18n/messages.ts` imports all 24 files statically, so a
+wave-2 worker fills its own `<role>.json` and never edits that module. `merchant.json`,
+`creator.json` and `ops.json` are `{}` until then.
+
+`src/i18n/messages.test.ts` asserts the three locales carry identical key sets, the same
+interpolation parameters and no empty strings, and that every notification kind has a title,
+a body and a simulated email subject and body.
 
 ## Tests
 
@@ -125,6 +143,14 @@ demo state are per visitor.
   `small` 320×568, screenshots on failure, output in `tests/e2e/test-results`.
 - `tests/e2e/smoke.spec.ts` asserts the title contains "Wringy" and that
   `document.documentElement.scrollWidth` does not exceed the viewport, in all three projects.
+- `tests/e2e/helpers.ts` is the shared harness every later spec should use:
+  `loadScenario` / `loadScenarioAsGuest` (state injected straight into localStorage),
+  `loadScenarioViaUi`, `signInAs`, `setLocale`, `advanceClock`, `addViews`, `setDataOutage`,
+  `resetDemo`, `readStoredState` and `expectNoHorizontalOverflow`.
+- `tests/e2e/shell.spec.ts` covers the wave-1 frame; `tests/e2e/i18n.spec.ts` walks every
+  shell page in all three languages with the console under watch, so a missing message fails
+  the run instead of rendering a raw key path; `tests/e2e/screenshots.spec.ts` writes the
+  acceptance frames to `tests/e2e/__screenshots__/` (git-ignored).
 
 `next.config.ts` sets `allowedDevOrigins: ['127.0.0.1']` because Next 16 otherwise blocks the
 dev-server `/_next/hmr` requests Playwright makes over that host. Development only.
@@ -138,10 +164,18 @@ dev-server `/_next/hmr` requests Playwright makes over that host. Development on
   data table actually needs it.
 - `pnpm typecheck` runs `next typegen` first. Next 16 puts `LayoutProps` / `PageProps` in
   `.next/types`, so a bare `tsc --noEmit` on a clean checkout fails on `src/app/layout.tsx`.
-- `src/domain/` holds `types.ts` (the M1 data contract) and a re-export barrel only. Money,
-  rules, `applyCommand`, seed, scenarios and selectors are wave 1.
-- `src/app/page.tsx` is a placeholder. No app shell, demo badge component, store, routes or
-  role features yet.
+- `prefers-reduced-motion` is **not** honoured by the enter/exit animations. The only
+  reduced-motion rule in the served CSS comes from `shadcn/tailwind.css` and covers the
+  `.shimmer` utility; `tw-animate-css` 1.4.0 ships no such rule, so `animate-in` /
+  `animate-out` and the Radix overlay transitions still play. Suppressing them means adding
+  a rule to `globals.css`, which the design-system contract reserves, so it is recorded here
+  rather than done locally.
+- `ErrorState` and `TimelineList` (`src/components/app/`) compile and lint but are not yet
+  rendered by any page: nothing in the shell performs a read that can fail, and no shell page
+  owns an audit trail. Wave-2 role pages are their first real callers.
+- The `/campaigns/[id]` metadata is generated from the baseline seed, because the server
+  cannot read the visitor's localStorage. A campaign a scenario created locally falls back to
+  the catalogue title and description.
 - `apps/web/AGENTS.md` and `apps/web/CLAUDE.md` are written by `next dev` itself
   (`node_modules/next/dist/server/lib/generate-agent-files.js`) and are kept so the tree
   stays clean; deleting them only recreates them.

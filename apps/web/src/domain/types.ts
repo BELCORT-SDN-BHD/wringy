@@ -426,7 +426,7 @@ export type NotificationKind =
 
 export interface Notification {
   id: string;
-  /** Same business event → same eventId; (eventId, recipientUserId) is unique. */
+  /** Same business event → same eventId; (eventId, recipientUserId, recipientRole) is unique. */
   eventId: string;
   recipientUserId: string;
   /** Which role context the recipient receives it in (drives the link). */

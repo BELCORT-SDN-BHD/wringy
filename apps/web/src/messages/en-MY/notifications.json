@@ -1,0 +1,223 @@
+{
+  "title": "Notifications",
+  "subtitle": "Events for the identity you are using now. Unread first.",
+  "metaTitle": "Notifications",
+  "markAllRead": "Mark all read",
+  "markRead": "Mark read",
+  "markedRead": "Marked read.",
+  "markedAllRead": "All notifications marked read.",
+  "unread": "Unread",
+  "read": "Read",
+  "emptyTitle": "No notifications",
+  "emptyDescription": "Events for this identity appear here. Use the demo tools to make something happen.",
+  "signedOutTitle": "Not in a simulated identity",
+  "signedOutDescription": "Notifications belong to an identity. Enter the demo to see them.",
+  "openLink": "Open",
+  "recipientRole": "Received as {role}",
+  "roleCreator": "creator",
+  "roleMerchant": "merchant",
+  "roleOpsReviewer": "ops reviewer",
+  "roleOpsFinance": "ops finance",
+  "roleGuest": "guest",
+  "emailAvailable": "This event would also send an email.",
+  "kinds": {
+    "campaign": {
+      "published": {
+        "title": "Campaign published",
+        "body": "{campaignTitle} is published and open for submissions.",
+        "emailSubject": "{campaignTitle} is now open for submissions",
+        "emailBody": "{campaignTitle} is published. The rate, cap per submission, minimum claim and submission deadline are on the campaign page."
+      },
+      "readiness_blocked": {
+        "title": "Publishing blocked",
+        "body": "{campaignTitle} cannot be published: funding evidence or data source readiness is missing.",
+        "emailSubject": "{campaignTitle} is not ready to publish",
+        "emailBody": "Publishing is blocked until funding evidence and data source readiness are both recorded. Nothing was published."
+      },
+      "submissions_closed": {
+        "title": "Submissions closed",
+        "body": "{campaignTitle} no longer accepts new submissions. Metering continues for posts already accepted.",
+        "emailSubject": "{campaignTitle} has closed submissions",
+        "emailBody": "New submissions are closed. Accepted posts keep metering until their own window ends, and claims stay open for the published grace period."
+      },
+      "closed": {
+        "title": "Campaign closed",
+        "body": "{campaignTitle} is closed. Open cases and confirmed unpaid amounts are still listed.",
+        "emailSubject": "{campaignTitle} is closed",
+        "emailBody": "The campaign is closed. Closing does not settle open appeals, pending claims or confirmed unpaid amounts, and any refund of the unused pool is shown as pending verification."
+      }
+    },
+    "submission": {
+      "accepted": {
+        "title": "Submission accepted",
+        "body": "Your post is accepted and metering has started. Metering ends {meteringEndsAt}.",
+        "emailSubject": "Your submission to {campaignTitle} is accepted",
+        "emailBody": "A baseline was recorded, so only qualified views gained after acceptance count. Metering ends {meteringEndsAt} and you can claim until {claimDeadlineAt}."
+      },
+      "baseline_unavailable": {
+        "title": "Baseline not available",
+        "body": "The source could not give a baseline, so metering has not started. Nothing was rejected.",
+        "emailSubject": "Waiting for a baseline on your submission",
+        "emailBody": "Your post was accepted for checks but no trusted baseline exists yet, so metering has not started. Unknown data is not treated as zero views or as fraud."
+      },
+      "data_unavailable": {
+        "title": "Source data not available",
+        "body": "New reads are failing ({missingReason}). The last trusted value and its time are kept.",
+        "emailSubject": "Views cannot be read for your submission right now",
+        "emailBody": "The platform data source is unreadable at the moment. The last trusted number and its time are shown, unknown is not counted as zero, and a claim blocked by this can extend the deadline once the outage clears."
+      },
+      "resynced": {
+        "title": "Submission resynced",
+        "body": "Operations re-read the source.",
+        "emailSubject": "Your submission data was re-read",
+        "emailBody": "Operations triggered a fresh read of the source. Earlier claims keep the snapshot they were filed against."
+      }
+    },
+    "content": {
+      "approved": {
+        "title": "Content approved",
+        "body": "The merchant approved your content. This is not a payment.",
+        "emailSubject": "Your content for {campaignTitle} is approved",
+        "emailBody": "Content review is complete. A claim still needs the metering review before any amount is confirmed, and a confirmed amount is not yet paid."
+      },
+      "rejected": {
+        "title": "Content rejected",
+        "body": "The merchant rejected your content. Reason: {reason}",
+        "emailSubject": "Your content for {campaignTitle} was rejected",
+        "emailBody": "Reason: {reason}. Any reservation is held during the appeal window, and you can appeal until {appealDeadlineAt}."
+      }
+    },
+    "claim": {
+      "reserved": {
+        "title": "Claim reserved",
+        "body": "{amountSen} is reserved and waiting for review. Queue position {seq}.",
+        "emailSubject": "Your claim for {amountSen} is under review",
+        "emailBody": "{amountSen} is reserved from the reward pool at queue position {seq}. It becomes payable only after both the content review and the metering review are approved."
+      },
+      "partial_offer": {
+        "title": "Partial amount offered",
+        "body": "You could claim {fullSen} but {offeredSen} is available. Confirm the exact amount to reserve it.",
+        "emailSubject": "A partial amount of {offeredSen} is available",
+        "emailBody": "The offer reserves nothing and holds no queue position until you consent to the exact amount. If the budget changes the offer must be reconfirmed. The remainder is not forfeited."
+      },
+      "waitlisted": {
+        "title": "Added to the waitlist",
+        "body": "The available budget is below the minimum claim, so nothing is reserved.",
+        "emailSubject": "You are on the waitlist for {campaignTitle}",
+        "emailBody": "A waitlist entry holds no money and no queue position. If the budget recovers you are notified and you resubmit, which gives you a new queue position at that time."
+      },
+      "confirmed": {
+        "title": "Claim confirmed",
+        "body": "{amountSen} is confirmed and unpaid. It is not in your account yet.",
+        "emailSubject": "{amountSen} is confirmed for payment",
+        "emailBody": "Both reviews are approved, so {amountSen} is a confirmed obligation. Confirmed unpaid is not paid: a payout is started separately and bank settlement is a further, separate fact."
+      },
+      "rejected": {
+        "title": "Claim rejected",
+        "body": "The claim was rejected. Reason: {reason}. You can appeal until {appealDeadlineAt}.",
+        "emailSubject": "Your claim was rejected",
+        "emailBody": "Reason: {reason}. The reserved amount is held, not released, while the appeal window is open until {appealDeadlineAt}. Nothing is closed automatically."
+      },
+      "escalated": {
+        "title": "Review escalated",
+        "body": "This claim passed the 48 hour review target and was escalated. It was not approved automatically.",
+        "emailSubject": "A claim passed the 48 hour review target",
+        "emailBody": "The claim is escalated for attention. Escalation changes who looks at it, not the outcome: nothing is approved by timeout."
+      },
+      "rejection_finalized": {
+        "title": "Rejection final",
+        "body": "Operations finalised the rejection. Reason: {reason}. The reservation is released.",
+        "emailSubject": "A rejected claim is now final",
+        "emailBody": "Reason: {reason}. The appeal window closed or the appeal was rejected, so the reserved amount returns to the available pool."
+      }
+    },
+    "waitlist": {
+      "budget_available": {
+        "title": "Budget available again",
+        "body": "Budget is available again in {campaignTitle}. Resubmit to take a new queue position.",
+        "emailSubject": "Budget is available in {campaignTitle}",
+        "emailBody": "Budget is available. Resubmitting does not restore an older queue position; the new position is taken at the time you resubmit."
+      }
+    },
+    "metering": {
+      "held": {
+        "title": "Metering on hold",
+        "body": "Operations put the metering review on hold. Reason: {reason}",
+        "emailSubject": "A metering review is on hold",
+        "emailBody": "Reason: {reason}. A hold is not a rejection and not an approval. The reservation stays in place while the hold is open."
+      }
+    },
+    "appeal": {
+      "filed": {
+        "title": "Appeal filed",
+        "body": "An appeal was filed. Reason: {reason}",
+        "emailSubject": "An appeal was filed on a rejected claim",
+        "emailBody": "Reason: {reason}. The reserved amount stays held while the appeal is open, and the queue position is unchanged."
+      },
+      "upheld": {
+        "title": "Appeal upheld",
+        "body": "The appeal was upheld. Review continues from where it stopped. Note: {note}",
+        "emailSubject": "Your appeal was upheld",
+        "emailBody": "Note: {note}. Verification continues and the original queue position is kept. An upheld appeal is not a payment."
+      },
+      "rejected": {
+        "title": "Appeal rejected",
+        "body": "The appeal was rejected. Note: {note}",
+        "emailSubject": "Your appeal was rejected",
+        "emailBody": "Note: {note}. Operations can now finalise the rejection, which releases the reserved amount back to the pool."
+      }
+    },
+    "payout": {
+      "processing": {
+        "title": "Payout processing",
+        "body": "{amountSen} was sent to the simulated provider. Accepted for processing is not paid.",
+        "emailSubject": "A payout of {amountSen} is processing",
+        "emailBody": "{amountSen} is with the simulated provider. Provider acceptance is not funds in the account and not bank settlement."
+      },
+      "paid": {
+        "title": "Funds available",
+        "body": "{amountSen} is available in the simulated provider account. Bank settlement is shown separately.",
+        "emailSubject": "{amountSen} is available in your simulated account",
+        "emailBody": "The simulated provider confirms {amountSen} is available. Whether your bank has settled it is a separate fact and is shown as unknown until confirmed."
+      },
+      "failed": {
+        "title": "Payout failed",
+        "body": "The attempt failed. Reason: {failureReason}. A retry needs this confirmed failure.",
+        "emailSubject": "A payout attempt failed",
+        "emailBody": "Reason: {failureReason}. The obligation is still open and a controlled retry is allowed because the failure is confirmed."
+      },
+      "unknown": {
+        "title": "Payout result unknown",
+        "body": "The provider did not give a result. Reconcile the original attempt. There is no pay again.",
+        "emailSubject": "A payout result is unknown and needs reconciling",
+        "emailBody": "Unknown is not failed and not paid. The only allowed next step is reconciling this attempt against the provider record; a second payment cannot be started."
+      },
+      "reconciled": {
+        "title": "Payout reconciled",
+        "body": "The attempt was reconciled: {outcome}. Note: {note}",
+        "emailSubject": "A payout attempt was reconciled",
+        "emailBody": "Outcome: {outcome}. Note: {note}. Reconciling records what the provider actually did; it does not move money on its own."
+      }
+    },
+    "deadline": {
+      "metering_ended": {
+        "title": "Metering ended",
+        "body": "New views no longer count. You can still claim until {claimDeadlineAt}.",
+        "emailSubject": "Metering ended for your submission",
+        "emailBody": "Only increments inside the window count. Metering never reopens, but the claim window stays open until {claimDeadlineAt}."
+      },
+      "claim_deadline_extended": {
+        "title": "Claim deadline extended",
+        "body": "Reason: {reason}. The new deadline is {newDeadlineAt}.",
+        "emailSubject": "Your claim deadline moved to {newDeadlineAt}",
+        "emailBody": "A block ({reason}) stopped you filing across the original deadline, so the full published grace runs again from the time the block cleared. Metering is not reopened and queue times are not back-dated."
+      },
+      "claim_deadline_passed": {
+        "title": "Claim deadline passed",
+        "body": "New claims are closed for this submission. Claims already filed keep their position.",
+        "emailSubject": "The claim deadline for your submission has passed",
+        "emailBody": "No new claim can be filed for this submission. Anything filed in time keeps its queue position and continues through review."
+      }
+    }
+  }
+}

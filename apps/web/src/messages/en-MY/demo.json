@@ -1,0 +1,88 @@
+{
+  "panel": {
+    "title": "Demo tools",
+    "description": "These controls exist only in the prototype. They are not part of the product UI.",
+    "open": "Open demo tools",
+    "close": "Close"
+  },
+  "clock": {
+    "title": "Simulated clock",
+    "plusHour": "+1 hour",
+    "plusDay": "+1 day",
+    "plusWeek": "+7 days",
+    "toMeteringEnd": "Jump to metering end",
+    "toClaimDeadline": "Jump to claim deadline",
+    "needsSubmission": "Choose a submission first.",
+    "noTarget": "That submission has no date for this yet.",
+    "advanced": "Clock moved to {time}."
+  },
+  "role": {
+    "title": "Identity",
+    "creator": "You (creator)",
+    "merchant": "Merchant org",
+    "opsReviewer": "Ops reviewer",
+    "opsFinance": "Ops finance",
+    "note": "Switching identity is a demo tool. The engine still checks permissions, and that check is simulated, not production authorisation.",
+    "switched": "Now acting as {role}."
+  },
+  "views": {
+    "title": "Qualified views",
+    "submission": "Submission",
+    "add1000": "+1,000 views",
+    "customLabel": "Custom amount",
+    "add": "Add views",
+    "added": "Added {count} qualified views.",
+    "none": "No submission to meter yet.",
+    "scopeMine": "My submissions",
+    "scopeAll": "All submissions"
+  },
+  "outage": {
+    "title": "Data outage",
+    "description": "While this is on, new reads fail and the last trusted value is kept.",
+    "toggle": "Source unreachable",
+    "set": "Data outage {state} for {submission}.",
+    "on": "on",
+    "off": "off"
+  },
+  "readiness": {
+    "title": "Campaign readiness",
+    "campaign": "Campaign",
+    "funding": "Funding evidence",
+    "dataSource": "Data source ready",
+    "none": "No campaign to configure.",
+    "set": "Readiness updated."
+  },
+  "payout": {
+    "title": "Payout outcome",
+    "description": "Set the simulated provider result for an attempt that is processing or unknown.",
+    "succeeded": "Funds available",
+    "failed": "Failed",
+    "unknown": "Unknown",
+    "none": "No unresolved payout attempt.",
+    "set": "Payout attempt set to {outcome}."
+  },
+  "scenario": {
+    "title": "Scenario",
+    "description": "Loading a scenario rebuilds every demo record from the baseline. Anything you changed is discarded.",
+    "load": "Load scenario",
+    "loaded": "Scenario loaded: {scenario}.",
+    "confirmTitle": "Load this scenario?",
+    "baseline": "Baseline",
+    "main_flow_ready": "Main flow ready",
+    "partial_budget": "Partial budget",
+    "waitlist": "Waitlist",
+    "rejection_appeal": "Rejection and appeal",
+    "payout_unknown": "Payout unknown",
+    "payout_failed": "Payout failed",
+    "deadline_extension": "Deadline extension",
+    "campaign_closure": "Campaign closure",
+    "data_outage": "Data outage"
+  },
+  "reset": {
+    "title": "Reset"
+  },
+  "toolbar": {
+    "failed": "The demo refused that: {reason}",
+    "engineMissing": "The demo engine is not available in this build, so demo tools cannot change anything."
+  }
+}

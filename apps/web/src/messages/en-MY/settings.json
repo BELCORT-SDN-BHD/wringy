@@ -1,0 +1,29 @@
+{
+  "title": "Settings",
+  "subtitle": "Language, profile and demo data.",
+  "language": {
+    "title": "Preferred language",
+    "description": "Changing this updates the interface immediately and keeps anything you have typed.",
+    "label": "Language",
+    "saved": "Language preference saved for this browser.",
+    "switchedNotSaved": "Language switched. The preference could not be saved in this browser.",
+    "draftNote": "Malay and Chinese copy is a draft awaiting professional review.",
+    "formCheckLabel": "Scratch note (kept when you switch language)",
+    "formCheckHint": "Type here, switch language, and the text stays."
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "Simulated, from the demo seed. Nothing here came from Google and nothing is sent anywhere.",
+    "name": "Name",
+    "email": "Email (simulated)",
+    "workspaces": "Workspaces",
+    "signedOut": "You are not in a simulated identity."
+  },
+  "storage": {
+    "title": "What is stored",
+    "description": "Demo records only, in this browser only, under one versioned key. No credentials and no real personal data. Other devices are not synced.",
+    "key": "Storage key",
+    "schemaVersion": "Schema version"
+  },
+  "metaTitle": "Settings"
+}

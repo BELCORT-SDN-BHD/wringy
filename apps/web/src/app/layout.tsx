@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
+
+import { DemoBadge } from '@/components/app/demo-badge';
+import { DemoToolbar } from '@/components/app/demo-toolbar';
+import { LocalePrompt } from '@/components/app/locale-prompt';
+import { AppProviders } from '@/components/app/providers';
+import { Toaster } from '@/components/ui/sonner';
+import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 
 import './globals.css';
 
@@ -18,16 +24,22 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('app');
+  const t = await getTranslations('common.app');
 
   return {
-    title: `${t('name')} — prototype`,
-    description: 'Wringy Content Rewards M1 prototype. Simulated data only.',
+    title: {
+      default: `${t('name')} — prototype`,
+      template: `%s — ${t('name')}`,
+    },
+    // No claim is made about search indexing or link unfurling: nothing is
+    // deployed publicly (prototype-spec-v1).
+    description: t('tagline'),
   };
 }
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
-  const locale = await getLocale();
+  const requested = await getLocale();
+  const locale = isLocale(requested) ? requested : DEFAULT_LOCALE;
 
   return (
     <html
@@ -35,7 +47,18 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <AppProviders initialLocale={locale}>
+          {/* First-visit language prompt sits above everything in the flow, so
+              it never covers a header or a primary action. */}
+          <LocalePrompt />
+          {children}
+          {/* Visible on every page, per ticket #2. */}
+          <DemoBadge />
+          {/* The only place the clock, views, readiness, payouts, identity and
+              scenarios can be changed. */}
+          <DemoToolbar />
+          <Toaster position="top-center" />
+        </AppProviders>
       </body>
     </html>
   );

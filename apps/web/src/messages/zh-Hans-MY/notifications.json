@@ -1,0 +1,223 @@
+{
+  "title": "通知",
+  "subtitle": "当前身份收到的事件。未读优先。",
+  "metaTitle": "通知",
+  "markAllRead": "全部标为已读",
+  "markRead": "标为已读",
+  "markedRead": "已标为已读。",
+  "markedAllRead": "已将全部通知标为已读。",
+  "unread": "未读",
+  "read": "已读",
+  "emptyTitle": "暂无通知",
+  "emptyDescription": "该身份的事件会显示在这里。可用演示工具触发事件。",
+  "signedOutTitle": "当前不在模拟身份中",
+  "signedOutDescription": "通知属于某个身份。进入演示后可查看。",
+  "openLink": "查看",
+  "recipientRole": "接收角色：{role}",
+  "roleCreator": "创作者",
+  "roleMerchant": "商家",
+  "roleOpsReviewer": "运营审核",
+  "roleOpsFinance": "运营财务",
+  "roleGuest": "访客",
+  "emailAvailable": "该事件还会发送一封邮件。",
+  "kinds": {
+    "campaign": {
+      "published": {
+        "title": "活动已发布",
+        "body": "{campaignTitle} 已发布，开放投稿。",
+        "emailSubject": "{campaignTitle} 现已开放投稿",
+        "emailBody": "{campaignTitle} 已发布。费率、单条投稿封顶、最低申请金额与投稿截止时间见活动页面。"
+      },
+      "readiness_blocked": {
+        "title": "发布被阻止",
+        "body": "{campaignTitle} 无法发布：缺少资金证明或数据来源就绪。",
+        "emailSubject": "{campaignTitle} 尚未具备发布条件",
+        "emailBody": "在资金证明与数据来源就绪都记录完成前，发布会被阻止。目前未发布任何内容。"
+      },
+      "submissions_closed": {
+        "title": "投稿已关闭",
+        "body": "{campaignTitle} 不再接受新投稿。已接受的作品继续计量。",
+        "emailSubject": "{campaignTitle} 已关闭投稿",
+        "emailBody": "新投稿已关闭。已接受的作品在各自窗口结束前继续计量，申请在公布的宽限期内仍然开放。"
+      },
+      "closed": {
+        "title": "活动已结案",
+        "body": "{campaignTitle} 已结案。未决案件与确认未付金额仍会列出。",
+        "emailSubject": "{campaignTitle} 已结案",
+        "emailBody": "活动已结案。结案并不结清未决申诉、待处理申请或确认未付金额；未使用奖励池的退款显示为待核定。"
+      }
+    },
+    "submission": {
+      "accepted": {
+        "title": "投稿已接受",
+        "body": "你的作品已被接受，计量已开始。计量将于 {meteringEndsAt} 结束。",
+        "emailSubject": "你投给 {campaignTitle} 的作品已被接受",
+        "emailBody": "已记录基线，只有被接受之后新增的合格观看才计入。计量于 {meteringEndsAt} 结束，申请截止时间为 {claimDeadlineAt}。"
+      },
+      "baseline_unavailable": {
+        "title": "基线暂不可用",
+        "body": "来源暂时无法提供基线，计量尚未开始。没有任何内容被拒绝。",
+        "emailSubject": "正在等待你的投稿基线",
+        "emailBody": "你的作品已进入核查，但尚无可信基线，因此计量未开始。未知数据不会被当作 0 次观看，也不会被判为作弊。"
+      },
+      "data_unavailable": {
+        "title": "来源数据暂不可用",
+        "body": "新的读取失败（{missingReason}）。系统保留最后一次可信数值及其时间。",
+        "emailSubject": "你的投稿观看数暂时无法读取",
+        "emailBody": "平台数据来源当前无法读取。系统显示最后可信数值及其时间；未知不会计为零；若因此无法申请，中断解除后截止时间可获延期。"
+      },
+      "resynced": {
+        "title": "投稿已重新同步",
+        "body": "运营已重新读取来源。",
+        "emailSubject": "你的投稿数据已被重新读取",
+        "emailBody": "运营已触发对来源的重新读取。此前的申请仍沿用其提交时的快照。"
+      }
+    },
+    "content": {
+      "approved": {
+        "title": "内容已通过",
+        "body": "商家已通过你的内容。这不代表已付款。",
+        "emailSubject": "你为 {campaignTitle} 提交的内容已通过",
+        "emailBody": "内容审核已完成。申请仍需通过计量审核才能确认金额，已确认的金额也还不等于已发放。"
+      },
+      "rejected": {
+        "title": "内容已拒绝",
+        "body": "商家拒绝了你的内容。理由：{reason}",
+        "emailSubject": "你为 {campaignTitle} 提交的内容被拒绝",
+        "emailBody": "理由：{reason}。申诉窗口期间预留金额继续保留，你可在 {appealDeadlineAt} 前提出申诉。"
+      }
+    },
+    "claim": {
+      "reserved": {
+        "title": "申请已预留",
+        "body": "{amountSen} 已预留并等待审核。队列序号 {seq}。",
+        "emailSubject": "你的 {amountSen} 申请正在审核中",
+        "emailBody": "{amountSen} 已按队列序号 {seq} 从奖励池预留。只有内容审核与计量审核都通过后才会成为应付款项。"
+      },
+      "partial_offer": {
+        "title": "已提供部分金额报价",
+        "body": "你可申请 {fullSen}，但当前可用 {offeredSen}。确认确切金额后才会预留。",
+        "emailSubject": "当前可用部分金额 {offeredSen}",
+        "emailBody": "在你确认确切金额之前，该报价不预留任何金额，也不占队列位置。预算变化后需重新确认。剩余部分不会被作废。"
+      },
+      "waitlisted": {
+        "title": "已加入候补",
+        "body": "可用预算低于最低申请金额，因此未预留任何金额。",
+        "emailSubject": "你已加入 {campaignTitle} 的候补",
+        "emailBody": "候补条目不占用任何金额，也不占队列位置。预算恢复后会通知你重新提交，届时获得新的队列序号。"
+      },
+      "confirmed": {
+        "title": "申请已确认",
+        "body": "{amountSen} 已确认但未付。款项尚未到你的账户。",
+        "emailSubject": "{amountSen} 已确认待付",
+        "emailBody": "两项审核均已通过，{amountSen} 成为已确认的应付款项。确认未付不等于已发放：出款是单独发起的，银行到账更是另一件事实。"
+      },
+      "rejected": {
+        "title": "申请已拒绝",
+        "body": "该申请已被拒绍。理由：{reason}。你可在 {appealDeadlineAt} 前申诉。",
+        "emailSubject": "你的申请已被拒绝",
+        "emailBody": "理由：{reason}。在 {appealDeadlineAt} 前的申诉窗口内，预留金额继续保留而非释放。系统不会自动结案。"
+      },
+      "escalated": {
+        "title": "审核已升级",
+        "body": "该申请已超过 48 小时审核目标并被升级。系统没有自动通过。",
+        "emailSubject": "有申请超过 48 小时审核目标",
+        "emailBody": "该申请已升级提醒。升级只改变由谁处理，不改变结论：不会因为超时而自动通过。"
+      },
+      "rejection_finalized": {
+        "title": "拒绝已终审",
+        "body": "运营已终结该拒绝。理由：{reason}。预留金额已释放。",
+        "emailSubject": "被拒绝的申请已终审",
+        "emailBody": "理由：{reason}。申诉窗口已关闭或申诉被驳回，预留金额回到可用池。"
+      }
+    },
+    "waitlist": {
+      "budget_available": {
+        "title": "预算已恢复",
+        "body": "{campaignTitle} 的预算已恢复。重新提交可获得新的队列序号。",
+        "emailSubject": "{campaignTitle} 的预算已可用",
+        "emailBody": "预算已恢复可用。重新提交不会恢复原有队列位置，新序号按重新提交的时间计算。"
+      }
+    },
+    "metering": {
+      "held": {
+        "title": "计量已暂缓",
+        "body": "运营已暂缓计量审核。理由：{reason}",
+        "emailSubject": "计量审核已暂缓",
+        "emailBody": "理由：{reason}。暂缓既不是拒绝也不是通过。暂缓期间预留金额保持不变。"
+      }
+    },
+    "appeal": {
+      "filed": {
+        "title": "已提交申诉",
+        "body": "已提交申诉。理由：{reason}",
+        "emailSubject": "已对被拒申请提交申诉",
+        "emailBody": "理由：{reason}。申诉期间预留金额继续保留，队列位置不变。"
+      },
+      "upheld": {
+        "title": "申诉成立",
+        "body": "申诉成立，审核从中断处继续。备注：{note}",
+        "emailSubject": "你的申诉已成立",
+        "emailBody": "备注：{note}。核验继续进行，原队列序号保留。申诉成立不等于已付款。"
+      },
+      "rejected": {
+        "title": "申诉驳回",
+        "body": "申诉被驳回。备注：{note}",
+        "emailSubject": "你的申诉已被驳回",
+        "emailBody": "备注：{note}。运营随后可终结该拒绝，届时预留金额回到奖励池。"
+      }
+    },
+    "payout": {
+      "processing": {
+        "title": "出款处理中",
+        "body": "{amountSen} 已提交给模拟通道。通道受理不等于已发放。",
+        "emailSubject": "{amountSen} 的出款正在处理",
+        "emailBody": "{amountSen} 已在模拟通道处。通道受理既不等于资金到账，也不等于银行结算完成。"
+      },
+      "paid": {
+        "title": "资金已可用",
+        "body": "{amountSen} 已在模拟通道账户可用。银行到账单独显示。",
+        "emailSubject": "{amountSen} 已在你的模拟账户可用",
+        "emailBody": "模拟通道确认 {amountSen} 已可用。银行是否到账是另一件事实，在确认前显示为未知。"
+      },
+      "failed": {
+        "title": "出款失败",
+        "body": "本次出款失败。原因：{failureReason}。重试需要这条已确认的失败证据。",
+        "emailSubject": "一次出款尝试失败",
+        "emailBody": "原因：{failureReason}。应付款项仍未结清；由于失败已确认，允许进行受控重试。"
+      },
+      "unknown": {
+        "title": "出款结果未知",
+        "body": "通道未返回结果。请对账原交易。没有“再付一次”。",
+        "emailSubject": "有一笔出款结果未知，需要对账",
+        "emailBody": "未知既不是失败也不是已发放。唯一允许的下一步是将本次尝试与通道记录对账，不能发起第二笔付款。"
+      },
+      "reconciled": {
+        "title": "出款已对账",
+        "body": "该尝试已对账：{outcome}。备注：{note}",
+        "emailSubject": "一次出款尝试已完成对账",
+        "emailBody": "结论：{outcome}。备注：{note}。对账只是记录通道实际发生的事，本身不会转移资金。"
+      }
+    },
+    "deadline": {
+      "metering_ended": {
+        "title": "计量已结束",
+        "body": "新增观看不再计入。你仍可在 {claimDeadlineAt} 前申请。",
+        "emailSubject": "你的投稿计量已结束",
+        "emailBody": "只有窗口内的增量计入。计量不会重新开启，但申请窗口在 {claimDeadlineAt} 前仍然开放。"
+      },
+      "claim_deadline_extended": {
+        "title": "申请截止已延期",
+        "body": "原因：{reason}。新的截止时间为 {newDeadlineAt}。",
+        "emailSubject": "你的申请截止时间已改为 {newDeadlineAt}",
+        "emailBody": "因为 {reason} 导致你在原截止时间前无法提交，所以从阻塞解除时起重新计算完整的公布宽限期。计量不会重开，队列时间也不会回溯。"
+      },
+      "claim_deadline_passed": {
+        "title": "申请截止已过",
+        "body": "该投稿不再接受新申请。已提交的申请保留其位置。",
+        "emailSubject": "你的投稿申请截止时间已过",
+        "emailBody": "该投稿不能再提交新申请。按时提交的申请保留队列序号并继续走审核流程。"
+      }
+    }
+  }
+}

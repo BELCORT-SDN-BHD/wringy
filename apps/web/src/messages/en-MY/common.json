@@ -1,7 +1,244 @@
 {
   "app": {
     "name": "Wringy",
-    "demoBadge": "Demo data",
-    "loading": "Loading…"
+    "tagline": "Content rewards for verified eligible views.",
+    "demoBadge": "Demo data · simulated",
+    "demoBadgeDetail": "Every record, amount, time and message on this page is simulated. No Google, email or payment request is made.",
+    "loading": "Loading…",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "overview": "Overview",
+    "accounts": "Accounts",
+    "submissions": "Submissions",
+    "claims": "Claims",
+    "payments": "Payments",
+    "campaigns": "Campaigns",
+    "reports": "Reports",
+    "queue": "Queue",
+    "appeals": "Appeals",
+    "payouts": "Payouts",
+    "exceptions": "Exceptions",
+    "readiness": "Readiness",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "groupCreator": "Creator",
+    "groupMerchant": "Merchant",
+    "groupOps": "Operations",
+    "groupAccount": "Account",
+    "browseCampaigns": "Browse campaigns",
+    "home": "Home"
+  },
+  "shell": {
+    "toggleNav": "Menu",
+    "workspaceLabel": "Workspace",
+    "workspaceCreator": "You",
+    "switchWorkspace": "Switch workspace",
+    "opsReviewer": "Ops reviewer",
+    "opsFinance": "Ops finance",
+    "opsActive": "Acting as {role}. Operations identities exist only in the demo tools.",
+    "notificationsLabel": "Notifications",
+    "unreadCount": "{count} unread",
+    "noUnread": "No unread notifications",
+    "languageLabel": "Language",
+    "accountLabel": "Account",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "signedOutToast": "Signed out of the simulated identity.",
+    "simulatedIdentity": "Simulated identity · not authorisation",
+    "demoTools": "Demo tools"
+  },
+  "state": {
+    "emptyTitle": "Nothing here yet",
+    "emptyDescription": "When there is something to show it appears here. This is demo data.",
+    "loadingLabel": "Loading demo data…",
+    "errorTitle": "This could not be read",
+    "errorDescription": "The demo could not read this. Nothing was changed. Try again.",
+    "retry": "Try again",
+    "forbiddenTitle": "No access to this workspace",
+    "forbiddenDescription": "You do not have access to this workspace in the demo. This is a simulated check, not production authorisation.",
+    "forbiddenBack": "Go to your workspace",
+    "unavailableTitle": "Data not available",
+    "unavailableDescription": "The source could not be read. The last trusted value is shown with its time. Unknown does not mean zero.",
+    "lastTrusted": "Last trusted {time}",
+    "lastTrustedLabel": "Last trusted",
+    "neverTrusted": "No trusted value yet",
+    "unknown": "Unknown",
+    "notZero": "Unknown is not zero",
+    "notSet": "Not set",
+    "notApplicable": "Not applicable"
+  },
+  "money": {
+    "unknown": "Unknown",
+    "perThousand": "{amount} per 1,000 qualified views",
+    "currencyNote": "Amounts are in Malaysian ringgit (MYR).",
+    "serviceFee": "Service fee",
+    "serviceFeeValue": "Pending configuration · not charged in demo"
+  },
+  "time": {
+    "timezoneHint": "Malaysia time (UTC+08:00)",
+    "simulatedClock": "Simulated clock"
+  },
+  "views": {
+    "qualified": "{count} qualified views",
+    "qualifiedLabel": "Qualified views",
+    "definition": "Qualified views are plays verified against the campaign rules. They are not raw plays, unique people, orders or sales."
+  },
+  "budget": {
+    "title": "Reward pool",
+    "pool": "Pool",
+    "available": "Available",
+    "reserved": "Reserved",
+    "confirmedUnpaid": "Confirmed unpaid",
+    "paid": "Paid",
+    "note": "The four amounts always add up to the pool.",
+    "paidMeaning": "Paid means funds are available in the simulated provider account. Bank settlement is a separate fact."
+  },
+  "timeline": {
+    "title": "History",
+    "empty": "No entries yet.",
+    "by": "by {actor}",
+    "reason": "Reason: {reason}"
+  },
+  "confirm": {
+    "defaultTitle": "Confirm this action?",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "Write the reason that will be recorded.",
+    "reasonRequired": "A reason is required.",
+    "demoNote": "This action is simulated and recorded in the demo only."
+  },
+  "email": {
+    "previewTitle": "Simulated email preview — not sent",
+    "previewDescription": "The demo does not send email. This is what the message would say.",
+    "to": "To",
+    "subject": "Subject",
+    "body": "Message",
+    "close": "Close",
+    "open": "View simulated email"
+  },
+  "reset": {
+    "title": "Reset demo data",
+    "description": "This returns every demo record to the baseline. Only demo records are stored, and only in this browser.",
+    "action": "Reset demo",
+    "done": "Demo data reset to the baseline.",
+    "needsResetTitle": "Saved demo data could not be read",
+    "needsResetDescription": "The stored demo data does not match this version and was not used. The baseline is shown instead. Reset to clear the stored copy.",
+    "storageBlockedTitle": "Demo data cannot be saved in this browser",
+    "storageBlockedDescription": "Local storage is unavailable, so the demo works but does not keep progress after a refresh. The language switcher still works; the preference is not saved."
+  },
+  "locale": {
+    "en-MY": "English",
+    "ms-MY": "Bahasa Melayu",
+    "zh-Hans-MY": "简体中文"
+  },
+  "localePrompt": {
+    "title": "Which language would you prefer?",
+    "description": "You can change this anytime in Settings.",
+    "continue": "Continue",
+    "skip": "Skip for now",
+    "draftNote": "Malay and Chinese copy is a draft awaiting professional review."
+  },
+  "status": {
+    "campaign": {
+      "draft": "Draft",
+      "published": "Published",
+      "paused": "Paused",
+      "submissions_closed": "Submissions closed",
+      "settling": "Settling",
+      "closed": "Closed"
+    },
+    "submission": {
+      "pending_baseline": "Waiting for baseline",
+      "baseline_unavailable": "Baseline unavailable",
+      "metering": "Metering",
+      "data_unavailable": "Data not available",
+      "metering_ended": "Metering ended"
+    },
+    "content": {
+      "pending": "Content review pending",
+      "approved": "Content approved",
+      "rejected": "Content rejected"
+    },
+    "metering": {
+      "pending": "Metering review pending",
+      "approved": "Metering approved",
+      "held": "Metering on hold",
+      "rejected": "Metering rejected"
+    },
+    "claim": {
+      "pending_review": "Pending review",
+      "confirmed_unpaid": "Confirmed unpaid",
+      "rejected_appealable": "Rejected · appeal open",
+      "appealing": "Appeal in progress",
+      "rejected_final": "Rejected · final",
+      "paid": "Paid"
+    },
+    "payout": {
+      "processing": "Processing",
+      "succeeded": "Funds available",
+      "failed": "Failed",
+      "unknown": "Result unknown"
+    },
+    "connection": {
+      "valid": "Connected",
+      "invalid": "Reconnect needed",
+      "unlinked": "Not connected"
+    },
+    "appeal": {
+      "open": "Appeal open",
+      "upheld": "Appeal upheld",
+      "rejected": "Appeal rejected"
+    },
+    "obligation": {
+      "open": "Payable",
+      "settled": "Settled"
+    },
+    "offer": {
+      "open": "Offer open",
+      "stale": "Offer needs reconfirming",
+      "consented": "Offer accepted",
+      "declined": "Offer declined"
+    },
+    "waitlist": {
+      "waiting": "Waitlisted",
+      "notified": "Budget available",
+      "resubmitted": "Resubmitted",
+      "withdrawn": "Withdrawn"
+    },
+    "bankSettlement": {
+      "unknown": "Bank settlement unknown",
+      "settled": "Bank settlement confirmed"
+    }
+  },
+  "errors": {
+    "forbidden": "This identity is not allowed to do that in the demo.",
+    "not_found": "That record does not exist.",
+    "invalid_input": "Check the values and try again.",
+    "not_signed_in": "Sign in to the simulated identity first.",
+    "campaign_not_ready": "The campaign is not ready: funding evidence or data source is missing.",
+    "campaign_not_open": "The campaign is not open for this action.",
+    "min_claim_above_cap": "The minimum claim cannot be higher than the cap per submission.",
+    "connection_invalid": "That account connection needs reconnecting.",
+    "unsupported_platform": "That platform is not part of this campaign.",
+    "duplicate_post": "That post is already submitted to this campaign.",
+    "cross_campaign_blocked": "That post is already used in another campaign.",
+    "pending_claim_exists": "A claim for this submission is already pending. Wait for it to be reviewed.",
+    "below_min_claim": "The new claimable amount is below the minimum claim.",
+    "view_threshold_not_met": "The campaign view threshold is not met yet.",
+    "nothing_claimable": "There is nothing new to claim.",
+    "data_unavailable": "The source data could not be read, so this cannot be confirmed now.",
+    "claim_deadline_passed": "The claim deadline has passed.",
+    "offer_stale": "The budget changed, so the offer must be reconfirmed.",
+    "offer_amount_mismatch": "The amount does not match the offer. Reconfirm the exact amount.",
+    "appeal_window_closed": "The appeal window is closed.",
+    "appeal_already_filed": "An appeal was already filed for this claim.",
+    "release_not_allowed": "The reservation cannot be released yet.",
+    "attempt_unresolved": "The earlier payout attempt is unresolved. Reconcile it first.",
+    "retry_not_allowed": "A retry needs a confirmed failure first.",
+    "already_settled": "That obligation is already settled.",
+    "invalid_transition": "That change is not allowed from the current state.",
+    "unknown": "The demo refused that action."
   }
 }

@@ -1,7 +1,244 @@
 {
   "app": {
     "name": "Wringy",
-    "demoBadge": "演示数据",
-    "loading": "加载中…"
+    "tagline": "按已核验的合格观看发放内容奖励。",
+    "demoBadge": "演示数据 · 模拟",
+    "demoBadgeDetail": "本页的每一条记录、金额、时间和消息都是模拟的。不会发出任何 Google、邮件或支付请求。",
+    "loading": "加载中…",
+    "skipToContent": "跳到主要内容"
+  },
+  "nav": {
+    "overview": "总览",
+    "accounts": "账号",
+    "submissions": "投稿",
+    "claims": "申请",
+    "payments": "付款记录",
+    "campaigns": "活动",
+    "reports": "报告",
+    "queue": "工作队列",
+    "appeals": "申诉",
+    "payouts": "出款",
+    "exceptions": "异常",
+    "readiness": "就绪检查",
+    "notifications": "通知",
+    "settings": "设置",
+    "groupCreator": "创作者",
+    "groupMerchant": "商家",
+    "groupOps": "运营",
+    "groupAccount": "账户",
+    "browseCampaigns": "浏览活动",
+    "home": "首页"
+  },
+  "shell": {
+    "toggleNav": "菜单",
+    "workspaceLabel": "工作区",
+    "workspaceCreator": "我",
+    "switchWorkspace": "切换工作区",
+    "opsReviewer": "运营审核",
+    "opsFinance": "运营财务",
+    "opsActive": "当前身份：{role}。运营身份只存在于演示工具中。",
+    "notificationsLabel": "通知",
+    "unreadCount": "{count} 条未读",
+    "noUnread": "没有未读通知",
+    "languageLabel": "语言",
+    "accountLabel": "账户",
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "signedOutToast": "已退出模拟身份。",
+    "simulatedIdentity": "模拟身份 · 非权限验证",
+    "demoTools": "演示工具"
+  },
+  "state": {
+    "emptyTitle": "这里还没有内容",
+    "emptyDescription": "有内容时会显示在这里。这是演示数据。",
+    "loadingLabel": "正在加载演示数据…",
+    "errorTitle": "无法读取此内容",
+    "errorDescription": "演示无法读取此内容。没有任何数据被改动。请重试。",
+    "retry": "重试",
+    "forbiddenTitle": "无权访问此工作区",
+    "forbiddenDescription": "在本演示中你无权访问此工作区。这是模拟检查，不是生产环境的权限验证。",
+    "forbiddenBack": "前往你的工作区",
+    "unavailableTitle": "数据暂不可用",
+    "unavailableDescription": "来源暂时无法读取。下面显示最后一次可信数值及其时间。未知不等于零。",
+    "lastTrusted": "最后可信时间 {time}",
+    "lastTrustedLabel": "最后可信时间",
+    "neverTrusted": "尚无可信数值",
+    "unknown": "未知",
+    "notZero": "未知不等于零",
+    "notSet": "尚未设定",
+    "notApplicable": "不适用"
+  },
+  "money": {
+    "unknown": "未知",
+    "perThousand": "每 1,000 次合格观看 {amount}",
+    "currencyNote": "金额以马来西亚林吉特（MYR）计。",
+    "serviceFee": "服务费",
+    "serviceFeeValue": "待配置 · 演示未收取"
+  },
+  "time": {
+    "timezoneHint": "马来西亚时间（UTC+08:00）",
+    "simulatedClock": "模拟时钟"
+  },
+  "views": {
+    "qualified": "{count} 次合格观看",
+    "qualifiedLabel": "合格观看",
+    "definition": "合格观看指按活动规则核验通过的播放量，不是原始播放量、独立人数、订单或销量。"
+  },
+  "budget": {
+    "title": "奖励池",
+    "pool": "奖励池总额",
+    "available": "可用",
+    "reserved": "已预留",
+    "confirmedUnpaid": "确认未付",
+    "paid": "已发放",
+    "note": "四栏金额之和始终等于奖励池总额。",
+    "paidMeaning": "“已发放”指资金已在模拟支付通道账户可用。银行到账是另一件事实。"
+  },
+  "timeline": {
+    "title": "记录",
+    "empty": "暂无记录。",
+    "by": "操作者：{actor}",
+    "reason": "理由：{reason}"
+  },
+  "confirm": {
+    "defaultTitle": "确认执行此操作？",
+    "cancel": "取消",
+    "confirm": "确认",
+    "reasonLabel": "理由",
+    "reasonPlaceholder": "请填写将被记录的理由。",
+    "reasonRequired": "必须填写理由。",
+    "demoNote": "此操作为模拟操作，仅记录在演示数据中。"
+  },
+  "email": {
+    "previewTitle": "模拟邮件预览 — 未发送",
+    "previewDescription": "本演示不会发送邮件。以下是该邮件的内容。",
+    "to": "收件人",
+    "subject": "主题",
+    "body": "正文",
+    "close": "关闭",
+    "open": "查看模拟邮件"
+  },
+  "reset": {
+    "title": "重置演示数据",
+    "description": "这会把所有演示记录恢复到基准数据。只保存演示记录，且只保存在本浏览器。",
+    "action": "重置演示",
+    "done": "演示数据已恢复到基准。",
+    "needsResetTitle": "无法读取已保存的演示数据",
+    "needsResetDescription": "已保存的演示数据与当前版本不匹配，未被使用。当前显示基准数据。可重置以清除已保存的副本。",
+    "storageBlockedTitle": "本浏览器无法保存演示数据",
+    "storageBlockedDescription": "本地存储不可用，演示可以使用，但刷新后不会保留进度。语言仍可切换，但偏好不会被保存。"
+  },
+  "locale": {
+    "en-MY": "English",
+    "ms-MY": "Bahasa Melayu",
+    "zh-Hans-MY": "简体中文"
+  },
+  "localePrompt": {
+    "title": "你希望使用哪种语言？",
+    "description": "之后可随时在设置中修改。",
+    "continue": "继续",
+    "skip": "暂时跳过",
+    "draftNote": "马来文与中文文案为草稿，尚待专业审校。"
+  },
+  "status": {
+    "campaign": {
+      "draft": "草稿",
+      "published": "已发布",
+      "paused": "已暂停",
+      "submissions_closed": "投稿已关闭",
+      "settling": "结算中",
+      "closed": "已结案"
+    },
+    "submission": {
+      "pending_baseline": "等待基线",
+      "baseline_unavailable": "基线暂不可用",
+      "metering": "计量中",
+      "data_unavailable": "数据暂不可用",
+      "metering_ended": "计量已结束"
+    },
+    "content": {
+      "pending": "内容待审核",
+      "approved": "内容已通过",
+      "rejected": "内容已拒绝"
+    },
+    "metering": {
+      "pending": "计量待审核",
+      "approved": "计量已通过",
+      "held": "计量已暂缓",
+      "rejected": "计量已拒绝"
+    },
+    "claim": {
+      "pending_review": "待审核",
+      "confirmed_unpaid": "确认未付",
+      "rejected_appealable": "已拒绝 · 可申诉",
+      "appealing": "申诉中",
+      "rejected_final": "已拒绝 · 终审",
+      "paid": "已发放"
+    },
+    "payout": {
+      "processing": "处理中",
+      "succeeded": "资金已可用",
+      "failed": "已失败",
+      "unknown": "结果未知"
+    },
+    "connection": {
+      "valid": "已连接",
+      "invalid": "需重新连接",
+      "unlinked": "未连接"
+    },
+    "appeal": {
+      "open": "申诉中",
+      "upheld": "申诉成立",
+      "rejected": "申诉驳回"
+    },
+    "obligation": {
+      "open": "应付",
+      "settled": "已结清"
+    },
+    "offer": {
+      "open": "报价待确认",
+      "stale": "报价需重新确认",
+      "consented": "报价已确认",
+      "declined": "报价已拒绝"
+    },
+    "waitlist": {
+      "waiting": "候补中",
+      "notified": "预算已可用",
+      "resubmitted": "已重新提交",
+      "withdrawn": "已撤回"
+    },
+    "bankSettlement": {
+      "unknown": "银行到账未知",
+      "settled": "银行到账已确认"
+    }
+  },
+  "errors": {
+    "forbidden": "当前身份在演示中无权执行该操作。",
+    "not_found": "该记录不存在。",
+    "invalid_input": "请检查填写的内容后重试。",
+    "not_signed_in": "请先进入模拟身份。",
+    "campaign_not_ready": "活动尚未就绪：缺少资金证明或数据来源。",
+    "campaign_not_open": "该活动当前不接受此操作。",
+    "min_claim_above_cap": "最低申请金额不能高于单条投稿封顶。",
+    "connection_invalid": "该账号连接需要重新连接。",
+    "unsupported_platform": "该平台不在本活动范围内。",
+    "duplicate_post": "该作品已提交到本活动。",
+    "cross_campaign_blocked": "该作品已用于其他活动。",
+    "pending_claim_exists": "该投稿已有一笔待处理申请，请等待审核。",
+    "below_min_claim": "新增可申请金额低于最低申请金额。",
+    "view_threshold_not_met": "尚未达到活动的观看门槛。",
+    "nothing_claimable": "当前没有可申请的新增金额。",
+    "data_unavailable": "来源数据暂时无法读取，现在无法确认。",
+    "claim_deadline_passed": "申请截止时间已过。",
+    "offer_stale": "预算已变化，报价需重新确认。",
+    "offer_amount_mismatch": "金额与报价不一致，请重新确认确切金额。",
+    "appeal_window_closed": "申诉窗口已关闭。",
+    "appeal_already_filed": "该申请已提交过申诉。",
+    "release_not_allowed": "预留金额暂不能释放。",
+    "attempt_unresolved": "上一次出款尝试尚未有结论，请先对账。",
+    "retry_not_allowed": "重试需要先有已确认的失败证据。",
+    "already_settled": "该应付款项已结清。",
+    "invalid_transition": "当前状态不允许该变更。",
+    "unknown": "演示拒绝了该操作。"
   }
 }

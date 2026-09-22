@@ -1,0 +1,29 @@
+{
+  "title": "Tetapan",
+  "subtitle": "Bahasa, profil dan data demo.",
+  "language": {
+    "title": "Bahasa pilihan",
+    "description": "Menukarnya akan mengemas kini antara muka serta-merta dan mengekalkan apa yang anda taip.",
+    "label": "Bahasa",
+    "saved": "Pilihan bahasa disimpan untuk pelayar ini.",
+    "switchedNotSaved": "Bahasa ditukar. Pilihan tidak dapat disimpan dalam pelayar ini.",
+    "draftNote": "Teks bahasa Melayu dan Cina ialah draf yang menunggu semakan profesional.",
+    "formCheckLabel": "Nota ringkas (dikekalkan apabila anda menukar bahasa)",
+    "formCheckHint": "Taip di sini, tukar bahasa, dan teks akan kekal."
+  },
+  "profile": {
+    "title": "Profil",
+    "description": "Simulasi, daripada benih demo. Tiada apa-apa di sini datang dari Google dan tiada apa-apa dihantar ke mana-mana.",
+    "name": "Nama",
+    "email": "E-mel (simulasi)",
+    "workspaces": "Ruang kerja",
+    "signedOut": "Anda tidak berada dalam identiti simulasi."
+  },
+  "storage": {
+    "title": "Apa yang disimpan",
+    "description": "Rekod demo sahaja, dalam pelayar ini sahaja, di bawah satu kunci berversi. Tiada kelayakan dan tiada data peribadi sebenar. Peranti lain tidak disegerakkan.",
+    "key": "Kunci storan",
+    "schemaVersion": "Versi skema"
+  },
+  "metaTitle": "Tetapan"
+}

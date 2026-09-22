@@ -1,0 +1,88 @@
+{
+  "panel": {
+    "title": "Alat demo",
+    "description": "Kawalan ini hanya wujud dalam prototaip. Ia bukan sebahagian daripada antara muka produk.",
+    "open": "Buka alat demo",
+    "close": "Tutup"
+  },
+  "clock": {
+    "title": "Jam simulasi",
+    "plusHour": "+1 jam",
+    "plusDay": "+1 hari",
+    "plusWeek": "+7 hari",
+    "toMeteringEnd": "Lompat ke penghujung pengukuran",
+    "toClaimDeadline": "Lompat ke tarikh akhir permohonan",
+    "needsSubmission": "Pilih penghantaran dahulu.",
+    "noTarget": "Penghantaran itu belum mempunyai tarikh untuk ini.",
+    "advanced": "Jam dipindahkan ke {time}."
+  },
+  "role": {
+    "title": "Identiti",
+    "creator": "Anda (kreator)",
+    "merchant": "Organisasi peniaga",
+    "opsReviewer": "Penyemak operasi",
+    "opsFinance": "Kewangan operasi",
+    "note": "Menukar identiti ialah alat demo. Enjin masih memeriksa kebenaran, dan pemeriksaan itu adalah simulasi, bukan kebenaran pengeluaran.",
+    "switched": "Kini bertindak sebagai {role}."
+  },
+  "views": {
+    "title": "Tontonan layak",
+    "submission": "Penghantaran",
+    "add1000": "+1,000 tontonan",
+    "customLabel": "Jumlah tersuai",
+    "add": "Tambah tontonan",
+    "added": "Menambah {count} tontonan layak.",
+    "none": "Tiada penghantaran untuk diukur.",
+    "scopeMine": "Penghantaran saya",
+    "scopeAll": "Semua penghantaran"
+  },
+  "outage": {
+    "title": "Gangguan data",
+    "description": "Semasa ini dihidupkan, bacaan baharu gagal dan nilai terakhir yang dipercayai dikekalkan.",
+    "toggle": "Sumber tidak dapat dihubungi",
+    "set": "Gangguan data {state} untuk {submission}.",
+    "on": "dihidupkan",
+    "off": "dimatikan"
+  },
+  "readiness": {
+    "title": "Kesediaan kempen",
+    "campaign": "Kempen",
+    "funding": "Bukti pembiayaan",
+    "dataSource": "Sumber data sedia",
+    "none": "Tiada kempen untuk dikonfigurasi.",
+    "set": "Kesediaan dikemas kini."
+  },
+  "payout": {
+    "title": "Keputusan pengeluaran",
+    "description": "Tetapkan keputusan penyedia simulasi untuk percubaan yang sedang diproses atau tidak diketahui.",
+    "succeeded": "Dana tersedia",
+    "failed": "Gagal",
+    "unknown": "Tidak diketahui",
+    "none": "Tiada percubaan pengeluaran yang belum diselesaikan.",
+    "set": "Percubaan pengeluaran ditetapkan kepada {outcome}."
+  },
+  "scenario": {
+    "title": "Senario",
+    "description": "Memuatkan senario akan membina semula setiap rekod demo daripada garis dasar. Apa-apa yang anda ubah akan dibuang.",
+    "load": "Muatkan senario",
+    "loaded": "Senario dimuatkan: {scenario}.",
+    "confirmTitle": "Muatkan senario ini?",
+    "baseline": "Garis dasar",
+    "main_flow_ready": "Aliran utama sedia",
+    "partial_budget": "Bajet sebahagian",
+    "waitlist": "Senarai menunggu",
+    "rejection_appeal": "Penolakan dan rayuan",
+    "payout_unknown": "Pengeluaran tidak diketahui",
+    "payout_failed": "Pengeluaran gagal",
+    "deadline_extension": "Lanjutan tarikh akhir",
+    "campaign_closure": "Penutupan kempen",
+    "data_outage": "Gangguan data"
+  },
+  "reset": {
+    "title": "Tetapkan semula"
+  },
+  "toolbar": {
+    "failed": "Demo menolaknya: {reason}",
+    "engineMissing": "Enjin demo tidak tersedia dalam binaan ini, jadi alat demo tidak boleh mengubah apa-apa."
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "panel": {
+    "title": "演示工具",
+    "description": "这些控件只存在于原型中，不属于产品界面。",
+    "open": "打开演示工具",
+    "close": "关闭"
+  },
+  "clock": {
+    "title": "模拟时钟",
+    "plusHour": "+1 小时",
+    "plusDay": "+1 天",
+    "plusWeek": "+7 天",
+    "toMeteringEnd": "跳到计量终点",
+    "toClaimDeadline": "跳到申请截止",
+    "needsSubmission": "请先选择一条投稿。",
+    "noTarget": "该投稿还没有相应的时间。",
+    "advanced": "时钟已调整到 {time}。"
+  },
+  "role": {
+    "title": "身份",
+    "creator": "我（创作者）",
+    "merchant": "商家组织",
+    "opsReviewer": "运营审核",
+    "opsFinance": "运营财务",
+    "note": "切换身份是演示工具。引擎仍会检查权限，该检查是模拟的，不是生产环境的权限验证。",
+    "switched": "当前身份：{role}。"
+  },
+  "views": {
+    "title": "合格观看",
+    "submission": "投稿",
+    "add1000": "+1,000 次观看",
+    "customLabel": "自定义数量",
+    "add": "增加观看",
+    "added": "已增加 {count} 次合格观看。",
+    "none": "暂无可计量的投稿。",
+    "scopeMine": "我的投稿",
+    "scopeAll": "全部投稿"
+  },
+  "outage": {
+    "title": "数据中断",
+    "description": "开启后新的读取会失败，系统保留最后一次可信数值。",
+    "toggle": "来源不可达",
+    "set": "{submission} 的数据中断已{state}。",
+    "on": "开启",
+    "off": "关闭"
+  },
+  "readiness": {
+    "title": "活动就绪",
+    "campaign": "活动",
+    "funding": "资金证明",
+    "dataSource": "数据来源就绪",
+    "none": "暂无可配置的活动。",
+    "set": "就绪状态已更新。"
+  },
+  "payout": {
+    "title": "出款结果",
+    "description": "为处理中或结果未知的出款尝试设定模拟通道结果。",
+    "succeeded": "资金已可用",
+    "failed": "失败",
+    "unknown": "未知",
+    "none": "暂无未结论的出款尝试。",
+    "set": "出款尝试已设为{outcome}。"
+  },
+  "scenario": {
+    "title": "场景",
+    "description": "加载场景会从基准重建所有演示记录，你的改动会被丢弃。",
+    "load": "加载场景",
+    "loaded": "已加载场景：{scenario}。",
+    "confirmTitle": "要加载此场景吗？",
+    "baseline": "基准",
+    "main_flow_ready": "主流程就绪",
+    "partial_budget": "部分预算",
+    "waitlist": "候补",
+    "rejection_appeal": "拒绝与申诉",
+    "payout_unknown": "出款结果未知",
+    "payout_failed": "出款失败",
+    "deadline_extension": "截止延期",
+    "campaign_closure": "活动结案",
+    "data_outage": "数据中断"
+  },
+  "reset": {
+    "title": "重置"
+  },
+  "toolbar": {
+    "failed": "演示拒绝了该操作：{reason}",
+    "engineMissing": "当前构建中演示引擎不可用，演示工具无法改动数据。"
+  }
+}

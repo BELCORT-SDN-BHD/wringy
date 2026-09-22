@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 3100;
+// WEB_PORT lets parallel checkouts (git worktrees) run their own dev server.
+const PORT = Number(process.env.WEB_PORT ?? 3100);
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 
 // Three viewports because acceptance P10 checks 390 px, 1440 px and a 320 px
