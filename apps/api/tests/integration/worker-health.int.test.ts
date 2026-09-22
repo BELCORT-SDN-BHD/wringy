@@ -29,7 +29,7 @@ function statesOf(body: WorkerHealthResponse): Record<string, string> {
   return Object.fromEntries(body.workers.map((worker) => [worker.workerId, worker.state]));
 }
 
-describe('GET /internal/worker-health', () => {
+describe('M2-AC01 GET /internal/worker-health', () => {
   let db: TestDatabase;
   let api: TestApi;
 
@@ -47,7 +47,7 @@ describe('GET /internal/worker-health', () => {
     vi.useRealTimers();
   });
 
-  it('/internal/worker-health computes healthy/stale/stopped/never_seen on the database clock', async () => {
+  it('M2-AC01/2 page→Fastify→PostgreSQL read: /internal/worker-health computes healthy/stale/stopped/never_seen on the database clock', async () => {
     // never_seen: no worker has ever written a row. The list is empty, never a count of 0 healthy.
     const empty = await api.app.inject({ method: 'GET', url: '/internal/worker-health' });
     expect(empty.statusCode).toBe(200);

@@ -47,7 +47,7 @@ const health: HealthResponse = {
   dbNow: '2026-09-23T01:02:05.000Z',
 };
 
-describe('sample payloads round-trip', () => {
+describe('M2-AC01 sample payloads round-trip', () => {
   it.each([
     ['GET /health/live', healthLiveResponseSchema, { status: 'ok' }],
     ['GET /health', healthResponseSchema, health],
@@ -62,7 +62,7 @@ describe('sample payloads round-trip', () => {
   });
 });
 
-describe('the response schema is the allow-list', () => {
+describe('M2-AC01 the response schema is the allow-list', () => {
   it('strips unknown keys at every level of the campaign list', () => {
     const leaky = {
       ...campaigns,
@@ -87,7 +87,7 @@ describe('the response schema is the allow-list', () => {
   });
 });
 
-describe('enums and formats are enforced', () => {
+describe('M2-AC01 enums and formats are enforced', () => {
   it('rejects a status, origin or worker state outside the contract', () => {
     const [item] = campaigns.items;
     expect(

@@ -4,13 +4,13 @@ import { REDACTED, redactSecrets, scrubText, serializeError } from './logger';
 
 const URL = 'postgres://wringy_api_login:hunter2-DO-NOT-LEAK@db.internal:5432/wringy';
 
-describe('scrubText', () => {
-  it('replaces a PostgreSQL connection string wherever it appears', () => {
+describe('M2-AC01 scrubText', () => {
+  it('M2-AC01/2 replaces a PostgreSQL connection string wherever it appears', () => {
     const text = `connect ${URL} failed; retry postgresql://u:p@h/d`;
     expect(scrubText(text)).toBe(`connect ${REDACTED} failed; retry ${REDACTED}`);
   });
 
-  it('removes user:password credentials from any URL', () => {
+  it('M2-AC01/2 removes user:password credentials from any URL', () => {
     expect(scrubText('see https://admin:s3cret@example.test/path')).toBe(`see https://${REDACTED}@example.test/path`);
   });
 
@@ -19,8 +19,8 @@ describe('scrubText', () => {
   });
 });
 
-describe('redactSecrets', () => {
-  it('censors every key matching url|password|secret|token, at any depth, in any case', () => {
+describe('M2-AC01 redactSecrets', () => {
+  it('M2-AC01/2 censors every key matching url|password|secret|token, at any depth, in any case', () => {
     const redacted = redactSecrets({
       databaseUrl: URL,
       DATABASE_URL: URL,
@@ -38,7 +38,7 @@ describe('redactSecrets', () => {
     expect(JSON.stringify(redacted)).not.toContain('hunter2');
   });
 
-  it('scrubs connection strings under innocent keys', () => {
+  it('M2-AC01/2 scrubs connection strings under innocent keys', () => {
     expect(redactSecrets({ detail: `using ${URL}` })).toEqual({ detail: `using ${REDACTED}` });
   });
 
@@ -60,8 +60,8 @@ describe('redactSecrets', () => {
   });
 });
 
-describe('serializeError', () => {
-  it('keeps the type, the SQLSTATE and the stack, scrubbed, and follows the cause', () => {
+describe('M2-AC01 serializeError', () => {
+  it('M2-AC01/2 keeps the type, the SQLSTATE and the stack, scrubbed, and follows the cause', () => {
     const cause = Object.assign(new Error(`connect failed for ${URL}`), { code: 'ECONNREFUSED', connectionString: URL });
     const error = new Error('The database is unavailable', { cause });
     const out = serializeError(error);

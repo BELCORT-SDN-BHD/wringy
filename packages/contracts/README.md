@@ -31,6 +31,6 @@ ISO 8601 with an offset; ids are UUIDs.
 |---|---|
 | `pnpm --filter @wringy/contracts lint` | ESLint (typescript-eslint recommended) |
 | `pnpm --filter @wringy/contracts typecheck` | `tsc --noEmit` against `tsconfig.base.json` |
-| `pnpm --filter @wringy/contracts test` | Vitest: sample payloads round-trip, unknown keys are stripped |
+| `pnpm --filter @wringy/contracts test` | Vitest: sample payloads round-trip, unknown keys are stripped (titles carry `M2-AC01`) |
 
 No environment variables. The package ships TypeScript source.

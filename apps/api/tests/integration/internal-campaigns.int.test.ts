@@ -29,7 +29,7 @@ async function dbNow(db: TestDatabase): Promise<Date> {
   return row!.now;
 }
 
-describe('GET /internal/campaigns', () => {
+describe('M2-AC01 GET /internal/campaigns', () => {
   let db: TestDatabase;
   let api: TestApi;
 
@@ -86,7 +86,7 @@ describe('GET /internal/campaigns', () => {
     expect([...stamps].sort((a, b) => b - a)).toEqual(stamps);
   });
 
-  it('the response schema is the allow-list: an extra column never reaches the response', async () => {
+  it('M2-AC01/2 the response schema is the allow-list: an extra column never reaches the response', async () => {
     await asMigrator(db, `ALTER TABLE app.campaigns ADD COLUMN internal_note text NOT NULL DEFAULT 'LEAK-CANARY-COLUMN'`);
     const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns' });
     expect(response.statusCode).toBe(200);
@@ -96,7 +96,7 @@ describe('GET /internal/campaigns', () => {
     for (const item of body.items) expect(Object.keys(item).sort()).toEqual(CONTRACT_KEYS);
   });
 
-  it('the serializer strips what a handler over-selects: every column of the real rows, only contract keys out', async () => {
+  it('M2-AC01/2 the serializer strips what a handler over-selects: every column of the real rows, only contract keys out', async () => {
     const probe = await buildTestApi(db.urls.api);
     try {
       // A deliberately careless handler: every campaign column as the API role,
@@ -160,7 +160,7 @@ describe('GET /internal/campaigns', () => {
   });
 });
 
-describe('GET /internal/campaigns on a database without fixtures', () => {
+describe('M2-AC01 GET /internal/campaigns on a database without fixtures', () => {
   let db: TestDatabase;
   let api: TestApi;
 

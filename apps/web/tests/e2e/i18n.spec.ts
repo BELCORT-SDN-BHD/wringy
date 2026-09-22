@@ -191,7 +191,7 @@ test.describe('trilingual route walk', () => {
  * `<html lang>` and the copy, and the page must not mount any part of the demo.
  * It has no demo-tools trigger to wait for, so it is walked on its own.
  */
-test.describe('internal build route walk', () => {
+test.describe('M2-AC01 internal build route walk', () => {
   const BANNER = '内部版本 · Internal build · Versi dalaman';
 
   for (const locale of LOCALES) {

@@ -7,7 +7,7 @@ import { createApiPool } from '../../src/database';
 import { errorBody } from '../../src/errors';
 import { createTestDatabase, LogCapture, seedFixtures, type TestDatabase } from './support';
 
-describe('database outage', () => {
+describe('M2-AC01 database outage', () => {
   let db: TestDatabase;
   let pool: Pool;
   let logs: LogCapture;
@@ -26,7 +26,7 @@ describe('database outage', () => {
     await db?.drop();
   });
 
-  it('a database outage yields 503 and no stack/URL', async () => {
+  it('M2-AC01/2 a database outage yields 503 and no stack/URL', async () => {
     // Up: the routes answer from PostgreSQL.
     expect((await app.inject({ method: 'GET', url: '/internal/campaigns' })).statusCode).toBe(200);
 

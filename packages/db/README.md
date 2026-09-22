@@ -150,6 +150,7 @@ string or password.
 | `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
 
+Every test title carries this ticket's key `M2-AC01` (kickoff-package.md §6.1).
 Integration test titles carry `M2-AC01/2` where they prove that sub-item: a fresh
 migration from zero (pg-boss schema, then every SQL migration) that a second run
 leaves unchanged; the API login reading the migration head and pg-boss version
@@ -159,4 +160,7 @@ afterwards; SQL migrations refusing to pass 0005 before pg-boss exists; down
 manifest"; the worker login refused `app.campaigns` and the API login refused
 `ops.worker_heartbeat` writes and `pgboss.job` (42501); the fixture trigger, the
 composite foreign key and the marker's constraints; and the seed being
-idempotent and refused where fixtures are not allowed.
+idempotent and refused where fixtures are not allowed. Unit tests carry it for
+the installed pg-boss matching its exact pin, migration files that grant nothing
+to PUBLIC or the Supabase API roles and create no login role or password, and a
+SCRAM verifier that never contains the password.

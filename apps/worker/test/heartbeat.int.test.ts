@@ -19,7 +19,7 @@ import {
  * The worker's two beats and its drain, on a fresh clone per test (a worker
  * commits over its own connections, so a rollback cannot isolate it; §6.3).
  */
-describe('worker heartbeats (kickoff-package.md §8.3)', () => {
+describe('M2-AC01 worker heartbeats, the worker leg of the narrow loop (kickoff-package.md §8.3)', () => {
   let db: TestDatabase;
   let migrator: Pool;
   let subject: TestWorker | undefined;

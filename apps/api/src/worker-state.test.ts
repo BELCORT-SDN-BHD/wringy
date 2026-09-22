@@ -5,7 +5,7 @@ import { computeWorkerState, WORKER_BEAT_INTERVAL_SECONDS, WORKER_STALE_AFTER_SE
 const dbNow = new Date('2026-09-23T04:00:00.000Z');
 const secondsBefore = (seconds: number) => new Date(dbNow.getTime() - seconds * 1000);
 
-describe('computeWorkerState (judged on the database clock passed in)', () => {
+describe('M2-AC01 computeWorkerState (judged on the database clock passed in)', () => {
   it('is healthy while the last beat is at most the stale threshold old', () => {
     expect(computeWorkerState({ lastBeatAt: dbNow, stoppedAt: null }, dbNow)).toBe('healthy');
     expect(computeWorkerState({ lastBeatAt: secondsBefore(WORKER_BEAT_INTERVAL_SECONDS), stoppedAt: null }, dbNow)).toBe(

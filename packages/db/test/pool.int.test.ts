@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createPool, withClient, withTransaction, type Pool } from '../src/pool';
 import { createTestDatabase, type TestDatabase } from './harness';
 
-describe('pool helpers on a real PostgreSQL', () => {
+describe('M2-AC01 pool helpers on a real PostgreSQL', () => {
   let db: TestDatabase;
   let pool: Pool;
 

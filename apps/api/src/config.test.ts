@@ -9,13 +9,13 @@ const assignments = example
   .filter((line) => /^[A-Z][A-Z0-9_]*=/.test(line))
   .map((line) => line.split('=', 2) as [string, string]);
 
-describe('api configuration', () => {
+describe('M2-AC01 api configuration', () => {
   it('.env.example names exactly the variables the API reads, and no value', () => {
     expect(assignments.map(([name]) => name).sort()).toEqual(Object.keys(apiEnvSchema.shape).sort());
     for (const [name, value] of assignments) expect(value, name).toBe('');
   });
 
-  it('fails fast on a missing DATABASE_URL and never echoes a value', () => {
+  it('M2-AC01/2 fails fast on a missing DATABASE_URL and never echoes a value', () => {
     const secret = 'hunter2-DO-NOT-LEAK';
     let caught: unknown;
     try {

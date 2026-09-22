@@ -44,7 +44,7 @@ throwing, for a page that renders a "not configured" state.
 |---|---|
 | `pnpm --filter @wringy/config lint` | ESLint (typescript-eslint recommended) |
 | `pnpm --filter @wringy/config typecheck` | `tsc --noEmit` against `tsconfig.base.json` |
-| `pnpm --filter @wringy/config test` | Vitest unit tests (`src/*.test.ts`) |
+| `pnpm --filter @wringy/config test` | Vitest unit tests (`src/*.test.ts`); titles carry `M2-AC01`, and `M2-AC01/2` where an env error never echoes a value and where a process gets only its own database URL |
 
 The package ships TypeScript source (`exports` point at `src/`); Next.js
 (Turbopack) and tsx compile it where it is used.

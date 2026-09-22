@@ -4,7 +4,7 @@ import { BEAT_INTERVAL_MS, HEARTBEAT_CRON, HEARTBEAT_QUEUE, beatStatement, round
 
 const identity = { workerId: 'worker-local-1', imageRef: 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc' };
 
-describe('heartbeat statements', () => {
+describe('M2-AC01 heartbeat statements', () => {
   it('upserts the process beat with the database clock and only id and image as parameters', () => {
     const { text, values } = beatStatement(identity, { first: false });
     expect(values).toEqual([identity.workerId, identity.imageRef]);

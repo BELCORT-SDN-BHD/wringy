@@ -28,7 +28,7 @@ function expectClean(text: string, secrets: string[], label: string) {
   for (const secret of secrets) expect(text, `${label} leaks ${secret.slice(0, 12)}...`).not.toContain(secret);
 }
 
-describe('no secret leaves the API', () => {
+describe('M2-AC01 no secret leaves the API', () => {
   let db: TestDatabase;
   let api: TestApi;
   let outage: TestApi;

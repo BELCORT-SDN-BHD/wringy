@@ -8,7 +8,7 @@ import { isPgBossSchemaRefusal } from './connections';
 
 const require = createRequire(import.meta.url);
 
-describe('pg-boss schema refusal', () => {
+describe('M2-AC01 pg-boss schema refusal', () => {
   it('matches the errors the installed pg-boss throws from start() with migrate: false', () => {
     // Drift guard: a pg-boss bump that rewords these messages fails here, not in production.
     const contractor = readFileSync(
@@ -24,7 +24,7 @@ describe('pg-boss schema refusal', () => {
     expect(isPgBossSchemaRefusal('pg-boss is not installed')).toBe(false);
   });
 
-  it('runs the pinned pg-boss', () => {
+  it('M2-AC01/2 runs the pinned pg-boss', () => {
     const manifest = JSON.parse(readFileSync(require.resolve('pg-boss/package.json'), 'utf8')) as { version: string };
     const own = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;

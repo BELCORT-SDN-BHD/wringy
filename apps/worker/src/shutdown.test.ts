@@ -14,7 +14,7 @@ function setup(stop: () => Promise<void>, forceExitAfterMs = 60_000) {
   return { proc, exit, handle };
 }
 
-describe('graceful shutdown wiring', () => {
+describe('M2-AC01 graceful shutdown wiring', () => {
   it.each(['SIGTERM', 'SIGINT'] as const)('%s runs stop once and exits 0', async (signal) => {
     const stop = vi.fn(async () => {});
     const { proc, exit, handle } = setup(stop);

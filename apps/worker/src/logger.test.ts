@@ -11,8 +11,8 @@ function capture() {
   return { logger, lines, text: () => lines.join('') };
 }
 
-describe('scrubSecrets', () => {
-  it('replaces PostgreSQL URLs and password pairs', () => {
+describe('M2-AC01 scrubSecrets', () => {
+  it('M2-AC01/2 replaces PostgreSQL URLs and password pairs', () => {
     expect(scrubSecrets(`connect ${URL} failed`)).toBe(`connect postgres://${CENSOR} failed`);
     expect(scrubSecrets(`postgresql://u:${SECRET}@h/db`)).toBe(`postgres://${CENSOR}`);
     expect(scrubSecrets(`host=h user=u password=${SECRET} dbname=d`)).toBe(`host=h user=u password=${CENSOR} dbname=d`);
@@ -20,7 +20,7 @@ describe('scrubSecrets', () => {
   });
 });
 
-describe('worker logger', () => {
+describe('M2-AC01 worker logger', () => {
   it('writes JSON lines with the service and base fields', () => {
     const { logger, lines } = capture();
     logger.info({ beats: 1 }, 'process beat');
@@ -28,7 +28,7 @@ describe('worker logger', () => {
     expect(line).toMatchObject({ service: 'worker', workerId: 'w1', beats: 1, msg: 'process beat', level: 30 });
   });
 
-  it('censors secret keys, URLs in messages and URLs inside errors', () => {
+  it('M2-AC01/2 censors secret keys, URLs in messages and URLs inside errors', () => {
     const { logger, text } = capture();
     logger.info({ connectionString: URL, DATABASE_URL: URL, nested: { password: SECRET } }, 'config');
     logger.warn(`could not reach ${URL}`);

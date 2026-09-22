@@ -23,7 +23,7 @@ function problemsOf(load: () => unknown): Array<{ name: string; problem: string 
   throw new Error('expected the environment to be rejected');
 }
 
-describe('api env', () => {
+describe('M2-AC01 api env', () => {
   it('applies the non-secret defaults', () => {
     expect(loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL })).toEqual({
       WRINGY_ENV: 'local',
@@ -71,7 +71,7 @@ describe('api env', () => {
   });
 });
 
-describe('an env error never echoes a value', () => {
+describe('M2-AC01/2 an env error never echoes a value', () => {
   const secret = 'hunter2-DO-NOT-LEAK';
   const source: EnvSource = {
     WRINGY_ENV: `staging-${secret}`,
@@ -126,7 +126,7 @@ describe('an env error never echoes a value', () => {
   });
 });
 
-describe('each process reads only its own variables', () => {
+describe('M2-AC01 each process reads only its own variables', () => {
   const all: EnvSource = {
     WRINGY_ENV: 'local',
     API_INTERNAL_URL: 'http://127.0.0.1:3200',
@@ -136,7 +136,7 @@ describe('each process reads only its own variables', () => {
     IMAGE_REF: 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc',
   };
 
-  it('gives the web server the API URL and never a database URL', () => {
+  it('M2-AC01/2 gives the web server the API URL and never a database URL', () => {
     const env = loadWebEnv(all);
     expect(env).toEqual({ WRINGY_ENV: 'local', API_INTERNAL_URL: 'http://127.0.0.1:3200' });
     expect(Object.keys(env)).not.toContain('DATABASE_URL');
@@ -167,7 +167,7 @@ describe('each process reads only its own variables', () => {
     ]);
   });
 
-  it('gives migrations the migrator URL only', () => {
+  it('M2-AC01/2 gives migrations the migrator URL only', () => {
     expect(loadMigrateEnv(all)).toEqual({
       WRINGY_ENV: 'local',
       DATABASE_URL_MIGRATOR: 'postgres://wringy_migrator:placeholder@127.0.0.1:54329/wringy',
@@ -178,7 +178,7 @@ describe('each process reads only its own variables', () => {
   });
 });
 
-describe('bootstrap env', () => {
+describe('M2-AC01 bootstrap env', () => {
   it('lets a local bootstrap fall back to development values', () => {
     expect(loadBootstrapEnv({ WRINGY_ENV: 'local' })).toEqual({
       WRINGY_ENV: 'local',
@@ -211,7 +211,7 @@ describe('bootstrap env', () => {
   });
 });
 
-describe('tryLoadEnv', () => {
+describe('M2-AC01 tryLoadEnv', () => {
   it('turns an env error into a result and rethrows anything else', () => {
     const result = tryLoadEnv(() => loadWebEnv({}));
     expect(result.ok).toBe(false);

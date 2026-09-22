@@ -15,7 +15,7 @@ function upSection(file: string): string {
   return sql.slice(start, end === -1 ? undefined : end).replace(/--.*$/gm, '');
 }
 
-describe('migration files (kickoff-package.md §4.10)', () => {
+describe('M2-AC01 migration files (kickoff-package.md §4.10)', () => {
   it('are SQL files only, named NNNN_snake_case.sql and numbered from 0001 without gaps', () => {
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) expect(file).toMatch(/^\d{4}_[a-z0-9_]+\.sql$/);
@@ -30,14 +30,14 @@ describe('migration files (kickoff-package.md §4.10)', () => {
     expect(down === -1 || down > up).toBe(true);
   });
 
-  it.each(files)('%s creates nothing in public and grants nothing to PUBLIC or the Supabase API roles', (file) => {
+  it.each(files)('M2-AC01/2 %s creates nothing in public and grants nothing to PUBLIC or the Supabase API roles', (file) => {
     const sql = upSection(file);
     expect(sql).not.toMatch(/\bpublic\s*\./i);
     expect(sql).not.toMatch(/\bTO\s+PUBLIC\b/i);
     expect(sql).not.toMatch(/\b(anon|authenticated|service_role)\b/i);
   });
 
-  it.each(files)('%s never creates a login role or carries a password', (file) => {
+  it.each(files)('M2-AC01/2 %s never creates a login role or carries a password', (file) => {
     const sql = upSection(file);
     // `\bLOGIN\b` does not match inside NOLOGIN.
     expect(sql).not.toMatch(/\bLOGIN\b/i);

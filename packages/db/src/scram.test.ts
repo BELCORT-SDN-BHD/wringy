@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { scramSha256Verifier } from './scram';
 
-describe('scramSha256Verifier', () => {
-  it('produces the pg_authid SCRAM-SHA-256 format and never contains the password', () => {
+describe('M2-AC01 scramSha256Verifier', () => {
+  it('M2-AC01/2 produces the pg_authid SCRAM-SHA-256 format and never contains the password', () => {
     const password = 'local-password-123';
     const verifier = scramSha256Verifier(password);
     expect(verifier).toMatch(/^SCRAM-SHA-256\$4096:[A-Za-z0-9+/]{22}==\$[A-Za-z0-9+/]{43}=:[A-Za-z0-9+/]{43}=$/);

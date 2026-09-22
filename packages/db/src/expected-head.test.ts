@@ -10,7 +10,7 @@ const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.
   dependencies: Record<string, string>;
 };
 
-describe('expected heads (drift guards for GET /health)', () => {
+describe('M2-AC01 expected heads (drift guards for GET /health)', () => {
   it('EXPECTED_MIGRATION_HEAD is the newest migration file', () => {
     expect(EXPECTED_MIGRATION_HEAD).toBe(listMigrations().at(-1));
   });
@@ -19,7 +19,7 @@ describe('expected heads (drift guards for GET /health)', () => {
     expect(EXPECTED_PGBOSS_VERSION).toBe(installedPgBoss().schemaVersion);
   });
 
-  it('the installed pg-boss is the exact version package.json pins', () => {
+  it('M2-AC01/2 the installed pg-boss is the exact version package.json pins', () => {
     const pinned = manifest.dependencies['pg-boss'];
     expect(pinned).toMatch(/^\d+\.\d+\.\d+$/);
     expect(installedPgBoss().version).toBe(pinned);

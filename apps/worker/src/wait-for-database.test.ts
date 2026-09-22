@@ -25,7 +25,7 @@ function poolFailing(failures: unknown[]): { pool: Pool; calls: () => number } {
   return { pool, calls: () => calls };
 }
 
-describe('waiting for the database', () => {
+describe('M2-AC01 waiting for the database', () => {
   it('backs off from 0.5 s, doubling, capped at 8 s', () => {
     expect([1, 2, 3, 4, 5, 6, 7].map(backoffDelayMs)).toEqual([500, 1000, 2000, 4000, 8000, 8000, 8000]);
   });

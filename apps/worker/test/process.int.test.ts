@@ -73,7 +73,7 @@ function runWorker(vars: Record<string, string>, whenStarted?: () => Promise<voi
   });
 }
 
-describe('the worker process (src/main.ts)', () => {
+describe('M2-AC01 the worker process (src/main.ts)', () => {
   let db: TestDatabase;
   let migrator: Pool;
   const outputs: string[] = [];
@@ -138,7 +138,7 @@ describe('the worker process (src/main.ts)', () => {
     expect(missing.output).toContain('WORKER_ID is missing');
   });
 
-  it('no secret in logs', () => {
+  it('M2-AC01/2 no secret in logs', () => {
     expect(outputs).toHaveLength(4);
     const all = outputs.join('\n');
     expect(all.length).toBeGreaterThan(0);

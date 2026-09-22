@@ -141,8 +141,13 @@ restores a failing exit code: the embedded-postgres import registers
 async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would
 otherwise turn a failed run into exit 0.
 
-Titles carrying `M2-AC01/2` prove that sub-item: the page→Fastify→PostgreSQL
-read, the runtime role unable to write, and no secret in bodies or logs.
+**Test names.** Every test here, unit and integration, carries this ticket's
+key `M2-AC01` in its `describe` title (kickoff-package.md §6.1; `m2-01.md`:
+"本路径测试命名含 `M2-AC01`"). Titles carrying `M2-AC01/2` prove that sub-item:
+the page→Fastify→PostgreSQL read of the campaigns and of worker health on a
+freshly migrated database, with the response schema as the allow-list; the
+runtime role unable to write; and no secret in bodies or logs (the secrets,
+outage and startup tests, and the log scrubber's unit tests).
 
 ## Dependencies
 

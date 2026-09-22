@@ -7,7 +7,7 @@ import { createTestDatabase, seedFixtures, sqlState, type TestDatabase } from '.
 const CAMPAIGN = 'c0000000-0000-4000-8000-000000000001';
 const ORG = 'a0000000-0000-4000-8000-000000000001';
 
-describe('the API process connects as the runtime role', () => {
+describe('M2-AC01 the API process connects as the runtime role', () => {
   let db: TestDatabase;
   let pool: Pool;
 

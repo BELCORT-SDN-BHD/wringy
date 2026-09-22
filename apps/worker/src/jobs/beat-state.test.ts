@@ -16,7 +16,7 @@ function run(outcomes: BeatOutcome[]): { state: BeatState; events: string[] } {
   return { state, events };
 }
 
-describe('process beat state', () => {
+describe('M2-AC01 process beat state', () => {
   it('reports the first beat, then routine beats', () => {
     const { state, events } = run([at('2026-09-23T00:00:00Z'), at('2026-09-23T00:00:15Z')]);
     expect(events).toEqual(['first', 'ok']);

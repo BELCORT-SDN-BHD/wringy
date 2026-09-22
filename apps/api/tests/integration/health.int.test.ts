@@ -5,7 +5,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { CACHE_CONTROL } from '../../src/app';
 import { buildTestApi, createTestDatabase, type TestApi, type TestDatabase } from './support';
 
-describe('GET /health on a freshly migrated database', () => {
+describe('M2-AC01 GET /health on a freshly migrated database', () => {
   let db: TestDatabase;
   let api: TestApi;
 
@@ -75,7 +75,7 @@ describe('GET /health on a freshly migrated database', () => {
   });
 });
 
-describe('GET /health after the newest migration was rolled back', () => {
+describe('M2-AC01 GET /health after the newest migration was rolled back', () => {
   let db: TestDatabase;
   let api: TestApi;
 

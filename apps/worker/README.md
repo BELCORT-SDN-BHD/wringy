@@ -24,7 +24,9 @@ is gitignored by the root `.gitignore` rule `.env` (`git check-ignore -v
 apps/worker/.env` prints `.gitignore:7:.env`); the worker does not read the
 repository-root `.env`, which belongs to the packages/db scripts. The worker
 reads exactly these through `@wringy/config/worker`, which fails fast and names a
-missing or invalid variable without echoing its value.
+missing or invalid variable without echoing its value; `src/config.test.ts`
+fails if `.env.example` and that schema name different variables, or the example
+carries a value.
 
 | Variable | Meaning |
 |---|---|
@@ -137,8 +139,8 @@ the migration runner or the local-development passwords.
 
 Unit (`pnpm --filter worker test`): the heartbeat SQL (database clock, parameters),
 the beat state and its log policy, the shutdown wiring (SIGTERM, SIGINT, IPC,
-failure, deadline), the connection backoff, the log scrubber, and a drift guard on
-the pg-boss refusal messages.
+failure, deadline), the connection backoff, the log scrubber, a drift guard on
+the pg-boss refusal messages, and `.env.example` against the env schema.
 
 Integration (`pnpm --filter worker test:int`), on a real PostgreSQL 17 through the
 `@wringy/db` harness (`packages/db/test/harness.ts`; its global setup migrates a
@@ -149,8 +151,18 @@ template from zero, and every test clones it), connecting as
 |---|---|
 | `test/roles.int.test.ts` | `M2-AC01/2 the worker runs as the runtime role and cannot read app.campaigns`; pg-boss under the runtime role with DML only |
 | `test/heartbeat.int.test.ts` | `worker heartbeat row appears within one beat and uses the database clock`; `queue round trip: a sent system.heartbeat job updates last_queue_round_trip_at`; `graceful stop drains and sets stopped_at` |
-| `test/startup.int.test.ts` | `startup refuses an environment mismatch`; an unmarked database; `start() refuses when pgboss schema is missing/behind (migrate:false)` |
-| `test/process.int.test.ts` | the real `src/main.ts` process: start, beat, drain, exit 0; exit 1 on a mismatch, a refused login and a missing variable; `no secret in logs` |
+| `test/startup.int.test.ts` | `startup refuses an environment mismatch`; an unmarked database; `M2-AC01/2 start() refuses when pgboss schema is missing/behind (migrate:false)` |
+| `test/process.int.test.ts` | the real `src/main.ts` process: start, beat, drain, exit 0; exit 1 on a mismatch, a refused login and a missing variable; `M2-AC01/2 no secret in logs` |
+
+**Test names.** Every test here, unit and integration, carries this ticket's key
+`M2-AC01` in its `describe` title (kickoff-package.md §6.1; `m2-01.md`:
+"本路径测试命名含 `M2-AC01`"). `M2-AC01/2` marks the tests that prove that
+sub-item: the runtime role (no `app` access, pg-boss by DML only, no DDL even when
+the pg-boss schema is missing or behind), the pinned pg-boss version, and no
+secret in logs. The heartbeat, round-trip and drain tests are the worker leg of
+the narrow loop and carry `M2-AC01` alone: `M2-AC01/1` is the M1 handoff
+register, and the page→Fastify→PostgreSQL read of these rows is proved in
+apps/api (`M2-AC01/2 page→Fastify→PostgreSQL read: /internal/worker-health …`).
 
 `createWorker()` takes the pg-boss instance and pool from its caller and returns
 `{ start, stop, beatOnce, triggerRoundTrip }`, so tests do not wait a minute for

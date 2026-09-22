@@ -56,7 +56,7 @@ function runMain(env: Record<string, string>): Promise<{ code: number | null; ou
   });
 }
 
-describe('API startup', () => {
+describe('M2-AC01 API startup', () => {
   let db: TestDatabase;
   let unmarked: TestDatabase;
 
@@ -85,7 +85,7 @@ describe('API startup', () => {
     expect(logs.text).not.toContain('postgres://');
   });
 
-  it('startup refuses an environment mismatch: `node src/main.ts` exits 1 and names the mismatch, not the URL', async () => {
+  it('M2-AC01/2 startup refuses an environment mismatch: `node src/main.ts` exits 1 and names the mismatch, not the URL', async () => {
     const { code, output } = await runMain({
       WRINGY_ENV: 'staging',
       DATABASE_URL: db.urls.api,
@@ -97,7 +97,7 @@ describe('API startup', () => {
     expect(output).not.toContain('postgres://');
   });
 
-  it('startup exits 1 on a missing variable and names it without any value', async () => {
+  it('M2-AC01/2 startup exits 1 on a missing variable and names it without any value', async () => {
     const { code, output } = await runMain({ WRINGY_ENV: 'ci', HOST: 'host-canary-DO-NOT-LEAK' });
     expect(code).toBe(1);
     expect(output).toContain('Invalid environment for api: DATABASE_URL is missing');

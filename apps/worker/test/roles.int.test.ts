@@ -15,7 +15,7 @@ async function sqlState(promise: Promise<unknown>): Promise<string | undefined> 
   }
 }
 
-describe('worker database role (kickoff-package.md §4.11, §8.5; ruling D33)', () => {
+describe('M2-AC01 worker database role (kickoff-package.md §4.11, §8.5; ruling D33)', () => {
   let db: TestDatabase;
   let migrator: Pool;
   let subject: TestWorker;

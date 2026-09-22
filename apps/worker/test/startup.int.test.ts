@@ -30,7 +30,7 @@ async function pgbossSessions(migrator: Pool, database: string): Promise<number>
   return rows[0]!.n;
 }
 
-describe('worker startup refusals (kickoff-package.md §8.3, §8.5)', () => {
+describe('M2-AC01 worker startup refusals (kickoff-package.md §8.3, §8.5)', () => {
   let db: TestDatabase;
   let migrator: Pool;
   let subject: TestWorker | undefined;
@@ -69,7 +69,7 @@ describe('worker startup refusals (kickoff-package.md §8.3, §8.5)', () => {
     expect(await heartbeatRow(migrator, 'env-2')).toBeUndefined();
   });
 
-  it('start() refuses when pgboss schema is missing/behind (migrate:false)', async () => {
+  it('M2-AC01/2 start() refuses when pgboss schema is missing/behind (migrate:false)', async () => {
     // Missing: the installed schema moved aside, as on a database pg-boss was never installed in.
     await migrator.query('ALTER SCHEMA pgboss RENAME TO pgboss_parked');
     subject = buildWorker(db, { workerId: 'boss-1' });

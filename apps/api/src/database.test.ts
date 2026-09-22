@@ -4,7 +4,7 @@ import { DatabaseUnavailableError, isDatabaseUnavailable } from './database';
 
 const withCode = (code: string, message = 'x') => Object.assign(new Error(message), { code });
 
-describe('isDatabaseUnavailable: 503 versus 500', () => {
+describe('M2-AC01 isDatabaseUnavailable: 503 versus 500', () => {
   it.each([
     ['connection refused', withCode('ECONNREFUSED')],
     ['host not found', withCode('ENOTFOUND')],
