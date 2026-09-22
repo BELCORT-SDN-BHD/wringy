@@ -729,13 +729,18 @@ test.describe('screenshots', () => {
   });
 });
 
-// The role check below runs in every project: a creator identity must not reach
-// the merchant workspace at all.
-test('a creator identity cannot open the merchant workspace', async ({ page }) => {
+// The role check below runs in every project. One simulated identity owns both the
+// creator workspace and the Kopi Kita org (kickoff decision 7) and `resolveActor`
+// derives the role from `session.workspace`, so the active workspace is not an
+// identity: a merchant route selects the merchant workspace rather than refusing
+// it. The refusal that IS true — an identity with no org membership — is covered
+// above by "an identity with no organisation gets a labelled refusal", and the
+// refusal for an /ops route by `ops.spec.ts`.
+test('a merchant route selects the workspace the identity owns', async ({ page }) => {
   await loadScenario(page, 'baseline');
   await signInAs(page, 'creator');
   await page.goto('/merchant/campaigns');
   await waitForHydration(page);
-  await expect(page.locator('[data-app-state="forbidden"]')).toBeVisible();
-  await expect(page.getByTestId('new-campaign')).toHaveCount(0);
+  await expect(page.locator('[data-app-state="forbidden"]')).toHaveCount(0);
+  await expect(page.getByTestId('new-campaign')).toBeVisible();
 });

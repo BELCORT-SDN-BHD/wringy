@@ -119,15 +119,67 @@ test.describe('workspaces', () => {
     expect(merchantPool).toBe(creatorPool);
   });
 
-  test('the wrong role sees a labelled simulated refusal, not an empty page', async ({ page }) => {
+  /**
+   * The refusal still has to exist, and it has to be shown for an identity that
+   * really cannot hold the role. The operations identities are separate simulated
+   * users reachable only from the demo tools, so an ops identity on a merchant
+   * route is that case; `session.switchWorkspace` also clears `opsRole`, so
+   * following the route here would silently demote the operator.
+   */
+  test('an identity that cannot hold the role sees a labelled simulated refusal', async ({
+    page,
+  }) => {
     await loadScenario(page, 'main_flow_ready');
-    await signInAs(page, 'creator');
+    await signInAs(page, 'ops_reviewer');
 
     await page.goto('/merchant');
     await expect(page.locator('[data-app-state="forbidden"]')).toBeVisible();
     await expect(page.locator('[data-app-state="forbidden"]')).toContainText(
       'simulated check, not production authorisation',
     );
+    expect((await readStoredState(page))!.session.opsRole).toBe('ops_reviewer');
+  });
+
+  /**
+   * One simulated identity owns both the creator workspace and the Kopi Kita org
+   * (kickoff decision 7) and `resolveActor` derives the role from
+   * `session.workspace`, so "wrong role" on a `/creator` or `/merchant` route can
+   * mean nothing more than "the other workspace is selected". The founder walk hit
+   * exactly that: with the merchant workspace active, "Join campaign" links to
+   * `/creator/submissions/new?campaign=…` and the creator route answered "you do
+   * not have access to this workspace" for a workspace this identity does own.
+   * Sign-in already derives the workspace from the return path; the guard now does
+   * the same for an identity that is already signed in.
+   */
+  test('joining from the merchant workspace follows the route into the creator workspace', async ({
+    page,
+  }) => {
+    await loadScenario(page, 'baseline');
+    await signInAs(page, 'merchant');
+
+    await page.goto('/campaigns');
+    await waitForHydration(page);
+    await page.getByRole('listitem').first().getByRole('link').click();
+    await page.getByTestId('join-campaign').click();
+
+    await expect(page).toHaveURL(/\/creator\/submissions\/new\?campaign=/);
+    await waitForHydration(page);
+    await expect(page.locator('[data-app-state="forbidden"]')).toHaveCount(0);
+    await expect(page.getByTestId('submit-link')).toBeVisible();
+    expect((await readStoredState(page))!.session.workspace).toBe('creator');
+  });
+
+  test('a merchant route from the creator workspace lands on the merchant overview', async ({
+    page,
+  }) => {
+    await loadScenario(page, 'main_flow_ready');
+    await signInAs(page, 'creator');
+
+    await page.goto('/merchant');
+    await waitForHydration(page);
+    await expect(page.locator('[data-app-state="forbidden"]')).toHaveCount(0);
+    await expect(page.getByTestId('overview-budgets')).toBeVisible();
+    expect((await readStoredState(page))!.session.workspace).toBe('merchant');
   });
 
   test('an unreadable source keeps the last trusted value and never shows 0', async ({ page }) => {

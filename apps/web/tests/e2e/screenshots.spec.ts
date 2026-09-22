@@ -93,7 +93,10 @@ test.describe('screenshots', () => {
       fullPage: true,
     });
 
-    await signInAs(page, 'creator');
+    // The refusal frame needs an identity that really cannot hold the role: a
+    // creator/merchant route now selects the workspace this identity owns, so the
+    // operations identity (a separate simulated user) is the honest case.
+    await signInAs(page, 'ops_reviewer');
     await page.goto('/merchant');
     await waitForHydration(page);
     await page.screenshot({ path: `tests/e2e/__screenshots__/12-forbidden-${suffix}.png` });

@@ -173,8 +173,49 @@ describe('claim deadline extensions', () => {
     expect(harness.state.submissions[submissionId].extensions).toHaveLength(0);
   });
 
-  it('grants a grace when an open case blocked the submission past the metering end', () => {
+  /**
+   * Owner clarification of 2026-09-22 (issue #9): the grace after a pending case
+   * clears is granted only when something is still claimable at that moment, because
+   * 申请期限 grants it for a block on NEW claims ("同视频既有待审／申诉阻挡新增申请
+   * 时，在最终计量数据可用且阻挡解除后仍有完整公布宽限…不保证预算").
+   */
+  it('grants a grace when an open case blocked a claimable remainder past the metering end', () => {
     const { harness, submissionId } = creatorWithSubmission();
+    harness.ok({ type: 'claim.request', submissionId });
+    const claimId = latestClaim(harness.state, submissionId).id;
+    // 1,000 more qualified views before the metering end: RM10 capped, RM5 reserved,
+    // so RM5 is still claimable once the case clears.
+    harness.ok({ type: 'demo.addQualifiedViews', submissionId, views: 1000 });
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+
+    harness.ok({ type: 'session.switchWorkspace', workspace: 'merchant' });
+    harness.ok({ type: 'submission.reviewContent', submissionId, decision: 'approve', reason: null });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    harness.ok({ type: 'claim.reviewMetering', claimId, decision: 'approve', reason: null });
+
+    const submission = harness.state.submissions[submissionId];
+    expect(selectSubmissionReward(harness.state, submissionId)?.claimableSen).toBe(500);
+    expect(submission.extensions).toHaveLength(1);
+    expect(submission.extensions[0]).toMatchObject({
+      reason: 'pending_case',
+      unblockedAt: '2026-09-09T12:00:00+08:00',
+      newDeadlineAt: '2026-09-16T12:00:00+08:00',
+    });
+    expect(
+      Object.values(harness.state.notifications).filter(
+        (entry) =>
+          entry.kind === 'deadline.claim_deadline_extended' &&
+          entry.params.submissionId === submissionId,
+      ).length,
+    ).toBeGreaterThan(0);
+    // The confirmed amount is untouched by the extension.
+    expect(harness.state.claims[claimId].amountSen).toBe(500);
+    expect(harness.state.claims[claimId].validAt).toBe('2026-09-01T12:00:00+08:00');
+  });
+
+  it('grants nothing when the case cleared with nothing left to claim', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    // The whole capped reward (RM5 for 1,000 views) is in this one claim.
     harness.ok({ type: 'claim.request', submissionId });
     const claimId = latestClaim(harness.state, submissionId).id;
     harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
@@ -185,15 +226,49 @@ describe('claim deadline extensions', () => {
     harness.ok({ type: 'claim.reviewMetering', claimId, decision: 'approve', reason: null });
 
     const submission = harness.state.submissions[submissionId];
-    expect(submission.extensions).toHaveLength(1);
-    expect(submission.extensions[0]).toMatchObject({
-      reason: 'pending_case',
-      unblockedAt: '2026-09-09T12:00:00+08:00',
-      newDeadlineAt: '2026-09-16T12:00:00+08:00',
-    });
-    // The confirmed amount is untouched by the extension.
+    expect(selectSubmissionReward(harness.state, submissionId)?.claimableSen).toBe(0);
+    expect(submission.extensions).toHaveLength(0);
+    // The published deadline is exactly where it was.
+    const deadlines = selectSubmissionDeadlines(harness.state, submissionId);
+    expect(deadlines?.baseClaimDeadlineAt).toBe('2026-09-15T12:00:00+08:00');
+    expect(deadlines?.effectiveClaimDeadlineAt).toBe('2026-09-15T12:00:00+08:00');
+    // Nothing was extended, so nobody is told a new date.
+    expect(
+      Object.values(harness.state.notifications).filter(
+        (entry) => entry.kind === 'deadline.claim_deadline_extended',
+      ),
+    ).toHaveLength(0);
+    // The confirmed reward itself is untouched.
+    expect(harness.state.claims[claimId].status).toBe('confirmed_unpaid');
     expect(harness.state.claims[claimId].amountSen).toBe(500);
-    expect(harness.state.claims[claimId].validAt).toBe('2026-09-01T12:00:00+08:00');
+  });
+
+  it('grants nothing when a finally rejected case leaves no new amount', () => {
+    const { harness, submissionId } = creatorWithSubmission();
+    harness.ok({ type: 'claim.request', submissionId });
+    const claimId = latestClaim(harness.state, submissionId).id;
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    harness.ok({ type: 'session.signIn', userId: SEED_IDS.userOpsReviewer });
+    harness.ok({
+      type: 'claim.reviewMetering',
+      claimId,
+      decision: 'reject',
+      reason: 'Metering evidence is inconsistent with the window.',
+    });
+    // Past the 7-calendar-day appeal window, then finalise the rejection.
+    harness.ok({ type: 'demo.advanceClock', byMs: 8 * DAY_MS });
+    harness.ok({ type: 'claim.finalizeRejection', claimId, reason: 'appeal window expired' });
+
+    // A finally rejected amount stays deducted from what is newly claimable
+    // ("不能重复使用已申请的金额"), so nothing remains and nothing is extended.
+    expect(harness.state.claims[claimId].status).toBe('rejected_final');
+    expect(selectSubmissionReward(harness.state, submissionId)?.claimableSen).toBe(0);
+    expect(harness.state.submissions[submissionId].extensions).toHaveLength(0);
+    expect(
+      Object.values(harness.state.notifications).filter(
+        (entry) => entry.kind === 'deadline.claim_deadline_extended',
+      ),
+    ).toHaveLength(0);
   });
 });
 

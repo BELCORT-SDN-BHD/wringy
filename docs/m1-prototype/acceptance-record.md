@@ -226,6 +226,12 @@ operations reads.
    off — grants nothing, because "阻挡新增申请时" needs a block to have existed. The extension reason
    also reads as a sentence in the notification and its simulated email in all three languages
    instead of interpolating the raw `data_outage`.
+   The **pending-case** extension behind the same row has one more premise since the owner's ruling
+   of 2026-09-22 ([#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)): the grace is granted only
+   when something is still claimable at the moment the block clears, asked through the shared
+   eligibility ladder with only the deadline gate lifted. A case that cleared with nothing left to
+   claim moves no deadline and sends no notification. The `data_outage` path this row demonstrates is
+   unchanged; see [known-issues.md](known-issues.md) for the full ruling.
    The deadline instant itself is now consistent: at exactly 15 Sep 12:00 the window is open, the
    claim succeeds and no "claims are closed" notice goes out; one millisecond later the claim is
    refused and the notice is sent. The engine used to emit the notice at the instant while still
@@ -244,11 +250,12 @@ operations reads.
    refund reads "pending verification". Evidence: `screenshots/p09-closure-merchant-*.png`,
    `screenshots/p09-closure-ops-*.png`.
 
-- Engine tests: `engine.deadlines.test.ts`, 19 tests, including "runs 7 days of metering and 7
+- Engine tests: `engine.deadlines.test.ts`, 21 tests, including "runs 7 days of metering and 7
   calendar days of grace from acceptance", "gives a link accepted on the last day a full metering
   window", "grants the full published grace after a data outage spanning the metering end", "grants a
-  grace when an open case blocked the submission past the metering end", "has no end date while a
-  case is open or money is confirmed unpaid", "never shows fully settled while an appeal or confirmed
+  grace when an open case blocked a claimable remainder past the metering end", "grants nothing when
+  the case cleared with nothing left to claim", "grants nothing when a finally rejected case leaves no
+  new amount", "has no end date while a case is open or money is confirmed unpaid", "never shows fully settled while an appeal or confirmed
   money is open", "shows fully settled only once every case and payout is resolved", "the claim
   deadline instant itself" (two tests) and "an extension needs a block that actually blocked
   something" (two tests). Also `engine.campaign.test.ts` › "refuses a close without a reason and
@@ -418,6 +425,16 @@ Controls and copy that described something other than what happened:
   engine derives the role from it. Sign-in derives the workspace from the return path
   (`ROLE_ROUTE_PREFIX`, the same map the route guard uses); an `/ops` return path — where the refusal
   would be true — says why and continues to the creator workspace.
+- The same refusal reached an **already signed-in** identity, found in the founder walk of
+  2026-09-22: with the merchant workspace active, "Join campaign" on a public campaign page links to
+  `/creator/submissions/new?campaign=…` and the creator route answered "You do not have access to
+  this workspace". `RequireRole` now follows the route for an identity that can hold its role — it
+  dispatches `session.switchWorkspace` and renders the page — and keeps the refusal where the check
+  is true: a guest (redirected to sign-in), an `/ops` route or an active operations identity (whose
+  `opsRole` a switch would silently clear), and a `/merchant` route for an identity with no org.
+  Covered by `shell.spec.ts` › "joining from the merchant workspace follows the route into the
+  creator workspace", "a merchant route from the creator workspace lands on the merchant overview"
+  and "an identity that cannot hold the role sees a labelled simulated refusal".
 - "Independent cap per platform" promised that switching it off makes one piece of content share a
   cap across platforms, which the prototype cannot express. The editor now says what it does, and the
   gap is in [known-issues.md](known-issues.md).

@@ -40,6 +40,22 @@ Root `package.json` + `pnpm-workspace.yaml` only proxy scripts to `apps/web`; th
 9. **Persistence and reset.** Only `DemoState` (demo records) is stored in `localStorage` under one key with a schema version; reset returns to the seed after an AlertDialog confirmation. No credentials or real personal data are stored.
 10. **Service fee** is rendered as "pending configuration, not charged in demo" and is never a number.
 
+### Owner rulings (2026-09-22)
+
+The three questions [known-issues.md](known-issues.md) left open under "Rules the prototype records
+but does not simulate" were settled by the owner on 2026-09-22
+([#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)), and decision 6 above now reads with them.
+**(1) The cross-platform independent cap is accepted as recorded:** the switch records the merchant's
+permission and changes no amount in M1, because a `Submission` carries no cross-platform content
+identity; making the flag load-bearing needs a content-identity decision, which is not an M1
+implementation question. **(2) A pending-case deadline extension needs a claimable remainder:** when
+the block clears after the metering end, the grace is granted only if a new claim would still be
+possible on what is left (asked through `evaluateClaimRequest` with the deadline gate lifted, so the
+extension and `claim.request` cannot drift); with nothing claimable no deadline moves and no
+`deadline.claim_deadline_extended` notification is sent. The data-outage extension is unchanged.
+**(3) A finally rejected amount stays deducted** from what is newly claimable, keeping
+"追加申请仍须新增奖励≥RM5，不能重复使用已申请的金额" — the reservation itself still returns to the pool.
+
 ## Seed (baseline state)
 
 - Users: `user-demo` (Demo User; creator; member of `org-kopi`), `user-ben` (another creator), `user-ops-reviewer`, `user-ops-finance`.
