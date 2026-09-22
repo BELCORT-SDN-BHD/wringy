@@ -25,6 +25,11 @@ PostgreSQL without Docker, and the integration-test harness
 The migrations table is `ops.pgmigrations` (the tool's default name, in the `ops`
 schema). The runner creates `ops` and that table before the first migration runs.
 
+`package.json` declares `"sideEffects": false`: no module in `src/` runs code at
+import time, so a bundler keeps only what an app uses. `apps/worker`'s esbuild
+bundle relies on it to leave out the migration runner (node-pg-migrate) and
+`src/local-dev.ts`; keep new modules free of import-time effects.
+
 ## Schema (M2-01)
 
 | Migration | Creates | Rights |

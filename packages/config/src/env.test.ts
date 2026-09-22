@@ -155,7 +155,12 @@ describe('each process reads only its own variables', () => {
       DATABASE_URL: PG_URL,
       WORKER_ID: 'worker-local-1',
       IMAGE_REF: 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc',
+      LOG_LEVEL: 'info',
     });
+    expect(loadWorkerEnv({ ...all, LOG_LEVEL: 'debug' }).LOG_LEVEL).toBe('debug');
+    expect(problemsOf(() => loadWorkerEnv({ ...all, LOG_LEVEL: 'loud' }))).toEqual([
+      { name: 'LOG_LEVEL', problem: 'invalid' },
+    ]);
     expect(problemsOf(() => loadWorkerEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL }))).toEqual([
       { name: 'IMAGE_REF', problem: 'missing' },
       { name: 'WORKER_ID', problem: 'missing' },
