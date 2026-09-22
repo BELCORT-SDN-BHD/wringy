@@ -24,6 +24,8 @@ import {
   type DemoRole,
 } from './helpers';
 import type { DemoState, Locale, ScenarioId } from '../../src/domain/types';
+import { LOCALE_COOKIE } from '../../src/i18n/config';
+import { DEMO_STORAGE_KEY } from '../../src/store/persistence';
 
 const LOCALES: Locale[] = ['en-MY', 'ms-MY', 'zh-Hans-MY'];
 
@@ -180,6 +182,50 @@ test.describe('trilingual route walk', () => {
       }
 
       expect(problems).toEqual([]);
+    });
+  }
+});
+
+/**
+ * The internal build's root layout (M2-01): the same language cookie drives
+ * `<html lang>` and the copy, and the page must not mount any part of the demo.
+ * It has no demo-tools trigger to wait for, so it is walked on its own.
+ */
+test.describe('internal build route walk', () => {
+  const BANNER = '内部版本 · Internal build · Versi dalaman';
+
+  for (const locale of LOCALES) {
+    test(`/internal renders in ${locale} without console errors and without the demo store`, async ({
+      page,
+      baseURL,
+    }) => {
+      const errors: string[] = [];
+      page.on('console', (message: ConsoleMessage) => {
+        if (message.type() === 'error') errors.push(`${page.url()}: ${message.text()}`);
+      });
+      page.on('pageerror', (error) => errors.push(`${page.url()}: ${error.message}`));
+
+      // A fresh context per test, so nothing from another page is in storage.
+      await page.context().addCookies([{ name: LOCALE_COOKIE, value: locale, url: baseURL }]);
+      await page.goto('/internal');
+      await page.waitForLoadState('load');
+
+      await expect(page.locator('html')).toHaveAttribute('lang', locale);
+      await expect(page.locator('[data-app-banner="internal-build"]')).toHaveText(BANNER);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      if (!process.env.API_INTERNAL_URL) {
+        // W1 placeholder: the dev server Playwright starts has no API configured.
+        await expect(page.locator('[data-app-state="not-configured"]')).toBeVisible();
+      }
+
+      // None of the demo shell is mounted ...
+      await expect(page.getByTestId('demo-toolbar-trigger')).toHaveCount(0);
+      await expect(page.getByTestId('locale-prompt')).toHaveCount(0);
+      // ... and the demo store was never hydrated, so it never wrote its key.
+      expect(await page.evaluate((key) => window.localStorage.getItem(key), DEMO_STORAGE_KEY)).toBeNull();
+      expect(DEMO_STORAGE_KEY).toBe('wringy-demo-v1');
+
+      expect(errors).toEqual([]);
     });
   }
 });

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 import { DemoToolbar } from '@/components/app/demo-toolbar';
@@ -8,19 +7,14 @@ import { AppProviders } from '@/components/app/providers';
 import { Toaster } from '@/components/ui/sonner';
 import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 
-import './globals.css';
+import { geistMono, geistSans } from '../fonts';
+import '../globals.css';
 
-// Same family the design-system showcase loads via @fontsource-variable/geist.
-// `--font-sans` is what globals.css maps into Tailwind's `font-sans`.
-const geistSans = Geist({
-  variable: '--font-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+// The root layout of the M1 demo: every route under (demo) keeps the demo store,
+// the language prompt and the demo tools exactly as M1 shipped them. The internal
+// build has its own root layout in (internal) that mounts none of these, and
+// moving between the two is a full page load (Next.js route groups, multiple root
+// layouts).
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('common.app');

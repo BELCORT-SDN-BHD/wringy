@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "title": "Internal build",
+    "description": "Wringy internal build: data read from the database through the API."
+  },
+  "banner": "内部版本 · Internal build · Versi dalaman",
+  "page": {
+    "title": "Internal build",
+    "description": "This page shows demonstration campaigns read from the database through the API, and the health of the background jobs."
+  },
+  "state": {
+    "notConfigured": {
+      "title": "API not configured",
+      "description": "The web server has no usable API address, so nothing is read. An operator sets the variables below and restarts it.",
+      "variables": "Check: {names}"
+    }
+  }
+}

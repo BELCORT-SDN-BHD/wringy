@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "title": "Versi dalaman",
+    "description": "Versi dalaman Wringy: data dibaca daripada pangkalan data melalui API."
+  },
+  "banner": "内部版本 · Internal build · Versi dalaman",
+  "page": {
+    "title": "Versi dalaman",
+    "description": "Halaman ini memaparkan kempen demonstrasi yang dibaca daripada pangkalan data melalui API, serta kesihatan tugas latar belakang."
+  },
+  "state": {
+    "notConfigured": {
+      "title": "API belum dikonfigurasi",
+      "description": "Pelayan web tidak mempunyai alamat API yang boleh digunakan, jadi tiada data dibaca. Pengendali menetapkan pemboleh ubah di bawah dan memulakannya semula.",
+      "variables": "Semak: {names}"
+    }
+  }
+}

@@ -23,13 +23,32 @@ All commands are run from the **repository root** (this is a pnpm workspace).
 
 ```bash
 pnpm install                       # one root pnpm-lock.yaml covers every workspace
-pnpm dev                           # next dev on http://127.0.0.1:3100
-pnpm lint                          # eslint
-pnpm typecheck                     # next typegen && tsc --noEmit
-pnpm test                          # vitest run
+pnpm dev                           # every app's dev script; web: next dev on http://127.0.0.1:3100
+pnpm lint                          # eslint in every workspace
+pnpm typecheck                     # every workspace; web: next typegen && tsc --noEmit
+pnpm test                          # vitest run in every workspace
 pnpm --filter web e2e:install      # one-off: download Chromium (~310 MB)
 pnpm e2e                           # playwright test, 3 viewports
 ```
+
+The root scripts also cover `packages/*` (M2-01); `pnpm --filter web lint|typecheck|test|build`
+runs this app alone.
+
+## Two root layouts (M2-01)
+
+`src/app` has no top-level layout. `src/app/(demo)/layout.tsx` is the M1 demo's root layout
+(demo store, language prompt, demo tools) over `(demo)/(public)` and `(demo)/(workspace)`,
+with every URL unchanged. `src/app/(internal)/layout.tsx` is the internal build's root layout
+for `/internal`: the same fonts, CSS and `wringy-locale` cookie, the `common` and `internal`
+message namespaces, and none of the demo. Moving between the two is a full page load
+(`node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/route-groups.md`,
+"Caveats"). `pnpm depcruise` (rule `internal-not-to-demo`) keeps the demo out of `(internal)`.
+An unmatched URL gets Next's built-in 404 page, since no single root layout wraps it
+(`global-not-found.js` would change that but is experimental in this Next version).
+
+The web app imports the TypeScript sources of `@wringy/config` and `@wringy/contracts`
+without `transpilePackages`: "Turbopack transpiles workspace packages … in your monorepo
+automatically" (`node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/transpilePackages.md`).
 
 `pnpm --filter web <script>` reaches the same scripts directly. Playwright starts and stops
 the dev server itself (`webServer` in `playwright.config.ts`, `reuseExistingServer: true`),
@@ -205,7 +224,9 @@ dev-server `/_next/hmr` requests Playwright makes over that host. Development on
   `radix-nova` `table.tsx` is presentational and no generated file imports it. Add it when a
   data table actually needs it.
 - `pnpm typecheck` runs `next typegen` first. Next 16 puts `LayoutProps` / `PageProps` in
-  `.next/types`, so a bare `tsc --noEmit` on a clean checkout fails on `src/app/layout.tsx`.
+  `.next/types`, so a bare `tsc --noEmit` on a clean checkout fails on `src/app/(demo)/layout.tsx`.
+  After routes move, delete a stale `.next/dev/types` (left by an earlier `next dev`) if
+  `pnpm typecheck` reports the old paths.
 - `prefers-reduced-motion` **is** honoured, by one global baseline rule in
   `globals.css` (`animation-duration` / `transition-duration` collapsed to `0.01ms`,
   `animation-iteration-count: 1`, `scroll-behavior: auto`). `shadcn/tailwind.css` only covers

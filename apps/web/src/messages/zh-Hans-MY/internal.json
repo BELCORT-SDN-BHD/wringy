@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "title": "内部版本",
+    "description": "Wringy 内部版本：通过 API 从数据库读取数据。"
+  },
+  "banner": "内部版本 · Internal build · Versi dalaman",
+  "page": {
+    "title": "内部版本",
+    "description": "此页面显示通过 API 从数据库读取的演示活动，以及后台任务的健康状态。"
+  },
+  "state": {
+    "notConfigured": {
+      "title": "API 未配置",
+      "description": "网页服务器没有可用的 API 地址，因此不会读取任何数据。请运维人员设置以下变量后重新启动。",
+      "variables": "检查：{names}"
+    }
+  }
+}
