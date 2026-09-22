@@ -19,3 +19,8 @@ graphify-out/20*/
 # Zero-node data file: graphify classes it as code but its AST pass yields no nodes, so the commit hook stamps
 # its manifest hash and a full `graphify update .` clears it again, dirtying manifest.json after every run.
 phase-0/foundation/design-v3/product-fragments.json
+# apps/web (M1 prototype): installed packages, build output and the Next.js
+# ambient type shim are regenerable, not product knowledge.
+apps/web/node_modules/
+apps/web/.next/
+apps/web/next-env.d.ts
