@@ -31,3 +31,6 @@ apps/web/tests/e2e/__screenshots__/
 apps/web/playwright-report/
 apps/web/test-results/
 apps/web/tests/e2e/test-results/
+
+# Claude Code agent worktrees (local only)
+.claude/worktrees/
