@@ -265,6 +265,11 @@ WRINGY_EVIDENCE_SHOTS=1 pnpm e2e            # refreshes docs/m1-prototype/screen
 WRINGY_EVIDENCE_SHOTS=1 pnpm e2e:internal   # refreshes docs/m2-internal/screenshots
 ```
 
+Every evidence frame is taken through `captureFrame` (`tests/e2e/evidence.ts`), which retries
+only Chromium's transient `Page.captureScreenshot: Unable to capture screenshot` (an empty
+surface copy; `tests/e2e/capture-retry.ts`), at most 3 attempts in all, after two animation
+frames. Any other capture error fails the test at once (`tests/unit/capture-retry.test.ts`).
+
 ### The internal-build suite (`pnpm e2e:internal`, M2-AC01)
 
 `playwright.internal.config.ts`, `tests/e2e-internal/`. Nothing is mocked: the `webServer`

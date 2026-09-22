@@ -26,7 +26,7 @@ describe('M2-AC01 isDatabaseUnavailable: 503 versus 500', () => {
     ['query timed out (query_timeout)', new Error('Query read timeout')],
     ['dual-stack refusal', new AggregateError([withCode('ECONNREFUSED'), withCode('ECONNREFUSED')], 'connect')],
     ['already classified', new DatabaseUnavailableError(new Error('x'))],
-  ])('%s is unavailable', (_name, error) => {
+  ])('M2-AC01 %s is unavailable', (_name, error) => {
     expect(isDatabaseUnavailable(error)).toBe(true);
   });
 
@@ -36,13 +36,13 @@ describe('M2-AC01 isDatabaseUnavailable: 503 versus 500', () => {
     ['syntax error', withCode('42601')],
     ['a plain bug', new TypeError('cannot read properties of undefined')],
     ['not an error', 'boom'],
-  ])('%s is not', (_name, error) => {
+  ])('M2-AC01 %s is not', (_name, error) => {
     expect(isDatabaseUnavailable(error)).toBe(false);
   });
 });
 
 describe('M2-AC01 createApiPool: a hung database cannot stall /health', () => {
-  it('sets pg query_timeout to the 5 s operational limit on the runtime pool', async () => {
+  it('M2-AC01 sets pg query_timeout to the 5 s operational limit on the runtime pool', async () => {
     // No connection is made: the pool is created and ended without a checkout.
     const pool = createApiPool('postgres://wringy_api_login:placeholder@127.0.0.1:1/wringy', () => {});
     try {

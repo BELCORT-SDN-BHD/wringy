@@ -55,7 +55,7 @@ describe('M2-AC01 sample payloads round-trip', () => {
     ['GET /internal/campaigns', internalCampaignsResponseSchema, campaigns],
     ['GET /internal/worker-health', workerHealthResponseSchema, workers],
     ['error body', apiErrorSchema, { error: { code: 'database_unavailable', message: 'Database unavailable' } }],
-  ] as const)('%s', (_route, schema, payload) => {
+  ] as const)('M2-AC01 %s', (_route, schema, payload) => {
     const parsed = schema.parse(payload);
     expect(parsed).toEqual(payload);
     // Through JSON and back, as the web server receives it.
@@ -64,7 +64,7 @@ describe('M2-AC01 sample payloads round-trip', () => {
 });
 
 describe('M2-AC01 the response schema is the allow-list', () => {
-  it('strips unknown keys at every level of the campaign list', () => {
+  it('M2-AC01 strips unknown keys at every level of the campaign list', () => {
     const leaky = {
       ...campaigns,
       debugSql: 'select * from app.campaigns',
@@ -76,7 +76,7 @@ describe('M2-AC01 the response schema is the allow-list', () => {
     expect(JSON.stringify(parsed)).not.toContain('debugSql');
   });
 
-  it('strips unknown keys from worker health and the health body', () => {
+  it('M2-AC01 strips unknown keys from worker health and the health body', () => {
     const parsed = workerHealthResponseSchema.parse({
       ...workers,
       workers: workers.workers.map((worker) => ({ ...worker, databaseUrl: 'postgres://x:y@z/w' })),
@@ -89,7 +89,7 @@ describe('M2-AC01 the response schema is the allow-list', () => {
 });
 
 describe('M2-AC01 enums and formats are enforced', () => {
-  it('rejects a status, origin, worker state or queue state outside the contract', () => {
+  it('M2-AC01 rejects a status, origin, worker state or queue state outside the contract', () => {
     const [item] = campaigns.items;
     expect(
       internalCampaignsResponseSchema.safeParse({ ...campaigns, items: [{ ...item, status: 'archived' }] })
@@ -114,7 +114,7 @@ describe('M2-AC01 enums and formats are enforced', () => {
     ).toBe(false);
   });
 
-  it('rejects an instant without an offset and an id that is not a UUID', () => {
+  it('M2-AC01 rejects an instant without an offset and an id that is not a UUID', () => {
     const [item] = campaigns.items;
     expect(
       internalCampaignsResponseSchema.safeParse({

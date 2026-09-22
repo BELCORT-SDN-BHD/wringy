@@ -131,7 +131,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     expect(queueStatesOf(shifted)).toEqual(queue);
   });
 
-  it('a worker that beats again after being stale is healthy again', async () => {
+  it('M2-AC01 a worker that beats again after being stale is healthy again', async () => {
     await beat(db, 'w-stale', { lastBeatAgo: '0 seconds' });
     const body = (await api.app.inject({ method: 'GET', url: '/internal/worker-health' })).json() as WorkerHealthResponse;
     expect(statesOf(body)['w-stale']).toBe('healthy');

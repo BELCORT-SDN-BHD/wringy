@@ -24,7 +24,7 @@ import {
   setLocale,
   waitForHydration,
 } from './helpers';
-import { M1_EVIDENCE_DIR, evidencePath } from './evidence';
+import { M1_EVIDENCE_DIR, captureFrame, evidencePath } from './evidence';
 
 const DEMO_USER = 'user-demo';
 const BEN = 'user-ben';
@@ -715,7 +715,7 @@ test.describe('creator', () => {
     const shot = async (name: string) => {
       // `animations: 'disabled'` finishes the official enter transitions first, so
       // an overlay or a dialog is never captured half way through its animation.
-      await page.screenshot({
+      await captureFrame(page, {
         path: evidencePath(M1_EVIDENCE_DIR, `creator-${name}-${width}.png`),
         fullPage: false,
         animations: 'disabled',

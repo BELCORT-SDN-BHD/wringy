@@ -7,7 +7,7 @@ import { HEARTBEAT_CRON, HEARTBEAT_QUEUE, beatStatement, roundTripStatement, sto
 const identity = { workerId: 'worker-local-1', imageRef: 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc' };
 
 describe('M2-AC01 heartbeat statements', () => {
-  it('upserts the process beat with the database clock and only id and image as parameters', () => {
+  it('M2-AC01 upserts the process beat with the database clock and only id and image as parameters', () => {
     const { text, values } = beatStatement(identity, { first: false });
     expect(values).toEqual([identity.workerId, identity.imageRef]);
     expect(text).toContain('INSERT INTO ops.worker_heartbeat');
@@ -18,13 +18,13 @@ describe('M2-AC01 heartbeat statements', () => {
     expect(text).not.toMatch(/SET[^;]*started_at/);
   });
 
-  it('resets started_at on the first beat of a process, so a restart shows the new start', () => {
+  it('M2-AC01 resets started_at on the first beat of a process, so a restart shows the new start', () => {
     const { text, values } = beatStatement(identity, { first: true });
     expect(values).toEqual([identity.workerId, identity.imageRef]);
     expect(text).toContain('DO UPDATE SET started_at = now(), last_beat_at = now()');
   });
 
-  it('never passes a process timestamp to the database', () => {
+  it('M2-AC01 never passes a process timestamp to the database', () => {
     for (const statement of [
       beatStatement(identity, { first: true }),
       beatStatement(identity, { first: false }),
@@ -39,7 +39,7 @@ describe('M2-AC01 heartbeat statements', () => {
     }
   });
 
-  it('stamps the round trip and the stop on this worker row only, with now()', () => {
+  it('M2-AC01 stamps the round trip and the stop on this worker row only, with now()', () => {
     expect(roundTripStatement('w1')).toEqual({
       text:
         'UPDATE ops.worker_heartbeat SET last_queue_round_trip_at = now() ' +
@@ -52,7 +52,7 @@ describe('M2-AC01 heartbeat statements', () => {
     });
   });
 
-  it('beats on the shared cadence, three times inside the API staleness window', () => {
+  it('M2-AC01 beats on the shared cadence, three times inside the API staleness window', () => {
     expect(HEARTBEAT_INTERVAL_MS * 3).toBe(STALE_AFTER_MS);
     expect(HEARTBEAT_QUEUE).toBe('system.heartbeat');
     expect(HEARTBEAT_CRON).toBe('* * * * *');

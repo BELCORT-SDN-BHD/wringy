@@ -38,12 +38,12 @@ describe('M2-AC01 the internal page turns every API answer into data or an expli
     vi.restoreAllMocks();
   });
 
-  it('keeps a 200 body that matches the contract, and only the fields it names', () => {
+  it('M2-AC01 keeps a 200 body that matches the contract, and only the fields it names', () => {
     const result = classifyApiResponse(200, { ...workers, debug: 'x' }, workerHealthResponseSchema);
     expect(result).toEqual({ ok: true, data: workers });
   });
 
-  it('calls a 503 (database unavailable) api-unavailable, whatever the body', () => {
+  it('M2-AC01 calls a 503 (database unavailable) api-unavailable, whatever the body', () => {
     expect(
       classifyApiResponse(503, { error: { code: 'database_unavailable', message: 'x' } }, workerHealthResponseSchema),
     ).toEqual({ ok: false, failure: 'api-unavailable' });
@@ -53,7 +53,7 @@ describe('M2-AC01 the internal page turns every API answer into data or an expli
     });
   });
 
-  it('calls any other status, and a 200 that breaks the contract, unexpected', () => {
+  it('M2-AC01 calls any other status, and a 200 that breaks the contract, unexpected', () => {
     for (const status of [400, 404, 500, 502]) {
       expect(classifyApiResponse(status, workers, workerHealthResponseSchema)).toEqual({
         ok: false,
@@ -71,7 +71,7 @@ describe('M2-AC01 the internal page turns every API answer into data or an expli
     });
   });
 
-  it('calls a refused connection api-unreachable and logs the code, never the URL', async () => {
+  it('M2-AC01 calls a refused connection api-unreachable and logs the code, never the URL', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const port = await closedPort();
     const base = `http://127.0.0.1:${port}`;
@@ -84,7 +84,7 @@ describe('M2-AC01 the internal page turns every API answer into data or an expli
     expect(logged).not.toContain(String(port));
   });
 
-  it('bounds every read at the 5 s operational limit', () => {
+  it('M2-AC01 bounds every read at the 5 s operational limit', () => {
     expect(INTERNAL_API_TIMEOUT_MS).toBe(5_000);
   });
 });

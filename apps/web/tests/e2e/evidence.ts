@@ -15,7 +15,9 @@
  *
  * This module imports nothing from the demo, so the internal suite can use it.
  */
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page, type PageScreenshotOptions } from '@playwright/test';
+
+import { retryTransientCapture } from './capture-retry';
 
 /** Tracked evidence of the M1 prototype (docs/m1-prototype/acceptance-record.md). */
 export const M1_EVIDENCE_DIR = '../../docs/m1-prototype/screenshots';
@@ -38,6 +40,24 @@ export function evidencePath(trackedDir: string, file: string): string {
   return `${evidenceShotsEnabled() ? trackedDir : UNTRACKED_EVIDENCE_DIR}/${file}`;
 }
 
+/** Two animation frames: long enough for the page to present a new frame. */
+async function nextFrame(page: Page): Promise<void> {
+  await page.evaluate(
+    () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))),
+  );
+}
+
+/**
+ * `page.screenshot`, retried only on Chromium's transient empty-surface failure
+ * (capture-retry.ts). Every evidence frame of both suites is taken through it.
+ */
+export function captureFrame(page: Page, options: PageScreenshotOptions): Promise<Buffer> {
+  return retryTransientCapture(
+    () => page.screenshot(options),
+    () => nextFrame(page),
+  );
+}
+
 export interface EvidenceShotOptions {
   /** Finish CSS animations first (Playwright's `animations: 'disabled'`). */
   animations?: 'disabled' | 'allow';
@@ -54,7 +74,7 @@ export async function evidenceShot(
   { animations = 'allow' }: EvidenceShotOptions = {},
 ): Promise<string> {
   const path = evidencePath(trackedDir, file);
-  const buffer = await page.screenshot({ path, fullPage: false, animations });
+  const buffer = await captureFrame(page, { path, fullPage: false, animations });
   expect(
     buffer.byteLength,
     `${file} is ${Math.round(buffer.byteLength / 1024)} KB, over the ${EVIDENCE_SHOT_MAX_BYTES / 1024} KB budget`,
