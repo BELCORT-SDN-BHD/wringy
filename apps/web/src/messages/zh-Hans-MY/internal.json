@@ -8,11 +8,72 @@
     "title": "内部版本",
     "description": "此页面显示通过 API 从数据库读取的演示活动，以及后台任务的健康状态。"
   },
+  "campaigns": {
+    "title": "演示活动",
+    "description": "通过 API、以 API 的只读账户从数据库读取的演示（fixture）活动。",
+    "caption": "数据库中的演示活动，最近更新的排在前面",
+    "columns": {
+      "title": "活动",
+      "org": "组织",
+      "status": "状态",
+      "origin": "数据",
+      "updated": "最近更新"
+    },
+    "emptyTitle": "没有演示活动",
+    "emptyDescription": "数据库中没有演示活动。运维人员可用 pnpm db:seed:fixtures 载入。",
+    "dataAsOf": "数据截至 {time}"
+  },
+  "workers": {
+    "title": "后台任务健康状态",
+    "description": "每个后台任务进程都会报告进程心跳和队列往返。两者都按数据库时钟判断。",
+    "fields": {
+      "process": "进程",
+      "queue": "队列",
+      "image": "镜像",
+      "started": "启动时间",
+      "lastBeat": "最近心跳",
+      "lastRoundTrip": "最近队列往返"
+    },
+    "badge": "{field}：{value}",
+    "noneTitle": "尚无后台任务进程报告",
+    "noneDescription": "还没有后台任务进程向此数据库写入心跳，因此状态未知。未知不等于零。",
+    "checkedAt": "检查于 {time}（数据库时钟）"
+  },
+  "processState": {
+    "healthy": "正常",
+    "stale": "心跳超时",
+    "stopped": "已停止"
+  },
+  "queueState": {
+    "ok": "队列往返正常",
+    "overdue": "队列往返逾期"
+  },
+  "dataOrigin": {
+    "fixture": "演示数据",
+    "live": "真实数据"
+  },
+  "notFound": {
+    "title": "找不到页面",
+    "description": "此地址没有内部版本页面。",
+    "back": "返回内部版本"
+  },
   "state": {
     "notConfigured": {
       "title": "API 未配置",
       "description": "网页服务器没有可用的 API 地址，因此不会读取任何数据。请运维人员设置以下变量后重新启动。",
       "variables": "检查：{names}"
+    },
+    "apiUnreachable": {
+      "title": "无法连接 API",
+      "description": "网页服务器未能及时收到 API 的回应，因此不显示任何内容。没有做任何更改。"
+    },
+    "apiUnavailable": {
+      "title": "数据库不可用",
+      "description": "API 正在运行，但目前无法读取其数据库，因此不显示任何内容。没有做任何更改。"
+    },
+    "unexpected": {
+      "title": "API 返回了意外的回应",
+      "description": "API 的回应无法被此页面识别，因此不显示任何内容。没有做任何更改。"
     }
   }
 }

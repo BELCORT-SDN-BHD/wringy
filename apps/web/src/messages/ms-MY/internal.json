@@ -8,11 +8,72 @@
     "title": "Versi dalaman",
     "description": "Halaman ini memaparkan kempen demonstrasi yang dibaca daripada pangkalan data melalui API, serta kesihatan tugas latar belakang."
   },
+  "campaigns": {
+    "title": "Kempen demonstrasi",
+    "description": "Kempen fixture yang dibaca daripada pangkalan data melalui API, menggunakan akaun baca sahaja API.",
+    "caption": "Kempen demonstrasi dalam pangkalan data, yang terakhir dikemas kini dahulu",
+    "columns": {
+      "title": "Kempen",
+      "org": "Organisasi",
+      "status": "Status",
+      "origin": "Data",
+      "updated": "Kemas kini terakhir"
+    },
+    "emptyTitle": "Tiada kempen demonstrasi",
+    "emptyDescription": "Pangkalan data tidak mempunyai kempen fixture. Pengendali memuatkannya dengan pnpm db:seed:fixtures.",
+    "dataAsOf": "Data setakat {time}"
+  },
+  "workers": {
+    "title": "Kesihatan tugas latar belakang",
+    "description": "Setiap pekerja latar belakang melaporkan denyutan proses dan perjalanan pergi balik baris gilir. Kedua-duanya dinilai mengikut jam pangkalan data.",
+    "fields": {
+      "process": "Proses",
+      "queue": "Baris gilir",
+      "image": "Imej",
+      "started": "Dimulakan",
+      "lastBeat": "Denyutan terakhir",
+      "lastRoundTrip": "Perjalanan baris gilir terakhir"
+    },
+    "badge": "{field}: {value}",
+    "noneTitle": "Belum ada pekerja yang melapor",
+    "noneDescription": "Tiada pekerja latar belakang yang telah menulis denyutan ke pangkalan data ini, jadi keadaannya tidak diketahui. Tidak diketahui bukan bermaksud sifar.",
+    "checkedAt": "Disemak pada {time}, jam pangkalan data"
+  },
+  "processState": {
+    "healthy": "Sihat",
+    "stale": "Lapuk",
+    "stopped": "Dihentikan"
+  },
+  "queueState": {
+    "ok": "Perjalanan baris gilir OK",
+    "overdue": "Perjalanan baris gilir lewat"
+  },
+  "dataOrigin": {
+    "fixture": "Data demo",
+    "live": "Data sebenar"
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemui",
+    "description": "Tiada halaman versi dalaman di alamat ini.",
+    "back": "Kembali ke versi dalaman"
+  },
   "state": {
     "notConfigured": {
       "title": "API belum dikonfigurasi",
       "description": "Pelayan web tidak mempunyai alamat API yang boleh digunakan, jadi tiada data dibaca. Pengendali menetapkan pemboleh ubah di bawah dan memulakannya semula.",
       "variables": "Semak: {names}"
+    },
+    "apiUnreachable": {
+      "title": "API tidak dapat dihubungi",
+      "description": "Pelayan web tidak menerima jawapan daripada API dalam masa, jadi tiada apa-apa dipaparkan. Tiada apa-apa diubah."
+    },
+    "apiUnavailable": {
+      "title": "Pangkalan data tidak tersedia",
+      "description": "API sedang berjalan tetapi tidak dapat membaca pangkalan datanya sekarang, jadi tiada apa-apa dipaparkan. Tiada apa-apa diubah."
+    },
+    "unexpected": {
+      "title": "Jawapan API yang tidak dijangka",
+      "description": "API memberikan jawapan yang tidak dikenali oleh halaman ini, jadi tiada apa-apa dipaparkan. Tiada apa-apa diubah."
     }
   }
 }
