@@ -57,7 +57,8 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
           {/* The only place the clock, views, readiness, payouts, identity and
               scenarios can be changed. */}
           <DemoToolbar />
-          <Toaster position="top-center" />
+          {/* bottom-center keeps toasts off the sticky header controls and the demo badge / tools corners. */}
+          <Toaster position="bottom-center" />
         </AppProviders>
       </body>
     </html>

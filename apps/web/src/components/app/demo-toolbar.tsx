@@ -642,7 +642,15 @@ function PayoutSection() {
                     size="sm"
                     onClick={() =>
                       run(
-                        { type: 'demo.setPayoutOutcome', attemptId: attempt.id, outcome },
+                        {
+                          type: 'demo.setPayoutOutcome',
+                          attemptId: attempt.id,
+                          outcome,
+                          // The engine requires a failure reason; the demo supplies a fixed one.
+                          ...(outcome === 'failed'
+                            ? { reason: 'Simulated provider failure (demo)' }
+                            : {}),
+                        },
                         t('set', { outcome: t(outcome) }),
                       )
                     }
