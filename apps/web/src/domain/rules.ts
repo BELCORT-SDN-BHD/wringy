@@ -328,6 +328,20 @@ export type ClaimEligibility =
   | { ok: true; math: ClaimMath; submission: Submission; campaign: Campaign }
   | { ok: false; code: ErrorCode; detail?: string };
 
+export interface ClaimRequestOptions {
+  /**
+   * Answer "could a claim be filed if the deadline were not in the way?" instead of
+   * "can a claim be filed now?". Only the deadline gate is skipped; every other rung
+   * of the ladder still applies.
+   *
+   * The one caller is the pending-case deadline extension in the engine, which has
+   * to ask exactly that question: the extension exists to give back a grace the
+   * block consumed, so it must be decided on the remainder rather than on the
+   * deadline it is about to move.
+   */
+  ignoreDeadline?: boolean;
+}
+
 /**
  * The single eligibility ladder for a new claim. Order follows the approved rules:
  * data trust → window → one open case per submission → cap/floor/occupancy →
@@ -338,6 +352,7 @@ export function evaluateClaimRequest(
   state: DemoState,
   submissionId: string,
   actorUserId: string,
+  options: ClaimRequestOptions = {},
 ): ClaimEligibility {
   const submission = state.submissions[submissionId];
   if (!submission) return { ok: false, code: 'not_found', detail: 'submission' };
@@ -378,7 +393,7 @@ export function evaluateClaimRequest(
   if (elsewhere) return { ok: false, code: 'cross_campaign_blocked', detail: elsewhere.id };
 
   const deadline = effectiveClaimDeadlineAt(submission);
-  if (deadline !== null && isAfter(nowIso, deadline)) {
+  if (!options.ignoreDeadline && deadline !== null && isAfter(nowIso, deadline)) {
     return { ok: false, code: 'claim_deadline_passed', detail: deadline };
   }
 

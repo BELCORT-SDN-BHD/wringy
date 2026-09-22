@@ -60,9 +60,11 @@ than faked because a scenario that needs a rule bent is not a demo state.
   `/creator/accounts` instead.
 - **The merchant overview's "no campaigns at all" empty state.** The seed always gives Kopi Kita at
   least one campaign, and no demo action deletes a campaign, so the truly-empty overview cannot be
-  reached from the demo. What *is* reachable and is covered is the refusal path (a creator opening
-  `/merchant`). Adding a scenario or a demo-tool action purely to reach this branch was considered and
-  rejected: the scenario list should describe business situations, not code coverage.
+  reached from the demo. What *is* reachable and is covered is the refusal path (seed user Ben, who
+  holds no org membership, opening `/merchant`; since 2026-09-22 the route follows the workspace for
+  an identity that owns the org, so the refusal needs an identity that really cannot hold the role).
+  Adding a scenario or a demo-tool action purely to reach this branch was considered and rejected:
+  the scenario list should describe business situations, not code coverage.
 - **The mobile navigation panel's accessible name is the vendor's English.** `ui/sidebar.tsx` renders
   the mobile `Sheet` with an `sr-only` `SheetTitle` "Sidebar" and description "Displays the mobile
   sidebar.", which is the dialog's accessible name in ms-MY and zh-Hans-MY too. Those files are
@@ -82,9 +84,14 @@ in exactly that state. It is reached through the panel and the real submit form 
 ## Rules the prototype records but does not simulate
 
 Where the prototype cannot evaluate an approved rule, it says so on the control rather than letting
-the copy promise behaviour the engine does not have. Each one needs an owner decision before M3.
+the copy promise behaviour the engine does not have. All three were put to the owner and ruled on
+2026-09-22 ([#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)); each bullet carries its ruling,
+and [kickoff.md](kickoff.md) "Owner rulings (2026-09-22)" holds the summary. M3 re-verifies every
+money rule server-side regardless.
 
-- **"Independent cap per platform" records the merchant's permission and changes no amount.**
+- **Decided 2026-09-22 (owner, [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)), accepted
+  as recorded: "Independent cap per platform" records the merchant's permission and changes no
+  amount.**
   campaign-defaults-v1 (approved 2026-09-14) allows independent per-platform caps only
   "商家明确允许时", and D06 keeps that permission. `crossPlatformIndependentCap` is stored, validated,
   editable and displayed, and the engine reads it nowhere: a `Submission` is identified by (campaign,
@@ -95,14 +102,25 @@ the copy promise behaviour the engine does not have. Each one needs an owner dec
   this next to the switch in all three languages instead of promising shared-cap grouping. Making the
   flag load-bearing needs a content-identity decision (what makes two posts "the same content", and on
   whose evidence), which is a product decision, not an implementation one.
-- **A deadline extension is not scoped to a remaining claimable amount.** campaign-defaults-v1 申请期限
-  says "受阻延展针对受影响申请", and the engine now refuses an extension for a block of zero duration
-  (nothing was blocked). It still grants one when the block has cleared but nothing is left to claim —
-  for example a full-amount claim that has just been confirmed. The same paragraph says the grace
-  explicitly does not guarantee budget ("不保证预算"), and the pending-case extension is the one P09
-  demonstrates to all three roles, so narrowing it to "only when an amount remains" would remove a
-  recorded acceptance result on a reading the rule does not settle. Left as is, with the reason
-  recorded, for the owner to decide.
+- **Decided 2026-09-22 (owner, [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)): a
+  pending-case deadline extension is scoped to a remaining claimable amount.** campaign-defaults-v1
+  申请期限 grants the extra grace for a block on NEW claims ("同视频既有待审／申诉阻挡新增申请时，
+  在最终计量数据可用且阻挡解除后仍有完整公布宽限…不保证预算"), and the owner read that as
+  requiring something to still be claimable when the block clears. `maybeGrantPendingCaseExtension`
+  (`src/domain/engine.ts`) now asks the shared eligibility ladder
+  (`evaluateClaimRequest`, with only the deadline gate lifted) whether a new claim would be possible
+  on the remainder: if it would, the full published grace is granted from the unblock time as before;
+  if nothing remains claimable, no deadline moves and no `deadline.claim_deadline_extended`
+  notification is sent. Asking the ladder rather than re-deriving the money keeps the extension and
+  `claim.request` from ever disagreeing about what is still claimable. A remainder counts for an
+  unreserved part of a partial claim and for qualified views accrued before the metering end; a
+  finally rejected amount does not (the owner kept that deduction on the same date — see "Why is a
+  finally rejected amount still deducted from what is claimable?" below), and neither does a
+  sub-minimum tail, because metering has ended so it can never reach the RM5 minimum and the notified
+  date would promise a claim the engine would refuse. Engine tests: `engine.deadlines.test.ts` ›
+  "grants a grace when an open case blocked a claimable remainder past the metering end", "grants
+  nothing when the case cleared with nothing left to claim", "grants nothing when a finally rejected
+  case leaves no new amount". The data-outage extension is unchanged.
 - **The demo tools work without a signed-in identity, and the audit row says so.** `checkPermission`
   admits every `demo.*` command before the guest check, deliberately and with a unit test
   (`permissions.test.ts`: "Demo tools stay available: they are an explicitly simulated panel"), because
@@ -188,7 +206,8 @@ the copy promise behaviour the engine does not have. Each one needs an owner dec
   PRD forbids entering the reserved queue on an unverifiable reading. The last trusted number and its
   time stay on screen — unknown is never read as zero — but the claim waits. That is also what makes
   the outage deadline extension honest: the outage really did block new claims while it ran.
-- **Why is a finally rejected amount still deducted from what is claimable?** The reservation itself
+- **Why is a finally rejected amount still deducted from what is claimable?** (Kept by the owner on
+  2026-09-22, [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9).) The reservation itself
   goes back to the pool, which is what "最终拒绝才释放" means, and the four buckets show it. What the
   per-post accounting remembers is that the amount was already claimed once:
   "追加申请仍须新增奖励≥RM5，不能重复使用已申请的金额". So a further claim needs qualified views the

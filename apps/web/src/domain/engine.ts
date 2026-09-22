@@ -372,6 +372,22 @@ function maybeGrantPendingCaseExtension(c: Ctx, submission: Submission): void {
   if (openCaseClaim(c.state, submission.id) !== null) return;
   // Only a case that actually existed can justify an extension.
   if (claimsForSubmission(c.state, submission.id).length === 0) return;
+  // Owner clarification of 2026-09-22 (issue #9), narrowing the same paragraph: the
+  // grace is granted only when the submission still has something left to claim at
+  // the moment the block clears. 申请期限 grants it for a block on NEW claims
+  // ("同视频既有待审／申诉阻挡新增申请时，在最终计量数据可用且阻挡解除后仍有完整公布宽限…不保证预算"),
+  // so when no new claim is possible on the remainder nothing was blocked and no
+  // deadline moves and no notification is sent. The question is asked through the
+  // shared ladder with only the deadline gate lifted, so the extension and
+  // `claim.request` can never disagree about what is still claimable: a remainder
+  // stays claimable for an unreserved part of a partial claim and for qualified
+  // views accrued before the metering end, and a sub-minimum tail does not count
+  // (metering has ended, so it can never reach the minimum and the notified date
+  // would promise a claim the engine would refuse).
+  const remainder = evaluateClaimRequest(c.state, submission.id, submission.creatorId, {
+    ignoreDeadline: true,
+  });
+  if (!remainder.ok) return;
 
   grantExtension(c, submission, campaign, 'pending_case', submission.meteringEndsAt);
 }
