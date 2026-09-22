@@ -34,3 +34,4 @@ apps/web/tests/e2e/test-results/
 
 # Claude Code agent worktrees (local only)
 .claude/worktrees/
+graphify-out/.graphify_python

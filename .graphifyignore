@@ -24,3 +24,5 @@ phase-0/foundation/design-v3/product-fragments.json
 apps/web/node_modules/
 apps/web/.next/
 apps/web/next-env.d.ts
+# M1 acceptance screenshots are evidence artefacts, not knowledge; keep them out of the graph like the finance data above.
+docs/m1-prototype/screenshots/
