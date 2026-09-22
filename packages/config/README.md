@@ -9,7 +9,7 @@ another's secret.
 |---|---|---|
 | `@wringy/config/web` | Next.js server (`apps/web`) | `WRINGY_ENV`, `API_INTERNAL_URL` |
 | `@wringy/config/api` | Fastify API (`apps/api`, M2-01 W2) | `WRINGY_ENV`, `DATABASE_URL`, `PORT` (default 3200), `HOST` (default 127.0.0.1), `LOG_LEVEL` (default info) |
-| `@wringy/config/worker` | pg-boss worker (`apps/worker`, M2-01 W2) | `WRINGY_ENV`, `DATABASE_URL`, `WORKER_ID`, `IMAGE_REF` |
+| `@wringy/config/worker` | pg-boss worker (`apps/worker`, M2-01 W2) | `WRINGY_ENV`, `DATABASE_URL`, `WORKER_ID`, `IMAGE_REF`, `LOG_LEVEL` (default info) |
 | `@wringy/config/migrate` | `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `@wringy/config/bootstrap` | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE` (default wringy), `PG_BOOTSTRAP_{MIGRATOR,API,WORKER}_PASSWORD` |
 | `@wringy/config` | all of the above | |
@@ -24,7 +24,7 @@ comment for each are in the repository-root `.env.example`.
 - **Names, never values.** The message, `problems` and the JSON form of an
   `EnvError` carry variable names only; the input and zod's issues are not
   attached. A unit test checks this for every schema.
-- **No defaults for secrets or URLs.** Only `PORT`, `HOST`, `LOG_LEVEL` and the
+- **No defaults for secrets or URLs.** Only `PORT`, `HOST`, `LOG_LEVEL` (api and worker) and the
   bootstrap database name have defaults. The bootstrap admin URL and passwords may
   be left unset only when `WRINGY_ENV=local`; the bootstrap script then uses the
   embedded cluster's development values.
