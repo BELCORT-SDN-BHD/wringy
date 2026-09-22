@@ -1,0 +1,164 @@
+{
+  "panel": {
+    "title": "Demo tools",
+    "description": "These controls exist only in the prototype. They are not part of the product UI.",
+    "open": "Open demo tools",
+    "close": "Close"
+  },
+  "clock": {
+    "title": "Simulated clock",
+    "plusHour": "+1 hour",
+    "plusDay": "+1 day",
+    "plusWeek": "+7 days",
+    "toMeteringEnd": "Jump to metering end",
+    "toClaimDeadline": "Jump to claim deadline",
+    "needsSubmission": "Choose a submission first.",
+    "noTarget": "That submission has no date for this yet.",
+    "advanced": "Clock moved to {time}.",
+    "targetPassed": "The simulated clock has already passed this target, and it only ever moves forward."
+  },
+  "role": {
+    "title": "Identity",
+    "creator": "You (creator)",
+    "merchant": "Merchant org",
+    "opsReviewer": "Ops reviewer",
+    "opsFinance": "Ops finance",
+    "note": "Switching identity is a demo tool. The engine still checks permissions, and that check is simulated, not production authorisation.",
+    "switched": "Now acting as {role}."
+  },
+  "views": {
+    "title": "Qualified views",
+    "submission": "Submission",
+    "add1000": "+1,000 views",
+    "customLabel": "Custom amount",
+    "add": "Add views",
+    "added": "Added {count} qualified views.",
+    "none": "No submission to meter yet.",
+    "ignoredAfterMeteringEnd": "Nothing was added: the metering window has closed, so later views do not count.",
+    "ignoredSourceUnreachable": "The read failed because the source is unreachable. The last trusted number is kept.",
+    "foreignNote": "None of these submissions belongs to the identity you are acting as, so a change here lands on another creator’s record and will not appear on your own pages."
+  },
+  "outage": {
+    "title": "Data outage",
+    "description": "While this is on, new reads fail and the last trusted value is kept.",
+    "toggle": "Source unreachable",
+    "set": "Data outage {state} for {submission}.",
+    "on": "on",
+    "off": "off"
+  },
+  "readiness": {
+    "title": "Campaign readiness",
+    "campaign": "Campaign",
+    "funding": "Funding evidence",
+    "dataSource": "Data source ready",
+    "none": "No campaign to configure.",
+    "set": "Readiness updated."
+  },
+  "payout": {
+    "title": "Payout outcome",
+    "description": "Set the simulated provider result for an attempt that is processing. An attempt that came back unknown is reconciled against the original transaction on the operations payout page, never re-decided here.",
+    "succeeded": "Funds available",
+    "failed": "Failed",
+    "unknown": "Unknown",
+    "none": "No unresolved payout attempt.",
+    "set": "Payout attempt set to {outcome}."
+  },
+  "scenario": {
+    "title": "Scenario",
+    "description": "Loading a scenario rebuilds every demo record from the baseline. Anything you changed is discarded.",
+    "load": "Load scenario",
+    "loaded": "Scenario loaded: {scenario}.",
+    "confirmTitle": "Load this scenario?",
+    "baseline": "Baseline",
+    "main_flow_ready": "Main flow ready",
+    "partial_budget": "Partial budget",
+    "waitlist": "Waitlist",
+    "rejection_appeal": "Rejection and appeal",
+    "payout_unknown": "Payout unknown",
+    "payout_failed": "Payout failed",
+    "deadline_extension": "Deadline extension",
+    "campaign_closure": "Campaign closure",
+    "data_outage": "Data outage"
+  },
+  "reset": {
+    "title": "Reset"
+  },
+  "toolbar": {
+    "failed": "The demo refused that: {reason}",
+    "engineMissing": "The demo engine is not available in this build, so demo tools cannot change anything."
+  },
+  "guide": {
+    "metaTitle": "Guided demo",
+    "metaDescription": "The main flow and every exception scenario of the Wringy content-rewards prototype, in order, with the role each step belongs to. All data is simulated.",
+    "eyebrow": "Prototype walkthrough",
+    "title": "Run the demo",
+    "subtitle": "Seven steps make one campaign go from draft to a paid reward. Below them, every exception scenario can be loaded on its own. Each \"Go\" switches to the right simulated identity for you first.",
+    "clockLabel": "Simulated clock",
+    "scenarioLabel": "Loaded scenario",
+    "identityLabel": "Acting as",
+    "roleCreator": "Creator",
+    "roleMerchant": "Merchant",
+    "roleOpsReviewer": "Operations reviewer",
+    "roleOpsFinance": "Operations finance",
+    "roleGuest": "Not signed in",
+    "go": "Go",
+    "stepLabel": "Step {n}",
+    "flowTitle": "The main flow",
+    "flowSubtitle": "The order the prototype was built to be read in. Use the demo tools panel for the clock and the view counts; nothing in the product UI can change them.",
+    "flow": {
+      "step1": {
+        "title": "The merchant creates the campaign",
+        "body": "Reward pool RM2,000, RM5 per 1,000 qualified views, minimum claim RM5, cumulative cap RM100 per post. Everything else comes from the approved defaults. A minimum above the cap is refused; a high view threshold with a lower cap is allowed and the cap amount is stated."
+      },
+      "step2": {
+        "title": "Preview the rules, then publish",
+        "body": "The preview shows exactly what a creator will read. Publishing is blocked until the simulated funding evidence and the data-source readiness are both confirmed by operations. The service fee is shown as pending configuration and is never a number."
+      },
+      "step3": {
+        "title": "The creator joins from the public detail",
+        "body": "Browse the catalogue without an identity, open a campaign, then join through the simulated Google entry. Pick a language, check the connected accounts, and submit the post link. There is no video upload anywhere."
+      },
+      "step4": {
+        "title": "The acceptance baseline is recorded",
+        "body": "The clock is fixed at the simulated server time and the baseline view count is frozen on acceptance. Metering runs 7 days from there, and a claim may still be filed for 7 calendar days after that. Only the demo tools panel moves time or adds views."
+      },
+      "step5": {
+        "title": "Add 1,000 qualified views, then claim RM5",
+        "body": "RM5 becomes claimable. Filing the claim reserves it and puts it in the queue, and the same record shows as reserved and awaiting review to the creator, the merchant and operations. A second click on the same claim does not create a second one."
+      },
+      "step6": {
+        "title": "Both reviews pass, then finance pays",
+        "body": "The merchant decides the content and operations decides the metering; a claim confirms only when both approve. The confirmed RM5 becomes an obligation, and operations finance starts the simulated payout. Bank settlement is shown as a separate, often unknown fact."
+      },
+      "step7": {
+        "title": "Read the four amounts in all three roles",
+        "body": "Available, reserved, confirmed unpaid and paid always add up to the pool, and all three roles read the same numbers: 2,000/0/0/0 before the claim, then 1,995/5/0/0, 1,995/0/5/0 and 1,995/0/0/5."
+      }
+    },
+    "bucketsTitle": "What the four amounts should do",
+    "bucketsSequence": "2000 / 0 / 0 / 0  →  1995 / 5 / 0 / 0  →  1995 / 0 / 5 / 0  →  1995 / 0 / 0 / 5",
+    "bucketsNote": "Available / reserved / confirmed unpaid / paid, in Malaysian ringgit. If a merchant page and a creator page ever disagree about one of these, that is a defect, not a rounding difference.",
+    "scenariosTitle": "Exception scenarios",
+    "scenariosSubtitle": "Each one rebuilds every demo record from the baseline by replaying real commands, so it is reachable by exactly the rules the pages obey. Loading one discards whatever you changed.",
+    "loadAndOpen": "Load and open",
+    "loadConfirmTitle": "Load \"{scenario}\"?",
+    "look": {
+      "baseline": "The seed: one published campaign from Kopi Kita, one from another org, a draft, a valid TikTok connection and an expired Instagram one, and no submission of your own. This is what empty lists and the first-run states look like.",
+      "main_flow_ready": "One submission already metering with 1,000 qualified views, so RM5 is claimable. Look at the estimate against the confirmed amount, the last trusted read time and the claim deadline.",
+      "partial_budget": "RM60 is claimable but only RM50 can be allocated. Nothing is reserved until you consent to that exact amount, the remainder is recorded as unreserved and not forfeited, and changing the reading makes the offer need consent again.",
+      "waitlist": "What is left is below the minimum claim, so the entry goes to the waitlist with no reservation and no payment guarantee. When budget frees up it is notified and has to resubmit, taking a new queue time rather than the old one.",
+      "rejection_appeal": "A claim rejected with a written reason. The reservation is held through the appeal window, an appeal keeps it held, and an upheld appeal continues the check without re-ordering the queue. Nothing closes itself.",
+      "payout_unknown": "A payout attempt whose result the simulated provider never returned. There is no \"pay again\" button: the only actions are viewing the original attempt and reconciling against it.",
+      "payout_failed": "A payout attempt with a confirmed failure, which is the evidence a controlled retry needs. Compare it with the unknown scenario, where that evidence does not exist.",
+      "deadline_extension": "The source was unreadable across the metering end. Clearing the block grants the published grace again from that moment, with the reason and the new deadline recorded and all three roles notified. Metering is not re-opened and queue times are not back-dated.",
+      "campaign_closure": "A campaign closing with an open appeal, a confirmed unpaid amount and a small unconfirmed tail. It must not read as fully settled, the tail is disclosed before closure, and the refund of the unused pool stays pending verification.",
+      "data_outage": "A submission whose source cannot be read. The last trusted number and its time are kept, and nothing shows 0 views or treats the gap as fraud. Operations can request a re-sync with a reason."
+    },
+    "toolsTitle": "The demo tools panel",
+    "toolsNote": "The clock, the qualified view counts, the data outage, campaign readiness, the simulated payout outcome and the operations identities live only in the \"Demo tools\" panel at the bottom right. Keeping them out of the product UI is deliberate: a creator will never have an \"add views\" button.",
+    "simulatedNote": "Everything here is simulated. No Google, collection, email or payment request is ever made, and the stored demo records live only in this browser.",
+    "browseCampaigns": "Browse campaigns",
+    "backHome": "Back to the start",
+    "failed": "The demo refused that: {reason}"
+  }
+}

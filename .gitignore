@@ -25,3 +25,13 @@ graphify-out/reflections/
 graphify-out/.graphify_root
 graphify-out/.graph.html.stale
 graphify-out/cost.json
+
+# apps/web (M1 prototype) generated test artefacts
+apps/web/tests/e2e/__screenshots__/
+apps/web/playwright-report/
+apps/web/test-results/
+apps/web/tests/e2e/test-results/
+
+# Claude Code agent worktrees (local only)
+.claude/worktrees/
+graphify-out/.graphify_python

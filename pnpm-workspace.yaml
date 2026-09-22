@@ -1,0 +1,12 @@
+packages:
+  - 'apps/*'
+
+# sharp/unrs-resolver: hoisted from the create-next-app template's own
+# apps/web/pnpm-workspace.yaml (pnpm reads this key only at the workspace root).
+# @parcel/watcher/@swc/core: optional native builds pulled in transitively; pnpm
+# warns on every install until they are listed, and the prototype does not need them.
+ignoredBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - sharp
+  - unrs-resolver

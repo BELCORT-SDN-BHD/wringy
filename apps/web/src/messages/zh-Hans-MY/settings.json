@@ -1,0 +1,29 @@
+{
+  "title": "设置",
+  "subtitle": "语言、资料与演示数据。",
+  "language": {
+    "title": "偏好语言",
+    "description": "切换后界面立即更新，已填写的内容会保留。",
+    "label": "语言",
+    "saved": "语言偏好已保存在本浏览器。",
+    "switchedNotSaved": "语言已切换。偏好无法保存在本浏览器。",
+    "draftNote": "马来文与中文文案为草稿，尚待专业审校。",
+    "formCheckLabel": "临时备注（切换语言时保留）",
+    "formCheckHint": "在此输入后切换语言，内容会保留。"
+  },
+  "profile": {
+    "title": "个人资料",
+    "description": "模拟数据，来自演示基准。这里的内容不来自 Google，也不会发送到任何地方。",
+    "name": "姓名",
+    "email": "邮箱（模拟）",
+    "workspaces": "工作区",
+    "signedOut": "你当前不在模拟身份中。"
+  },
+  "storage": {
+    "title": "存储内容",
+    "description": "只保存演示记录，只保存在本浏览器的一个带版本号的键下。不保存凭据，也不保存真实个人资料。不同设备之间不同步。",
+    "key": "存储键名",
+    "schemaVersion": "结构版本"
+  },
+  "metaTitle": "设置"
+}

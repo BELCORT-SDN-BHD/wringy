@@ -1,0 +1,223 @@
+{
+  "title": "Pemberitahuan",
+  "subtitle": "Peristiwa untuk identiti yang anda gunakan sekarang. Belum dibaca dahulu.",
+  "metaTitle": "Pemberitahuan",
+  "markAllRead": "Tanda semua dibaca",
+  "markRead": "Tanda dibaca",
+  "markedRead": "Ditanda dibaca.",
+  "markedAllRead": "Semua pemberitahuan ditanda dibaca.",
+  "unread": "Belum dibaca",
+  "read": "Dibaca",
+  "emptyTitle": "Tiada pemberitahuan",
+  "emptyDescription": "Peristiwa untuk identiti ini akan muncul di sini. Gunakan alat demo untuk menjadikan sesuatu berlaku.",
+  "signedOutTitle": "Tidak dalam identiti simulasi",
+  "signedOutDescription": "Pemberitahuan dimiliki oleh identiti. Masuk ke demo untuk melihatnya.",
+  "openLink": "Buka",
+  "recipientRole": "Diterima sebagai {role}",
+  "roleCreator": "kreator",
+  "roleMerchant": "peniaga",
+  "roleOpsReviewer": "penyemak operasi",
+  "roleOpsFinance": "kewangan operasi",
+  "roleGuest": "tetamu",
+  "emailAvailable": "Peristiwa ini juga akan menghantar e-mel.",
+  "kinds": {
+    "campaign": {
+      "published": {
+        "title": "Kempen diterbitkan",
+        "body": "{campaignTitle} telah diterbitkan dan dibuka untuk penghantaran.",
+        "emailSubject": "{campaignTitle} kini dibuka untuk penghantaran",
+        "emailBody": "{campaignTitle} telah diterbitkan. Kadar, had bagi setiap penghantaran, permohonan minimum dan tarikh akhir penghantaran ada pada halaman kempen."
+      },
+      "readiness_blocked": {
+        "title": "Penerbitan disekat",
+        "body": "{campaignTitle} tidak dapat diterbitkan: bukti pembiayaan atau kesediaan sumber data tiada.",
+        "emailSubject": "{campaignTitle} belum sedia untuk diterbitkan",
+        "emailBody": "Penerbitan disekat sehingga bukti pembiayaan dan kesediaan sumber data direkodkan. Tiada apa-apa diterbitkan."
+      },
+      "submissions_closed": {
+        "title": "Penghantaran ditutup",
+        "body": "{campaignTitle} tidak lagi menerima penghantaran baharu. Pengukuran diteruskan untuk siaran yang telah diterima.",
+        "emailSubject": "{campaignTitle} telah menutup penghantaran",
+        "emailBody": "Penghantaran baharu ditutup. Siaran yang diterima terus diukur sehingga tempohnya tamat, dan permohonan kekal terbuka untuk tempoh tangguh yang diterbitkan."
+      },
+      "closed": {
+        "title": "Kempen ditutup",
+        "body": "{campaignTitle} ditutup. Kes terbuka dan jumlah disahkan belum dibayar masih disenaraikan.",
+        "emailSubject": "{campaignTitle} telah ditutup",
+        "emailBody": "Kempen telah ditutup. Penutupan tidak menyelesaikan rayuan terbuka, permohonan menunggu atau jumlah disahkan belum dibayar, dan sebarang pemulangan kolam yang tidak digunakan ditunjukkan sebagai menunggu pengesahan."
+      }
+    },
+    "submission": {
+      "accepted": {
+        "title": "Penghantaran diterima",
+        "body": "Siaran anda diterima dan pengukuran telah bermula. Pengukuran tamat {meteringEndsAt}.",
+        "emailSubject": "Penghantaran anda ke {campaignTitle} diterima",
+        "emailBody": "Garis dasar telah direkodkan, jadi hanya tontonan layak selepas penerimaan dikira. Pengukuran tamat {meteringEndsAt} dan anda boleh memohon sehingga {claimDeadlineAt}."
+      },
+      "baseline_unavailable": {
+        "title": "Garis dasar tidak tersedia",
+        "body": "Sumber tidak dapat memberikan garis dasar, jadi pengukuran belum bermula. Tiada apa-apa ditolak.",
+        "emailSubject": "Menunggu garis dasar bagi penghantaran anda",
+        "emailBody": "Siaran anda diterima untuk pemeriksaan tetapi belum ada garis dasar yang dipercayai, jadi pengukuran belum bermula. Data yang tidak diketahui tidak dianggap sebagai sifar tontonan atau penipuan."
+      },
+      "data_unavailable": {
+        "title": "Data sumber tidak tersedia",
+        "body": "Bacaan baharu gagal ({missingReason}). Nilai terakhir yang dipercayai dan masanya dikekalkan.",
+        "emailSubject": "Tontonan tidak dapat dibaca untuk penghantaran anda sekarang",
+        "emailBody": "Sumber data platform tidak dapat dibaca buat masa ini. Nombor terakhir yang dipercayai dan masanya ditunjukkan, tidak diketahui tidak dikira sebagai sifar, dan permohonan yang disekat oleh ini boleh melanjutkan tarikh akhir apabila gangguan selesai."
+      },
+      "resynced": {
+        "title": "Penghantaran disegerakkan semula",
+        "body": "Operasi membaca semula sumber.",
+        "emailSubject": "Data penghantaran anda dibaca semula",
+        "emailBody": "Operasi mencetuskan bacaan baharu daripada sumber. Permohonan terdahulu mengekalkan syot yang difailkan."
+      }
+    },
+    "content": {
+      "approved": {
+        "title": "Kandungan diluluskan",
+        "body": "Peniaga meluluskan kandungan anda. Ini bukan pembayaran.",
+        "emailSubject": "Kandungan anda untuk {campaignTitle} diluluskan",
+        "emailBody": "Semakan kandungan telah selesai. Permohonan masih memerlukan semakan pengukuran sebelum sebarang jumlah disahkan, dan jumlah yang disahkan belum dibayar."
+      },
+      "rejected": {
+        "title": "Kandungan ditolak",
+        "body": "Peniaga menolak kandungan anda. Sebab: {reason}",
+        "emailSubject": "Kandungan anda untuk {campaignTitle} ditolak",
+        "emailBody": "Sebab: {reason}. Sebarang tempahan dikekalkan sepanjang tempoh rayuan, dan anda boleh merayu sehingga {appealDeadlineAt}."
+      }
+    },
+    "claim": {
+      "reserved": {
+        "title": "Permohonan ditempah",
+        "body": "{amountSen} ditempah dan menunggu semakan. Kedudukan baris {seq}.",
+        "emailSubject": "Permohonan anda untuk {amountSen} sedang disemak",
+        "emailBody": "{amountSen} ditempah daripada kolam ganjaran pada kedudukan baris {seq}. Ia hanya boleh dibayar selepas semakan kandungan dan semakan pengukuran diluluskan."
+      },
+      "partial_offer": {
+        "title": "Jumlah sebahagian ditawarkan",
+        "body": "Anda boleh memohon {fullSen} tetapi {offeredSen} tersedia. Sahkan jumlah yang tepat untuk menempahnya.",
+        "emailSubject": "Jumlah sebahagian {offeredSen} tersedia",
+        "emailBody": "Tawaran ini tidak menempah apa-apa dan tidak memegang kedudukan baris sehingga anda bersetuju dengan jumlah yang tepat. Jika bajet berubah, tawaran perlu disahkan semula. Baki tidak dilupuskan."
+      },
+      "waitlisted": {
+        "title": "Ditambah ke senarai menunggu",
+        "body": "Bajet yang tersedia di bawah permohonan minimum, jadi tiada apa-apa ditempah.",
+        "emailSubject": "Anda dalam senarai menunggu untuk {campaignTitle}",
+        "emailBody": "Catatan senarai menunggu tidak memegang wang dan tiada kedudukan baris. Jika bajet pulih anda akan diberitahu dan anda menghantar semula, yang memberi anda kedudukan baris baharu pada masa itu."
+      },
+      "confirmed": {
+        "title": "Permohonan disahkan",
+        "body": "{amountSen} disahkan dan belum dibayar. Ia belum ada dalam akaun anda.",
+        "emailSubject": "{amountSen} disahkan untuk pembayaran",
+        "emailBody": "Kedua-dua semakan diluluskan, jadi {amountSen} ialah obligasi yang disahkan. Disahkan belum dibayar bukan telah dibayar: pengeluaran dimulakan secara berasingan dan penyelesaian bank ialah fakta lain yang berasingan."
+      },
+      "rejected": {
+        "title": "Permohonan ditolak",
+        "body": "Permohonan ditolak. Sebab: {reason}. Anda boleh merayu sehingga {appealDeadlineAt}.",
+        "emailSubject": "Permohonan anda ditolak",
+        "emailBody": "Sebab: {reason}. Jumlah yang ditempah dikekalkan, bukan dilepaskan, sementara tempoh rayuan terbuka sehingga {appealDeadlineAt}. Tiada apa-apa ditutup secara automatik."
+      },
+      "escalated": {
+        "title": "Semakan dinaikkan",
+        "body": "Permohonan ini melepasi sasaran semakan 48 jam dan telah dinaikkan. Ia tidak diluluskan secara automatik.",
+        "emailSubject": "Permohonan melepasi sasaran semakan 48 jam",
+        "emailBody": "Permohonan dinaikkan untuk perhatian. Peningkatan mengubah siapa yang melihatnya, bukan keputusannya: tiada apa-apa diluluskan kerana tamat masa."
+      },
+      "rejection_finalized": {
+        "title": "Penolakan akhir",
+        "body": "Operasi memuktamadkan penolakan. Sebab: {reason}. Tempahan dilepaskan.",
+        "emailSubject": "Permohonan yang ditolak kini muktamad",
+        "emailBody": "Sebab: {reason}. Tempoh rayuan ditutup atau rayuan ditolak, jadi jumlah yang ditempah kembali ke kolam yang tersedia."
+      }
+    },
+    "waitlist": {
+      "budget_available": {
+        "title": "Bajet tersedia semula",
+        "body": "Bajet tersedia semula dalam {campaignTitle}. Hantar semula untuk mengambil kedudukan baris baharu.",
+        "emailSubject": "Bajet tersedia dalam {campaignTitle}",
+        "emailBody": "Bajet tersedia. Menghantar semula tidak memulihkan kedudukan baris lama; kedudukan baharu diambil pada masa anda menghantar semula."
+      }
+    },
+    "metering": {
+      "held": {
+        "title": "Pengukuran ditahan",
+        "body": "Operasi menahan semakan pengukuran. Sebab: {reason}",
+        "emailSubject": "Semakan pengukuran ditahan",
+        "emailBody": "Sebab: {reason}. Penahanan bukan penolakan dan bukan kelulusan. Tempahan kekal sementara penahanan terbuka."
+      }
+    },
+    "appeal": {
+      "filed": {
+        "title": "Rayuan difailkan",
+        "body": "Rayuan telah difailkan. Sebab: {reason}",
+        "emailSubject": "Rayuan difailkan atas permohonan yang ditolak",
+        "emailBody": "Sebab: {reason}. Jumlah yang ditempah kekal dikekalkan sementara rayuan terbuka, dan kedudukan baris tidak berubah."
+      },
+      "upheld": {
+        "title": "Rayuan diterima",
+        "body": "Rayuan diterima. Semakan diteruskan dari tempat ia berhenti. Nota: {note}",
+        "emailSubject": "Rayuan anda diterima",
+        "emailBody": "Nota: {note}. Pengesahan diteruskan dan kedudukan baris asal dikekalkan. Rayuan yang diterima bukan pembayaran."
+      },
+      "rejected": {
+        "title": "Rayuan ditolak",
+        "body": "Rayuan ditolak. Nota: {note}",
+        "emailSubject": "Rayuan anda ditolak",
+        "emailBody": "Nota: {note}. Operasi kini boleh memuktamadkan penolakan, yang melepaskan jumlah yang ditempah kembali ke kolam."
+      }
+    },
+    "payout": {
+      "processing": {
+        "title": "Pengeluaran sedang diproses",
+        "body": "{amountSen} dihantar ke penyedia simulasi. Diterima untuk diproses bukan telah dibayar.",
+        "emailSubject": "Pengeluaran {amountSen} sedang diproses",
+        "emailBody": "{amountSen} berada dengan penyedia simulasi. Penerimaan penyedia bukan dana dalam akaun dan bukan penyelesaian bank."
+      },
+      "paid": {
+        "title": "Dana tersedia",
+        "body": "{amountSen} tersedia dalam akaun penyedia simulasi. Penyelesaian bank ditunjukkan secara berasingan.",
+        "emailSubject": "{amountSen} tersedia dalam akaun simulasi anda",
+        "emailBody": "Penyedia simulasi mengesahkan {amountSen} tersedia. Sama ada bank anda telah menyelesaikannya ialah fakta berasingan dan ditunjukkan sebagai tidak diketahui sehingga disahkan."
+      },
+      "failed": {
+        "title": "Pengeluaran gagal",
+        "body": "Percubaan gagal. Sebab: {failureReason}. Percubaan semula memerlukan kegagalan yang disahkan ini.",
+        "emailSubject": "Percubaan pengeluaran gagal",
+        "emailBody": "Sebab: {failureReason}. Obligasi masih terbuka dan percubaan semula terkawal dibenarkan kerana kegagalan telah disahkan."
+      },
+      "unknown": {
+        "title": "Keputusan pengeluaran tidak diketahui",
+        "body": "Penyedia tidak memberikan keputusan. Selaraskan percubaan asal. Tiada bayar semula.",
+        "emailSubject": "Keputusan pengeluaran tidak diketahui dan perlu diselaraskan",
+        "emailBody": "Tidak diketahui bukan gagal dan bukan telah dibayar. Langkah seterusnya yang dibenarkan hanyalah menyelaraskan percubaan ini dengan rekod penyedia; pembayaran kedua tidak boleh dimulakan."
+      },
+      "reconciled": {
+        "title": "Pengeluaran diselaraskan",
+        "body": "Percubaan diselaraskan: {outcome}. Nota: {note}",
+        "emailSubject": "Percubaan pengeluaran telah diselaraskan",
+        "emailBody": "Keputusan: {outcome}. Nota: {note}. Penyelarasan merekodkan apa yang penyedia lakukan; ia tidak memindahkan wang dengan sendirinya."
+      }
+    },
+    "deadline": {
+      "metering_ended": {
+        "title": "Pengukuran tamat",
+        "body": "Tontonan baharu tidak lagi dikira. Anda masih boleh memohon sehingga {claimDeadlineAt}.",
+        "emailSubject": "Pengukuran tamat untuk penghantaran anda",
+        "emailBody": "Hanya pertambahan di dalam tempoh dikira. Pengukuran tidak akan dibuka semula, tetapi tempoh permohonan kekal terbuka sehingga {claimDeadlineAt}."
+      },
+      "claim_deadline_extended": {
+        "title": "Tarikh akhir permohonan dilanjutkan",
+        "body": "Sebab: {reason}. Tarikh akhir baharu ialah {newDeadlineAt}.",
+        "emailSubject": "Tarikh akhir permohonan anda dipindahkan ke {newDeadlineAt}",
+        "emailBody": "Sekatan ({reason}) menghalang anda memfailkan melewati tarikh akhir asal, jadi tempoh tangguh penuh yang diterbitkan berjalan semula dari masa sekatan itu selesai. Pengukuran tidak dibuka semula dan masa baris tidak ditarikh ke belakang."
+      },
+      "claim_deadline_passed": {
+        "title": "Tarikh akhir permohonan berlalu",
+        "body": "Permohonan baharu ditutup untuk penghantaran ini. Permohonan yang telah difailkan mengekalkan kedudukannya.",
+        "emailSubject": "Tarikh akhir permohonan bagi penghantaran anda telah berlalu",
+        "emailBody": "Tiada permohonan baharu boleh difailkan untuk penghantaran ini. Apa-apa yang difailkan tepat pada masanya mengekalkan kedudukan barisnya dan diteruskan melalui semakan."
+      }
+    }
+  }
+}
