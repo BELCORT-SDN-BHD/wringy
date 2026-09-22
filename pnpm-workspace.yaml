@@ -42,3 +42,16 @@ overrides:
   '@embedded-postgres/linux-ppc64': 17.10.0-beta.17
   '@embedded-postgres/linux-x64': 17.10.0-beta.17
   '@embedded-postgres/windows-x64': 17.10.0-beta.17
+
+# @fastify/type-provider-zod 1.0.0 (apps/api) declares @fastify/swagger and
+# openapi-types as required peers, but its runtime build (dist/esm) imports only
+# zod and @fastify/error; the two serve its OpenAPI helper types alone. Marking
+# them optional keeps pnpm's auto-install-peers from adding a swagger generator
+# to the API's production dependencies.
+packageExtensions:
+  '@fastify/type-provider-zod@1.0.0':
+    peerDependenciesMeta:
+      '@fastify/swagger':
+        optional: true
+      openapi-types:
+        optional: true
