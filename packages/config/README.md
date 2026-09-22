@@ -10,7 +10,7 @@ another's secret.
 | `@wringy/config/web` | Next.js server (`apps/web`) | `WRINGY_ENV`, `API_INTERNAL_URL` |
 | `@wringy/config/api` | Fastify API (`apps/api`, M2-01 W2) | `WRINGY_ENV`, `DATABASE_URL`, `PORT` (default 3200), `HOST` (default 127.0.0.1), `LOG_LEVEL` (default info) |
 | `@wringy/config/worker` | pg-boss worker (`apps/worker`, M2-01 W2) | `WRINGY_ENV`, `DATABASE_URL`, `WORKER_ID`, `IMAGE_REF` |
-| `@wringy/config/migrate` | `pnpm db:migrate` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
+| `@wringy/config/migrate` | `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `@wringy/config/bootstrap` | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE` (default wringy), `PG_BOOTSTRAP_{MIGRATOR,API,WORKER}_PASSWORD` |
 | `@wringy/config` | all of the above | |
 

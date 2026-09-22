@@ -4,7 +4,7 @@
  * belongs to exactly one group. The migrator owns the schemas and runs all DDL.
  */
 export const ROLES = {
-  /** Login. Owns `app`, `ops` (and `pgboss` from W2). On Supabase possibly `postgres`. */
+  /** Login. Owns `app`, `ops` and `pgboss`. On Supabase possibly `postgres`. */
   migrator: 'wringy_migrator',
   /** NOLOGIN group for the Fastify API. */
   apiGroup: 'wringy_api',
@@ -22,3 +22,5 @@ export type RoleName = (typeof ROLES)[keyof typeof ROLES];
 export const APP_SCHEMA = 'app';
 /** Environment marker, heartbeats and the migrations table. */
 export const OPS_SCHEMA = 'ops';
+/** pg-boss's tables and functions, installed by the pg-boss CLI as the migrator (ruling D33). */
+export const PGBOSS_SCHEMA = 'pgboss';

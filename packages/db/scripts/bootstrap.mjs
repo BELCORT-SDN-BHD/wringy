@@ -47,7 +47,7 @@ async function main() {
         `  groups: ${ROLES.apiGroup}, ${ROLES.workerGroup} (NOLOGIN)`,
         `  logins: ${ROLES.migrator}, ${ROLES.apiLogin} in ${ROLES.apiGroup}, ${ROLES.workerLogin} in ${ROLES.workerGroup}`,
         `  database: ${database} (${outcome}), owner ${ROLES.migrator}, CONNECT for the runtime groups only`,
-        'Next: pnpm db:migrate',
+        'Next: pnpm db:migrate, then pnpm db:env (and pnpm db:seed:fixtures where fixtures are allowed)',
       ].join('\n'),
     );
   } finally {

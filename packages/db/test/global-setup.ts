@@ -5,9 +5,11 @@
  *    when set; otherwise a throwaway embedded PostgreSQL 17 on a free port in a
  *    temporary directory, TimeZone=UTC, removed at teardown.
  * 2. Roles: the same idempotent bootstrap `pnpm db:bootstrap` runs.
- * 3. Template: an empty database owned by the migrator, migrated from zero by
- *    the real versioned migrations as the migrator (never a hand-kept dump).
- *    Test files clone it with `createTestDatabase()` (harness.ts).
+ * 3. Template: an empty database owned by the migrator, migrated from zero as
+ *    the migrator by `pnpm db:migrate`'s own code (the pg-boss CLI, then the
+ *    real versioned migrations; never a hand-kept dump), then marked as
+ *    environment TEST_WRINGY_ENV the way `pnpm db:env` marks it. Test files
+ *    clone it with `createTestDatabase()` (harness.ts).
  */
 import { randomBytes } from 'node:crypto';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -20,10 +22,12 @@ import pg from 'pg';
 import type { TestProject } from 'vitest/node';
 
 import { ensureDatabase, ensureRoles } from '../src/bootstrap';
+import { setEnvironment } from '../src/environment';
 import { LOCAL_PASSWORDS, postgresUrl } from '../src/local-dev';
-import { runMigrations } from '../src/migrate';
+import { migrateDatabase } from '../src/migrate';
 import { ROLES } from '../src/roles';
 import type { ClusterInfo } from './harness';
+import { TEST_WRINGY_ENV } from './test-env';
 
 declare module 'vitest' {
   export interface ProvidedContext {
@@ -72,7 +76,7 @@ async function startEmbedded(): Promise<{ adminUrl: string; stop: () => Promise<
   };
 }
 
-/** Roles as `pnpm db:bootstrap` makes them, then the template migrated from zero as the migrator. */
+/** Roles as `pnpm db:bootstrap` makes them, then the template migrated from zero and marked, as the migrator. */
 async function prepareTemplate(adminUrl: string, host: string, portNumber: number, templateDatabase: string) {
   const admin = new pg.Client({ connectionString: adminUrl, application_name: 'wringy-test-setup' });
   await admin.connect();
@@ -85,15 +89,22 @@ async function prepareTemplate(adminUrl: string, host: string, portNumber: numbe
     await admin.end();
   }
 
-  await runMigrations({
-    databaseUrl: postgresUrl({
-      user: ROLES.migrator,
-      password: LOCAL_PASSWORDS.migrator,
-      host,
-      port: portNumber,
-      database: templateDatabase,
-    }),
+  const migratorUrl = postgresUrl({
+    user: ROLES.migrator,
+    password: LOCAL_PASSWORDS.migrator,
+    host,
+    port: portNumber,
+    database: templateDatabase,
   });
+  await migrateDatabase({ databaseUrl: migratorUrl });
+
+  const migrator = new pg.Client({ connectionString: migratorUrl, application_name: 'wringy-test-setup' });
+  await migrator.connect();
+  try {
+    await setEnvironment(migrator, TEST_WRINGY_ENV);
+  } finally {
+    await migrator.end();
+  }
 }
 
 export default async function setup(project: TestProject): Promise<() => Promise<void>> {

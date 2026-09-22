@@ -109,7 +109,7 @@ Local connection URLs (development-only passwords; never reuse them anywhere els
 Superuser, used by pnpm db:bootstrap when WRINGY_ENV=local:
   ${urls.superuser}
 
-First time: set WRINGY_ENV=local, then run pnpm db:bootstrap and pnpm db:migrate.`);
+First time: set WRINGY_ENV=local, then run pnpm db:bootstrap, pnpm db:migrate, pnpm db:env and pnpm db:seed:fixtures.`);
 }
 
 async function start() {

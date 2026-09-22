@@ -1,52 +1,100 @@
 # @wringy/db
 
 PostgreSQL access for the API and the worker: connection pools, the versioned SQL
-migrations and their runner, the per-environment bootstrap, local PostgreSQL
-without Docker, and the integration-test harness (kickoff-package.md §4.10–§4.11,
-§6.2–§6.3, §8.1, §8.4–§8.5). No ORM.
+migrations and their runner, the pg-boss schema install, the per-environment
+bootstrap and environment marker, the internal-build fixture seed, local
+PostgreSQL without Docker, and the integration-test harness
+(kickoff-package.md §4.10–§4.11, §6.2–§6.3, §8.1, §8.4–§8.5). No ORM.
 
 ## What it owns
 
 | Path | Role |
 |---|---|
 | `src/pool.ts` | `createPool({ connectionString, applicationName, max })` on `pg` 8, one pool per role and process; `withClient` and `withTransaction` |
-| `src/migrate.ts` | `runMigrations()` on node-pg-migrate 9: SQL files, one transaction per batch, session advisory lock (a concurrent run fails), order check, `search_path` = `app` |
+| `src/migrate.ts` | `migrateDatabase()` (what `pnpm db:migrate` runs: pg-boss schema, then SQL migrations, then a head check) and `runMigrations()` on node-pg-migrate 9: SQL files, one transaction per batch, session advisory lock (a concurrent run fails), order check, `search_path` = `app` |
+| `src/pgboss.ts` | `installPgBossSchema()`: runs the pg-boss CLI's `migrate` as the migrator; `readPgBossVersion()` |
+| `src/expected-head.ts` | `EXPECTED_MIGRATION_HEAD` and `EXPECTED_PGBOSS_VERSION`, which GET /health compares the database with; unit-tested against the migrations directory and the installed pg-boss |
+| `src/environment.ts`, `src/cli/env.ts` | The environment marker `ops.environment` and `pnpm db:env` |
+| `src/fixtures.ts`, `src/cli/seed-fixtures.ts`, `fixtures/internal-campaigns.sql` | `pnpm db:seed:fixtures` |
 | `migrations/NNNN_name.sql` | The migrations, applied as the migration owner. SQL files only, `-- Up Migration` / `-- Down Migration` markers ([node-pg-migrate "Legacy SQL migrations"](https://github.com/salsita/node-pg-migrate/blob/v9.0.0/docs/src/migration-loading-strategies.md)) |
 | `src/roles.ts` | Role and schema names |
 | `src/bootstrap.ts`, `scripts/bootstrap.mjs` | `pnpm db:bootstrap` |
 | `scripts/local-pg.mjs`, `src/local-dev.ts` | `pnpm db:start` / `db:stop` / `db:status`, and the fixed local development values |
-| `test/` | Vitest integration harness and tests (`pnpm test:int`) |
+| `test/` | Vitest integration harness, the reviewed grant manifest (`test/grant-manifest.ts`) and the integration tests (`pnpm test:int`) |
 
 The migrations table is `ops.pgmigrations` (the tool's default name, in the `ops`
 schema). The runner creates `ops` and that table before the first migration runs.
+
+## Schema (M2-01)
+
+| Migration | Creates | Rights |
+|---|---|---|
+| `0001_schemas_roles` | Schemas `app`, `ops`; NOLOGIN groups when absent; default privileges | See Roles |
+| `0002_environment_marker` | `ops.environment` (at most one row; a production marker can never allow fixtures), `ops.touch_updated_at()`, `ops.assert_fixture_allowed()` | api and worker: SELECT |
+| `0003_orgs_campaigns` | `app.orgs`, `app.campaigns` (`data_origin` `fixture`/`live`, composite FK `(org_id, data_origin)` → `app.orgs(id, data_origin)`, fixture trigger on both, `updated_at` trigger) | api: SELECT; worker: nothing |
+| `0004_worker_heartbeat` | `ops.worker_heartbeat` (one row per worker; timestamps from the database clock) | worker: SELECT, INSERT, UPDATE; api: SELECT |
+| `0005_pgboss_grants` | Rights on schema `pgboss`, which `pnpm db:migrate` installs first | worker: USAGE, table DML, sequence use, EXECUTE (plus default privileges for later pg-boss objects); api: USAGE and SELECT on `pgboss.version`, SELECT on `ops.pgmigrations` |
+
+Fixture and live data stay apart twice (Implementation Decision 5): the marker
+says whether an environment allows fixture rows, and `ops.assert_fixture_allowed()`
+refuses a fixture row (SQLSTATE 23514, constraint `ops_environment_fixtures_allowed`)
+where it does not or where no marker exists; the composite foreign key refuses a
+campaign whose data origin differs from its org's (23503).
 
 ## Roles
 
 | Role | Kind | Rights |
 |---|---|---|
-| `wringy_migrator` | login | Owns the database, `app` and `ops`; runs all DDL. On Supabase possibly `postgres` (unverified) |
-| `wringy_api` | NOLOGIN group | `USAGE` on `app` and `ops`; SELECT on new tables there by default. No CREATE |
-| `wringy_worker` | NOLOGIN group | `USAGE` on `ops`; SELECT/INSERT/UPDATE on new `ops` tables and USAGE/SELECT on new `ops` sequences by default. Nothing in `app` |
+| `wringy_migrator` | login | Owns the database, `app`, `ops` and `pgboss`; runs all DDL and writes the marker and the fixture seed. On Supabase possibly `postgres` (unverified) |
+| `wringy_api` | NOLOGIN group | `USAGE` on `app`, `ops`, `pgboss`; SELECT on the tables in `test/grant-manifest.ts`. No writes in M2-01, no CREATE, nothing else in `pgboss` |
+| `wringy_worker` | NOLOGIN group | `USAGE` on `ops` and `pgboss`; SELECT on `ops.environment`; SELECT/INSERT/UPDATE on `ops.worker_heartbeat`; pg-boss DML and EXECUTE. Nothing in `app`, no CREATE, no TRUNCATE |
 | `wringy_api_login` | login, member of `wringy_api` | API process |
 | `wringy_worker_login` | login, member of `wringy_worker` | Worker process |
 
 Migration `0001_schemas_roles.sql` creates the schemas, revokes everything from
 PUBLIC, grants the schema usage and sets the default privileges; functions the
-migrator creates are not executable by PUBLIC. Later migrations grant per table.
-Nothing goes in `public`, and nothing is granted to `anon`, `authenticated` or
-`service_role`. Login roles and passwords come only from `pnpm db:bootstrap`,
-never from a migration. Only the two runtime groups (and the owner) have CONNECT
-on the application database.
+migrator creates are not executable by PUBLIC (0005 also revokes PUBLIC's
+EXECUTE from the pg-boss functions installed before that default existed).
+Later migrations grant per table, and `test/grant-manifest.ts` lists every right
+a runtime login ends up with. Nothing goes in `public`, and nothing is granted to
+`anon`, `authenticated` or `service_role`. Login roles and passwords come only
+from `pnpm db:bootstrap`, never from a migration. Only the two runtime groups
+(and the owner) have CONNECT on the application database.
+
+## pg-boss schema
+
+`pnpm db:migrate` first runs `pg-boss migrate --schema pgboss` from the pinned
+pg-boss 12.33.5 CLI as the migrator, then node-pg-migrate
+([CLI reference](https://raw.githubusercontent.com/timgit/pg-boss/master/docs/cli.md),
+checked against the installed `dist/cli.js`). The CLI reads the connection from
+`PGBOSS_DATABASE_URL`, which `src/pgboss.ts` sets in the child's environment
+(never its argv, never a log line). It creates the schema when absent, runs any
+pending pg-boss migrations in its own advisory-locked transaction, and does
+nothing when the schema is current. The run fails unless `pgboss.version` ends at
+`EXPECTED_PGBOSS_VERSION` (42 for 12.33.5). pg-boss is a runtime dependency of
+this package because the migration step ships with the migrations. The worker
+is to start PgBoss with `migrate: false` against this schema
+(kickoff-package.md §8.3), so it never needs DDL.
+`down` never touches `pgboss`; pg-boss owns that lifecycle (`pg-boss rollback`).
 
 ## Local run (no Docker; ruling D29)
 
 ```sh
-pnpm db:start        # embedded PostgreSQL 17.10 on 127.0.0.1:54329, data in .local/pg, TimeZone=UTC; prints the URLs
+pnpm db:start           # embedded PostgreSQL 17.10 on 127.0.0.1:54329, data in .local/pg, TimeZone=UTC; prints the URLs
 # put WRINGY_ENV=local and the printed DATABASE_URL_MIGRATOR in the root .env
-pnpm db:bootstrap    # once: groups, logins, database `wringy` (development passwords because WRINGY_ENV=local)
-pnpm db:migrate      # all pending migrations, as the migrator; `pnpm --filter @wringy/db migrate down [n]` locally or in CI only
+pnpm db:bootstrap       # once: groups, logins, database `wringy` (development passwords because WRINGY_ENV=local)
+pnpm db:migrate         # pg-boss schema, then all pending SQL migrations, as the migrator; rerunning changes nothing
+pnpm db:env             # the ops.environment marker for WRINGY_ENV (fixtures allowed except in production)
+pnpm db:seed:fixtures   # two fixture orgs and three fixture campaigns; refused unless the marker allows fixtures
 pnpm db:stop
 ```
+
+The order matters: `db:env` needs the table 0002 creates, so it is a separate
+step after `db:migrate` rather than part of `db:bootstrap` (which runs before any
+migration exists, as the cluster admin). `db:env` refuses to re-mark a database
+that already names another environment; `pnpm db:env --relabel` does it on
+purpose. `pnpm --filter @wringy/db migrate down [n]` reverts SQL migrations
+locally or in CI only.
 
 `embedded-postgres` and its platform binaries are pinned to `17.10.0-beta.17`
 (every published build is a `-beta`; the root `pnpm-workspace.yaml` pins the
@@ -64,27 +112,43 @@ failed with `Postgres init script failed (code: 3221225734)` (0xC0000135, DLL no
 The 260-character Windows path limit is the likely cause (inferred, not confirmed). Use a
 short checkout path, or point `TEST_DATABASE_URL` at another PostgreSQL 17.
 
+## Supabase (unverified)
+
+Nothing here has run against Supabase yet (kickoff-package.md §10 G17; M2-02 and
+M2-09 verify it). Unverified: whether a custom `wringy_migrator` can own `app`,
+`ops` and `pgboss` there or `postgres` must act as the migrator; whether the
+pg-boss CLI and node-pg-migrate's session advisory lock work through the
+Supavisor session pooler; and whether `pnpm db:bootstrap` can create the logins
+as Supabase's non-superuser `postgres`.
+
 ## Environment
 
 | Command | Variables (names in the root `.env.example`) |
 |---|---|
-| `pnpm db:migrate` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
+| `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` |
 | `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing PostgreSQL 17) |
 
 The bootstrap sends passwords to the server as SCRAM-SHA-256 verifiers computed
 locally (`src/scram.ts`), so the plaintext is never in a statement a server log
-could record. Passwords must be printable ASCII.
+could record. Passwords must be printable ASCII. No command prints a connection
+string or password.
 
 ## Tests
 
 | Script | Does |
 |---|---|
-| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier |
-| `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup bootstraps the roles and migrates a template database from zero as the migrator; `createTestDatabase()` clones it per file and `withRollback(pool, fn)` isolates each test |
+| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, and the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin) |
+| `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
 
 Integration test titles carry `M2-AC01/2` where they prove that sub-item: a fresh
-migration from zero that a second run leaves unchanged, the migrator owning `app`
-and `ops`, `wringy_api_login` refused CREATE (42501), `wringy_worker_login`
-without privileges on `app`, and a login refused on a database without CONNECT.
+migration from zero (pg-boss schema, then every SQL migration) that a second run
+leaves unchanged; the API login reading the migration head and pg-boss version
+afterwards; SQL migrations refusing to pass 0005 before pg-boss exists; down
+0005→0002 and up again leaving an identical catalog snapshot; the migrator owning
+`app`, `ops` and `pgboss`; "runtime role privileges match reviewed grant
+manifest"; the worker login refused `app.campaigns` and the API login refused
+`ops.worker_heartbeat` writes and `pgboss.job` (42501); the fixture trigger, the
+composite foreign key and the marker's constraints; and the seed being
+idempotent and refused where fixtures are not allowed.

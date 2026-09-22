@@ -6,17 +6,29 @@
  *   several connections. Call `drop()` in `afterAll`.
  * - `withRollback(pool, fn)` runs `fn` on one connection inside a transaction
  *   that is always rolled back, for per-test isolation inside a file.
+ * - `seedFixtures(db)` applies the internal-build fixture seed to a clone, the
+ *   same way `pnpm db:seed:fixtures` does; `setTestEnvironment(db, name)`
+ *   re-marks a clone (for example as production, to see fixtures refused).
  *
- * The global setup (global-setup.ts) starts the cluster and migrates the template.
+ * The global setup (global-setup.ts) starts the cluster, migrates the template
+ * with `pnpm db:migrate`'s own code (pg-boss schema, then the SQL migrations),
+ * and marks it as environment TEST_WRINGY_ENV, which allows fixtures. A clone
+ * holds no fixture rows until a test seeds them.
  */
 import { randomBytes } from 'node:crypto';
 
 import pg from 'pg';
 import { inject } from 'vitest';
 
+import type { WringyEnv } from '@wringy/config';
+
 import { restrictDatabaseAccess } from '../src/bootstrap';
+import { setEnvironment, type EnvironmentMarker } from '../src/environment';
+import { seedFixtures as applyFixtureSeed, type SeedFixturesResult } from '../src/fixtures';
 import { postgresUrl } from '../src/local-dev';
 import { ROLES } from '../src/roles';
+
+export { TEST_WRINGY_ENV } from './test-env';
 
 export interface ClusterInfo {
   /** Superuser (or equivalent) URL of the test cluster. Never used by product code. */
@@ -103,5 +115,55 @@ export async function sqlState(promise: Promise<unknown>): Promise<string | unde
     return undefined;
   } catch (error) {
     return (error as { code?: string }).code;
+  }
+}
+
+/** Runs `fn` with one short-lived client connected as `url`'s login. */
+export async function withClientAt<T>(url: string, fn: (client: pg.Client) => Promise<T>): Promise<T> {
+  const client = new pg.Client({ connectionString: url, application_name: 'wringy-test' });
+  await client.connect();
+  try {
+    return await fn(client);
+  } finally {
+    await client.end();
+  }
+}
+
+/** Applies fixtures/internal-campaigns.sql to `db` as the migrator, as `pnpm db:seed:fixtures` does. */
+export function seedFixtures(db: TestDatabase): Promise<SeedFixturesResult> {
+  return withClientAt(db.urls.migrator, (client) => applyFixtureSeed(client));
+}
+
+/** Re-marks `db` as environment `name` (fixtures allowed except in production). */
+export async function setTestEnvironment(db: TestDatabase, name: WringyEnv): Promise<EnvironmentMarker> {
+  const { marker } = await withClientAt(db.urls.migrator, (client) => setEnvironment(client, name, { relabel: true }));
+  return marker;
+}
+
+/** What a failed statement reports: the SQLSTATE, the constraint it names, and the message. */
+export interface SqlFailure {
+  code?: string;
+  constraint?: string;
+  message: string;
+}
+
+/**
+ * Runs `fn` inside a savepoint on `client` and returns its failure (or undefined
+ * when it succeeded), so a test can assert a refusal and keep using the same
+ * transaction afterwards (a failed statement would otherwise abort it).
+ */
+export async function failureIn(
+  client: pg.ClientBase,
+  fn: () => Promise<unknown>,
+): Promise<SqlFailure | undefined> {
+  await client.query('SAVEPOINT wringy_expect_failure');
+  try {
+    await fn();
+    await client.query('RELEASE SAVEPOINT wringy_expect_failure');
+    return undefined;
+  } catch (error) {
+    await client.query('ROLLBACK TO SAVEPOINT wringy_expect_failure');
+    const { code, constraint, message } = error as SqlFailure;
+    return { code, constraint, message };
   }
 }

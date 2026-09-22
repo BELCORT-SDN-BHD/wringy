@@ -5,8 +5,22 @@ export {
   MIGRATIONS_SCHEMA,
   MIGRATIONS_TABLE,
   listMigrations,
+  migrateDatabase,
   runMigrations,
 } from './migrate';
-export type { RunMigrationsOptions } from './migrate';
-export { APP_SCHEMA, OPS_SCHEMA, ROLES } from './roles';
+export type { MigrateDatabaseOptions, MigrateDatabaseResult, RunMigrationsOptions } from './migrate';
+export { EXPECTED_MIGRATION_HEAD, EXPECTED_PGBOSS_VERSION } from './expected-head';
+export { installPgBossSchema, installedPgBoss, readPgBossVersion } from './pgboss';
+export type { InstallPgBossOptions, InstalledPgBoss, PgBossInstallResult } from './pgboss';
+export {
+  EnvironmentMismatchError,
+  EnvironmentTableMissingError,
+  fixturesAllowedFor,
+  readEnvironment,
+  setEnvironment,
+} from './environment';
+export type { EnvironmentMarker, SetEnvironmentOptions, SetEnvironmentOutcome } from './environment';
+export { FIXTURES_FILE, FixturesRefusedError, seedFixtures } from './fixtures';
+export type { SeedFixturesOptions, SeedFixturesResult } from './fixtures';
+export { APP_SCHEMA, OPS_SCHEMA, PGBOSS_SCHEMA, ROLES } from './roles';
 export type { RoleName } from './roles';

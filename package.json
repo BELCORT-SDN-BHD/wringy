@@ -17,6 +17,8 @@
     "db:stop": "pnpm --filter @wringy/db run db:stop",
     "db:bootstrap": "pnpm --filter @wringy/db run db:bootstrap",
     "db:migrate": "pnpm --filter @wringy/db run migrate",
+    "db:env": "pnpm --filter @wringy/db run db:env",
+    "db:seed:fixtures": "pnpm --filter @wringy/db run db:seed:fixtures",
     "depcruise": "node scripts/check-dependency-direction.mjs"
   },
   "devDependencies": {
