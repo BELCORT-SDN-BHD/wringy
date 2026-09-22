@@ -11,6 +11,7 @@
     ".": "./src/index.ts",
     "./testing": "./test/harness.ts",
     "./testing/cluster": "./test/cluster.ts",
+    "./testing/connect": "./test/connect.ts",
     "./testing/global-setup": "./test/global-setup.ts"
   },
   "scripts": {

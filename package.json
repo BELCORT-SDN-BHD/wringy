@@ -13,6 +13,7 @@
     "test": "pnpm -r run test",
     "test:int": "pnpm -r run test:int",
     "e2e": "pnpm --filter web e2e",
+    "e2e:internal": "pnpm --filter web e2e:internal",
     "db:start": "pnpm --filter @wringy/db run db:start",
     "db:stop": "pnpm --filter @wringy/db run db:stop",
     "db:bootstrap": "pnpm --filter @wringy/db run db:bootstrap",

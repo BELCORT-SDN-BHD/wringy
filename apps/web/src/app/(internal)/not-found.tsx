@@ -24,7 +24,7 @@ export default async function InternalNotFound() {
 
   return (
     <main className="mx-auto flex w-full max-w-5xl min-w-0 flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-      <Empty className="border" data-app-state="not-found">
+      <Empty className="flex-none border" data-app-state="not-found">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <FileQuestion aria-hidden="true" />

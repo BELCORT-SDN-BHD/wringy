@@ -1,0 +1,8 @@
+{
+  "//": "Type-checks the tsx-run scripts of the internal suite (database-server.mts, run-with-database.mts) as plain Node ESM. apps/web/tsconfig.json excludes them: under Next's global types (NODE_ENV required on ProcessEnv) the @wringy/db code they import does not type-check, and Next never runs them.",
+  "extends": "../../../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["*.mts"]
+}

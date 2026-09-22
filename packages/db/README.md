@@ -23,13 +23,14 @@ PostgreSQL without Docker, and the integration-test harness
 | `scripts/local-pg.mjs`, `src/local-dev.ts` | `pnpm db:start` / `db:stop` / `db:status`, and the fixed local development values |
 | `test/` | The integration-test harness, the reviewed grant manifest (`test/grant-manifest.ts`) and the integration tests (`pnpm test:int`). Exported for other workspaces' **tests only** (below) |
 
-**Test-only exports.** `package.json` exports three subpaths next to `.`:
+**Test-only exports.** `package.json` exports four subpaths next to `.`:
 
 | Import | File | For |
 |---|---|---|
 | `@wringy/db/testing` | `test/harness.ts` | Vitest integration suites (apps/api, apps/worker): `createTestDatabase()`, `seedFixtures()`, `setTestEnvironment()`, `withRollback()`, `sqlState()`, `withClientAt()`, `TEST_WRINGY_ENV`; the cluster comes from Vitest's `inject('wringyCluster')` |
 | `@wringy/db/testing/global-setup` | `test/global-setup.ts` | The `globalSetup` of every `vitest.int.config.ts` (resolved with `createRequire(import.meta.url).resolve(…)`) |
-| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, i.e. the Playwright internal suite (`apps/web/tests/e2e-internal`): `startTestCluster()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()` |
+| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, run with tsx (the Playwright internal suite's database process, `apps/web/tests/e2e-internal/database-server.mts`): `startTestCluster()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()` |
+| `@wringy/db/testing/connect` | `test/connect.ts` | Runners that load test files as CommonJS (Playwright in apps/web): `loginUrlsAt(host, port, database)` and `withClientAt(url, fn)`, importing only `pg` and constants. cluster.ts cannot load there, because `src/migrate.ts` and `src/fixtures.ts` use `import.meta.url` |
 
 No product module imports them: the dependency rules cruise `apps/*/src` and
 `packages/*/src` only, and these files live under `test/`.

@@ -40,6 +40,7 @@ import {
   signInAs,
   waitForHydration,
 } from './helpers';
+import { M1_EVIDENCE_DIR, evidencePath } from './evidence';
 
 // ---------------------------------------------------------------------------
 // Building a precondition
@@ -919,7 +920,8 @@ test('operations acceptance screenshots', async ({ page }, testInfo) => {
   const suffix = testInfo.project.name;
   const shot = (name: string) =>
     page.screenshot({
-      path: `../../docs/m1-prototype/screenshots/ops-${name}-${suffix}.png`,
+      // Tracked under docs/m1-prototype/screenshots only with WRINGY_EVIDENCE_SHOTS=1 (evidence.ts).
+      path: evidencePath(M1_EVIDENCE_DIR, `ops-${name}-${suffix}.png`),
       fullPage: false,
     });
 

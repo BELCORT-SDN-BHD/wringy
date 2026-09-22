@@ -28,7 +28,8 @@ pnpm lint                          # eslint in every workspace
 pnpm typecheck                     # every workspace; web: next typegen && tsc --noEmit
 pnpm test                          # vitest run in every workspace
 pnpm --filter web e2e:install      # one-off: download Chromium (~310 MB)
-pnpm e2e                           # playwright test, 3 viewports
+pnpm e2e                           # playwright test, 3 viewports (the M1 demo suite)
+pnpm e2e:internal                  # the M2 internal-build suite on the real api, worker and database
 ```
 
 The root scripts also cover `packages/*` (M2-01); `pnpm --filter web lint|typecheck|test|build`
@@ -40,11 +41,23 @@ runs this app alone.
 (demo store, language prompt, demo tools) over `(demo)/(public)` and `(demo)/(workspace)`,
 with every URL unchanged. `src/app/(internal)/layout.tsx` is the internal build's root layout
 for `/internal`: the same fonts, CSS and `wringy-locale` cookie, the `common` and `internal`
-message namespaces, and none of the demo. Moving between the two is a full page load
+message namespaces, the persistent trilingual 内部版本 · Internal build · Versi dalaman banner,
+and none of the demo. Moving between the two is a full page load
 (`node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/route-groups.md`,
 "Caveats"). `pnpm depcruise` (rule `internal-not-to-demo`) keeps the demo out of `(internal)`.
-An unmatched URL gets Next's built-in 404 page, since no single root layout wraps it
-(`global-not-found.js` would change that but is experimental in this Next version).
+
+**Unmatched URLs.** With two root layouts and no top-level `app/layout.tsx`, Next has no layout
+to wrap an unmatched URL in and answers with its bare built-in 404 document (no `<html lang>`,
+no app CSS). Two catch-alls call `notFound()` so each URL lands in its own root layout again:
+`src/app/(demo)/[...notFound]/page.tsx` (Next's not-found UI inside the demo layout, as in M1)
+and `src/app/(internal)/internal/[...rest]/page.tsx` with `src/app/(internal)/not-found.tsx`
+(the internal not-found page under the banner, no demo store). Both answer HTTP 404. Next
+renders a `notFound()` thrown during the first render as an error shell
+(`<html id="__next_error__">`) whose flight data carries the root layout, so `lang`, the CSS
+and the banner appear once the browser renders it, not in the raw HTML a `curl` sees; the
+internal suite checks the rendered page. `global-not-found.js` would give a server-rendered
+404 but is experimental in this Next version and could not tell the two layouts apart
+(`node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/not-found.md`).
 
 The web app imports the TypeScript sources of `@wringy/config` and `@wringy/contracts`
 without `transpilePackages`: "Turbopack transpiles workspace packages … in your monorepo
@@ -67,6 +80,30 @@ second checkout (a git worktree) alongside this one.
 Turbopack has been seen to drop its filesystem cache and refuse connections the first time several
 Playwright workers compile a brand-new route at once. If a run fails with `ERR_CONNECTION_REFUSED`
 rather than an assertion, warm the route once with `pnpm dev` and run again.
+
+## The /internal page (M2-01)
+
+`src/app/(internal)/internal/page.tsx` is a Server Component (`dynamic = 'force-dynamic'`). It
+reads `GET /internal/campaigns` and `GET /internal/worker-health` from the Fastify API at
+`API_INTERNAL_URL`, server to server, with `cache: 'no-store'` and a 5 s `AbortController`
+limit each (`api-read.ts`), validates both bodies with the `@wringy/contracts` schemas, and
+renders in the visitor's cookie locale:
+
+- the fixture campaigns as a table (title, org, status badge, a demo-data badge from
+  `dataOrigin`, the update time in Asia/Kuala_Lumpur with `(UTC+08:00)`), an explicit empty
+  state, and a "data as of" line with the database clock;
+- one 后台任务健康状态 card per worker: id, image ref, started, last heartbeat, last queue round
+  trip, the process state (healthy / stale / stopped; `never_seen` reads as the localized
+  "unknown") and the queue state (ok / overdue; `never` reads as "unknown"); an empty worker list
+  reads "no worker has reported yet", an unknown state rather than zero;
+- explicit states, each on a `data-app-state` attribute: `not-configured` (no usable
+  `API_INTERNAL_URL`), `api-unreachable` (the request failed or timed out), `api-unavailable`
+  (the API answered 503), `unexpected` (any other status, or a body that breaks the contract).
+  When both reads fail the same way the state is shown once. No URL, status line or stack
+  reaches the page; the server logs one line per failed read with the route and a code.
+
+Badges follow the M1 `StatusBadge` rules through the server-safe tone classes in
+`src/components/app/status-tone.ts`. No client code beyond the layout's, no demo store.
 
 ## What is installed
 
@@ -187,6 +224,8 @@ nesting).
   on every run about ESM in a file loaded as CommonJS.
 - `playwright.config.ts` — `tests/e2e`, projects `mobile` 390×844, `desktop` 1440×900,
   `small` 320×568, screenshots on failure, output in `tests/e2e/test-results`.
+- `playwright.internal.config.ts` — the M2 internal-build suite (`pnpm e2e:internal`), described
+  below.
 - `tests/e2e/smoke.spec.ts` asserts the title contains "Wringy" and that
   `document.documentElement.scrollWidth` does not exceed the viewport, in all three projects.
 - `tests/e2e/helpers.ts` is the shared harness every later spec should use:
@@ -203,15 +242,65 @@ nesting).
 - `tests/e2e/acceptance.spec.ts` is the P01–P11 run, one `describe` per acceptance row. The rows
   run at 390 and 1440 and are skipped in the `small` project; the 320px work is the dedicated spot
   check at the end of that file, which asserts no sideways scroll and no covered primary action on
-  the submission detail, the merchant editor, the operations claim page and the payout page. It
-  writes its evidence to `docs/m1-prototype/screenshots/p<NN>-<viewport>.png`, viewport-clipped and
-  asserted to be at most 300 KB each.
+  the submission detail, the merchant editor, the operations claim page and the payout page. Its
+  evidence frames are viewport-clipped and asserted to be at most 300 KB each (see "Evidence
+  screenshots" below for where they go).
 - `tests/e2e/screenshots.spec.ts` writes the older frame set to `tests/e2e/__screenshots__/`
   (git-ignored).
 - `tests/e2e/helpers.ts` also carries `expectPrimaryActionUsable`, which is what the 320px checks
   are built on: it asserts the control's box is inside the viewport, that `elementFromPoint` at its
   centre resolves to the control rather than something on top of it, and that Playwright's full
   actionability set passes.
+
+### Evidence screenshots (opt-in)
+
+The acceptance records cite tracked PNGs. A run writes them only when
+`WRINGY_EVIDENCE_SHOTS=1`; otherwise the same frames go to the gitignored
+`tests/e2e/__screenshots__/evidence/`, so an ordinary run leaves the tree clean
+(`tests/e2e/evidence.ts`; the 300 KB budget is enforced either way):
+
+```bash
+WRINGY_EVIDENCE_SHOTS=1 pnpm e2e            # refreshes docs/m1-prototype/screenshots
+WRINGY_EVIDENCE_SHOTS=1 pnpm e2e:internal   # refreshes docs/m2-internal/screenshots
+```
+
+### The internal-build suite (`pnpm e2e:internal`, M2-AC01)
+
+`playwright.internal.config.ts`, `tests/e2e-internal/`. Nothing is mocked: the `webServer`
+array starts, in order (Playwright starts every entry before `globalSetup`):
+
+1. `database` — `tests/e2e-internal/database-server.mts` (tsx): a PostgreSQL 17 cluster
+   (`TEST_DATABASE_URL`'s, or a throwaway embedded one), a database migrated from zero as the
+   migrator, marked `ci` and seeded with the fixture campaigns, through `@wringy/db`'s test
+   harness (`@wringy/db/testing/cluster`). Its ready line names host, port and database, which
+   Playwright's `wait.stdout` named groups put into the environment (`WRINGY_E2E_PG_*`); no
+   password is printed.
+2. `api` — apps/api on 127.0.0.1:3200 as `wringy_api_login`
+   (`tests/e2e-internal/run-with-database.mts api` sets its `DATABASE_URL`), ready when
+   `GET /health` answers 200.
+3. `worker` — apps/worker as `wringy_worker_login`, `WORKER_ID=e2e-worker-1`,
+   `IMAGE_REF=local/e2e`, ready when it logs "worker started".
+4. `web` — `next build`, then `next start` on `WEB_PORT` (default 3100) with
+   `API_INTERNAL_URL=http://127.0.0.1:3200` and `WRINGY_ENV=ci`.
+5. `web-outage` — a second `next start` on `WEB_PORT+1` whose `API_INTERNAL_URL` is a closed port.
+
+`globalSetup` checks the database through the harness connection (marker `ci`, three fixture
+campaigns); `globalTeardown` asks the database process to drop the databases and stop its
+cluster (Playwright cannot signal a process on Windows). `reuseExistingServer` is false
+everywhere. Projects: `mobile` 390, `desktop` 1440 and `small` 320 run `internal.spec.ts`
+(cold start in three locales, worker health, a stale and a stopped worker arranged in
+`ops.worker_heartbeat` as the worker login, no demo store, the 320 px spot check, both
+not-found routes); `outage` runs `outage.spec.ts` on the second instance (api-unreachable, no
+URL or stack on the page); `database-outage` runs last and revokes the API group's CONNECT on
+the database to show `api-unavailable`, then grants it back. Test titles carry `M2-AC01`, and
+`M2-AC01/2` where they prove the page → Fastify → PostgreSQL read.
+
+`@wringy/db` and `tsx` are **devDependencies** of this app for that suite only. The dependency
+rules (`pnpm depcruise`, rule `web-not-to-server-runtime`) cruise `src/`, where importing
+`@wringy/db` stays forbidden. Playwright loads test files as CommonJS here, so the specs use
+`@wringy/db/testing/connect` (pg only); the two `.mts` scripts run under tsx and are
+type-checked by `tests/e2e-internal/tsconfig.json` (the `typecheck` script runs it), because
+the root `tsconfig.json`, with Next's global types, excludes them.
 
 `next.config.ts` sets `allowedDevOrigins: ['127.0.0.1']` because Next 16 otherwise blocks the
 dev-server `/_next/hmr` requests Playwright makes over that host. Development only.

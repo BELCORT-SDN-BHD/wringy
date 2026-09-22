@@ -16,9 +16,12 @@
  * `setEnvironmentIn` do what `pnpm db:seed:fixtures` and `pnpm db:env` do.
  *
  * Used by the Vitest harness (harness.ts, `@wringy/db/testing`), which reads the
- * cluster from Vitest's provide/inject, and by the Playwright internal suite
- * (apps/web/tests/e2e-internal), which has no Vitest runtime. Test-only code:
- * product code never imports it.
+ * cluster from Vitest's provide/inject, and by the Playwright internal suite's
+ * database process (apps/web/tests/e2e-internal/database-server.ts, run with
+ * tsx), which has no Vitest runtime. Playwright's own CommonJS loader cannot load
+ * this module (migrate.ts and fixtures.ts use import.meta); test files there use
+ * connect.ts (`@wringy/db/testing/connect`). Test-only code: product code never
+ * imports it.
  */
 import { randomBytes } from 'node:crypto';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -37,9 +40,11 @@ import { seedFixtures as applyFixtureSeed, type SeedFixturesResult } from '../sr
 import { LOCAL_PASSWORDS, postgresUrl } from '../src/local-dev';
 import { migrateDatabase } from '../src/migrate';
 import { ROLES } from '../src/roles';
+import { loginUrlsAt, withClientAt, type LoginUrls } from './connect';
 import { TEST_WRINGY_ENV } from './test-env';
 
-export { TEST_WRINGY_ENV };
+export { TEST_WRINGY_ENV, loginUrlsAt, withClientAt };
+export type { LoginUrls };
 
 export interface ClusterInfo {
   /** Superuser (or equivalent) URL of the test cluster. Never used by product code. */
@@ -62,7 +67,7 @@ export interface RunningCluster {
 export interface TestDatabase {
   name: string;
   /** One URL per login role, all pointing at this clone. */
-  urls: { migrator: string; api: string; worker: string };
+  urls: LoginUrls;
   drop(): Promise<void>;
 }
 
@@ -105,17 +110,6 @@ async function startEmbedded(): Promise<{ adminUrl: string; stop: () => Promise<
       rmSync(root, { recursive: true, force: true });
     },
   };
-}
-
-/** Runs `fn` with one short-lived client connected as `url`'s login. */
-export async function withClientAt<T>(url: string, fn: (client: pg.Client) => Promise<T>): Promise<T> {
-  const client = new pg.Client({ connectionString: url, application_name: 'wringy-test' });
-  await client.connect();
-  try {
-    return await fn(client);
-  } finally {
-    await client.end();
-  }
 }
 
 /** Runs `fn` with a short-lived admin connection to the cluster's `postgres` database. */

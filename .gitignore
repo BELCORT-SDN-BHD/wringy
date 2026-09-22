@@ -33,6 +33,9 @@ apps/web/tests/e2e/__screenshots__/
 apps/web/playwright-report/
 apps/web/test-results/
 apps/web/tests/e2e/test-results/
+# apps/web internal suite (M2-01, playwright.internal.config.ts) generated test artefacts
+apps/web/tests/e2e-internal/test-results/
+apps/web/playwright-report-internal/
 
 # pnpm depcruise plants this file for one cruise and always deletes it
 apps/web/src/lib/__dependency-violation__.ts
