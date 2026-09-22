@@ -2,8 +2,8 @@
 document: product-blueprint
 product: Wringy
 status: consolidated-from-accepted-decisions
-updated: 2026-09-21
-implementation_status: greenfield-product
+updated: 2026-09-23
+implementation_status: m1-prototype-accepted; product-runtime-unbuilt
 purpose: 产品应该是什么样子、解决什么高层问题，以及长期愿景。
 required_focus:
   vision: 产品希望给用户带来什么改变，长期往哪个方向发展。
@@ -27,7 +27,7 @@ maintenance:
 
 Wringy 让商家把内容推广计划变成规则清楚的奖励活动，让内容创作者凭可核验的合格观看申请奖励，并让运营将审核、申诉与付款处理到底。首发从 Content Rewards 完成这条业务链，长期向覆盖更多创作者商业活动的平台发展。
 
-本文是长期维护的产品入口；阶段交付与验收见 [specs](planning/README.md)，技术边界见 [Architecture](ARCHITECTURE.md)。当前是产品 greenfield：已有规划与设计系统展示，尚不能据此认定业务原型、真实交易或产品验收完成。依据：[仓库说明](../README.md)、[原型规格](../phase-0/foundation/milestones/prototype-spec-v1.md)、[组件展示工程](../phase-0/foundation/design-system-v2/app/package.json)。
+本文是长期维护的产品入口；阶段交付与验收见 [specs](planning/README.md)，技术边界见 [Architecture](ARCHITECTURE.md)。当前实现只到 M1：三端交互原型（`apps/web`，身份、时钟、计量、通知与付款全部显式模拟）已建成，P01–P11 执行通过，并于 2026-09-23 经创办人验收；真实身份、可保存数据、真实交易与产品验收仍未证明。依据：[M1 验收记录](m1-prototype/acceptance-record.md)、[创办人验收 #9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)、[原型应用说明](../apps/web/README.md)、[已知限制](m1-prototype/known-issues.md)。
 
 ## 1. 定位、愿景与证据
 
@@ -91,7 +91,7 @@ Wringy 让商家把内容推广计划变成规则清楚的奖励活动，让内�
 
 | 阶段 | 交付结果及边界 | 详细范围与验收 |
 |---|---|---|
-| M1 三端交互原型 | 同一活动贯穿三端；本地演示数据与模拟身份、计量、通知、付款；不证明真实业务可用 | [原型 spec](../phase-0/foundation/milestones/prototype-spec-v1.md) · [#1](https://github.com/BELCORT-SDN-BHD/wringy/issues/1) |
+| M1 三端交互原型 | 已交付并经创办人验收（2026-09-23）：同一活动贯穿三端；本地演示数据与模拟身份、计量、通知、付款；不证明真实业务可用 | [原型 spec](../phase-0/foundation/milestones/prototype-spec-v1.md) · [验收记录](m1-prototype/acceptance-record.md) · [#1](https://github.com/BELCORT-SDN-BHD/wringy/issues/1) |
 | M2 可保存的内部版 | 真实 Google 会话、组织隔离、数据库保存、任务与通知基础；不将演示申请／付款落成正式账目 | [M2 spec](planning/specs/m2-spec.md) · [#10](https://github.com/BELCORT-SDN-BHD/wringy/issues/10) |
 | M3 完整业务模拟 Beta | 真实数据库执行完整规则与恢复约束；外部计量／付款明确模拟 | [M3 spec](planning/specs/m3-spec.md) · [#11](https://github.com/BELCORT-SDN-BHD/wringy/issues/11) |
 | M4 真实接口 | 逐能力验证社交数据、实际主体、付款及退款；至少一个完整通过的社交与匹配支付组合才能进入发布候选 | [M4 spec](planning/specs/m4-spec.md) · [#12](https://github.com/BELCORT-SDN-BHD/wringy/issues/12) |

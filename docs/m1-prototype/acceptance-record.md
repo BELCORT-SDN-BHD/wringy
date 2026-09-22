@@ -31,8 +31,8 @@ Supporting suites, run on the same commit:
 
 | Suite | Command | Result |
 |---|---|---|
-| Engine and copy catalogue | `pnpm --filter web test` | 297 passed, 0 failed, 23 files |
-| Whole end-to-end suite | `pnpm --filter web e2e` | **312 passed, 33 skipped, 0 failed**, 4.7 min |
+| Engine and copy catalogue | `pnpm --filter web test` | 322 passed, 0 failed, 24 files (after the owner-ruling tests of PR #78; re-run 2026-09-23 with the same result) |
+| Whole end-to-end suite | `pnpm --filter web e2e` | **318 passed, 33 skipped, 0 failed** on the PR #78 head (297 / 312 before the wave-4 and ruling tests were added) |
 | Lint | `pnpm --filter web lint` | clean |
 | Types | `pnpm --filter web typecheck` | clean |
 | Production build | `pnpm --filter web build` | succeeds, 36 routes, all `ƒ (Dynamic)` |
@@ -476,5 +476,8 @@ but demo progress, and every scenario is reproducible from the panel.
   baseline.
 - **No accessibility audit tool** has been run. The keyboard and focus assertions are hand-written
   and cover two dialogs; contrast, landmark structure and screen-reader output are unverified.
-- **Founder confirmation has not happened.** Issue #1 ends with "创办人最终确认体验"; that is
-  **NOT EXECUTED** and is not something an agent run can record.
+- **Founder confirmation: EXECUTED, PASSED (2026-09-23).** Issue #1 ends with "创办人最终确认体验". The
+  founder walked the main flow and the five exception scenarios in their own Chrome and then browsed
+  alone following the demo script; the verdict "OK" is recorded on
+  [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9) (comment of 2026-09-23), and #1 and the M1
+  milestone were closed on it.

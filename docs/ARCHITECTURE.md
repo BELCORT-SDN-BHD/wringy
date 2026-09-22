@@ -2,8 +2,8 @@
 document: architecture-blueprint
 product: Wringy
 status: consolidated-from-accepted-decisions
-updated: 2026-09-21
-implementation_status: greenfield-product
+updated: 2026-09-23
+implementation_status: m1-prototype-accepted; product-runtime-unbuilt
 purpose: 技术栈及选择原因、系统边界、模块职责、依赖关系、主要数据流和关键技术取舍。
 required_focus:
   stack_and_rationale: 记录已接受技术方向及理由；区分候选、实际依赖和锁定版本。
@@ -34,12 +34,12 @@ maintenance:
 | 层面 | 已核查的仓库现状 | 接受目标／实施证据入口 |
 |---|---|---|
 | 产品与规划 | 有 [五阶段 specs](planning/README.md)、票据索引、业务规则和接口草稿 | 按阶段构建并留验收证据，文档存在不表示功能已实现 |
-| UI 工程 | 已跟踪的应用 package／lockfile 位于 [设计系统展示](../phase-0/foundation/design-system-v2/app/package.json)，使用 Vite | M1 建 Next.js 业务原型并适配组件；展示工程不是三端业务应用 |
-| 业务服务与数据 | 受版本控制内容未提供已实现的 Next.js 产品、Fastify API、业务迁移或 pg-boss worker | M2 建身份／保存／任务基础，M3 验证奖励业务；模块路径按实际实现建立 |
-| CI 与验证 | [Planning checks](../.github/workflows/planning.yml) 运行 [规划检查](../scripts/check-planning.py) | 产品类型、集成、浏览器及恢复检查待建立，不能以规划检查替代 |
+| UI 工程 | [`apps/web`](../apps/web/README.md)：Next.js 16.3.5 App Router 三端原型，官方 shadcn radix-nova 组件、next-intl 三语、zustand persist 本地演示状态，Vitest＋Playwright；Vite [设计系统展示](../phase-0/foundation/design-system-v2/app/package.json)另存，不是三端业务应用 | M1 原型已经创办人验收（2026-09-23，[#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，[验收记录](m1-prototype/acceptance-record.md)），全部显式模拟；后续阶段复用页面，改接真实会话与 Fastify |
+| 业务服务与数据 | `main` 上没有 Fastify API、业务迁移或 pg-boss worker；原型规则在纯 TypeScript 引擎 [`apps/web/src/domain`](../apps/web/src/domain/)，状态只存本浏览器 localStorage，引擎是可替换的数据访问接缝（[开工记录](m1-prototype/kickoff.md)、[已知限制](m1-prototype/known-issues.md)） | M2 建身份／保存／任务基础，M3 在服务端事务重验全部资金规则；模块路径按实际实现建立 |
+| CI 与验证 | [Web checks](../.github/workflows/web.yml)（Node 20，apps／依赖变更时触发）运行 lint、typecheck、Vitest、build 与 Playwright e2e；[Planning checks](../.github/workflows/planning.yml) 运行 [规划检查](../scripts/check-planning.py)；`main` 分支保护只要求 `planning`，web 检查尚非必需 | 真实 PostgreSQL 集成、身份／授权及恢复检查待建立；原型浏览器检查与规划检查不能替代 |
 | 真实接入与生产 | 交接／specs 未提供真实社交、支付、容量或生产恢复通过证据 | M4 逐能力准入；M5 固定环境演练与具体发布批准 |
 
-现状口径：2026-09-21 本地受版本控制文件（`git ls-files`）、上述 manifest／workflow 和 [仓库迁移记录](repository-status.md)。外部部署若无证据即为未验证。`implementation_status: greenfield-product` 只描述业务产品，不抹去已有设计资产与规划基础。
+现状口径：2026-09-23 本地受版本控制文件（`git ls-files`）、上述 README／manifest／workflow、`main` 分支保护（`gh api repos/BELCORT-SDN-BHD/wringy/branches/main/protection`）、[M1 验收记录](m1-prototype/acceptance-record.md)与创办人验收 [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，以及 [仓库迁移记录](repository-status.md)。M1 未公开部署；外部部署若无证据即为未验证。`implementation_status` 的 `m1-prototype-accepted` 只指显式模拟原型，`product-runtime-unbuilt` 指真实身份、保存、任务与资金运行尚未建立，不抹去已有设计资产与规划基础。
 
 ## 2. 技术栈与选择理由
 
@@ -101,7 +101,7 @@ flowchart LR
 
 通知、outbox、任务调度与审计支持这些模块；运营页面调用受控动作，不拥有“直接改余额”的旁路。提供方适配器转换外部证据，不裁定产品规则。[模块依据](../phase-0/foundation/architecture-content-rewards-v2.md) · [内部契约](../phase-0/foundation/external-interface-contracts-v1.md)。
 
-**现有 README 菜单：** [设计系统](../phase-0/foundation/design-system-v2/README.md)、[展示工程](../phase-0/foundation/design-system-v2/app/README.md)、[展示测试](../phase-0/foundation/design-system-v2/app/tests/README.md)。业务模块 README 尚未建立；后续只将真实存在的入口加入本节，API、表结构与局部运行细节留在模块中。
+**现有 README 菜单：** [设计系统](../phase-0/foundation/design-system-v2/README.md)、[展示工程](../phase-0/foundation/design-system-v2/app/README.md)、[展示测试](../phase-0/foundation/design-system-v2/app/tests/README.md)、[M1 原型应用](../apps/web/README.md)、[M1 开工记录](m1-prototype/kickoff.md)。业务模块 README 尚未建立；后续只将真实存在的入口加入本节，API、表结构与局部运行细节留在模块中。
 
 ## 5. 数据关系与主要事务流
 
