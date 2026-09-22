@@ -7,7 +7,6 @@
     "src/**/*.ts",
     "test/**/*.ts",
     "*.ts",
-    "*.mjs",
-    "../../packages/db/test/global-setup.ts"
+    "*.mjs"
   ]
 }

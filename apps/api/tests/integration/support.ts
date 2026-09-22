@@ -1,12 +1,10 @@
 /**
- * API integration-test support on the @wringy/db harness (packages/db/test).
- *
- * The harness is test-only code that @wringy/db does not export, so it is
- * reached by path from this one file; vitest.int.config.ts runs the same
- * harness's global setup. The type-only import pulls in the global setup's
- * `ProvidedContext` augmentation, which the harness's `inject()` relies on.
+ * API integration-test support on the @wringy/db harness, imported as
+ * `@wringy/db/testing` (packages/db/test/harness.ts); vitest.int.config.ts runs
+ * the same harness's global setup (`@wringy/db/testing/global-setup`). The
+ * harness module also carries the `ProvidedContext` augmentation its `inject()`
+ * relies on.
  */
-import type {} from '../../../../packages/db/test/global-setup';
 import {
   createTestDatabase,
   seedFixtures,
@@ -14,7 +12,7 @@ import {
   TEST_WRINGY_ENV,
   withClientAt,
   type TestDatabase,
-} from '../../../../packages/db/test/harness';
+} from '@wringy/db/testing';
 
 import { buildApp, type ApiApp, type BuildAppOptions } from '../../src/app';
 import { createApiPool } from '../../src/database';

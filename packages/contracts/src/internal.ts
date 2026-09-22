@@ -29,18 +29,33 @@ export const internalCampaignsResponseSchema = z.object({
 export type InternalCampaignsResponse = z.output<typeof internalCampaignsResponseSchema>;
 
 /**
- * Computed by the API on the database clock (apps/api/src/worker-state.ts):
- * - `healthy`: the process beat (`lastBeatAt`) is recent.
- * - `stale`: the process beat is overdue. The queue round trip
- *   (`lastQueueRoundTripAt`) is reported but does not change the state in
- *   M2-01; whether an overdue round trip should also count is an open owner
- *   question (kickoff-package.md §8.3, Beat B).
+ * Process liveness, computed by the API from `lastBeatAt` (and `stoppedAt`) on
+ * the database clock (apps/api/src/worker-state.ts):
+ * - `healthy`: the process beat is recent.
+ * - `stale`: the process beat is overdue (STALE_AFTER_MS).
  * - `never_seen`: registered, but no beat has arrived yet (shown as "unknown").
  * - `stopped`: the worker drained and recorded a clean stop at or after its last beat.
+ *
+ * It says nothing about the queue path; that is `queueState`.
  */
 export const WORKER_STATES = ['healthy', 'stale', 'never_seen', 'stopped'] as const;
 export const workerStateSchema = z.enum(WORKER_STATES);
 export type WorkerState = z.output<typeof workerStateSchema>;
+
+/**
+ * Queue-path liveness, computed by the API from `lastQueueRoundTripAt` on the
+ * database clock (apps/api/src/worker-state.ts):
+ * - `ok`: the last pg-boss round trip is recent.
+ * - `overdue`: the last round trip is older than QUEUE_OVERDUE_AFTER_MS.
+ * - `never`: no round trip has completed yet (shown as "unknown", never as 0).
+ *
+ * The thresholds (HEARTBEAT_INTERVAL_MS, STALE_AFTER_MS, QUEUE_OVERDUE_AFTER_MS)
+ * are operational constants owned by @wringy/db (packages/db/src/heartbeat.ts),
+ * not business rules.
+ */
+export const QUEUE_STATES = ['ok', 'overdue', 'never'] as const;
+export const queueStateSchema = z.enum(QUEUE_STATES);
+export type QueueState = z.output<typeof queueStateSchema>;
 
 export const workerHealthSchema = z.object({
   workerId: z.string().min(1),
@@ -48,7 +63,10 @@ export const workerHealthSchema = z.object({
   lastBeatAt: instantSchema.nullable(),
   lastQueueRoundTripAt: instantSchema.nullable(),
   imageRef: z.string().min(1),
+  /** Process liveness, from `lastBeatAt`. */
   state: workerStateSchema,
+  /** Queue-path liveness, from `lastQueueRoundTripAt`. */
+  queueState: queueStateSchema,
 });
 export type WorkerHealth = z.output<typeof workerHealthSchema>;
 

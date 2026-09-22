@@ -14,7 +14,7 @@ components call it, and it reads PostgreSQL as the runtime login
 | `GET /health/live` | 200 `{ status: 'ok' }`; the process only, no database |
 | `GET /health` | One connection as the runtime role: `SELECT 1` and the database clock, the newest row of `ops.pgmigrations` against `EXPECTED_MIGRATION_HEAD`, and `pgboss.version` against `EXPECTED_PGBOSS_VERSION` (both from `@wringy/db`). 200 `status: 'ok'`, or 503 `status: 'unavailable'` with each check `ok` or `failing`, the heads read and `dbNow`. A failing check's SQLSTATE goes to the log only |
 | `GET /internal/campaigns` | Fixture campaigns only (`data_origin = 'fixture'`), joined to `app.orgs` for `orgName`, newest `updated_at` first; `dataAsOf` is the database clock |
-| `GET /internal/worker-health` | Every `ops.worker_heartbeat` row with `state` judged on the database clock read in the same statement; `workers: []` when no worker has ever beaten (the page shows unknown, never 0) |
+| `GET /internal/worker-health` | Every `ops.worker_heartbeat` row with `state` (process liveness) and `queueState` (queue-path liveness) judged on the database clock read in the same statement; `workers: []` when no worker has ever beaten (the page shows unknown, never 0) |
 
 Response bodies are the zod schemas in `@wringy/contracts`. They are the
 allow-list: the type provider serialises the schema's encoded output and
@@ -82,13 +82,28 @@ string nor its password appears in any log line or response body.
 
 ## Worker state thresholds (operational, not business rules)
 
-The worker writes its heartbeat every **15 s**; the API calls a worker `stale`
-when its last beat is more than **45 s** old on the database clock (three missed
-beats). `stopped` means a graceful stop was recorded at or after the last beat;
-`never_seen` is a row without a beat (the column is NOT NULL, so in practice the
-empty list stands for it). These are constants of the heartbeat protocol in
-src/worker-state.ts. Business defaults (rates, thresholds, durations, rounding)
-live only in `phase-0/foundation/campaign-defaults-v1.md` and never here.
+Each worker row gets two independent judgements on the **database clock**
+(src/worker-state.ts), with the heartbeat protocol's operational constants from
+`@wringy/db` (packages/db/src/heartbeat.ts), the same ones the worker beats by:
+
+| Field | From | Values |
+|---|---|---|
+| `state` (process liveness) | `last_beat_at`, `stopped_at` | `stopped` when a graceful stop was recorded at or after the last beat; `stale` when the last beat is more than `STALE_AFTER_MS` (45 s, three missed 15 s beats) old; `never_seen` for a row without a beat (the column is NOT NULL, so in practice the empty list stands for it); otherwise `healthy` |
+| `queueState` (queue path) | `last_queue_round_trip_at` | `never` before the first pg-boss round trip; `overdue` when the last one is more than `QUEUE_OVERDUE_AFTER_MS` (3 min, three missed one-minute schedules) old; otherwise `ok` |
+
+`queueState` never changes `state`: a worker can beat while its queue path is
+dead, and the card shows both. Business defaults (rates, thresholds, durations,
+rounding) live only in `phase-0/foundation/campaign-defaults-v1.md` and never here.
+
+## Timeouts
+
+| Limit | Value | Where | Effect |
+|---|---|---|---|
+| Connection checkout | 5 s | `createPool` default `connectionTimeoutMillis` (@wringy/db) | pg's "timeout exceeded when trying to connect" → 503 `database_unavailable` |
+| Each query | 5 s (`API_QUERY_TIMEOUT_MS`) | pg `query_timeout` on the API pool (src/database.ts; unit-tested) | A database that accepts the connection but never answers cannot stall `/health` or a read: pg rejects with "Query read timeout" → 503 `database_unavailable` (the `/health` check reports `failing`) |
+| Startup wait for the database | about 45 s | `STARTUP_RETRY` (src/server.ts) | then exit 1 |
+
+All three are operational limits, not business rules.
 
 ## Environment
 
@@ -130,12 +145,13 @@ the bundle imports `node-pg-migrate`, which `api` does not declare. The build
 fails if any external outside `dependencies` (or a Node built-in) survives.
 
 **Integration tests.** `vitest.int.config.ts` runs the harness's global setup
-(packages/db/test/global-setup.ts: `TEST_DATABASE_URL`, or a throwaway embedded
-cluster, roles bootstrapped, a template migrated from zero and marked `ci`).
+(`@wringy/db/testing/global-setup`, packages/db/test/global-setup.ts:
+`TEST_DATABASE_URL`, or a throwaway embedded cluster, roles bootstrapped, a
+template migrated from zero and marked `ci`).
 Each file clones the template with `createTestDatabase()`, seeds it with
 `seedFixtures()` where needed, and drives `buildApp()` with `app.inject()` on a
-pool as `wringy_api_login`. The harness is reached by path from
-tests/integration/support.ts because `@wringy/db` does not export its test code.
+pool as `wringy_api_login`. tests/integration/support.ts imports the harness
+as `@wringy/db/testing`, the test-only subpath export of `@wringy/db`.
 The global setup also installs packages/db/test/exit-code-guard.ts, which
 restores a failing exit code: the embedded-postgres import registers
 async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would

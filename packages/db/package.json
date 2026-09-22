@@ -8,7 +8,10 @@
     "node": ">=24 <25"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./testing": "./test/harness.ts",
+    "./testing/cluster": "./test/cluster.ts",
+    "./testing/global-setup": "./test/global-setup.ts"
   },
   "scripts": {
     "lint": "eslint .",

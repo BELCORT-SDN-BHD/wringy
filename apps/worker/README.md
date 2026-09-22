@@ -66,12 +66,15 @@ marker `pnpm db:env` writes.
 
 | Beat | Cadence (operational constants) | Writes |
 |---|---|---|
-| A, process | every 15 s (`BEAT_INTERVAL_MS`) | upserts its row: `last_beat_at`, `image_ref`, clears `stopped_at`; the first beat of a process also resets `started_at` |
+| A, process | every 15 s (`HEARTBEAT_INTERVAL_MS` from `@wringy/db`, an operational constant shared with the API's 45 s `STALE_AFTER_MS`) | upserts its row: `last_beat_at`, `image_ref`, clears `stopped_at`; the first beat of a process also resets `started_at` |
 | B, queue round trip | cron `* * * * *` (`HEARTBEAT_CRON`); pg-boss checks schedules every 30 s at minute precision ([scheduling.md](https://raw.githubusercontent.com/timgit/pg-boss/master/docs/api/scheduling.md)) | the handler sets `last_queue_round_trip_at` on **its own** row |
 
-The API derives the state on the database clock: `stopped` when
-`stopped_at >= last_beat_at`, `stale` after 45 s without a beat (three missed
-beats), otherwise `healthy`; no row means never seen. Two beats catch a worker
+The API derives two states on the database clock. Process `state`: `stopped`
+when `stopped_at >= last_beat_at`, `stale` after 45 s without a beat (three missed
+beats, `STALE_AFTER_MS`), otherwise `healthy`; no row means never seen.
+`queueState`: `never` before the first round trip, `overdue` once the last one is
+older than 3 minutes (`QUEUE_OVERDUE_AFTER_MS`), otherwise `ok`. All three
+thresholds live in `packages/db/src/heartbeat.ts`. Two beats catch a worker
 that is stuck without throwing: the process can beat while the queue path is dead.
 With several workers, the round-trip stamp lands on whichever worker ran the job.
 
@@ -143,7 +146,7 @@ failure, deadline), the connection backoff, the log scrubber, a drift guard on
 the pg-boss refusal messages, and `.env.example` against the env schema.
 
 Integration (`pnpm --filter worker test:int`), on a real PostgreSQL 17 through the
-`@wringy/db` harness (`packages/db/test/harness.ts`; its global setup migrates a
+`@wringy/db` harness (`@wringy/db/testing`, packages/db/test/harness.ts; its global setup migrates a
 template from zero, and every test clones it), connecting as
 `wringy_worker_login`; nothing is mocked:
 

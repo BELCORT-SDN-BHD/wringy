@@ -1,24 +1,21 @@
+import { HEARTBEAT_INTERVAL_MS, QUEUE_OVERDUE_AFTER_MS, STALE_AFTER_MS } from '@wringy/db';
 import { describe, expect, it } from 'vitest';
 
-import { computeWorkerState, WORKER_BEAT_INTERVAL_SECONDS, WORKER_STALE_AFTER_SECONDS } from './worker-state';
+import { computeQueueState, computeWorkerState } from './worker-state';
 
 const dbNow = new Date('2026-09-23T04:00:00.000Z');
-const secondsBefore = (seconds: number) => new Date(dbNow.getTime() - seconds * 1000);
+const msBefore = (ms: number) => new Date(dbNow.getTime() - ms);
+const secondsBefore = (seconds: number) => msBefore(seconds * 1000);
 
-describe('M2-AC01 computeWorkerState (judged on the database clock passed in)', () => {
+describe('M2-AC01 computeWorkerState (process liveness, judged on the database clock passed in)', () => {
   it('is healthy while the last beat is at most the stale threshold old', () => {
     expect(computeWorkerState({ lastBeatAt: dbNow, stoppedAt: null }, dbNow)).toBe('healthy');
-    expect(computeWorkerState({ lastBeatAt: secondsBefore(WORKER_BEAT_INTERVAL_SECONDS), stoppedAt: null }, dbNow)).toBe(
-      'healthy',
-    );
-    expect(computeWorkerState({ lastBeatAt: secondsBefore(WORKER_STALE_AFTER_SECONDS), stoppedAt: null }, dbNow)).toBe(
-      'healthy',
-    );
+    expect(computeWorkerState({ lastBeatAt: msBefore(HEARTBEAT_INTERVAL_MS), stoppedAt: null }, dbNow)).toBe('healthy');
+    expect(computeWorkerState({ lastBeatAt: msBefore(STALE_AFTER_MS), stoppedAt: null }, dbNow)).toBe('healthy');
   });
 
   it('is stale one millisecond past the threshold', () => {
-    const lastBeatAt = new Date(secondsBefore(WORKER_STALE_AFTER_SECONDS).getTime() - 1);
-    expect(computeWorkerState({ lastBeatAt, stoppedAt: null }, dbNow)).toBe('stale');
+    expect(computeWorkerState({ lastBeatAt: msBefore(STALE_AFTER_MS + 1), stoppedAt: null }, dbNow)).toBe('stale');
   });
 
   it('is stopped when a graceful stop was recorded at or after the last beat, however old', () => {
@@ -36,7 +33,24 @@ describe('M2-AC01 computeWorkerState (judged on the database clock passed in)', 
     expect(computeWorkerState({ lastBeatAt: null, stoppedAt: null }, dbNow)).toBe('never_seen');
   });
 
-  it('keeps the threshold at three missed beats', () => {
-    expect(WORKER_STALE_AFTER_SECONDS).toBe(3 * WORKER_BEAT_INTERVAL_SECONDS);
+  it('uses the shared operational threshold of three missed beats', () => {
+    expect(STALE_AFTER_MS).toBe(3 * HEARTBEAT_INTERVAL_MS);
+  });
+});
+
+describe('M2-AC01 computeQueueState (queue-path liveness, judged on the database clock passed in)', () => {
+  it('is never before the first round trip', () => {
+    expect(computeQueueState(null, dbNow)).toBe('never');
+  });
+
+  it('is ok while the last round trip is at most the overdue threshold old', () => {
+    expect(computeQueueState(dbNow, dbNow)).toBe('ok');
+    expect(computeQueueState(secondsBefore(61), dbNow)).toBe('ok');
+    expect(computeQueueState(msBefore(QUEUE_OVERDUE_AFTER_MS), dbNow)).toBe('ok');
+  });
+
+  it('is overdue one millisecond past the threshold', () => {
+    expect(computeQueueState(msBefore(QUEUE_OVERDUE_AFTER_MS + 1), dbNow)).toBe('overdue');
+    expect(computeQueueState(secondsBefore(3600), dbNow)).toBe('overdue');
   });
 });

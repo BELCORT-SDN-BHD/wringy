@@ -29,6 +29,10 @@ function statesOf(body: WorkerHealthResponse): Record<string, string> {
   return Object.fromEntries(body.workers.map((worker) => [worker.workerId, worker.state]));
 }
 
+function queueStatesOf(body: WorkerHealthResponse): Record<string, string> {
+  return Object.fromEntries(body.workers.map((worker) => [worker.workerId, worker.queueState]));
+}
+
 describe('M2-AC01 GET /internal/worker-health', () => {
   let db: TestDatabase;
   let api: TestApi;
@@ -89,6 +93,42 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     vi.useRealTimers();
     expect(statesOf(shifted)).toEqual(statesOf(body));
     expect(Math.abs(Date.parse(shifted.dbNow) - clock!.now.getTime())).toBeLessThan(10_000);
+  });
+
+  it('M2-AC01/2 page→Fastify→PostgreSQL read: /internal/worker-health computes queueState ok/overdue/never on the database clock, independent of the process state', async () => {
+    await beat(db, 'q-ok', { lastBeatAgo: '2 seconds', roundTripAgo: '50 seconds' });
+    await beat(db, 'q-edge', { lastBeatAgo: '2 seconds', roundTripAgo: '170 seconds' });
+    await beat(db, 'q-overdue', { lastBeatAgo: '2 seconds', roundTripAgo: '4 minutes' });
+    await beat(db, 'q-never', { lastBeatAgo: '2 seconds' });
+    await beat(db, 'q-stopped-overdue', { lastBeatAgo: '20 minutes', stoppedAgo: '19 minutes', roundTripAgo: '21 minutes' });
+
+    const response = await api.app.inject({ method: 'GET', url: '/internal/worker-health' });
+    expect(response.statusCode).toBe(200);
+    const body = workerHealthResponseSchema.parse(response.json());
+    const queue = queueStatesOf(body);
+    const processStates = statesOf(body);
+
+    expect({
+      ok: queue['q-ok'],
+      edge: queue['q-edge'],
+      overdue: queue['q-overdue'],
+      never: queue['q-never'],
+      stoppedOverdue: queue['q-stopped-overdue'],
+    }).toEqual({ ok: 'ok', edge: 'ok', overdue: 'overdue', never: 'never', stoppedOverdue: 'overdue' });
+    // The process beat is recent for every q-* row except the stopped one: queueState never changes `state`.
+    expect(processStates['q-overdue']).toBe('healthy');
+    expect(processStates['q-never']).toBe('healthy');
+    expect(processStates['q-stopped-overdue']).toBe('stopped');
+    expect(body.workers.find((worker) => worker.workerId === 'q-never')?.lastQueueRoundTripAt).toBeNull();
+
+    // Judged on the database clock: shifting the API host's clock changes nothing.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(Date.now() + 60 * 60 * 1000);
+    const shifted = workerHealthResponseSchema.parse(
+      (await api.app.inject({ method: 'GET', url: '/internal/worker-health' })).json(),
+    );
+    vi.useRealTimers();
+    expect(queueStatesOf(shifted)).toEqual(queue);
   });
 
   it('a worker that beats again after being stale is healthy again', async () => {

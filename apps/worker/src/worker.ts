@@ -25,12 +25,11 @@
 import type { PgBoss, Job } from 'pg-boss';
 
 import type { WringyEnv } from '@wringy/config';
-import { EnvironmentTableMissingError, readEnvironment, type Pool } from '@wringy/db';
+import { EnvironmentTableMissingError, HEARTBEAT_INTERVAL_MS, readEnvironment, type Pool } from '@wringy/db';
 
 import { isPgBossSchemaRefusal } from './connections';
 import { INITIAL_BEAT_STATE, nextBeatState, type BeatState } from './jobs/beat-state';
 import {
-  BEAT_INTERVAL_MS,
   HEARTBEAT_CRON,
   HEARTBEAT_QUEUE,
   beatStatement,
@@ -104,7 +103,7 @@ export function createWorker(options: CreateWorkerOptions): Worker {
     workerId,
     imageRef,
     wringyEnv,
-    beatIntervalMs = BEAT_INTERVAL_MS,
+    beatIntervalMs = HEARTBEAT_INTERVAL_MS,
     drainTimeoutMs = DRAIN_TIMEOUT_MS,
     pollingIntervalSeconds = POLLING_INTERVAL_SECONDS,
     roundTripTimeoutMs = 30_000,

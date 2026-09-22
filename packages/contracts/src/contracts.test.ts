@@ -34,6 +34,7 @@ const workers: WorkerHealthResponse = {
       lastQueueRoundTripAt: null,
       imageRef: 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc',
       state: 'never_seen',
+      queueState: 'never',
     },
   ],
   dbNow: '2026-09-23T01:02:05.000Z',
@@ -88,7 +89,7 @@ describe('M2-AC01 the response schema is the allow-list', () => {
 });
 
 describe('M2-AC01 enums and formats are enforced', () => {
-  it('rejects a status, origin or worker state outside the contract', () => {
+  it('rejects a status, origin, worker state or queue state outside the contract', () => {
     const [item] = campaigns.items;
     expect(
       internalCampaignsResponseSchema.safeParse({ ...campaigns, items: [{ ...item, status: 'archived' }] })
@@ -101,6 +102,15 @@ describe('M2-AC01 enums and formats are enforced', () => {
     const [worker] = workers.workers;
     expect(
       workerHealthResponseSchema.safeParse({ ...workers, workers: [{ ...worker, state: 'unknown' }] }).success,
+    ).toBe(false);
+    expect(
+      workerHealthResponseSchema.safeParse({ ...workers, workers: [{ ...worker, queueState: 'unknown' }] }).success,
+    ).toBe(false);
+    // queueState is required: an API that forgot it must not look like "ok".
+    const withoutQueueState: Partial<NonNullable<typeof worker>> = { ...worker };
+    delete withoutQueueState.queueState;
+    expect(
+      workerHealthResponseSchema.safeParse({ ...workers, workers: [withoutQueueState] }).success,
     ).toBe(false);
   });
 

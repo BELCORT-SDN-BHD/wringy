@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 import { defineConfig } from 'vitest/config';
 
@@ -13,7 +13,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['test/**/*.int.test.ts'],
-    globalSetup: [fileURLToPath(new URL('../../packages/db/test/global-setup.ts', import.meta.url))],
+    globalSetup: [createRequire(import.meta.url).resolve('@wringy/db/testing/global-setup')],
     testTimeout: 60_000,
     hookTimeout: 60_000,
   },

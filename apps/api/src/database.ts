@@ -8,8 +8,20 @@ import { createPool, type Pool, type PoolClient } from '@wringy/db';
 /** Shown in pg_stat_activity.application_name. */
 export const API_APPLICATION_NAME = 'wringy-api';
 
+/**
+ * OPERATIONAL limit on every API query (pg's client-side `query_timeout`), so a
+ * database that accepts the connection but never answers cannot stall
+ * `/health` or a read: the query rejects with "Query read timeout", which
+ * isDatabaseUnavailable() classifies as 503 `database_unavailable`. Not a
+ * business rule.
+ */
+export const API_QUERY_TIMEOUT_MS = 5_000;
+
 export function createApiPool(connectionString: string, onIdleError: (error: Error) => void): Pool {
-  return createPool({ connectionString, applicationName: API_APPLICATION_NAME }, onIdleError);
+  return createPool(
+    { connectionString, applicationName: API_APPLICATION_NAME, queryTimeoutMillis: API_QUERY_TIMEOUT_MS },
+    onIdleError,
+  );
 }
 
 /**

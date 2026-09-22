@@ -12,6 +12,12 @@ export interface CreatePoolOptions {
   max?: number;
   /** Milliseconds to wait for a connection before failing the request. */
   connectionTimeoutMillis?: number;
+  /**
+   * Client-side limit, in milliseconds, on each query (pg's `query_timeout`):
+   * the query's promise rejects with "Query read timeout" when the server has
+   * not answered in time. Unset means no limit (pg's default).
+   */
+  queryTimeoutMillis?: number;
 }
 
 /**
@@ -20,7 +26,7 @@ export interface CreatePoolOptions {
  * to `onError` instead of crashing the process; the next checkout reconnects.
  */
 export function createPool(
-  { connectionString, applicationName, max = 10, connectionTimeoutMillis = 5_000 }: CreatePoolOptions,
+  { connectionString, applicationName, max = 10, connectionTimeoutMillis = 5_000, queryTimeoutMillis }: CreatePoolOptions,
   onError: (error: Error) => void = () => {},
 ): Pool {
   const pool = new pg.Pool({
@@ -28,6 +34,7 @@ export function createPool(
     application_name: applicationName,
     max,
     connectionTimeoutMillis,
+    ...(queryTimeoutMillis === undefined ? {} : { query_timeout: queryTimeoutMillis }),
   });
   pool.on('error', onError);
   return pool;

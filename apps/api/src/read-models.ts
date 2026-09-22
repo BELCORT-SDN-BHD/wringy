@@ -16,7 +16,7 @@ import type {
 import { MIGRATIONS_SCHEMA, MIGRATIONS_TABLE, readPgBossVersion, type Pool, type PoolClient } from '@wringy/db';
 
 import { sqlStateOf } from './database';
-import { computeWorkerState } from './worker-state';
+import { computeQueueState, computeWorkerState } from './worker-state';
 
 type Queryable = Pick<PoolClient, 'query'>;
 
@@ -79,7 +79,10 @@ interface HeartbeatRow {
   stopped_at: Date | null;
 }
 
-/** Every worker's heartbeat row with its state judged on the database clock read in the same statement. */
+/**
+ * Every worker's heartbeat row with its process state and queue state judged on
+ * the database clock read in the same statement.
+ */
 export async function readWorkerHealth(client: Queryable): Promise<WorkerHealthResponse> {
   const { rows } = await client.query<HeartbeatRow>(
     `SELECT clock.db_now, h.worker_id, h.started_at, h.last_beat_at, h.last_queue_round_trip_at,
@@ -103,6 +106,7 @@ export async function readWorkerHealth(client: Queryable): Promise<WorkerHealthR
             lastQueueRoundTripAt: row.last_queue_round_trip_at?.toISOString() ?? null,
             imageRef: row.image_ref,
             state: computeWorkerState({ lastBeatAt: row.last_beat_at, stoppedAt: row.stopped_at }, dbNow),
+            queueState: computeQueueState(row.last_queue_round_trip_at, dbNow),
           },
         ],
   );

@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 import { defineConfig } from 'vitest/config';
 
@@ -11,8 +11,9 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/integration/**/*.int.test.ts'],
-    // The harness's global setup also keeps a failing run's exit code (packages/db/test/exit-code-guard.ts).
-    globalSetup: [fileURLToPath(new URL('../../packages/db/test/global-setup.ts', import.meta.url))],
+    // The harness's global setup, resolved through @wringy/db's `./testing/global-setup` export; it also
+    // keeps a failing run's exit code (packages/db/test/exit-code-guard.ts).
+    globalSetup: [createRequire(import.meta.url).resolve('@wringy/db/testing/global-setup')],
     testTimeout: 30_000,
     hookTimeout: 60_000,
   },

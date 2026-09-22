@@ -9,10 +9,12 @@ export {
 export type { HealthLiveResponse, HealthResponse } from './health';
 export {
   CAMPAIGN_STATUSES,
+  QUEUE_STATES,
   WORKER_STATES,
   campaignStatusSchema,
   internalCampaignSchema,
   internalCampaignsResponseSchema,
+  queueStateSchema,
   workerHealthResponseSchema,
   workerHealthSchema,
   workerStateSchema,
@@ -21,6 +23,7 @@ export type {
   CampaignStatus,
   InternalCampaign,
   InternalCampaignsResponse,
+  QueueState,
   WorkerHealth,
   WorkerHealthResponse,
   WorkerState,

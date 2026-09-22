@@ -1,8 +1,10 @@
 /**
  * The worker's two heartbeats (kickoff-package.md §8.3 "Worker").
  *
- * - Beat A, the process beat: every BEAT_INTERVAL_MS the worker upserts its own
- *   row in ops.worker_heartbeat, which shows the process is alive.
+ * - Beat A, the process beat: every HEARTBEAT_INTERVAL_MS (an operational
+ *   constant from @wringy/db, packages/db/src/heartbeat.ts, which the API's
+ *   staleness threshold is defined against) the worker upserts its own row in
+ *   ops.worker_heartbeat, which shows the process is alive.
  * - Beat B, the queue round trip: pg-boss creates a `system.heartbeat` job every
  *   minute from a cron schedule, and this worker's handler stamps
  *   last_queue_round_trip_at, which shows the queue path is alive.
@@ -20,12 +22,6 @@ export const HEARTBEAT_QUEUE = 'system.heartbeat';
 
 /** Every minute: pg-boss evaluates cron schedules at minute precision (scheduling.md). */
 export const HEARTBEAT_CRON = '* * * * *';
-
-/**
- * Operational cadence of the process beat. The API calls a worker stale after
- * 45 s without a beat, i.e. three missed beats (M2-01 shared SQL contract).
- */
-export const BEAT_INTERVAL_MS = 15_000;
 
 /** A parameterised statement for `pg`. Values never include a timestamp. */
 export interface Statement {

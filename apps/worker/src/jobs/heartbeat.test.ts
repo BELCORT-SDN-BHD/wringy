@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { BEAT_INTERVAL_MS, HEARTBEAT_CRON, HEARTBEAT_QUEUE, beatStatement, roundTripStatement, stoppedStatement } from './heartbeat';
+import { HEARTBEAT_INTERVAL_MS, STALE_AFTER_MS } from '@wringy/db';
+
+import { HEARTBEAT_CRON, HEARTBEAT_QUEUE, beatStatement, roundTripStatement, stoppedStatement } from './heartbeat';
 
 const identity = { workerId: 'worker-local-1', imageRef: 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc' };
 
@@ -50,8 +52,8 @@ describe('M2-AC01 heartbeat statements', () => {
     });
   });
 
-  it('beats three times inside the API staleness window of 45 s', () => {
-    expect(BEAT_INTERVAL_MS * 3).toBe(45_000);
+  it('beats on the shared cadence, three times inside the API staleness window', () => {
+    expect(HEARTBEAT_INTERVAL_MS * 3).toBe(STALE_AFTER_MS);
     expect(HEARTBEAT_QUEUE).toBe('system.heartbeat');
     expect(HEARTBEAT_CRON).toBe('* * * * *');
   });

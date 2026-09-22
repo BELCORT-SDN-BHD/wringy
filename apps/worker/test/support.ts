@@ -10,7 +10,7 @@ import type { PgBoss } from 'pg-boss';
 import type { WringyEnv } from '@wringy/config';
 import { createPool, type Pool } from '@wringy/db';
 
-import { TEST_WRINGY_ENV, createTestDatabase, type TestDatabase } from '../../../packages/db/test/harness';
+import { TEST_WRINGY_ENV, createTestDatabase, type TestDatabase } from '@wringy/db/testing';
 import { createBoss, createWorkerPool } from '../src/connections';
 import { createLogger, type Logger } from '../src/logger';
 import { createWorker, type CreateWorkerOptions, type Worker } from '../src/worker';

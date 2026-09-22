@@ -10,7 +10,8 @@ PostgreSQL without Docker, and the integration-test harness
 
 | Path | Role |
 |---|---|
-| `src/pool.ts` | `createPool({ connectionString, applicationName, max })` on `pg` 8, one pool per role and process; `withClient` and `withTransaction` |
+| `src/pool.ts` | `createPool({ connectionString, applicationName, max, connectionTimeoutMillis, queryTimeoutMillis })` on `pg` 8, one pool per role and process (`queryTimeoutMillis` sets pg's client-side `query_timeout`; the API uses 5 s); `withClient` and `withTransaction` |
+| `src/heartbeat.ts` | The worker heartbeat protocol's **operational** constants, in the one package both apps may import: `HEARTBEAT_INTERVAL_MS` (15 s, the worker's process beat), `STALE_AFTER_MS` (45 s, three missed beats), `QUEUE_OVERDUE_AFTER_MS` (3 min, three missed one-minute round trips). Not business rules; `src/heartbeat.test.ts` pins `STALE_AFTER_MS = 3 × HEARTBEAT_INTERVAL_MS` |
 | `src/migrate.ts` | `migrateDatabase()` (what `pnpm db:migrate` runs: pg-boss schema, then SQL migrations, then a head check) and `runMigrations()` on node-pg-migrate 9: SQL files, one transaction per batch, session advisory lock (a concurrent run fails), order check, `search_path` = `app` |
 | `src/pgboss.ts` | `installPgBossSchema()`: runs the pg-boss CLI's `migrate` as the migrator; `readPgBossVersion()` |
 | `src/expected-head.ts` | `EXPECTED_MIGRATION_HEAD` and `EXPECTED_PGBOSS_VERSION`, which GET /health compares the database with; unit-tested against the migrations directory and the installed pg-boss |
@@ -20,7 +21,18 @@ PostgreSQL without Docker, and the integration-test harness
 | `src/roles.ts` | Role and schema names |
 | `src/bootstrap.ts`, `scripts/bootstrap.mjs` | `pnpm db:bootstrap` |
 | `scripts/local-pg.mjs`, `src/local-dev.ts` | `pnpm db:start` / `db:stop` / `db:status`, and the fixed local development values |
-| `test/` | Vitest integration harness, the reviewed grant manifest (`test/grant-manifest.ts`) and the integration tests (`pnpm test:int`) |
+| `test/` | The integration-test harness, the reviewed grant manifest (`test/grant-manifest.ts`) and the integration tests (`pnpm test:int`). Exported for other workspaces' **tests only** (below) |
+
+**Test-only exports.** `package.json` exports three subpaths next to `.`:
+
+| Import | File | For |
+|---|---|---|
+| `@wringy/db/testing` | `test/harness.ts` | Vitest integration suites (apps/api, apps/worker): `createTestDatabase()`, `seedFixtures()`, `setTestEnvironment()`, `withRollback()`, `sqlState()`, `withClientAt()`, `TEST_WRINGY_ENV`; the cluster comes from Vitest's `inject('wringyCluster')` |
+| `@wringy/db/testing/global-setup` | `test/global-setup.ts` | The `globalSetup` of every `vitest.int.config.ts` (resolved with `createRequire(import.meta.url).resolve(…)`) |
+| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, i.e. the Playwright internal suite (`apps/web/tests/e2e-internal`): `startTestCluster()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()` |
+
+No product module imports them: the dependency rules cruise `apps/*/src` and
+`packages/*/src` only, and these files live under `test/`.
 
 The migrations table is `ops.pgmigrations` (the tool's default name, in the `ops`
 schema). The runner creates `ops` and that table before the first migration runs.
@@ -146,8 +158,8 @@ string or password.
 
 | Script | Does |
 |---|---|
-| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, and the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin) |
-| `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
+| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin), and the heartbeat constants |
+| `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup (`startTestCluster()` in `test/cluster.ts`) bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
 
 Every test title carries this ticket's key `M2-AC01` (kickoff-package.md §6.1).

@@ -1,19 +1,19 @@
 /**
  * Worker liveness as the internal health card shows it (kickoff-package.md §8.3).
  *
- * The two numbers below are OPERATIONAL constants of the heartbeat protocol, not
- * business rules: the worker upserts ops.worker_heartbeat every 15 s, and the API
- * calls a worker stale once three beats in a row are missing. Business defaults
- * (rates, thresholds, durations) live only in
+ * Two independent judgements per ops.worker_heartbeat row, both on the DATABASE
+ * clock read in the same statement (never the API host's clock):
+ *
+ * - `state`, process liveness, from last_beat_at and stopped_at (Beat A);
+ * - `queueState`, queue-path liveness, from last_queue_round_trip_at (Beat B).
+ *
+ * The thresholds are the heartbeat protocol's OPERATIONAL constants from
+ * @wringy/db (packages/db/src/heartbeat.ts), the same ones the worker beats by.
+ * Business defaults (rates, thresholds, durations) live only in
  * phase-0/foundation/campaign-defaults-v1.md and never in code.
  */
-import type { WorkerState } from '@wringy/contracts';
-
-/** How often the worker's interval beat writes last_beat_at (the worker owns the timer). */
-export const WORKER_BEAT_INTERVAL_SECONDS = 15;
-
-/** A worker whose last beat is older than this, on the database clock, is stale. */
-export const WORKER_STALE_AFTER_SECONDS = 45;
+import type { QueueState, WorkerState } from '@wringy/contracts';
+import { QUEUE_OVERDUE_AFTER_MS, STALE_AFTER_MS } from '@wringy/db';
 
 export interface HeartbeatTimes {
   /** ops.worker_heartbeat.last_beat_at; null only for a worker registered without a beat. */
@@ -23,12 +23,11 @@ export interface HeartbeatTimes {
 }
 
 /**
- * The state of one worker row, judged against `dbNow`, which must be the database
- * clock read in the same query (never the API host's clock):
+ * Process liveness of one worker row, judged against `dbNow`:
  *
  * - `never_seen`: no beat recorded yet;
  * - `stopped`: a graceful stop was recorded at or after the last beat;
- * - `stale`: the last beat is more than WORKER_STALE_AFTER_SECONDS old;
+ * - `stale`: the last beat is more than STALE_AFTER_MS old;
  * - `healthy`: otherwise.
  *
  * A worker with no row at all is not judged here: the response then has
@@ -37,6 +36,21 @@ export interface HeartbeatTimes {
 export function computeWorkerState({ lastBeatAt, stoppedAt }: HeartbeatTimes, dbNow: Date): WorkerState {
   if (lastBeatAt === null) return 'never_seen';
   if (stoppedAt !== null && stoppedAt.getTime() >= lastBeatAt.getTime()) return 'stopped';
-  if (dbNow.getTime() - lastBeatAt.getTime() > WORKER_STALE_AFTER_SECONDS * 1000) return 'stale';
+  if (dbNow.getTime() - lastBeatAt.getTime() > STALE_AFTER_MS) return 'stale';
   return 'healthy';
+}
+
+/**
+ * Queue-path liveness of one worker row, judged against `dbNow`:
+ *
+ * - `never`: no pg-boss round trip has completed yet;
+ * - `overdue`: the last round trip is more than QUEUE_OVERDUE_AFTER_MS old;
+ * - `ok`: otherwise.
+ *
+ * Independent of `state`: a stopped worker's queue path is judged the same way.
+ */
+export function computeQueueState(lastQueueRoundTripAt: Date | null, dbNow: Date): QueueState {
+  if (lastQueueRoundTripAt === null) return 'never';
+  if (dbNow.getTime() - lastQueueRoundTripAt.getTime() > QUEUE_OVERDUE_AFTER_MS) return 'overdue';
+  return 'ok';
 }
