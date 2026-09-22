@@ -11,7 +11,10 @@
     "pointCap": "Had bagi setiap penghantaran, jadi siling diketahui sebelum anda menyiarkan",
     "pointReview": "Semakan, rayuan dan rekod pengeluaran yang boleh dijejaki",
     "metaTitle": "Ganjaran kandungan untuk tontonan layak",
-    "metaDescription": "Lihat kempen ganjaran kandungan dengan kadar tertulis bagi setiap 1,000 tontonan layak, had bagi setiap penghantaran dan tarikh akhir permohonan. Prototaip dengan data simulasi."
+    "metaDescription": "Lihat kempen ganjaran kandungan dengan kadar tertulis bagi setiap 1,000 tontonan layak, had bagi setiap penghantaran dan tarikh akhir permohonan. Prototaip dengan data simulasi.",
+    "demoGuideTitle": "Menyemak prototaip ini?",
+    "demoGuideNote": "Demo berpandu menyenaraikan aliran utama mengikut susunan dan setiap senario pengecualian, serta menukar kepada peranan simulasi yang betul bagi setiap langkah.",
+    "demoGuideAction": "Buka demo berpandu"
   },
   "catalogue": {
     "title": "Kempen",

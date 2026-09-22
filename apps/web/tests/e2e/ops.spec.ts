@@ -28,13 +28,15 @@ import type { Command, DemoState, ScenarioId } from '../../src/domain/types';
 
 import {
   advanceClock,
-  closeDemoTools,
+  confirmWith,
   dismissLocalePrompt,
+  expectBuckets,
   expectNoHorizontalOverflow,
   injectState,
-  openDemoTools,
   readStoredState,
   setLocale,
+  setProviderOutcome,
+  settleToasts,
   signInAs,
   waitForHydration,
 } from './helpers';
@@ -116,71 +118,13 @@ function claimWithContentApproved(): DemoState {
 // Assertions
 // ---------------------------------------------------------------------------
 
-/**
- * The four buckets, in integer sen, read off the rendered widget. Asserting the
- * `data-money` attribute rather than the formatted string keeps the check exact
- * and locale independent while still reading what the page actually shows.
- */
-async function expectBuckets(
-  page: Page,
-  [available, reserved, confirmedUnpaid, paid]: [number, number, number, number],
-): Promise<void> {
-  const widget = page.locator('[data-app-widget="budget-buckets"]').first();
-  await expect(widget).toBeVisible();
-  await expect(widget.locator('[data-bucket="available"] [data-money]')).toHaveAttribute(
-    'data-money',
-    String(available),
-  );
-  await expect(widget.locator('[data-bucket="reserved"] [data-money]')).toHaveAttribute(
-    'data-money',
-    String(reserved),
-  );
-  await expect(widget.locator('[data-bucket="confirmed_unpaid"] [data-money]')).toHaveAttribute(
-    'data-money',
-    String(confirmedUnpaid),
-  );
-  await expect(widget.locator('[data-bucket="paid"] [data-money]')).toHaveAttribute(
-    'data-money',
-    String(paid),
-  );
-}
+// `expectBuckets`, `confirmWith`, `settleToasts` and `setProviderOutcome` are in
+// `helpers.ts`: the acceptance run needs the same four, and two copies of an
+// assertion about money is exactly the kind of thing that drifts.
 
 /** The claim's own status badge in the page header. */
 function claimStatus(page: Page) {
   return page.locator('[data-status-group="claim"]').first();
-}
-
-/** Confirms through a `ConfirmDialog`, typing a reason when one is required. */
-async function confirmWith(page: Page, reason?: string): Promise<void> {
-  const dialog = page.locator('[role="alertdialog"]');
-  await expect(dialog).toBeVisible();
-  if (reason !== undefined) await dialog.locator('textarea').fill(reason);
-  await page.getByTestId('confirm-accept').click();
-  await expect(dialog).toHaveCount(0);
-}
-
-/**
- * Sonner is mounted `position="top-center"` (`src/app/layout.tsx`), so a toast
- * from an ops action or a role switch covers the sticky header — including the
- * language select — for as long as it is on screen. Anything that drives a header
- * control waits the toasts out first.
- */
-async function settleToasts(page: Page): Promise<void> {
-  await expect(page.locator('[data-sonner-toast]')).toHaveCount(0, { timeout: 20_000 });
-}
-
-/** Answers for a processing attempt as the simulated provider would. */
-async function setProviderOutcome(
-  page: Page,
-  providerRef: string,
-  label: 'Funds available' | 'Failed' | 'Unknown',
-): Promise<void> {
-  const panel = await openDemoTools(page);
-  await panel
-    .locator('li', { hasText: providerRef })
-    .getByRole('button', { name: label, exact: true })
-    .click();
-  await closeDemoTools(page);
 }
 
 // ---------------------------------------------------------------------------

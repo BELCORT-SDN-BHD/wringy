@@ -50,12 +50,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { attemptsFor, latestAttempt } from '@/domain';
 import type { Obligation, PayoutAttempt } from '@/domain/types';
 import { formatDateTime, formatSen } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
 import { useDemoSnapshot } from '@/store/demo-store';
-import { selectAttemptsForObligation, selectObligations } from '@/store/selectors';
+import {
+  selectAttemptsForObligation,
+  selectLatestPayoutAttempt,
+  selectObligations,
+} from '@/store/selectors';
 
 import {
   AuditTrail,
@@ -203,11 +206,11 @@ export function OpsPayoutView({ id }: { id: string }) {
   }, [state, id]);
 
   const attempts = useMemo(
-    () => (obligation ? attemptsFor(state, obligation.id) : []),
+    () => (obligation ? selectAttemptsForObligation(state, obligation.id) : []),
     [state, obligation],
   );
   const last = useMemo(
-    () => (obligation ? latestAttempt(state, obligation.id) : null),
+    () => (obligation ? selectLatestPayoutAttempt(state, obligation.id) : null),
     [state, obligation],
   );
 

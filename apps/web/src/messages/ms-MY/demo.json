@@ -34,7 +34,9 @@
     "added": "Menambah {count} tontonan layak.",
     "none": "Tiada penghantaran untuk diukur.",
     "scopeMine": "Penghantaran saya",
-    "scopeAll": "Semua penghantaran"
+    "scopeAll": "Semua penghantaran",
+    "ignoredAfterMeteringEnd": "Tiada apa ditambah: tempoh pengukuran telah ditutup, jadi tontonan kemudian tidak dikira.",
+    "ignoredSourceUnreachable": "Bacaan gagal kerana sumber tidak dapat dihubungi. Nombor terakhir yang dipercayai dikekalkan."
   },
   "outage": {
     "title": "Gangguan data",
@@ -84,5 +86,79 @@
   "toolbar": {
     "failed": "Demo menolaknya: {reason}",
     "engineMissing": "Enjin demo tidak tersedia dalam binaan ini, jadi alat demo tidak boleh mengubah apa-apa."
+  },
+  "guide": {
+    "metaTitle": "Demo berpandu",
+    "metaDescription": "Aliran utama dan setiap senario pengecualian prototaip ganjaran kandungan Wringy, mengikut susunan, dengan peranan bagi setiap langkah. Semua data adalah simulasi.",
+    "eyebrow": "Panduan prototaip",
+    "title": "Jalankan demo",
+    "subtitle": "Tujuh langkah membawa satu kempen dari draf ke ganjaran yang dibayar. Di bawahnya, setiap senario pengecualian boleh dimuatkan secara berasingan. Setiap \"Pergi\" menukar kepada identiti simulasi yang betul untuk anda terlebih dahulu.",
+    "clockLabel": "Jam simulasi",
+    "scenarioLabel": "Senario dimuatkan",
+    "identityLabel": "Bertindak sebagai",
+    "roleCreator": "Pencipta",
+    "roleMerchant": "Pedagang",
+    "roleOpsReviewer": "Penyemak operasi",
+    "roleOpsFinance": "Kewangan operasi",
+    "roleGuest": "Belum masuk",
+    "go": "Pergi",
+    "stepLabel": "Langkah {n}",
+    "flowTitle": "Aliran utama",
+    "flowSubtitle": "Susunan yang prototaip ini dibina untuk dibaca. Gunakan panel alat demo untuk jam dan kiraan tontonan; tiada apa dalam UI produk boleh mengubahnya.",
+    "flow": {
+      "step1": {
+        "title": "Pedagang membuat kempen",
+        "body": "Kolam ganjaran RM2,000, RM5 bagi setiap 1,000 tontonan layak, tuntutan minimum RM5, had terkumpul RM100 setiap siaran. Yang lain diambil daripada nilai lalai yang diluluskan. Minimum yang melebihi had ditolak; ambang tontonan tinggi dengan had lebih rendah dibenarkan dan jumlah had dinyatakan."
+      },
+      "step2": {
+        "title": "Pratonton peraturan, kemudian terbitkan",
+        "body": "Pratonton menunjukkan tepat apa yang akan dibaca oleh pencipta. Penerbitan dihalang sehingga bukti pembiayaan simulasi dan kesediaan sumber data disahkan oleh operasi. Fi perkhidmatan ditunjukkan sebagai menunggu konfigurasi dan tidak pernah menjadi nombor."
+      },
+      "step3": {
+        "title": "Pencipta menyertai dari halaman awam",
+        "body": "Lihat katalog tanpa identiti, buka satu kempen, kemudian sertai melalui pintu masuk Google simulasi. Pilih bahasa, periksa akaun yang disambungkan, dan hantar pautan siaran. Tiada muat naik video di mana-mana."
+      },
+      "step4": {
+        "title": "Garis dasar penerimaan direkodkan",
+        "body": "Jam ditetapkan pada masa pelayan simulasi dan kiraan tontonan garis dasar dibekukan semasa penerimaan. Pengukuran berjalan 7 hari dari situ, dan tuntutan masih boleh difailkan selama 7 hari kalendar selepas itu. Hanya panel alat demo menggerakkan masa atau menambah tontonan."
+      },
+      "step5": {
+        "title": "Tambah 1,000 tontonan layak, kemudian tuntut RM5",
+        "body": "RM5 menjadi boleh dituntut. Memfailkan tuntutan menempahnya dan meletakkannya dalam baris gilir, dan rekod yang sama ditunjukkan sebagai ditempah dan menunggu semakan kepada pencipta, pedagang dan operasi. Klik kedua pada tuntutan yang sama tidak mencipta tuntutan kedua."
+      },
+      "step6": {
+        "title": "Kedua-dua semakan lulus, kemudian kewangan membayar",
+        "body": "Pedagang memutuskan kandungan dan operasi memutuskan pengukuran; tuntutan hanya disahkan apabila kedua-duanya meluluskan. RM5 yang disahkan menjadi obligasi, dan kewangan operasi memulakan pembayaran simulasi. Penyelesaian bank ditunjukkan sebagai fakta berasingan yang sering tidak diketahui."
+      },
+      "step7": {
+        "title": "Baca empat jumlah dalam ketiga-tiga peranan",
+        "body": "Tersedia, ditempah, disahkan belum dibayar dan telah dibayar sentiasa berjumlah kolam, dan ketiga-tiga peranan membaca nombor yang sama: 2,000/0/0/0 sebelum tuntutan, kemudian 1,995/5/0/0, 1,995/0/5/0 dan 1,995/0/0/5."
+      }
+    },
+    "bucketsTitle": "Apa yang empat jumlah itu patut lakukan",
+    "bucketsSequence": "2000 / 0 / 0 / 0  →  1995 / 5 / 0 / 0  →  1995 / 0 / 5 / 0  →  1995 / 0 / 0 / 5",
+    "bucketsNote": "Tersedia / ditempah / disahkan belum dibayar / telah dibayar, dalam ringgit Malaysia. Jika halaman pedagang dan halaman pencipta pernah tidak bersetuju tentang salah satunya, itu satu kecacatan, bukan perbezaan pembundaran.",
+    "scenariosTitle": "Senario pengecualian",
+    "scenariosSubtitle": "Setiap satu membina semula setiap rekod demo dari garis dasar dengan memainkan semula arahan sebenar, jadi ia boleh dicapai tepat mengikut peraturan yang dipatuhi halaman. Memuatkan satu akan membuang apa sahaja yang anda ubah.",
+    "loadAndOpen": "Muatkan dan buka",
+    "loadConfirmTitle": "Muatkan \"{scenario}\"?",
+    "look": {
+      "baseline": "Benih: satu kempen terbitan Kopi Kita, satu daripada organisasi lain, satu draf, satu sambungan TikTok yang sah dan satu Instagram yang tamat tempoh, dan tiada penghantaran anda sendiri. Inilah rupa senarai kosong dan keadaan larian pertama.",
+      "main_flow_ready": "Satu penghantaran sudah diukur dengan 1,000 tontonan layak, jadi RM5 boleh dituntut. Lihat anggaran berbanding jumlah yang disahkan, masa bacaan dipercayai terakhir dan tarikh akhir tuntutan.",
+      "partial_budget": "RM60 boleh dituntut tetapi hanya RM50 boleh diagihkan. Tiada apa ditempah sehingga anda menyetujui jumlah tepat itu, bakinya direkodkan sebagai tidak ditempah dan tidak dilupuskan, dan mengubah bacaan menyebabkan tawaran itu memerlukan persetujuan semula.",
+      "waitlist": "Apa yang tinggal adalah di bawah tuntutan minimum, jadi entri masuk ke senarai menunggu tanpa tempahan dan tanpa jaminan pembayaran. Apabila bajet terlepas ia diberitahu dan perlu menghantar semula, mengambil masa baris gilir baharu dan bukan yang lama.",
+      "rejection_appeal": "Tuntutan ditolak dengan sebab bertulis. Tempahan ditahan sepanjang tempoh rayuan, rayuan mengekalkannya ditahan, dan rayuan yang diterima meneruskan pemeriksaan tanpa menyusun semula baris gilir. Tiada apa menutup dirinya sendiri.",
+      "payout_unknown": "Percubaan pembayaran yang keputusannya tidak pernah dikembalikan oleh penyedia simulasi. Tiada butang \"bayar lagi\": satu-satunya tindakan ialah melihat percubaan asal dan menyemaknya semula.",
+      "payout_failed": "Percubaan pembayaran dengan kegagalan yang disahkan, iaitu bukti yang diperlukan untuk percubaan semula terkawal. Bandingkan dengan senario tidak diketahui, di mana bukti itu tidak ada.",
+      "deadline_extension": "Sumber tidak boleh dibaca merentasi penamat pengukuran. Membersihkan halangan memberikan tempoh tangguh yang diterbitkan sekali lagi dari saat itu, dengan sebab dan tarikh akhir baharu direkodkan dan ketiga-tiga peranan diberitahu. Pengukuran tidak dibuka semula dan masa baris gilir tidak ditarikhkan semula.",
+      "campaign_closure": "Kempen yang ditutup dengan rayuan terbuka, jumlah disahkan belum dibayar dan baki kecil belum disahkan. Ia tidak boleh dibaca sebagai selesai sepenuhnya, baki didedahkan sebelum penutupan, dan bayaran balik kolam yang tidak digunakan kekal menunggu penentuan.",
+      "data_outage": "Penghantaran yang sumbernya tidak dapat dibaca. Nombor terakhir yang dipercayai dan masanya dikekalkan, dan tiada apa menunjukkan 0 tontonan atau menganggap jurang itu sebagai penipuan. Operasi boleh meminta penyegerakan semula dengan sebab."
+    },
+    "toolsTitle": "Panel alat demo",
+    "toolsNote": "Jam, kiraan tontonan layak, gangguan data, kesediaan kempen, keputusan pembayaran simulasi dan identiti operasi hanya berada dalam panel \"Alat demo\" di bahagian bawah kanan. Mengeluarkannya daripada UI produk adalah sengaja: pencipta tidak akan pernah mempunyai butang \"tambah tontonan\".",
+    "simulatedNote": "Semuanya di sini adalah simulasi. Tiada permintaan Google, pengumpulan, e-mel atau pembayaran dibuat, dan rekod demo yang disimpan hanya berada dalam pelayar ini.",
+    "browseCampaigns": "Lihat kempen",
+    "backHome": "Kembali ke permulaan",
+    "failed": "Demo menolaknya: {reason}"
   }
 }

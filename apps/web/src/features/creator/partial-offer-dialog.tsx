@@ -16,6 +16,7 @@ import { useRef, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { DIALOG_FIT_CLASS } from '@/components/app/dialog-fit';
 import { CommandErrorAlert } from '@/components/app/error-state';
 import { MoneyText } from '@/components/app/money-text';
 import { StatusBadge } from '@/components/app/status-badge';
@@ -118,7 +119,11 @@ export function PartialOfferDialog({
       }}
     >
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
-      <DialogContent data-testid="partial-offer-dialog" data-offer-id={offer.offer.id}>
+      <DialogContent
+        className={DIALOG_FIT_CLASS}
+        data-testid="partial-offer-dialog"
+        data-offer-id={offer.offer.id}
+      >
         <DialogHeader>
           <DialogTitle className="flex flex-wrap items-center gap-2">
             <HandCoins aria-hidden="true" className="size-4" />

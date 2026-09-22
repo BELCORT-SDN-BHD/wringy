@@ -344,7 +344,7 @@ describe('campaign closure', () => {
     const { harness } = closureSetup();
     harness.ok({ type: 'session.signIn', userId: SEED_IDS.userDemo });
     harness.ok({ type: 'session.switchWorkspace', workspace: 'merchant' });
-    harness.ok({ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya });
+    harness.ok({ ...{ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya }, reason: 'Campaign period finished.' });
 
     const closure = selectCampaignClosure(harness.state, SEED_IDS.campaignKopiRaya);
     expect(closure).toMatchObject({

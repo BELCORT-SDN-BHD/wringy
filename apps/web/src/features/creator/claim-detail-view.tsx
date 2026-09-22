@@ -34,6 +34,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { REVIEW_TARGET_HOURS } from '@/domain';
+import { formatAuditAction } from '@/lib/audit-copy';
 import { formatSen, formatViews } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
 import type { ClaimStatus } from '@/domain/types';
@@ -80,13 +81,14 @@ function Detail({ claimId }: { claimId: string }) {
 function ClaimDetail({ view, nowIso }: { view: ClaimView; nowIso: string }) {
   const t = useTranslations('creator.claimDetail');
   const tClaims = useTranslations('creator.claims');
+  const tActions = useTranslations('common.actions');
   const locale = useAppLocale();
   const { claim, campaign, submission, appeal, obligation, audit, actorNames } = view;
 
   const timeline: TimelineEntry[] = audit.map((entry) => ({
     id: entry.id,
     at: entry.at,
-    title: entry.action,
+    title: formatAuditAction(entry.action, tActions),
     actor: actorNames[entry.actorUserId] ?? entry.actorUserId,
     reason: entry.reason,
   }));

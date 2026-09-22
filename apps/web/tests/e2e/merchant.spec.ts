@@ -23,9 +23,9 @@
 
 import { expect, test, type Page } from '@playwright/test';
 
-import { applyCommand, loadScenario as buildScenarioState } from '../../src/domain';
+import { loadScenario as buildScenarioState } from '../../src/domain';
 import { DEFAULT_RULES } from '../../src/domain';
-import type { Command, DemoState } from '../../src/domain/types';
+import type { DemoState } from '../../src/domain/types';
 
 import {
   dismissLocalePrompt,
@@ -35,6 +35,7 @@ import {
   openDemoTools,
   closeDemoTools,
   readStoredState,
+  replay,
   setLocale,
   signInAs,
   waitForHydration,
@@ -42,17 +43,6 @@ import {
 
 const DRAFT_ID = 'cmp-kopi-draft';
 const PUBLISHED_ID = 'cmp-kopi-raya';
-
-/** Replays commands through the engine, the way `replayScenario` does. */
-function replay(state: DemoState, commands: Command[], tag: string): DemoState {
-  return commands.reduce((current, command, index) => {
-    const result = applyCommand(current, command, { commandId: `e2e:${tag}:${index}` });
-    if (!result.ok) {
-      throw new Error(`${tag} step ${index} (${command.type}): ${result.code} ${result.detail ?? ''}`);
-    }
-    return result.state;
-  }, state);
-}
 
 /** Signed in as Demo User in the Kopi Kita merchant workspace. */
 function merchantState(scenario: Parameters<typeof buildScenarioState>[0] = 'baseline'): DemoState {
@@ -550,7 +540,11 @@ test.describe('closure and calendar', () => {
     await page.getByTestId('confirm-accept').click();
     expect((await readStoredState(page))!.campaigns[PUBLISHED_ID].status).toBe('published');
 
+    // Closing intake needs a written reason too: it is what the campaign history
+    // shows a creator who can no longer submit.
     await page.getByTestId('campaign-close-submissions').click();
+    await expect(page.getByTestId('confirm-accept')).toBeDisabled();
+    await page.getByRole('textbox').fill('Intake target met.');
     await page.getByTestId('confirm-accept').click();
     expect((await readStoredState(page))!.campaigns[PUBLISHED_ID].status).toBe(
       'submissions_closed',
@@ -561,7 +555,14 @@ test.describe('closure and calendar', () => {
     await expect(page.getByTestId('confirm-accept')).toBeDisabled();
     await page.getByRole('textbox').fill('Budget committed elsewhere.');
     await page.getByTestId('confirm-accept').click();
-    expect((await readStoredState(page))!.campaigns[PUBLISHED_ID].status).toBe('closed');
+    const closed = (await readStoredState(page))!;
+    expect(closed.campaigns[PUBLISHED_ID].status).toBe('closed');
+    // The typed reason reached the stored audit entry, not just the dialog.
+    expect(
+      closed.audit
+        .filter((entry) => entry.action.startsWith('campaign.close'))
+        .map((entry) => entry.reason),
+    ).toEqual(['Intake target met.', 'Budget committed elsewhere.']);
   });
 });
 

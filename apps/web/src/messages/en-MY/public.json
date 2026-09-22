@@ -11,7 +11,10 @@
     "pointCap": "A cap per submission, so the ceiling is known before you post",
     "pointReview": "Review, appeal and a traceable payout record",
     "metaTitle": "Content rewards for qualified views",
-    "metaDescription": "Browse content-reward campaigns with a written rate per 1,000 qualified views, a cap per submission and a claim deadline. Prototype with simulated data."
+    "metaDescription": "Browse content-reward campaigns with a written rate per 1,000 qualified views, a cap per submission and a claim deadline. Prototype with simulated data.",
+    "demoGuideTitle": "Reviewing this prototype?",
+    "demoGuideNote": "The guided demo lists the main flow in order and every exception scenario, and switches to the right simulated role for each step.",
+    "demoGuideAction": "Open the guided demo"
   },
   "catalogue": {
     "title": "Campaigns",

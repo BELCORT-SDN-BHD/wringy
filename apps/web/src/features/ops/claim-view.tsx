@@ -12,7 +12,7 @@
  *   - the payout attempt is a fourth, separate fact and lives on the payout page.
  *
  * Two refusals are shown rather than hidden. Releasing a held reservation is
- * gated by the engine's own `finalizeRejectionBlock`, so the button is disabled
+ * gated by the engine's own release check, so the button is disabled
  * with the engine's reason instead of failing after the press; and a press that
  * the engine still refuses renders its `release_not_allowed` code on the page.
  */
@@ -40,7 +40,6 @@ import {
   ItemGroup,
   ItemTitle,
 } from '@/components/ui/item';
-import { claimsForCampaign, finalizeRejectionBlock } from '@/domain';
 import type { Claim } from '@/domain/types';
 import { formatDateTime, formatSen, formatViews } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
@@ -50,6 +49,8 @@ import {
   selectAppealForClaim,
   selectBudget,
   selectClaim,
+  selectClaimsForCampaign,
+  selectFinalizeRejectionBlock,
   selectObligationForClaim,
   selectSubmission,
 } from '@/store/selectors';
@@ -64,7 +65,7 @@ import {
   useOpsCommand,
 } from './ops-shared';
 
-/** Block reasons `finalizeRejectionBlock` can return; anything else is `other`. */
+/** Block reasons the engine's release check can return; anything else is `other`. */
 const BLOCK_KEYS = [
   'appeal_open',
   'appeal_window_open',
@@ -87,7 +88,7 @@ export function OpsClaimsListView() {
   const state = useDemoSnapshot();
 
   const claims = useMemo(
-    () => selectAllCampaigns(state).flatMap((campaign) => claimsForCampaign(state, campaign.id)),
+    () => selectAllCampaigns(state).flatMap((campaign) => selectClaimsForCampaign(state, campaign.id)),
     [state],
   );
 
@@ -177,7 +178,7 @@ export function OpsClaimView({ claimId }: { claimId: string }) {
     [state, claim],
   );
   const block = useMemo(
-    () => (claim ? finalizeRejectionBlock(state, claim) : 'no_rejection_record'),
+    () => (claim ? selectFinalizeRejectionBlock(state, claim) : 'no_rejection_record'),
     [state, claim],
   );
 

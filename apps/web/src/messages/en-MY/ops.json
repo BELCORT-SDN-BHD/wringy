@@ -35,26 +35,6 @@
     "roleMerchant": "Merchant",
     "roleCreator": "Creator"
   },
-  "auditActions": {
-    "reviewMetering": "Metering review decided",
-    "finalizeRejection": "Rejection finalised",
-    "resolveAppeal": "Appeal resolved",
-    "fileAppeal": "Appeal filed",
-    "resync": "Re-sync requested",
-    "reviewContent": "Content review decided",
-    "requestClaim": "Claim filed",
-    "payoutStart": "Payout started",
-    "payoutReconcile": "Payout reconciled",
-    "payoutRetry": "Payout retried",
-    "setReadiness": "Readiness set",
-    "setPayoutOutcome": "Simulated provider answered",
-    "setDataOutage": "Data outage toggled",
-    "addViews": "Qualified views added",
-    "advanceClock": "Clock advanced",
-    "publish": "Campaign published",
-    "close": "Campaign closed",
-    "other": "Recorded action"
-  },
   "queue": {
     "metaTitle": "Work queue · Operations",
     "title": "Work queue",
@@ -374,5 +354,25 @@
       "escalated": "Escalation only. Nothing is approved automatically.",
       "extension": "The merchant's published grace was given back from the moment the block cleared."
     }
+  },
+  "closure": {
+    "title": "Campaign closure",
+    "subtitle": "What still has to be resolved before this campaign can be called settled. The merchant reads the same verdict.",
+    "settled": "Every case and payout is resolved",
+    "settledNote": "No open appeal, no claim awaiting review, no confirmed amount unpaid and no unresolved payout attempt.",
+    "notSettled": "Not fully settled",
+    "notSettledNote": "This campaign may not be shown as fully settled while any of the following is open.",
+    "blockerAppeals": "{count} open appeal(s)",
+    "blockerPendingClaims": "{count} claim(s) awaiting a decision or holding a reservation",
+    "blockerConfirmedUnpaid": "{count} confirmed amount(s) not yet paid",
+    "blockerUnresolvedPayouts": "{count} payout attempt(s) still processing or unknown",
+    "tail": "Unconfirmed tail below the minimum claim",
+    "tailNote": "Disclosed before closure under the published rule. It is not a payable amount and no payment is promised.",
+    "refund": "Refund of the unused pool",
+    "refundValue": "Pending verification",
+    "refundNote": "M1 has no automatic refund path. The amount and the route are decided outside the prototype.",
+    "pool": "Reward pool",
+    "confirmedUnpaidAmount": "Confirmed and unpaid",
+    "poolNote": "Available in the pool right now: {currency}. The four amounts always add up to the pool."
   }
 }

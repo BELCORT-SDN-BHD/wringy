@@ -2,7 +2,7 @@
 
 2026-09-22. Implementation entry for milestone [M1 · 三端交互原型](https://github.com/BELCORT-SDN-BHD/wringy/milestone/1), tickets [#2](https://github.com/BELCORT-SDN-BHD/wringy/issues/2)–[#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9) under spec [#1](https://github.com/BELCORT-SDN-BHD/wringy/issues/1). This file is the "开工规格记录" the tickets ask for: what is being built, where it lives, which decisions were taken to start, and how work is split. Business rules are not redefined here; the sources are [campaign-defaults-v1](../../phase-0/foundation/campaign-defaults-v1.md), [implementation spec D01–D06](../../phase-0/foundation/implementation-spec-content-rewards-v1.md) and the [prototype spec](../../phase-0/foundation/milestones/prototype-spec-v1.md).
 
-Status: work started 2026-09-22 on branch `feat/m1-prototype`. Acceptance P01–P11 is recorded in [acceptance-record.md](acceptance-record.md) once executed; nothing is passed by this file.
+Status: 2026-09-22, branch `feat/m1-prototype`. Waves 0–3 are built: the scaffold and engine, the app shell and public pages, the three role workspaces, the deadline and closure pass across roles, the guided demo entry at `/demo`, the P01–P11 acceptance suite and this documentation set. Wave 4 (adversarial review against every ticket's acceptance list, then the PR) has not run. The executed acceptance results and their evidence are in [acceptance-record.md](acceptance-record.md), the run instructions and what to look at in [demo-script.md](demo-script.md), and the limitations in [known-issues.md](known-issues.md); nothing is passed by this file.
 
 ## What M1 is
 

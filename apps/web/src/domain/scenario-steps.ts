@@ -299,7 +299,11 @@ function closeCampaign(title: string): ScenarioStep {
     build: (state) => {
       const campaign = campaignByTitle(state, title);
       if (!campaign) return null;
-      return { type: 'campaign.close', campaignId: campaign.id };
+      return {
+        type: 'campaign.close',
+        campaignId: campaign.id,
+        reason: 'Campaign period finished; settling the remaining cases.',
+      };
     },
   };
 }

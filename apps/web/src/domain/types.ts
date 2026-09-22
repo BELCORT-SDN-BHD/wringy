@@ -528,8 +528,10 @@ export type Command =
   | { type: 'campaign.publish'; campaignId: string }
   | { type: 'campaign.pause'; campaignId: string }
   | { type: 'campaign.resume'; campaignId: string }
-  | { type: 'campaign.closeSubmissions'; campaignId: string }
-  | { type: 'campaign.close'; campaignId: string }
+  /** Why intake is closing. Recorded on the audit entry; non-empty is enforced. */
+  | { type: 'campaign.closeSubmissions'; campaignId: string; reason: string }
+  /** Why the campaign is closing. Recorded on the audit entry; non-empty is enforced. */
+  | { type: 'campaign.close'; campaignId: string; reason: string }
   | { type: 'submission.reviewContent'; submissionId: string; decision: 'approve' | 'reject'; reason: string | null }
   // creator
   | { type: 'connection.connect'; platform: Platform; handle: string }

@@ -1174,6 +1174,10 @@ function handleMerchant(c: Ctx, command: Command): HandlerResult {
       if (campaign.status !== 'published' && campaign.status !== 'paused') {
         return fail('invalid_transition', `campaign_${campaign.status}`);
       }
+      // The merchant has to say why intake is closing: the campaign's history is
+      // the only place a creator who can no longer submit can read the reason.
+      const closeSubmissionsReason = command.reason.trim();
+      if (closeSubmissionsReason === '') return fail('invalid_input', 'reason_required');
       const before = campaign.status;
       campaign.status = 'submissions_closed';
       // Closing intake early never truncates an accepted link's metering window:
@@ -1189,7 +1193,13 @@ function handleMerchant(c: Ctx, command: Command): HandlerResult {
       });
       return {
         ok: true,
-        audit: { targetType: 'campaign', targetId: campaign.id, before, after: campaign.status },
+        audit: {
+          targetType: 'campaign',
+          targetId: campaign.id,
+          reason: closeSubmissionsReason,
+          before,
+          after: campaign.status,
+        },
       };
     }
     case 'campaign.close': {
@@ -1198,6 +1208,8 @@ function handleMerchant(c: Ctx, command: Command): HandlerResult {
       if (campaign.status === 'draft' || campaign.status === 'closed') {
         return fail('invalid_transition', `campaign_${campaign.status}`);
       }
+      const closeReason = command.reason.trim();
+      if (closeReason === '') return fail('invalid_input', 'reason_required');
       const before = campaign.status;
       campaign.status = 'closed';
       campaign.closedAt = c.now;
@@ -1211,7 +1223,13 @@ function handleMerchant(c: Ctx, command: Command): HandlerResult {
       });
       return {
         ok: true,
-        audit: { targetType: 'campaign', targetId: campaign.id, before, after: 'closed' },
+        audit: {
+          targetType: 'campaign',
+          targetId: campaign.id,
+          reason: closeReason,
+          before,
+          after: 'closed',
+        },
       };
     }
     case 'submission.reviewContent': {

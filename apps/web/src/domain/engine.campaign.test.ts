@@ -240,7 +240,7 @@ describe('campaign lifecycle', () => {
 
   it('closes submissions at the current simulated time', () => {
     const harness = merchant();
-    harness.ok({ type: 'campaign.closeSubmissions', campaignId: SEED_IDS.campaignKopiRaya });
+    harness.ok({ ...{ type: 'campaign.closeSubmissions', campaignId: SEED_IDS.campaignKopiRaya }, reason: 'Intake target met.' });
     const campaign = harness.state.campaigns[SEED_IDS.campaignKopiRaya];
     expect(campaign.status).toBe('submissions_closed');
     expect(campaign.submissionsCloseAt).toBe('2026-09-01T12:00:00+08:00');
@@ -248,9 +248,29 @@ describe('campaign lifecycle', () => {
 
   it('closes the campaign and records when', () => {
     const harness = merchant();
-    harness.ok({ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya });
+    harness.ok({ ...{ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya }, reason: 'Campaign period finished.' });
     expect(harness.state.campaigns[SEED_IDS.campaignKopiRaya].status).toBe('closed');
     expect(harness.state.campaigns[SEED_IDS.campaignKopiRaya].closedAt).toBe('2026-09-01T12:00:00+08:00');
-    harness.fail({ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya }, 'invalid_transition');
+    harness.fail({ ...{ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya }, reason: 'Again.' }, 'invalid_transition');
+  });
+
+  // Both closes end something a creator is relying on, so the reason is part of
+  // the command and is stored where the campaign's history can render it.
+  it('refuses a close without a reason and stores the one it is given', () => {
+    const harness = merchant();
+    harness.fail({ ...{ type: 'campaign.closeSubmissions', campaignId: SEED_IDS.campaignKopiRaya }, reason: '   ' }, 'invalid_input');
+    harness.fail({ ...{ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya }, reason: '' }, 'invalid_input');
+    expect(harness.state.campaigns[SEED_IDS.campaignKopiRaya].status).toBe('published');
+
+    harness.ok({ ...{ type: 'campaign.closeSubmissions', campaignId: SEED_IDS.campaignKopiRaya }, reason: '  Intake target met.  ' });
+    harness.ok({ ...{ type: 'campaign.close', campaignId: SEED_IDS.campaignKopiRaya }, reason: 'Budget committed elsewhere.' });
+
+    const reasons = harness.state.audit
+      .filter((entry) => entry.action.startsWith('campaign.close'))
+      .map((entry) => [entry.action, entry.reason]);
+    expect(reasons).toEqual([
+      ['campaign.closeSubmissions', 'Intake target met.'],
+      ['campaign.close', 'Budget committed elsewhere.'],
+    ]);
   });
 });

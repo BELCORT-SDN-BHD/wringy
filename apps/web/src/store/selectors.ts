@@ -11,6 +11,11 @@
  */
 
 import {
+  claimsForCampaign,
+  claimsForSubmission,
+  finalizeRejectionBlock,
+  lastSnapshot,
+  latestAttempt,
   selectAppealForClaim,
   selectAttemptsForObligation,
   selectAuditFor,
@@ -41,8 +46,11 @@ import type { PartialOfferView, PaymentRecordView, PermissionFlags } from '@/dom
 import type {
   AccountConnection,
   Actor,
+  Appeal,
   Campaign,
+  Claim,
   DemoState,
+  MetricSnapshot,
   Notification,
   Obligation,
   Org,
@@ -100,6 +108,62 @@ export function selectUser(state: DemoState, userId: string | null): User | null
 
 export function selectSubmission(state: DemoState, submissionId: string): Submission | null {
   return state.submissions[submissionId] ?? null;
+}
+
+// ---------------------------------------------------------------------------
+// Claim, appeal, snapshot and payout lookups.
+//
+// These are the engine's own `rules.ts` helpers, re-exposed here so a role
+// feature never reaches past the store adapter into `@/domain` for a read. The
+// bodies are one line each on purpose: when M2 replaces the engine call with a
+// Fastify call, this file is the seam that changes, and a feature that imported
+// the helper directly would have been a second seam nobody remembered.
+// ---------------------------------------------------------------------------
+
+/** Every claim in a campaign, in queue order. */
+export function selectClaimsForCampaign(state: DemoState, campaignId: string): Claim[] {
+  return claimsForCampaign(state, campaignId);
+}
+
+/** Every claim against one submission, in queue order. */
+export function selectClaimsForSubmission(state: DemoState, submissionId: string): Claim[] {
+  return claimsForSubmission(state, submissionId);
+}
+
+/** Every claim in the demo, in queue order. Only a cross-campaign view needs this. */
+export function selectAllClaims(state: DemoState): Claim[] {
+  return Object.values(state.claims).sort((a, b) => a.seq - b.seq);
+}
+
+export function selectAllAppeals(state: DemoState): Appeal[] {
+  return Object.values(state.appeals).sort((a, b) => a.id.localeCompare(b.id));
+}
+
+export function selectAppeal(state: DemoState, appealId: string): Appeal | null {
+  return state.appeals[appealId] ?? null;
+}
+
+/**
+ * Why a held reservation may not be released yet, or null when it may be.
+ *
+ * The string is a reason code, not a message: the UI maps it to copy. A release
+ * is never a timer — the engine re-checks the appeal state every time.
+ */
+export function selectFinalizeRejectionBlock(state: DemoState, claim: Claim): string | null {
+  return finalizeRejectionBlock(state, claim);
+}
+
+/** The most recent read of a submission, trusted or not. Null before the first. */
+export function selectLastSnapshot(submission: Submission): MetricSnapshot | null {
+  return lastSnapshot(submission);
+}
+
+/** The newest payout attempt against one obligation, or null when none started. */
+export function selectLatestPayoutAttempt(
+  state: DemoState,
+  obligationId: string,
+): PayoutAttempt | null {
+  return latestAttempt(state, obligationId);
 }
 
 /** The publishing org's name for a campaign, or null when either is unknown. */

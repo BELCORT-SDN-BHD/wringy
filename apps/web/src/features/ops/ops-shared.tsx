@@ -39,7 +39,8 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty';
 import { checkPermission, resolveActor } from '@/domain';
-import type { AuditEntry, Command, CommandType, DemoState, ErrorCode } from '@/domain/types';
+import type { AuditEntry, Command, DemoState, ErrorCode } from '@/domain/types';
+import { formatAuditAction } from '@/lib/audit-copy';
 import { useDemoSnapshot, useDispatch } from '@/store/demo-store';
 import { selectAuditFor } from '@/store/selectors';
 
@@ -167,15 +168,19 @@ export function FactList({
   items,
   className,
 }: {
-  items: Array<{ label: string; value: ReactNode }>;
+  /** `hint` is the one-line reason under a value, for a fact that needs one. */
+  items: Array<{ label: string; value: ReactNode; hint?: string }>;
   className?: string;
 }) {
   return (
     <dl className={className ?? 'grid gap-3 sm:grid-cols-2'}>
-      {items.map(({ label, value }, index) => (
+      {items.map(({ label, value, hint }, index) => (
         <div key={`${label}-${index}`} className="flex min-w-0 flex-col gap-0.5">
           <dt className="text-muted-foreground text-xs break-words">{label}</dt>
           <dd className="min-w-0 text-sm break-words">{value}</dd>
+          {hint ? (
+            <p className="text-muted-foreground text-xs break-words">{hint}</p>
+          ) : null}
         </div>
       ))}
     </dl>
@@ -260,35 +265,6 @@ export function FinanceOnly({
 // Audit trail
 // ---------------------------------------------------------------------------
 
-/**
- * Command types to copy keys. Deliberately a map in code rather than a nested
- * message lookup: next-intl reads the dot in `claim.reviewMetering` as nesting,
- * and a missing key would log to the console, which `i18n.spec.ts` fails on.
- */
-const AUDIT_ACTION_KEY: Partial<Record<CommandType, string>> = {
-  'claim.reviewMetering': 'reviewMetering',
-  'claim.finalizeRejection': 'finalizeRejection',
-  'appeal.resolve': 'resolveAppeal',
-  'appeal.file': 'fileAppeal',
-  'submission.resync': 'resync',
-  'submission.reviewContent': 'reviewContent',
-  'claim.request': 'requestClaim',
-  'payout.start': 'payoutStart',
-  'payout.reconcile': 'payoutReconcile',
-  'payout.retry': 'payoutRetry',
-  'demo.setReadiness': 'setReadiness',
-  'demo.setPayoutOutcome': 'setPayoutOutcome',
-  'demo.setDataOutage': 'setDataOutage',
-  'demo.addQualifiedViews': 'addViews',
-  'demo.advanceClock': 'advanceClock',
-  'campaign.publish': 'publish',
-  'campaign.close': 'close',
-};
-
-export function auditActionKey(action: string): string {
-  return AUDIT_ACTION_KEY[action as CommandType] ?? 'other';
-}
-
 /** Display name for an audit actor; falls back to the raw id. */
 export function actorName(state: DemoState, userId: string): string {
   return state.users[userId]?.displayName ?? userId;
@@ -313,7 +289,7 @@ export function AuditTrail({
   extra?: Array<{ targetType: AuditEntry['targetType']; targetId: string }>;
 }) {
   const t = useTranslations('ops.shared');
-  const tActions = useTranslations('ops.auditActions');
+  const tActions = useTranslations('common.actions');
   const state = useDemoSnapshot();
 
   const entries = useMemo<TimelineEntry[]>(() => {
@@ -324,7 +300,7 @@ export function AuditTrail({
     return rows.map((entry) => ({
       id: entry.id,
       at: entry.at,
-      title: tActions(auditActionKey(entry.action)),
+      title: formatAuditAction(entry.action, tActions),
       actor: actorName(state, entry.actorUserId),
       reason: entry.reason,
       trailing:

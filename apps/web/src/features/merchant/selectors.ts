@@ -7,16 +7,17 @@
  * This module only scopes those selectors to the acting org and shapes them into
  * the rows a page renders; it derives no money and no eligibility of its own.
  *
- * `claimsForCampaign` comes from `@/domain` rather than `@/store/selectors`
- * because the store's adapter does not re-export a campaign-scoped claim list
- * yet; it is the engine's own rule helper, not a local reimplementation.
+ * Every read goes through `@/store/selectors`, including the campaign-scoped
+ * claim list: the store adapter is the single seam M2 replaces with a Fastify
+ * call, so a feature that imported an engine helper directly would be a second
+ * seam nobody would remember to change.
  */
 
-import { claimsForCampaign } from '@/domain';
 import {
   selectBudget,
   selectCampaign,
   selectCampaignClosure,
+  selectClaimsForCampaign,
   selectOrgCampaigns,
   selectSubmissionDeadlines,
   selectSubmissionReward,
@@ -61,7 +62,7 @@ export function selectMerchantCampaignRows(
       pendingContentReviews: submissions.filter(
         (submission) => submission.contentReview.status === 'pending',
       ).length,
-      claimCount: claimsForCampaign(state, campaign.id).length,
+      claimCount: selectClaimsForCampaign(state, campaign.id).length,
     };
   });
 }
@@ -116,7 +117,7 @@ export interface MerchantSubmissionRow {
 }
 
 function rowFor(state: DemoState, submission: Submission, campaign: Campaign): MerchantSubmissionRow {
-  const claims = claimsForCampaign(state, campaign.id).filter(
+  const claims = selectClaimsForCampaign(state, campaign.id).filter(
     (claim) => claim.submissionId === submission.id,
   );
   return {
@@ -215,7 +216,7 @@ export function selectMerchantCampaignReport(
     budget,
     closure: selectCampaignClosure(state, campaign.id),
     submissionCount: submissions.length,
-    claimCount: claimsForCampaign(state, campaign.id).length,
+    claimCount: selectClaimsForCampaign(state, campaign.id).length,
     qualifiedViews,
     lastTrustedAt,
     hasUnreadableSource,
@@ -235,7 +236,7 @@ export function selectMerchantCampaignReports(
 }
 
 export function selectMerchantClaims(state: DemoState, campaignId: string): Claim[] {
-  return claimsForCampaign(state, campaignId);
+  return selectClaimsForCampaign(state, campaignId);
 }
 
 export function isCampaignOpen(campaign: Campaign): boolean {

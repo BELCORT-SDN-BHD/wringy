@@ -44,7 +44,7 @@ export function PublicHeader() {
           </Button>
         </nav>
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <DemoBadgeInline className="hidden lg:inline-flex" />
+          <DemoBadgeInline />
           <LocaleSelect value={locale} onChange={(next) => setLocale(next, true)} compact />
           {hydrated && signedIn ? <NotificationsBell /> : null}
           <UserMenu />

@@ -17,7 +17,7 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 
-import { DemoBadgeInline } from '@/components/app/demo-badge';
+import { DEMO_SAFE_AREA_CLASS, DemoBadgeInline } from '@/components/app/demo-badge';
 import { LocaleSelect } from '@/components/app/locale-select';
 import { NotificationsBell } from '@/components/app/notifications-bell';
 import { StorageNotice } from '@/components/app/storage-notice';
@@ -41,6 +41,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import { isActive, navGroupsFor } from '@/config/nav';
+import { cn } from '@/lib/utils';
 import { useAppLocale } from '@/lib/use-app-locale';
 import { useActor } from '@/store/actor';
 import { useSetLocale } from '@/store/use-set-locale';
@@ -106,14 +107,19 @@ export function AppShell({ children }: AppShellProps) {
             <WorkspaceSwitcher />
           </div>
           <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-            <DemoBadgeInline className="hidden lg:inline-flex" />
+            <DemoBadgeInline />
             <LocaleSelect value={locale} onChange={(next) => setLocale(next, true)} compact />
             <NotificationsBell />
             <UserMenu />
           </div>
         </header>
 
-        <div className="flex min-w-0 flex-1 flex-col gap-4 px-3 pt-4 pb-24 sm:px-6">
+        <div
+          className={cn(
+            'flex min-w-0 flex-1 flex-col gap-4 px-3 pt-4 sm:px-6',
+            DEMO_SAFE_AREA_CLASS,
+          )}
+        >
           <StorageNotice />
           {children}
         </div>

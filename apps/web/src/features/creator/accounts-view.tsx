@@ -17,6 +17,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { DateTimeText } from '@/components/app/date-time-text';
+import { DIALOG_FIT_CLASS } from '@/components/app/dialog-fit';
 import { EmptyState } from '@/components/app/empty-state';
 import { CommandErrorAlert } from '@/components/app/error-state';
 import { HydrationGate } from '@/components/app/hydration-gate';
@@ -238,7 +239,7 @@ function ConnectDialog() {
           <span className="truncate">{t('connect')}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className={DIALOG_FIT_CLASS}>
         <DialogHeader>
           <DialogTitle>{t('connectTitle')}</DialogTitle>
           <DialogDescription>{t('connectDescription')}</DialogDescription>

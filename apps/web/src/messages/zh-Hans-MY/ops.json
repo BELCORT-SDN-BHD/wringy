@@ -35,26 +35,6 @@
     "roleMerchant": "商家",
     "roleCreator": "创作者"
   },
-  "auditActions": {
-    "reviewMetering": "已作出计量审核决定",
-    "finalizeRejection": "已最终拒绝",
-    "resolveAppeal": "已处理申诉",
-    "fileAppeal": "已提交申诉",
-    "resync": "已请求重新同步",
-    "reviewContent": "已作出内容审核决定",
-    "requestClaim": "已提交申请",
-    "payoutStart": "已发起付款",
-    "payoutReconcile": "已对账付款",
-    "payoutRetry": "已重试付款",
-    "setReadiness": "已设置就绪状态",
-    "setPayoutOutcome": "模拟服务商已答复",
-    "setDataOutage": "已切换数据中断",
-    "addViews": "已增加合格观看",
-    "advanceClock": "已推进时钟",
-    "publish": "活动已发布",
-    "close": "活动已关闭",
-    "other": "已记录的操作"
-  },
   "queue": {
     "metaTitle": "工作队列 · 运营",
     "title": "工作队列",
@@ -374,5 +354,25 @@
       "escalated": "仅升级。不会自动通过。",
       "extension": "从阻挡解除的那一刻起，把商家已公布的宽限期还给创作者。"
     }
+  },
+  "closure": {
+    "title": "活动结案",
+    "subtitle": "在本活动可以称为已结清之前，还需要处理哪些事项。商家看到的是同一结论。",
+    "settled": "所有案件与发放均已处理完毕",
+    "settledNote": "没有未结申诉，没有待审申请，没有确认未付的金额，也没有未决的发放尝试。",
+    "notSettled": "尚未全部结清",
+    "notSettledNote": "只要下列任一项仍未结，本活动就不能显示为全部结清。",
+    "blockerAppeals": "{count} 项未结申诉",
+    "blockerPendingClaims": "{count} 笔申请待决定或仍占用预留",
+    "blockerConfirmedUnpaid": "{count} 笔已确认但尚未支付的金额",
+    "blockerUnresolvedPayouts": "{count} 次发放尝试仍在处理中或结果未知",
+    "tail": "低于最低申请金额的未确认尾额",
+    "tailNote": "按已公布规则在结案前披露。它不是应付金额，也不承诺支付。",
+    "refund": "未使用奖励池的退款",
+    "refundValue": "待核定",
+    "refundNote": "M1 没有自动退款路径。金额与方式在原型之外决定。",
+    "pool": "奖励池",
+    "confirmedUnpaidAmount": "已确认待付",
+    "poolNote": "当前池内可用：{currency}。四类金额之和始终等于奖励池。"
   }
 }

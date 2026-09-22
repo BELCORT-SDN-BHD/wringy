@@ -35,26 +35,6 @@
     "roleMerchant": "Peniaga",
     "roleCreator": "Pencipta"
   },
-  "auditActions": {
-    "reviewMetering": "Semakan pengukuran diputuskan",
-    "finalizeRejection": "Penolakan dimuktamadkan",
-    "resolveAppeal": "Rayuan diselesaikan",
-    "fileAppeal": "Rayuan difailkan",
-    "resync": "Penyegaran semula diminta",
-    "reviewContent": "Semakan kandungan diputuskan",
-    "requestClaim": "Tuntutan difailkan",
-    "payoutStart": "Pembayaran dimulakan",
-    "payoutReconcile": "Pembayaran diselaraskan",
-    "payoutRetry": "Pembayaran dicuba semula",
-    "setReadiness": "Kesediaan ditetapkan",
-    "setPayoutOutcome": "Penyedia simulasi menjawab",
-    "setDataOutage": "Gangguan data ditogol",
-    "addViews": "Tontonan layak ditambah",
-    "advanceClock": "Jam dimajukan",
-    "publish": "Kempen diterbitkan",
-    "close": "Kempen ditutup",
-    "other": "Tindakan direkod"
-  },
   "queue": {
     "metaTitle": "Barisan kerja · Operasi",
     "title": "Barisan kerja",
@@ -374,5 +354,25 @@
       "escalated": "Peningkatan sahaja. Tiada apa-apa diluluskan secara automatik.",
       "extension": "Tempoh tangguh yang diterbitkan peniaga dipulangkan dari saat sekatan itu hilang."
     }
+  },
+  "closure": {
+    "title": "Penutupan kempen",
+    "subtitle": "Apa yang masih perlu diselesaikan sebelum kempen ini boleh dianggap selesai. Pedagang membaca keputusan yang sama.",
+    "settled": "Setiap kes dan pembayaran telah diselesaikan",
+    "settledNote": "Tiada rayuan terbuka, tiada tuntutan menunggu semakan, tiada jumlah disahkan yang belum dibayar dan tiada percubaan pembayaran yang belum diselesaikan.",
+    "notSettled": "Belum selesai sepenuhnya",
+    "notSettledNote": "Kempen ini tidak boleh ditunjukkan sebagai selesai sepenuhnya selagi mana-mana perkara berikut masih terbuka.",
+    "blockerAppeals": "{count} rayuan terbuka",
+    "blockerPendingClaims": "{count} tuntutan menunggu keputusan atau menahan tempahan",
+    "blockerConfirmedUnpaid": "{count} jumlah disahkan yang belum dibayar",
+    "blockerUnresolvedPayouts": "{count} percubaan pembayaran masih diproses atau tidak diketahui",
+    "tail": "Baki belum disahkan di bawah tuntutan minimum",
+    "tailNote": "Didedahkan sebelum penutupan mengikut peraturan yang diterbitkan. Ia bukan jumlah yang boleh dibayar dan tiada pembayaran dijanjikan.",
+    "refund": "Bayaran balik kolam yang tidak digunakan",
+    "refundValue": "Menunggu penentuan",
+    "refundNote": "M1 tiada laluan bayaran balik automatik. Jumlah dan laluannya ditentukan di luar prototaip.",
+    "pool": "Kolam ganjaran",
+    "confirmedUnpaidAmount": "Disahkan dan belum dibayar",
+    "poolNote": "Tersedia dalam kolam sekarang: {currency}. Empat jumlah itu sentiasa berjumlah kolam."
   }
 }

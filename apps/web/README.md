@@ -5,10 +5,17 @@ simulated: identity, clock, view data, notifications, email previews and payouts
 [`docs/m1-prototype/kickoff.md`](../../docs/m1-prototype/kickoff.md) for scope and the
 decisions this scaffold was built against.
 
-The scaffold, the demo engine, the store, the app shell, the public pages, the
-notification centre, settings and the demo tools are in place. The three role
-feature areas (`src/app/(workspace)/{creator,merchant,ops}/**` beyond their
-placeholder overview, and `src/features/**`) arrive in wave 2.
+Everything is in place: the demo engine, the store, the app shell, the public
+pages, the three role workspaces, the notification centre, settings, the demo
+tools and the guided demo at `/demo`.
+
+Start at **[`/demo`](http://127.0.0.1:3100/demo)** — it lists the seven steps of
+the main flow and every exception scenario, and its "Go" buttons switch to the
+right simulated identity before opening the page. The written version with the
+expected values is [`docs/m1-prototype/demo-script.md`](../../docs/m1-prototype/demo-script.md);
+the executed acceptance rows are in
+[`acceptance-record.md`](../../docs/m1-prototype/acceptance-record.md) and the
+limitations in [`known-issues.md`](../../docs/m1-prototype/known-issues.md).
 
 ## Run
 
@@ -28,7 +35,19 @@ pnpm e2e                           # playwright test, 3 viewports
 the dev server itself (`webServer` in `playwright.config.ts`, `reuseExistingServer: true`),
 so `pnpm e2e` needs no server running.
 
-Port **3100** is fixed in `dev`, `start`, and the Playwright base URL.
+One spec at a time, which is how the acceptance rows are re-run:
+
+```bash
+pnpm --filter web exec playwright test acceptance.spec.ts
+pnpm --filter web exec playwright test --project=small acceptance.spec.ts   # the 320px spot checks
+```
+
+Port **3100** is fixed in `dev`, `start`, and the Playwright base URL; set `WEB_PORT` to run a
+second checkout (a git worktree) alongside this one.
+
+Turbopack has been seen to drop its filesystem cache and refuse connections the first time several
+Playwright workers compile a brand-new route at once. If a run fails with `ERR_CONNECTION_REFUSED`
+rather than an assertion, warm the route once with `pnpm dev` and run again.
 
 ## What is installed
 
@@ -126,13 +145,19 @@ Reading a cookie there makes every route server-rendered on demand; `next build`
 demo state are per visitor.
 
 Eight namespaces per locale: `common`, `public`, `notifications`, `demo`, `settings`,
-`merchant`, `creator`, `ops`. `src/i18n/messages.ts` imports all 24 files statically, so a
-wave-2 worker fills its own `<role>.json` and never edits that module. `merchant.json`,
-`creator.json` and `ops.json` are `{}` until then.
+`merchant`, `creator`, `ops`. `src/i18n/messages.ts` imports all 24 files statically, so a role
+worker fills its own `<role>.json` and never edits that module.
+
+Audit-trail labels are shared, not per role: `src/lib/audit-copy.ts` maps every `CommandType` to a
+key under `common.actions.*`, and the map is a complete `Record<CommandType, …>`, so adding a
+command without copy for it is a type error. The merchant, creator and operations timelines all
+render through it — they used to show raw command codes such as `claim.reviewMetering`.
 
 `src/i18n/messages.test.ts` asserts the three locales carry identical key sets, the same
 interpolation parameters and no empty strings, and that every notification kind has a title,
-a body and a simulated email subject and body.
+a body and a simulated email subject and body. `src/lib/audit-copy.test.ts` asserts every locale
+has copy for every audit action key, and that no key is a dotted one (next-intl reads a dot as
+nesting).
 
 ## Tests
 
@@ -147,10 +172,25 @@ a body and a simulated email subject and body.
   `loadScenario` / `loadScenarioAsGuest` (state injected straight into localStorage),
   `loadScenarioViaUi`, `signInAs`, `setLocale`, `advanceClock`, `addViews`, `setDataOutage`,
   `resetDemo`, `readStoredState` and `expectNoHorizontalOverflow`.
-- `tests/e2e/shell.spec.ts` covers the wave-1 frame; `tests/e2e/i18n.spec.ts` walks every
-  shell page in all three languages with the console under watch, so a missing message fails
-  the run instead of rendering a raw key path; `tests/e2e/screenshots.spec.ts` writes the
-  acceptance frames to `tests/e2e/__screenshots__/` (git-ignored).
+- `tests/e2e/shell.spec.ts` covers the shared frame, and `tests/e2e/{creator,merchant,ops}.spec.ts`
+  each cover one role's rules in depth.
+- `tests/e2e/i18n.spec.ts` walks **every** route in the app — public, creator, merchant,
+  operations reviewer, operations finance and `/demo` — in all three languages with the console
+  under watch, so a missing message fails the run instead of rendering a raw key path. It also
+  asserts that a route the role may read does not land on the simulated refusal, which is what
+  would otherwise let a page pass the walk without rendering.
+- `tests/e2e/acceptance.spec.ts` is the P01–P11 run, one `describe` per acceptance row. The rows
+  run at 390 and 1440 and are skipped in the `small` project; the 320px work is the dedicated spot
+  check at the end of that file, which asserts no sideways scroll and no covered primary action on
+  the submission detail, the merchant editor, the operations claim page and the payout page. It
+  writes its evidence to `docs/m1-prototype/screenshots/p<NN>-<viewport>.png`, viewport-clipped and
+  asserted to be at most 300 KB each.
+- `tests/e2e/screenshots.spec.ts` writes the older frame set to `tests/e2e/__screenshots__/`
+  (git-ignored).
+- `tests/e2e/helpers.ts` also carries `expectPrimaryActionUsable`, which is what the 320px checks
+  are built on: it asserts the control's box is inside the viewport, that `elementFromPoint` at its
+  centre resolves to the control rather than something on top of it, and that Playwright's full
+  actionability set passes.
 
 `next.config.ts` sets `allowedDevOrigins: ['127.0.0.1']` because Next 16 otherwise blocks the
 dev-server `/_next/hmr` requests Playwright makes over that host. Development only.
@@ -169,10 +209,17 @@ dev-server `/_next/hmr` requests Playwright makes over that host. Development on
   `.shimmer` utility; `tw-animate-css` 1.4.0 ships no such rule, so `animate-in` /
   `animate-out` and the Radix overlay transitions still play. Suppressing them means adding
   a rule to `globals.css`, which the design-system contract reserves, so it is recorded here
-  rather than done locally.
-- `ErrorState` and `TimelineList` (`src/components/app/`) compile and lint but are not yet
-  rendered by any page: nothing in the shell performs a read that can fail, and no shell page
-  owns an audit trail. Wave-2 role pages are their first real callers.
+  rather than done locally. The acceptance suite verifies that reduced-motion emulation renders
+  every dialog and panel without an error; it does not claim the animations stop.
+- The official `DialogContent` and `AlertDialogContent` are `fixed`, centred and **unbounded in
+  height**, so a dialog taller than the viewport hangs off both edges with nothing to scroll — at
+  320x568 the partial-offer footer was unreachable for a pointer, a keyboard and Playwright alike.
+  Those files may not be hand-edited, so the bound is applied at every call site through
+  `DIALOG_FIT_CLASS` (`src/components/app/dialog-fit.ts`). A new dialog must carry it.
+- The floating "Demo data" pill that used to sit bottom-left was **removed**: a `position: fixed`
+  mark cannot be laid out around, and it covered page content and the sidebar's identity line. The
+  mark is now in the header at every viewport (`DemoBadgeInline`), and the demo-tools trigger keeps
+  its bottom-right anchor with every scrolling page reserving `DEMO_SAFE_AREA_CLASS` beneath it.
 - The `/campaigns/[id]` metadata is generated from the baseline seed, because the server
   cannot read the visitor's localStorage. A campaign a scenario created locally falls back to
   the catalogue title and description.

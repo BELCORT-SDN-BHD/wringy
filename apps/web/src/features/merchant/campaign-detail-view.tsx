@@ -475,9 +475,11 @@ function CampaignActions({
             title={t('closeSubmissions')}
             description={t('closeSubmissionsDescription')}
             confirmLabel={t('closeSubmissions')}
-            onConfirm={() =>
+            requireReason
+            reasonLabel={t('reasonLabel')}
+            onConfirm={(reason) =>
               perform(
-                { type: 'campaign.closeSubmissions', campaignId: campaign.id },
+                { type: 'campaign.closeSubmissions', campaignId: campaign.id, reason },
                 'submissionsClosed',
               )
             }
@@ -498,7 +500,9 @@ function CampaignActions({
             destructive
             requireReason
             reasonLabel={t('reasonLabel')}
-            onConfirm={() => perform({ type: 'campaign.close', campaignId: campaign.id }, 'closed')}
+            onConfirm={(reason) =>
+              perform({ type: 'campaign.close', campaignId: campaign.id, reason }, 'closed')
+            }
             trigger={
               <Button variant="destructive" data-testid="campaign-close">
                 <SquareSlash aria-hidden="true" />
@@ -506,10 +510,9 @@ function CampaignActions({
               </Button>
             }
           >
-            {/* The engine's `campaign.close` command has no reason field yet, so the
-                written reason gates the confirmation but is not stored. Saying so is
-                better than implying an audit entry that will not exist. */}
-            <p className="text-muted-foreground text-xs">{t('reasonNotStored')}</p>
+            {/* The typed reason is carried by the command and stored on the audit
+                entry, so it is readable afterwards in the campaign's history. */}
+            <p className="text-muted-foreground text-xs">{t('reasonStored')}</p>
           </ConfirmDialog>
         ) : null}
       </CardContent>

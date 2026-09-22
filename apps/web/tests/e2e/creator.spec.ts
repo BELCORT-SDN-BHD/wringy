@@ -19,6 +19,7 @@ import {
   expectNoHorizontalOverflow,
   injectState,
   loadScenario,
+  open,
   readStoredState,
   setLocale,
   waitForHydration,
@@ -42,13 +43,6 @@ function ownClaim(state: DemoState, userId = DEMO_USER): Claim {
   const claim = Object.values(state.claims).find((candidate) => candidate.creatorId === userId);
   if (!claim) throw new Error(`no claim for ${userId} in this scenario`);
   return claim;
-}
-
-/** Opens a workspace page after a scenario is already loaded and signed in. */
-async function open(page: Page, path: string): Promise<void> {
-  await page.goto(path);
-  await waitForHydration(page);
-  await dismissLocalePrompt(page);
 }
 
 /**

@@ -12,6 +12,7 @@
 import { Mail } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { DIALOG_FIT_CLASS } from '@/components/app/dialog-fit';
 import {
   Dialog,
   DialogContent,
@@ -61,7 +62,7 @@ export function EmailPreviewDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
-      <DialogContent data-app-widget="email-preview">
+      <DialogContent className={DIALOG_FIT_CLASS} data-app-widget="email-preview">
         <DialogHeader>
           <DialogTitle className="flex flex-wrap items-center gap-2">
             <Mail aria-hidden="true" className="size-4" />

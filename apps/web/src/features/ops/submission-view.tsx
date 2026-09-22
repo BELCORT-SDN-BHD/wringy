@@ -47,7 +47,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { claimsForSubmission } from '@/domain';
 import type { MissingReason, Submission } from '@/domain/types';
 import { formatDateTime, formatViewsOrUnknown } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
@@ -55,6 +54,7 @@ import { useDemoSnapshot } from '@/store/demo-store';
 import {
   selectAllSubmissions,
   selectAuditFor,
+  selectClaimsForSubmission,
   selectSubmission,
   selectSubmissionDeadlines,
   selectSubmissionReward,
@@ -170,7 +170,7 @@ export function OpsSubmissionView({ submissionId }: { submissionId: string }) {
     [state, submission],
   );
   const claims = useMemo(
-    () => (submission ? claimsForSubmission(state, submission.id) : []),
+    () => (submission ? selectClaimsForSubmission(state, submission.id) : []),
     [state, submission],
   );
   /**

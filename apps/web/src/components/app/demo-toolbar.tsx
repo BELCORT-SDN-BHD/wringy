@@ -16,13 +16,16 @@
  * the refused error code is reported.
  */
 
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
+  ArrowRight,
   Banknote,
   Clock,
   Database,
   FlaskConical,
+  Map,
   Plus,
   RotateCcw,
   ShieldCheck,
@@ -62,7 +65,7 @@ import { SCENARIO_IDS, scenarioLabelKey } from '@/config/scenarios';
 import { errorCopyKey } from '@/lib/error-copy';
 import { formatDateTime } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
-import { useActor, useCurrentUser } from '@/store/actor';
+import { useActor } from '@/store/actor';
 import {
   useDemoActions,
   useDemoSnapshot,
@@ -76,6 +79,7 @@ import {
   selectSubmissionsForUser,
   selectUnresolvedPayoutAttempts,
 } from '@/store/selectors';
+import { useBecomeRole, type DemoRole } from '@/store/use-become-role';
 import type { Command, CommandResult, ScenarioId } from '@/domain/types';
 
 const HOUR_MS = 60 * 60 * 1000;
@@ -116,6 +120,8 @@ export function DemoToolbar() {
           <SheetDescription>{t('panel.description')}</SheetDescription>
         </SheetHeader>
         <div className="flex flex-col gap-5 px-4 pb-6">
+          <GuideLink />
+          <Separator />
           <ClockSection />
           <Separator />
           <IdentitySection />
@@ -132,6 +138,34 @@ export function DemoToolbar() {
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// The guided entry
+// ---------------------------------------------------------------------------
+
+/**
+ * A link out to `/demo`.
+ *
+ * The panel is a control surface: it can reach any state but says nothing about
+ * which state is worth reaching. The guide is the other half, so the two point at
+ * each other rather than each being a dead end.
+ */
+function GuideLink() {
+  const t = useTranslations('demo.guide');
+
+  return (
+    <section className="flex flex-col gap-2">
+      <SectionTitle icon={Map}>{t('title')}</SectionTitle>
+      <p className="text-muted-foreground text-xs break-words">{t('subtitle')}</p>
+      <Button asChild variant="outline" size="sm">
+        <Link href="/demo" data-testid="demo-toolbar-guide">
+          {t('go')}
+          <ArrowRight aria-hidden="true" />
+        </Link>
+      </Button>
+    </section>
   );
 }
 
@@ -323,27 +357,50 @@ function ClockSection() {
 // Identity
 // ---------------------------------------------------------------------------
 
+/**
+ * The four identities, as four buttons.
+ *
+ * Every switch goes through `useBecomeRole`, which is also what the `/demo`
+ * guide's "Go" uses. That shared hook exists because this section used to get one
+ * case wrong: it switched the *current* user's workspace, so once a reviewer had
+ * become operations finance — a separate simulated user with no org — the
+ * merchant button was disabled and there was no way back to Demo User at all. A
+ * demo you can get stuck in is not a repeatable demo (ticket #9 / P11).
+ */
 function IdentitySection() {
   const t = useTranslations('demo.role');
   const state = useDemoSnapshot();
   const actor = useActor();
-  const user = useCurrentUser();
-  const { run, runQuiet } = useToolDispatch();
+  const becomeRole = useBecomeRole();
+  const tErrors = useTranslations('common.errors');
+  const tPanel = useTranslations('demo');
 
-  const opsReviewer = Object.values(state.users).find(
-    (candidate) => candidate.opsCapability === 'ops_reviewer',
-  );
-  const opsFinance = Object.values(state.users).find(
-    (candidate) => candidate.opsCapability === 'ops_finance',
-  );
-  const orgName = user?.orgIds[0] ? state.orgs[user.orgIds[0]]?.name : null;
+  const has = (capability: 'ops_reviewer' | 'ops_finance') =>
+    Object.values(state.users).some((candidate) => candidate.opsCapability === capability);
 
-  /** Ops identities are separate simulated users, so switching means signing in as them. */
-  const becomeOps = (userId: string | undefined, role: 'ops_reviewer' | 'ops_finance') => {
-    if (!userId) return;
-    if (!runQuiet({ type: 'session.signIn', userId }).ok) return;
-    const label = t(role === 'ops_finance' ? 'opsFinance' : 'opsReviewer');
-    run({ type: 'session.setOpsRole', role }, t('switched', { role: label }));
+  /**
+   * The org name belongs to the identity that owns the workspaces, not to
+   * whoever is acting right now: the label must not change to "Merchant org"
+   * just because the reviewer is currently operations.
+   */
+  const workspaceUser = Object.values(state.users).find(
+    (candidate) => candidate.opsCapability === null && candidate.orgIds.length > 0,
+  );
+  const orgName = workspaceUser?.orgIds[0]
+    ? (state.orgs[workspaceUser.orgIds[0]]?.name ?? null)
+    : null;
+
+  const switchTo = (role: DemoRole, label: string) => {
+    const result = becomeRole(role);
+    if (result.ok) {
+      toast.success(t('switched', { role: label }));
+      return;
+    }
+    toast.error(
+      tPanel('toolbar.failed', {
+        reason: result.failure ? tErrors(errorCopyKey(result.failure.code)) : tErrors('unknown'),
+      }),
+    );
   };
 
   return (
@@ -353,17 +410,8 @@ function IdentitySection() {
         <Button
           variant={actor.role === 'creator' ? 'secondary' : 'outline'}
           size="sm"
-          onClick={() => {
-            if (!user) {
-              // The creator workspace belongs to the demo user; sign in first.
-              if (!runQuiet({ type: 'session.signIn', userId: 'user-demo' }).ok) return;
-            }
-            runQuiet({ type: 'session.setOpsRole', role: null });
-            run(
-              { type: 'session.switchWorkspace', workspace: 'creator' },
-              t('switched', { role: t('creator') }),
-            );
-          }}
+          disabled={!workspaceUser}
+          onClick={() => switchTo('creator', t('creator'))}
           data-testid="demo-role-creator"
         >
           {t('creator')}
@@ -372,13 +420,7 @@ function IdentitySection() {
           variant={actor.role === 'merchant' ? 'secondary' : 'outline'}
           size="sm"
           disabled={!orgName}
-          onClick={() => {
-            runQuiet({ type: 'session.setOpsRole', role: null });
-            run(
-              { type: 'session.switchWorkspace', workspace: 'merchant' },
-              t('switched', { role: orgName ?? t('merchant') }),
-            );
-          }}
+          onClick={() => switchTo('merchant', orgName ?? t('merchant'))}
           data-testid="demo-role-merchant"
         >
           <span className="truncate">{orgName ?? t('merchant')}</span>
@@ -386,8 +428,8 @@ function IdentitySection() {
         <Button
           variant={actor.role === 'ops_reviewer' ? 'secondary' : 'outline'}
           size="sm"
-          disabled={!opsReviewer}
-          onClick={() => becomeOps(opsReviewer?.id, 'ops_reviewer')}
+          disabled={!has('ops_reviewer')}
+          onClick={() => switchTo('ops_reviewer', t('opsReviewer'))}
           data-testid="demo-role-ops-reviewer"
         >
           {t('opsReviewer')}
@@ -395,8 +437,8 @@ function IdentitySection() {
         <Button
           variant={actor.role === 'ops_finance' ? 'secondary' : 'outline'}
           size="sm"
-          disabled={!opsFinance}
-          onClick={() => becomeOps(opsFinance?.id, 'ops_finance')}
+          disabled={!has('ops_finance')}
+          onClick={() => switchTo('ops_finance', t('opsFinance'))}
           data-testid="demo-role-ops-finance"
         >
           {t('opsFinance')}
@@ -422,9 +464,25 @@ function ViewsSection() {
   const parsed = Number.parseInt(custom, 10);
   const customValid = Number.isInteger(parsed) && parsed > 0;
 
+  /**
+   * The engine accepts this command after the metering end and deliberately
+   * counts nothing ("计量结束后不加计奖观看"), and it also accepts it during a data
+   * outage and records a failed read instead of a number. Both are `ok: true`, so
+   * a fixed "Added N views" toast would tell the operator the opposite of what
+   * happened. The audit entry the command wrote says which case it was.
+   */
   const add = (views: number) => {
     if (!selected) return;
-    run({ type: 'demo.addQualifiedViews', submissionId: selected.id, views }, t('added', { count: views }));
+    run({ type: 'demo.addQualifiedViews', submissionId: selected.id, views }, (result) => {
+      switch (result.state.audit[result.state.audit.length - 1]?.reason) {
+        case 'ignored_after_metering_end':
+          return t('ignoredAfterMeteringEnd');
+        case 'read_failed_source_unreachable':
+          return t('ignoredSourceUnreachable');
+        default:
+          return t('added', { count: views });
+      }
+    });
   };
 
   if (options.length === 0) {

@@ -20,15 +20,16 @@
  */
 
 import Link from 'next/link';
-import { CircleCheck, CircleSlash, ExternalLink, FileVideo } from 'lucide-react';
+import { CalendarClock, CircleCheck, CircleSlash, ExternalLink, FileVideo } from 'lucide-react';
 import { useMemo, useState } from 'react';
+
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import type { ReactNode } from 'react';
 
 import { DataUnavailable } from '@/components/app/data-unavailable';
 import { ConfirmDialog } from '@/components/app/confirm-dialog';
-import { DateTimeText } from '@/components/app/date-time-text';
+import { DateTimeText, TimeZoneHint } from '@/components/app/date-time-text';
 import { EmptyState } from '@/components/app/empty-state';
 import { CommandErrorAlert } from '@/components/app/error-state';
 import { HydrationGate } from '@/components/app/hydration-gate';
@@ -39,11 +40,16 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatViewsOrUnknown } from '@/lib/format';
+import { formatAuditAction } from '@/lib/audit-copy';
+import { formatDateTime, formatViewsOrUnknown } from '@/lib/format';
 import { useAppLocale } from '@/lib/use-app-locale';
 import { useDemoSnapshot } from '@/store/demo-store';
 import { selectAuditFor } from '@/store/selectors';
-import type { Platform } from '@/domain/types';
+import type {
+  ClaimDeadlineExtension,
+  Platform,
+  SubmissionDeadlinesView,
+} from '@/domain/types';
 
 import { useMerchantCommand, useOwnSubmission } from './hooks';
 
@@ -65,6 +71,7 @@ function Review({ submissionId }: { submissionId: string }) {
   const t = useTranslations('merchant.review');
   const tPublic = useTranslations('public.campaign');
   const tDetail = useTranslations('merchant.detail');
+  const tActions = useTranslations('common.actions');
   const locale = useAppLocale();
   const state = useDemoSnapshot();
   const detail = useOwnSubmission(submissionId);
@@ -108,7 +115,7 @@ function Review({ submissionId }: { submissionId: string }) {
   const timeline: TimelineEntry[] = audit.map((entry) => ({
     id: entry.id,
     at: entry.at,
-    title: entry.after ? `${entry.action} · ${entry.after}` : entry.action,
+    title: formatAuditAction(entry.action, tActions),
     actor: state.users[entry.actorUserId]?.displayName ?? entry.actorUserId,
     reason: entry.reason,
   }));
@@ -317,6 +324,8 @@ function Review({ submissionId }: { submissionId: string }) {
         </CardContent>
       </Card>
 
+      <DeadlinesCard deadlines={detail.deadlines} />
+
       <section className="flex flex-col gap-3">
         <h2 className="font-heading text-lg font-medium">{t('historyTitle')}</h2>
         <TimelineList entries={timeline} />
@@ -359,3 +368,118 @@ function Stat({ label, value }: { label: string; value: ReactNode }) {
     </div>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Metering window, claim deadline, extensions and retention
+// ---------------------------------------------------------------------------
+
+/**
+ * The same four dates the creator and operations read, on the merchant's copy of
+ * the submission.
+ *
+ * Ticket #8 wants the metering end and the claim deadline "shown identically" to
+ * all three roles, and the merchant is the party that chose the 7-day windows —
+ * reading them only on the creator's page would leave the merchant guessing when
+ * their own obligation ends. Every value comes from `selectSubmissionDeadlines`,
+ * so there is one computation and three renderings of it, never three
+ * computations.
+ */
+function DeadlinesCard({ deadlines }: { deadlines: SubmissionDeadlinesView | null }) {
+  const t = useTranslations('merchant.review');
+  const locale = useAppLocale();
+  if (!deadlines) return null;
+
+  return (
+    <Card data-testid="merchant-window">
+      <CardHeader>
+        <CardTitle className="flex flex-wrap items-center gap-2 text-base">
+          <CalendarClock aria-hidden="true" className="size-4" />
+          {t('windowTitle')}
+        </CardTitle>
+        <CardDescription>{t('windowNote')}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <dl className="flex flex-col">
+          <Row
+            label={t('windowAccepted')}
+            value={<DateTimeText iso={deadlines.acceptedAt} />}
+          />
+          <Row
+            label={t('windowMeteringEnds')}
+            value={
+              <span data-testid="merchant-metering-ends">
+                <DateTimeText iso={deadlines.meteringEndsAt} />
+              </span>
+            }
+            hint={t('windowMeteringEndsNote')}
+          />
+          <Row
+            label={t('windowBaseDeadline')}
+            value={
+              <span data-testid="merchant-base-claim-deadline">
+                <DateTimeText iso={deadlines.baseClaimDeadlineAt} />
+              </span>
+            }
+          />
+          <Row
+            label={t('windowEffectiveDeadline')}
+            value={
+              <span data-testid="merchant-effective-claim-deadline">
+                <DateTimeText iso={deadlines.effectiveClaimDeadlineAt} />
+              </span>
+            }
+            hint={t('windowEffectiveDeadlineNote')}
+          />
+          <Row
+            label={t('windowRetention')}
+            value={
+              <span data-testid="merchant-retention">
+                <DateTimeText iso={deadlines.retentionEndsAt} />
+              </span>
+            }
+            hint={t(RETENTION_REASON_KEY[deadlines.retentionReason])}
+          />
+        </dl>
+
+        {deadlines.extensions.length > 0 ? (
+          <div className="flex flex-col gap-2" data-testid="merchant-extensions">
+            <h3 className="text-sm font-medium">{t('extensionsTitle')}</h3>
+            {deadlines.extensions.map((extension) => (
+              <div
+                key={extension.id}
+                className="bg-attention-subtle text-attention-foreground flex flex-col gap-0.5 rounded-lg border border-transparent p-3"
+                data-extension-reason={extension.reason}
+              >
+                <span className="text-sm break-words">
+                  {t(EXTENSION_REASON_KEY[extension.reason])}
+                </span>
+                <span className="text-xs break-words">
+                  {t('extensionRow', {
+                    unblocked: formatDateTime(extension.unblockedAt, locale),
+                    deadline: formatDateTime(extension.newDeadlineAt, locale),
+                  })}
+                </span>
+              </div>
+            ))}
+            <p className="text-muted-foreground text-xs break-words">{t('extensionNote')}</p>
+          </div>
+        ) : null}
+
+        <TimeZoneHint />
+      </CardContent>
+    </Card>
+  );
+}
+
+/** Retention has one reason each, and the copy names which one applied. */
+const RETENTION_REASON_KEY: Record<SubmissionDeadlinesView['retentionReason'], string> = {
+  published_retention: 'retentionReasonPublished',
+  claim_deadline: 'retentionReasonClaimDeadline',
+  open_cases: 'retentionReasonOpenCases',
+  confirmed_unpaid: 'retentionReasonConfirmedUnpaid',
+};
+
+const EXTENSION_REASON_KEY: Record<ClaimDeadlineExtension['reason'], string> = {
+  data_outage: 'extensionReasonDataOutage',
+  pending_case: 'extensionReasonPendingCase',
+};

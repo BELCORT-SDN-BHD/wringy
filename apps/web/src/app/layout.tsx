@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { getLocale, getTranslations } from 'next-intl/server';
 
-import { DemoBadge } from '@/components/app/demo-badge';
 import { DemoToolbar } from '@/components/app/demo-toolbar';
 import { LocalePrompt } from '@/components/app/locale-prompt';
 import { AppProviders } from '@/components/app/providers';
@@ -52,8 +51,9 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
               it never covers a header or a primary action. */}
           <LocalePrompt />
           {children}
-          {/* Visible on every page, per ticket #2. */}
-          <DemoBadge />
+          {/* The "Demo data · simulated" mark (ticket #2) lives in the page
+              header at every viewport, not in a floating pill: see
+              `demo-badge.tsx` for why the fixed one was removed. */}
           {/* The only place the clock, views, readiness, payouts, identity and
               scenarios can be changed. */}
           <DemoToolbar />

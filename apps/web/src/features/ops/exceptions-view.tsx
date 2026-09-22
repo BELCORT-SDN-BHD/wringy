@@ -33,12 +33,17 @@ import {
   ItemGroup,
   ItemTitle,
 } from '@/components/ui/item';
-import { lastSnapshot } from '@/domain';
 import type { AuditEntry, DemoState, IsoDateTime } from '@/domain/types';
 import { useDemoSnapshot } from '@/store/demo-store';
-import { selectAllSubmissions, selectAuditFor, selectObligations } from '@/store/selectors';
+import { formatAuditAction } from '@/lib/audit-copy';
+import {
+  selectAllSubmissions,
+  selectAuditFor,
+  selectLastSnapshot,
+  selectObligations,
+} from '@/store/selectors';
 
-import { OpsPageHeader, actorName, auditActionKey } from './ops-shared';
+import { OpsPageHeader, actorName } from './ops-shared';
 
 type ExceptionKind =
   | 'data_unavailable'
@@ -90,7 +95,7 @@ function buildRows(state: DemoState, unknownCampaign: string): ExceptionRow[] {
         id: `data-${submission.id}`,
         kind: 'data_unavailable',
         target: `${campaignTitle(submission.campaignId)} · ${creatorName(submission.creatorId)} · ${submission.platform}`,
-        since: lastSnapshot(submission)?.observedAt ?? submission.submittedAt,
+        since: selectLastSnapshot(submission)?.observedAt ?? submission.submittedAt,
         audit: latestAudit(state, 'submission', submission.id),
         badge: { group: 'submission', code: submission.status },
         href: `/ops/submissions/${submission.id}`,
@@ -145,7 +150,7 @@ export function OpsExceptionsView() {
   const t = useTranslations('ops.exceptions');
   const tQueue = useTranslations('ops.queue');
   const tShared = useTranslations('ops.shared');
-  const tActions = useTranslations('ops.auditActions');
+  const tActions = useTranslations('common.actions');
   const state = useDemoSnapshot();
 
   const unknownCampaign = tQueue('unknownCampaign');
@@ -220,7 +225,7 @@ export function OpsExceptionsView() {
                           <span className="break-words">
                             {t('colActor')}:{' '}
                             {row.audit ? actorName(state, row.audit.actorUserId) : t('noActor')}
-                            {row.audit ? ` · ${tActions(auditActionKey(row.audit.action))}` : ''}
+                            {row.audit ? ` · ${formatAuditAction(row.audit.action, tActions)}` : ''}
                           </span>
                           <span className="break-words">
                             {t('colReason')}: {row.audit?.reason ?? t('noReason')}

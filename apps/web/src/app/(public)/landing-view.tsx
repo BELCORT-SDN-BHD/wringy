@@ -84,6 +84,25 @@ export function LandingView() {
           })}
         </ItemGroup>
       </section>
+
+      {/* The guided entry (ticket #9). It sits in a footer rather than next to
+          the two primary actions because a first-time visitor should be able to
+          just browse; the walkthrough is for whoever is reviewing the prototype. */}
+      <footer
+        className="flex flex-col gap-2 border-t pt-6"
+        data-testid="landing-footer"
+      >
+        <h2 className="text-sm font-medium">{t('demoGuideTitle')}</h2>
+        <p className="text-muted-foreground max-w-2xl text-xs">{t('demoGuideNote')}</p>
+        <div className="flex">
+          <Button asChild variant="outline" size="sm">
+            <Link href="/demo" data-testid="landing-demo-guide">
+              {t('demoGuideAction')}
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+        </div>
+      </footer>
     </div>
   );
 }

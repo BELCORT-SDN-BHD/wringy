@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { DIALOG_FIT_CLASS } from '@/components/app/dialog-fit';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -89,7 +90,7 @@ export function ConfirmDialog({
   return (
     <AlertDialog open={open} onOpenChange={handleOpenChange}>
       {trigger ? <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger> : null}
-      <AlertDialogContent>
+      <AlertDialogContent className={DIALOG_FIT_CLASS}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title ?? t('defaultTitle')}</AlertDialogTitle>
           <AlertDialogDescription>{description ?? t('demoNote')}</AlertDialogDescription>

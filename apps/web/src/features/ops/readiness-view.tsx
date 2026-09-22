@@ -11,12 +11,13 @@
  */
 
 import Link from 'next/link';
-import { ShieldCheck } from 'lucide-react';
+import { CircleAlert, ShieldCheck } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { ConfirmDialog } from '@/components/app/confirm-dialog';
 import { EmptyState } from '@/components/app/empty-state';
+import { MoneyText } from '@/components/app/money-text';
 import { StatusBadge } from '@/components/app/status-badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -25,9 +26,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
 import type { Campaign } from '@/domain/types';
 import { useDemoSnapshot } from '@/store/demo-store';
-import { selectAllCampaigns, selectCampaign } from '@/store/selectors';
+import { formatSen } from '@/lib/format';
+import { useAppLocale } from '@/lib/use-app-locale';
+import { selectAllCampaigns, selectCampaign, selectCampaignClosure } from '@/store/selectors';
 
-import { AuditTrail, OpsCommandError, OpsNotFound, OpsPageHeader, useOpsCommand } from './ops-shared';
+import {
+  AuditTrail,
+  FactList,
+  OpsCommandError,
+  OpsNotFound,
+  OpsPageHeader,
+  useOpsCommand,
+} from './ops-shared';
 
 // ---------------------------------------------------------------------------
 // List
@@ -202,8 +212,114 @@ export function OpsReadinessView({ campaignId }: { campaignId: string }) {
         </CardContent>
       </Card>
 
+      <ClosureCard campaignId={campaign.id} />
+
       <AuditTrail targetType="campaign" targetId={campaign.id} />
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Closure, from the operations side
+// ---------------------------------------------------------------------------
+
+/**
+ * What still blocks calling a campaign settled, read by operations.
+ *
+ * Ticket #8: "仍有未清款/申诉不能显示全结清". The merchant has the same panel on its
+ * own campaign page; operations needs it too, because operations is who resolves
+ * the appeals and payouts the verdict waits on. Both read
+ * `selectCampaignClosure`, so the two pages cannot disagree about whether a
+ * campaign is settled.
+ *
+ * The unconfirmed tail below the minimum claim is disclosed here before closure
+ * rather than after it, and the refund of the unused pool stays "pending
+ * verification": M1 invents no automatic refund path.
+ */
+function ClosureCard({ campaignId }: { campaignId: string }) {
+  const t = useTranslations('ops.closure');
+  const state = useDemoSnapshot();
+  const locale = useAppLocale();
+  const closure = useMemo(() => selectCampaignClosure(state, campaignId), [state, campaignId]);
+  if (!closure) return null;
+
+  const blockers = [
+    closure.openAppeals > 0 ? t('blockerAppeals', { count: closure.openAppeals }) : null,
+    closure.pendingClaims > 0 ? t('blockerPendingClaims', { count: closure.pendingClaims }) : null,
+    closure.confirmedUnpaidClaims > 0
+      ? t('blockerConfirmedUnpaid', { count: closure.confirmedUnpaidClaims })
+      : null,
+    closure.unresolvedPayouts > 0
+      ? t('blockerUnresolvedPayouts', { count: closure.unresolvedPayouts })
+      : null,
+  ].filter((reason): reason is string => reason !== null);
+
+  return (
+    <Card data-testid="ops-closure-panel" data-fully-settled={closure.canShowFullySettled}>
+      <CardHeader>
+        <CardTitle>{t('title')}</CardTitle>
+        <CardDescription>{t('subtitle')}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        <Alert
+          className={closure.canShowFullySettled ? 'bg-success-subtle' : 'bg-attention-subtle'}
+          data-testid="ops-closure-verdict"
+        >
+          {closure.canShowFullySettled ? (
+            <ShieldCheck aria-hidden="true" />
+          ) : (
+            <CircleAlert aria-hidden="true" />
+          )}
+          <AlertTitle>
+            {closure.canShowFullySettled ? t('settled') : t('notSettled')}
+          </AlertTitle>
+          <AlertDescription className="flex flex-col gap-1">
+            <span className="break-words">
+              {closure.canShowFullySettled ? t('settledNote') : t('notSettledNote')}
+            </span>
+            {blockers.map((reason) => (
+              <span key={reason} className="break-words">
+                · {reason}
+              </span>
+            ))}
+          </AlertDescription>
+        </Alert>
+
+        <FactList
+          items={[
+            {
+              label: t('tail'),
+              value: <MoneyText sen={closure.unconfirmedTailSen} tabular />,
+              hint: t('tailNote'),
+            },
+            {
+              label: t('refund'),
+              value: (
+                <Badge
+                  variant="outline"
+                  className="bg-inactive-subtle text-inactive-foreground border-transparent"
+                  data-testid="ops-closure-refund"
+                >
+                  {t('refundValue')}
+                </Badge>
+              ),
+              hint: t('refundNote'),
+            },
+            {
+              label: t('pool'),
+              value: <MoneyText sen={closure.budget.poolSen} tabular />,
+            },
+            {
+              label: t('confirmedUnpaidAmount'),
+              value: <MoneyText sen={closure.budget.confirmedUnpaidSen} tabular />,
+            },
+          ]}
+        />
+        <p className="text-muted-foreground text-xs break-words">
+          {t('poolNote', { currency: formatSen(closure.budget.availableSen, locale) })}
+        </p>
+      </CardContent>
+    </Card>
   );
 }
 
