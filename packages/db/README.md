@@ -55,6 +55,15 @@ binaries). `db:start` initialises the cluster with embedded-postgres's
 outlives the command ([embedded-postgres README](https://github.com/leinelissen/embedded-postgres#readme)).
 The db scripts read the repository-root `.env` when it exists.
 
+**Windows: keep the checkout path short.** The Windows binaries load their DLLs from
+`node_modules/.pnpm/@embedded-postgres+windows-x64@17.10.0-beta.17/node_modules/@embedded-postgres/windows-x64/native/bin/`,
+about 120 characters below the repository root. In a clone whose deepest DLL path came to
+278 characters, `initdb.exe --version` exited 127 while the identical file under
+`C:\Users\<you>\Desktop\wringy` printed `initdb (PostgreSQL) 17.10`, and `pnpm test:int`
+failed with `Postgres init script failed (code: 3221225734)` (0xC0000135, DLL not found).
+The 260-character Windows path limit is the likely cause (inferred, not confirmed). Use a
+short checkout path, or point `TEST_DATABASE_URL` at another PostgreSQL 17.
+
 ## Environment
 
 | Command | Variables (names in the root `.env.example`) |
