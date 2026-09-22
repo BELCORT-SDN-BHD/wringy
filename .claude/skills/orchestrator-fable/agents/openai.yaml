@@ -9,6 +9,5 @@ interface:
     parallelism or specialist-isolation helps, verify every result. Apply it whenever work is
     big enough to delegate, not only when the user says "orchestrate".
 policy:
-  # The description asks for this skill on every substantive task, so Codex may invoke it
-  # without the user naming it. Set to false to require an explicit mention.
-  allow_implicit_invocation: true
+  # Owner decision (2026-09-22): Codex runs this skill only when the user names it.
+  allow_implicit_invocation: false
