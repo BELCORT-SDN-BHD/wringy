@@ -7,10 +7,12 @@
  * by the migrator, then removes CONNECT/TEMPORARY from PUBLIC on it. Idempotent.
  *
  * Inputs (names in the root .env.example): WRINGY_ENV, PG_BOOTSTRAP_ADMIN_URL,
- * PG_BOOTSTRAP_DATABASE, PG_BOOTSTRAP_{MIGRATOR,API,WORKER}_PASSWORD. Only when
- * WRINGY_ENV=local may the admin URL and passwords be left unset: the embedded
- * cluster's superuser and fixed development passwords are used then. Any other
- * environment without them is refused by @wringy/config.
+ * PG_BOOTSTRAP_DATABASE, PG_BOOTSTRAP_{MIGRATOR,API,WORKER}_PASSWORD. Only for
+ * the embedded local cluster (WRINGY_ENV=local and the admin URL unset, or on a
+ * loopback host at the db:start port) may the admin URL and passwords be left
+ * unset: its superuser and the fixed development passwords are used then.
+ * Anywhere else they are required, and a development password is refused
+ * (src/bootstrap-plan.ts, @wringy/config).
  *
  * Run through tsx (it imports TypeScript from ../src and @wringy/config).
  */
@@ -20,20 +22,12 @@ import { EnvError } from '@wringy/config';
 import { loadBootstrapEnv } from '@wringy/config/bootstrap';
 
 import { ensureDatabase, ensureRoles } from '../src/bootstrap.ts';
-import { LOCAL_PASSWORDS, localUrls } from '../src/local-dev.ts';
+import { DevelopmentPasswordRefusedError, resolveBootstrapPlan } from '../src/bootstrap-plan.ts';
 import { ROLES } from '../src/roles.ts';
 
 async function main() {
   const env = loadBootstrapEnv();
-  const local = env.WRINGY_ENV === 'local';
-
-  // loadBootstrapEnv already refused a non-local run with any of these unset.
-  const adminUrl = env.PG_BOOTSTRAP_ADMIN_URL ?? localUrls().superuser;
-  const passwords = {
-    migrator: env.PG_BOOTSTRAP_MIGRATOR_PASSWORD ?? LOCAL_PASSWORDS.migrator,
-    api: env.PG_BOOTSTRAP_API_PASSWORD ?? LOCAL_PASSWORDS.api,
-    worker: env.PG_BOOTSTRAP_WORKER_PASSWORD ?? LOCAL_PASSWORDS.worker,
-  };
+  const { adminUrl, passwords, developmentPasswords } = resolveBootstrapPlan(env);
   const database = env.PG_BOOTSTRAP_DATABASE;
 
   const admin = new pg.Client({ connectionString: adminUrl, application_name: 'wringy-bootstrap' });
@@ -43,7 +37,7 @@ async function main() {
     const outcome = await ensureDatabase(admin, database);
     console.log(
       [
-        `Bootstrap complete for WRINGY_ENV=${env.WRINGY_ENV}${local ? ' (development passwords)' : ''}.`,
+        `Bootstrap complete for WRINGY_ENV=${env.WRINGY_ENV}${developmentPasswords ? ' (development passwords, embedded local cluster)' : ''}.`,
         `  groups: ${ROLES.apiGroup}, ${ROLES.workerGroup} (NOLOGIN)`,
         `  logins: ${ROLES.migrator}, ${ROLES.apiLogin} in ${ROLES.apiGroup}, ${ROLES.workerLogin} in ${ROLES.workerGroup}`,
         `  database: ${database} (${outcome}), owner ${ROLES.migrator}, CONNECT for the runtime groups only`,
@@ -56,8 +50,9 @@ async function main() {
 }
 
 main().catch((error) => {
-  // EnvError names variables only; pg errors never carry the connection string.
+  // EnvError and DevelopmentPasswordRefusedError name variables only; pg errors never carry the connection string.
   const message = error instanceof Error ? error.message : String(error);
-  console.error(error instanceof EnvError ? message : `Bootstrap failed: ${message}`);
+  const known = error instanceof EnvError || error instanceof DevelopmentPasswordRefusedError;
+  console.error(known ? message : `Bootstrap failed: ${message}`);
   process.exitCode = 1;
 });

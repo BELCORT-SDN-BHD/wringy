@@ -186,6 +186,32 @@ describe('M2-AC01 bootstrap env', () => {
     });
   });
 
+  it('M2-AC01/2 refuses the development fallback for WRINGY_ENV=local when the admin URL is not this machine', () => {
+    for (const host of ['db.staging.example.com', '10.0.0.5', '[2001:db8::1]']) {
+      expect(
+        problemsOf(() =>
+          loadBootstrapEnv({ WRINGY_ENV: 'local', PG_BOOTSTRAP_ADMIN_URL: `postgres://postgres:placeholder@${host}:5432/postgres` }),
+        ),
+        host,
+      ).toEqual([
+        { name: 'PG_BOOTSTRAP_API_PASSWORD', problem: 'missing' },
+        { name: 'PG_BOOTSTRAP_MIGRATOR_PASSWORD', problem: 'missing' },
+        { name: 'PG_BOOTSTRAP_WORKER_PASSWORD', problem: 'missing' },
+      ]);
+    }
+  });
+
+  it('lets a local bootstrap on a loopback admin URL fall back to development values', () => {
+    for (const host of ['127.0.0.1', 'localhost', '[::1]']) {
+      const url = `postgres://postgres:placeholder@${host}:54329/postgres`;
+      expect(loadBootstrapEnv({ WRINGY_ENV: 'local', PG_BOOTSTRAP_ADMIN_URL: url }), host).toEqual({
+        WRINGY_ENV: 'local',
+        PG_BOOTSTRAP_ADMIN_URL: url,
+        PG_BOOTSTRAP_DATABASE: 'wringy',
+      });
+    }
+  });
+
   it('refuses a non-local bootstrap without an admin URL and all three passwords', () => {
     expect(problemsOf(() => loadBootstrapEnv({ WRINGY_ENV: 'staging' }))).toEqual([
       { name: 'PG_BOOTSTRAP_ADMIN_URL', problem: 'missing' },

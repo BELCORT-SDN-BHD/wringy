@@ -1,6 +1,6 @@
 export { EnvError, parseEnv, tryLoadEnv } from './parse';
 export type { EnvProblem, EnvProblemKind, EnvResult, EnvSource } from './parse';
-export { WRINGY_ENVS, httpUrlSchema, postgresUrlSchema, wringyEnvSchema } from './shared';
+export { WRINGY_ENVS, httpUrlSchema, isLoopbackUrl, postgresUrlSchema, wringyEnvSchema } from './shared';
 export type { WringyEnv } from './shared';
 export { loadWebEnv, webEnvSchema } from './web';
 export type { WebEnv } from './web';

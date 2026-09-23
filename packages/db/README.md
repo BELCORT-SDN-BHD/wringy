@@ -118,7 +118,7 @@ is to start PgBoss with `migrate: false` against this schema
 ```sh
 pnpm db:start           # embedded PostgreSQL 17.10 on 127.0.0.1:54329, data in .local/pg, TimeZone=UTC; prints the URLs
 # put WRINGY_ENV=local and the printed DATABASE_URL_MIGRATOR in the root .env
-pnpm db:bootstrap       # once: groups, logins, database `wringy` (development passwords because WRINGY_ENV=local)
+pnpm db:bootstrap       # once: groups, logins, database `wringy` (development passwords: WRINGY_ENV=local on the embedded cluster)
 pnpm db:migrate         # pg-boss schema, then all pending SQL migrations, as the migrator; rerunning changes nothing
 pnpm db:env             # the ops.environment marker for WRINGY_ENV (fixtures allowed except in production)
 pnpm db:seed:fixtures   # two fixture orgs and three fixture campaigns; refused unless the marker allows fixtures
@@ -168,7 +168,7 @@ as Supabase's non-superuser `postgres`.
 | Command | Variables (names in the root `.env.example`) |
 |---|---|
 | `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
-| `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` |
+| `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` and the admin URL is unset or the embedded cluster (a loopback host at port 54329); anywhere else a development password is refused (`src/bootstrap-plan.ts`) |
 | `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing PostgreSQL 17) |
 
 The bootstrap sends passwords to the server as SCRAM-SHA-256 verifiers computed

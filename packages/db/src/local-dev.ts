@@ -3,8 +3,10 @@
  * `pnpm db:start` runs on this machine (ruling D29), and for the test harness.
  *
  * They are fixed on purpose so a local `.env` keeps working across restarts. The
- * bootstrap uses them only when `WRINGY_ENV=local` and refuses to fall back to
- * them anywhere else; no staging or production credential ever lives in code.
+ * bootstrap uses them only for the embedded cluster (WRINGY_ENV=local and the
+ * admin URL unset or on a loopback host at LOCAL_PG_PORT; bootstrap-plan.ts),
+ * and refuses them as passwords anywhere else. No staging or production
+ * credential ever lives in code.
  */
 import { ROLES } from './roles';
 
