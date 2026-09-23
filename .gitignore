@@ -37,7 +37,7 @@ apps/web/tests/e2e/test-results/
 apps/web/tests/e2e-internal/test-results/
 apps/web/playwright-report-internal/
 
-# pnpm depcruise plants this file for one cruise and always deletes it
+# pnpm depcruise plants these files for one cruise and always deletes them
 apps/web/src/lib/__dependency-violation__.ts
 apps/worker/src/__dependency-violation__.ts
 
