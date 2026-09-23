@@ -26,3 +26,6 @@ apps/web/.next/
 apps/web/next-env.d.ts
 # M1 acceptance screenshots are evidence artefacts, not knowledge; keep them out of the graph like the finance data above.
 docs/m1-prototype/screenshots/
+# M2 evidence screenshots and the acceptance-mapping self-test fixtures are evidence artefacts, not knowledge.
+docs/m2-internal/screenshots/
+scripts/fixtures/acceptance-self-test/
