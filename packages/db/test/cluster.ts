@@ -136,12 +136,37 @@ export function databaseUrls(cluster: ClusterInfo, database: string): TestDataba
   };
 }
 
+/** Advisory-lock key (hashed by the server) that serialises bootstrapTestRoles across runs sharing a cluster. */
+const BOOTSTRAP_LOCK = 'wringy-test-cluster-bootstrap';
+
+/**
+ * The login roles and groups as `pnpm db:bootstrap` makes them, with the fixed
+ * local development passwords, so pointing TEST_DATABASE_URL at the
+ * `pnpm db:start` cluster leaves a working local .env untouched.
+ *
+ * Roles are cluster-wide, and test runs can share one cluster: CI points every
+ * suite at one postgres:17 service, and `pnpm test:int` runs the apps/api and
+ * apps/worker suites at the same time. Two sessions altering or granting the
+ * same role at once fail with "tuple concurrently updated" (XX000; seen in
+ * `pnpm test:int` against one cluster on 2026-09-23), so the bootstrap holds a
+ * session advisory lock. Every admin connection opens the same database (the
+ * admin URL's), which is what an advisory lock is scoped to.
+ */
+export async function bootstrapTestRoles(cluster: ClusterInfo): Promise<void> {
+  await withAdminAt(cluster, async (admin) => {
+    await admin.query('SELECT pg_advisory_lock(hashtext($1))', [BOOTSTRAP_LOCK]);
+    try {
+      await ensureRoles(admin, cluster.passwords);
+    } finally {
+      await admin.query('SELECT pg_advisory_unlock(hashtext($1))', [BOOTSTRAP_LOCK]);
+    }
+  });
+}
+
 /** Roles as `pnpm db:bootstrap` makes them, then the template migrated from zero and marked, as the migrator. */
 async function prepareTemplate(cluster: ClusterInfo): Promise<void> {
+  await bootstrapTestRoles(cluster);
   await withAdminAt(cluster, async (admin) => {
-    // The fixed local development passwords, so pointing TEST_DATABASE_URL at the
-    // `pnpm db:start` cluster leaves a working local .env untouched.
-    await ensureRoles(admin, cluster.passwords);
     await ensureDatabase(admin, cluster.templateDatabase);
   });
 
@@ -190,6 +215,8 @@ export async function startTestCluster(options: StartTestClusterOptions = {}): P
   try {
     await prepareTemplate(info);
   } catch (error) {
+    // On a cluster that outlives this run (TEST_DATABASE_URL), leave no half-made template behind.
+    await dropRunDatabases(info).catch(() => {});
     await embedded?.stop();
     throw error;
   }

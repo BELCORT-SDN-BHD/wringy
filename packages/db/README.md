@@ -29,7 +29,7 @@ PostgreSQL without Docker, and the integration-test harness
 |---|---|---|
 | `@wringy/db/testing` | `test/harness.ts` | Vitest integration suites (apps/api, apps/worker): `createTestDatabase()`, `seedFixtures()`, `setTestEnvironment()`, `withRollback()`, `sqlState()`, `withClientAt()`, `TEST_WRINGY_ENV`; the cluster comes from Vitest's `inject('wringyCluster')` |
 | `@wringy/db/testing/global-setup` | `test/global-setup.ts` | The `globalSetup` of every `vitest.int.config.ts` (resolved with `createRequire(import.meta.url).resolve(…)`) |
-| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, run with tsx (the Playwright internal suite's database process, `apps/web/tests/e2e-internal/database-server.mts`): `startTestCluster()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()` |
+| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, run with tsx (the Playwright internal suite's database process, `apps/web/tests/e2e-internal/database-server.mts`): `startTestCluster()`, `bootstrapTestRoles()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()` |
 | `@wringy/db/testing/connect` | `test/connect.ts` | Runners that load test files as CommonJS (Playwright in apps/web): `loginUrlsAt(host, port, database)` and `withClientAt(url, fn)`, importing only `pg` and constants. cluster.ts cannot load there, because `src/migrate.ts` and `src/fixtures.ts` use `import.meta.url` |
 
 No product module imports them: the dependency rules cruise `apps/*/src` and
@@ -162,6 +162,16 @@ string or password.
 | `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin), and the heartbeat constants |
 | `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup (`startTestCluster()` in `test/cluster.ts`) bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
+
+**One cluster, several runs.** With `TEST_DATABASE_URL` set, every suite `pnpm test:int` starts
+uses that one cluster, and pnpm runs the apps/api and apps/worker suites at the same time (CI's
+`integration` job does exactly this against its `postgres:17` service). Roles are cluster-wide, so
+`bootstrapTestRoles()` takes a session advisory lock around the role bootstrap: without it, two
+global setups altering the same role failed with `tuple concurrently updated` (XX000) in one of
+two local runs against the `pnpm db:start` cluster on 2026-09-23, and
+`test/cluster.int.test.ts` failed 3 of 3 times before the lock and passed 3 of 3 after. Each run
+still gets its own template and clones (`wringy_tpl_<run>`, `wringy_t_<run>_*`), dropped at
+teardown, and also when the setup itself fails.
 
 Every test title carries this ticket's key `M2-AC01` (kickoff-package.md §6.1).
 Integration test titles carry `M2-AC01/2` where they prove that sub-item: a fresh
