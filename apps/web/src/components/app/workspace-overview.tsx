@@ -4,7 +4,7 @@
  * Placeholder overview for a role workspace.
  *
  * WAVE-2 WORKERS: replace the page that renders this
- * (`src/app/(workspace)/{creator,merchant,ops}/page.tsx`) with the real overview.
+ * (`src/app/(demo)/(workspace)/{creator,merchant,ops}/page.tsx`) with the real overview.
  * It exists now so the shell, the guards, the navigation and the four budget
  * buckets can be demonstrated and tested end to end before the role features
  * land. Everything it shows already comes from engine selectors, so nothing has

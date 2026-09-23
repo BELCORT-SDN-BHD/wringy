@@ -34,7 +34,7 @@ describe('message catalogue', () => {
     expect(Object.keys(messagesByLocale).sort()).toEqual([...LOCALES].sort());
   });
 
-  it('has all eight namespaces in every locale', () => {
+  it('has every namespace in every locale', () => {
     for (const locale of LOCALES) {
       expect(Object.keys(messagesByLocale[locale]).sort()).toEqual([...NAMESPACES].sort());
     }

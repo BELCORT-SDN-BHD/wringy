@@ -1,0 +1,48 @@
+{
+  "name": "@wringy/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./test/harness.ts",
+    "./testing/cluster": "./test/cluster.ts",
+    "./testing/connect": "./test/connect.ts",
+    "./testing/global-setup": "./test/global-setup.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "build": "node scripts/build-migrate.mjs",
+    "test": "vitest run",
+    "test:int": "vitest run --config vitest.int.config.ts",
+    "migrate": "tsx --env-file-if-exists=../../.env src/cli/migrate.ts",
+    "db:env": "tsx --env-file-if-exists=../../.env src/cli/env.ts",
+    "db:seed:fixtures": "tsx --env-file-if-exists=../../.env src/cli/seed-fixtures.ts",
+    "db:start": "tsx scripts/local-pg.mjs start",
+    "db:stop": "tsx scripts/local-pg.mjs stop",
+    "db:bootstrap": "tsx --env-file-if-exists=../../.env scripts/bootstrap.mjs",
+    "db:status": "tsx scripts/local-pg.mjs status"
+  },
+  "dependencies": {
+    "@wringy/config": "workspace:*",
+    "node-pg-migrate": "9.0.0",
+    "pg": "8.23.0",
+    "pg-boss": "12.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/pg": "8.23.1",
+    "embedded-postgres": "17.10.0-beta.17",
+    "esbuild": "0.28.2",
+    "eslint": "^9",
+    "tsx": "4.23.15",
+    "typescript": "^5",
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^4.1.11"
+  }
+}

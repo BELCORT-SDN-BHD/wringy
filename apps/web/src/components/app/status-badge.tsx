@@ -35,25 +35,16 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { TONE_CLASS, type StatusTone } from '@/components/app/status-tone';
 import { Badge } from '@/components/ui/badge';
 import type { StatusCodeOf, StatusGroup } from '@/lib/status-copy';
 import { cn } from '@/lib/utils';
 
 /**
- * Tones are the allocation in color-policy.md, not new component variants.
- * `attention` means the person has to act; `info` means the system is working;
- * `unknown` means the fact is not available and must not be read as zero.
+ * Tones are the allocation in color-policy.md, not new component variants
+ * (`status-tone.ts`, shared with server-rendered badges).
  */
-export type StatusTone = 'success' | 'attention' | 'error' | 'info' | 'inactive' | 'unknown';
-
-const TONE_CLASS: Record<StatusTone, string> = {
-  success: 'bg-success-subtle text-success-foreground',
-  attention: 'bg-attention-subtle text-attention-foreground',
-  error: 'bg-error-subtle text-error-foreground',
-  info: 'bg-info-subtle text-info-foreground',
-  inactive: 'bg-inactive-subtle text-inactive-foreground',
-  unknown: 'bg-inactive-subtle text-inactive-foreground',
-};
+export type { StatusTone };
 
 /**
  * The groups and their codes are `STATUS_CODES` in `@/lib/status-copy`, which the

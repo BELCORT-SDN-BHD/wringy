@@ -1,0 +1,223 @@
+# The product checks for every app and package (kickoff-package.md §8.8;
+# M2-AC01/3). Job ids are the status contexts that become required on main
+# once this lands (founder ruling D22): `check`, `integration` and `e2e`;
+# `images` stays optional. A required workflow must not be path-filtered
+# (D22: a check skipped by a path filter stays Pending and blocks the merge),
+# so this runs on every pull request and every push to main, documentation
+# included. No job pushes an image, logs in to a registry or deploys (D24: no
+# release gate before M2-09).
+name: App checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+# One run per ref: a newer push to the same branch or pull request cancels the older run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Lint, types, unit tests, dependency direction, acceptance mapping, build
+  # and the secret canary. No database: unit tests never reach one, and the
+  # acceptance check lists integration tests by static parsing.
+  check:
+    # Pinned: ubuntu-latest moves to Ubuntu 26 from 2026-10-19
+    # (https://github.com/actions/runner-images/issues/14748).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      # pnpm at package.json's packageManager version; it must precede setup-node's pnpm cache.
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Unit tests
+        run: pnpm test
+      - name: Dependency direction (and the planted violations must be rejected)
+        run: pnpm depcruise
+      - name: Acceptance mapping (M2-AC test names and manual-evidence rows)
+        run: pnpm check:acceptance
+      - name: Build
+        run: pnpm build
+      - name: Secret canary (bundles and logs)
+        run: pnpm canary
+
+  # Integration tests on a real PostgreSQL 17 (ruling D29: postgres:17 in CI,
+  # embedded PostgreSQL locally). TEST_DATABASE_URL is the service's superuser
+  # on its `postgres` database: the @wringy/db harness bootstraps the roles,
+  # migrates a template from zero as the migrator, and creates and drops a
+  # database per test file (packages/db/test/cluster.ts).
+  integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        # Service container per https://docs.github.com/en/actions/tutorials/use-containerized-services/create-postgresql-service-containers;
+        # the :17 pin is Wringy's (kickoff-package.md §5.4).
+        image: postgres:17
+        env:
+          # A throwaway password for a container that lives only for this job.
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+        ports:
+          - 5432:5432
+    env:
+      TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Integration tests (packages/db, apps/api, apps/worker)
+        run: pnpm test:int
+
+  # Browser suites, Chromium only (kickoff-package.md §10 G14). The M1 demo
+  # suite runs on `next dev` exactly as the green "Web checks" runs of
+  # 2026-09-22 did (playwright.config.ts: webServer `pnpm dev`, one retry under
+  # CI). The internal-build suite starts its own database process, api, worker
+  # and `next build` + `next start` (playwright.internal.config.ts), against
+  # the postgres:17 service through TEST_DATABASE_URL.
+  e2e:
+    needs: check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright Chromium
+        run: pnpm --filter web exec playwright install --with-deps chromium
+      - name: M1 demo suite
+        run: pnpm --filter web e2e
+      - name: Internal-build suite (M2-AC01)
+        # Runs even when the M1 suite failed, so one run reports both.
+        if: ${{ !cancelled() }}
+        env:
+          TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+        run: pnpm e2e:internal
+      - name: Upload the M1 Playwright report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report-m1
+          path: apps/web/playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Upload the internal Playwright report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report-internal
+          path: apps/web/playwright-report-internal
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # The three images build from the repository root (kickoff-package.md §8.9),
+  # tagged with the commit SHA and never pushed. The smoke step runs each one:
+  # api, worker and the api image's migrate step must reach their environment
+  # check, which runs after every static import has resolved, so the bundles'
+  # node_modules are complete; web must serve /internal as the node user.
+  images:
+    needs: check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - name: Build the web image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          push: false
+          load: true
+          tags: ghcr.io/belcort-sdn-bhd/wringy-web:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+      - name: Build the api image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: false
+          load: true
+          tags: ghcr.io/belcort-sdn-bhd/wringy-api:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+      - name: Build the worker image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: apps/worker/Dockerfile
+          push: false
+          load: true
+          tags: ghcr.io/belcort-sdn-bhd/wringy-worker:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+      - name: Smoke-run the images
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          set -u
+          expect_env_check() {
+            local label="$1" pattern="$2"
+            shift 2
+            local out
+            out="$(docker run --rm "$@" 2>&1)" && { echo "$label: exited 0 without an environment"; exit 1; }
+            echo "$out"
+            grep -q "$pattern" <<<"$out" || { echo "$label: did not reach its environment check"; exit 1; }
+          }
+          expect_env_check api 'Invalid environment for api' "ghcr.io/belcort-sdn-bhd/wringy-api:$SHA"
+          expect_env_check migrate 'Invalid environment for migrate' "ghcr.io/belcort-sdn-bhd/wringy-api:$SHA" node /migrate/dist/migrate.js
+          expect_env_check worker 'Invalid environment for worker' "ghcr.io/belcort-sdn-bhd/wringy-worker:$SHA"
+          for app in web api worker; do
+            user="$(docker run --rm --entrypoint id "ghcr.io/belcort-sdn-bhd/wringy-$app:$SHA" -un)"
+            [ "$user" = node ] || { echo "$app runs as $user, not node"; exit 1; }
+          done
+          docker run -d --name wringy-web -p 3100:3100 "ghcr.io/belcort-sdn-bhd/wringy-web:$SHA"
+          for _ in $(seq 1 30); do curl -fsS -o /dev/null http://127.0.0.1:3100/internal && break; sleep 1; done
+          page="$(curl -fsS http://127.0.0.1:3100/internal)" || { docker logs wringy-web; exit 1; }
+          grep -q 'data-app-state="not-configured"' <<<"$page" || { docker logs wringy-web; echo "web: /internal did not render"; exit 1; }
+          docker rm -f wringy-web
+          echo "images: all three started as node and reached their checks"

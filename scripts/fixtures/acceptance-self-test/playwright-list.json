@@ -1,0 +1,40 @@
+{
+  "//": "Fixture for the self-test of scripts/check-acceptance-mapping.mjs: the shape of `playwright test --list --reporter=json` (Playwright 1.63), trimmed.",
+  "config": {},
+  "suites": [
+    {
+      "title": "probe.spec.ts",
+      "file": "probe.spec.ts",
+      "specs": [],
+      "suites": [
+        {
+          "title": "M2-AC99 probe",
+          "file": "probe.spec.ts",
+          "specs": [
+            {
+              "title": "M2-AC99/2 declared test.skip",
+              "file": "probe.spec.ts",
+              "tests": [
+                { "projectName": "desktop", "expectedStatus": "skipped", "annotations": [{ "type": "skip" }] },
+                { "projectName": "mobile", "expectedStatus": "skipped", "annotations": [{ "type": "skip" }] }
+              ]
+            },
+            {
+              "title": "M2-AC99/3 runs in one project",
+              "file": "probe.spec.ts",
+              "tests": [
+                { "projectName": "desktop", "expectedStatus": "passed", "annotations": [] },
+                { "projectName": "mobile", "expectedStatus": "skipped", "annotations": [{ "type": "skip" }] }
+              ]
+            },
+            {
+              "title": "M2-AC99/6 declared test.fixme",
+              "file": "probe.spec.ts",
+              "tests": [{ "projectName": "desktop", "expectedStatus": "skipped", "annotations": [{ "type": "fixme" }] }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

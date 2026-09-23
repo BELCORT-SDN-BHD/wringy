@@ -1,9 +1,22 @@
+import path from 'node:path';
+
 import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from 'next';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // The web image (apps/web/Dockerfile, kickoff-package.md §8.9) runs the
+  // minimal server `next build` writes to .next/standalone, which carries only
+  // the traced files and node_modules it needs. Tracing starts at the
+  // repository root, because the app imports workspace packages
+  // (@wringy/config, @wringy/contracts) from ../../packages
+  // (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/output.md,
+  // "Caveats"). The server then sits at .next/standalone/apps/web/server.js.
+  // `next start` still works, with a warning (the internal e2e suite uses it).
+  output: 'standalone',
+  outputFileTracingRoot: path.join(__dirname, '..', '..'),
+
   // Playwright drives the dev server over 127.0.0.1 (playwright.config.ts), and
   // Next 16 blocks cross-origin dev-resource requests such as /_next/hmr by
   // default. Development only; it has no effect on `next build`/`next start`.

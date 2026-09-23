@@ -2,12 +2,30 @@
   "name": "wringy",
   "private": true,
   "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
-    "dev": "pnpm --filter web dev",
-    "build": "pnpm --filter web build",
-    "lint": "pnpm --filter web lint",
-    "typecheck": "pnpm --filter web typecheck",
-    "test": "pnpm --filter web test",
-    "e2e": "pnpm --filter web e2e"
+    "dev": "pnpm -r --parallel --filter \"./apps/*\" run dev",
+    "build": "pnpm -r run build",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "test:int": "pnpm -r run test:int",
+    "e2e": "pnpm --filter web e2e",
+    "e2e:internal": "pnpm --filter web e2e:internal",
+    "db:start": "pnpm --filter @wringy/db run db:start",
+    "db:stop": "pnpm --filter @wringy/db run db:stop",
+    "db:bootstrap": "pnpm --filter @wringy/db run db:bootstrap",
+    "db:migrate": "pnpm --filter @wringy/db run migrate",
+    "db:env": "pnpm --filter @wringy/db run db:env",
+    "db:seed:fixtures": "pnpm --filter @wringy/db run db:seed:fixtures",
+    "depcruise": "node scripts/check-dependency-direction.mjs",
+    "canary": "node scripts/check-secret-canary.mjs",
+    "check:acceptance": "node scripts/check-acceptance-mapping.mjs m2-01"
+  },
+  "devDependencies": {
+    "dependency-cruiser": "18.4.0",
+    "typescript": "^5"
   }
 }

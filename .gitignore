@@ -1,5 +1,7 @@
 # Local/runtime data
 node_modules/
+# Embedded PostgreSQL data directory (pnpm db:start)
+.local/
 .next/
 dist/
 .env
@@ -31,7 +33,16 @@ apps/web/tests/e2e/__screenshots__/
 apps/web/playwright-report/
 apps/web/test-results/
 apps/web/tests/e2e/test-results/
+# apps/web internal suite (M2-01, playwright.internal.config.ts) generated test artefacts
+apps/web/tests/e2e-internal/test-results/
+apps/web/playwright-report-internal/
+
+# pnpm depcruise plants these files for one cruise and always deletes them
+apps/web/src/lib/__dependency-violation__.ts
+apps/worker/src/__dependency-violation__.ts
 
 # Claude Code agent worktrees (local only)
 .claude/worktrees/
+# Playwright MCP browser session output (screenshots, traces; local only)
+.playwright-mcp/
 graphify-out/.graphify_python

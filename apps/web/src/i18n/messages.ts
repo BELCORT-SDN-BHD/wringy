@@ -19,6 +19,7 @@ import enSettings from '../messages/en-MY/settings.json';
 import enMerchant from '../messages/en-MY/merchant.json';
 import enCreator from '../messages/en-MY/creator.json';
 import enOps from '../messages/en-MY/ops.json';
+import enInternal from '../messages/en-MY/internal.json';
 
 import msCommon from '../messages/ms-MY/common.json';
 import msPublic from '../messages/ms-MY/public.json';
@@ -28,6 +29,7 @@ import msSettings from '../messages/ms-MY/settings.json';
 import msMerchant from '../messages/ms-MY/merchant.json';
 import msCreator from '../messages/ms-MY/creator.json';
 import msOps from '../messages/ms-MY/ops.json';
+import msInternal from '../messages/ms-MY/internal.json';
 
 import zhCommon from '../messages/zh-Hans-MY/common.json';
 import zhPublic from '../messages/zh-Hans-MY/public.json';
@@ -37,8 +39,13 @@ import zhSettings from '../messages/zh-Hans-MY/settings.json';
 import zhMerchant from '../messages/zh-Hans-MY/merchant.json';
 import zhCreator from '../messages/zh-Hans-MY/creator.json';
 import zhOps from '../messages/zh-Hans-MY/ops.json';
+import zhInternal from '../messages/zh-Hans-MY/internal.json';
 
-/** The eight namespaces every locale must carry. */
+/**
+ * The namespaces every locale must carry. `internal` is the internal build's
+ * own copy (M2-01); the (internal) root layout hands the client only `common`
+ * and `internal`.
+ */
 export const NAMESPACES = [
   'common',
   'public',
@@ -48,6 +55,7 @@ export const NAMESPACES = [
   'merchant',
   'creator',
   'ops',
+  'internal',
 ] as const;
 
 export type Namespace = (typeof NAMESPACES)[number];
@@ -62,6 +70,7 @@ export const messagesByLocale = {
     merchant: enMerchant,
     creator: enCreator,
     ops: enOps,
+    internal: enInternal,
   },
   'ms-MY': {
     common: msCommon,
@@ -72,6 +81,7 @@ export const messagesByLocale = {
     merchant: msMerchant,
     creator: msCreator,
     ops: msOps,
+    internal: msInternal,
   },
   'zh-Hans-MY': {
     common: zhCommon,
@@ -82,6 +92,7 @@ export const messagesByLocale = {
     merchant: zhMerchant,
     creator: zhCreator,
     ops: zhOps,
+    internal: zhInternal,
   },
 } as const;
 

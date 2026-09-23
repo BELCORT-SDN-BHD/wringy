@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "title": "Internal build",
+    "description": "Wringy internal build: data read from the database through the API."
+  },
+  "banner": "内部版本 · Internal build · Versi dalaman",
+  "page": {
+    "title": "Internal build",
+    "description": "This page shows demonstration campaigns read from the database through the API, and the health of the background jobs."
+  },
+  "campaigns": {
+    "title": "Demonstration campaigns",
+    "description": "Fixture campaigns read from the database through the API, with the API's read-only account.",
+    "caption": "Demonstration campaigns in the database, most recently updated first",
+    "columns": {
+      "title": "Campaign",
+      "org": "Organisation",
+      "status": "Status",
+      "origin": "Data",
+      "updated": "Last updated"
+    },
+    "emptyTitle": "No demonstration campaigns",
+    "emptyDescription": "The database holds no fixture campaigns. An operator loads them with pnpm db:seed:fixtures.",
+    "dataAsOf": "Data as of {time}"
+  },
+  "workers": {
+    "title": "Background job health",
+    "description": "Each background worker reports a process heartbeat and a queue round trip. Both are judged on the database clock.",
+    "fields": {
+      "process": "Process",
+      "queue": "Queue",
+      "image": "Image",
+      "started": "Started",
+      "lastBeat": "Last heartbeat",
+      "lastRoundTrip": "Last queue round trip"
+    },
+    "badge": "{field}: {value}",
+    "noneTitle": "No worker has reported yet",
+    "noneDescription": "No background worker has written a heartbeat to this database, so its state is unknown. Unknown does not mean zero.",
+    "checkedAt": "Checked at {time}, database clock"
+  },
+  "processState": {
+    "healthy": "Healthy",
+    "stale": "Stale",
+    "stopped": "Stopped"
+  },
+  "queueState": {
+    "ok": "Round trip OK",
+    "overdue": "Round trip overdue"
+  },
+  "dataOrigin": {
+    "fixture": "Demo data",
+    "live": "Live data"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "There is no internal-build page at this address.",
+    "back": "Back to the internal build"
+  },
+  "state": {
+    "notConfigured": {
+      "title": "API not configured",
+      "description": "The web server has no usable API address, so nothing is read. An operator sets the variables below and restarts it.",
+      "variables": "Check: {names}"
+    },
+    "apiUnreachable": {
+      "title": "The API could not be reached",
+      "description": "The web server got no answer from the API in time, so nothing is shown. Nothing was changed."
+    },
+    "apiUnavailable": {
+      "title": "The database is unavailable",
+      "description": "The API is running but cannot read its database right now, so nothing is shown. Nothing was changed."
+    },
+    "unexpected": {
+      "title": "Unexpected answer from the API",
+      "description": "The API answered in a way this page does not recognise, so nothing is shown. Nothing was changed."
+    }
+  }
+}

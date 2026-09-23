@@ -1,0 +1,32 @@
+{
+  "name": "@wringy/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./web": "./src/web.ts",
+    "./api": "./src/api.ts",
+    "./worker": "./src/worker.ts",
+    "./migrate": "./src/migrate.ts",
+    "./bootstrap": "./src/bootstrap.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "eslint": "^9",
+    "typescript": "^5",
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^4.1.11"
+  }
+}

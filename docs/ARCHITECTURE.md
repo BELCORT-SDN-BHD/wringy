@@ -3,7 +3,7 @@ document: architecture-blueprint
 product: Wringy
 status: consolidated-from-accepted-decisions
 updated: 2026-09-23
-implementation_status: m1-prototype-accepted; product-runtime-unbuilt
+implementation_status: m1-prototype-accepted; m2-01-internal-loop-built (api, worker, db, internal page; internal acceptance only); identity-and-saved-user-data-unbuilt
 purpose: 技术栈及选择原因、系统边界、模块职责、依赖关系、主要数据流和关键技术取舍。
 required_focus:
   stack_and_rationale: 记录已接受技术方向及理由；区分候选、实际依赖和锁定版本。
@@ -34,12 +34,12 @@ maintenance:
 | 层面 | 已核查的仓库现状 | 接受目标／实施证据入口 |
 |---|---|---|
 | 产品与规划 | 有 [五阶段 specs](planning/README.md)、票据索引、业务规则和接口草稿 | 按阶段构建并留验收证据，文档存在不表示功能已实现 |
-| UI 工程 | [`apps/web`](../apps/web/README.md)：Next.js 16.3.5 App Router 三端原型，官方 shadcn radix-nova 组件、next-intl 三语、zustand persist 本地演示状态，Vitest＋Playwright；Vite [设计系统展示](../phase-0/foundation/design-system-v2/app/package.json)另存，不是三端业务应用 | M1 原型已经创办人验收（2026-09-23，[#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，[验收记录](m1-prototype/acceptance-record.md)），全部显式模拟；后续阶段复用页面，改接真实会话与 Fastify |
-| 业务服务与数据 | `main` 上没有 Fastify API、业务迁移或 pg-boss worker；原型规则在纯 TypeScript 引擎 [`apps/web/src/domain`](../apps/web/src/domain/)，状态只存本浏览器 localStorage，引擎是可替换的数据访问接缝（[开工记录](m1-prototype/kickoff.md)、[已知限制](m1-prototype/known-issues.md)） | M2 建身份／保存／任务基础，M3 在服务端事务重验全部资金规则；模块路径按实际实现建立 |
-| CI 与验证 | [Web checks](../.github/workflows/web.yml)（Node 20，apps／依赖变更时触发）运行 lint、typecheck、Vitest、build 与 Playwright e2e；[Planning checks](../.github/workflows/planning.yml) 运行 [规划检查](../scripts/check-planning.py)；`main` 分支保护只要求 `planning`，web 检查尚非必需 | 真实 PostgreSQL 集成、身份／授权及恢复检查待建立；原型浏览器检查与规划检查不能替代 |
+| UI 工程 | [`apps/web`](../apps/web/README.md)：Next.js 16.3.5 App Router，两个根布局：`(demo)` 为三端原型（官方 shadcn radix-nova 组件、next-intl 三语、zustand persist 本地演示状态），`(internal)` 为内部版本 `/internal` 页（M2-01，[#16](https://github.com/BELCORT-SDN-BHD/wringy/issues/16)：服务端组件经 Fastify 读取夹具活动与 worker 健康状态，三语、常驻内部版本标识，不挂载演示状态）；Vitest＋Playwright（M1 套件与 M2-AC01 内部套件）；`output: 'standalone'` 供 web 镜像；Vite [设计系统展示](../phase-0/foundation/design-system-v2/app/package.json)另存，不是三端业务应用 | M1 原型已经创办人验收（2026-09-23，[#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，[验收记录](m1-prototype/acceptance-record.md)），全部显式模拟；`/internal` 未部署、无登录（M2-02 起）；后续阶段复用页面，改接真实会话与 Fastify |
+| 业务服务与数据 | M2-01 建立：[`apps/api`](../apps/api/README.md) Fastify 5.12.5（`/health`、`/internal/campaigns`、`/internal/worker-health`，以只读运行账号 `wringy_api_login` 读 PostgreSQL）；[`apps/worker`](../apps/worker/README.md) pg-boss 12.33.5（进程心跳与队列往返，运行账号 `wringy_worker_login`）；[`packages/db`](../packages/db/README.md)（迁移 0001–0007、迁移账号与运行账号分权、运行账号不能改写 pg-boss 迁移所依据的数据、API 不接触 `pgboss`、`data_origin` 不可改、夹具种子、本地 embedded PostgreSQL 17 与只接受一次性集群的测试 harness）、[`packages/config`](../packages/config/README.md)（zod 环境变量）、[`packages/contracts`](../packages/contracts/README.md)（响应 schema）；单元测试与真实 PostgreSQL 17 集成测试。尚无身份、登录或保存的用户数据；演示规则仍在 [`apps/web/src/domain`](../apps/web/src/domain/)，演示状态只存浏览器 localStorage | M2-02 起建身份、组织授权与保存，M3 在服务端事务重验全部资金规则；模块路径按实际实现建立 |
+| CI 与验证 | [App checks](../.github/workflows/app.yml)（Node 24 读 `.nvmrc`，无路径过滤，每个 PR 与 `main` 推送都运行）：`check`（lint、typecheck、单元测试、依赖方向含两处植入违规、验收映射含每次自检且不计跳过的测试、build、密钥金丝雀）、`integration`（`postgres:17` 服务上的真实 PostgreSQL 集成测试）、`e2e`（M1 套件＋M2-AC01 内部套件）、`images`（三镜像构建与冒烟，不推送）；[Planning checks](../.github/workflows/planning.yml) 运行 [规划检查](../scripts/check-planning.py)；`main` 分支保护目前只要求 `planning` | 按裁定 D22，合并后由管理员把 `check`、`integration`、`e2e` 设为必需检查（`images` 可选），尚未生效；无发布门禁、无 GitHub Environment（D24，M2-09 建立）；执行证据见 [M2 验收记录](m2-internal/acceptance-record.md) |
 | 真实接入与生产 | 交接／specs 未提供真实社交、支付、容量或生产恢复通过证据 | M4 逐能力准入；M5 固定环境演练与具体发布批准 |
 
-现状口径：2026-09-23 本地受版本控制文件（`git ls-files`）、上述 README／manifest／workflow、`main` 分支保护（`gh api repos/BELCORT-SDN-BHD/wringy/branches/main/protection`）、[M1 验收记录](m1-prototype/acceptance-record.md)与创办人验收 [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，以及 [仓库迁移记录](repository-status.md)。M1 未公开部署；外部部署若无证据即为未验证。`implementation_status` 的 `m1-prototype-accepted` 只指显式模拟原型，`product-runtime-unbuilt` 指真实身份、保存、任务与资金运行尚未建立，不抹去已有设计资产与规划基础。
+现状口径：2026-09-23 本地受版本控制文件（`git ls-files`）、上述 README／manifest／workflow、M2-01 分支（`feat/m2-01`）的代码与测试和 [M2 验收记录](m2-internal/acceptance-record.md)、`main` 分支保护（`gh api repos/BELCORT-SDN-BHD/wringy/branches/main/protection`）、[M1 验收记录](m1-prototype/acceptance-record.md)与创办人验收 [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，以及 [仓库迁移记录](repository-status.md)。M1 未公开部署；外部部署若无证据即为未验证。`implementation_status` 有三个标记。`m1-prototype-accepted` 只指显式模拟原型。`m2-01-internal-loop-built` 指 M2-01 的 api、worker、db 与内部页已建成，只经内部验收，未部署；它在 PR #82 合并进 `main` 后成立。`identity-and-saved-user-data-unbuilt` 指真实身份、登录与保存的用户数据尚未建立，任务与资金运行也未建立。三者都不抹去已有设计资产与规划基础。
 
 ## 2. 技术栈与选择理由
 
@@ -101,7 +101,7 @@ flowchart LR
 
 通知、outbox、任务调度与审计支持这些模块；运营页面调用受控动作，不拥有“直接改余额”的旁路。提供方适配器转换外部证据，不裁定产品规则。[模块依据](../phase-0/foundation/architecture-content-rewards-v2.md) · [内部契约](../phase-0/foundation/external-interface-contracts-v1.md)。
 
-**现有 README 菜单：** [设计系统](../phase-0/foundation/design-system-v2/README.md)、[展示工程](../phase-0/foundation/design-system-v2/app/README.md)、[展示测试](../phase-0/foundation/design-system-v2/app/tests/README.md)、[M1 原型应用](../apps/web/README.md)、[M1 开工记录](m1-prototype/kickoff.md)。业务模块 README 尚未建立；后续只将真实存在的入口加入本节，API、表结构与局部运行细节留在模块中。
+**现有 README 菜单：** [设计系统](../phase-0/foundation/design-system-v2/README.md)、[展示工程](../phase-0/foundation/design-system-v2/app/README.md)、[展示测试](../phase-0/foundation/design-system-v2/app/tests/README.md)、[M1 原型应用](../apps/web/README.md)、[M1 开工记录](m1-prototype/kickoff.md)、[业务 API](../apps/api/README.md)、[后台 worker](../apps/worker/README.md)、[数据库包](../packages/db/README.md)、[配置包](../packages/config/README.md)、[契约包](../packages/contracts/README.md)。身份、活动、投稿等业务模块 README 尚未建立；后续只将真实存在的入口加入本节，API、表结构与局部运行细节留在模块中。
 
 ## 5. 数据关系与主要事务流
 

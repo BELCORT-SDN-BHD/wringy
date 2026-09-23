@@ -15,6 +15,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
 import { applyCommand, loadScenario as buildScenarioState } from '../../src/domain';
+import { EVIDENCE_SHOT_MAX_BYTES, M1_EVIDENCE_DIR, evidenceShot } from './evidence';
 import { LOCALE_COOKIE } from '../../src/i18n/config';
 import { DEMO_STORAGE_KEY, persistedEnvelope } from '../../src/store/persistence';
 import type { Command, DemoState, Locale, ScenarioId } from '../../src/domain/types';
@@ -436,12 +437,14 @@ export async function shot(page: Page, name: string): Promise<void> {
  *
  * Unlike `SCREENSHOT_DIR` this is tracked: `docs/m1-prototype/acceptance-record.md`
  * cites these paths, so a row's evidence has to exist in the repository for the
- * record to mean anything.
+ * record to mean anything. It is written only when WRINGY_EVIDENCE_SHOTS=1
+ * (`evidence.ts`); otherwise the frame goes to the gitignored
+ * `tests/e2e/__screenshots__/evidence/`, so an ordinary run leaves the tree clean.
  */
-export const ACCEPTANCE_SHOT_DIR = '../../docs/m1-prototype/screenshots';
+export const ACCEPTANCE_SHOT_DIR = M1_EVIDENCE_DIR;
 
 /** 300 KB per file, so the tracked evidence stays reviewable in a diff. */
-export const ACCEPTANCE_SHOT_MAX_BYTES = 300 * 1024;
+export const ACCEPTANCE_SHOT_MAX_BYTES = EVIDENCE_SHOT_MAX_BYTES;
 
 /**
  * Writes one acceptance frame and holds it to the size budget.
@@ -457,15 +460,7 @@ export async function acceptanceShot(
   name: string,
   viewport: string,
 ): Promise<string> {
-  const relative = `${ACCEPTANCE_SHOT_DIR}/${name}-${viewport}.png`;
-  const buffer = await page.screenshot({ path: relative, fullPage: false });
-  expect(
-    buffer.byteLength,
-    `${name}-${viewport}.png is ${Math.round(buffer.byteLength / 1024)} KB, over the ${
-      ACCEPTANCE_SHOT_MAX_BYTES / 1024
-    } KB budget`,
-  ).toBeLessThanOrEqual(ACCEPTANCE_SHOT_MAX_BYTES);
-  return relative;
+  return evidenceShot(page, ACCEPTANCE_SHOT_DIR, `${name}-${viewport}.png`);
 }
 
 /**

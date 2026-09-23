@@ -24,6 +24,7 @@ import {
   setLocale,
   waitForHydration,
 } from './helpers';
+import { M1_EVIDENCE_DIR, captureFrame, evidencePath } from './evidence';
 
 const DEMO_USER = 'user-demo';
 const BEN = 'user-ben';
@@ -710,12 +711,12 @@ test.describe('creator', () => {
     // Six scenarios and six pages in one test: more than the default budget when
     // the dev server is compiling routes for every worker at once.
     test.setTimeout(150_000);
-    const dir = '../../docs/m1-prototype/screenshots';
+    // Tracked under docs/m1-prototype/screenshots only with WRINGY_EVIDENCE_SHOTS=1 (evidence.ts).
     const shot = async (name: string) => {
       // `animations: 'disabled'` finishes the official enter transitions first, so
       // an overlay or a dialog is never captured half way through its animation.
-      await page.screenshot({
-        path: `${dir}/creator-${name}-${width}.png`,
+      await captureFrame(page, {
+        path: evidencePath(M1_EVIDENCE_DIR, `creator-${name}-${width}.png`),
         fullPage: false,
         animations: 'disabled',
       });

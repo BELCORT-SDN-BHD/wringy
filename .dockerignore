@@ -1,0 +1,46 @@
+# Build context of the apps/web, apps/api and apps/worker Dockerfiles, which
+# are built from the repository root: docker build -f apps/<app>/Dockerfile .
+# (kickoff-package.md §8.9). The images install their own dependencies and
+# build inside the image, so nothing generated on this machine goes in.
+
+# Version control and local tool state
+.git
+.claude
+.codex
+.agents
+.scratch
+.playwright-mcp
+graphify-out
+sources
+
+# Dependencies and build output (rebuilt in the image)
+**/node_modules
+**/.next
+**/dist
+**/*.tsbuildinfo
+
+# Local PostgreSQL data (pnpm db:start)
+.local
+
+# Secrets: no env file, key or certificate enters an image. `pnpm deploy`
+# copies every file of a package that the package's own ignore files do not
+# exclude (https://pnpm.io/cli/deploy, "Files copied"), and a local
+# `pnpm --filter api --prod deploy --legacy` did copy apps/api/.env, which only
+# the repository root .gitignore excludes.
+**/.env
+**/.env.*
+!**/.env.example
+**/*.pem
+**/*.key
+
+# Test output and evidence
+**/coverage
+**/playwright-report
+**/playwright-report-internal
+**/test-results
+apps/web/tests/e2e/__screenshots__
+docs/**/screenshots
+
+# Planning, research and brand material no image reads (about 300 MB)
+docs
+phase-0

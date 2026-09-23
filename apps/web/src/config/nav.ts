@@ -4,7 +4,7 @@
  * `labelKey` is a key under the `common.nav` namespace, so a language switch
  * never touches this file. The hrefs are the route map from
  * docs/m1-prototype/kickoff.md; the pages behind most of them are built by the
- * wave-2 role workers under `src/app/(workspace)/<role>/…`.
+ * wave-2 role workers under `src/app/(demo)/(workspace)/<role>/…`.
  */
 
 import {
