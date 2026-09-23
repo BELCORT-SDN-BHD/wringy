@@ -51,7 +51,8 @@ bundle relies on it to leave out the migration runner (node-pg-migrate) and
 | `0002_environment_marker` | `ops.environment` (at most one row; a production marker can never allow fixtures), `ops.touch_updated_at()`, `ops.assert_fixture_allowed()` | api and worker: SELECT |
 | `0003_orgs_campaigns` | `app.orgs`, `app.campaigns` (`data_origin` `fixture`/`live`, composite FK `(org_id, data_origin)` → `app.orgs(id, data_origin)`, fixture trigger on both, `updated_at` trigger) | api: SELECT; worker: nothing |
 | `0004_worker_heartbeat` | `ops.worker_heartbeat` (one row per worker; timestamps from the database clock) | worker: SELECT, INSERT, UPDATE; api: SELECT |
-| `0005_pgboss_grants` | Rights on schema `pgboss`, which `pnpm db:migrate` installs first | worker: USAGE, table DML, sequence use, EXECUTE (plus default privileges for later pg-boss objects); api: USAGE and SELECT on `pgboss.version`, SELECT on `ops.pgmigrations` |
+| `0005_pgboss_grants` | Rights on schema `pgboss`, which `pnpm db:migrate` installs first | worker: USAGE, table DML, sequence use, EXECUTE (plus default privileges for later pg-boss objects); api: SELECT on `ops.pgmigrations` (and, until 0006, USAGE on `pgboss` and SELECT on `pgboss.version`) |
+| `0006_pgboss_runtime_bounds` | `ops.pgboss_schema_version` (a migrator-owned, non-updatable view of the pg-boss schema version); CHECK `wringy_queue_shared_table_only` on `pgboss.queue` (every queue unpartitioned, on the shared `job_common` table) | worker: `pgboss.version` SELECT plus UPDATE of the five run-time timestamps only, never `version`; nothing on the view. api: SELECT on the view; its USAGE on `pgboss` and SELECT on `pgboss.version` are revoked, so the API has no `pgboss` access (kickoff-package.md §4.11, §8.5) |
 
 Fixture and live data stay apart twice (Implementation Decision 5): the marker
 says whether an environment allows fixture rows, and `ops.assert_fixture_allowed()`
@@ -64,8 +65,8 @@ campaign whose data origin differs from its org's (23503).
 | Role | Kind | Rights |
 |---|---|---|
 | `wringy_migrator` | login | Owns the database, `app`, `ops` and `pgboss`; runs all DDL and writes the marker and the fixture seed. On Supabase possibly `postgres` (unverified) |
-| `wringy_api` | NOLOGIN group | `USAGE` on `app`, `ops`, `pgboss`; SELECT on the tables in `test/grant-manifest.ts`. No writes in M2-01, no CREATE, nothing else in `pgboss` |
-| `wringy_worker` | NOLOGIN group | `USAGE` on `ops` and `pgboss`; SELECT on `ops.environment`; SELECT/INSERT/UPDATE on `ops.worker_heartbeat`; pg-boss DML and EXECUTE. Nothing in `app`, no CREATE, no TRUNCATE |
+| `wringy_api` | NOLOGIN group | `USAGE` on `app` and `ops`; SELECT on the tables in `test/grant-manifest.ts`, the pg-boss schema version through `ops.pgboss_schema_version`. No writes in M2-01, no CREATE, nothing in `pgboss` |
+| `wringy_worker` | NOLOGIN group | `USAGE` on `ops` and `pgboss`; SELECT on `ops.environment`; SELECT/INSERT/UPDATE on `ops.worker_heartbeat`; pg-boss DML and EXECUTE, except that `pgboss.version` is read-only apart from its run-time timestamps. Nothing in `app`, no CREATE, no TRUNCATE |
 | `wringy_api_login` | login, member of `wringy_api` | API process |
 | `wringy_worker_login` | login, member of `wringy_worker` | Worker process |
 
@@ -89,7 +90,18 @@ checked against the installed `dist/cli.js`). The CLI reads the connection from
 (never its argv, never a log line). It creates the schema when absent, runs any
 pending pg-boss migrations in its own advisory-locked transaction, and does
 nothing when the schema is current. The run fails unless `pgboss.version` ends at
-`EXPECTED_PGBOSS_VERSION` (42 for 12.33.5). pg-boss is a runtime dependency of
+`EXPECTED_PGBOSS_VERSION` (42 for 12.33.5).
+
+The CLI builds DDL from two tables a runtime role can write: it reruns every
+pg-boss migration newer than `pgboss.version`, and pastes the `table_name` of
+every `partition = true` queue, unquoted, into index builds
+(`dist/cli.js` `cmdMigrate`, `dist/migrationStore.js` `formatJobTable`).
+Migration 0006 keeps both out of the worker's reach (no UPDATE of `version`, a
+CHECK that pins every queue to the shared `job_common` table), and
+`installPgBossSchema()` refuses to start the CLI while any queue row is
+partitioned or names another table (`PgBossQueueRefusedError`, which gives a
+count and never the rows' text), for a database migrated before 0006.
+`test/pgboss-bounds.int.test.ts` replays the attack. pg-boss is a runtime dependency of
 this package because the migration step ships with the migrations. The worker
 is to start PgBoss with `migrate: false` against this schema
 (kickoff-package.md §8.3), so it never needs DDL.
@@ -178,11 +190,14 @@ Every test title carries this ticket's key `M2-AC01` (kickoff-package.md §6.1).
 Integration test titles carry `M2-AC01/2` where they prove that sub-item: a fresh
 migration from zero (pg-boss schema, then every SQL migration) that a second run
 leaves unchanged; the API login reading the migration head and pg-boss version
-afterwards; SQL migrations refusing to pass 0005 before pg-boss exists; down
-0005→0002 and up again leaving an identical catalog snapshot; the migrator owning
+afterwards; SQL migrations refusing to pass 0005 before pg-boss exists; every
+migration after 0001 reverted and applied again leaving an identical catalog
+snapshot (column ACLs included); the migrator owning
 `app`, `ops` and `pgboss`; "runtime role privileges match reviewed grant
 manifest"; the worker login refused `app.campaigns` and the API login refused
-`ops.worker_heartbeat` writes and `pgboss.job` (42501); the fixture trigger, the
+`ops.worker_heartbeat` writes and `pgboss.job` (42501); the worker login unable to
+change `pgboss.version` or plant a partitioned queue, and `pnpm db:migrate`
+refusing a database where such a queue was planted before 0006; the fixture trigger, the
 composite foreign key and the marker's constraints; and the seed being
 idempotent and refused where fixtures are not allowed. Unit tests carry it for
 the installed pg-boss matching its exact pin, migration files that grant nothing

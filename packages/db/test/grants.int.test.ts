@@ -155,13 +155,17 @@ describe('M2-AC01/2 runtime role privileges', () => {
     }
   });
 
-  it('M2-AC01/2 the worker has job rights on every pg-boss table and function, and the API only the version table', async () => {
+  it('M2-AC01/2 the worker has job rights on every pg-boss table and function but may not change pgboss.version, and the API has nothing in pgboss', async () => {
     const worker = await effective(ROLES.workerLogin);
     const api = await effective(ROLES.apiLogin);
     expect(worker['table pgboss.job']).toEqual(['SELECT', 'INSERT', 'UPDATE', 'DELETE']);
     expect(worker['table pgboss.queue']).toEqual(['SELECT', 'INSERT', 'UPDATE', 'DELETE']);
+    expect(worker['table pgboss.version']).toEqual(['SELECT']);
     expect(Object.keys(worker).some((key) => key.startsWith('function pgboss.create_queue('))).toBe(true);
-    expect(Object.keys(api).filter((key) => key.includes('pgboss'))).toEqual(['schema pgboss', 'table pgboss.version']);
+    // The API reaches the pg-boss schema version only through the migrator-owned view in ops.
+    expect(Object.keys(api).filter((key) => /^(schema pgboss$|\w+ pgboss\.)/.test(key))).toEqual([]);
+    expect(api['table ops.pgboss_schema_version']).toEqual(['SELECT']);
+    expect(worker['table ops.pgboss_schema_version']).toBeUndefined();
   });
 
   it('M2-AC01/2 only the migrator and the two runtime groups appear in any ACL; PUBLIC and the logins hold nothing directly', async () => {
@@ -228,7 +232,7 @@ describe('M2-AC01/2 runtime role privileges', () => {
     const row = await withClientAt(db.urls.api, async (c) => {
       const { rows } = await c.query<{ head: string; pgboss: number; env: string; campaigns: number; workers: number }>(
         `SELECT (SELECT name FROM ops.pgmigrations ORDER BY id DESC LIMIT 1) AS head,
-                (SELECT version FROM pgboss.version) AS pgboss,
+                (SELECT version FROM ops.pgboss_schema_version) AS pgboss,
                 (SELECT name FROM ops.environment) AS env,
                 (SELECT count(*)::int FROM app.campaigns c JOIN app.orgs o ON o.id = c.org_id) AS campaigns,
                 (SELECT count(*)::int FROM ops.worker_heartbeat) AS workers`,

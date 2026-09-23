@@ -13,7 +13,7 @@ import type {
   InternalCampaignsResponse,
   WorkerHealthResponse,
 } from '@wringy/contracts';
-import { MIGRATIONS_SCHEMA, MIGRATIONS_TABLE, readPgBossVersion, type Pool, type PoolClient } from '@wringy/db';
+import { MIGRATIONS_SCHEMA, MIGRATIONS_TABLE, readQueueSchemaVersion, type Pool, type PoolClient } from '@wringy/db';
 
 import { sqlStateOf } from './database';
 import { computeQueueState, computeWorkerState } from './worker-state';
@@ -168,7 +168,7 @@ export async function checkHealth(pool: Pool, expected: ExpectedHeads, onFailure
     }
 
     try {
-      report.queueSchemaVersion = await readPgBossVersion(client);
+      report.queueSchemaVersion = await readQueueSchemaVersion(client);
       report.checks.queueSchema = report.queueSchemaVersion === expected.pgbossVersion ? 'ok' : 'failing';
     } catch (error) {
       onFailure('queueSchema', sqlStateOf(error));

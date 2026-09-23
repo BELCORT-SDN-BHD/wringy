@@ -41,30 +41,34 @@ export interface RoleGrants {
 
 export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', RoleGrants>> = {
   // Fastify: reads business rows and the operations records GET /health and
-  // /internal/* need. No writes in M2-01, no DDL, nothing in pgboss except the
-  // schema version.
+  // /internal/* need. No writes in M2-01, no DDL, and nothing in pgboss
+  // (kickoff-package.md §4.11, §8.5): it reads the pg-boss schema version
+  // through the migrator-owned view ops.pgboss_schema_version (0006).
   wringy_api: {
     login: ROLES.apiLogin,
-    schemas: { app: ['USAGE'], ops: ['USAGE'], pgboss: ['USAGE'] },
+    schemas: { app: ['USAGE'], ops: ['USAGE'] },
     tables: {
       'app.orgs': ['SELECT'],
       'app.campaigns': ['SELECT'],
       'ops.environment': ['SELECT'],
       'ops.worker_heartbeat': ['SELECT'],
       'ops.pgmigrations': ['SELECT'],
-      'pgboss.version': ['SELECT'],
+      'ops.pgboss_schema_version': ['SELECT'],
     },
     sequences: {},
     functions: [],
   },
   // The pg-boss worker: its own heartbeat row, the environment marker, and job
   // DML in pgboss. Nothing in app, no DDL, no DELETE or TRUNCATE outside pgboss.
+  // pgboss.version is read-only at table level (0006): the migrator's pg-boss
+  // CLI decides what to rerun from it, so the worker may not change `version`.
   wringy_worker: {
     login: ROLES.workerLogin,
     schemas: { ops: ['USAGE'], pgboss: ['USAGE'] },
     tables: {
       'ops.environment': ['SELECT'],
       'ops.worker_heartbeat': ['SELECT', 'INSERT', 'UPDATE'],
+      'pgboss.version': ['SELECT'],
       'pgboss.*': ['SELECT', 'INSERT', 'UPDATE', 'DELETE'],
     },
     sequences: { 'pgboss.*': ['USAGE', 'SELECT', 'UPDATE'] },

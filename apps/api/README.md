@@ -12,7 +12,7 @@ components call it, and it reads PostgreSQL as the runtime login
 | Route | Behaviour |
 |---|---|
 | `GET /health/live` | 200 `{ status: 'ok' }`; the process only, no database |
-| `GET /health` | One connection as the runtime role: `SELECT 1` and the database clock, the newest row of `ops.pgmigrations` against `EXPECTED_MIGRATION_HEAD`, and `pgboss.version` against `EXPECTED_PGBOSS_VERSION` (both from `@wringy/db`). 200 `status: 'ok'`, or 503 `status: 'unavailable'` with each check `ok` or `failing`, the heads read and `dbNow`. A failing check's SQLSTATE goes to the log only |
+| `GET /health` | One connection as the runtime role: `SELECT 1` and the database clock, the newest row of `ops.pgmigrations` against `EXPECTED_MIGRATION_HEAD`, and the pg-boss schema version against `EXPECTED_PGBOSS_VERSION` (both from `@wringy/db`), read through the migrator-owned view `ops.pgboss_schema_version`: the API login has no access to schema `pgboss` (kickoff-package.md §4.11, §8.5). 200 `status: 'ok'`, or 503 `status: 'unavailable'` with each check `ok` or `failing`, the heads read and `dbNow`. A failing check's SQLSTATE goes to the log only |
 | `GET /internal/campaigns` | Fixture campaigns only (`data_origin = 'fixture'`), joined to `app.orgs` for `orgName`, newest `updated_at` first; `dataAsOf` is the database clock |
 | `GET /internal/worker-health` | Every `ops.worker_heartbeat` row with `state` (process liveness) and `queueState` (queue-path liveness) judged on the database clock read in the same statement; `workers: []` when no worker has ever beaten (the page shows unknown, never 0) |
 

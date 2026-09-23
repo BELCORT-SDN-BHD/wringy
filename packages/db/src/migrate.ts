@@ -90,8 +90,8 @@ export interface MigrateDatabaseResult {
  * migration owner:
  *
  * 1. the pg-boss CLI brings schema `pgboss` to EXPECTED_PGBOSS_VERSION;
- * 2. node-pg-migrate applies the pending SQL migrations (0005 grants rights on
- *    pgboss, so it needs step 1).
+ * 2. node-pg-migrate applies the pending SQL migrations (0005 and 0006 grant
+ *    and bound rights on pgboss, so they need step 1).
  *
  * Idempotent: a second run changes nothing. Fails unless the database ends at
  * EXPECTED_MIGRATION_HEAD and EXPECTED_PGBOSS_VERSION. The test harness migrates

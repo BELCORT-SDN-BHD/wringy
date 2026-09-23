@@ -11,7 +11,16 @@ export {
 export type { MigrateDatabaseOptions, MigrateDatabaseResult, RunMigrationsOptions } from './migrate';
 export { EXPECTED_MIGRATION_HEAD, EXPECTED_PGBOSS_VERSION } from './expected-head';
 export { HEARTBEAT_INTERVAL_MS, QUEUE_OVERDUE_AFTER_MS, STALE_AFTER_MS } from './heartbeat';
-export { installPgBossSchema, installedPgBoss, readPgBossVersion } from './pgboss';
+export {
+  PGBOSS_SHARED_JOB_TABLE,
+  PGBOSS_VERSION_VIEW,
+  PgBossQueueRefusedError,
+  assertQueuesSafeForCli,
+  installPgBossSchema,
+  installedPgBoss,
+  readPgBossVersion,
+  readQueueSchemaVersion,
+} from './pgboss';
 export type { InstallPgBossOptions, InstalledPgBoss, PgBossInstallResult } from './pgboss';
 export {
   EnvironmentMismatchError,

@@ -73,7 +73,7 @@ describe('M2-AC01 the API process connects as the runtime role', () => {
     expect(after.rows[0]?.title).toBe('Morning brew launch');
   });
 
-  it('M2-AC01/2 the API cannot write the heartbeat or the marker, nor touch pg-boss beyond its version', async () => {
+  it('M2-AC01/2 the API cannot write the heartbeat or the marker, nor touch schema pgboss: it reads the version through ops', async () => {
     expect(
       await sqlState(
         pool.query(
@@ -83,6 +83,9 @@ describe('M2-AC01 the API process connects as the runtime role', () => {
     ).toBe('42501');
     expect(await sqlState(pool.query(`UPDATE ops.environment SET fixtures_allowed = false`))).toBe('42501');
     expect(await sqlState(pool.query('SELECT count(*) FROM pgboss.job'))).toBe('42501');
-    expect(await sqlState(pool.query('SELECT version FROM pgboss.version'))).toBeUndefined();
+    expect(await sqlState(pool.query('SELECT version FROM pgboss.version'))).toBe('42501');
+    expect(await sqlState(pool.query('SELECT version FROM ops.pgboss_schema_version'))).toBeUndefined();
+    // The view is an aggregate, so no role can write through it (55000: not automatically updatable).
+    expect(await sqlState(pool.query('UPDATE ops.pgboss_schema_version SET version = 1'))).toBe('55000');
   });
 });

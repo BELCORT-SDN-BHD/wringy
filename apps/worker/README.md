@@ -111,8 +111,9 @@ the real SIGTERM.
 
 Both log in as `wringy_worker_login` (group `wringy_worker`): SELECT on
 `ops.environment`; SELECT, INSERT, UPDATE on `ops.worker_heartbeat`; pg-boss DML
-and EXECUTE. Nothing in `app`, no CREATE anywhere (`packages/db/README.md`,
-migration 0005). pg-boss options: `schema: 'pgboss'`, `migrate: false`,
+and EXECUTE, with `pgboss.version` read-only apart from the run-time timestamps
+pg-boss stamps. Nothing in `app`, no CREATE anywhere (`packages/db/README.md`,
+migrations 0005 and 0006). pg-boss options: `schema: 'pgboss'`, `migrate: false`,
 `createSchema: false`, `reindex: false` (the runtime role owns no pg-boss index,
 so it only reports bloat; rebuilding is a migrator task), `supervise` and
 `schedule` left on. M2-09 sizes the pools against the connection budget.

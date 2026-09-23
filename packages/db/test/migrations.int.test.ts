@@ -11,9 +11,9 @@ const SCHEMAS = ['app', 'ops', 'pgboss'];
 
 /**
  * Everything the migrations and pg-boss define in app, ops and pgboss, without
- * OIDs: schemas, relations, columns, constraints, indexes, triggers, functions,
- * types, ACLs and default ACLs. Two databases with equal snapshots have the same
- * schema and the same privileges.
+ * OIDs: schemas, relations, columns (with their column-level ACLs),
+ * constraints, indexes, triggers, functions, types, ACLs and default ACLs. Two
+ * databases with equal snapshots have the same schema and the same privileges.
  */
 async function catalogSnapshot(url: string) {
   const queries = {
@@ -25,6 +25,7 @@ async function catalogSnapshot(url: string) {
     columns: `SELECT n.nspname || '.' || c.relname || '.' || a.attname || ' ' || format_type(a.atttypid, a.atttypmod)
                      || CASE WHEN a.attnotnull THEN ' not null' ELSE '' END
                      || coalesce(' default ' || pg_get_expr(d.adbin, d.adrelid), '')
+                     || coalesce(' acl=' || a.attacl::text, '')
                 FROM pg_attribute a
                 JOIN pg_class c ON c.oid = a.attrelid
                 JOIN pg_namespace n ON n.oid = c.relnamespace
@@ -122,7 +123,7 @@ describe('M2-AC01/2 migrations from zero', () => {
     expect(
       await query<{ head: string; pgboss: number; campaigns: number }>(
         `SELECT (SELECT name FROM ops.pgmigrations ORDER BY id DESC LIMIT 1) AS head,
-                (SELECT version FROM pgboss.version) AS pgboss,
+                (SELECT version FROM ops.pgboss_schema_version) AS pgboss,
                 (SELECT count(*)::int FROM app.campaigns) AS campaigns`,
         apiUrl,
       ),
@@ -173,17 +174,22 @@ describe('M2-AC01/2 migrations from zero', () => {
     expect(grantees.map((row) => row.grantee)).toEqual([ROLES.apiGroup, ROLES.workerGroup, ROLES.migrator].sort());
   });
 
-  it('M2-AC01/2 reverting 0005 to 0002 and migrating up again leaves the schema and privileges identical', async () => {
+  it('M2-AC01/2 reverting every migration after 0001 and migrating up again leaves the schema and privileges identical', async () => {
+    const all = listMigrations();
     const before = await catalogSnapshot(migratorUrl);
     expect(before.relations.some((row) => row.startsWith('app.campaigns '))).toBe(true);
+    expect(before.columns.some((row) => /^pgboss\.version\.cron_on .* acl=/.test(row))).toBe(true);
 
-    const reverted = await runMigrations({ databaseUrl: migratorUrl, direction: 'down', count: 4 });
-    expect(reverted).toEqual(['0005_pgboss_grants', '0004_worker_heartbeat', '0003_orgs_campaigns', '0002_environment_marker']);
+    const reverted = await runMigrations({ databaseUrl: migratorUrl, direction: 'down', count: all.length - 1 });
+    expect(reverted).toEqual(all.slice(1).reverse());
     const down = await catalogSnapshot(migratorUrl);
-    expect(down.relations.some((row) => /^(app\.campaigns|app\.orgs|ops\.environment|ops\.worker_heartbeat) /.test(row))).toBe(
-      false,
-    );
+    expect(
+      down.relations.some((row) =>
+        /^(app\.campaigns|app\.orgs|ops\.environment|ops\.worker_heartbeat|ops\.pgboss_schema_version) /.test(row),
+      ),
+    ).toBe(false);
     expect(down.functions.some((row) => row.startsWith('ops.'))).toBe(false);
+    expect(down.constraints.some((row) => row.includes('wringy_queue_shared_table_only'))).toBe(false);
 
     expect((await migrateDatabase({ databaseUrl: migratorUrl })).migrations).toEqual(listMigrations().slice(1));
     expect(await catalogSnapshot(migratorUrl)).toEqual(before);

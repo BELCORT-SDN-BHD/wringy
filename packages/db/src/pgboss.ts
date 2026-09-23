@@ -59,7 +59,24 @@ export function installedPgBoss(): InstalledPgBoss {
 
 type Queryable = Pick<pg.ClientBase, 'query'>;
 
-/** The version recorded in `pgboss.version`, or null when pg-boss is not installed. */
+/**
+ * The view through which the API reads the pg-boss schema version (migration
+ * 0006): owned by the migrator, so the API needs no access to schema pgboss.
+ */
+export const PGBOSS_VERSION_VIEW = 'ops.pgboss_schema_version';
+
+/**
+ * The pg-boss schema version as a runtime role reads it, through
+ * PGBOSS_VERSION_VIEW (GET /health). Null when the view holds no version. A
+ * database without the view (before 0006) fails with 42P01, which the caller
+ * reports as a failing check.
+ */
+export async function readQueueSchemaVersion(client: Queryable): Promise<number | null> {
+  const { rows } = await client.query<{ version: number | null }>(`SELECT version FROM ${PGBOSS_VERSION_VIEW}`);
+  return rows[0]?.version ?? null;
+}
+
+/** The version recorded in `pgboss.version`, or null when pg-boss is not installed. Needs rights on pgboss (the migrator). */
 export async function readPgBossVersion(client: Queryable): Promise<number | null> {
   const exists = await client.query<{ present: boolean }>(
     `SELECT to_regclass($1) IS NOT NULL AS present`,
@@ -70,14 +87,67 @@ export async function readPgBossVersion(client: Queryable): Promise<number | nul
   return rows[0]?.version ?? null;
 }
 
-async function readVersionAt(databaseUrl: string): Promise<number | null> {
+/**
+ * The only job table a queue may use: pg-boss's shared table, which
+ * create_queue() names for a `partition: false` queue (dist/plans.js
+ * COMMON_JOB_TABLE). Migration 0006 enforces it with a CHECK on pgboss.queue.
+ */
+export const PGBOSS_SHARED_JOB_TABLE = 'job_common';
+
+/**
+ * Refused before the pg-boss CLI runs: pgboss.queue holds a row the CLI would
+ * turn into DDL. The CLI pastes the table_name of every partition = true row,
+ * unquoted, into the index builds it runs as the migrator (dist/cli.js
+ * getPartitionTables, dist/migrationStore.js formatJobTable), and the runtime
+ * roles can write pgboss.queue. The message carries a count only: the rows'
+ * text was written by a runtime role and is not echoed.
+ */
+export class PgBossQueueRefusedError extends Error {
+  override readonly name = 'PgBossQueueRefusedError';
+  constructor(readonly count: number) {
+    super(
+      `pgboss.queue holds ${count} queue(s) that are partitioned or name a job table other than ` +
+        `${PGBOSS_SHARED_JOB_TABLE}; the pg-boss CLI would run DDL built from them as the migrator, so ` +
+        `pnpm db:migrate refuses. Inspect them as the migrator (SELECT name, partition, table_name FROM ` +
+        `${PGBOSS_SCHEMA}.queue WHERE partition OR table_name <> '${PGBOSS_SHARED_JOB_TABLE}') and delete them.`,
+    );
+  }
+}
+
+async function withMigratorClient<T>(databaseUrl: string, fn: (client: pg.Client) => Promise<T>): Promise<T> {
   const client = new pg.Client({ connectionString: databaseUrl, application_name: 'wringy-migrate' });
   await client.connect();
   try {
-    return await readPgBossVersion(client);
+    return await fn(client);
   } finally {
     await client.end();
   }
+}
+
+function readVersionAt(databaseUrl: string): Promise<number | null> {
+  return withMigratorClient(databaseUrl, readPgBossVersion);
+}
+
+/**
+ * Throws PgBossQueueRefusedError when pgboss.queue has a row that is
+ * partitioned or names another job table. The CHECK from migration 0006 keeps
+ * such rows out; this covers a database migrated before 0006, whose worker
+ * could still write them. No queue table yet (a fresh install): nothing to check.
+ */
+export async function assertQueuesSafeForCli(databaseUrl: string): Promise<void> {
+  const count = await withMigratorClient(databaseUrl, async (client) => {
+    const exists = await client.query<{ present: boolean }>(`SELECT to_regclass($1) IS NOT NULL AS present`, [
+      `${PGBOSS_SCHEMA}.queue`,
+    ]);
+    if (!exists.rows[0]?.present) return 0;
+    const { rows } = await client.query<{ count: number }>(
+      `SELECT count(*)::int AS count FROM ${PGBOSS_SCHEMA}.queue
+        WHERE partition OR table_name IS DISTINCT FROM $1`,
+      [PGBOSS_SHARED_JOB_TABLE],
+    );
+    return rows[0]?.count ?? 0;
+  });
+  if (count > 0) throw new PgBossQueueRefusedError(count);
 }
 
 export interface PgBossInstallResult {
@@ -137,9 +207,11 @@ export interface InstallPgBossOptions {
 
 /**
  * `pg-boss migrate --schema pgboss` as the migrator, then a read of
- * `pgboss.version`. Fails when the database ends at any version other than
- * `expectedVersion`, for example a pg-boss bump without an EXPECTED_PGBOSS_VERSION
- * update, or an older image run against a newer pgboss schema.
+ * `pgboss.version`. Refuses to start the CLI while pgboss.queue holds a row it
+ * would build DDL from (assertQueuesSafeForCli). Fails when the database ends
+ * at any version other than `expectedVersion`, for example a pg-boss bump
+ * without an EXPECTED_PGBOSS_VERSION update, or an older image run against a
+ * newer pgboss schema.
  */
 export async function installPgBossSchema({
   databaseUrl,
@@ -148,6 +220,7 @@ export async function installPgBossSchema({
 }: InstallPgBossOptions): Promise<PgBossInstallResult> {
   const { cliPath } = installedPgBoss();
   const from = await readVersionAt(databaseUrl);
+  await assertQueuesSafeForCli(databaseUrl);
   await runCli(cliPath, databaseUrl, log);
   const to = await readVersionAt(databaseUrl);
   if (to !== expectedVersion) {
