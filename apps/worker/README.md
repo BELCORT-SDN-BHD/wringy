@@ -187,6 +187,7 @@ template from zero, and every test clones it), connecting as
 |---|---|
 | `test/roles.int.test.ts` | `M2-AC01/2 the worker runs as the runtime role and cannot read app.campaigns`; pg-boss under the runtime role with DML only |
 | `test/heartbeat.int.test.ts` | `worker heartbeat row appears within one beat and uses the database clock`; `queue round trip: a sent system.heartbeat job updates last_queue_round_trip_at`; `graceful stop drains and sets stopped_at`; a beat held up by a lock giving up at the statement limit (57014); the pg-boss drain starting at once while a beat is stuck on a lock |
+| `test/schedule.int.test.ts` | `M2-AC01/2 the pg-boss schedule becomes a queue round trip with no job sent by hand`: Beat B end to end on pg-boss's default cron timing (up to about 90 s), with no probe job, and the cron monitor stamping `pgboss.version.cron_on` as the worker login |
 | `test/startup.int.test.ts` | `startup refuses an environment mismatch`; an unmarked database; `M2-AC01/2 start() refuses when pgboss schema is missing/behind (migrate:false)` |
 | `test/process.int.test.ts` | the real `src/main.ts` process: start, beat, drain, exit 0; exit 1 on a mismatch, a refused login and a missing variable; `M2-AC01/2 no secret in logs` |
 
