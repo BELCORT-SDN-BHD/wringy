@@ -138,6 +138,30 @@ any `app` table with a `data_origin` column holds fixture rows
 first, campaigns before orgs. `pnpm --filter @wringy/db migrate down [n]` reverts SQL migrations
 locally or in CI only.
 
+`db:env` holds a lock so that no fixture row can be written between its check
+and the marker update. It runs in one transaction (`setEnvironment`,
+`src/environment.ts`). When the marker would forbid fixtures, it first runs
+`LOCK TABLE … IN SHARE MODE` on every `app` table with a `data_origin` column
+(found in the catalog, in creation order), then counts the fixture rows, then
+writes the marker and commits. SHARE conflicts with the ROW EXCLUSIVE lock that
+every INSERT, UPDATE and DELETE takes, and not with the lock a SELECT takes, so
+the API keeps reading while writes wait. The two possible orders therefore
+both end safely, in PostgreSQL itself rather than only in our scripts:
+
+- A fixture write already in flight (for example `pnpm db:seed:fixtures`) makes
+  the relabel wait until it commits; the count then includes its rows and the
+  relabel is refused.
+- A fixture write that starts after the lock waits until the relabel commits.
+  `ops.assert_fixture_allowed()` then reads the new marker, because the function
+  is VOLATILE and reads the marker again for every row, and refuses the write
+  (23514).
+
+A writer that takes the tables in another order than the seed (orgs, then
+campaigns) can deadlock with the relabel. PostgreSQL then aborts one of the
+two (40P01), and neither outcome leaves fixture rows under a production marker.
+`environment.int.test.ts` ("M2-AC01/2 the production relabel is serialised with
+fixture writes") reproduces both orders.
+
 `embedded-postgres` and its platform binaries are pinned to `17.10.0-beta.17`
 (every published build is a `-beta`; the root `pnpm-workspace.yaml` pins the
 binaries). `db:start` initialises the cluster with embedded-postgres's
