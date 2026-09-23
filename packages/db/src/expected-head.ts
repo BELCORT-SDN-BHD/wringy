@@ -11,7 +11,7 @@
  */
 
 /** The newest file in packages/db/migrations, as recorded in ops.pgmigrations.name. */
-export const EXPECTED_MIGRATION_HEAD = '0006_pgboss_runtime_bounds';
+export const EXPECTED_MIGRATION_HEAD = '0007_data_origin_immutable';
 
 /** The pgboss.version that pg-boss 12.33.5 installs (its package.json `pgboss.schema`). */
 export const EXPECTED_PGBOSS_VERSION = 42;

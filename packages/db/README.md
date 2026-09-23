@@ -53,12 +53,16 @@ bundle relies on it to leave out the migration runner (node-pg-migrate) and
 | `0004_worker_heartbeat` | `ops.worker_heartbeat` (one row per worker; timestamps from the database clock) | worker: SELECT, INSERT, UPDATE; api: SELECT |
 | `0005_pgboss_grants` | Rights on schema `pgboss`, which `pnpm db:migrate` installs first | worker: USAGE, table DML, sequence use, EXECUTE (plus default privileges for later pg-boss objects); api: SELECT on `ops.pgmigrations` (and, until 0006, USAGE on `pgboss` and SELECT on `pgboss.version`) |
 | `0006_pgboss_runtime_bounds` | `ops.pgboss_schema_version` (a migrator-owned, non-updatable view of the pg-boss schema version); CHECK `wringy_queue_shared_table_only` on `pgboss.queue` (every queue unpartitioned, on the shared `job_common` table) | worker: `pgboss.version` SELECT plus UPDATE of the five run-time timestamps only, never `version`; nothing on the view. api: SELECT on the view; its USAGE on `pgboss` and SELECT on `pgboss.version` are revoked, so the API has no `pgboss` access (kickoff-package.md §4.11, §8.5) |
+| `0007_data_origin_immutable` | `ops.assert_data_origin_unchanged()` and a BEFORE UPDATE trigger on `app.orgs` and `app.campaigns`: a row's `data_origin` never changes (23514, constraint `data_origin_immutable`) | None |
 
 Fixture and live data stay apart twice (Implementation Decision 5): the marker
 says whether an environment allows fixture rows, and `ops.assert_fixture_allowed()`
 refuses a fixture row (SQLSTATE 23514, constraint `ops_environment_fixtures_allowed`)
 where it does not or where no marker exists; the composite foreign key refuses a
-campaign whose data origin differs from its org's (23503).
+campaign whose data origin differs from its org's (23503); and a row's data origin
+is fixed at creation (0007: 23514, constraint `data_origin_immutable`), so no
+UPDATE can pass a fixture row off as live or the reverse. To move data between
+origins, delete the row and insert a new one.
 
 ## Roles
 
