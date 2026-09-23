@@ -15,8 +15,13 @@
  * 3. The `err` and `msg` serializers scrub connection strings and URL
  *    credentials out of free text: error messages, stacks, causes and the log
  *    message itself.
+ *
+ * `time` is an ISO 8601 UTC string (pino's `stdTimeFunctions.isoTime`), the
+ * same format apps/worker logs, so the two processes' lines sort and compare
+ * as text.
  */
 import type { FastifyServerOptions } from 'fastify';
+import pino from 'pino';
 
 import type { ApiEnv } from '@wringy/config';
 
@@ -97,6 +102,7 @@ export interface LogDestination {
 export function loggerOptions(level: ApiEnv['LOG_LEVEL'], stream?: LogDestination): FastifyServerOptions['logger'] {
   return {
     level,
+    timestamp: pino.stdTimeFunctions.isoTime,
     redact: { paths: REDACT_PATHS, censor: REDACTED },
     formatters: {
       log: (object) => redactSecrets(object) as Record<string, unknown>,

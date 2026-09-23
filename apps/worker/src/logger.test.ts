@@ -28,6 +28,13 @@ describe('M2-AC01 worker logger', () => {
     expect(line).toMatchObject({ service: 'worker', workerId: 'w1', beats: 1, msg: 'process beat', level: 30 });
   });
 
+  it('M2-AC01 stamps every line with an ISO 8601 UTC time, the format the API logs', () => {
+    const { logger, lines } = capture();
+    logger.info('probe');
+    const line = JSON.parse(lines[0]!) as { time?: unknown };
+    expect(line.time).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+  });
+
   it('M2-AC01/2 censors secret keys, URLs in messages and URLs inside errors', () => {
     const { logger, text } = capture();
     logger.info({ connectionString: URL, DATABASE_URL: URL, nested: { password: SECRET } }, 'config');

@@ -1,6 +1,7 @@
+import Fastify from 'fastify';
 import { describe, expect, it } from 'vitest';
 
-import { REDACTED, redactSecrets, scrubText, serializeError } from './logger';
+import { REDACTED, loggerOptions, redactSecrets, scrubText, serializeError } from './logger';
 
 const URL = 'postgres://wringy_api_login:hunter2-DO-NOT-LEAK@db.internal:5432/wringy';
 
@@ -76,5 +77,19 @@ describe('M2-AC01 serializeError', () => {
 
   it('handles a thrown non-Error', () => {
     expect(serializeError(`boom ${URL}`)).toEqual({ type: 'string', message: `boom ${REDACTED}`, stack: '' });
+  });
+});
+
+describe('M2-AC01 API log line format', () => {
+  it('M2-AC01 stamps every line with an ISO 8601 UTC time, the format the worker logs', async () => {
+    const lines: string[] = [];
+    const app = Fastify({ logger: loggerOptions('info', { write: (line) => void lines.push(line) }) });
+    const before = Date.now();
+    app.log.info('probe');
+    await app.close();
+
+    const probe = lines.map((line) => JSON.parse(line) as { msg?: string; time?: unknown }).find((line) => line.msg === 'probe');
+    expect(probe?.time).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(Date.parse(String(probe?.time))).toBeGreaterThanOrEqual(before - 1_000);
   });
 });

@@ -120,7 +120,9 @@ so it only reports bloat; rebuilding is a migrator task), `supervise` and
 ## Logs
 
 JSON lines from pino on stdout, one object per line with `service`, `workerId`,
-`imageRef` and `wringyEnv`. No line may carry a connection string or password:
+`imageRef` and `wringyEnv`, and `time` as an ISO 8601 UTC string
+(`pino.stdTimeFunctions.isoTime`), the same format apps/api writes
+(`src/logger.test.ts`). No line may carry a connection string or password:
 pino `redact` censors known secret keys, and every serialised line passes through
 `scrubSecrets()` (`src/logger.ts`), which replaces any `postgres://…` URL and
 `password=…` pair, including inside errors pg-boss emits. A routine beat logs at

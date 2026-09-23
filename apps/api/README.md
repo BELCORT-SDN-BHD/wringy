@@ -66,7 +66,12 @@ pool. Migrations never run here (kickoff-package.md §4.10).
 
 ## Logs and secrets
 
-pino through Fastify's `logger` option, at `LOG_LEVEL` (src/logger.ts):
+pino through Fastify's `logger` option, at `LOG_LEVEL` (src/logger.ts). One
+JSON object per line on stdout; `time` is an ISO 8601 UTC string
+(`pino.stdTimeFunctions.isoTime`, `2026-09-23T08:29:00.123Z`), the same format
+apps/worker writes (`src/logger.test.ts`, "M2-AC01 API log line format").
+`pino` is a declared dependency for that one function; Fastify already
+resolves the same 10.3.1.
 
 - `redact` censors `req.headers.authorization`, `req.headers.cookie` and
   `res.headers["set-cookie"]` wherever headers are logged (the default request

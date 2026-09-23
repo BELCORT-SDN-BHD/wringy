@@ -42,4 +42,6 @@ apps/web/src/lib/__dependency-violation__.ts
 
 # Claude Code agent worktrees (local only)
 .claude/worktrees/
+# Playwright MCP browser session output (screenshots, traces; local only)
+.playwright-mcp/
 graphify-out/.graphify_python
