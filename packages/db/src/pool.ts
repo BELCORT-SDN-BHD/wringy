@@ -15,9 +15,19 @@ export interface CreatePoolOptions {
   /**
    * Client-side limit, in milliseconds, on each query (pg's `query_timeout`):
    * the query's promise rejects with "Query read timeout" when the server has
-   * not answered in time. Unset means no limit (pg's default).
+   * not answered in time. The server keeps running the statement, so the
+   * client must then be discarded. Unset means no limit (pg's default).
    */
   queryTimeoutMillis?: number;
+  /**
+   * Server-side limit, in milliseconds, on each statement (PostgreSQL's
+   * `statement_timeout`, sent by pg as a startup parameter): the server
+   * cancels the statement, lock waits included, with SQLSTATE 57014 and the
+   * session stays usable, so no backend is left waiting behind a timed-out
+   * read. Set it below queryTimeoutMillis so the server gives up first.
+   * Unset means the server's default (no limit).
+   */
+  statementTimeoutMillis?: number;
 }
 
 /**
@@ -26,7 +36,14 @@ export interface CreatePoolOptions {
  * to `onError` instead of crashing the process; the next checkout reconnects.
  */
 export function createPool(
-  { connectionString, applicationName, max = 10, connectionTimeoutMillis = 5_000, queryTimeoutMillis }: CreatePoolOptions,
+  {
+    connectionString,
+    applicationName,
+    max = 10,
+    connectionTimeoutMillis = 5_000,
+    queryTimeoutMillis,
+    statementTimeoutMillis,
+  }: CreatePoolOptions,
   onError: (error: Error) => void = () => {},
 ): Pool {
   const pool = new pg.Pool({
@@ -35,6 +52,7 @@ export function createPool(
     max,
     connectionTimeoutMillis,
     ...(queryTimeoutMillis === undefined ? {} : { query_timeout: queryTimeoutMillis }),
+    ...(statementTimeoutMillis === undefined ? {} : { statement_timeout: statementTimeoutMillis }),
   });
   pool.on('error', onError);
   return pool;

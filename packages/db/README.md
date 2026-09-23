@@ -10,7 +10,7 @@ PostgreSQL without Docker, and the integration-test harness
 
 | Path | Role |
 |---|---|
-| `src/pool.ts` | `createPool({ connectionString, applicationName, max, connectionTimeoutMillis, queryTimeoutMillis })` on `pg` 8, one pool per role and process (`queryTimeoutMillis` sets pg's client-side `query_timeout`; the API uses 5 s); `withClient` and `withTransaction` |
+| `src/pool.ts` | `createPool({ connectionString, applicationName, max, connectionTimeoutMillis, queryTimeoutMillis, statementTimeoutMillis })` on `pg` 8, one pool per role and process (`queryTimeoutMillis` sets pg's client-side `query_timeout`, `statementTimeoutMillis` the server-side `statement_timeout`; the API uses 5 s and 4.5 s); `withClient` and `withTransaction` |
 | `src/heartbeat.ts` | The worker heartbeat protocol's **operational** constants, in the one package both apps may import: `HEARTBEAT_INTERVAL_MS` (15 s, the worker's process beat), `STALE_AFTER_MS` (45 s, three missed beats), `QUEUE_OVERDUE_AFTER_MS` (3 min, three missed one-minute round trips). Not business rules; `src/heartbeat.test.ts` pins `STALE_AFTER_MS = 3 × HEARTBEAT_INTERVAL_MS` |
 | `src/migrate.ts` | `migrateDatabase()` (what `pnpm db:migrate` runs: pg-boss schema, then SQL migrations, then a head check) and `runMigrations()` on node-pg-migrate 9: SQL files, one transaction per batch, session advisory lock (a concurrent run fails), order check, `search_path` = `app` |
 | `src/pgboss.ts` | `installPgBossSchema()`: runs the pg-boss CLI's `migrate` as the migrator; `readPgBossVersion()` |

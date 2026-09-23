@@ -15,7 +15,7 @@ import type {
 } from '@wringy/contracts';
 import { MIGRATIONS_SCHEMA, MIGRATIONS_TABLE, readQueueSchemaVersion, type Pool, type PoolClient } from '@wringy/db';
 
-import { sqlStateOf } from './database';
+import { isConnectionUnusable, sqlStateOf } from './database';
 import { computeQueueState, computeWorkerState } from './worker-state';
 
 type Queryable = Pick<PoolClient, 'query'>;
@@ -127,6 +127,13 @@ export type HealthFailureLog = (check: keyof HealthResponse['checks'], code: str
  * GET /health: one connection as the runtime role; each check fails on its
  * own. A check that cannot run reports `failing` and its code goes to the log
  * only; the body carries states, the heads read and the database clock.
+ *
+ * A failure that leaves the connection unusable (lost, or a client-side
+ * "Query read timeout" whose statement may still run on the server) ends the
+ * checks: the rest stay `failing` unrun, so one stuck query cannot make
+ * /health wait for every check in turn, and the client is discarded rather
+ * than handed to the next request. A statement the server cancelled (57014,
+ * statement_timeout) leaves the connection usable, so the next check runs.
  */
 export async function checkHealth(pool: Pool, expected: ExpectedHeads, onFailure: HealthFailureLog): Promise<HealthResponse> {
   const report: HealthResponse = {
@@ -146,14 +153,19 @@ export async function checkHealth(pool: Pool, expected: ExpectedHeads, onFailure
   }
 
   let broken: Error | undefined;
+  const failed = (check: keyof HealthResponse['checks'], error: unknown) => {
+    onFailure(check, sqlStateOf(error));
+    if (isConnectionUnusable(error)) broken = error instanceof Error ? error : new Error(String(error));
+  };
   try {
     try {
       const { rows } = await client.query<{ alive: number; db_now: Date }>('SELECT 1 AS alive, now() AS db_now');
       report.dbNow = rows[0]?.db_now.toISOString() ?? null;
       report.checks.database = rows[0]?.alive === 1 ? 'ok' : 'failing';
     } catch (error) {
-      onFailure('database', sqlStateOf(error));
-      broken = error instanceof Error ? error : new Error(String(error));
+      failed('database', error);
+      // The first statement failing at all means the connection is not to be trusted.
+      broken ??= error instanceof Error ? error : new Error(String(error));
       return report;
     }
 
@@ -164,14 +176,16 @@ export async function checkHealth(pool: Pool, expected: ExpectedHeads, onFailure
       report.migrationHead = rows[0]?.name ?? null;
       report.checks.migrations = report.migrationHead === expected.migrationHead ? 'ok' : 'failing';
     } catch (error) {
-      onFailure('migrations', sqlStateOf(error));
+      failed('migrations', error);
     }
 
-    try {
-      report.queueSchemaVersion = await readQueueSchemaVersion(client);
-      report.checks.queueSchema = report.queueSchemaVersion === expected.pgbossVersion ? 'ok' : 'failing';
-    } catch (error) {
-      onFailure('queueSchema', sqlStateOf(error));
+    if (broken === undefined) {
+      try {
+        report.queueSchemaVersion = await readQueueSchemaVersion(client);
+        report.checks.queueSchema = report.queueSchemaVersion === expected.pgbossVersion ? 'ok' : 'failing';
+      } catch (error) {
+        failed('queueSchema', error);
+      }
     }
   } finally {
     client.release(broken);
