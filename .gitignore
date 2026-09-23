@@ -39,6 +39,7 @@ apps/web/playwright-report-internal/
 
 # pnpm depcruise plants this file for one cruise and always deletes it
 apps/web/src/lib/__dependency-violation__.ts
+apps/worker/src/__dependency-violation__.ts
 
 # Claude Code agent worktrees (local only)
 .claude/worktrees/

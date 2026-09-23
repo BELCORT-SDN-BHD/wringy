@@ -4,10 +4,14 @@
  *
  * 1. Cruises every apps/<name>/src and packages/<name>/src with
  *    .dependency-cruiser.cjs and requires zero violations.
- * 2. Copies scripts/fixtures/dependency-violation.ts (apps/web importing
- *    @wringy/db) into apps/web/src/lib, cruises again, and requires the run to
- *    FAIL with the rule `web-not-to-server-runtime` naming that file. The copy
- *    is always removed, even when the cruise throws.
+ * 2. Plants each deliberately violating fixture of PLANTED below at the path
+ *    it names, cruises again, and requires the run to FAIL with each fixture's
+ *    rule naming that fixture's planted file:
+ *    - scripts/fixtures/dependency-violation.ts (apps/web importing @wringy/db)
+ *      must be rejected by `web-not-to-server-runtime`;
+ *    - scripts/fixtures/dependency-violation-worker.ts (apps/worker importing
+ *      @wringy/contracts) must be rejected by `worker-not-to-contracts`.
+ *    The copies are always removed, even when the cruise throws.
  *
  * Exit 0 only when both halves hold.
  */
@@ -17,10 +21,22 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const FIXTURE = path.join(ROOT, 'scripts', 'fixtures', 'dependency-violation.ts');
-const PLANTED_REL = 'apps/web/src/lib/__dependency-violation__.ts';
-const PLANTED = path.join(ROOT, PLANTED_REL);
-const EXPECTED_RULE = 'web-not-to-server-runtime';
+
+/** Each fixture, where it is planted (relative to the repository root), and the rule that must reject it. */
+const PLANTED = [
+  {
+    fixture: 'scripts/fixtures/dependency-violation.ts',
+    at: 'apps/web/src/lib/__dependency-violation__.ts',
+    rule: 'web-not-to-server-runtime',
+    what: 'apps/web importing @wringy/db',
+  },
+  {
+    fixture: 'scripts/fixtures/dependency-violation-worker.ts',
+    at: 'apps/worker/src/__dependency-violation__.ts',
+    rule: 'worker-not-to-contracts',
+    what: 'apps/worker importing @wringy/contracts',
+  },
+];
 
 // The root devDependency (pnpm links it into the root node_modules).
 const DEPCRUISE = path.join(ROOT, 'node_modules', 'dependency-cruiser', 'bin', 'dependency-cruiser.mjs');
@@ -52,8 +68,12 @@ function fail(message, output) {
   process.exit(1);
 }
 
+const removePlanted = () => {
+  for (const { at } of PLANTED) rmSync(path.join(ROOT, at), { force: true });
+};
+
 // A copy left behind by a killed run would fail step 1 for the wrong reason.
-rmSync(PLANTED, { force: true });
+removePlanted();
 
 const roots = sourceRoots();
 console.log(`depcruise: cruising ${roots.join(', ')}`);
@@ -64,18 +84,17 @@ console.log(`depcruise: clean tree: ${clean.output.split('\n').pop()}`);
 
 let planted;
 try {
-  copyFileSync(FIXTURE, PLANTED);
+  for (const { fixture, at } of PLANTED) copyFileSync(path.join(ROOT, fixture), path.join(ROOT, at));
   planted = cruise(roots);
 } finally {
-  rmSync(PLANTED, { force: true });
+  removePlanted();
 }
 
-const named = planted.output
-  .split('\n')
-  .some((line) => line.includes(EXPECTED_RULE) && line.includes(PLANTED_REL));
-if (planted.status === 0 || !named) {
-  fail(`the planted violation (${PLANTED_REL} importing @wringy/db) was not rejected by ${EXPECTED_RULE}`, planted.output);
+if (planted.status === 0) fail('the planted violations were not rejected (the cruise passed)', planted.output);
+const lines = planted.output.split('\n');
+for (const { at, rule, what } of PLANTED) {
+  const evidence = lines.find((line) => line.includes(rule) && line.includes(at));
+  if (evidence === undefined) fail(`the planted violation (${at}, ${what}) was not rejected by ${rule}`, planted.output);
+  console.log(`depcruise: planted violation rejected (exit ${planted.status}): ${evidence.trim()}`);
 }
-const evidence = planted.output.split('\n').find((line) => line.includes(EXPECTED_RULE));
-console.log(`depcruise: planted violation rejected (exit ${planted.status}): ${evidence.trim()}`);
 console.log('depcruise: PASS');

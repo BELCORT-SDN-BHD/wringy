@@ -89,6 +89,14 @@ module.exports = {
       to: { path: ['^apps/(web|api)/', ...npm('fastify')] },
     },
     {
+      name: 'worker-not-to-contracts',
+      comment:
+        'apps/worker has no wire contract: it serves no HTTP and reads no API. kickoff-package.md §8.1 lists domain, db and config as its dependencies, not @wringy/contracts.',
+      severity: 'error',
+      from: { path: '^apps/worker/' },
+      to: { path: workspace('contracts') },
+    },
+    {
       name: 'web-not-to-server-runtime',
       comment:
         'apps/web reaches data only through the API: no @wringy/db, pg, pg-boss or fastify, and no code from apps/api or apps/worker.',

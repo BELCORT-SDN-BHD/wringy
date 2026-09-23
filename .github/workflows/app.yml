@@ -46,7 +46,7 @@ jobs:
         run: pnpm typecheck
       - name: Unit tests
         run: pnpm test
-      - name: Dependency direction (and the planted violation must be rejected)
+      - name: Dependency direction (and the planted violations must be rejected)
         run: pnpm depcruise
       - name: Acceptance mapping (M2-AC test names and manual-evidence rows)
         run: pnpm check:acceptance
