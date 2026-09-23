@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { POOL_IDLE_TIMEOUT_MS } from '@wringy/db';
+
 import {
   API_APPLICATION_NAME,
   API_QUERY_TIMEOUT_MS,
@@ -74,6 +76,8 @@ describe('M2-AC01 createApiPool configuration: client and server-side limits on 
       expect(pool.options.statement_timeout).toBe(API_STATEMENT_TIMEOUT_MS);
       expect(API_STATEMENT_TIMEOUT_MS).toBeLessThan(API_QUERY_TIMEOUT_MS);
       expect(pool.options.application_name).toBe(API_APPLICATION_NAME);
+      // Stated, not inherited: the internal suite's outage test paces itself by it.
+      expect(pool.options.idleTimeoutMillis).toBe(POOL_IDLE_TIMEOUT_MS);
     } finally {
       await pool.end();
     }

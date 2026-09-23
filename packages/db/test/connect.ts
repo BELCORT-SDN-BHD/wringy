@@ -11,7 +11,11 @@
 import pg from 'pg';
 
 import { LOCAL_PASSWORDS, postgresUrl } from '../src/local-dev';
+import { POOL_IDLE_TIMEOUT_MS } from '../src/pool';
 import { ROLES } from '../src/roles';
+
+/** Re-exported for the Playwright internal suite, which cannot load @wringy/db's main entry (see above). */
+export { POOL_IDLE_TIMEOUT_MS };
 
 /** One URL per login role, all pointing at the same test database. */
 export interface LoginUrls {

@@ -1,4 +1,4 @@
-export { createPool, withClient, withTransaction } from './pool';
+export { POOL_IDLE_TIMEOUT_MS, createPool, withClient, withTransaction } from './pool';
 export type { CreatePoolOptions, Pool, PoolClient } from './pool';
 export {
   MIGRATIONS_DIR,

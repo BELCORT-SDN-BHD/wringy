@@ -6,14 +6,15 @@
  *
  * The API's runtime login may connect only through its group's CONNECT
  * privilege (packages/db bootstrap: PUBLIC has none). Revoking it from the
- * group `wringy_api` refuses every NEW connection of `wringy_api_login`; pg's
- * pool closes an idle connection after 10 s (pg-pool's idleTimeoutMillis
- * default), after which the API has to reconnect and cannot. The privilege is
- * given back at the end and the page recovers. The worker's login is not touched.
+ * group `wringy_api` refuses every NEW connection of `wringy_api_login`; the
+ * API's pool closes an idle connection after POOL_IDLE_TIMEOUT_MS (createPool in
+ * @wringy/db sets it explicitly), after which the API has to reconnect and
+ * cannot. The privilege is given back at the end and the page recovers. The
+ * worker's login is not touched.
  */
 import { expect, test } from '@playwright/test';
 
-import { withClientAt } from '@wringy/db/testing/connect';
+import { POOL_IDLE_TIMEOUT_MS, withClientAt } from '@wringy/db/testing/connect';
 
 import { e2eDatabase, internalShot, setLocaleCookie } from './support';
 
@@ -36,14 +37,14 @@ test('M2-AC01 the database being unavailable to the API shows the api-unavailabl
   await setApiConnect(false);
   try {
     const unavailable = page.locator('[data-app-state="api-unavailable"]');
-    // Each attempt waits past the pool's 10 s idle timeout, so no warm connection is reused.
+    // Each attempt waits past the pool's idle timeout, so no warm connection is reused.
     await expect
       .poll(
         async () => {
           await page.goto('/internal');
           return unavailable.count();
         },
-        { timeout: 60_000, intervals: [11_000] },
+        { timeout: 60_000, intervals: [POOL_IDLE_TIMEOUT_MS + 1_000] },
       )
       .toBe(1);
 

@@ -49,6 +49,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
+  // A test that fails and then passes on its retry fails the required `e2e` job instead of
+  // turning it green: the retry keeps its trace for diagnosis, not to hide timing flakes.
+  failOnFlakyTests: !!process.env.CI,
   reporter: process.env.CI ? [['html', { outputFolder: 'playwright-report-internal' }], ['list']] : 'list',
   globalSetup: './tests/e2e-internal/global-setup.ts',
   globalTeardown: './tests/e2e-internal/global-teardown.ts',
