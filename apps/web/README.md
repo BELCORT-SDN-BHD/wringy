@@ -83,10 +83,11 @@ Playwright workers compile a brand-new route at once. If a run fails with `ERR_C
 rather than an assertion, warm the route once with `pnpm dev` and run again.
 
 Its development cache, `.next/dev`, also grows across runs. At 4.4 GB (2026-09-23) the dev server
-logged "Finished filesystem cache database compaction in 26.5s" and stopped answering while it
-compacted, and 13 to 180 tests of the M1 suite timed out on `page.goto`; with `.next/dev` deleted
-the same suite passed (327). If many tests time out on navigation, delete `apps/web/.next/dev`
-(it is rebuilt on the next `pnpm dev`) and warm the routes again.
+logged "Finished filesystem cache database compaction in 26.5s" during a run in which 155 tests of
+the M1 suite timed out on `page.goto` (another project's Playwright suite was running on the same
+machine too); with `.next/dev` deleted the same suite passed (327). If many tests time out on
+navigation, delete `apps/web/.next/dev` (it is rebuilt on the next `pnpm dev`) and warm the routes
+again.
 
 ## The /internal page (M2-01)
 
