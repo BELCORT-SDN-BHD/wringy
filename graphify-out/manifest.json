@@ -2328,10 +2328,10 @@
     "semantic_hash": "eb3e66a721bbe10c66bca5797bbfeb48"
   },
   "docs/PROGRESS.md": {
-    "mtime": 1790151829.0693967,
-    "seen": 1790152534.9714866,
-    "ast_hash": "f4a251e1fdfcab20b802cac8a2bb4f33",
-    "semantic_hash": "f4a251e1fdfcab20b802cac8a2bb4f33"
+    "mtime": 1790152823.7812366,
+    "seen": 1790154145.7311432,
+    "ast_hash": "c2be43d70b104da10aeb0df9308e92ee",
+    "semantic_hash": "c2be43d70b104da10aeb0df9308e92ee"
   },
   "docs/adr/README.md": {
     "mtime": 1790055978.9645092,
