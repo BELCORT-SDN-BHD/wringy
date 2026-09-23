@@ -25,11 +25,13 @@ export type { InstallPgBossOptions, InstalledPgBoss, PgBossInstallResult } from 
 export {
   EnvironmentMismatchError,
   EnvironmentTableMissingError,
+  FixturesPresentError,
+  countFixtureRows,
   fixturesAllowedFor,
   readEnvironment,
   setEnvironment,
 } from './environment';
-export type { EnvironmentMarker, SetEnvironmentOptions, SetEnvironmentOutcome } from './environment';
+export type { EnvironmentMarker, FixtureRowCounts, SetEnvironmentOptions, SetEnvironmentOutcome } from './environment';
 export { FIXTURES_FILE, FixturesRefusedError, seedFixtures } from './fixtures';
 export type { SeedFixturesOptions, SeedFixturesResult } from './fixtures';
 export { APP_SCHEMA, OPS_SCHEMA, PGBOSS_SCHEMA, ROLES } from './roles';

@@ -34,6 +34,33 @@ export class EnvironmentTableMissingError extends Error {
   }
 }
 
+/** Fixture rows per business table (`app.<table>`), only tables that hold any. */
+export type FixtureRowCounts = Readonly<Record<string, number>>;
+
+/**
+ * Raised when a database would be marked as an environment that forbids
+ * fixtures (production) while business tables still hold fixture rows: the
+ * marker would say "no fixtures" and the API would serve them. Delete the
+ * fixture rows as the migrator first; DELETE is not blocked by the fixture
+ * trigger.
+ */
+export class FixturesPresentError extends Error {
+  override readonly name = 'FixturesPresentError';
+  constructor(
+    readonly requested: WringyEnv,
+    readonly counts: FixtureRowCounts,
+  ) {
+    const listed = Object.entries(counts)
+      .map(([table, count]) => `${table} ${count}`)
+      .join(', ');
+    super(
+      `Refusing to mark this database as environment "${requested}", which does not allow fixtures, while it holds ` +
+        `fixture rows (${listed}). Delete them as the migrator (DELETE FROM <table> WHERE data_origin = 'fixture', ` +
+        'campaigns before orgs), then run pnpm db:env again.',
+    );
+  }
+}
+
 /** Raised when the database is already marked as another environment and no relabel was asked for. */
 export class EnvironmentMismatchError extends Error {
   override readonly name = 'EnvironmentMismatchError';
@@ -62,6 +89,39 @@ const toMarker = (row: MarkerRow): EnvironmentMarker => ({
 
 const UNDEFINED_TABLE = '42P01';
 
+/** Double-quotes a catalog name for SQL (PostgreSQL's identifier quoting). */
+const quoteIdent = (name: string) => `"${name.replace(/"/g, '""')}"`;
+
+/**
+ * Fixture rows in every table of schema `app` that has a data_origin column
+ * (found in the catalog, so tables later tickets add are covered), keyed
+ * `app.<table>`. Tables without fixture rows are left out.
+ */
+export async function countFixtureRows(client: Queryable): Promise<FixtureRowCounts> {
+  const { rows: tables } = await client.query<{ relname: string }>(
+    `SELECT c.relname
+       FROM pg_catalog.pg_class c
+       JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+       JOIN pg_catalog.pg_attribute a ON a.attrelid = c.oid AND a.attname = 'data_origin' AND NOT a.attisdropped
+      WHERE n.nspname = 'app' AND c.relkind IN ('r', 'p')
+      ORDER BY c.relname`,
+  );
+  const counts: Record<string, number> = {};
+  for (const { relname } of tables) {
+    const { rows } = await client.query<{ count: number }>(
+      `SELECT count(*)::int AS count FROM app.${quoteIdent(relname)} WHERE data_origin = 'fixture'`,
+    );
+    const count = rows[0]?.count ?? 0;
+    if (count > 0) counts[`app.${relname}`] = count;
+  }
+  return counts;
+}
+
+async function assertNoFixtureRows(client: Queryable, name: WringyEnv): Promise<void> {
+  const counts = await countFixtureRows(client);
+  if (Object.keys(counts).length > 0) throw new FixturesPresentError(name, counts);
+}
+
 /** The marker, or null when the table exists but holds no row. */
 export async function readEnvironment(client: Queryable): Promise<EnvironmentMarker | null> {
   try {
@@ -85,6 +145,10 @@ export interface SetEnvironmentOptions {
  * derived from it. Each step is one statement, so it is safe on a client that is
  * already inside a transaction (the test harness) and needs no explicit one:
  * the unique index on a constant settles a race between two first inserts.
+ *
+ * Marking a database as an environment that forbids fixtures (production),
+ * whether a first mark or a relabel, is refused with FixturesPresentError
+ * while any business table holds fixture rows.
  */
 export async function setEnvironment(
   client: Queryable,
@@ -93,6 +157,11 @@ export async function setEnvironment(
 ): Promise<{ outcome: SetEnvironmentOutcome; marker: EnvironmentMarker }> {
   const fixturesAllowed = fixturesAllowedFor(name);
   const current = await readEnvironment(client);
+  const changesMarker = current === null || current.name !== name || current.fixturesAllowed !== fixturesAllowed;
+  if (changesMarker && !fixturesAllowed) {
+    if (current !== null && current.name !== name && !relabel) throw new EnvironmentMismatchError(current.name, name);
+    await assertNoFixtureRows(client, name);
+  }
 
   if (current === null) {
     const inserted = await client.query<MarkerRow>(

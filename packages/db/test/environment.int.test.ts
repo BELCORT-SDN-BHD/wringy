@@ -4,9 +4,12 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {
   EnvironmentMismatchError,
   EnvironmentTableMissingError,
+  FixturesPresentError,
+  countFixtureRows,
   readEnvironment,
   setEnvironment,
 } from '../src/environment';
+import { seedFixtures as applyFixtureSeed } from '../src/fixtures';
 import { TEST_WRINGY_ENV, createTestDatabase, failureIn, withRollback, type TestDatabase } from './harness';
 
 /** `pnpm db:env` (setEnvironment) on a clone marked `ci` by the harness. */
@@ -62,6 +65,39 @@ describe('M2-AC01/2 environment marker (pnpm db:env)', () => {
       expect(await setEnvironment(client, 'staging', { relabel: true })).toMatchObject({
         outcome: 'relabelled',
         marker: { name: 'staging', fixturesAllowed: true },
+      });
+    });
+  });
+
+  it('M2-AC01/2 refuses to mark a database production while it holds fixture rows, and allows it once they are deleted', async () => {
+    await withRollback(migrator, async (client) => {
+      await applyFixtureSeed(client);
+      expect(await countFixtureRows(client)).toEqual({ 'app.campaigns': 3, 'app.orgs': 2 });
+
+      const refused = await setEnvironment(client, 'production', { relabel: true }).then(
+        () => undefined,
+        (error: unknown) => error,
+      );
+      expect(refused).toBeInstanceOf(FixturesPresentError);
+      expect((refused as FixturesPresentError).counts).toEqual({ 'app.campaigns': 3, 'app.orgs': 2 });
+      expect((refused as Error).message).toMatch(/does not allow fixtures, while it holds fixture rows \(app\.campaigns 3, app\.orgs 2\)/);
+      // The marker did not move.
+      expect(await readEnvironment(client)).toMatchObject({ name: TEST_WRINGY_ENV, fixturesAllowed: true });
+
+      // A first mark as production is refused the same way.
+      await client.query('DELETE FROM ops.environment');
+      await expect(setEnvironment(client, 'production')).rejects.toBeInstanceOf(FixturesPresentError);
+      await setEnvironment(client, TEST_WRINGY_ENV);
+
+      // Relabelling to an environment that allows fixtures is not affected.
+      expect((await setEnvironment(client, 'staging', { relabel: true })).outcome).toBe('relabelled');
+
+      await client.query(`DELETE FROM app.campaigns WHERE data_origin = 'fixture'`);
+      await client.query(`DELETE FROM app.orgs WHERE data_origin = 'fixture'`);
+      expect(await countFixtureRows(client)).toEqual({});
+      expect(await setEnvironment(client, 'production', { relabel: true })).toMatchObject({
+        outcome: 'relabelled',
+        marker: { name: 'production', fixturesAllowed: false },
       });
     });
   });

@@ -44,7 +44,9 @@ describe('M2-AC01/2 fixture and live rows stay apart', () => {
       expect(await failureIn(client, () => insertOrg(client, ORG, 'fixture'))).toBeUndefined();
       expect(await failureIn(client, () => insertCampaign(client, ORG, 'fixture'))).toBeUndefined();
 
-      await setEnvironment(client, 'production', { relabel: true });
+      // `pnpm db:env` refuses to mark a database production while it holds fixture
+      // rows (environment.int.test.ts); a marker changed by hand is still guarded here.
+      await client.query(`UPDATE ops.environment SET name = 'production', fixtures_allowed = false`);
       const refused = await failureIn(client, () => insertOrg(client, OTHER_ORG, 'fixture'));
       expect(refused).toMatchObject({ code: '23514', constraint: 'ops_environment_fixtures_allowed' });
       expect(refused?.message).toMatch(/environment production does not allow fixtures/);

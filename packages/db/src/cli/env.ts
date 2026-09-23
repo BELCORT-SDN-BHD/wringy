@@ -2,7 +2,8 @@
  * `pnpm db:env [--relabel]`: writes the environment marker (ops.environment)
  * for WRINGY_ENV, as the migrator, after `pnpm db:migrate`. fixtures_allowed is
  * true for local, ci and staging and false for production. Idempotent; a
- * database already marked as another environment is refused unless --relabel.
+ * database already marked as another environment is refused unless --relabel,
+ * and marking a database production is refused while it holds fixture rows.
  *
  * Reads WRINGY_ENV and DATABASE_URL_MIGRATOR through @wringy/config (a local run
  * also reads the repository-root `.env` when it exists).
@@ -12,7 +13,12 @@ import pg from 'pg';
 import { EnvError } from '@wringy/config';
 import { loadMigrateEnv } from '@wringy/config/migrate';
 
-import { EnvironmentMismatchError, EnvironmentTableMissingError, setEnvironment } from '../environment';
+import {
+  EnvironmentMismatchError,
+  EnvironmentTableMissingError,
+  FixturesPresentError,
+  setEnvironment,
+} from '../environment';
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -42,7 +48,11 @@ main().catch((error: unknown) => {
   // EnvError names variables only; the other messages come from this package or pg
   // and never include the connection string.
   const message = error instanceof Error ? error.message : String(error);
-  const known = error instanceof EnvError || error instanceof EnvironmentMismatchError || error instanceof EnvironmentTableMissingError;
+  const known =
+    error instanceof EnvError ||
+    error instanceof EnvironmentMismatchError ||
+    error instanceof EnvironmentTableMissingError ||
+    error instanceof FixturesPresentError;
   console.error(known ? message : `db:env failed: ${message}`);
   process.exitCode = 1;
 });

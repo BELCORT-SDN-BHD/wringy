@@ -132,7 +132,10 @@ The order matters: `db:env` needs the table 0002 creates, so it is a separate
 step after `db:migrate` rather than part of `db:bootstrap` (which runs before any
 migration exists, as the cluster admin). `db:env` refuses to re-mark a database
 that already names another environment; `pnpm db:env --relabel` does it on
-purpose. `pnpm --filter @wringy/db migrate down [n]` reverts SQL migrations
+purpose. Marking a database production (first mark or relabel) is refused while
+any `app` table with a `data_origin` column holds fixture rows
+(`FixturesPresentError`, with a count per table): delete them as the migrator
+first, campaigns before orgs. `pnpm --filter @wringy/db migrate down [n]` reverts SQL migrations
 locally or in CI only.
 
 `embedded-postgres` and its platform binaries are pinned to `17.10.0-beta.17`
