@@ -81,12 +81,18 @@ With several workers, the round-trip stamp lands on whichever worker ran the job
 **Stop and drain** (`src/shutdown.ts`, `createWorker().stop()`): SIGTERM or
 SIGINT (or the IPC message `shutdown`, below) runs one graceful stop:
 
-1. stop the beat interval and wait for a beat in flight;
-2. `boss.stop({ graceful: true, timeout: 20000, close: true })`: running jobs may
+1. stop the beat interval;
+2. at once, `boss.stop({ graceful: true, timeout: 20000, close: true })`: running jobs may
    finish for up to 20 s (`DRAIN_TIMEOUT_MS`); pg-boss then fails whatever is still
    active ("pg-boss shut down while active") and closes its pool
-   ([ops.md](https://raw.githubusercontent.com/timgit/pg-boss/master/docs/api/ops.md) `stop()`: `graceful`, `close`, `timeout`);
-3. set `stopped_at = now()` (only if this process wrote a beat);
+   ([ops.md](https://raw.githubusercontent.com/timgit/pg-boss/master/docs/api/ops.md) `stop()`: `graceful`, `close`, `timeout`).
+   A beat still in flight settles alongside; it never delays the drain, and the worker
+   pool's limits bound it (the server cancels a statement after 4.5 s,
+   `WORKER_STATEMENT_TIMEOUT_MS`, and the client gives up after 5 s,
+   `WORKER_QUERY_TIMEOUT_MS`), so a beat held up by a lock or a half-open connection
+   cannot hang the stop;
+3. once both are done, set `stopped_at = now()` (only if this process wrote a beat), so
+   a late beat cannot clear it;
 4. end the pool and exit 0.
 
 A second signal while stopping is ignored. If the whole stop takes longer than
@@ -180,7 +186,7 @@ template from zero, and every test clones it), connecting as
 | File | Tests |
 |---|---|
 | `test/roles.int.test.ts` | `M2-AC01/2 the worker runs as the runtime role and cannot read app.campaigns`; pg-boss under the runtime role with DML only |
-| `test/heartbeat.int.test.ts` | `worker heartbeat row appears within one beat and uses the database clock`; `queue round trip: a sent system.heartbeat job updates last_queue_round_trip_at`; `graceful stop drains and sets stopped_at` |
+| `test/heartbeat.int.test.ts` | `worker heartbeat row appears within one beat and uses the database clock`; `queue round trip: a sent system.heartbeat job updates last_queue_round_trip_at`; `graceful stop drains and sets stopped_at`; a beat held up by a lock giving up at the statement limit (57014); the pg-boss drain starting at once while a beat is stuck on a lock |
 | `test/startup.int.test.ts` | `startup refuses an environment mismatch`; an unmarked database; `M2-AC01/2 start() refuses when pgboss schema is missing/behind (migrate:false)` |
 | `test/process.int.test.ts` | the real `src/main.ts` process: start, beat, drain, exit 0; exit 1 on a mismatch, a refused login and a missing variable; `M2-AC01/2 no secret in logs` |
 

@@ -17,10 +17,13 @@
  *    round-trip handler, schedules the job every minute, and starts the beat
  *    interval.
  *
- * stop() (SIGTERM / SIGINT in main.ts): stops the beat interval and waits for a
- * beat in flight, stops pg-boss gracefully (running jobs may finish within the
- * drain timeout; pg-boss fails whatever is still active after it), then sets
- * stopped_at. The caller ends the pool.
+ * stop() (SIGTERM / SIGINT in main.ts): stops the beat interval, then at once
+ * stops pg-boss gracefully (running jobs may finish within the drain timeout;
+ * pg-boss fails whatever is still active after it) while a beat in flight
+ * settles, so a beat held up by the database never delays the drain; the beat
+ * is bounded by the worker pool's statement and query timeouts
+ * (connections.ts). Once both are done it sets stopped_at, so a late beat
+ * cannot clear it. The caller ends the pool.
  */
 import type { PgBoss, Job } from 'pg-boss';
 
@@ -261,16 +264,19 @@ export function createWorker(options: CreateWorkerOptions): Worker {
 
     if (timer !== undefined) clearInterval(timer);
     timer = undefined;
-    if (inFlightBeat !== undefined) await inFlightBeat.catch(() => {});
 
     let drainError: unknown;
-    try {
+    // The drain starts now, alongside a beat still in flight, not after it: the beat is
+    // bounded by the pool's timeouts, the drain by drainTimeoutMs, and neither waits on the other.
+    const beatSettled = inFlightBeat === undefined ? Promise.resolve() : inFlightBeat.then(() => {}, () => {});
+    const drained = boss
       // graceful: wait for running handlers up to `timeout` ms; close: end pg-boss's own pool (ops.md).
-      await boss.stop({ graceful: true, timeout: drainTimeoutMs, close: true });
-    } catch (error) {
-      drainError = error;
-      log.error({ err: error }, 'pg-boss did not stop cleanly');
-    }
+      .stop({ graceful: true, timeout: drainTimeoutMs, close: true })
+      .catch((error: unknown) => {
+        drainError = error;
+        log.error({ err: error }, 'pg-boss did not stop cleanly');
+      });
+    await Promise.all([beatSettled, drained]);
 
     for (const [probe, waiter] of waiters) {
       waiter.reject(new Error('worker stopped before the round trip completed'));

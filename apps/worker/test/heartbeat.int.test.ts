@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { Pool } from '@wringy/db';
+import { cluster, withClientAt } from '@wringy/db/testing';
 
+import { WORKER_APPLICATION_NAME, WORKER_QUERY_TIMEOUT_MS, WORKER_STATEMENT_TIMEOUT_MS } from '../src/connections';
 import { HEARTBEAT_QUEUE } from '../src/jobs/heartbeat';
 import {
   buildWorker,
@@ -157,7 +159,80 @@ describe('M2-AC01 worker heartbeats, the worker leg of the narrow loop (kickoff-
     );
     expect(left[0]!.n).toBe(0);
   });
+
+  it('M2-AC01 a beat held up by a lock gives up at the worker pool statement limit (57014)', async () => {
+    subject = buildWorker(db, { workerId: 'bounded-1' });
+    const holder = await migrator.connect();
+    try {
+      await holder.query('BEGIN');
+      await holder.query('LOCK TABLE ops.worker_heartbeat IN ACCESS EXCLUSIVE MODE');
+      const t0 = Date.now();
+      const failure = await subject.worker.beatOnce().then(
+        () => undefined,
+        (error: { code?: string }) => error,
+      );
+      const elapsed = Date.now() - t0;
+      expect(failure?.code).toBe('57014');
+      expect(elapsed).toBeGreaterThanOrEqual(WORKER_STATEMENT_TIMEOUT_MS - 250);
+      expect(elapsed).toBeLessThan(WORKER_QUERY_TIMEOUT_MS + 1_000);
+      expect(await lockWaiters(db.name)).toBe(0);
+    } finally {
+      await holder.query('ROLLBACK').catch(() => {});
+      holder.release();
+    }
+  });
+
+  it('M2-AC01 graceful stop starts the pg-boss drain at once while a beat is stuck on a lock, then marks stopped_at', async () => {
+    subject = buildWorker(db, { workerId: 'stuck-1', beatIntervalMs: 250, pollingIntervalSeconds: 0.5 });
+    const { worker, boss } = subject;
+    await worker.start();
+    let bossStoppedAt: number | undefined;
+    boss.on('stopped', () => {
+      bossStoppedAt = Date.now();
+    });
+
+    const holder = await migrator.connect();
+    let t0 = 0;
+    let stopping: Promise<void> | undefined;
+    try {
+      await holder.query('BEGIN');
+      await holder.query('LOCK TABLE ops.worker_heartbeat IN ACCESS EXCLUSIVE MODE');
+      // A beat is now in flight, waiting on the lock.
+      expect(await waitFor(() => lockWaiters(db.name), (n) => n >= 1, 3_000)).toBeGreaterThanOrEqual(1);
+
+      t0 = Date.now();
+      stopping = worker.stop();
+      // pg-boss drains and stops while the beat still waits: the drain does not queue behind it.
+      await waitFor(async () => bossStoppedAt, (at) => at !== undefined, 3_000);
+      expect(bossStoppedAt).toBeDefined();
+      expect(bossStoppedAt! - t0).toBeLessThan(3_000);
+      expect(await lockWaiters(db.name)).toBeGreaterThanOrEqual(1);
+      expect(worker.status).toBe('stopping');
+    } finally {
+      await holder.query('ROLLBACK').catch(() => {});
+      holder.release();
+    }
+
+    // With the lock gone the beat settles and stop() records stopped_at after it.
+    await stopping;
+    expect(worker.status).toBe('stopped');
+    const row = await heartbeatRow(migrator, 'stuck-1');
+    expect(row!.stopped_at).not.toBeNull();
+    expect(row!.stopped_at!.getTime()).toBeGreaterThanOrEqual(row!.last_beat_at.getTime());
+  });
 });
+
+/** Worker-pool sessions of `database` waiting on a lock (read as the cluster admin: wait events of other roles are hidden). */
+async function lockWaiters(database: string): Promise<number> {
+  return withClientAt(cluster().adminUrl, async (admin) => {
+    const { rows } = await admin.query<{ n: number }>(
+      `SELECT count(*)::int AS n FROM pg_catalog.pg_stat_activity
+        WHERE datname = $1 AND application_name = $2 AND wait_event_type = 'Lock'`,
+      [database, WORKER_APPLICATION_NAME],
+    );
+    return rows[0]!.n;
+  });
+}
 
 async function jobState(pool: Pool, id: string): Promise<string | undefined> {
   const { rows } = await pool.query<{ state: string }>('SELECT state::text FROM pgboss.job WHERE id = $1', [id]);

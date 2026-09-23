@@ -41,9 +41,27 @@ export const PGBOSS_APPLICATION_NAME = 'wringy-worker-pgboss';
 export const WORKER_POOL_MAX = 2;
 export const PGBOSS_POOL_MAX = 4;
 
+/**
+ * OPERATIONAL limits on the worker's own pool (the environment check, the
+ * beats, the stopped_at write), as on the API's: the server cancels a
+ * statement after WORKER_STATEMENT_TIMEOUT_MS (57014), lock waits included,
+ * and the client gives up after WORKER_QUERY_TIMEOUT_MS if the server does not
+ * answer at all. A beat held up by a lock or a half-open connection therefore
+ * settles within about 5 s instead of never, so it cannot hold up a graceful
+ * stop. Not business rules. pg-boss's own pool keeps pg-boss's settings.
+ */
+export const WORKER_STATEMENT_TIMEOUT_MS = 4_500;
+export const WORKER_QUERY_TIMEOUT_MS = 5_000;
+
 export function createWorkerPool(connectionString: string, onError?: (error: Error) => void): Pool {
   return createPool(
-    { connectionString, applicationName: WORKER_APPLICATION_NAME, max: WORKER_POOL_MAX },
+    {
+      connectionString,
+      applicationName: WORKER_APPLICATION_NAME,
+      max: WORKER_POOL_MAX,
+      queryTimeoutMillis: WORKER_QUERY_TIMEOUT_MS,
+      statementTimeoutMillis: WORKER_STATEMENT_TIMEOUT_MS,
+    },
     onError,
   );
 }
