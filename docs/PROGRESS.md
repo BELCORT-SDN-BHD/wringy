@@ -22,7 +22,9 @@
 
 ## In Progress
 
-- Nothing in flight. M2-01 is merged and closed; the founder's vendor accounts exist and their values are in the local, gitignored `.env.vendors` (all filled except `RENDER_API_KEY`, which M2-09 needs). M2-02 (#21) is the next ticket.
+- 2026-09-23: Approved Wokiee logo source handoff prepared under [design-system-v2/brand](../phase-0/foundation/design-system-v2/brand/README.md) for the standalone `wokiee-website` consumer. Founder intent is Wringy → Wokiee; the full product/design-system migration is explicitly reserved for a separate main-repository session. Exact A wordmark font identity is unverified; use the approved outlined artwork. This additive asset handoff changes no app behavior and does not claim the rename is complete.
+
+- Product implementation: M2-01 is merged and closed; the founder's vendor accounts exist and their values are in the local, gitignored `.env.vendors` (all filled except `RENDER_API_KEY`, which M2-09 needs). M2-02 (#21) is the next ticket.
 
 ## Known Issues
 

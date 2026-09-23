@@ -50,3 +50,7 @@
 本次三语扩展：仅新增 zh-Hans-MY 草稿文案及现有选择器选项；中文暂按简体处理。首次使用询问语言、设置中更改仅为未来设计说明，未实现。当前专项验证和新HTML哈希见 [localized-verification.json](output/localized-verification.json)；此前22项报告及旧产物哈希保留为历史证据。
 
 三语版本已由主任务验收（2026-09-11）：主任务检查中文截图并接受9/9专项结果。收口时重新计算独立HTML的SHA-256，与当前报告一致，且导出与构建HTML逐字节一致；哈希唯一记录为 [localized-verification.json](output/localized-verification.json) 的 `artifact.sha256`。本次收口仅核对产物与文档，未重跑测试。语言偏好流程规格由主任务维护于 [localization-v1.md](../localization-v1.md)，此处不宣称已有引导流程实现。
+
+## 已批准 Wokiee 标志与品牌迁移交接 · 2026-09-23
+
+[共享品牌源与交接说明](brand/README.md)保存已批准的 Wokiee 标志包、A 字标字体信息及官网消费约定。创办人已要求品牌从 Wringy 改为 Wokiee；完整设计系统与产品更名由另一个主仓库会话处理。本次只建立标志唯一来源，不改变既有配色、字体、组件或产品界面。
