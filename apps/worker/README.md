@@ -9,7 +9,7 @@ the API. It serves no HTTP, reads no business table and runs no DDL.
 
 | Script | Does |
 |---|---|
-| `pnpm --filter worker dev` | `tsx watch src/main.ts`, loading `apps/worker/.env` when present |
+| `pnpm --filter worker dev` | `node --watch --import tsx src/main.ts` (Node's watch mode with the tsx loader), loading `apps/worker/.env` when present |
 | `pnpm --filter worker build` | esbuild bundle `src/main.ts` → `dist/main.js` (see Build) |
 | `pnpm --filter worker start` | `node dist/main.js`, loading `apps/worker/.env` when present |
 | `pnpm --filter worker lint` / `typecheck` | ESLint / `tsc --noEmit` |

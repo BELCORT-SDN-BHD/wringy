@@ -143,7 +143,7 @@ with `WRINGY_ENV=local`.
 
 | Script | Does |
 |---|---|
-| `pnpm --filter api dev` | `tsx watch` on src/main.ts with `.env` |
+| `pnpm --filter api dev` | `node --watch --import tsx` on src/main.ts with `.env` (Node's watch mode with the tsx loader; `tsx watch` printed nothing under `pnpm dev` on Windows, see the root README) |
 | `pnpm --filter api build` | scripts/build.mjs: esbuild bundles src/main.ts to dist/main.js (ESM, node24, sourcemap) |
 | `pnpm --filter api start` | `node --env-file-if-exists=.env dist/main.js` |
 | `pnpm --filter api lint` / `typecheck` | ESLint (typescript-eslint recommended) / `tsc --noEmit` |

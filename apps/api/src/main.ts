@@ -1,5 +1,5 @@
 /**
- * Entry point: `pnpm dev` (tsx watch) and `node dist/main.js`.
+ * Entry point: `pnpm dev` (node --watch --import tsx) and `node dist/main.js`.
  *
  * Loads the API's own variables (fail fast, names only), starts the server and
  * closes it gracefully on SIGTERM or SIGINT. Exit code 1 on any startup failure.

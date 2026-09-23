@@ -1,7 +1,7 @@
 /**
  * The worker process (kickoff-package.md §8.3, §8.5, §8.8, §8.9).
  *
- *   pnpm --filter worker dev     tsx watch, reads apps/worker/.env when present
+ *   pnpm --filter worker dev     node --watch --import tsx, reads apps/worker/.env when present
  *   pnpm --filter worker start   node dist/main.js (after `build`)
  *
  * Exit codes: 0 after a graceful stop; 1 when the environment is invalid, the

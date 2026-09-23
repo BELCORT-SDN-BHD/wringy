@@ -57,7 +57,7 @@ pnpm dev                 # web、api、worker 一起启动；然后打开 http:/
 pnpm db:stop
 ```
 
-Windows 注意：2026-09-23 在本机，`pnpm dev`（pnpm 递归运行，输出经管道）启动后 api 与 worker 的 `tsx watch` 没有任何输出，3200 端口也没有监听；同一命令在管道之外（`pnpm --filter api dev`）正常启动。原因未确认。遇到时在三个终端分别运行 `pnpm --filter api dev`、`pnpm --filter worker dev`、`pnpm --filter web dev`。
+api 与 worker 的 `dev` 脚本用 Node 自带的监视模式加 tsx 加载器（`node --watch --import tsx`）。原先的 `tsx watch` 在 Windows 上经 `pnpm -r --parallel run dev` 启动时没有任何输出（2026-09-23 在本机复现：12 秒内 0 行；改用 `node --watch --import tsx` 后 `pnpm dev` 25 秒内 api、worker、web 各 7 行）。原因在 `pnpm run` 经 shell 启动 `tsx watch` 这一层，未进一步确认；`pnpm exec tsx watch` 同样的命令有输出。Node 的监视模式偶尔会在启动时因 `node_modules` 里的文件报一次“Change detected”并重启一次，无害。
 
 **检查命令**（CI 的 [App checks](.github/workflows/app.yml) 运行同样的命令）：
 
