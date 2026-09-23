@@ -17,6 +17,7 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "build": "node scripts/build-migrate.mjs",
     "test": "vitest run",
     "test:int": "vitest run --config vitest.int.config.ts",
     "migrate": "tsx --env-file-if-exists=../../.env src/cli/migrate.ts",
@@ -37,6 +38,7 @@
     "@types/node": "^24",
     "@types/pg": "8.23.1",
     "embedded-postgres": "17.10.0-beta.17",
+    "esbuild": "0.28.2",
     "eslint": "^9",
     "tsx": "4.23.15",
     "typescript": "^5",
