@@ -7,6 +7,10 @@ import {
   externalClusterHostRefusal,
   findNonTestEnvironments,
   isHarnessDatabase,
+  nodeVersionRefusal,
+  pinnedNodeMajor,
+  pinnedPostgresMajor,
+  postgresVersionRefusal,
   startTestCluster,
   withAdminAt,
   withClientAt,
@@ -94,5 +98,29 @@ describe('M2-AC01/2 the test harness bootstraps only a throwaway cluster', () =>
     } finally {
       await withAdminAt(info, (admin) => admin.query(`DROP DATABASE IF EXISTS ${admin.escapeIdentifier(probe)} WITH (FORCE)`));
     }
+  });
+});
+
+/**
+ * M2-AC01/2 part 1 locks the supported dependency intersection. The harness
+ * refuses any other PostgreSQL or Node.js major (startTestCluster), so these
+ * integration results are evidence for exactly the pinned versions.
+ */
+describe('M2-AC01/2 the integration tests run on the pinned versions', () => {
+  it('M2-AC01/2 runs on PostgreSQL 17 and Node 24', async () => {
+    expect(pinnedPostgresMajor()).toBe(17);
+    expect(pinnedNodeMajor()).toBe(24);
+    const { rows } = await withClientAt(cluster().adminUrl, (admin) =>
+      admin.query<{ num: number }>(`SELECT current_setting('server_version_num')::int AS num`),
+    );
+    expect(Math.floor(rows[0]!.num / 10_000)).toBe(pinnedPostgresMajor());
+    expect(Number(process.versions.node.split('.')[0])).toBe(pinnedNodeMajor());
+  });
+
+  it('M2-AC01/2 refuses PostgreSQL 16 and Node 20', () => {
+    expect(postgresVersionRefusal(160004)).toMatch(/runs PostgreSQL 16 \(server_version_num 160004\), not the supported 17/);
+    expect(postgresVersionRefusal(170010)).toBeUndefined();
+    expect(nodeVersionRefusal('20.19.5')).toMatch(/run on Node\.js 24 \(\.nvmrc\), not 20\.19\.5/);
+    expect(nodeVersionRefusal('24.21.0')).toBeUndefined();
   });
 });

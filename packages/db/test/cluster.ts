@@ -19,6 +19,12 @@
  * cluster), and any cluster where a database other than this harness's own is
  * marked as an environment other than local or ci.
  *
+ * It also refuses to run anywhere but the supported dependency intersection
+ * (M2-AC01/2 part 1): a server whose major version differs from the pinned
+ * embedded-postgres major (17; CI's postgres:17), or a Node.js whose major
+ * differs from the repository's .nvmrc (24), so a test run can never pass as
+ * evidence for versions it did not run on.
+ *
  * `createDatabaseIn(cluster)` clones the template (CREATE DATABASE ... TEMPLATE
  * ...) with CONNECT for the runtime groups only; `seedFixturesIn` and
  * `setEnvironmentIn` do what `pnpm db:seed:fixtures` and `pnpm db:env` do.
@@ -32,7 +38,7 @@
  * imports it.
  */
 import { randomBytes } from 'node:crypto';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -142,6 +148,56 @@ export function databaseUrls(cluster: ClusterInfo, database: string): TestDataba
     api: clusterUrl(cluster, ROLES.apiLogin, passwords.api, database),
     worker: clusterUrl(cluster, ROLES.workerLogin, passwords.worker, database),
   };
+}
+
+/** The major of `version` (`17.10.0-beta.17`, `v24.21.0`, `24.21.0`). */
+function majorOf(version: string): number {
+  const major = Number(/^v?(\d+)\./.exec(version.trim())?.[1]);
+  if (!Number.isInteger(major)) throw new Error(`cannot read a major version from "${version}"`);
+  return major;
+}
+
+/** The PostgreSQL major the harness requires: the major of the pinned embedded-postgres (ruling D29). */
+export function pinnedPostgresMajor(): number {
+  const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as {
+    devDependencies: Record<string, string>;
+  };
+  return majorOf(manifest.devDependencies['embedded-postgres'] ?? '');
+}
+
+/** The Node.js major the repository pins (.nvmrc, which CI's setup-node and pnpm's use-node-version follow; ruling D28). */
+export function pinnedNodeMajor(): number {
+  return majorOf(readFileSync(new URL('../../../.nvmrc', import.meta.url), 'utf8'));
+}
+
+/** Why the harness refuses to run under Node.js `version`, or undefined when it is the pinned major. */
+export function nodeVersionRefusal(version: string = process.versions.node): string | undefined {
+  const pinned = pinnedNodeMajor();
+  return majorOf(version) === pinned
+    ? undefined
+    : `The integration tests run on Node.js ${pinned} (.nvmrc), not ${version}: run them through pnpm, whose ` +
+        'use-node-version supplies the pinned Node, so the evidence is for the supported intersection.';
+}
+
+/** Why the harness refuses a server reporting `serverVersionNum` (server_version_num), or undefined. */
+export function postgresVersionRefusal(serverVersionNum: number): string | undefined {
+  const pinned = pinnedPostgresMajor();
+  const major = Math.floor(serverVersionNum / 10_000);
+  return major === pinned
+    ? undefined
+    : `The test cluster runs PostgreSQL ${major} (server_version_num ${serverVersionNum}), not the supported ${pinned}.`;
+}
+
+/** Throws TestClusterRefusedError unless this process and the cluster at `adminUrl` are the supported versions. */
+export async function assertSupportedVersions(adminUrl: string): Promise<void> {
+  const nodeRefusal = nodeVersionRefusal();
+  if (nodeRefusal !== undefined) throw new TestClusterRefusedError(nodeRefusal);
+  const serverVersionNum = await withClientAt(adminUrl, async (admin) => {
+    const { rows } = await admin.query<{ num: number }>(`SELECT current_setting('server_version_num')::int AS num`);
+    return rows[0]?.num ?? 0;
+  });
+  const serverRefusal = postgresVersionRefusal(serverVersionNum);
+  if (serverRefusal !== undefined) throw new TestClusterRefusedError(serverRefusal);
 }
 
 /** Set to `1` to let the harness use a TEST_DATABASE_URL that is not on this machine: a disposable cluster only. */
@@ -296,6 +352,8 @@ export interface StartTestClusterOptions {
 /** Starts (or attaches to) a cluster and migrates this run's template. See the module comment. */
 export async function startTestCluster(options: StartTestClusterOptions = {}): Promise<RunningCluster> {
   const external = options.adminUrl ?? process.env.TEST_DATABASE_URL;
+  const nodeRefusal = nodeVersionRefusal();
+  if (nodeRefusal !== undefined) throw new TestClusterRefusedError(nodeRefusal);
   if (external) await assertThrowawayCluster(external);
   const embedded = external ? undefined : await startEmbedded();
   const adminUrl = external ?? embedded!.adminUrl;
@@ -312,6 +370,7 @@ export async function startTestCluster(options: StartTestClusterOptions = {}): P
   };
 
   try {
+    await assertSupportedVersions(adminUrl);
     await prepareTemplate(info);
   } catch (error) {
     // On a cluster that outlives this run (TEST_DATABASE_URL), leave no half-made template behind.
