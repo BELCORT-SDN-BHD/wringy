@@ -26,7 +26,7 @@ M2 has no production deployment (M2-AC09/3, `m2-spec.md` L66).
 | Executed by | agent run, M2-01 wave W4 worker |
 | Runtime | Node 24.21.0 (root `.npmrc` `use-node-version`, `.nvmrc`), pnpm 10.33.0; PostgreSQL 17.10 through embedded-postgres 17.10.0-beta.17 locally; CI: `ubuntu-24.04` runners with a `postgres:17` service |
 | Machine | Windows 11 (local); no Docker on this machine, so the images are built only in CI |
-| Commands (local) | Filled in with the W4 gate run below |
+| Commands (local) | The W4 gate run below, on `f2b9f88` |
 | CI | `.github/workflows/app.yml` ("App checks"); run URL: NOT EXECUTED — the branch is not pushed yet; the orchestrator pushes it and records the run |
 
 Rows for W0–W3 evidence are appended by W5 from the workers' evidence logs.
@@ -54,8 +54,8 @@ Spec: "建立独立工作区和CI的类型、单元、依赖方向、spec引用�
 
 | 验收ID | 版本 | 环境 | 测试或人工步骤 | 期望 | 实际 | 时间 | 证据引用 | 未决项 |
 |---|---|---|---|---|---|---|---|---|
-| M2-AC01/3 workspace | `feat/m2-01` (W4) | Local, Windows 11; real | `pnpm install --frozen-lockfile` over `pnpm-workspace.yaml` (`apps/*`, `packages/*`): apps web, api, worker; packages config, contracts, db | One workspace, one lockfile, each package declaring only what it imports | See the W4 gate run below | 2026-09-23, W4 worker | `pnpm-workspace.yaml`; `pnpm-lock.yaml` | None |
-| M2-AC01/3 CI checks | `feat/m2-01` (W4) | Local, Windows 11; real. CI: NOT EXECUTED (not pushed yet) | The CI `check` job's commands run locally: `pnpm lint`, `pnpm typecheck` (类型), `pnpm test` (单元), `pnpm depcruise` (依赖方向, including a planted violation that must be rejected), `pnpm check:acceptance` (验收映射), `pnpm build`, `pnpm canary`; `python -X utf8 scripts/check-planning.py` (spec引用, CI job `planning`) | Each check passes on the tree and fails on a planted fault | See the W4 gate run below. The acceptance-mapping check was also shown to fail: with the `M2-AC01` tag removed from one describe block it listed the 5 untagged names and exited 1; with the tag removed from a static-parsed integration test and a Playwright test it listed both and reported M2-AC01/3 unmapped | 2026-09-23, W4 worker | `.github/workflows/app.yml` (jobs `check`, `integration`, `e2e`, `images`); `.github/workflows/planning.yml`; `scripts/check-acceptance-mapping.mjs`; `scripts/check-dependency-direction.mjs` | The CI run itself; the orchestrator records its URL |
+| M2-AC01/3 workspace | `feat/m2-01` (W4) | Local, Windows 11; real | `pnpm install --frozen-lockfile` over `pnpm-workspace.yaml` (`apps/*`, `packages/*`): apps web, api, worker; packages config, contracts, db | One workspace, one lockfile, each package declaring only what it imports | `pnpm install` and every gate below ran on this workspace (W4 gate run); the api and worker builds fail on any undeclared external, and a local `pnpm deploy --legacy` of each app installed only its production dependencies | 2026-09-23, W4 worker | `pnpm-workspace.yaml`; `pnpm-lock.yaml` | None |
+| M2-AC01/3 CI checks | `feat/m2-01` (W4) | Local, Windows 11; real. CI: NOT EXECUTED (not pushed yet) | The CI `check` job's commands run locally: `pnpm lint`, `pnpm typecheck` (类型), `pnpm test` (单元), `pnpm depcruise` (依赖方向, including a planted violation that must be rejected), `pnpm check:acceptance` (验收映射), `pnpm build`, `pnpm canary`; `python -X utf8 scripts/check-planning.py` (spec引用, CI job `planning`) | Each check passes on the tree and fails on a planted fault | Passed locally (W4 gate run below); the dependency check rejects its planted violation on every run. The acceptance-mapping check was also shown to fail: with the `M2-AC01` tag removed from one describe block it listed the 5 untagged names and exited 1; with the tag removed from a static-parsed integration test and a Playwright test it listed both and reported M2-AC01/3 unmapped | 2026-09-23, W4 worker | `.github/workflows/app.yml` (jobs `check`, `integration`, `e2e`, `images`); `.github/workflows/planning.yml`; `scripts/check-acceptance-mapping.mjs`; `scripts/check-dependency-direction.mjs` | The CI run itself; the orchestrator records its URL |
 | M2-AC01/3 CI-only checks | `feat/m2-01` (W4) | CI (`ubuntu-24.04`); NOT EXECUTED | `integration`: `pnpm test:int` against a `postgres:17` service; `e2e`: the M1 suite and `pnpm e2e:internal` on that service; `images`: the three Dockerfiles built with `push: false` and smoke-run | Green jobs on the first push | NOT EXECUTED: needs Docker and a Linux runner; this machine has neither Docker nor Linux. Locally, the shared-cluster shape of `integration` was run against the `pnpm db:start` cluster (`TEST_DATABASE_URL` set; three runs, exit 0), and the images' contents were run from local `pnpm deploy` outputs on Node 24.21.0 | 2026-09-23, W4 worker (local parts) | `packages/db/README.md` "One cluster, several runs"; commit "Add the web, api and worker images and the bundled migrate step" | The first CI run; Linux-only tests (the api SIGTERM test skips on win32) |
 
 ### Governance: branch protection, cross-vendor review, release gate
@@ -69,4 +69,28 @@ Spec: "建立独立工作区和CI的类型、单元、依赖方向、spec引用�
 
 ## W4 gate run
 
-Filled in by the W4 worker at the end of the wave.
+Run by the W4 worker on 2026-09-23 on `feat/m2-01` at `f2b9f88` (the tree of every W4 code
+commit), Windows 11, Node 24.21.0, pnpm 10.33.0. Local only; the CI run is the orchestrator's.
+
+| Gate | Command | Result |
+|---|---|---|
+| Lint | `pnpm lint` | exit 0 |
+| Types | `pnpm typecheck` | exit 0 |
+| Unit | `pnpm test` | exit 0: contracts 9, config 15, db 25, worker 25, api 42, web 334 (26 files) passed |
+| Integration, embedded clusters | `pnpm test:int` (no `TEST_DATABASE_URL`) | exit 0: db 40 passed (8 files), api 25 passed and 1 skipped (the SIGTERM test skips on win32), worker 12 passed |
+| Integration, one shared cluster (the CI shape) | `TEST_DATABASE_URL=<pnpm db:start superuser URL> pnpm test:int`, three runs | exit 0 each, same counts; no test database left behind. Before the bootstrap lock the first of two runs failed with "tuple concurrently updated" (XX000) |
+| Build | `pnpm build` | exit 0; `apps/web/.next/standalone/apps/web/server.js`, `packages/db/dist/migrate.js`, `apps/api/dist/main.js`, `apps/worker/dist/main.js` written |
+| Dependency direction | `pnpm depcruise` | PASS: no violation in 359 modules and 1399 dependencies; the planted `apps/web/src/lib/__dependency-violation__.ts` rejected by `web-not-to-server-runtime` |
+| Secret canary | `pnpm canary` | PASS: 0 canary values in `.next/static` (72 files), `.next/server` (756), the rest of `.next` (1727, standalone included), both bundles, and 10 s of api and worker logs |
+| Acceptance mapping | `pnpm check:acceptance` | PASS: 214 names from 10 sources carry `M2-AC`; M2-AC01/1 by 1 row, /2 by 82 tests, /3 by 1 test and 7 rows. It fails on a removed tag and on a removed row (see the M2-AC01/3 CI-checks row) |
+| M1 demo suite | `pnpm --filter web e2e`, after warming all 38 routes on `pnpm --filter web dev` (8 s) | 327 passed, 33 skipped (viewport scoping), 0 failed, 4.1 min |
+| Internal-build suite | `pnpm e2e:internal` | 28 passed, 4 skipped (viewport scoping), 0 failed, 46 s, embedded cluster; again with `TEST_DATABASE_URL` at the `pnpm db:start` cluster (the CI shape): 28 passed, 4 skipped, 39 s. `next start` warns that it "does not work with output: standalone" and serves as before |
+| Planning | `python -X utf8 scripts/check-planning.py` | "Validated 5 specifications and 60 tasks; dependencies acyclic." |
+| Workflow lint | actionlint 1.7.12 with shellcheck 0.11.0 (release binaries) on `app.yml` and `planning.yml` | no finding |
+| Whitespace | `git diff --check` | clean |
+
+Not run here, and why: the `images` job and every Docker build (no Docker on this machine); the
+`integration` and `e2e` jobs on Linux with a `postgres:17` service (no Linux runner here). The
+images' contents were exercised instead from local `pnpm deploy` outputs on Node 24.21.0 against
+a freshly migrated database (`node dist/migrate.js` from zero and again, the api's `/health`
+"ok", the worker's "worker started") and the standalone web server (`/internal` 200).
