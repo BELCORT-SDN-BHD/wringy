@@ -1,0 +1,76 @@
+{
+  "source_sha256": {
+    "13-symbol-smooth.png": "6c7cd303eb109cceab39881d6fdefde3bae022c5951b13588bf27a5747b0a88e",
+    "15-approved-wordmark-A-reference.png": "70dd163821d5bb2610e1969f000c0500ea025920333469c8d23caf6ca1eb2a5f"
+  },
+  "composition": {
+    "viewBox": [
+      0,
+      0,
+      1403,
+      324
+    ],
+    "symbol_box": [
+      0,
+      0,
+      276,
+      324
+    ],
+    "wordmark_box": [
+      362,
+      84,
+      1041,
+      240
+    ],
+    "gap": 86,
+    "bottom_alignment_y": 324
+  },
+  "tracing": {
+    "tool": "Potrace 1.16",
+    "input": "4x Lanczos interpolation; alpha >= 128 silhouette",
+    "options": "-s -t 0 -O 0.2 -u 100",
+    "limitation": "Raster contour approximation, not recovery of original authoring curves. Wordmark screenshot antialiasing was reconstructed; no font substitution or regeneration."
+  },
+  "fidelity": {
+    "symbol": {
+      "reference_size": [
+        1006,
+        1183
+      ],
+      "silhouette_iou": 0.9989316742474005,
+      "symmetric_difference_pixels": 431,
+      "symmetric_difference_fraction_of_union": 0.0010683257525995514,
+      "mean_absolute_alpha_error_0_to_255": 1.3197232496819589
+    },
+    "wordmark": {
+      "reference_size": [
+        529,
+        122
+      ],
+      "silhouette_iou": 0.9957571219738296,
+      "symmetric_difference_pixels": 119,
+      "symmetric_difference_fraction_of_union": 0.004242878026170357,
+      "mean_absolute_alpha_error_0_to_255": 3.2111779106882765
+    }
+  },
+  "validation": {
+    "all_svg_are_paths_only": true,
+    "transparent_png_count": 28,
+    "opaque_icon_png_count": 4,
+    "pdfs_have_no_image_objects": true,
+    "ico_sizes": [
+      [
+        16,
+        16
+      ],
+      [
+        32,
+        32
+      ],
+      [
+        48,
+        48
+      ]
+    ]
+  }
+}

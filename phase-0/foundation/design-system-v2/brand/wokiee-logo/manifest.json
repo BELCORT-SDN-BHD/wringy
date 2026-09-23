@@ -1,0 +1,281 @@
+{
+  "brand": "Wokiee",
+  "approved": "2026-09-23",
+  "files": [
+    {
+      "path": "CONTACT-SHEET.png",
+      "bytes": 152163,
+      "sha256": "4e1132f72fcb21429a45f10c67f03e74209b86185677570c63903027654d56e6"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7424,
+      "sha256": "4007c3537012c18ac1f5932a2c57b7beff3823dc8dd99fb700a83a46d1b099dc"
+    },
+    {
+      "path": "icons/android-chrome-192.png",
+      "bytes": 6249,
+      "sha256": "0793392946aa304730392e9f879b56de5d289884a57f8c4f8917ac39fb76fcc3"
+    },
+    {
+      "path": "icons/android-chrome-512.png",
+      "bytes": 20222,
+      "sha256": "5c5d45850f737da14dae32190015be87da1d9bd70efc14c3ecdc2685cdb279f8"
+    },
+    {
+      "path": "icons/apple-touch-icon.png",
+      "bytes": 5853,
+      "sha256": "09eff120f420fe9b8decaa096e665211fdbddec64cf41da7abb34cb658c90c46"
+    },
+    {
+      "path": "icons/favicon.ico",
+      "bytes": 1993,
+      "sha256": "c4449b70e38602cc2465076e2c4a5409a1e2c094e2297dc161221218d583ae2d"
+    },
+    {
+      "path": "icons/favicon.svg",
+      "bytes": 13738,
+      "sha256": "c535256de993aaf71066fd38fa074c68adfa6600c758368448a85752d0074c39"
+    },
+    {
+      "path": "icons/social-avatar.png",
+      "bytes": 45467,
+      "sha256": "b50288b838d5b22d92783f9e11f5822610edf479922a5b66855ceaf824c5d79d"
+    },
+    {
+      "path": "pdf/wokiee-horizontal-black.pdf",
+      "bytes": 18064,
+      "sha256": "9e04c1310a01d1c809787848924808ed74f9e5048bdfaee0e7765330e79b0a93"
+    },
+    {
+      "path": "pdf/wokiee-symbol-black.pdf",
+      "bytes": 10438,
+      "sha256": "4e9a54b87a7d5095b8fe0aff60cf1ddf16d0fe193c9d183829fef3080089bed2"
+    },
+    {
+      "path": "pdf/wokiee-wordmark-black.pdf",
+      "bytes": 8898,
+      "sha256": "9672e87cf327573c795667375d41b8f0cd918aaedbe7424ccf1d05a73335e487"
+    },
+    {
+      "path": "png/black/wokiee-horizontal-black-1280w.png",
+      "bytes": 29238,
+      "sha256": "f7b66df11ad2e8f4209e936157784ac94c4fdccdd94904a5bf0555f160f6a2c1"
+    },
+    {
+      "path": "png/black/wokiee-horizontal-black-2560w.png",
+      "bytes": 65042,
+      "sha256": "e466e8f0f5b51d67f2a835dba7b87118895c980cadda814f11caa792add8768a"
+    },
+    {
+      "path": "png/black/wokiee-horizontal-black-320w.png",
+      "bytes": 5882,
+      "sha256": "e777e447c303c9976f1d630987027ec4d51a5125694d538828dde502c36dbd78"
+    },
+    {
+      "path": "png/black/wokiee-horizontal-black-640w.png",
+      "bytes": 12736,
+      "sha256": "ef56e8f958b043b81fc8f2b02025812ddf57e588c40e3d4dd3ca291b45de8c8d"
+    },
+    {
+      "path": "png/black/wokiee-symbol-black-1024.png",
+      "bytes": 32816,
+      "sha256": "ab781ec2cd835da31f5f45cdeba3489ac5cd4ba523c83c5483ed1432df956f5c"
+    },
+    {
+      "path": "png/black/wokiee-symbol-black-128.png",
+      "bytes": 2924,
+      "sha256": "de81f365b349b071e4d9926148242b99d1db79836786da5aebdd3a7e8f49c8fc"
+    },
+    {
+      "path": "png/black/wokiee-symbol-black-256.png",
+      "bytes": 6169,
+      "sha256": "87a32bd38c63b464f35637c2a17cb281834033b5b48e7a3dcd89542738363f19"
+    },
+    {
+      "path": "png/black/wokiee-symbol-black-32.png",
+      "bytes": 691,
+      "sha256": "c63e1b7cb2c80aa711318d0087d8b3de3fa52265ac3da844549d72ced746aad5"
+    },
+    {
+      "path": "png/black/wokiee-symbol-black-512.png",
+      "bytes": 14279,
+      "sha256": "2011074b50ce6e5e437a3c2e2a08713a9d4d5876ee14538c1327a1a8f3f37d13"
+    },
+    {
+      "path": "png/black/wokiee-symbol-black-64.png",
+      "bytes": 1432,
+      "sha256": "3adc536021e34a5399353c173a6b280015f0b624202ca4d7db4fc8e85bb8694f"
+    },
+    {
+      "path": "png/black/wokiee-wordmark-black-1280w.png",
+      "bytes": 26944,
+      "sha256": "0c74a406f67d4eb73117a4fd69c83098b2916064ef356b9734db342003aef57d"
+    },
+    {
+      "path": "png/black/wokiee-wordmark-black-2560w.png",
+      "bytes": 59833,
+      "sha256": "064e10acece5e1227a929f4637180368144d731fdfd64efd13efa36e37842d83"
+    },
+    {
+      "path": "png/black/wokiee-wordmark-black-320w.png",
+      "bytes": 5447,
+      "sha256": "7300b1998bcd6585f5a64c230effc19d33d76317d6f64fbc7ebfec87f9857ff3"
+    },
+    {
+      "path": "png/black/wokiee-wordmark-black-640w.png",
+      "bytes": 11978,
+      "sha256": "56264a864eb5b9435c6083b262a07327d2536e68a7d36b1f54551f9b6a5da929"
+    },
+    {
+      "path": "png/white/wokiee-horizontal-white-1280w.png",
+      "bytes": 33645,
+      "sha256": "1a9c916dd3a5e68f853a845b04c1c189b2ab786842cd56aa278c433219d21b04"
+    },
+    {
+      "path": "png/white/wokiee-horizontal-white-2560w.png",
+      "bytes": 74460,
+      "sha256": "62e28e207f2d04144495e48508757850f4bc828885ccd3bec2cafb92eef9f072"
+    },
+    {
+      "path": "png/white/wokiee-horizontal-white-320w.png",
+      "bytes": 6642,
+      "sha256": "1f9f1cf3b3959e94419d652c9f30dc6f63cc6b4ca38329831d3f25d2a8c0faf8"
+    },
+    {
+      "path": "png/white/wokiee-horizontal-white-640w.png",
+      "bytes": 15011,
+      "sha256": "b8ddd853740bb91d201f35c849addcce8e30e34217864a1a9136c45df9663ad9"
+    },
+    {
+      "path": "png/white/wokiee-symbol-white-1024.png",
+      "bytes": 38361,
+      "sha256": "5436315aca951e74972fd4823f62a0f5d51ebfa7df451875604192cb9e178944"
+    },
+    {
+      "path": "png/white/wokiee-symbol-white-128.png",
+      "bytes": 3189,
+      "sha256": "274a0466b05e02af66a9fd19e15a75f242a61b0c85fc722192bd5db603fc4025"
+    },
+    {
+      "path": "png/white/wokiee-symbol-white-256.png",
+      "bytes": 7142,
+      "sha256": "28c2dc9094058d3af96690f2da50cd16f37c0393360c89055b2e7069c53f46c7"
+    },
+    {
+      "path": "png/white/wokiee-symbol-white-32.png",
+      "bytes": 734,
+      "sha256": "a7267bb0052edd3783c22363a23b91e6632ce9c9aaabc1c4e9814130b6180aa1"
+    },
+    {
+      "path": "png/white/wokiee-symbol-white-512.png",
+      "bytes": 17175,
+      "sha256": "bf8810081c8c00dbb7c2f6a216bd99ca56efd7c0c72b3790b18156c8dc47eaae"
+    },
+    {
+      "path": "png/white/wokiee-symbol-white-64.png",
+      "bytes": 1511,
+      "sha256": "4fc0547f1334bd9cac8c9f3da7bbe22746eee8c43614d38875bb9e7bbc9ad6fd"
+    },
+    {
+      "path": "png/white/wokiee-wordmark-white-1280w.png",
+      "bytes": 30940,
+      "sha256": "de733813bbc0dfda2ec0a83ebea6f6976caa17b0bdd543a72059f24481e04f78"
+    },
+    {
+      "path": "png/white/wokiee-wordmark-white-2560w.png",
+      "bytes": 67064,
+      "sha256": "3e4f090684e623b1c945e23bbb04d72119453ada189cb3423bdb4d6e742859b7"
+    },
+    {
+      "path": "png/white/wokiee-wordmark-white-320w.png",
+      "bytes": 6170,
+      "sha256": "3008671fb4a9552364f8452a8b89938defe9fd4ec94f1755c5bb82f3ab3df764"
+    },
+    {
+      "path": "png/white/wokiee-wordmark-white-640w.png",
+      "bytes": 13962,
+      "sha256": "17f63199e00e68861e5411dfb9ffa53227456126d0b2c5db14814c9f3b874cc0"
+    },
+    {
+      "path": "sources/13-symbol-smooth.png",
+      "bytes": 862008,
+      "sha256": "6c7cd303eb109cceab39881d6fdefde3bae022c5951b13588bf27a5747b0a88e"
+    },
+    {
+      "path": "sources/15-approved-wordmark-A-reference.png",
+      "bytes": 61707,
+      "sha256": "70dd163821d5bb2610e1969f000c0500ea025920333469c8d23caf6ca1eb2a5f"
+    },
+    {
+      "path": "sources/build_package.py",
+      "bytes": 9703,
+      "sha256": "1ec57557b1e264bcee8a5eafa58776b3b7e5a8190dd7602f382894624d8d62ec"
+    },
+    {
+      "path": "sources/symbol-extracted-alpha.png",
+      "bytes": 257943,
+      "sha256": "4a0acbf37a95afa63fce7905b1d5c8c907a669f5abbd78bf0e5c57946aaa1a84"
+    },
+    {
+      "path": "sources/symbol-trace-master.svg",
+      "bytes": 13680,
+      "sha256": "f0077e1398f104d586dc0f85b44be82ae7337234f9172d0f138f867fa7a7ce0d"
+    },
+    {
+      "path": "sources/validation.json",
+      "bytes": 1781,
+      "sha256": "40f3e162ee562d26e938f1b2e85a9417b3539746c515a09b330aedf324d5d646"
+    },
+    {
+      "path": "sources/wordmark-extracted-alpha.png",
+      "bytes": 15717,
+      "sha256": "1b0fae74161703a9a31196592a491fd6eb441138eca0e2e67634a2742765d275"
+    },
+    {
+      "path": "sources/wordmark-trace-master.svg",
+      "bytes": 11896,
+      "sha256": "b6769778b1153e03375b34b3667fb0b0eba89d3025f7bc9209db0babfbca7503"
+    },
+    {
+      "path": "svg/wokiee-horizontal-black.svg",
+      "bytes": 25553,
+      "sha256": "989ce12291495eb0028eb163aad4b94f7d68db7b8064833e888b0855ea55b127"
+    },
+    {
+      "path": "svg/wokiee-horizontal-white.svg",
+      "bytes": 25553,
+      "sha256": "82152c63e707a700a72c53479764fa0b41bf90b46e8bd48683d93bafbab7f5d4"
+    },
+    {
+      "path": "svg/wokiee-symbol-black.svg",
+      "bytes": 13680,
+      "sha256": "f0077e1398f104d586dc0f85b44be82ae7337234f9172d0f138f867fa7a7ce0d"
+    },
+    {
+      "path": "svg/wokiee-symbol-square-black.svg",
+      "bytes": 13738,
+      "sha256": "c535256de993aaf71066fd38fa074c68adfa6600c758368448a85752d0074c39"
+    },
+    {
+      "path": "svg/wokiee-symbol-square-white.svg",
+      "bytes": 13738,
+      "sha256": "489e741707d9f67b01ffeb1d530b56a08031ce91590306a95fc316532ddaecc8"
+    },
+    {
+      "path": "svg/wokiee-symbol-white.svg",
+      "bytes": 13680,
+      "sha256": "eaeff7ba846b70876bf3565f582bd40a95dac40a8dded11387f52b99e2693715"
+    },
+    {
+      "path": "svg/wokiee-wordmark-black.svg",
+      "bytes": 11896,
+      "sha256": "b6769778b1153e03375b34b3667fb0b0eba89d3025f7bc9209db0babfbca7503"
+    },
+    {
+      "path": "svg/wokiee-wordmark-white.svg",
+      "bytes": 11896,
+      "sha256": "e4451f7fa52c98cd39561c5fa795361edfe4b62faf36067a7a5198f3f69b4d8a"
+    }
+  ]
+}
