@@ -52,7 +52,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
     await db?.drop();
   });
 
-  it('M2-AC01/2 page→Fastify→PostgreSQL read: GET /internal/campaigns returns the seeded fixture campaigns', async () => {
+  it('M2-AC01/2 Fastify→PostgreSQL read (API leg): GET /internal/campaigns returns the seeded fixture campaigns', async () => {
     const before = await dbNow(db);
     const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns' });
 
@@ -87,7 +87,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
   });
 
   it('M2-AC01/2 the response schema is the allow-list: an extra column never reaches the response', async () => {
-    await asMigrator(db, `ALTER TABLE app.campaigns ADD COLUMN internal_note text NOT NULL DEFAULT 'LEAK-CANARY-COLUMN'`);
+    await addLeakCanaryColumn(db);
     const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns' });
     expect(response.statusCode).toBe(200);
     expect(response.body).not.toContain('LEAK-CANARY-COLUMN');
@@ -97,6 +97,9 @@ describe('M2-AC01 GET /internal/campaigns', () => {
   });
 
   it('M2-AC01/2 the serializer strips what a handler over-selects: every column of the real rows, only contract keys out', async () => {
+    // Its own canary column, so the probe holds when run alone (-t) or reordered.
+    await addLeakCanaryColumn(db);
+    const selected: Array<Record<string, unknown>> = [];
     const probe = await buildTestApi(db.urls.api);
     try {
       // A deliberately careless handler: every campaign column as the API role,
@@ -106,6 +109,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
         { schema: { response: { 200: internalCampaignsResponseSchema } } },
         async () => {
           const rows = await selectEverythingAsApi(db.urls.api);
+          selected.push(...rows);
           return {
             items: rows.map((row) => ({
               ...row,
@@ -124,6 +128,12 @@ describe('M2-AC01 GET /internal/campaigns', () => {
       );
       const response = await probe.app.inject({ method: 'GET', url: '/internal/leak-probe' });
       expect(response.statusCode).toBe(200);
+      // The handler really did hand the serializer the canary column and the internal keys.
+      expect(selected).toHaveLength(3);
+      for (const row of selected) {
+        expect(row).toMatchObject({ internal_note: 'LEAK-CANARY-COLUMN' });
+        expect(row).toHaveProperty('org_id');
+      }
       const body = response.json() as InternalCampaignsResponse;
       expect(body.items).toHaveLength(3);
       for (const item of body.items) expect(Object.keys(item).sort()).toEqual(CONTRACT_KEYS);
@@ -182,6 +192,15 @@ describe('M2-AC01 GET /internal/campaigns on a database without fixtures', () =>
     expect(Number.isNaN(Date.parse(body.dataAsOf))).toBe(false);
   });
 });
+
+/**
+ * Adds app.campaigns.internal_note (default 'LEAK-CANARY-COLUMN') as the migrator, once per clone: a real
+ * column that no contract names. This file's clone is shared by its tests (see apps/api/README.md,
+ * "Integration tests"), so each test that needs the column adds it itself.
+ */
+async function addLeakCanaryColumn(db: TestDatabase): Promise<void> {
+  await asMigrator(db, `ALTER TABLE app.campaigns ADD COLUMN IF NOT EXISTS internal_note text NOT NULL DEFAULT 'LEAK-CANARY-COLUMN'`);
+}
 
 /** Every campaign column plus the org name, read as the API login (its table SELECT covers added columns). */
 async function selectEverythingAsApi(apiUrl: string): Promise<Array<Record<string, unknown>>> {

@@ -164,7 +164,20 @@ fails if any external outside `dependencies` (or a Node built-in) survives.
 template migrated from zero and marked `ci`).
 Each file clones the template with `createTestDatabase()`, seeds it with
 `seedFixtures()` where needed, and drives `buildApp()` with `app.inject()` on a
-pool as `wringy_api_login`. tests/integration/support.ts imports the harness
+pool as `wringy_api_login`.
+
+*Isolation: a committed clone per file, not a rolled-back transaction per test.*
+Signed kickoff-package.md §6.3 says "API integration tests each run in a
+transaction that is rolled back afterwards". They cannot: the app under test
+reads through its own `pg.Pool` as `wringy_api_login` (that is what the tests
+prove), and a transaction opened by the test on another connection is invisible
+to it until committed; the rows it reads have to be committed. So each file gets
+its own clone, dropped in `afterAll`, and the tests in a file share it. A test
+that needs a particular state arranges it itself (for example the leak probe in
+`internal-campaigns.int.test.ts` adds its own canary column), so a test run
+alone (`-t`) or reordered proves the same thing. packages/db's own tests, which
+query directly, use `withRollback`. This is recorded as an implementation
+deviation in docs/m2-internal/acceptance-record.md. tests/integration/support.ts imports the harness
 as `@wringy/db/testing`, the test-only subpath export of `@wringy/db`.
 The global setup also installs packages/db/test/exit-code-guard.ts, which
 restores a failing exit code: the embedded-postgres import registers
@@ -174,8 +187,10 @@ otherwise turn a failed run into exit 0.
 **Test names.** Every test here, unit and integration, carries this ticket's
 key `M2-AC01` in its `describe` title (kickoff-package.md §6.1; `m2-01.md`:
 "本路径测试命名含 `M2-AC01`"). Titles carrying `M2-AC01/2` prove that sub-item:
-the page→Fastify→PostgreSQL read of the campaigns and of worker health on a
-freshly migrated database, with the response schema as the allow-list; the
+the Fastify→PostgreSQL leg of the page→Fastify→PostgreSQL read (the campaigns
+and worker health on a freshly migrated database, through `app.inject()`; the
+page leg is the internal Playwright suite's cold-start tests), with the response
+schema as the allow-list; the
 runtime role unable to write; and no secret in bodies or logs (the secrets,
 outage and startup tests, and the log scrubber's unit tests).
 

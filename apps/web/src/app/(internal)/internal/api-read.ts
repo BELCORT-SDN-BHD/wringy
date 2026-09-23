@@ -55,13 +55,24 @@ function logFailure(path: string, failure: ApiFailure, detail: string): void {
   console.warn(`[internal] GET ${path} failed: ${failure} (${detail})`);
 }
 
+export interface ReadInternalApiOptions {
+  /** The limit on the whole read, headers and body. Defaults to INTERNAL_API_TIMEOUT_MS; tests pass a shorter one. */
+  timeoutMs?: number;
+}
+
 /**
  * GET `path` from the API at `baseUrl` and validate the 200 body with `schema`.
- * Never throws: every failure is an ApiRead with a page state.
+ * Never throws: every failure is an ApiRead with a page state. The limit covers
+ * the body too: an API that sends headers and then stalls is `api-unreachable`.
  */
-export async function readInternalApi<T>(baseUrl: string, path: string, schema: ResponseSchema<T>): Promise<ApiRead<T>> {
+export async function readInternalApi<T>(
+  baseUrl: string,
+  path: string,
+  schema: ResponseSchema<T>,
+  { timeoutMs = INTERNAL_API_TIMEOUT_MS }: ReadInternalApiOptions = {},
+): Promise<ApiRead<T>> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), INTERNAL_API_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     let response: Response;
     try {

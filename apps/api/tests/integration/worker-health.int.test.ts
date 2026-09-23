@@ -51,7 +51,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     vi.useRealTimers();
   });
 
-  it('M2-AC01/2 page→Fastify→PostgreSQL read: /internal/worker-health computes healthy/stale/stopped/never_seen on the database clock', async () => {
+  it('M2-AC01/2 Fastify→PostgreSQL read (API leg): /internal/worker-health computes healthy/stale/stopped/never_seen on the database clock', async () => {
     // never_seen: no worker has ever written a row. The list is empty, never a count of 0 healthy.
     const empty = await api.app.inject({ method: 'GET', url: '/internal/worker-health' });
     expect(empty.statusCode).toBe(200);
@@ -95,7 +95,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     expect(Math.abs(Date.parse(shifted.dbNow) - clock!.now.getTime())).toBeLessThan(10_000);
   });
 
-  it('M2-AC01/2 page→Fastify→PostgreSQL read: /internal/worker-health computes queueState ok/overdue/never on the database clock, independent of the process state', async () => {
+  it('M2-AC01/2 Fastify→PostgreSQL read (API leg): /internal/worker-health computes queueState ok/overdue/never on the database clock, independent of the process state', async () => {
     await beat(db, 'q-ok', { lastBeatAgo: '2 seconds', roundTripAgo: '50 seconds' });
     await beat(db, 'q-edge', { lastBeatAgo: '2 seconds', roundTripAgo: '170 seconds' });
     await beat(db, 'q-overdue', { lastBeatAgo: '2 seconds', roundTripAgo: '4 minutes' });
