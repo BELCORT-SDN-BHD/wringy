@@ -30,8 +30,9 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
   and pg-boss's own tables) and the migrator (schema, environment marker, fixture seed).
 - **No live data.** The page shows fixture rows seeded by `pnpm db:seed:fixtures`. A database marked
   production refuses fixture rows (migration 0002), cannot be marked production while it holds any
-  (`37a7c2d`), and no row's origin can change (0007). There is no live data source and no live
-  adapter.
+  (`37a7c2d`; since `2e84a7a` the check and the marker update are serialised with fixture writes
+  by a SHARE lock, `packages/db/README.md` "Local run"), and no row's origin can change (0007).
+  There is no live data source and no live adapter.
 - **Fixture content is demonstration content.** The three campaign titles and two org names are
   placeholders, not customers, and carry no amounts, dates or rules.
 - **No Supabase, no Render.** Locally the database is embedded PostgreSQL 17; in CI it is a
@@ -103,6 +104,25 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
   A deviation from kickoff-package.md §6.3, recorded in `apps/api/README.md` and in the record's
   "Deviations" table: the app reads through its own pool, which cannot see another connection's
   uncommitted transaction.
+- **One worker per environment is assumed for the queue round trip.** pg-boss creates one
+  `system.heartbeat` job per minute for the whole cluster (`apps/worker/src/jobs/heartbeat.ts`
+  L8–L10, L24; `apps/worker/src/worker.ts` L236). Only the worker that takes the job stamps its own
+  `last_queue_round_trip_at` (`roundTripStatement`, `apps/worker/src/jobs/heartbeat.ts` L63–L70).
+  With several workers, the others' round trips age, and the API reads them as `overdue` after
+  3 minutes (`QUEUE_OVERDUE_AFTER_MS`, `packages/db/src/heartbeat.ts` L27;
+  `computeQueueState`, `apps/api/src/worker-state.ts` L52–L56), although their queue path works.
+  Raised in review of PR #82 and judged outside M2-01's scope, which runs one worker per
+  environment. M2-09 (multi-instance) must revisit `queueState`: judge it per cluster, or schedule
+  a job per worker.
+- **Restarting a worker with the same `WORKER_ID` can briefly show it as stopped.** Both processes
+  write one row. If the old process is still draining when the new one has beaten, the old
+  process's graceful stop sets `stopped_at = now()` on that row (`stoppedStatement`,
+  `apps/worker/src/jobs/heartbeat.ts` L77–L82), which is at or after the new process's
+  `last_beat_at`. The API then reports `stopped` (`computeWorkerState`,
+  `apps/api/src/worker-state.ts` L38) until the new process's next beat clears `stopped_at`
+  (`beatStatement`, `apps/worker/src/jobs/heartbeat.ts` L45–L48). That takes at most one beat
+  interval, 15 s (`HEARTBEAT_INTERVAL_MS`, `packages/db/src/heartbeat.ts` L14). Raised in review
+  of PR #82 and judged outside M2-01's scope, which runs one worker per environment.
 
 ## Governance not yet in force
 
@@ -110,10 +130,13 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
   (re-read 2026-09-23T05:48:15Z). `check`, `integration` and `e2e` become required after `app.yml`
   has run on `main`; an admin applies it (about 15 minutes, G5). Until then a red product build
   could merge.
-- **No cross-vendor review is registered.** Ruling D23: nothing is enforced; the Codex read-only
-  review is at the orchestrator's discretion and is saved as a PR comment when it runs. PR #82 has
-  no comment and no review (`gh pr view 82 --json comments,reviews`, 2026-09-23). The W5 adversarial
-  review is the repository's own review, not a cross-vendor one. Accepted open as G8.
+- **The cross-vendor review is not enforced.** Ruling D23: the Codex read-only review is at the
+  orchestrator's discretion. For PR #82 it ran once, on `12a85ab`, on 2026-09-23 (Codex CLI 0.153.4,
+  gpt-6-astra, read-only), and the result is saved as a
+  [PR #82 comment](https://github.com/BELCORT-SDN-BHD/wringy/pull/82#issuecomment-5790041412). Its
+  two defects are fixed in `2e84a7a` and the commit after it
+  ([acceptance-record.md](acceptance-record.md) "M2-AC01/3", cross-vendor row). Nothing makes the
+  review run on a later PR: automating it is still open as G8.
 - **No release gate** (D24, G9): see "Internal build only".
 
 ## Unverified until CI, Supabase or Render

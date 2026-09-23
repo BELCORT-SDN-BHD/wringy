@@ -116,4 +116,28 @@ describe('M2-AC01 no secret leaves the API', () => {
     // Request logs keep the path (the url key of the request serializer is not a secret).
     expect(api.logs.records.some((record) => (record.req as { url?: string } | undefined)?.url === '/internal/campaigns')).toBe(true);
   });
+
+  it('M2-AC01/2 request logs keep the pathname and drop the query string: ?password= and ?token= values never reach the log', async () => {
+    const canaries = ['qs-pw-DO-NOT-LEAK', 'qs-tok-DO-NOT-LEAK'];
+    const query = `?password=${canaries[0]}&token=${canaries[1]}`;
+    const before = api.logs.lines.length;
+
+    for (const [path, status] of [
+      ['/health/live', 200],
+      ['/internal/campaigns', 200],
+      ['/nope', 404],
+    ] as const) {
+      const response = await api.app.inject({ method: 'GET', url: `${path}${query}` });
+      expect(response.statusCode, path).toBe(status);
+      expectClean(response.body, canaries, `${path} body`);
+    }
+
+    const lines = api.logs.lines.slice(before);
+    expectClean(lines.join(''), canaries, 'log');
+    const paths = lines
+      .map((line) => JSON.parse(line) as { msg?: string; req?: { url?: string; method?: string } })
+      .filter((record) => record.msg === 'incoming request')
+      .map((record) => `${record.req?.method} ${record.req?.url}`);
+    expect(paths).toEqual(['GET /health/live', 'GET /internal/campaigns', 'GET /nope']);
+  });
 });

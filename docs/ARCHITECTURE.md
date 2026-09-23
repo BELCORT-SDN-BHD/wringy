@@ -3,7 +3,7 @@ document: architecture-blueprint
 product: Wringy
 status: consolidated-from-accepted-decisions
 updated: 2026-09-23
-implementation_status: m1-prototype-accepted; m2-01-internal-loop-on-pr (api, worker, db, internal page on feat/m2-01, PR 82, unmerged); identity-and-saved-user-data-unbuilt
+implementation_status: m1-prototype-accepted; m2-01-internal-loop-built (api, worker, db, internal page; internal acceptance only); identity-and-saved-user-data-unbuilt
 purpose: 技术栈及选择原因、系统边界、模块职责、依赖关系、主要数据流和关键技术取舍。
 required_focus:
   stack_and_rationale: 记录已接受技术方向及理由；区分候选、实际依赖和锁定版本。
@@ -39,7 +39,7 @@ maintenance:
 | CI 与验证 | [App checks](../.github/workflows/app.yml)（Node 24 读 `.nvmrc`，无路径过滤，每个 PR 与 `main` 推送都运行）：`check`（lint、typecheck、单元测试、依赖方向含两处植入违规、验收映射含每次自检且不计跳过的测试、build、密钥金丝雀）、`integration`（`postgres:17` 服务上的真实 PostgreSQL 集成测试）、`e2e`（M1 套件＋M2-AC01 内部套件）、`images`（三镜像构建与冒烟，不推送）；[Planning checks](../.github/workflows/planning.yml) 运行 [规划检查](../scripts/check-planning.py)；`main` 分支保护目前只要求 `planning` | 按裁定 D22，合并后由管理员把 `check`、`integration`、`e2e` 设为必需检查（`images` 可选），尚未生效；无发布门禁、无 GitHub Environment（D24，M2-09 建立）；执行证据见 [M2 验收记录](m2-internal/acceptance-record.md) |
 | 真实接入与生产 | 交接／specs 未提供真实社交、支付、容量或生产恢复通过证据 | M4 逐能力准入；M5 固定环境演练与具体发布批准 |
 
-现状口径：2026-09-23 本地受版本控制文件（`git ls-files`）、上述 README／manifest／workflow、M2-01 分支（`feat/m2-01`）的代码与测试和 [M2 验收记录](m2-internal/acceptance-record.md)、`main` 分支保护（`gh api repos/BELCORT-SDN-BHD/wringy/branches/main/protection`）、[M1 验收记录](m1-prototype/acceptance-record.md)与创办人验收 [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，以及 [仓库迁移记录](repository-status.md)。M1 未公开部署；外部部署若无证据即为未验证。`implementation_status` 的 `m1-prototype-accepted` 只指显式模拟原型，`product-runtime-unbuilt` 指真实身份、保存、任务与资金运行尚未建立，不抹去已有设计资产与规划基础。
+现状口径：2026-09-23 本地受版本控制文件（`git ls-files`）、上述 README／manifest／workflow、M2-01 分支（`feat/m2-01`）的代码与测试和 [M2 验收记录](m2-internal/acceptance-record.md)、`main` 分支保护（`gh api repos/BELCORT-SDN-BHD/wringy/branches/main/protection`）、[M1 验收记录](m1-prototype/acceptance-record.md)与创办人验收 [#9](https://github.com/BELCORT-SDN-BHD/wringy/issues/9)，以及 [仓库迁移记录](repository-status.md)。M1 未公开部署；外部部署若无证据即为未验证。`implementation_status` 有三个标记。`m1-prototype-accepted` 只指显式模拟原型。`m2-01-internal-loop-built` 指 M2-01 的 api、worker、db 与内部页已建成，只经内部验收，未部署；它在 PR #82 合并进 `main` 后成立。`identity-and-saved-user-data-unbuilt` 指真实身份、登录与保存的用户数据尚未建立，任务与资金运行也未建立。三者都不抹去已有设计资产与规划基础。
 
 ## 2. 技术栈与选择理由
 

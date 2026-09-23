@@ -3,18 +3,23 @@
  * (kickoff-package.md §8.3: "the pino redact option covers the authorization and
  * cookie headers and connection strings"; M2-AC01/2: logs carry no secret).
  *
- * Three layers, because no single pino feature covers all of them:
+ * Four layers, because no single pino feature covers all of them:
  *
  * 1. `redact` paths censor the auth and cookie headers wherever a request or
- *    reply is logged with its headers (Fastify's default serializers log none).
+ *    reply is logged with its headers (the serializers below log none).
  * 2. `formatters.log` walks every plain object passed to a log call and censors
  *    each key matching SECRET_KEY_PATTERN (`databaseUrl`, `password`,
  *    `apiToken`, ...). pino runs it before the serializers, so Fastify's request
- *    object keeps its `url` (the request path) while a logged `{ databaseUrl }`
+ *    object reaches the `req` serializer whole while a logged `{ databaseUrl }`
  *    does not.
  * 3. The `err` and `msg` serializers scrub connection strings and URL
  *    credentials out of free text: error messages, stacks, causes and the log
  *    message itself.
+ * 4. The `req` serializer logs the method, the URL's path without its query
+ *    string or fragment, the request id and the remote address, and nothing
+ *    else. Fastify's default logs `req.url` whole, so `GET
+ *    /health/live?password=…` would have put the value in the log (M2-01
+ *    cross-vendor review).
  *
  * `time` is an ISO 8601 UTC string (pino's `stdTimeFunctions.isoTime`), the
  * same format apps/worker logs, so the two processes' lines sort and compare
@@ -94,6 +99,27 @@ export function serializeError(error: unknown, depth = 0): Record<string, unknow
   return out;
 }
 
+/** The part of `url` before its query string or fragment, with connection strings and URL credentials scrubbed. */
+export function requestPath(url: string): string {
+  return scrubText(url.split(/[?#]/, 1)[0] ?? '');
+}
+
+/**
+ * The `req` serializer, replacing Fastify's: `method`, `url` (the path only,
+ * see requestPath), and `id` and `remoteAddress` when the request carries them
+ * (Fastify's request.id and request.ip). Headers, host, port and the query
+ * string are never logged.
+ */
+export function serializeRequest(request: unknown): Record<string, unknown> {
+  const { method, url, id, ip } = (request ?? {}) as { method?: unknown; url?: unknown; id?: unknown; ip?: unknown };
+  return {
+    method: typeof method === 'string' ? method : undefined,
+    url: typeof url === 'string' ? requestPath(url) : undefined,
+    id: typeof id === 'string' || typeof id === 'number' ? id : undefined,
+    remoteAddress: typeof ip === 'string' ? ip : undefined,
+  };
+}
+
 export interface LogDestination {
   write(line: string): void;
 }
@@ -109,6 +135,7 @@ export function loggerOptions(level: ApiEnv['LOG_LEVEL'], stream?: LogDestinatio
     },
     serializers: {
       err: serializeError as never,
+      req: serializeRequest,
       msg: (message: unknown) => (typeof message === 'string' ? scrubText(message) : message),
     } as Record<string, (value: unknown) => unknown>,
     ...(stream === undefined ? {} : { stream }),

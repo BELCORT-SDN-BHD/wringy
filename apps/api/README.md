@@ -74,16 +74,26 @@ apps/worker writes (`src/logger.test.ts`, "M2-AC01 API log line format").
 resolves the same 10.3.1.
 
 - `redact` censors `req.headers.authorization`, `req.headers.cookie` and
-  `res.headers["set-cookie"]` wherever headers are logged (the default request
+  `res.headers["set-cookie"]` wherever headers are logged (the request
   serializer logs none).
 - `formatters.log` censors every key matching `/url|password|secret|token/i`,
   at any depth of a logged plain object (`{ databaseUrl }` → `[Redacted]`).
-  Fastify's request object is not a plain object, so request logs keep the path.
+  Fastify's request object is not a plain object, so it reaches the `req`
+  serializer whole.
 - The `err` and `msg` serializers scrub `postgres://…` connection strings and
   `user:password@` URL credentials from messages, stacks and causes.
+- The `req` serializer replaces Fastify's. It logs `method`, `url` as the path
+  only (no query string or fragment), `id` and `remoteAddress`, and nothing
+  else. Fastify's default logged `req.url` whole, so a request such as
+  `GET /health/live?password=…` wrote the value to the log (M2-01 cross-vendor
+  review).
 
 Tests capture the real pino output and assert that neither the connection
 string nor its password appears in any log line or response body.
+`tests/integration/secrets.int.test.ts` ("M2-AC01/2 request logs keep the
+pathname and drop the query string …") sends requests with
+`?password=<canary>&token=<canary>`. It checks that neither value appears in
+the log and that each request's path does.
 
 `pnpm canary` (scripts/check-secret-canary.mjs) checks the built artefacts and
 the running processes as well: it gives every variable of the five env schemas
@@ -91,7 +101,12 @@ a canary value (the database URLs carry canary passwords), builds web, api and
 worker with them, searches `apps/web/.next/static`, `apps/web/.next/server`,
 `apps/api/dist` and `apps/worker/dist` for every value, then runs the built api
 and worker for 10 s against an unreachable database and searches their logs.
-It fails on any hit, naming the file and the variable, never the value.
+It fails on any hit, naming the file and the variable, never the value. The
+canary covers secrets that come from the environment only. It sends no
+request, because the api starts listening only after it has read the
+environment marker (src/server.ts), which it cannot do against an unreachable
+database. Secrets in request query strings are covered by the integration test
+above.
 
 ## Worker state thresholds (operational, not business rules)
 
