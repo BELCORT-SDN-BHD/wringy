@@ -21,7 +21,8 @@
     "db:env": "pnpm --filter @wringy/db run db:env",
     "db:seed:fixtures": "pnpm --filter @wringy/db run db:seed:fixtures",
     "depcruise": "node scripts/check-dependency-direction.mjs",
-    "canary": "node scripts/check-secret-canary.mjs"
+    "canary": "node scripts/check-secret-canary.mjs",
+    "check:acceptance": "node scripts/check-acceptance-mapping.mjs m2-01"
   },
   "devDependencies": {
     "dependency-cruiser": "18.4.0",
