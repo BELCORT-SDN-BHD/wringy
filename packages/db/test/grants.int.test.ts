@@ -4,10 +4,11 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { EXPECTED_MIGRATION_HEAD, EXPECTED_PGBOSS_VERSION } from '../src/expected-head';
 import { ROLES } from '../src/roles';
 import {
+  COLUMN_PRIVILEGES,
   GRANT_MANIFEST,
-  MANIFEST_SCHEMAS,
   SCHEMA_PRIVILEGES,
   SEQUENCE_PRIVILEGES,
+  SYSTEM_SCHEMAS,
   TABLE_PRIVILEGES,
   type RoleGrants,
 } from './grant-manifest';
@@ -29,9 +30,18 @@ describe('M2-AC01/2 runtime role privileges', () => {
   let db: TestDatabase;
   let migrator: pg.Pool;
 
+  /** Every non-system schema of the clone: all but `pg_*` and information_schema. Filled in beforeAll. */
+  let schemas: string[] = [];
+
   beforeAll(async () => {
     db = await createTestDatabase();
     migrator = new pg.Pool({ connectionString: db.urls.migrator, max: 2 });
+    const { rows } = await migrator.query<{ nspname: string }>(
+      `SELECT nspname FROM pg_catalog.pg_namespace
+        WHERE nspname !~ '^pg_' AND nspname <> ALL($1) ORDER BY nspname`,
+      [[...SYSTEM_SCHEMAS]],
+    );
+    schemas = rows.map((row) => row.nspname);
   });
 
   afterAll(async () => {
@@ -39,9 +49,8 @@ describe('M2-AC01/2 runtime role privileges', () => {
     await db?.drop();
   });
 
-  /** Every privilege `login` effectively holds in the manifest schemas, keyed `<kind> <object>`. */
+  /** Every privilege `login` effectively holds in the non-system schemas, keyed `<kind> <object>`. */
   async function effective(login: string): Promise<Privileges> {
-    const schemas = [...MANIFEST_SCHEMAS];
     const actual: Privileges = {};
     const add = (rows: { object: string; privileges: string[] }[], kind: string) => {
       for (const row of rows) actual[`${kind} ${row.object}`] = row.privileges;
@@ -75,6 +84,25 @@ describe('M2-AC01/2 runtime role privileges', () => {
       ).rows,
       'table',
     );
+    // Column grants: a privilege the login holds on a column but not on its table.
+    add(
+      (
+        await migrator.query<{ object: string; privileges: string[] }>(
+          `SELECT n.nspname || '.' || c.relname || '.' || a.attname AS object, array_agg(p.priv ORDER BY p.ord) AS privileges
+             FROM pg_catalog.pg_attribute a
+             JOIN pg_catalog.pg_class c ON c.oid = a.attrelid
+             JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+             CROSS JOIN unnest($2::text[]) WITH ORDINALITY AS p(priv, ord)
+            WHERE n.nspname = ANY($1) AND c.relkind IN ('r', 'p', 'v', 'm', 'f')
+              AND a.attnum > 0 AND NOT a.attisdropped
+              AND has_column_privilege($3, c.oid, a.attnum, p.priv)
+              AND NOT has_table_privilege($3, c.oid, p.priv)
+            GROUP BY 1`,
+          [schemas, COLUMN_PRIVILEGES, login],
+        )
+      ).rows,
+      'column',
+    );
     add(
       (
         await migrator.query<{ object: string; privileges: string[] }>(
@@ -105,17 +133,20 @@ describe('M2-AC01/2 runtime role privileges', () => {
     return actual;
   }
 
-  /** What the manifest allows `grants` on every object that exists in the manifest schemas. */
+  /** What the manifest allows `grants` on every object that exists in the non-system schemas. */
   async function expected(grants: RoleGrants): Promise<Privileges> {
     const want: Privileges = {};
     for (const [schema, privileges] of Object.entries(grants.schemas)) {
       want[`schema ${schema}`] = ordered(privileges, SCHEMA_PRIVILEGES);
     }
+    for (const [column, privileges] of Object.entries(grants.columns)) {
+      want[`column ${column}`] = ordered(privileges, COLUMN_PRIVILEGES);
+    }
     const { rows: relations } = await migrator.query<{ object: string; kind: string }>(
       `SELECT n.nspname || '.' || c.relname AS object, c.relkind AS kind
          FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
         WHERE n.nspname = ANY($1) AND c.relkind IN ('r', 'p', 'v', 'm', 'f', 'S')`,
-      [[...MANIFEST_SCHEMAS]],
+      [schemas],
     );
     for (const { object, kind } of relations) {
       if (kind === 'S') {
@@ -134,7 +165,7 @@ describe('M2-AC01/2 runtime role privileges', () => {
       `SELECT p.oid::regprocedure::text AS object, n.nspname || '.' || p.proname AS name
          FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
         WHERE n.nspname = ANY($1)`,
-      [[...MANIFEST_SCHEMAS]],
+      [schemas],
     );
     for (const { object, name } of functions) {
       const schema = name.slice(0, name.indexOf('.'));
@@ -146,6 +177,8 @@ describe('M2-AC01/2 runtime role privileges', () => {
   }
 
   it('M2-AC01/2 runtime role privileges match reviewed grant manifest', async () => {
+    // The scan covers every schema the migrations and pg-boss create, and public.
+    expect(schemas).toEqual(expect.arrayContaining(['app', 'ops', 'pgboss', 'public']));
     for (const grants of Object.values(GRANT_MANIFEST)) {
       const actual = await effective(grants.login);
       expect({ login: grants.login, privileges: actual }).toEqual({
@@ -168,23 +201,42 @@ describe('M2-AC01/2 runtime role privileges', () => {
     expect(worker['table ops.pgboss_schema_version']).toBeUndefined();
   });
 
-  it('M2-AC01/2 only the migrator and the two runtime groups appear in any ACL; PUBLIC and the logins hold nothing directly', async () => {
+  it('M2-AC01/2 only the migrator and the two runtime groups appear in any ACL, column ACLs included; PUBLIC and the logins hold nothing directly', async () => {
+    // Schema public keeps PostgreSQL's own ACL (checked below); every other ACL in every non-system schema is ours.
+    const ours = schemas.filter((schema) => schema !== 'public');
     const { rows } = await migrator.query<{ grantee: string }>(
       `WITH acls AS (
          SELECT n.nspacl AS acl FROM pg_catalog.pg_namespace n WHERE n.nspname = ANY($1)
          UNION ALL
          SELECT c.relacl FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-          WHERE n.nspname = ANY($1)
+          WHERE n.nspname = ANY($2)
+         UNION ALL
+         SELECT a.attacl FROM pg_catalog.pg_attribute a
+           JOIN pg_catalog.pg_class c ON c.oid = a.attrelid
+           JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+          WHERE n.nspname = ANY($2) AND a.attnum > 0 AND NOT a.attisdropped
          UNION ALL
          SELECT p.proacl FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
-          WHERE n.nspname = ANY($1)
+          WHERE n.nspname = ANY($2)
        )
        SELECT DISTINCT CASE a.grantee WHEN 0 THEN 'PUBLIC' ELSE pg_catalog.pg_get_userbyid(a.grantee) END AS grantee
          FROM acls, LATERAL aclexplode(acls.acl) a
         ORDER BY 1`,
-      [[...MANIFEST_SCHEMAS]],
+      [ours, schemas],
     );
     expect(rows.map((row) => row.grantee)).toEqual([ROLES.apiGroup, ROLES.workerGroup, ROLES.migrator].sort());
+
+    // public: PostgreSQL's default ACL (its owner, and USAGE for PUBLIC), and nothing in it.
+    const { rows: publicSchema } = await migrator.query<{ acl: string[]; objects: number }>(
+      `SELECT (SELECT array_agg(a.privilege_type || ' to ' || CASE a.grantee WHEN 0 THEN 'PUBLIC' ELSE pg_get_userbyid(a.grantee) END)
+                 FROM pg_catalog.pg_namespace n, LATERAL aclexplode(n.nspacl) a WHERE n.nspname = 'public') AS acl,
+              (SELECT count(*)::int FROM pg_catalog.pg_class WHERE relnamespace = 'public'::regnamespace)
+            + (SELECT count(*)::int FROM pg_catalog.pg_proc WHERE pronamespace = 'public'::regnamespace) AS objects`,
+    );
+    expect({ ...publicSchema[0], acl: [...(publicSchema[0]?.acl ?? [])].sort() }).toEqual({
+      acl: ['CREATE to pg_database_owner', 'USAGE to PUBLIC', 'USAGE to pg_database_owner'],
+      objects: 0,
+    });
 
     // Functions pg-boss created before 0001's default ran start with PUBLIC EXECUTE
     // (ACL NULL); 0005 revoked it, so no pgboss function is left on the default.

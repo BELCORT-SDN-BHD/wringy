@@ -75,7 +75,9 @@ PUBLIC, grants the schema usage and sets the default privileges; functions the
 migrator creates are not executable by PUBLIC (0005 also revokes PUBLIC's
 EXECUTE from the pg-boss functions installed before that default existed).
 Later migrations grant per table, and `test/grant-manifest.ts` lists every right
-a runtime login ends up with. Nothing goes in `public`, and nothing is granted to
+a runtime login ends up with: schema, table, column (a column-level grant), sequence
+and function privileges in every non-system schema, `public` included, so a grant
+on a new schema or on one column fails the manifest test until it is reviewed. Nothing goes in `public`, and nothing is granted to
 `anon`, `authenticated` or `service_role`. Login roles and passwords come only
 from `pnpm db:bootstrap`, never from a migration. Only the two runtime groups
 (and the owner) have CONNECT on the application database.
