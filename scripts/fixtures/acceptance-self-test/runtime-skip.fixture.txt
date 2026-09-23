@@ -1,0 +1,12 @@
+// Fixture for the self-test of scripts/check-acceptance-mapping.mjs: never run, never compiled.
+describe('M2-AC99/4 probe', () => {
+  it('M2-AC99/4 skips at run time', (ctx) => {
+    ctx.skip();
+  });
+});
+test('M2-AC99/4 fixme at run time', async () => {
+  test.fixme();
+});
+test('M2-AC99/3 scoped to one project', async ({}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'one project is enough');
+});

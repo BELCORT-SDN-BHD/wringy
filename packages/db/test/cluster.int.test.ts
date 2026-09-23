@@ -24,7 +24,7 @@ import { cluster } from './harness';
  * their global setups bootstrap the same cluster-wide roles concurrently.
  */
 describe('M2-AC01 test harness on a shared cluster', () => {
-  it('M2-AC01/3 concurrent test runs bootstrap the login roles without a catalog conflict', async () => {
+  it('M2-AC01 concurrent test runs bootstrap the login roles without a catalog conflict (test harness, not a workspace or CI check)', async () => {
     const info = cluster();
     await Promise.all(Array.from({ length: 6 }, () => bootstrapTestRoles(info)));
 
