@@ -178,6 +178,43 @@ freshly migrated database, with the response schema as the allow-list; the
 runtime role unable to write; and no secret in bodies or logs (the secrets,
 outage and startup tests, and the log scrubber's unit tests).
 
+## Docker image
+
+`apps/api/Dockerfile` (kickoff-package.md §8.9), built from the repository root:
+`docker build -f apps/api/Dockerfile -t wringy-api:<git-sha> .`. The build stage installs
+`api...` frozen, runs `pnpm --filter api build` and `pnpm --filter @wringy/db build`, then
+`pnpm --filter api --prod deploy --legacy /out/api` (pnpm 10 deploys workspace dependencies only
+with `--legacy` or `inject-workspace-packages`, [pnpm deploy](https://pnpm.io/cli/deploy)). The
+runtime stage, `node:24-bookworm-slim` pinned by digest (Node 24.21.0), holds `package.json`,
+the production `node_modules` and `dist/`, and runs `node dist/main.js` as `USER node` with
+`HOST=0.0.0.0` and `PORT=3200` (Render sets `PORT` and needs the host `0.0.0.0`,
+[render.com/docs/web-services](https://render.com/docs/web-services)).
+
+```sh
+docker run --rm -p 3200:3200 -e WRINGY_ENV=<env> -e DATABASE_URL=<wringy_api_login URL> wringy-api:<git-sha>
+```
+
+**Migrate step.** The same image carries `/migrate`: the `@wringy/db` production deploy,
+`packages/db/migrations` and `dist/migrate.js`, the `pnpm db:migrate` CLI bundled by
+`pnpm --filter @wringy/db build`. Run it once per release, before the new api and worker start,
+as the migrator (never a runtime login):
+
+```sh
+docker run --rm -e WRINGY_ENV=<env> -e DATABASE_URL_MIGRATOR=<wringy_migrator URL>   wringy-api:<git-sha> node /migrate/dist/migrate.js
+```
+
+It installs or upgrades the pg-boss schema, applies the pending SQL migrations and checks the
+head; a second run changes nothing. The roles (`pnpm db:bootstrap`) and the environment marker
+(`pnpm db:env`) are one-time steps per environment run from a checkout
+(`packages/db/README.md`). Whether Render's pre-deploy command can run it on the chosen plan is
+unverified (kickoff-package.md §8.9, §10 G18; M2-09).
+
+No Docker on the development machine: CI's `images` job (`.github/workflows/app.yml`) builds the
+image with `push: false` and checks that `node dist/main.js` and `node /migrate/dist/migrate.js`
+reach their environment checks (every import resolved) as the `node` user. Locally, the same
+`pnpm deploy` output ran on Node 24.21.0 against a freshly migrated database and answered
+`/health` "ok" (2026-09-23).
+
 ## Dependencies
 
 Pinned per kickoff-package.md §5.3. `@fastify/type-provider-zod` 1.0.0 declares

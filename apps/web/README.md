@@ -311,6 +311,27 @@ the root `tsconfig.json`, with Next's global types, excludes them.
 `next.config.ts` sets `allowedDevOrigins: ['127.0.0.1']` because Next 16 otherwise blocks the
 dev-server `/_next/hmr` requests Playwright makes over that host. Development only.
 
+## Standalone build and the image (M2-01)
+
+`next.config.ts` sets `output: 'standalone'` with `outputFileTracingRoot` at the repository root,
+because the app imports the workspace packages from `../../packages`
+(`node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/output.md`,
+"Caveats"). `next build` then writes `.next/standalone/apps/web/server.js` with only the traced
+`node_modules`; `.next/static` and `public` are copied beside it by hand. `next start` still works
+and warns that it "does not work with output: standalone" (the internal suite uses it).
+`apps/web/Dockerfile` builds from the repository root
+(`docker build -f apps/web/Dockerfile -t wringy-web:<git-sha> .`) and runs
+`node apps/web/server.js` as `USER node` with `HOSTNAME=0.0.0.0` and `PORT=3100`; it needs
+`WRINGY_ENV` and `API_INTERNAL_URL` at run time, and renders `/internal`'s "not configured" state
+without them. Locally (no Docker), the standalone server answered 200 on `/internal`, `/` and a CSS
+chunk (2026-09-23); on Windows the standalone `node_modules` are junctions into the repository,
+so the copied layout is proven only by CI's `images` job on Linux.
+
+For `pnpm dev`, the web server reads `WRINGY_ENV` and `API_INTERNAL_URL` from
+`apps/web/.env.local` (Next loads `.env*` from the app's own directory,
+`node_modules/next/dist/docs/01-app/02-guides/environment-variables.md`; ignored by
+`apps/web/.gitignore`).
+
 ## Gaps
 
 - **No component gaps.** All 61 names exist under the `radix` base; nothing was hand-written

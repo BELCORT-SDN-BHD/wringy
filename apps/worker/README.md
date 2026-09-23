@@ -140,6 +140,30 @@ on `"sideEffects": false` in `packages/db/package.json`, so the bundle carries
 only the db modules the worker uses (pool, environment marker, role names), not
 the migration runner or the local-development passwords.
 
+## Docker image
+
+`apps/worker/Dockerfile` (kickoff-package.md §8.9), built from the repository root:
+`docker build -f apps/worker/Dockerfile -t wringy-worker:<git-sha> .`. The build stage installs
+`worker...` frozen, runs the esbuild build, then `pnpm --filter worker --prod deploy --legacy
+/out/worker` ([pnpm deploy](https://pnpm.io/cli/deploy): pnpm 10 needs `--legacy` or
+`inject-workspace-packages` for workspace dependencies). The runtime stage,
+`node:24-bookworm-slim` pinned by digest (Node 24.21.0), holds `package.json`, the production
+`node_modules` (`pg`, `pg-boss`, `pino`) and `dist/`, and runs `node dist/main.js` as `USER node`.
+
+```sh
+docker run --rm -e WRINGY_ENV=<env> -e DATABASE_URL=<wringy_worker_login URL>   -e WORKER_ID=<id> -e IMAGE_REF=<git-sha> wringy-worker:<git-sha>
+docker stop --time 35 <container>   # SIGTERM, then up to 20 s drain + 10 s grace
+```
+
+The exec-form `CMD` makes node PID 1, so `docker stop`'s SIGTERM reaches the worker's own handler
+(Stop and drain above); Docker's default 10 s stop timeout would cut the drain short. No Docker
+on the development machine: CI's `images` job builds the image with `push: false` and checks that
+`node dist/main.js` reaches its environment check as the `node` user. Locally, the same
+`pnpm deploy` output ran on Node 24.21.0, logged "worker started" and showed healthy in the API's
+`/internal/worker-health` (2026-09-23). A real SIGTERM drain runs only on Linux:
+`test/process.int.test.ts` sends SIGTERM there (CI `integration`); inside a container it is
+unverified until M2-09.
+
 ## Tests
 
 Unit (`pnpm --filter worker test`): the heartbeat SQL (database clock, parameters),
@@ -182,7 +206,7 @@ and resolves when this worker's handler has stamped it.
   `packages/modules/<m>` once the worker needs a command it shares with the API;
   the kill-point tests (between the outbox write and consumption) in
   `apps/worker/tests/integration`.
-- **M2-09**: the staging image (`apps/worker/Dockerfile`, drains on SIGTERM), the
+- **M2-09**: the image (`apps/worker/Dockerfile`, M2-01) deployed to staging and drained on SIGTERM there, the
   connection budget and pool sizes, whether LISTEN/NOTIFY works through the
   Supavisor session pooler, backlog-age monitoring, and the drain-and-re-claim
   rollback drill (M2-AC09/3).

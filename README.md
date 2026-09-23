@@ -28,6 +28,54 @@ PRD 与 Architecture 是长期蓝图，文件头保留维护关注点；Wayfinde
 
 GitHub Issues 是任务状态的唯一来源。历史 `.scratch` 文档仅供追溯；详细规格与业务规则在版本控制中维护，关联规格 issue 记录执行、变更和验收。开始开发前检查任务的原生依赖及批准记录。
 
+## Internal build (M2)
+
+M2-01（[#16](https://github.com/BELCORT-SDN-BHD/wringy/issues/16)）在同一个 pnpm 工作区里建立可保存数据的内部版本骨架。它没有登录（M2-02 起），不部署，只读取数据库里的夹具活动（fixture）和后台任务健康状态。
+
+| 进程 | 位置 | 本地地址 | 说明 |
+|---|---|---|---|
+| web | [`apps/web`](apps/web/README.md) | `127.0.0.1:3100` | M1 演示原型，加上内部版本页 `/internal`（服务端组件，经 API 读取） |
+| api | [`apps/api`](apps/api/README.md) | `127.0.0.1:3200` | Fastify，只供 web 服务端调用；以只读运行账号 `wringy_api_login` 访问数据库 |
+| worker | [`apps/worker`](apps/worker/README.md) | 无 HTTP | pg-boss；进程心跳与队列往返，运行账号 `wringy_worker_login` |
+| PostgreSQL 17 | [`packages/db`](packages/db/README.md) | `127.0.0.1:54329` | 本地为 embedded PostgreSQL（不需要 Docker，数据在 `.local/pg`）；CI 为 `postgres:17` 服务 |
+
+Node 固定为 24.21.0：根目录 `.npmrc` 的 `use-node-version` 让 pnpm 自己下载并使用该版本，本机的 `node` 可以更旧。环境变量只写名称，见 [`.env.example`](.env.example)、`apps/api/.env.example`、`apps/worker/.env.example`；值只放在不入库的 `.env` 文件里。
+
+**启动顺序**（首次；以后从 `pnpm db:start` 开始）：
+
+```bash
+pnpm install
+pnpm db:start            # embedded PostgreSQL 17，打印各账号的本地 URL
+# 根目录 .env：WRINGY_ENV=local，DATABASE_URL_MIGRATOR 用 db:start 打印的迁移账号 URL
+pnpm db:bootstrap        # 只需一次：角色、登录账号、数据库 wringy
+pnpm db:migrate          # pg-boss schema，再执行全部 SQL 迁移（迁移账号）；重复执行不改变任何东西
+pnpm db:env              # 写入环境标记 ops.environment（local 允许夹具）
+pnpm db:seed:fixtures    # 两个夹具组织、三个夹具活动
+# apps/api/.env、apps/worker/.env：从各自的 .env.example 复制，填 WRINGY_ENV=local 与 db:start 打印的运行账号 URL
+# apps/web/.env.local：WRINGY_ENV=local，API_INTERNAL_URL=http://127.0.0.1:3200（Next 从应用目录读取 .env*）
+pnpm dev                 # web、api、worker 一起启动；然后打开 http://127.0.0.1:3100/internal
+pnpm db:stop
+```
+
+Windows 注意：2026-09-23 在本机，`pnpm dev`（pnpm 递归运行，输出经管道）启动后 api 与 worker 的 `tsx watch` 没有任何输出，3200 端口也没有监听；同一命令在管道之外（`pnpm --filter api dev`）正常启动。原因未确认。遇到时在三个终端分别运行 `pnpm --filter api dev`、`pnpm --filter worker dev`、`pnpm --filter web dev`。
+
+**检查命令**（CI 的 [App checks](.github/workflows/app.yml) 运行同样的命令）：
+
+```bash
+pnpm lint && pnpm typecheck && pnpm test   # 各工作区的 lint、类型、单元测试
+pnpm test:int                # 真实 PostgreSQL 17 集成测试：设置 TEST_DATABASE_URL（超级用户 URL）时用该集群，否则每个套件自起一个临时 embedded 集群
+pnpm depcruise               # 依赖方向检查；还会植入一个违规文件，必须被拒绝
+pnpm check:acceptance        # 验收映射：每个 M2 测试全名带 M2-AC，M2-AC01 每个子项有测试或验收记录行
+pnpm build                   # 全部构建（web 为 standalone 输出）
+pnpm canary                  # 密钥金丝雀：用金丝雀值构建 web/api/worker，检查产物与日志中不出现任何金丝雀值
+pnpm --filter web e2e        # M1 演示套件（Playwright，3 个视口）
+pnpm e2e:internal            # M2 内部版本套件：自行启动数据库、api、worker 与 web，全部真实
+```
+
+证据截图默认写到被忽略的目录；设置 `WRINGY_EVIDENCE_SHOTS=1` 才会刷新受版本控制的截图（`WRINGY_EVIDENCE_SHOTS=1 pnpm e2e:internal` 写入 `docs/m2-internal/screenshots`）。验收证据记录在 [docs/m2-internal/acceptance-record.md](docs/m2-internal/acceptance-record.md)。
+
+镜像：`apps/web`、`apps/api`、`apps/worker` 各有一个 Dockerfile，都以仓库根目录为构建上下文（`docker build -f apps/<app>/Dockerfile .`），由 CI 的 `images` 作业构建与冒烟运行，不推送；api 镜像同时带迁移文件，供每次发布前运行一次 `node /migrate/dist/migrate.js`（见 [apps/api/README.md](apps/api/README.md)）。
+
 ## 克隆后的代理工具设置
 
 仓库自带两个代理的 Matt Pocock 技能、Codex 的 graphify 技能与钩子（`.agents/skills`、`.codex/hooks.json`），以及 Claude Code 的 graphify 钩子（`.claude/settings.json`）。Git 钩子和合并驱动只存在于本机的 `.git`，每个克隆都要自己安装：
