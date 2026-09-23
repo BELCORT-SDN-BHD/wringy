@@ -7,8 +7,8 @@ anywhere: the fixture campaigns carry a title, a status and a data origin only
 [campaign-defaults-v1](../../phase-0/foundation/campaign-defaults-v1.md) stays the only source of
 business defaults.
 
-Recorded 2026-09-23 against branch `feat/m2-01` (local HEAD `9615439` plus the commit that adds this
-file; GitHub holds `9ca00a5`), after the W5 adversarial review. The 23 defects that review confirmed
+Recorded 2026-09-23 against branch `feat/m2-01` (HEAD `fe17df4`, pushed; CI green on `9ca00a5`, `12a85ab`
+and `fe17df4`), after the W5 adversarial review. The 23 defects that review confirmed
 were fixed and none was skipped ([acceptance-record.md](acceptance-record.md) "W5 adversarial
 review"). What is recorded here is what M2-01 deliberately does not do, what it inherits, and what it
 cannot prove on this machine or in CI.
@@ -141,12 +141,12 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
 
 ## Unverified until CI, Supabase or Render
 
-- **The review fixes have not run in CI.** CI is green on `9ca00a5`; the 18 review-fix commits are
-  not pushed. Unproven on Linux until then: `apps/api/tests/integration/timeouts.int.test.ts`,
-  `apps/worker/test/schedule.int.test.ts` (up to about 120 s), the harness guards in
-  `packages/db/test/cluster.int.test.ts` (CI's `TEST_DATABASE_URL` host 127.0.0.1 counts as
-  loopback), the PostgreSQL 17 and Node 24 assertions, and `failOnFlakyTests` in
-  `apps/web/playwright.internal.config.ts` L54, which takes effect only when `CI` is set.
+- **The review fixes ran in CI** (no longer unverified): [run 35825491353](https://github.com/BELCORT-SDN-BHD/wringy/actions/runs/35825491353) on `12a85ab` and
+  [run 35828034405](https://github.com/BELCORT-SDN-BHD/wringy/actions/runs/35828034405) on `fe17df4` executed `apps/api/tests/integration/timeouts.int.test.ts`,
+  `apps/worker/test/schedule.int.test.ts`, the harness guards in `packages/db/test/cluster.int.test.ts`
+  (CI's `TEST_DATABASE_URL` host 127.0.0.1 counts as loopback), the PostgreSQL 17 and Node 24
+  assertions, the relabel-serialisation and request-log tests, and the internal suite with
+  `failOnFlakyTests` active; all jobs green.
 - **The images are proven only in CI.** No Docker on this machine. The `images` job on `9ca00a5`
   built all three and smoke-ran them; pushing, pulling from GHCR and Render's pre-deploy command are
   unverified (kickoff-package.md §8.9, G18).
