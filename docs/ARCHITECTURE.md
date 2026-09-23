@@ -3,7 +3,7 @@ document: architecture-blueprint
 product: Wringy
 status: consolidated-from-accepted-decisions
 updated: 2026-09-23
-implementation_status: m1-prototype-accepted; product-runtime-unbuilt
+implementation_status: m1-prototype-accepted; m2-01-internal-loop-on-pr (api, worker, db, internal page on feat/m2-01, PR 82, unmerged); identity-and-saved-user-data-unbuilt
 purpose: 技术栈及选择原因、系统边界、模块职责、依赖关系、主要数据流和关键技术取舍。
 required_focus:
   stack_and_rationale: 记录已接受技术方向及理由；区分候选、实际依赖和锁定版本。
