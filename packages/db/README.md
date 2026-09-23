@@ -169,7 +169,7 @@ as Supabase's non-superuser `postgres`.
 |---|---|
 | `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` and the admin URL is unset or the embedded cluster (a loopback host at port 54329); anywhere else a development password is refused (`src/bootstrap-plan.ts`) |
-| `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing PostgreSQL 17) |
+| `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing, throwaway PostgreSQL 17 on this machine; see "Throwaway clusters only") |
 
 The bootstrap sends passwords to the server as SCRAM-SHA-256 verifiers computed
 locally (`src/scram.ts`), so the plaintext is never in a statement a server log
@@ -194,6 +194,14 @@ two local runs against the `pnpm db:start` cluster on 2026-09-23, and
 `test/cluster.int.test.ts` failed 3 of 3 times before the lock and passed 3 of 3 after. Each run
 still gets its own template and clones (`wringy_tpl_<run>`, `wringy_t_<run>_*`), dropped at
 teardown, and also when the setup itself fails.
+
+**Throwaway clusters only.** The bootstrap ALTERs the cluster-wide `wringy_*` logins to the
+committed development passwords and the harness creates and drops databases, so
+`startTestCluster()` refuses (`TestClusterRefusedError`) a `TEST_DATABASE_URL` whose host is not
+this machine, unless `WRINGY_TEST_CLUSTER_IS_THROWAWAY=1` is set for a disposable remote cluster,
+and any cluster where a database other than the harness's own is marked as an environment other
+than `local` or `ci` (a tunnel to staging on a loopback port is caught there).
+`test/cluster.int.test.ts` covers both refusals.
 
 Every test title carries this ticket's key `M2-AC01` (kickoff-package.md §6.1).
 Integration test titles carry `M2-AC01/2` where they prove that sub-item: a fresh

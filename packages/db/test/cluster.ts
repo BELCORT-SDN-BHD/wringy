@@ -11,6 +11,14 @@
  * - otherwise a throwaway embedded PostgreSQL 17 on a free port in a temporary
  *   directory, TimeZone=UTC, removed by `stop()`.
  *
+ * An external cluster is used only when it is a throwaway: bootstrapping ALTERs
+ * the cluster-wide login roles to the committed development passwords and
+ * creates and drops databases there. assertThrowawayCluster() refuses a
+ * TEST_DATABASE_URL whose host is not this machine (unless
+ * WRINGY_TEST_CLUSTER_IS_THROWAWAY=1 says otherwise for a disposable remote
+ * cluster), and any cluster where a database other than this harness's own is
+ * marked as an environment other than local or ci.
+ *
  * `createDatabaseIn(cluster)` clones the template (CREATE DATABASE ... TEMPLATE
  * ...) with CONNECT for the runtime groups only; `seedFixturesIn` and
  * `setEnvironmentIn` do what `pnpm db:seed:fixtures` and `pnpm db:env` do.
@@ -32,7 +40,7 @@ import path from 'node:path';
 import EmbeddedPostgres from 'embedded-postgres';
 import pg from 'pg';
 
-import type { WringyEnv } from '@wringy/config';
+import { isLoopbackUrl, type WringyEnv } from '@wringy/config';
 
 import { ensureDatabase, ensureRoles, restrictDatabaseAccess } from '../src/bootstrap';
 import { setEnvironment, type EnvironmentMarker } from '../src/environment';
@@ -136,6 +144,96 @@ export function databaseUrls(cluster: ClusterInfo, database: string): TestDataba
   };
 }
 
+/** Set to `1` to let the harness use a TEST_DATABASE_URL that is not on this machine: a disposable cluster only. */
+export const THROWAWAY_CLUSTER_OPT_IN = 'WRINGY_TEST_CLUSTER_IS_THROWAWAY';
+
+/** Environment markers the harness may meet on a cluster it bootstraps. */
+const TEST_ENVIRONMENTS: readonly string[] = ['local', 'ci'];
+
+/** The harness refuses to bootstrap roles or create databases on this cluster. */
+export class TestClusterRefusedError extends Error {
+  override readonly name = 'TestClusterRefusedError';
+}
+
+/** True for a database this harness creates (any run): `wringy_t_<run>_*` clones and `wringy_tpl_<run>` templates. */
+export function isHarnessDatabase(name: string): boolean {
+  return /^wringy_(t|tpl)_[0-9a-f]+(_|$)/.test(name);
+}
+
+/**
+ * Why the harness refuses the host of `adminUrl` (a TEST_DATABASE_URL), or
+ * undefined when it is on this machine or the throwaway opt-in is set. The
+ * message names the host, never the credentials.
+ */
+export function externalClusterHostRefusal(
+  adminUrl: string,
+  env: Readonly<Record<string, string | undefined>> = process.env,
+): string | undefined {
+  if (isLoopbackUrl(adminUrl) || env[THROWAWAY_CLUSTER_OPT_IN] === '1') return undefined;
+  let host = 'an unparseable host';
+  try {
+    host = new URL(adminUrl).hostname;
+  } catch {
+    // keep the placeholder
+  }
+  return (
+    `TEST_DATABASE_URL points at ${host}, not this machine. The test harness resets the cluster-wide wringy_* ` +
+    'login passwords to the committed development values and creates and drops databases there, so it only ' +
+    `runs on a throwaway cluster: use a local one, or set ${THROWAWAY_CLUSTER_OPT_IN}=1 for a disposable remote cluster.`
+  );
+}
+
+/**
+ * Databases on the cluster, other than this harness's own and those `skip`
+ * names, whose ops.environment marker names an environment other than local
+ * or ci; a database the admin cannot open is reported as `unreadable`.
+ */
+export async function findNonTestEnvironments(
+  adminUrl: string,
+  skip: (database: string) => boolean = isHarnessDatabase,
+): Promise<Array<{ database: string; environment: string }>> {
+  const databases = await withClientAt(adminUrl, async (admin) => {
+    const { rows } = await admin.query<{ datname: string }>(
+      'SELECT datname FROM pg_catalog.pg_database WHERE datallowconn AND NOT datistemplate ORDER BY datname',
+    );
+    return rows.map((row) => row.datname).filter((name) => !skip(name));
+  });
+  const found: Array<{ database: string; environment: string }> = [];
+  for (const database of databases) {
+    const url = new URL(adminUrl);
+    url.pathname = `/${encodeURIComponent(database)}`;
+    try {
+      const names = await withClientAt(url.toString(), async (client) => {
+        const { rows } = await client.query<{ present: boolean }>(
+          `SELECT to_regclass('ops.environment') IS NOT NULL AS present`,
+        );
+        if (!rows[0]?.present) return [];
+        return (await client.query<{ name: string }>('SELECT name FROM ops.environment')).rows.map((row) => row.name);
+      });
+      for (const environment of names) {
+        if (!TEST_ENVIRONMENTS.includes(environment)) found.push({ database, environment });
+      }
+    } catch {
+      found.push({ database, environment: 'unreadable' });
+    }
+  }
+  return found;
+}
+
+/** Throws TestClusterRefusedError unless `adminUrl` names a cluster this harness may bootstrap. See the module comment. */
+export async function assertThrowawayCluster(adminUrl: string): Promise<void> {
+  const hostRefusal = externalClusterHostRefusal(adminUrl);
+  if (hostRefusal !== undefined) throw new TestClusterRefusedError(hostRefusal);
+  const marked = await findNonTestEnvironments(adminUrl);
+  if (marked.length > 0) {
+    const listed = marked.map(({ database, environment }) => `${database} (${environment})`).join(', ');
+    throw new TestClusterRefusedError(
+      `The TEST_DATABASE_URL cluster holds databases of another environment: ${listed}. The test harness resets ` +
+        'the cluster-wide wringy_* login passwords, so it refuses a cluster that serves anything but local or ci.',
+    );
+  }
+}
+
 /** Advisory-lock key (hashed by the server) that serialises bootstrapTestRoles across runs sharing a cluster. */
 const BOOTSTRAP_LOCK = 'wringy-test-cluster-bootstrap';
 
@@ -198,6 +296,7 @@ export interface StartTestClusterOptions {
 /** Starts (or attaches to) a cluster and migrates this run's template. See the module comment. */
 export async function startTestCluster(options: StartTestClusterOptions = {}): Promise<RunningCluster> {
   const external = options.adminUrl ?? process.env.TEST_DATABASE_URL;
+  if (external) await assertThrowawayCluster(external);
   const embedded = external ? undefined : await startEmbedded();
   const adminUrl = external ?? embedded!.adminUrl;
   const { hostname, port } = new URL(adminUrl);
