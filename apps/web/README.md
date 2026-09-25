@@ -113,6 +113,13 @@ renders in the visitor's cookie locale:
 Badges follow the M1 `StatusBadge` rules through the server-safe tone classes in
 `src/components/app/status-tone.ts`. No client code beyond the layout's, no demo store.
 
+Since M2-02 both reads carry the caller's access token, because every `/internal/*` route on the
+API sits behind the authentication hook (R8, R19). So this page shows its data only in
+`internal` mode, to a signed-in tester. On a **demo** origin with `API_INTERNAL_URL` configured
+the reads go out with no token, the API answers 401, and the page shows one `unexpected` state —
+expected, not a regression (`docs/m2-internal/known-issues.md`). With no `API_INTERNAL_URL` it is
+`not-configured`, which is what the env-less image smoke asserts.
+
 ## Sign-in (M2-02)
 
 The internal build signs testers in with Google through Supabase Auth (PKCE). The demo build has
@@ -200,9 +207,15 @@ same refresh.
 `WRINGY_APP_MODE` (`demo` | `internal`, default `demo`). When it is `internal`, `SUPABASE_URL`,
 `SUPABASE_PUBLISHABLE_KEY` and `APP_ORIGIN` are all required; in `demo` mode none of them is, so
 the demo build, the M1 Playwright suite and the env-less image smoke keep working. The key is
-publishable by design; no `sb_secret_…` key exists anywhere in the web. If internal mode is set
-without those variables, the proxy passes requests through so `/internal` can still render its
-`not-configured` state.
+publishable by design, and `@wringy/config` refuses a `sb_secret_…` value rather than leaving
+that to a comment; `SUPABASE_URL` must be `https:` unless its host is loopback, because it is the
+key set every token is verified against.
+
+If internal mode is set without those variables the server still starts, and says so instead:
+`/internal` renders its `not-configured` state naming each missing variable, and every sign-in
+endpoint answers 503 `not_configured`. The routing shape still applies, because it needs no
+environment — a demo path is still rewritten to the internal not-found page, and `/` still lands
+on `/internal` — so a half-configured internal origin never serves the demo build.
 
 ### Outcomes
 

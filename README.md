@@ -61,7 +61,11 @@ pnpm db:allowlist add <你的 Google 邮箱> --reason "<原因>" --by "<你的�
 # apps/web/.env.local：WRINGY_ENV=local，API_INTERNAL_URL=http://127.0.0.1:3200（Next 从应用目录读取 .env*）；
 #   要走真实 Google 登录再加 WRINGY_APP_MODE=internal 与 SUPABASE_URL、SUPABASE_PUBLISHABLE_KEY、
 #   APP_ORIGIN=http://127.0.0.1:3100（不填 WRINGY_APP_MODE 就是 M1 演示版本，上面三个都不需要）
-pnpm dev                 # web、api、worker 一起启动；然后打开 http://127.0.0.1:3100/internal
+pnpm dev                 # web、api、worker 一起启动
+# 填了 WRINGY_APP_MODE=internal：打开 http://127.0.0.1:3100/internal，先登录再看数据。
+# 没填（M1 演示版本）：打开 http://127.0.0.1:3100/ 看演示；此时 /internal 的两块 M2-01 数据
+#   不带令牌去读 API，而自 M2-02 起每个 /internal/* 路由都在认证钩子之后（R8），所以 API 答 401，
+#   页面只显示一个“出错了”提示。这是预期的，不是回归（docs/m2-internal/known-issues.md）。
 pnpm db:stop
 ```
 
