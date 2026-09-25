@@ -24,16 +24,20 @@ describe('M2-AC02/2 app.profiles is written by the API login only, and never del
   /** A second clone marked production, where fixtures are not allowed. */
   let noFixtures: TestDatabase;
   let api: pg.Pool;
+  /** The operator's account: the only one that may write `status` since 0010. */
+  let migrator: pg.Pool;
 
   beforeAll(async () => {
     db = await createTestDatabase();
     noFixtures = await createTestDatabase();
     await setTestEnvironment(noFixtures, 'production');
     api = new pg.Pool({ connectionString: db.urls.api, max: 2 });
+    migrator = new pg.Pool({ connectionString: db.urls.migrator, max: 2 });
   });
 
   afterAll(async () => {
     await api?.end();
+    await migrator?.end();
     await db?.drop();
     await noFixtures?.drop();
   });
@@ -86,8 +90,50 @@ describe('M2-AC02/2 app.profiles is written by the API login only, and never del
     }
   });
 
+  it('M2-AC02/2 the API login may write only the columns a sign-in refreshes: status, locale_pref and locale_pref_set_at are 42501 (0010)', async () => {
+    await withClientAt(db.urls.api, async (client) => {
+      await client.query(INSERT, [SUBJECT, 'Tester One', 'tester.one@example.com']);
+    });
+    try {
+      // 0010 replaced 0008's table-level INSERT/UPDATE with column grants, so the
+      // runtime role cannot disable or re-enable an account (ruling D12) and cannot
+      // write the locale columns M2-04 owns.
+      for (const sql of [
+        `UPDATE app.profiles SET status = 'disabled'`,
+        `UPDATE app.profiles SET status = 'active'`,
+        `UPDATE app.profiles SET locale_pref = 'en-MY'`,
+        `UPDATE app.profiles SET locale_pref_set_at = now()`,
+      ]) {
+        expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
+      }
+      // An INSERT that names `status` is refused for the same reason.
+      expect(
+        await sqlState(
+          withClientAt(db.urls.api, (c) =>
+            c.query(
+              `INSERT INTO app.profiles (id, contact_email, status, last_sign_in_at)
+                    VALUES ($1, 'other@example.com', 'disabled', now())`,
+              [OTHER_SUBJECT],
+            ),
+          ),
+        ),
+      ).toBe('42501');
+      // And the three columns a sign-in refreshes are still writable.
+      await withClientAt(db.urls.api, (c) =>
+        c.query(
+          `UPDATE app.profiles SET contact_email = $2, display_name = $3, last_sign_in_at = now() WHERE id = $1`,
+          [SUBJECT, 'renamed@example.com', null],
+        ),
+      );
+    } finally {
+      await withClientAt(db.urls.migrator, (c) => c.query('DELETE FROM app.profiles'));
+    }
+  });
+
   it('M2-AC02/2 the locale CHECK admits only the three supported codes, and the status CHECK only active or disabled', async () => {
-    await withRollback(api, async (client) => {
+    // As the migrator: since 0010 only the operator's account may write `status`
+    // and the locale columns, so the CHECKs are proved on the account that can.
+    await withRollback(migrator, async (client) => {
       await client.query(INSERT, [SUBJECT, null, 'tester.one@example.com']);
 
       for (const locale of ['en-MY', 'ms-MY', 'zh-Hans-MY']) {
@@ -117,7 +163,7 @@ describe('M2-AC02/2 app.profiles is written by the API login only, and never del
         code: '23514',
         constraint: 'profiles_status_check',
       });
-      // `disabled` is the one other value, and the API login may set it back.
+      // `disabled` is the one other value the CHECK admits.
       expect(
         await failureIn(client, () =>
           client.query(`UPDATE app.profiles SET status = 'disabled' WHERE id = $1`, [SUBJECT]),

@@ -5,9 +5,12 @@
 --
 -- Creates app.sign_in_allowlist:
 -- - email_norm text PRIMARY KEY, CHECK non-empty and already lower-cased. The
---   normal form is Unicode NFKC, trimmed and lower-cased, with no dot or plus
+--   normal form is Unicode NFC, trimmed and lower-cased, with no dot or plus
 --   rewriting; it is computed once in packages/db/src/allowlist.ts and used by
---   both the CLI and the API.
+--   both the CLI and the API. NFC composes (the two spellings of one accented
+--   letter are one key) and does not compatibility-fold, so a look-alike code
+--   point — the fi ligature, a full-width letter — stays a different address
+--   and a listed ASCII row never admits it.
 --   The CHECK is a backstop for a hand-written row, and an ASCII one: lower() is
 --   the cluster's LC_CTYPE, and this repository initdb's both its clusters with
 --   --locale=C (packages/db/scripts/local-pg.mjs, test/cluster.ts), where lower()

@@ -79,7 +79,9 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
       'app.orgs': ['SELECT'],
       'app.campaigns': ['SELECT'],
       // The API upserts the profile at each sign-in and never deletes one (0008).
-      'app.profiles': ['SELECT', 'INSERT', 'UPDATE'],
+      // INSERT and UPDATE are column grants since 0010, so the table itself
+      // carries SELECT only and the writable columns are listed below.
+      'app.profiles': ['SELECT'],
       // The first-sign-in gate reads the list; only the migrator writes it (0009).
       'app.sign_in_allowlist': ['SELECT'],
       'ops.environment': ['SELECT'],
@@ -87,7 +89,16 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
       'ops.pgmigrations': ['SELECT'],
       'ops.pgboss_schema_version': ['SELECT'],
     },
-    columns: {},
+    // What a sign-in writes, and nothing else (0010; ruling D12, D7). `status` is
+    // absent on purpose: only an operator disables an account, so the runtime role
+    // must not be able to write it. `locale_pref` and `locale_pref_set_at` are
+    // absent because M2-04 owns the feature that writes them.
+    columns: {
+      'app.profiles.id': ['INSERT'],
+      'app.profiles.contact_email': ['INSERT', 'UPDATE'],
+      'app.profiles.display_name': ['INSERT', 'UPDATE'],
+      'app.profiles.last_sign_in_at': ['INSERT', 'UPDATE'],
+    },
     sequences: {},
     functions: [SESSION_IS_LIVE_SIGNATURE],
   },

@@ -2,7 +2,8 @@
  * The tester sign-in allow-list, `app.sign_in_allowlist` (migration 0009;
  * kickoff-package.md §3.2, ruling D13; M2-02 R5).
  *
- * One address per row, in one normal form, computed here and nowhere else: the
+ * One address per row, in one normal form (Unicode NFC, trimmed, lower-cased),
+ * computed here and nowhere else: the
  * CLI (`pnpm db:allowlist`) and the API's first-sign-in gate both call
  * `normalizeEmail`, so the gate cannot disagree with the list about what an
  * address is. The table's CHECK re-states the lower-case part, in case a row is
@@ -21,23 +22,33 @@ export class InvalidEmailError extends Error {
 }
 
 /**
- * The normal form of an address: Unicode **NFKC**, trimmed, lower-cased.
+ * The normal form of an address: Unicode **NFC**, trimmed, lower-cased.
  *
  * Nothing else. In particular no dot or plus rewriting: `a.b@x` and `a+t@x` are
  * different addresses to their providers, and guessing otherwise would either
  * admit an address nobody listed or refuse one that was.
  *
- * NFKC first, so a full-width or otherwise compatibility-encoded form of the
- * same letters becomes the same string before it is compared; then trim, because
- * a pasted address carries spaces; then lower-case, because domains are
- * case-insensitive and mailbox case is not worth a second row.
+ * NFC first, so the two spellings of one letter — `ä` as U+00E4, and `a` plus
+ * U+0308 COMBINING DIAERESIS — are one key; then trim, because a pasted address
+ * carries spaces; then lower-case, because domains are case-insensitive and
+ * mailbox case is not worth a second row.
+ *
+ * **NFC, not NFKC** (rev 3 of the kickoff code review, R5). Compatibility
+ * folding would map distinct code points onto the listed ASCII spelling: U+FB01
+ * LATIN SMALL LIGATURE FI becomes `fi`, U+FF43 FULLWIDTH LATIN SMALL LETTER C
+ * becomes `c`. Those are different mailboxes to
+ * a provider, so under NFKC two mailboxes would share one key and listing one
+ * would admit the other. Under NFC a listed ASCII address admits exactly that
+ * address, and a look-alike non-ASCII mailbox is simply not listed — it is
+ * refused, which is the safe direction (known-issues.md, M2-02).
  *
  * Throws `InvalidEmailError` on an empty result or one without `@`. This is a
  * shape check, not validation: whether the mailbox exists is not knowable here,
- * and the verified token's address is the one that matters at sign-in.
+ * and the verified token's address is the one that matters at sign-in. A
+ * full-width `＠` (U+FF20) is therefore refused rather than rewritten.
  */
 export function normalizeEmail(raw: string): string {
-  const normalized = raw.normalize('NFKC').trim().toLowerCase();
+  const normalized = raw.normalize('NFC').trim().toLowerCase();
   if (normalized === '') throw new InvalidEmailError('An email address is required; the value given is empty.');
   if (!normalized.includes('@')) {
     throw new InvalidEmailError('An email address must contain "@". Values are not shown.');

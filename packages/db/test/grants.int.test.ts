@@ -339,6 +339,118 @@ describe('M2-AC01/2 runtime role privileges', () => {
     expect(worker).toEqual([{ signature: SESSION_IS_LIVE_SIGNATURE, execute: false }]);
   });
 
+  it('M2-AC02/2 UPDATE app.profiles SET status … as wringy_api_login → 42501, and only an operator can disable an account', async () => {
+    // 0010 turned 0008's table-level UPDATE into a column grant, so `status` is
+    // outside the runtime role's reach (ruling D12). The row has to exist first,
+    // or the UPDATE would find nothing and succeed vacuously.
+    const subject = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
+    await withClientAt(db.urls.migrator, (c) =>
+      c.query(
+        `INSERT INTO app.profiles (id, contact_email, display_name, last_sign_in_at)
+              VALUES ($1, 'grants.probe@example.test', 'Grants Probe', now())
+         ON CONFLICT (id) DO NOTHING`,
+        [subject],
+      ),
+    );
+    try {
+      for (const sql of [
+        `UPDATE app.profiles SET status = 'disabled'`,
+        `UPDATE app.profiles SET status = 'active' WHERE id = '${subject}'`,
+        // The other two columns the API may not write either (M2-04 owns them).
+        `UPDATE app.profiles SET locale_pref = 'en-MY'`,
+        `UPDATE app.profiles SET locale_pref_set_at = now()`,
+      ]) {
+        expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
+      }
+
+      // The migrator — the operator's account — is the one that can.
+      await withClientAt(db.urls.migrator, (c) =>
+        c.query(`UPDATE app.profiles SET status = 'disabled' WHERE id = $1`, [subject]),
+      );
+      const status = await withClientAt(db.urls.api, async (c) => {
+        const { rows } = await c.query<{ status: string }>('SELECT status FROM app.profiles WHERE id = $1', [subject]);
+        return rows[0]?.status;
+      });
+      expect(status).toBe('disabled');
+
+      // And what a sign-in does write still works, on the same row.
+      await withClientAt(db.urls.api, (c) =>
+        c.query(
+          `UPDATE app.profiles SET contact_email = $2, display_name = $3, last_sign_in_at = now() WHERE id = $1`,
+          [subject, 'grants.probe+2@example.test', 'Grants Probe Two'],
+        ),
+      );
+    } finally {
+      await withClientAt(db.urls.migrator, (c) => c.query('DELETE FROM app.profiles WHERE id = $1', [subject]));
+    }
+  });
+
+  it('M2-AC02/2 INSERT app.profiles with an explicit status column as wringy_api_login → 42501, while the column list a sign-in writes is allowed', async () => {
+    const subject = 'b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e';
+    try {
+      expect(
+        await sqlState(
+          withClientAt(db.urls.api, (c) =>
+            c.query(
+              `INSERT INTO app.profiles (id, contact_email, display_name, status, last_sign_in_at)
+                    VALUES ($1, 'insert.probe@example.test', 'Insert Probe', 'active', now())`,
+              [subject],
+            ),
+          ),
+        ),
+      ).toBe('42501');
+      // An INSERT with no column list names every column positionally, so it is
+      // refused for the same reason: the API must name the four it may write.
+      expect(
+        await sqlState(
+          withClientAt(db.urls.api, (c) =>
+            c.query(
+              `INSERT INTO app.profiles
+                    VALUES ($1, 'Insert Probe', 'insert.probe@example.test', NULL, NULL, 'active', now(), now(), now())`,
+              [subject],
+            ),
+          ),
+        ),
+      ).toBe('42501');
+
+      // The four columns writeProfileOnSignIn names are granted, and `status`
+      // takes its default.
+      const inserted = await withClientAt(db.urls.api, async (c) => {
+        const { rows } = await c.query<{ status: string }>(
+          `INSERT INTO app.profiles (id, contact_email, display_name, last_sign_in_at)
+                VALUES ($1, 'insert.probe@example.test', 'Insert Probe', now())
+           RETURNING status`,
+          [subject],
+        );
+        return rows[0]?.status;
+      });
+      expect(inserted).toBe('active');
+
+      // `SELECT … FOR UPDATE` and `FOR SHARE` need UPDATE on a column of the row,
+      // not on the table: the sign-in command and the session probe re-read
+      // `status` that way inside their own transaction (M2-02 R6).
+      const locked = await withClientAt(db.urls.api, async (c) => {
+        await c.query('BEGIN');
+        try {
+          const forUpdate = await c.query<{ status: string }>(
+            'SELECT status FROM app.profiles WHERE id = $1 FOR UPDATE',
+            [subject],
+          );
+          const forShare = await c.query<{ status: string }>(
+            'SELECT status FROM app.profiles WHERE id = $1 FOR SHARE',
+            [subject],
+          );
+          return [forUpdate.rows[0]?.status, forShare.rows[0]?.status];
+        } finally {
+          await c.query('ROLLBACK');
+        }
+      });
+      expect(locked).toEqual(['active', 'active']);
+    } finally {
+      await withClientAt(db.urls.migrator, (c) => c.query('DELETE FROM app.profiles WHERE id = $1', [subject]));
+    }
+  });
+
   it('M2-AC01/2 wringy_worker_login cannot read app.campaigns or app.orgs (42501)', async () => {
     expect(await sqlState(withClientAt(db.urls.worker, (c) => c.query('SELECT * FROM app.campaigns')))).toBe('42501');
     expect(await sqlState(withClientAt(db.urls.worker, (c) => c.query('SELECT * FROM app.orgs')))).toBe('42501');

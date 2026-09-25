@@ -115,8 +115,10 @@ describe('M2-AC02/2 app.sign_in_allowlist is written by the migrator only, read 
     expect(added.entry.emailNorm).toBe('teäster@example.test');
     expect(added.entry.emailNorm).toBe(normalizeEmail('TeÄSTER@Example.test'));
 
-    // The gate finds it by the same normal form, and a second spelling is the same row.
-    const second = await allowlistAdd(db, { email: '  teÄster@example.TEST ', reason: 'again', addedBy: 'operator' });
+    // The gate finds it by the same normal form, and a second spelling is the same
+    // row — including the DECOMPOSED spelling of the same letter, which is what NFC
+    // is for: `A` + U+0308 COMBINING DIAERESIS is the same mailbox as U+00C4.
+    const second = await allowlistAdd(db, { email: '  teÄster@example.TEST ', reason: 'again', addedBy: 'operator' });
     expect(second.outcome).toBe('updated');
     const found = await withClientAt(db.urls.api, async (client) => {
       const { rows } = await client.query<{ email_norm: string }>(
@@ -126,30 +128,49 @@ describe('M2-AC02/2 app.sign_in_allowlist is written by the migrator only, read 
       return rows[0]?.email_norm;
     });
     expect(found).toBe('teäster@example.test');
+    expect((await withClientAt(db.urls.migrator, (client) => listAllowlist(client))).length).toBe(1);
     await withClientAt(db.urls.migrator, (client) => client.query('DELETE FROM app.sign_in_allowlist'));
   });
 
-  it('M2-AC02/2 a full-width, mixed-case, padded address becomes one row the primary key recognises', async () => {
-    // U+FF2A FULLWIDTH LATIN CAPITAL LETTER J.
+  it('M2-AC02/2 the CLI stores the NFC form, so a look-alike non-ASCII address is its own row and never borrows the ASCII one', async () => {
+    // NFC, not NFKC (R5 rev 3). Under NFKC the full-width `Ｊ` and the `ﬁ`
+    // ligature would fold onto the ASCII spelling, and listing `john.doe+x@…`
+    // would admit a different mailbox. Under NFC each is listed, or not, on its own.
+    const ascii = await allowlistAdd(db, { email: ' John.Doe+x@Example.COM ', reason: 'ascii', addedBy: 'founder' });
+    expect(ascii.entry.emailNorm).toBe('john.doe+x@example.com');
+
+    // U+FF2A FULLWIDTH LATIN CAPITAL LETTER J, pasted from a message.
     const pasted = 'Ｊohn.Doe+x@Example.COM ';
-    const added = await allowlistAdd(db, { email: pasted, reason: 'pasted from a message', addedBy: 'founder' });
-    expect(added.entry.emailNorm).toBe('john.doe+x@example.com');
-    expect(added.entry.emailNorm).toBe(normalizeEmail(pasted));
+    const lookAlike = await allowlistAdd(db, { email: pasted, reason: 'pasted from a message', addedBy: 'founder' });
+    // The CLI stores the NFC form: trimmed and lower-cased, the code point intact.
+    expect(lookAlike.entry.emailNorm).toBe('ｊohn.doe+x@example.com');
+    expect(lookAlike.entry.emailNorm).toBe(normalizeEmail(pasted));
+    // A row of its own, not an update of the ASCII one.
+    expect(lookAlike.outcome).toBe('added');
+    expect((await withClientAt(db.urls.migrator, (client) => listAllowlist(client))).length).toBe(2);
 
-    // The same address in a second spelling updates the one row instead of adding another.
-    const second = await allowlistAdd(db, { email: 'JOHN.DOE+X@example.com', reason: 'again', addedBy: 'operator' });
-    expect(second.outcome).toBe('updated');
-    expect((await withClientAt(db.urls.migrator, (client) => listAllowlist(client))).length).toBe(1);
-
-    // And the gate's own lookup finds it by the same normal form.
+    // The gate's own lookup separates them: the ASCII key finds the ASCII row only.
     const found = await withClientAt(db.urls.api, async (client) => {
       const { rows } = await client.query<{ email_norm: string }>(
         'SELECT email_norm FROM app.sign_in_allowlist WHERE email_norm = $1',
         [normalizeEmail(' john.DOE+x@EXAMPLE.com')],
       );
-      return rows[0]?.email_norm;
+      return rows.map((row) => row.email_norm);
     });
-    expect(found).toBe('john.doe+x@example.com');
+    expect(found).toEqual(['john.doe+x@example.com']);
+
+    // And an address nobody listed stays unlisted, however much it looks like one
+    // that is: U+FB01 LATIN SMALL LIGATURE FI against a listed `afile@…`.
+    await allowlistAdd(db, { email: 'afile@example.com', reason: 'ascii', addedBy: 'founder' });
+    const ligature = await withClientAt(db.urls.api, async (client) => {
+      const { rows } = await client.query<{ email_norm: string }>(
+        'SELECT email_norm FROM app.sign_in_allowlist WHERE email_norm = $1',
+        [normalizeEmail('Aﬁle@Example.com')],
+      );
+      return rows.map((row) => row.email_norm);
+    });
+    expect(ligature, 'a ligature address does not match a listed ASCII one').toEqual([]);
+
     await withClientAt(db.urls.migrator, (client) => client.query('DELETE FROM app.sign_in_allowlist'));
   });
 });
