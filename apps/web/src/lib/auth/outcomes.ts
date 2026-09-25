@@ -31,8 +31,6 @@
  * also lets the tests describe an error without building a library object.
  */
 
-import { DEFAULT_NEXT_PATH } from './next-path';
-
 /** Every outcome code, in the order the copy and the tests list them. */
 export const OUTCOMES = [
   'cancelled',
@@ -114,12 +112,14 @@ export function outcomeFromExchangeError(error: unknown): Outcome {
  * the host always comes from the environment and never from a request header
  * (R12).
  *
- * `next` is left out when it is the default, so the common redirect is the bare
- * `/internal/sign-in` and the URL stays readable in a log or a screenshot.
+ * A `next` that is given is always carried, even when it happens to equal the
+ * default: the proxy's contract is that its redirect names the path that was
+ * asked for (`?next=<path+query>`), and a caller with nothing to return to —
+ * sign-out, a refused callback — simply passes none.
  */
 export function signInPath({ next, outcome }: { next?: string | null; outcome?: Outcome | null } = {}): string {
   const query = new URLSearchParams();
-  if (typeof next === 'string' && next !== '' && next !== DEFAULT_NEXT_PATH) query.set('next', next);
+  if (typeof next === 'string' && next !== '') query.set('next', next);
   if (outcome != null) query.set('outcome', outcome);
 
   const search = query.toString();

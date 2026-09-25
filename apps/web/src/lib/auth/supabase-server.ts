@@ -88,11 +88,31 @@ export function sessionCookieOptions(secure: boolean): CookieOptions {
 }
 
 /**
+ * Wringy's cookie options laid over whatever the library computed for each
+ * cookie it wants to write.
+ *
+ * This is the guarantee that a library default — notably `httpOnly: false`,
+ * which `@supabase/ssr` chooses because it assumes a browser client — can never
+ * reach a real `Set-Cookie`. Kept as its own pure function so that guarantee can
+ * be tested without constructing a client.
+ */
+export function withSessionCookieOptions(
+  cookiesToSet: readonly { name: string; value: string; options: CookieOptions }[],
+  secure: boolean,
+): { name: string; value: string; options: CookieOptions }[] {
+  const options = sessionCookieOptions(secure);
+  return cookiesToSet.map(({ name, value, options: libraryOptions }) => ({
+    name,
+    value,
+    options: { ...libraryOptions, ...options },
+  }));
+}
+
+/**
  * A request-level Supabase client over the cookies `cookies` reads and writes.
  *
- * The `setAll` wrapper re-applies `sessionCookieOptions` on top of whatever the
- * library computed, so a library default (notably `httpOnly: false`) can never
- * reach a real `Set-Cookie`. The caller's `setAll` still receives the library's
+ * The `setAll` wrapper re-applies `sessionCookieOptions` through
+ * `withSessionCookieOptions`. The caller's `setAll` still receives the library's
  * headers argument, which the proxy and the handlers ignore in favour of
  * `noStore()` — applied unconditionally, because the library latches those
  * headers to the first write only (R20).
@@ -103,22 +123,12 @@ export function createRequestSupabase({
   cookies,
   secure,
 }: CreateRequestSupabaseOptions): RequestSupabase {
-  const options = sessionCookieOptions(secure);
-
   // Inside the function, once per request: see the header, and check:supabase-scope.
   return createServerClient(supabaseUrl, publishableKey, {
-    cookieOptions: options,
+    cookieOptions: sessionCookieOptions(secure),
     cookies: {
       getAll: cookies.getAll,
-      setAll: (cookiesToSet, headers) =>
-        cookies.setAll(
-          cookiesToSet.map(({ name, value, options: libraryOptions }) => ({
-            name,
-            value,
-            options: { ...libraryOptions, ...options },
-          })),
-          headers,
-        ),
+      setAll: (cookiesToSet, headers) => cookies.setAll(withSessionCookieOptions(cookiesToSet, secure), headers),
     },
   });
 }
