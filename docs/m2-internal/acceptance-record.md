@@ -223,7 +223,7 @@ the Real rows, and none of them has been executed.
 | | |
 |---|---|
 | Recorded | 2026-09-26, W5 review-fix worker, after the M2-02 adversarial review; the rows marked W6 were re-taken by the W6 fix worker after the two independent reviews of the integrated tree |
-| Branch | `feat/m2-02` (not merged). Each row below names the commit it was taken on: `91c257a` is the W5 review-fix head, `8899217` the W6 fix head. The W1–W3 commits are `6c27eae..91c257a` |
+| Branch | `feat/m2-02` (not merged). Each row below names the commit it was taken on: `91c257a` is the W5 review-fix head; `8899217` is the last W6 commit that changed code or tests, which is where the W6 rows were taken. The commits after it are documentation only, and every command in the row below was re-run green on the branch head. The W1–W3 commits are `6c27eae..91c257a` |
 | Executed by | Agent runs of M2-02 (W1 db/config, W2 api, W3 web, W5 review fixes, W6 review fixes). **No founder step is recorded here** |
 | Runtime | Node 24.21.0 (root `.npmrc` `use-node-version`), pnpm 10.33.0; PostgreSQL 17.10 through embedded-postgres locally; Chromium only |
 | Migration head | `0010_profiles_column_grants` (`packages/db/src/expected-head.ts`); `0009_sign_in_allowlist` for the rows taken on `91c257a` |
