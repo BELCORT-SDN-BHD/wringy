@@ -86,9 +86,9 @@ export interface SignInIdentity {
   /**
    * The verified `email` claim as the provider spells it — the notification
    * address (§3.2, D7). **Not** the allow-list's normal form: `normalizeEmail` is
-   * NFKC plus lower-case, which rewrites some addresses into a different mailbox,
-   * and it exists to answer one question (is this address listed?), not to decide
-   * where a person is written to.
+   * NFC, trim and lower-case, and it exists to answer one question (is this
+   * address listed?), not to decide where a person is written to. Mailbox case can
+   * matter to a provider, so what goes in the row is what the token said.
    */
   contactEmail: string;
   /** The provider's display name, for display only; null when absent. */

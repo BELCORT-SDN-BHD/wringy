@@ -124,9 +124,9 @@ export const identityRoutes: FastifyPluginAsyncZod<IdentityRoutesOptions> = asyn
           }
           // The verified address as the provider spells it, not the comparison
           // key: `contact_email` is copied from the verified token and is the
-          // notification address (§3.2, D7, §4.4), while normalisation is NFKC,
-          // which rewrites — a ligature becomes its letters, U+2024 ONE DOT LEADER
-          // becomes `.`, so the normal form can name a different mailbox.
+          // notification address (§3.2, D7, §4.4), while normalisation is NFC,
+          // trim and lower-case — and a provider may treat mailbox case as
+          // significant, so the normal form is not where anybody is written to.
           // `emailNorm` answers the allow-list question and nothing else (R5).
           return writeProfileOnSignIn(client, {
             id: actor.userId,

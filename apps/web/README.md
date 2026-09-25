@@ -184,23 +184,39 @@ In `demo` mode: nothing. `NextResponse.next()`, no cookie read, no header change
 
 In `internal` mode: `/` → 307 `/internal`; any path outside `/internal`, `/internal/…` and
 `/auth/…` → rewritten to the internal not-found page; `GET`/`HEAD` on `/internal` and
-`/internal/…` (except the public sign-in page and the not-found page) → refresh the session, copy
-any refreshed cookies onto both the forwarded request and the response, apply the no-store headers
-when anything was written, and set `x-wringy-access-token`; no session → 307 to the sign-in page
-(`outcome=session_ended` when a session cookie existed). Everything else is passed through.
+`/internal/…` (except the public sign-in page and the not-found page) → refresh the session under an
+overall 8 s deadline, copy any refreshed cookies onto both the forwarded request and the response,
+apply the no-store headers, and set `x-wringy-access-token`; no session → 307 to the sign-in page
+(`outcome=session_ended` when a session cookie existed, `unexpected` when the Auth server could not
+answer or the deadline expired). Everything else is passed through.
 
-Two invariants worth knowing before changing it:
+The matcher excludes Next's own assets, the favicon and paths **ending** in a static-asset suffix
+(`ico|png|svg|jpg|jpeg|gif|webp|txt|xml|map|js|css|woff|woff2`), not every path containing a dot: a
+dotted page path such as `/campaigns/a.b` must be matched, or it reaches the demo catch-all on an
+internal origin. `src/proxy.test.ts` compiles the constant with Next's own `getMiddlewareMatchers`.
+
+Four invariants worth knowing before changing it:
 
 - `x-wringy-access-token` is **deleted from every matched request** before anything else happens,
   and set again only from a session the proxy just verified. A client cannot inject an identity.
 - every redirect's host comes from `APP_ORIGIN`, never from `Host` or `X-Forwarded-Host`.
+- every response the proxy produces in internal mode carries
+  `Content-Security-Policy: frame-ancestors 'none'` and `X-Frame-Options: DENY`, and every response
+  it produces for an authenticated `/internal` path is `no-store` whether or not a cookie was
+  written this time.
+- the refresh cannot hang the page and cannot half-write a session: it runs under
+  `REFRESH_DEADLINE_MS`, whose `AbortController` is the client's own `signal`, and a deadline or a
+  throw applies no buffered cookie write at all (a throw expires every `sb-*` cookie instead, the
+  way the sign-out fallback does).
 
 A Server Component never creates a Supabase client. It cannot set cookies, so a refresh there would
 silently drop the rotated refresh token; that is why the token arrives in a header instead. For the
-same reason the probe handler reads the stored access token straight out of the session cookie
-(`readStoredAccessToken`, using `@supabase/ssr`'s own public helpers) rather than through
-`getSession()` — or `getClaims()` with no argument, which calls `getSession()` and so inherits the
-same refresh.
+same reason the probe handler **and the proxy** read the stored access token straight out of the
+session cookie (`readStoredAccessToken`, using `@supabase/ssr`'s own public helpers) rather than
+through `getSession()`. `getSession()` refreshes whenever the stored token is inside auth-js's 90 s
+margin, so calling it after `getClaims()` rotates the refresh token a second time in one request;
+two tabs reloading together then burn each other's grace and the Auth server ends the session. The
+proxy therefore calls `getClaims()` once and reads the cookie that call has already updated.
 
 ### Environment
 
