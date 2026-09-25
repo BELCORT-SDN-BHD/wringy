@@ -12,7 +12,7 @@ import { createServer } from 'node:net';
 import { normalizeEmail } from '@wringy/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import type { MeResponse, SignInResponse } from '@wringy/contracts';
+import type { MeResponse, Profile, SignInResponse } from '@wringy/contracts';
 
 import { buildApp, CACHE_CONTROL } from '../../src/app';
 import { createApiPool } from '../../src/database';
@@ -42,13 +42,18 @@ const LISTED_NORM = normalizeEmail(LISTED_EMAIL);
 /** What `app.profiles.contact_email` must hold: the verified claim, only trimmed. */
 const LISTED_VERIFIED = LISTED_EMAIL.trim();
 /**
- * An address whose normal form names a DIFFERENT mailbox: U+FB01 is the `fi`
- * ligature, and NFKC expands it. `a\uFB01le@…` and `afile@…` are two mailboxes to
- * a provider, so the notification address must keep the first spelling.
+ * Two look-alike addresses, for the rule the normal form is chosen by (R5 rev 3:
+ * NFC, not NFKC). U+FB01 is the `fi` ligature and U+FF43 is the full-width `c`;
+ * NFKC would fold each onto its ASCII spelling, so listing `afile@…` or
+ * `alice@…` would admit a mailbox nobody invited. Under NFC they are other
+ * addresses, and an address nobody listed is refused.
  */
 const LIGATURE_USER = '66666666-6666-4666-8666-666666666666';
 const LIGATURE_EMAIL = 'A\uFB01le@Example.test';
 const LIGATURE_NORM = normalizeEmail(LIGATURE_EMAIL);
+const FULLWIDTH_USER = '55555555-5555-4555-8555-555555555555';
+const FULLWIDTH_EMAIL = 'Ali\uFF43e@Example.test';
+const FULLWIDTH_NORM = normalizeEmail(FULLWIDTH_EMAIL);
 
 interface ProfileRow {
   contact_email: string;
@@ -166,29 +171,58 @@ describe('M2-AC02 POST /identity/sign-in', () => {
     expect(await profileRow(LISTED_USER)).toHaveLength(1);
   });
 
-  it('M2-AC02/2 sign-in gate: normalisation decides the gate, never what the notification address becomes', async () => {
-    // NFKC is the right rule for "is this address on the list?" and the wrong rule
-    // for "where do we write to this person?": `afile@…` is not `a\uFB01le@…`.
-    expect(LIGATURE_NORM).toBe('afile@example.test');
-    expect(LIGATURE_NORM).not.toBe(LIGATURE_EMAIL.toLowerCase());
+  it('M2-AC02/2 sign-in gate: a listed ASCII address never admits a look-alike non-ASCII mailbox (NFC, not NFKC)', async () => {
+    // R5 rev 3. Under NFKC the gate's key for the U+FB01 ligature address would be
+    // `afile@example.test` and the key for the full-width `c` one would be
+    // `alice@example.test`, so listing the ASCII address would let a mailbox nobody
+    // invited sign in — and the two would share one allow-list row, so removing one
+    // could not remove the other. Under NFC the normal form keeps the code point,
+    // and an address nobody listed is refused.
+    const listed = ['afile@example.test', 'alice@example.test'];
+    for (const email of listed) {
+      await asMigrator(
+        db,
+        `INSERT INTO app.sign_in_allowlist (email_norm, reason, added_by) VALUES ($1, 'integration test', 'wringy-test')
+         ON CONFLICT (email_norm) DO NOTHING`,
+        [email],
+      );
+    }
+    // The normal form is the verified spelling, trimmed and lower-cased: nothing
+    // was folded away, so neither key is one of the listed ASCII keys.
+    expect(LIGATURE_NORM).toBe(LIGATURE_EMAIL.toLowerCase());
+    expect(LIGATURE_NORM).not.toBe('afile@example.test');
+    expect(FULLWIDTH_NORM).not.toBe('alice@example.test');
+
+    for (const [subject, email] of [
+      [LIGATURE_USER, LIGATURE_EMAIL],
+      [FULLWIDTH_USER, FULLWIDTH_EMAIL],
+    ] as const) {
+      const response = await signIn(await identity.signToken({ sub: subject, sessionId: SESSION, email }));
+
+      expect(response.statusCode, email).toBe(403);
+      expect(response.json(), email).toEqual(errorBody('sign_in.not_allowed'));
+      expect(await profileRow(subject), email).toEqual([]);
+    }
+
+    // Listing the address as it is actually spelled admits it: the allow-list CLI
+    // stores the same NFC form the gate asks with (packages/db/src/allowlist.ts).
+    // `contact_email` still keeps the provider's spelling character for character,
+    // because the normal form is a comparison key and not an address.
     await asMigrator(
       db,
       `INSERT INTO app.sign_in_allowlist (email_norm, reason, added_by) VALUES ($1, 'integration test', 'wringy-test')
        ON CONFLICT (email_norm) DO NOTHING`,
       [LIGATURE_NORM],
     );
-
-    const token = await identity.signToken({ sub: LIGATURE_USER, sessionId: SESSION, email: LIGATURE_EMAIL });
-    const response = await signIn(token);
-
-    // The list was matched on the normal form …
-    expect(response.statusCode).toBe(200);
-    // … and the row holds what the provider verified, character for character.
+    const admitted = await signIn(
+      await identity.signToken({ sub: LIGATURE_USER, sessionId: SESSION, email: LIGATURE_EMAIL }),
+    );
+    expect(admitted.statusCode).toBe(200);
     const [row] = await profileRow(LIGATURE_USER);
     expect(row?.contact_email).toBe(LIGATURE_EMAIL);
-    expect(row?.contact_email).not.toBe(LIGATURE_NORM);
+    // The ASCII neighbour it looks like is a different subject, still unclaimed.
+    expect(await profileRow(FULLWIDTH_USER)).toEqual([]);
   });
-
   it('M2-AC02/2 sign-in gate: a token with no email claim is 401, and a user_metadata.email that is listed does not open the gate', async () => {
     // Listed again, because the previous row proved that removing it signs nobody
     // out; this row is what the metadata claim would have to borrow.
@@ -302,6 +336,72 @@ describe('M2-AC02 a disabled or missing profile', () => {
       // No private data escapes with the refusal.
       expect(response.body, call.url).not.toContain('disabled@example.test');
       expect(response.body, call.url).not.toContain('Morning brew launch');
+    }
+  });
+
+  it('M2-AC02/2 sign-in gate: an account disabled after the hook read it is still refused 403 account.disabled by the command itself', async () => {
+    // The race R6 closes: the hook reads `app.profiles` on its own connection,
+    // before the command opens its transaction, so an operator disabling the
+    // account in between would be invisible to the work that read allowed —
+    // `POST /identity/sign-in` would upsert over it and stamp a fresh sign-in, and
+    // the probe would answer ok. `app.inject` cannot interleave a real UPDATE
+    // between the hook and the command, so the race is arranged the other way
+    // round: the row IS disabled, and the hook is the thing that says `active`.
+    // Everything else — the routes, the transactions, the locks, the SQL — is real.
+    const seenByTheHook: Profile = {
+      id: disabled.userId,
+      displayName: disabled.displayName,
+      contactEmail: disabled.contactEmail,
+      status: 'active',
+      lastSignInAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+    };
+    const stale = await buildTestApi(db.urls.api, {
+      identity,
+      liveness: stubLiveness('live'),
+      readProfile: async (userId) => (userId === disabled.userId ? seenByTheHook : null),
+    });
+    try {
+      // The hook let it through, so the guard being tested is the only thing left.
+      for (const call of [
+        { method: 'POST' as const, url: '/identity/sign-in' },
+        { method: 'POST' as const, url: '/me/session/probe' },
+      ]) {
+        const response = await stale.app.inject({ ...call, headers: disabled.headers });
+        expect(response.statusCode, call.url).toBe(403);
+        expect(response.json(), call.url).toEqual(errorBody('account.disabled'));
+        expect(response.body, call.url).not.toContain(disabled.contactEmail);
+      }
+
+      // And the refusal wrote nothing: the row is still disabled, with the address
+      // and the sign-in stamp the arrangement gave it.
+      const [row] = await asMigrator<ProfileRow>(
+        db,
+        'SELECT contact_email, display_name, status, last_sign_in_at FROM app.profiles WHERE id = $1',
+        [disabled.userId],
+      );
+      expect(row).toMatchObject({ status: 'disabled', contact_email: disabled.contactEmail });
+
+      // A profile that has gone between the hook's read and the command is the
+      // hook's own answer, from the same guard.
+      const vanished = await buildTestApi(db.urls.api, {
+        identity,
+        liveness: stubLiveness('live'),
+        readProfile: async () => ({ ...seenByTheHook, id: noProfile.userId }),
+      });
+      try {
+        const response = await vanished.app.inject({
+          method: 'POST',
+          url: '/me/session/probe',
+          headers: noProfile.headers,
+        });
+        expect(response.statusCode).toBe(403);
+        expect(response.json()).toEqual(errorBody('profile.missing'));
+      } finally {
+        await vanished.close();
+      }
+    } finally {
+      await stale.close();
     }
   });
 

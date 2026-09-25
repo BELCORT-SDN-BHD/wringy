@@ -61,6 +61,25 @@ export async function lockProfileById(client: Queryable, id: string): Promise<Pr
   return rows[0] === undefined ? null : toProfile(rows[0]);
 }
 
+/**
+ * The row's `status` re-read with `FOR SHARE` on a command's own transaction
+ * client (M2-02 R6). Null when the row is gone.
+ *
+ * The authentication hook already refused a disabled profile, but it read the row
+ * on another connection before the command opened its transaction, so an operator
+ * disabling the account in between would be invisible to the work the read
+ * allowed. `FOR SHARE` (not `FOR UPDATE`: the command changes nothing about the
+ * profile, it only insists the row stays as it read it) makes the answer belong to
+ * the same transaction as the work.
+ */
+export async function lockProfileStatusForShare(client: Queryable, id: string): Promise<ProfileStatus | null> {
+  const { rows } = await client.query<{ status: ProfileStatus }>(
+    `SELECT status FROM app.profiles WHERE id = $1 FOR SHARE`,
+    [id],
+  );
+  return rows[0]?.status ?? null;
+}
+
 export interface SignInIdentity {
   /** The verified token subject; the primary key. */
   id: string;

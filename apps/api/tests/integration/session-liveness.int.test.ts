@@ -16,7 +16,12 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { SessionProbeResponse } from '@wringy/contracts';
 
-import { authServerLiveness, databaseLiveness, type LivenessClient } from '../../src/session-liveness';
+import {
+  authServerLiveness,
+  databaseLiveness,
+  type LivenessClient,
+  type SessionLiveness,
+} from '../../src/session-liveness';
 import { createApiPool } from '../../src/database';
 import { errorBody } from '../../src/errors';
 import { createTestIdentity, fakeAuthUserServer, TEST_PUBLISHABLE_KEY, type FakeAuthUserServer, type TestIdentity } from './jwt-support';
@@ -249,5 +254,99 @@ describe('M2-AC02 session liveness, auth_server adapter', () => {
     expect(rows.statusCode).toBe(200);
     fake.respond({ status: 200, body: { id: caller.userId } });
     expect((await probe()).statusCode).toBe(200);
+  });
+});
+
+describe('M2-AC02 every command asks the liveness question on its own transaction client', () => {
+  let db: TestDatabase;
+  let identity: TestIdentity;
+  let caller: SignedIn;
+
+  beforeAll(async () => {
+    db = await createTestDatabase();
+    identity = await createTestIdentity();
+    caller = await signedIn(db, identity, {
+      userId: '11111111-1111-4111-8111-111111111111',
+      sessionId: '22222222-2222-4222-8222-222222222222',
+      contactEmail: 'transaction.client@example.test',
+    });
+  });
+
+  afterAll(async () => {
+    await db?.drop();
+  });
+
+  interface Recorded {
+    /** True when the command handed the port a client at all. */
+    gotClient: boolean;
+    /** True when `pg_stat_activity` says that client is inside an open transaction. */
+    midTransaction: boolean;
+  }
+
+  /**
+   * A liveness port that answers `live` only when it was given the command's own
+   * transaction client AND that connection is mid-transaction — so a command that
+   * checked liveness on a second connection, or before `BEGIN`, is refused.
+   *
+   * `xact_start < query_start` is the test: in an implicit single-statement
+   * transaction PostgreSQL sets both to the same instant, while inside an explicit
+   * one the transaction started before this statement did. The column is aliased
+   * `live` because that is the one shape `LivenessClient` speaks (it exists so the
+   * port never has to know about `pg`), which is also why this double is honest:
+   * it is exactly what the database adapter is handed.
+   */
+  const recordingLiveness = (log: Recorded[]): SessionLiveness => ({
+    check: async (_actor, client) => {
+      if (client === undefined) {
+        log.push({ gotClient: false, midTransaction: false });
+        return 'unavailable';
+      }
+      const { rows } = await client.query(
+        `SELECT (xact_start < query_start) AS live FROM pg_stat_activity WHERE pid = pg_backend_pid()`,
+        [],
+      );
+      const midTransaction = rows[0]?.live === true;
+      log.push({ gotClient: true, midTransaction });
+      return midTransaction ? 'live' : 'unavailable';
+    },
+  });
+
+  for (const { url, expected } of [
+    { url: '/identity/sign-in', expected: 200 },
+    { url: '/me/session/probe', expected: 200 },
+  ] as const) {
+    it(`M2-AC02/2 revoked: POST ${url} checks liveness on the command's own connection, inside its open transaction`, async () => {
+      const log: Recorded[] = [];
+      const api = await buildTestApi(db.urls.api, { identity, liveness: recordingLiveness(log) });
+      try {
+        const response = await api.app.inject({ method: 'POST', url, headers: caller.headers });
+
+        // The port only answered `live` because both halves held, so a green status
+        // here IS the assertion; the log says which half was observed.
+        expect(log).toEqual([{ gotClient: true, midTransaction: true }]);
+        expect(response.statusCode).toBe(expected);
+      } finally {
+        await api.close();
+      }
+    });
+  }
+
+  it('M2-AC02/2 revoked: called as a plain preHandler the same port gets no client, which is how the rows above can fail', async () => {
+    // The negative control: `requireLiveSession` with two arguments is an ordinary
+    // Fastify hook and passes no client, so a command that guarded itself that way
+    // would be recorded as `gotClient: false` and refused 503. Without this row the
+    // two above could pass for a port that ignored its argument.
+    const log: Recorded[] = [];
+    const port = recordingLiveness(log);
+    const actor = {
+      userId: caller.userId,
+      sessionId: caller.sessionId,
+      email: caller.contactEmail,
+      displayName: caller.displayName,
+      token: caller.token,
+      expiresAt: new Date(Date.now() + 3_600_000),
+    };
+    expect(await port.check(actor)).toBe('unavailable');
+    expect(log).toEqual([{ gotClient: false, midTransaction: false }]);
   });
 });

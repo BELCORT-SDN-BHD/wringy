@@ -23,7 +23,7 @@ import {
 } from '@wringy/db/testing';
 
 import { buildApp, type ApiApp, type BuildAppOptions } from '../../src/app';
-import { createSupabaseAuthenticate, type AuthenticateHook } from '../../src/authenticate';
+import { createSupabaseAuthenticate, type AuthenticateHook, type ReadProfile } from '../../src/authenticate';
 import { createApiPool, withDatabase } from '../../src/database';
 import { readProfileById } from '../../src/profiles';
 import type { LivenessResult, SessionLiveness } from '../../src/session-liveness';
@@ -80,6 +80,16 @@ export interface BuildTestApiOptions extends Omit<BuildAppOptions, 'pool' | 'log
   liveness?: SessionLiveness;
   /** Replaces the hook wholesale, for a test about the hook point itself. */
   authenticate?: AuthenticateHook;
+  /**
+   * The hook's profile read; the app's own pool when omitted.
+   *
+   * The seam exists for one kind of row: the commands re-read the account inside
+   * their own transaction (M2-02 R6), and the only way to prove that guard is to
+   * make the hook disagree with the database — a hook that saw `active` while the
+   * row says `disabled`, which is exactly the race an operator disabling an
+   * account mid-request creates. Nothing about verification is stubbed by it.
+   */
+  readProfile?: ReadProfile;
 }
 
 /**
@@ -87,7 +97,7 @@ export interface BuildTestApiOptions extends Omit<BuildAppOptions, 'pool' | 'log
  * name wringy-api), without listening; drive it with app.inject().
  */
 export async function buildTestApi(databaseUrl: string, options: BuildTestApiOptions = {}): Promise<TestApi> {
-  const { identity, liveness = stubLiveness('live'), authenticate, ...rest } = options;
+  const { identity, liveness = stubLiveness('live'), authenticate, readProfile, ...rest } = options;
   const logs = new LogCapture();
   const pool = createApiPool(databaseUrl, () => {});
   const hook =
@@ -99,7 +109,7 @@ export async function buildTestApi(databaseUrl: string, options: BuildTestApiOpt
       : createSupabaseAuthenticate({
           issuer: identity.issuer,
           jwks: identity.jwks,
-          readProfile: (userId) => withDatabase(pool, (client) => readProfileById(client, userId)),
+          readProfile: readProfile ?? ((userId) => withDatabase(pool, (client) => readProfileById(client, userId))),
         }));
   const app = buildApp({ pool, logLevel: 'info', logStream: logs, authenticate: hook, liveness, ...rest });
   return {

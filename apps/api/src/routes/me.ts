@@ -4,6 +4,8 @@ import type { Pool } from '@wringy/db';
 
 import { actorOf, profileOf, VARY_AUTHORIZATION } from '../authenticate';
 import { withTransaction } from '../database';
+import { errorBody } from '../errors';
+import { lockProfileStatusForShare } from '../profiles';
 import { requireLiveSession, type SessionLiveness } from '../session-liveness';
 
 export interface MeRoutesOptions {
@@ -22,9 +24,11 @@ export interface MeRoutesOptions {
  * - `POST /me/session/probe` is the **reserved fund-sensitive stub** (M2-AC02/2).
  *   It changes nothing. It exists to prove that `requireLiveSession` really runs
  *   inside a command's transaction: it opens one, asks the liveness question on
- *   that same connection, and answers the database clock at the moment of the
- *   check. A session that has been signed out gets 401 `session.revoked` instead,
- *   and M3's real fund-sensitive commands reuse exactly this shape.
+ *   that same connection, re-reads the account's own `status` there with
+ *   `FOR SHARE`, and answers the database clock at the moment of the check. A
+ *   session that has been signed out gets 401 `session.revoked` instead, an
+ *   account disabled since the hook's read gets 403 `account.disabled`, and M3's
+ *   real fund-sensitive commands reuse exactly this shape.
  */
 export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { pool, liveness }) => {
   const liveSession = requireLiveSession(liveness);
@@ -68,6 +72,20 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
         // signed out between the answer and the work the answer allows.
         const refused = await liveSession(request, reply, client);
         if (refused !== undefined) return { refused };
+        // And the account itself is re-read on the same client, with FOR SHARE:
+        // the hook read the profile on another connection before this transaction
+        // opened, so an operator disabling the account in between would otherwise
+        // be invisible to the command the read allowed (R6, ruling D12). A row
+        // that has gone is `profile.missing`, the same answer the hook gives.
+        const status = await lockProfileStatusForShare(client, actorOf(request).userId);
+        if (status === 'disabled') {
+          request.log.info({ reason: 'account_disabled' }, 'request refused');
+          return { refused: reply.code(403).send(errorBody('account.disabled')) };
+        }
+        if (status === null) {
+          request.log.info({ reason: 'profile_missing' }, 'request refused');
+          return { refused: reply.code(403).send(errorBody('profile.missing')) };
+        }
         // The instant is the database's, read in the same transaction as the check.
         const { rows } = await client.query<{ checked_at: Date }>('SELECT now() AS checked_at');
         if (rows[0] === undefined) throw new Error('the clock row is missing');

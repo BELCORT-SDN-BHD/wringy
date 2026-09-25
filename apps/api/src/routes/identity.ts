@@ -36,7 +36,10 @@ class SignInRefused extends Error {
  * 1. the session-liveness check, so a token whose session has already been signed
  *    out writes nothing at all;
  * 2. `SELECT … FOR UPDATE` on the profile, so two callbacks arriving together
- *    cannot both conclude "no profile yet";
+ *    cannot both conclude "no profile yet" — and, because the locked row is the
+ *    one this transaction will write, the row's own `status` decides: a profile
+ *    disabled between the hook's read and this lock is refused 403
+ *    `account.disabled` here, before the upsert (R6, ruling D12);
  * 3. no profile → the allow-list, read by the address's normal form. Not listed is
  *    a rollback and 403 `sign_in.not_allowed`: no profile row, nothing to clean up;
  * 4. the upsert, which writes the verified address, the display name and
@@ -108,6 +111,14 @@ export const identityRoutes: FastifyPluginAsyncZod<IdentityRoutesOptions> = asyn
           // The lock serialises two sign-ins of the same subject; a subject with no
           // row yet is the only one the allow-list is asked about.
           const existing = await lockProfileById(client, actor.userId);
+          // The hook already refused a disabled profile — but it read the row on
+          // another connection, before this transaction opened. An operator
+          // disabling the account in between would otherwise be overwritten by the
+          // upsert below and stamped as a fresh sign-in. The locked row decides
+          // (R6, D12), and the refusal rolls the transaction back.
+          if (existing !== null && existing.status === 'disabled') {
+            throw new SignInRefused(403, 'account.disabled', 'profile disabled between the hook read and the commit');
+          }
           if (existing === null && !(await isAllowlisted(client, emailNorm))) {
             throw new SignInRefused(403, 'sign_in.not_allowed', 'address not on the sign-in allow-list');
           }
