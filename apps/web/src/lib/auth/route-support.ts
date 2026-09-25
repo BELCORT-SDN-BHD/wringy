@@ -21,7 +21,12 @@ import { internalAuthEnv, type InternalAuthEnv } from './env';
 import { isInternalMode } from './mode';
 import { noStore } from './no-store';
 import { checkOrigin } from './origin';
-import { isSupabaseAuthCookie, sessionCookieOptions, type RequestCookieAdapter } from './supabase-server';
+import {
+  isSupabaseAuthCookie,
+  sessionCookieOptions,
+  type RequestCookieAdapter,
+  type RequestSupabase,
+} from './supabase-server';
 
 /** The error envelope the API uses, so the web speaks one shape everywhere. */
 export function errorResponse(status: number, code: string, message: string): NextResponse {
@@ -91,15 +96,15 @@ interface CookieBearing {
 }
 
 export interface CookieJar {
-  /** The adapter to hand `createRequestSupabase`. */
+  /** The adapter to hand `createRequestSupabase`; its `getAll` reports the buffered writes too. */
   readonly adapter: RequestCookieAdapter;
-  /** A cookie this request arrived with. */
+  /** A cookie this request arrived with (not one buffered for the response). */
   read(name: string): string | undefined;
   /** Buffer a write. */
   set(name: string, value: string, options: Record<string, unknown>): void;
   /** Buffer an expiry (`maxAge: 0`) for a cookie, whether or not it arrived. */
   expire(name: string, options: Record<string, unknown>): void;
-  /** Expire every `sb-*` cookie this request arrived with, for the sign-out fallback (R10). */
+  /** Expire every `sb-*` cookie the browser would be left holding — arrived or buffered — for the sign-out fallback (R10). */
   expireSupabaseCookies(secure: boolean): void;
   /** True once anything has been buffered, which is what makes a response no-store. */
   wrote(): boolean;
@@ -107,9 +112,35 @@ export interface CookieJar {
   applyTo<T extends CookieBearing>(response: T): T;
 }
 
+/** A buffered write that takes a cookie away rather than giving it a value. */
+function isExpiry({ value, options }: BufferedCookie): boolean {
+  return value === '' || options.maxAge === 0;
+}
+
 /**
  * A jar over this request's cookies. Reads come from `next/headers`; writes are
  * buffered until `applyTo`.
+ *
+ * The jar keeps two views on purpose, because two different questions are asked
+ * of it:
+ *
+ *  - `read` answers "what did the browser send?", which is what the return-path
+ *    cookie and the probe's token read want.
+ *  - `adapter.getAll` and `expireSupabaseCookies` answer "what will the browser
+ *    hold once this response is applied?" — the incoming cookies with every
+ *    buffered write laid over them, an expiry removing a name rather than giving
+ *    it an empty value.
+ *
+ * The second view is not a nicety. `@supabase/ssr`'s `applyServerStorage` decides
+ * what to remove with `removeCookies.filter((name) => currentByName.has(name))`,
+ * where `currentByName` is built from exactly this `getAll`. A `getAll` that
+ * reported only the incoming cookies would tell the library that the session it
+ * just wrote through `setAll` does not exist, so `signOut()` would succeed while
+ * removing nothing — and the refused callback (`sign_in.not_allowed`,
+ * `account.disabled`, an unreachable API) would hand the browser a session for an
+ * account the API refused, which is precisely what R10 and §3 step 3 forbid. The
+ * sign-out handler never showed it, because there the session cookies do arrive
+ * with the request.
  */
 export async function cookieJar(): Promise<CookieJar> {
   const store = await cookies();
@@ -120,9 +151,19 @@ export async function cookieJar(): Promise<CookieJar> {
     buffered.push({ name, value, options });
   };
 
+  /** The cookies the browser will hold after `applyTo`: the incoming ones, then every buffered write. */
+  const effective = (): { name: string; value: string }[] => {
+    const byName = new Map(incoming.map(({ name, value }) => [name, value]));
+    for (const cookie of buffered) {
+      if (isExpiry(cookie)) byName.delete(cookie.name);
+      else byName.set(cookie.name, cookie.value);
+    }
+    return [...byName].map(([name, value]) => ({ name, value }));
+  };
+
   return {
     adapter: {
-      getAll: () => incoming,
+      getAll: () => effective(),
       setAll: (cookiesToSet) => {
         for (const { name, value, options } of cookiesToSet) {
           set(name, value, options as Record<string, unknown>);
@@ -133,7 +174,7 @@ export async function cookieJar(): Promise<CookieJar> {
     set,
     expire: (name, options) => set(name, '', { ...options, maxAge: 0 }),
     expireSupabaseCookies: (secure) => {
-      for (const { name } of incoming) {
+      for (const { name } of effective()) {
         if (isSupabaseAuthCookie(name)) set(name, '', { ...sessionCookieOptions(secure), maxAge: 0 });
       }
     },
@@ -143,6 +184,33 @@ export async function cookieJar(): Promise<CookieJar> {
       return response;
     },
   };
+}
+
+/**
+ * Drop the local session again, and make sure the browser keeps nothing.
+ *
+ * `scope: 'local'` is explicit because supabase-js defaults to `global`, and
+ * signing every device out is not what a refusal on this one device should do
+ * (R10). The library can return an error without having cleared anything (a
+ * retryable Auth-server failure), so in that case the `sb-*` cookies are expired
+ * by Wringy's own code: a browser must not keep a session the API will refuse.
+ *
+ * Shared by `GET /auth/callback` and `GET /auth/end-session`, which reach it for
+ * the same reason — the API refused this account — and must not drift apart.
+ *
+ * Returns whether the library confirmed the sign-out, which is only ever used to
+ * choose between the `signed_out` and `signed_out_unconfirmed` wording.
+ */
+export async function signOutLocally(supabase: RequestSupabase, jar: CookieJar, secure: boolean): Promise<boolean> {
+  let confirmed = false;
+  try {
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    confirmed = error === null;
+  } catch {
+    confirmed = false;
+  }
+  if (!confirmed) jar.expireSupabaseCookies(secure);
+  return confirmed;
 }
 
 /**
