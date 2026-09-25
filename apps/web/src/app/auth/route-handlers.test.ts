@@ -62,6 +62,7 @@ const { POST: signIn } = await import('./sign-in/route');
 const { GET: callback } = await import('./callback/route');
 const { POST: signOut } = await import('./sign-out/route');
 const { POST: probe, probeResultOf } = await import('../(internal)/internal/session-probe/route');
+const { GET: endSession, endingOutcome } = await import('./end-session/route');
 
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const SUPABASE_URL = 'https://project.supabase.co';
@@ -516,6 +517,113 @@ describe('M2-AC02/2 revoked: the session probe proves a command re-checks livene
     expect(probeResultOf({ kind: 'error', status: 403, code: 'profile.missing' })).toBe('unauthenticated');
     for (const failure of ['api-unavailable', 'api-unreachable', 'unexpected'] as const) {
       expect(probeResultOf({ kind: 'failure', failure }), failure).toBe('unavailable');
+    }
+  });
+});
+
+
+describe('M2-AC02/2 disabled: GET /auth/end-session, the cookie write the /internal read cannot do', () => {
+  /** The session cookie as `@supabase/ssr` writes it, which is what the handler reads without refreshing. */
+  const storedSession = (accessToken: string) =>
+    `base64-${Buffer.from(JSON.stringify({ access_token: accessToken }), 'utf8').toString('base64url')}`;
+
+  const expired = (response: Response, name: string): boolean =>
+    response.headers
+      .getSetCookie()
+      .some((header) => header.startsWith(`${name}=;`) && /Max-Age=0/i.test(header));
+
+  it('M2-AC02/2 disabled: the demo build has no such endpoint, and nothing upstream is called', async () => {
+    vi.stubEnv('WRINGY_APP_MODE', 'demo');
+    const apiCalls = stubApi(() => json(200, {}));
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+
+    const response = await endSession();
+
+    expect(response.status).toBe(404);
+    expectNoStore(response);
+    expect(apiCalls).toHaveLength(0);
+    expect(calls.signOut).toEqual([]);
+  });
+
+  it('M2-AC02/2 disabled: a 403 account.disabled signs this device out and names the disabled outcome', async () => {
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const apiCalls = stubApi(() => json(403, { error: { code: 'account.disabled', message: 'x' } }));
+
+    const response = await endSession();
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal/sign-in?outcome=disabled`);
+    expectNoStore(response);
+    // The API decided, from the session the browser already had: one read, with the
+    // cookie's own token and no refresh.
+    expect(apiCalls).toHaveLength(1);
+    expect(apiCalls[0]?.url).toBe('http://127.0.0.1:3200/me');
+    expect((apiCalls[0]?.init.headers as Record<string, string>).authorization).toBe('Bearer token-abc');
+    // Local only: a refusal on this device must not sign the other devices out.
+    expect(calls.signOut).toEqual([{ scope: 'local' }]);
+  });
+
+  it('M2-AC02/2 disabled: a sign-out the library could not confirm still clears the session cookie', async () => {
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    stubApi(() => json(403, { error: { code: 'account.disabled', message: 'x' } }));
+    authBehaviour.signOut = () => ({ error: { message: 'the auth server is unwell' } });
+
+    const response = await endSession();
+
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal/sign-in?outcome=disabled`);
+    expect(expired(response, SESSION_COOKIE), 'the fallback expires the session cookie itself').toBe(true);
+  });
+
+  it('M2-AC02/2 disabled: no session cookie means nothing to end, and nothing is called', async () => {
+    const apiCalls = stubApi(() => json(200, {}));
+
+    const response = await endSession();
+
+    expect(response.status).toBe(303);
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal/sign-in`);
+    expect(apiCalls).toHaveLength(0);
+    expect(calls.signOut).toEqual([]);
+  });
+
+  it('M2-AC02/2 disabled: an answer that is not a refusal changes nothing, so a link here cannot sign anyone out', async () => {
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+    const apiCalls = stubApi(() => json(200, { profile: PROFILE, session: { checkedAt: '2026-09-25T01:00:00.000Z' } }));
+
+    const response = await endSession();
+
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal`);
+    expect(apiCalls).toHaveLength(1);
+    expect(calls.signOut, 'a live session is left alone').toEqual([]);
+    expect(response.headers.getSetCookie()).toEqual([]);
+  });
+
+  it('M2-AC02/2 disabled: a 503 leaves the session alone, because a blip says nothing about it', async () => {
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    stubApi(() => json(503, { error: { code: 'auth_unavailable', message: 'x' } }));
+
+    const response = await endSession();
+
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal`);
+    expect(calls.signOut).toEqual([]);
+  });
+
+  it('M2-AC02/2 disabled: the whole mapping — only a refusal about this session ends it', () => {
+    expect(endingOutcome({ kind: 'error', status: 403, code: 'account.disabled' })).toBe('disabled');
+    expect(endingOutcome({ kind: 'error', status: 401, code: 'auth.expired' })).toBe('session_ended');
+    expect(endingOutcome({ kind: 'error', status: 401, code: 'session.revoked' })).toBe('session_ended');
+    expect(endingOutcome({ kind: 'ok', data: {} })).toBeNull();
+    // The callback owns these two, with their own outcomes; re-answering them here
+    // would show the wrong page.
+    expect(endingOutcome({ kind: 'error', status: 403, code: 'sign_in.not_allowed' })).toBeNull();
+    expect(endingOutcome({ kind: 'error', status: 403, code: 'profile.missing' })).toBeNull();
+    for (const status of [500, 503]) {
+      expect(endingOutcome({ kind: 'error', status, code: 'auth_unavailable' }), String(status)).toBeNull();
+    }
+    for (const failure of ['api-unavailable', 'api-unreachable', 'unexpected'] as const) {
+      expect(endingOutcome({ kind: 'failure', failure }), failure).toBeNull();
     }
   });
 });

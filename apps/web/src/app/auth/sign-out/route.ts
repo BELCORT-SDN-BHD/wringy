@@ -21,7 +21,7 @@
 import type { NextResponse } from 'next/server';
 
 import { signInPath } from '@/lib/auth/outcomes';
-import { cookieJar, guardRequest, seeOther } from '@/lib/auth/route-support';
+import { cookieJar, guardRequest, seeOther, signOutLocally } from '@/lib/auth/route-support';
 import { createRequestSupabase, isSecureOrigin } from '@/lib/auth/supabase-server';
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -34,16 +34,8 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const supabase = createRequestSupabase({ supabaseUrl, publishableKey, secure, cookies: jar.adapter });
 
-  let confirmed = false;
-  try {
-    const { error } = await supabase.auth.signOut({ scope: 'local' });
-    confirmed = error === null;
-  } catch {
-    confirmed = false;
-  }
-
-  // Whatever the library did or did not clear, make sure the browser keeps nothing.
-  if (!confirmed) jar.expireSupabaseCookies(secure);
+  // Whatever the library did or did not clear, the browser keeps nothing.
+  const confirmed = await signOutLocally(supabase, jar, secure);
 
   return jar.applyTo(seeOther(signInPath({ outcome: confirmed ? 'signed_out' : 'signed_out_unconfirmed' }), appOrigin));
 }

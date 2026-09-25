@@ -35,10 +35,10 @@ import { signInResponseSchema } from '@wringy/contracts';
 import { apiFetch } from '@/lib/auth/api-client';
 import { safeNextPath } from '@/lib/auth/next-path';
 import { outcomeFromCallbackQuery, outcomeFromExchangeError, signInPath, type Outcome } from '@/lib/auth/outcomes';
-import { cookieJar, errorResponse, notFound, seeOther, type CookieJar } from '@/lib/auth/route-support';
+import { cookieJar, errorResponse, notFound, seeOther, signOutLocally } from '@/lib/auth/route-support';
 import { isInternalMode } from '@/lib/auth/mode';
 import { internalAuthEnv } from '@/lib/auth/env';
-import { createRequestSupabase, isSecureOrigin, type RequestSupabase } from '@/lib/auth/supabase-server';
+import { createRequestSupabase, isSecureOrigin } from '@/lib/auth/supabase-server';
 import { AUTH_NEXT_COOKIE, AUTH_NEXT_COOKIE_PATH } from '@/lib/auth/wire';
 
 export async function GET(request: Request): Promise<NextResponse> {
@@ -105,24 +105,4 @@ function refusalOutcome(result: { kind: 'error'; status: number; code: string | 
   if (result.status === 403 && result.code === 'sign_in.not_allowed') return 'not_allowed';
   if (result.status === 403 && result.code === 'account.disabled') return 'disabled';
   return 'unexpected';
-}
-
-/**
- * Drop the local session again.
- *
- * `signOut({ scope: 'local' })` is explicit because supabase-js defaults to
- * `global`, and signing every device out is not what a refused first sign-in
- * should do. The library can return an error without having cleared anything (a
- * retryable Auth-server failure), so the `sb-*` cookies are expired by our own
- * code in that case: the browser must not keep a session the API will refuse.
- */
-async function signOutLocally(supabase: RequestSupabase, jar: CookieJar, secure: boolean): Promise<void> {
-  let failed = true;
-  try {
-    const { error } = await supabase.auth.signOut({ scope: 'local' });
-    failed = error !== null;
-  } catch {
-    failed = true;
-  }
-  if (failed) jar.expireSupabaseCookies(secure);
 }

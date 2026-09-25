@@ -33,6 +33,9 @@ export const dynamic = 'force-dynamic';
 /** The four results `POST /internal/session-probe` can redirect back with. */
 const PROBE_RESULTS = new Set<string>(['ok', 'revoked', 'unauthenticated', 'unavailable']);
 
+/** The Route Handler that ends a refused session, because this page cannot write a cookie. */
+const END_SESSION_PATH = '/auth/end-session';
+
 /**
  * `/internal`: the internal build's narrow loop (kickoff-package.md §8.3):
  * Browser → this Server Component → Fastify `GET /me`, `GET /internal/campaigns`
@@ -105,8 +108,15 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
     // A refusal is not a page state: it means this person should not be looking at
     // this page at all, so say why on the sign-in page instead (R4, R11).
     // `redirect()` throws, and is called outside any try/catch on purpose.
+    //
+    // A disabled account must also leave with no session cookie (R4), and this is
+    // a Server Component: it cannot set one. So that one refusal goes through
+    // `GET /auth/end-session`, the Route Handler that owns the cookie write and
+    // re-asks the API rather than trusting its caller. A 401 needs no such detour:
+    // the token is simply not accepted any more, and the proxy expires the cookies
+    // itself the moment the refresh behind it fails.
     if (me !== null && me.kind === 'error') {
-      if (me.status === 403 && me.code === 'account.disabled') redirect(signInPath({ outcome: 'disabled' }));
+      if (me.status === 403 && me.code === 'account.disabled') redirect(END_SESSION_PATH);
       if (me.status === 401) redirect(signInPath({ outcome: 'session_ended' }));
     }
 
