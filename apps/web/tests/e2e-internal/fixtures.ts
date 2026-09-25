@@ -30,9 +30,9 @@
  * Locale cookies and evidence frames stay in support.ts.
  */
 import { createServer, request as httpRequest, type IncomingHttpHeaders, type IncomingMessage, type Server } from 'node:http';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 
-import { test as base, expect, type Browser, type BrowserContext, type Page } from '@playwright/test';
+import { test as base, expect, type BrowserContext, type Page } from '@playwright/test';
 import CachePolicy from 'http-cache-semantics';
 
 import { FAKE_USERS, TEST_TAG_HEADER, type FakeUser, type FakeUserName } from './fake-auth/users';
@@ -62,8 +62,21 @@ export const WEB_ROUTES = {
 /** The short-lived cookie that carries the return path across the provider (R10). */
 export const NEXT_COOKIE = 'wringy-auth-next';
 
-/** The prefix `@supabase/ssr` gives its session cookies; `SUPABASE_PUBLISHABLE_KEY` is not in them. */
+/** The prefix `@supabase/ssr` gives every cookie of its own, session and PKCE alike. */
 export const SESSION_COOKIE_PREFIX = 'sb-';
+
+/**
+ * A `sb-*` cookie that is NOT a session.
+ *
+ * `@supabase/ssr` keeps the PKCE verifier in cookies whose names all end in
+ * `-code-verifier` (auth-js `pkceVerifierSlotKey`, `pkceFlowIndexKey` and the
+ * legacy fixed key), and one of those survives a cancelled or refused flow,
+ * because nothing ever exchanged the code that would have consumed it. It is not
+ * a credential for anything, so a row asserting "no session cookie survives"
+ * must not trip on it — and must not be written as "no sb-* cookie at all",
+ * which would pass for the wrong reason once the verifier happens to be gone.
+ */
+const isPkceCookie = (name: string): boolean => name.includes('code-verifier');
 
 /** Every outcome code `/internal/sign-in?outcome=` accepts (R11). */
 export const OUTCOMES = [
@@ -235,14 +248,6 @@ export interface SignInOptions {
   start?: string;
 }
 
-/** A fresh context that stamps `tag` on every request, so the auth counters stay per test. */
-export function newTaggedContext(
-  browser: Browser,
-  { tag, baseURL }: { tag: string; baseURL?: string },
-): Promise<BrowserContext> {
-  return browser.newContext({ baseURL, extraHTTPHeaders: { [TEST_TAG_HEADER]: tag } });
-}
-
 /**
  * Walks from `start` to the simulated consent page: the visitor is redirected to
  * the sign-in page and presses "Continue with Google". Returns the consent URL,
@@ -284,20 +289,27 @@ export async function cancelSignIn(page: Page, options: SignInOptions = {}): Pro
   return page.url();
 }
 
-/** The names of the session cookies a context currently holds. */
+/** The names of the session cookies a context currently holds, PKCE artefacts aside. */
 export async function sessionCookieNames(context: BrowserContext): Promise<string[]> {
   const cookies = await context.cookies();
-  return cookies.filter((cookie) => cookie.name.startsWith(SESSION_COOKIE_PREFIX)).map((cookie) => cookie.name);
+  return cookies
+    .filter((cookie) => cookie.name.startsWith(SESSION_COOKIE_PREFIX) && !isPkceCookie(cookie.name))
+    .map((cookie) => cookie.name);
 }
 
-/** The values of the session cookies, so a refresh row can prove they changed. Never printed. */
+/**
+ * A digest of the session cookies, so a refresh row can prove they changed
+ * without anything derived from a token appearing anywhere. Only the hash is
+ * compared, and only the hash can end up in a failure message.
+ */
 export async function sessionCookieFingerprint(context: BrowserContext): Promise<string> {
   const cookies = await context.cookies();
-  return cookies
-    .filter((cookie) => cookie.name.startsWith(SESSION_COOKIE_PREFIX))
+  const material = cookies
+    .filter((cookie) => cookie.name.startsWith(SESSION_COOKIE_PREFIX) && !isPkceCookie(cookie.name))
     .sort((left, right) => left.name.localeCompare(right.name))
-    .map((cookie) => `${cookie.name}:${cookie.value.length}:${cookie.value.slice(-6)}`)
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join('|');
+  return material === '' ? '' : createHash('sha256').update(material).digest('base64url').slice(0, 16);
 }
 
 // --- the shared-cache helper ---------------------------------------------------

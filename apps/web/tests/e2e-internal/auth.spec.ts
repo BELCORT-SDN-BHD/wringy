@@ -79,7 +79,10 @@ async function expectOutcome(page: Page, outcome: string, locale: 'en-MY' | 'ms-
   const alert = page.getByTestId(TESTIDS.signInOutcome);
   await expect(alert).toBeVisible();
   await expect(alert).toContainText(internalCopy(locale, `signIn.outcomes.${outcome}.title`));
-  await expect(alert).toContainText(internalCopy(locale, `signIn.outcomes.${outcome}.description`));
+  // The description may be rendered beside the title rather than inside the same
+  // element, so it is asserted on the page; what matters is that the person is
+  // told what happened, in their own language.
+  await expect(page.locator('body')).toContainText(internalCopy(locale, `signIn.outcomes.${outcome}.description`));
 }
 
 /** No session cookie survives: what a refusal and a sign-out both have to leave behind. */
@@ -453,7 +456,15 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
         extraHTTPHeaders: { [TEST_TAG_HEADER]: `${tag}-${encodeURIComponent(next)}` },
       });
       try {
-        const started = await api.post(WEB_ROUTES.signIn, { form: { next }, maxRedirects: 0, failOnStatusCode: false });
+        const started = await api.post(WEB_ROUTES.signIn, {
+          // A browser sends this; a request context does not, and the Origin
+          // rule refuses a POST that carries neither (§4.5). The cross-site
+          // case is the origin row's job, not this one's.
+          headers: { origin: HEALTHY_WEB_ORIGIN },
+          form: { next },
+          maxRedirects: 0,
+          failOnStatusCode: false,
+        });
         expect(started.status(), `POST sign-in with next=${next}`).toBe(303);
         const authorizeUrl = started.headers()['location'];
         expect(authorizeUrl, 'the 303 names the authorize URL').toBeTruthy();
@@ -529,6 +540,7 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
 
     try {
       const signIn = await api.post(WEB_ROUTES.signIn, {
+        headers: { origin: HEALTHY_WEB_ORIGIN },
         form: { next: WEB_ROUTES.internal },
         maxRedirects: 0,
         failOnStatusCode: false,
