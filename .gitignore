@@ -37,9 +37,12 @@ apps/web/tests/e2e/test-results/
 apps/web/tests/e2e-internal/test-results/
 apps/web/playwright-report-internal/
 
-# pnpm depcruise plants these files for one cruise and always deletes them
-apps/web/src/lib/__dependency-violation__.ts
-apps/worker/src/__dependency-violation__.ts
+# pnpm depcruise and pnpm check:supabase-scope plant these files for one run and
+# always delete them. Matched by name, not by path: a killed run would otherwise
+# leave a rule-violating source file inside apps/*/src, untracked and easy to
+# commit by accident, and the next ticket's planted path is covered already.
+**/__dependency-violation__.ts
+**/__supabase-scope-violation__.ts
 
 # Claude Code agent worktrees (local only)
 .claude/worktrees/
