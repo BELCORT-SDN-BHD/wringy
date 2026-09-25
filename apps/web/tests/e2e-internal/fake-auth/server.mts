@@ -370,6 +370,25 @@ export async function startFakeAuthServer({ port = 0, log = true }: FakeAuthServ
     }
   }
 
+  /**
+   * GoTrue refuses a call to its token, logout and user endpoints without the
+   * project's API key, so the fake does too.
+   *
+   * Not security — nothing here is — but coverage. Every call the web's Supabase
+   * client makes carries `apikey: SUPABASE_PUBLISHABLE_KEY`, and the web's own
+   * side of that wiring is asserted nowhere else: a renamed variable, the api's
+   * value pasted in, or a stale key after a rotation would leave every simulated
+   * row green and fail at the founder's first real sign-in. The browser-facing
+   * endpoints (`/authorize`, the consent page, the JWKS) carry no key, because a
+   * navigation cannot send one.
+   */
+  function apiKeyRefusal(request: IncomingMessage): { code: string; message: string } | null {
+    const key = request.headers.apikey;
+    if (key === undefined) return { code: 'no_api_key', message: 'No API key found in request.' };
+    if (key !== FAKE_PUBLISHABLE_KEY) return { code: 'invalid_api_key', message: 'Invalid API key.' };
+    return null;
+  }
+
   function bearerOf(request: IncomingMessage): string | null {
     const header = request.headers.authorization;
     if (typeof header !== 'string') return null;
@@ -555,6 +574,15 @@ ${buttons}
         return { kind: 'consent', tag: headerTag, status: 400 };
       }
       return { kind: 'consent', ...completeConsent(state, chosen, headerTag, response) };
+    }
+
+    // The three endpoints a client calls, rather than a browser navigates to.
+    if (['/auth/v1/token', '/auth/v1/logout', '/auth/v1/user'].includes(url.pathname)) {
+      const refusal = apiKeyRefusal(request);
+      if (refusal !== null) {
+        sendError(response, 401, refusal.code, refusal.message);
+        return { tag: headerTag, status: 401, detail: refusal.code };
+      }
     }
 
     if (url.pathname === '/auth/v1/token' && method === 'POST') {

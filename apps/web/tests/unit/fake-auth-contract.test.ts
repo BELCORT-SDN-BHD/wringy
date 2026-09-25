@@ -218,7 +218,7 @@ describe('M2-AC02/3 the simulated auth harness matches the vendor client it stan
     // server rule under test.
     const reused = await fetch(`${server.url}/auth/v1/token?grant_type=refresh_token`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json', [TEST_TAG_HEADER]: tag },
+      headers: { 'content-type': 'application/json', apikey: FAKE_PUBLISHABLE_KEY, [TEST_TAG_HEADER]: tag },
       body: JSON.stringify({ refresh_token: firstRefreshToken }),
     });
     expect(reused.status, 'a token reused inside the interval still works').toBe(200);
@@ -247,7 +247,7 @@ describe('M2-AC02/3 the simulated auth harness matches the vendor client it stan
     // The access token of a signed-out session is exactly what the api's
     // `auth_server` liveness adapter asks about (R2).
     const probe = await fetch(`${server.url}/auth/v1/user`, {
-      headers: { authorization: `Bearer ${shortLivedAccessToken}` },
+      headers: { authorization: `Bearer ${shortLivedAccessToken}`, apikey: FAKE_PUBLISHABLE_KEY },
     });
     expect(probe.status).toBe(403);
     expect(probe.headers.get('x-supabase-api-version')).toBe('2024-01-01');
@@ -259,11 +259,41 @@ describe('M2-AC02/3 the simulated auth harness matches the vendor client it stan
     // into `/internal/sign-in?outcome=session_ended` (R12).
     const deadRefresh = await fetch(`${server.url}/auth/v1/token?grant_type=refresh_token`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json', [TEST_TAG_HEADER]: tag },
+      headers: { 'content-type': 'application/json', apikey: FAKE_PUBLISHABLE_KEY, [TEST_TAG_HEADER]: tag },
       body: JSON.stringify({ refresh_token: shortLived.data.session!.refresh_token }),
     });
     expect(deadRefresh.status).toBe(400);
     expect(((await deadRefresh.json()) as { code?: string }).code).toBe('refresh_token_not_found');
+  });
+
+  it('M2-AC02/2 simulated harness self-test: the token, logout and user endpoints require the publishable key', async () => {
+    // GoTrue refuses these three without the project's API key, and the web's
+    // Supabase client sends it on every one of them. Nothing else asserts the web
+    // side of that wiring, so a renamed variable or a stale key would leave every
+    // simulated row green and fail at the first real sign-in.
+    const cases: { path: string; init: RequestInit }[] = [
+      { path: '/auth/v1/token?grant_type=refresh_token', init: { method: 'POST', body: '{}' } },
+      { path: '/auth/v1/logout?scope=local', init: { method: 'POST' } },
+      { path: '/auth/v1/user', init: {} },
+    ];
+
+    for (const { path, init } of cases) {
+      const missing = await fetch(`${server.url}${path}`, init);
+      expect(missing.status, `${path} with no apikey`).toBe(401);
+      expect(((await missing.json()) as { code?: string }).code).toBe('no_api_key');
+
+      const wrong = await fetch(`${server.url}${path}`, {
+        ...init,
+        headers: { ...(init.headers as Record<string, string>), apikey: 'sb_publishable_not_this_project_key' },
+      });
+      expect(wrong.status, `${path} with the wrong apikey`).toBe(401);
+      expect(((await wrong.json()) as { code?: string }).code).toBe('invalid_api_key');
+    }
+
+    // The browser-facing endpoints carry no key, because a navigation cannot send
+    // one, so the rule must not reach them.
+    const jwks = await fetch(`${server.url}/auth/v1/.well-known/jwks.json`);
+    expect(jwks.status).toBe(200);
   });
 
   it('M2-AC02/3 simulated harness self-test: cancelling answers access_denied on the callback URL', async () => {
