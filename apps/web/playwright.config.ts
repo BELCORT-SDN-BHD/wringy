@@ -35,6 +35,13 @@ export default defineConfig({
   webServer: {
     command: `pnpm dev --port ${PORT}`,
     url: BASE_URL,
+    // The M1 suite is the demo build, and says so rather than hoping (M2-02 R13).
+    // `next dev` reads apps/web/.env.local, and a developer signing in against the
+    // real Supabase project has `WRINGY_APP_MODE=internal` there — which would put
+    // `proxy.ts` in internal mode and rewrite every demo path to the internal
+    // not-found page. An explicit value wins, because `@next/env` never overwrites
+    // a variable the process already has.
+    env: { WRINGY_APP_MODE: 'demo' },
     reuseExistingServer: true,
     timeout: 180_000,
   },
