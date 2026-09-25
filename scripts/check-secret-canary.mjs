@@ -25,7 +25,10 @@
  * 4. Logs. Starts the built api (`node dist/main.js`) and worker against an
  *    unreachable database whose URL carries the canary password, captures
  *    stdout and stderr for ~10 s while both retry the connection, stops them,
- *    and searches the captured text for every canary value.
+ *    and searches the captured text for every canary value. A process that
+ *    refused its environment fails the step rather than passing it: it never
+ *    reached the code that could leak. That is what catches a canary value which
+ *    does not satisfy its zod shape, as the coverage check sees names only.
  * 5. Self-test. Before trusting a clean result, the scanner must find a canary
  *    planted in a temporary file.
  *
@@ -63,9 +66,11 @@ const CANARY_BOOTSTRAP_DATABASE = 'wringy_v4Tb7Jm2Hc';
 // The values satisfy @wringy/config's originSchema and publishableKeySchema, so
 // the web and api really start with them (checkCoverage would not catch a value
 // the schema rejects; a refusing api writes no log line and fails this script).
-const CANARY_SUPABASE_HOST = 'supabase-w9Kd4Rt7Zx.invalid';
+// Lower-case hosts: originSchema accepts only the canonical origin
+// serialisation, because APP_ORIGIN is string-compared with request headers.
+const CANARY_SUPABASE_HOST = 'supabase-w9kd4rt7zx.invalid';
 const CANARY_PUBLISHABLE_KEY = 'sb_publishable_n2Qv8Bm5Hy3Ldk';
-const CANARY_APP_HOST = 'app-t6Jz3Wq8Nc.invalid';
+const CANARY_APP_HOST = 'app-t6jz3wq8nc.invalid';
 
 /** Filled in with a port on 127.0.0.1 that nothing listens on, before anything starts. */
 let deadPort = 1;
@@ -272,6 +277,14 @@ function scanLog({ role, text, lines, exitCode }) {
   );
   for (const hit of hits) console.error(`canary: LEAK in the ${role} log: ${hit.variable} (value starts ${preview(hit.needle)})`);
   if (lines === 0) fail(`the ${role} wrote no log line, so its log proves nothing`);
+  // A process that refused its environment never reached the code that could
+  // leak, so a clean log would prove nothing. This catches a canary value that
+  // does not satisfy its zod shape, which the coverage check alone cannot see.
+  if (/Invalid environment for /.test(text)) {
+    const refusal = text.trim().split(/\r?\n/).slice(0, 2).join(' | ');
+    console.error(`canary: the ${role} refused its environment: ${refusal}`);
+    fail(`the ${role} refused the canary environment, so its log proves nothing; fix the canary value it names`);
+  }
   return hits.length;
 }
 
