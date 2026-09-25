@@ -115,9 +115,16 @@ module.exports = {
     {
       name: 'internal-not-to-demo',
       comment:
-        'The (internal) build never mounts the demo: no store, no demo engine/seed/scenarios (nor the @/domain barrel that re-exports them), no demo toolbar or demo providers.',
+        'The (internal) build never mounts the demo: no store, no demo engine/seed/scenarios (nor the @/domain barrel that re-exports them), no demo toolbar or demo providers. M2-02 R17 widens this to the proxy, the auth library and the auth route handlers, which are internal-build code living outside the (internal) route group.',
       severity: 'error',
-      from: { path: '^apps/web/src/app/\\(internal\\)/' },
+      from: {
+        path: [
+          '^apps/web/src/app/\\(internal\\)/',
+          '^apps/web/src/proxy\\.ts$',
+          '^apps/web/src/lib/auth/',
+          '^apps/web/src/app/auth/',
+        ],
+      },
       to: {
         path: [
           '^apps/web/src/store/',
@@ -125,6 +132,17 @@ module.exports = {
           '^apps/web/src/components/app/(demo-toolbar|providers)\\.tsx$',
         ],
       },
+    },
+    {
+      name: 'supabase-client-only-in-auth-lib',
+      comment:
+        'M2-02 R17: a Supabase client library may be imported from exactly one file, apps/web/src/lib/auth/supabase-server.ts. Anywhere else it would mean a second place that can create a client, refresh a session or write a session cookie — including a Server Component, where a refresh silently loses the rotated refresh token. Type-only imports count (tsPreCompilationDeps), so a stray `import type { SupabaseClient }` is caught too. scripts/check-supabase-client-scope.mjs adds the rule this cannot express: that the one allowed file creates its client inside a function.',
+      severity: 'error',
+      from: {
+        path: '^apps/web/src/',
+        pathNot: '^apps/web/src/lib/auth/supabase-server\\.ts$',
+      },
+      to: { path: npm('@supabase/ssr', '@supabase/supabase-js', '@supabase/auth-js') },
     },
     {
       name: 'server-not-to-demo-engine',
@@ -155,7 +173,14 @@ module.exports = {
     doNotFollow: { path: ['node_modules'] },
     // node_modules is not excluded: excluding it would drop every dependency on an
     // npm package from the graph, and the rules above could never see `pg`.
-    exclude: { path: ['(^|/)[.]next/', '(^|/)dist/'] },
+    //
+    // The build-output exclusion is anchored to a workspace's own dist/ rather
+    // than written as `(^|/)dist/`. An unanchored pattern also excluded every npm
+    // package that ships from dist/ — `@supabase/ssr/dist/main/index.js` among
+    // them — which silently removed those dependencies from the graph, so
+    // `supabase-client-only-in-auth-lib` could never have seen a violation
+    // (M2-02 R17; found by its planted fixture not being rejected).
+    exclude: { path: ['(^|/)[.]next/', '^(apps|packages)/[^/]+/dist/'] },
     // Type-only imports count too: a type import of @wringy/db from web is still wrong.
     tsPreCompilationDeps: true,
     // The web app's `@/*` alias, from a root tsconfig made for this purpose:

@@ -75,5 +75,65 @@
       "title": "Jawapan API yang tidak dijangka",
       "description": "API memberikan jawapan yang tidak dikenali oleh halaman ini, jadi tiada apa-apa dipaparkan. Tiada apa-apa diubah."
     }
+  },
+  "signIn": {
+    "title": "Masuk ke versi dalaman",
+    "description": "Versi dalaman adalah untuk penguji yang dijemput. Masuk dengan akaun Google yang alamatnya ada dalam senarai penguji.",
+    "google": "Teruskan dengan Google",
+    "returnHint": "Selepas masuk, anda akan kembali ke halaman yang anda minta.",
+    "outcomes": {
+      "cancelled": {
+        "title": "Kemasukan dibatalkan",
+        "description": "Anda membatalkan kemasukan, jadi tiada apa-apa diubah. Anda boleh mencuba lagi bila-bila masa."
+      },
+      "expired": {
+        "title": "Kemasukan telah tamat tempoh",
+        "description": "Kemasukan ini mengambil masa terlalu lama, atau pautannya telah digunakan. Sila mulakan semula."
+      },
+      "wrong_browser": {
+        "title": "Selesaikan kemasukan dalam pelayar yang sama",
+        "description": "Pelayar ini bukan pelayar yang memulakan kemasukan, atau satu kemasukan lain telah dimulakan sementara itu. Sila mulakan semula di sini."
+      },
+      "session_ended": {
+        "title": "Sesi anda telah tamat",
+        "description": "Sesi anda telah tamat, jadi anda telah dikeluarkan. Masuk semula untuk menyambung dari tempat anda berhenti."
+      },
+      "signed_out": {
+        "title": "Anda telah keluar",
+        "description": "Anda telah keluar daripada peranti ini. Kemasukan pada peranti anda yang lain tidak terjejas."
+      },
+      "signed_out_unconfirmed": {
+        "title": "Telah keluar daripada peranti ini",
+        "description": "Peranti ini telah keluar. Pelayan tidak dapat memastikan bahawa sesi itu telah ditamatkan, jadi jika anda masuk di tempat lain, periksa peranti itu juga."
+      },
+      "not_allowed": {
+        "title": "Ini ialah versi dalaman",
+        "description": "Alamat ini tiada dalam senarai penguji untuk versi dalaman. Minta pasukan Wringy menambahnya jika anda sepatutnya mempunyai akses."
+      },
+      "disabled": {
+        "title": "Akaun ini telah dilumpuhkan",
+        "description": "Akaun ini telah dilumpuhkan, jadi ia tidak boleh digunakan untuk masuk. Hubungi pasukan Wringy jika anda fikir itu satu kesilapan."
+      },
+      "unexpected": {
+        "title": "Kemasukan tidak selesai",
+        "description": "Sesuatu telah tersilap dan kemasukan tidak selesai. Tiada apa-apa diubah. Sila cuba lagi."
+      }
+    }
+  },
+  "session": {
+    "signedInAs": "Masuk sebagai {email}",
+    "signOut": "Keluar",
+    "otherDevicesNote": "Keluar hanya menamatkan sesi peranti ini; peranti anda yang lain kekal masuk."
+  },
+  "probe": {
+    "title": "Pemeriksaan sesi",
+    "description": "Perintah simpanan ini tidak mengubah apa-apa. Ia menunjukkan bahawa perintah yang akan mengubah sesuatu memeriksa semula sama ada sesi anda masih aktif sebelum ia dijalankan.",
+    "button": "Jalankan pemeriksaan sesi",
+    "results": {
+      "ok": "Pemeriksaan sesi lulus: sesi ini masih aktif.",
+      "revoked": "Sesi ini tidak lagi aktif, jadi perintah itu ditolak. Masuk semula.",
+      "unauthenticated": "Tiada sesi yang boleh digunakan, jadi perintah itu ditolak.",
+      "unavailable": "Sesi tidak dapat diperiksa sekarang, jadi tiada apa-apa dijalankan. Tiada apa-apa diubah. Sila cuba lagi."
+    }
   }
 }

@@ -75,5 +75,65 @@
       "title": "API 返回了意外的回应",
       "description": "API 的回应无法被此页面识别，因此不显示任何内容。没有做任何更改。"
     }
+  },
+  "signIn": {
+    "title": "登录内部版本",
+    "description": "内部版本仅供受邀测试者使用。请使用已列入测试者名单的 Google 账号登录。",
+    "google": "使用 Google 继续",
+    "returnHint": "登录后将返回你请求的页面。",
+    "outcomes": {
+      "cancelled": {
+        "title": "登录已取消",
+        "description": "你取消了登录，没有做任何更改。你可以随时重试。"
+      },
+      "expired": {
+        "title": "登录已过期",
+        "description": "本次登录耗时过长，或其链接已被使用。请重新开始。"
+      },
+      "wrong_browser": {
+        "title": "请在同一浏览器完成登录",
+        "description": "此浏览器不是开始登录的浏览器，或期间又开始了另一次登录。请在此重新开始。"
+      },
+      "session_ended": {
+        "title": "会话已结束",
+        "description": "你的会话已结束，因此已退出登录。请重新登录以继续之前的操作。"
+      },
+      "signed_out": {
+        "title": "已退出登录",
+        "description": "已退出此设备；其他设备上的登录不受影响"
+      },
+      "signed_out_unconfirmed": {
+        "title": "已退出此设备",
+        "description": "此设备已退出。服务器未能确认会话已结束，因此如果你在其他地方登录过，请同时检查该设备。"
+      },
+      "not_allowed": {
+        "title": "这是内部版本",
+        "description": "此地址不在内部版本的测试者名单中。如果你应当拥有访问权限，请联系 Wringy 团队添加。"
+      },
+      "disabled": {
+        "title": "此账号已停用",
+        "description": "此账号已被停用，无法用于登录。如果你认为这是误操作，请联系 Wringy 团队。"
+      },
+      "unexpected": {
+        "title": "登录未完成",
+        "description": "出现了问题，登录未完成。没有做任何更改。请重试。"
+      }
+    }
+  },
+  "session": {
+    "signedInAs": "已登录为 {email}",
+    "signOut": "退出登录",
+    "otherDevicesNote": "退出只会结束此设备的会话；你的其他设备仍保持登录。"
+  },
+  "probe": {
+    "title": "会话检查",
+    "description": "此预留命令不会更改任何数据。它用于表明：会改变状态的命令在执行前会重新检查你的会话是否仍然有效。",
+    "button": "运行会话检查",
+    "results": {
+      "ok": "会话检查通过：此会话仍然有效。",
+      "revoked": "此会话已失效，命令被拒绝。请重新登录。",
+      "unauthenticated": "没有可用的会话，命令被拒绝。",
+      "unavailable": "目前无法检查会话，因此没有执行任何操作。没有做任何更改。请重试。"
+    }
   }
 }

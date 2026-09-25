@@ -48,6 +48,10 @@ jobs:
         run: pnpm test
       - name: Dependency direction (and the planted violations must be rejected)
         run: pnpm depcruise
+      # M2-02 R17: depcruise says WHERE a Supabase client may be imported; this
+      # says HOW the one allowed file may use it (never at module level).
+      - name: No module-level Supabase client (and the planted violations must be rejected)
+        run: pnpm check:supabase-scope
       - name: Acceptance mapping (M2-AC test names and manual-evidence rows)
         run: pnpm check:acceptance
       - name: Build
