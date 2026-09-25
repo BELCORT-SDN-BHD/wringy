@@ -589,7 +589,10 @@ describe('M2-AC02/2 disabled: GET /auth/end-session, the cookie write the /inter
 
   it('M2-AC02/2 disabled: an answer that is not a refusal changes nothing, so a link here cannot sign anyone out', async () => {
     incoming.set(SESSION_COOKIE, storedSession('token-abc'));
-    const apiCalls = stubApi(() => json(200, { profile: PROFILE, session: { checkedAt: '2026-09-25T01:00:00.000Z' } }));
+    // A body the contract accepts, so this really is the healthy 200 path: with
+    // `checkedAt` instead of `expiresAt` the schema fails and the handler would see
+    // `unexpected`, exercising a different branch than the name claims.
+    const apiCalls = stubApi(() => json(200, { profile: PROFILE, session: { expiresAt: '2026-09-25T02:00:00.000Z' } }));
 
     const response = await endSession();
 
@@ -597,6 +600,37 @@ describe('M2-AC02/2 disabled: GET /auth/end-session, the cookie write the /inter
     expect(apiCalls).toHaveLength(1);
     expect(calls.signOut, 'a live session is left alone').toEqual([]);
     expect(response.headers.getSetCookie()).toEqual([]);
+  });
+
+  it('M2-AC02/2 disabled: a 200 the contract refuses is not a refusal either, so nothing is ended', async () => {
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    stubApi(() => json(200, { profile: PROFILE, session: { checkedAt: '2026-09-25T01:00:00.000Z' } }));
+
+    const response = await endSession();
+
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal`);
+    expect(calls.signOut).toEqual([]);
+  });
+
+  it('M2-AC02/2 disabled: an expired access token is not a dead session, so a cross-site link cannot end one', async () => {
+    // This handler reads the cookie's token WITHOUT refreshing, and a SameSite=Lax
+    // cookie is sent on a top-level navigation from any site. So an idle tab's
+    // `401 auth.expired` — the ordinary state after an hour — must leave the
+    // session alone; only `403 account.disabled` ends it (R4).
+    incoming.set(SESSION_COOKIE, storedSession('token-abc'));
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    for (const code of ['auth.expired', 'session.revoked', 'unauthenticated']) {
+      calls.signOut.length = 0;
+      stubApi(() => json(401, { error: { code, message: 'x' } }));
+
+      const response = await endSession();
+
+      expect(response.headers.get('location'), code).toBe(`${APP_ORIGIN}/internal`);
+      expect(calls.signOut, code).toEqual([]);
+      expect(response.headers.getSetCookie(), code).toEqual([]);
+    }
   });
 
   it('M2-AC02/2 disabled: a 503 leaves the session alone, because a blip says nothing about it', async () => {
@@ -610,10 +644,14 @@ describe('M2-AC02/2 disabled: GET /auth/end-session, the cookie write the /inter
     expect(calls.signOut).toEqual([]);
   });
 
-  it('M2-AC02/2 disabled: the whole mapping — only a refusal about this session ends it', () => {
+  it('M2-AC02/2 disabled: the whole mapping — only the disabled account ends a session here', () => {
     expect(endingOutcome({ kind: 'error', status: 403, code: 'account.disabled' })).toBe('disabled');
-    expect(endingOutcome({ kind: 'error', status: 401, code: 'auth.expired' })).toBe('session_ended');
-    expect(endingOutcome({ kind: 'error', status: 401, code: 'session.revoked' })).toBe('session_ended');
+    // Every 401 leaves it alone: the token was refused, which is not the same as
+    // the session being over, and this endpoint takes no parameters and can be
+    // reached by a cross-site navigation.
+    for (const code of ['auth.expired', 'session.revoked', 'unauthenticated', null]) {
+      expect(endingOutcome({ kind: 'error', status: 401, code }), String(code)).toBeNull();
+    }
     expect(endingOutcome({ kind: 'ok', data: {} })).toBeNull();
     // The callback owns these two, with their own outcomes; re-answering them here
     // would show the wrong page.

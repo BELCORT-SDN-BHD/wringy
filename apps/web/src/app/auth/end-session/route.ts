@@ -20,12 +20,22 @@
  * Instead this endpoint is built so that a caller cannot decide anything with it,
  * which is the same reason the callback is exempt (there, PKCE): it takes no
  * parameters, and **the API decides what happens**. The handler re-asks
- * `GET /me` with the session the browser already holds, and only an answer that
- * says this session is finished — `403 account.disabled`, or any 401 — ends it.
- * Every other answer changes nothing and sends the visitor back to `/internal`.
- * A cross-site link to this path therefore cannot sign anyone out; it can only
- * sign out an account the API is already refusing, which is the correct answer
- * anyway.
+ * `GET /me` with the session the browser already holds, and the **one** answer
+ * that ends it is the one R4 names: `403 account.disabled`. Every other answer —
+ * including every 401 — changes nothing and sends the visitor back to
+ * `/internal`. A cross-site link to this path therefore cannot sign anyone out;
+ * it can only sign out an account the API has disabled, which is the correct
+ * answer anyway.
+ *
+ * A 401 must not end a session here, and that is not a detail. `auth.expired`
+ * means only that the access token in the cookie is past its 1-hour `exp` — which
+ * is the ordinary state of an idle tab, and what the proxy silently refreshes on
+ * the next `/internal` read. This path reads the token without refreshing, so a
+ * top-level navigation from any other site (a `SameSite=Lax` cookie is sent on
+ * one) would otherwise have signed a perfectly live session out on demand.
+ * Wringy's own flow never needs that branch either: the `/internal` page
+ * redirects here only for `403 account.disabled` and answers a 401 itself
+ * (`page.tsx`).
  *
  * The extra round trip happens only on the refusal path, which is the path that
  * is about to stop being used at all.
@@ -72,17 +82,22 @@ export async function GET(): Promise<NextResponse> {
 }
 
 /**
- * Which refusals end a session, and what the visitor is told (R4, R9, R11).
+ * Which refusal ends a session, and what the visitor is told (R4, R9, R11).
  *
- * `null` means "leave it alone". Every 503 is retryable and says nothing about
- * the session, so `auth_unavailable`, `session_check_unavailable` and
- * `database_unavailable` all land here — as does an unreachable API. So do
- * `403 sign_in.not_allowed` and `403 profile.missing`: those belong to the
- * callback, which has already answered them with its own outcome.
+ * Exactly one does: `403 account.disabled`, the refusal R4 names. `null` means
+ * "leave it alone", and everything else is `null`:
+ *
+ *  - every **401**, because a refused token is not a finished session —
+ *    `auth.expired` is an idle tab, and the proxy refreshes or expires the
+ *    cookies itself on the next read (see the header: this is also what stops a
+ *    cross-site link from signing a live session out);
+ *  - every **503**, because it is retryable and says nothing about the session
+ *    (`auth_unavailable`, `session_check_unavailable`, `database_unavailable`), as
+ *    does an unreachable API;
+ *  - `403 sign_in.not_allowed` and `403 profile.missing`, which belong to the
+ *    callback: it has already answered them with its own outcome.
  */
 export function endingOutcome(result: ApiResult<unknown>): Outcome | null {
   if (result.kind !== 'error') return null;
-  if (result.status === 403 && result.code === 'account.disabled') return 'disabled';
-  if (result.status === 401) return 'session_ended';
-  return null;
+  return result.status === 403 && result.code === 'account.disabled' ? 'disabled' : null;
 }
