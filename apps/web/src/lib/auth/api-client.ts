@@ -162,9 +162,14 @@ export async function apiFetch<T>(
  * The access token `proxy.ts` put on this request, for a Server Component.
  *
  * `headers()` is read-only and returns the **forwarded** request headers, which
- * is exactly what the proxy rewrote: it always overwrites or removes this header,
- * so nothing a client sent can appear here. `null` means the proxy saw no
- * session, which for a matched `/internal` GET means it already redirected.
+ * in internal mode is exactly what the proxy rewrote: it overwrites or removes
+ * this header on every request it matches, so nothing a client sent can appear
+ * here. `null` means the proxy saw no session, which for a matched `/internal`
+ * GET means it already redirected.
+ *
+ * In demo mode the proxy changes nothing (R12), so this must not be called there
+ * — a client could have sent the header itself. Its one caller gates on
+ * `appMode()` for exactly that reason (`wire.ts`).
  */
 export async function accessTokenFromHeaders(): Promise<string | null> {
   const token = (await headers()).get(ACCESS_TOKEN_HEADER);

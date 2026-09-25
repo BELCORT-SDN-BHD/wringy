@@ -60,8 +60,16 @@ const END_SESSION_PATH = '/auth/end-session';
  * would silently drop the rotated refresh token.
  *
  * In `demo` mode none of this happens. There is no sign-in on a demo origin
- * (R13), so the page reads no identity header, calls no `/me`, and renders
- * exactly the M1 sections — which is also what the env-less image smoke sees.
+ * (R13), so the page reads no identity header and calls no `/me`.
+ *
+ * What the two M2-01 sections then show depends on the API, and is worth being
+ * exact about. With no `API_INTERNAL_URL` — the env-less image smoke — the page
+ * renders its `not-configured` state. With one configured, the reads go out with
+ * **no** Bearer token, and since M2-02 every `/internal/*` route sits behind the
+ * API's authentication hook (R8), so the API answers 401, which is `unexpected`
+ * here: one "something went wrong" alert rather than the fixture campaigns. The
+ * M2-01 sections are readable on a demo origin no longer; `WRINGY_APP_MODE=internal`
+ * and a sign-in are what show them (README "启动顺序"; known-issues.md).
  */
 export default async function InternalPage({ searchParams }: PageProps<'/internal'>) {
   const t = await getTranslations('internal');

@@ -16,10 +16,16 @@
  * refresh inside auth-js's 90 s expiry margin and lose the rotated refresh token
  * (a page cannot set cookies, so the new one would be dropped).
  *
- * `proxy.ts` therefore **always** overwrites or deletes this header on every
- * request it matches, before deciding anything. A client that sends
- * `x-wringy-access-token: <forged>` can never have it survive, so the page can
- * treat it as trustworthy.
+ * In **internal** mode `proxy.ts` overwrites or deletes this header on every
+ * request it matches, before deciding anything, so a client that sends
+ * `x-wringy-access-token: <forged>` can never have it survive.
+ *
+ * In **demo** mode the proxy does nothing at all (R12: M1 unchanged), so a
+ * client-supplied value does reach the render. That is safe only because every
+ * reader gates on the mode first — `page.tsx` reads this header solely when
+ * `appMode() === 'internal'` — and a reader that forgot to would be forwarding a
+ * client-chosen Bearer token to the API. So: trustworthy in internal mode,
+ * and never read in demo mode.
  */
 export const ACCESS_TOKEN_HEADER = 'x-wringy-access-token';
 
