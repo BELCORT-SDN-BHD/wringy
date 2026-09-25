@@ -4,7 +4,7 @@ import { NextRequest, type NextResponse } from 'next/server';
 import type { CreateRequestSupabaseOptions } from '@/lib/auth/supabase-server';
 import { ACCESS_TOKEN_HEADER } from '@/lib/auth/wire';
 
-import { config, proxy } from './proxy';
+import { config, FRAMING_HEADERS, proxy, REFRESH_DEADLINE_MS } from './proxy';
 
 /**
  * The request-level Supabase client is the one thing the proxy talks to, so it is
@@ -35,11 +35,30 @@ vi.mock('@/lib/auth/supabase-server', async (importOriginal) => {
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const SESSION_COOKIE = 'sb-project-auth-token';
 
-/** A signed-in client that needs no refresh. */
-const signedIn = (token = 'token-abc'): typeof makeClient => () => ({
+/**
+ * A session cookie value in the format `@supabase/ssr` writes: the session JSON,
+ * `base64url`-encoded behind the library's `base64-` prefix.
+ *
+ * The proxy reads the access token out of the cookie rather than asking the client
+ * for it (`resolveSession` says why), so the arrangement for a signed-in read is a
+ * cookie a real one could have been written by — not a placeholder string.
+ */
+const storedSession = (accessToken: string): string =>
+  `base64-${Buffer.from(
+    JSON.stringify({
+      access_token: accessToken,
+      refresh_token: 'refresh-token-value',
+      token_type: 'bearer',
+      user: { id: 'u1' },
+    }),
+  ).toString('base64url')}`;
+
+/** A signed-in client that needs no refresh: the token comes from the cookie. */
+const signedIn = (): typeof makeClient => () => ({
   auth: {
     getClaims: () => Promise.resolve({ data: { claims: { sub: 'u1' } }, error: null }),
-    getSession: () => Promise.resolve({ data: { session: { access_token: token } }, error: null }),
+    getSession: () =>
+      Promise.reject(new Error('proxy.ts must not call getSession(): it can refresh a second time')),
   },
 });
 
@@ -63,17 +82,15 @@ const authUnavailable = (error: unknown): typeof makeClient => () => ({
   },
 });
 
-/** A client that refreshes: it writes new cookies through `setAll`, then reports a session. */
+/** A client that refreshes: it writes the rotated session through `setAll`, then reports claims. */
 const refreshes = (token = 'token-fresh'): typeof makeClient => (options) => ({
   auth: {
     getClaims: () => {
-      options.cookies.setAll(
-        [{ name: SESSION_COOKIE, value: 'fresh-session-value', options: { path: '/' } }],
-        {},
-      );
+      options.cookies.setAll([{ name: SESSION_COOKIE, value: storedSession(token), options: { path: '/' } }], {});
       return Promise.resolve({ data: { claims: { sub: 'u1' } }, error: null });
     },
-    getSession: () => Promise.resolve({ data: { session: { access_token: token } }, error: null }),
+    getSession: () =>
+      Promise.reject(new Error('proxy.ts must not call getSession(): it can refresh a second time')),
   },
 });
 
@@ -105,6 +122,25 @@ function forwarded(response: NextResponse): Record<string, string> {
       .filter((name) => name !== '')
       .map((name) => [name, response.headers.get(`x-middleware-request-${name}`) ?? '']),
   );
+}
+
+/**
+ * `config.matcher` compiled the way the build compiles it.
+ *
+ * Next 16.3.5 exports `getMiddlewareMatchers` from
+ * `next/dist/build/analysis/get-page-static-info`, which is what
+ * `parseMiddlewareConfig` calls to turn a `config.matcher` into the
+ * middleware-manifest entries the router matches against. It is not in that
+ * module's `.d.ts`, so the module is cast once, here, rather than in each row.
+ */
+async function compileMatchers(matcher: readonly string[]): Promise<{ regexp: string }[]> {
+  const build = (await import('next/dist/build/analysis/get-page-static-info')) as unknown as {
+    getMiddlewareMatchers: (
+      matcher: readonly string[],
+      nextConfig: Record<string, unknown>,
+    ) => { regexp: string }[];
+  };
+  return build.getMiddlewareMatchers(matcher, {});
 }
 
 const isPassThrough = (response: NextResponse) =>
@@ -235,25 +271,57 @@ describe('M2-AC02/3 cache: internal mode routes only its own paths', () => {
   it('M2-AC02/2 isolation: a non-GET on /internal is passed through, never refreshed here', async () => {
     // The probe handler owns its own cookies; refreshing in two places races.
     const response = await proxy(
-      request('/internal/session-probe', { method: 'POST', cookies: `${SESSION_COOKIE}=good` }),
+      request('/internal/session-probe', { method: 'POST', cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}` }),
     );
 
     expect(isPassThrough(response)).toBe(true);
     expect(clientCalls).toHaveLength(0);
   });
 
-  it('M2-AC02/3 cache: the matcher skips Next’s assets, the favicon and any path with an extension', () => {
-    expect(config.matcher).toEqual(['/((?!_next/|favicon\\.ico|.*\\..*).*)']);
+  it('M2-AC02/3 cache: the matcher skips Next’s assets and the favicon, and matches every page path, dots included', async () => {
+    // Compiled the way the runtime compiles it, not with a hand-written RegExp
+    // over the source. `next build` turns `config.matcher` into the manifest's
+    // `regexp` with `getMiddlewareMatchers`, and `getMiddlewareRouteMatcher` then
+    // runs `new RegExp(matcher.regexp).exec(pathname)` per request
+    // (next/dist/shared/lib/router/utils/middleware-route-matcher.js). Compiling
+    // it here is what proves the rev-3 fix: with the previous `.*\..*` exclusion
+    // this very regex refused `/campaigns/a.b`, so the proxy never ran on it and
+    // the demo catch-all rendered it on an internal origin.
+    const compiled = await compileMatchers(config.matcher);
+    expect(compiled).toHaveLength(1);
+    const matches = (pathname: string) => new RegExp(compiled[0].regexp).test(pathname);
 
-    const matches = (pathname: string) => new RegExp(`^${config.matcher[0]}$`).test(pathname);
+    // Pages, including every dotted path that is not an asset.
+    for (const pathname of [
+      '/',
+      '/internal',
+      '/internal/campaigns',
+      '/internal/sign-in',
+      '/auth/callback',
+      '/campaigns/a.b',
+      '/foo.bar',
+      '/internal/x.y',
+      '/merchant/campaigns',
+    ]) {
+      expect(matches(pathname), pathname).toBe(true);
+    }
 
-    expect(matches('/internal')).toBe(true);
-    expect(matches('/internal/campaigns')).toBe(true);
-    expect(matches('/')).toBe(true);
-    expect(matches('/_next/static/chunk.js')).toBe(false);
-    expect(matches('/favicon.ico')).toBe(false);
-    expect(matches('/robots.txt')).toBe(false);
-    expect(matches('/logo.svg')).toBe(false);
+    // Next's own assets, the favicon, and the file suffixes a browser fetches
+    // beside a page — and only when the path ENDS in one of them.
+    for (const pathname of [
+      '/_next/static/chunk.js',
+      '/favicon.ico',
+      '/robots.txt',
+      '/sitemap.xml',
+      '/logo.png',
+      '/logo.svg',
+      '/photo.jpeg',
+      '/styles.css',
+      '/bundle.js.map',
+      '/fonts/inter.woff2',
+    ]) {
+      expect(matches(pathname), pathname).toBe(false);
+    }
   });
 });
 
@@ -309,7 +377,7 @@ describe('M2-AC02/2 isolation: an unauthenticated read is sent to sign in, from 
     ]) {
       makeClient = authUnavailable(error);
 
-      const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=good` }));
+      const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}` }));
 
       const location = new URL(response.headers.get('location') as string);
       expect(location.searchParams.get('outcome'), JSON.stringify(error)).toBe('unexpected');
@@ -358,19 +426,19 @@ describe('M2-AC02/2 refresh: a refreshed session reaches the page and the browse
   it('M2-AC02/2 refresh: refreshed cookies land on both the forwarded request and the response', async () => {
     makeClient = refreshes();
 
-    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=old` }));
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-stale')}` }));
 
     // The browser is told.
-    expect(response.cookies.get(SESSION_COOKIE)?.value).toBe('fresh-session-value');
+    expect(response.cookies.get(SESSION_COOKIE)?.value).toBe(storedSession('token-fresh'));
     // And so is the app: the forwarded `cookie` header carries the new value, so a
     // Server Component reading cookies does not see the stale one.
-    expect(forwarded(response).cookie).toContain('fresh-session-value');
+    expect(forwarded(response).cookie).toContain(storedSession('token-fresh'));
   });
 
   it('M2-AC02/3 cache: a response that writes a cookie is never cacheable', async () => {
     makeClient = refreshes();
 
-    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=old` }));
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-stale')}` }));
 
     expect(response.headers.get('cache-control')).toBe('private, no-cache, no-store, must-revalidate, max-age=0');
     expect(response.headers.get('expires')).toBe('0');
@@ -380,7 +448,7 @@ describe('M2-AC02/2 refresh: a refreshed session reaches the page and the browse
   it('M2-AC02/2 refresh: a read that needed no refresh writes no cookie', async () => {
     makeClient = signedIn();
 
-    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=good` }));
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}` }));
 
     expect(response.cookies.getAll()).toEqual([]);
     expect(forwarded(response)[ACCESS_TOKEN_HEADER]).toBe('token-abc');
@@ -389,12 +457,19 @@ describe('M2-AC02/2 refresh: a refreshed session reaches the page and the browse
   it('M2-AC02/2 isolation: the client is built per request, on this request’s own cookies', async () => {
     makeClient = signedIn();
 
-    await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=first` }));
-    await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=second` }));
+    const first = storedSession('token-first');
+    const second = storedSession('token-second');
+    const responses = [
+      await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${first}` })),
+      await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${second}` })),
+    ];
 
     expect(clientCalls).toHaveLength(2);
-    expect(clientCalls[0].cookies.getAll()).toEqual([{ name: SESSION_COOKIE, value: 'first' }]);
-    expect(clientCalls[1].cookies.getAll()).toEqual([{ name: SESSION_COOKIE, value: 'second' }]);
+    expect(clientCalls[0].cookies.getAll()).toEqual([{ name: SESSION_COOKIE, value: first }]);
+    expect(clientCalls[1].cookies.getAll()).toEqual([{ name: SESSION_COOKIE, value: second }]);
+    // And each read forwarded its own request's token, never the other's.
+    expect(forwarded(responses[0])[ACCESS_TOKEN_HEADER]).toBe('token-first');
+    expect(forwarded(responses[1])[ACCESS_TOKEN_HEADER]).toBe('token-second');
     // A loopback APP_ORIGIN cannot carry Secure cookies, or the browser stores nothing.
     expect(clientCalls[0].secure).toBe(false);
   });
@@ -404,12 +479,12 @@ describe('M2-AC02/2 isolation: the identity header can only ever come from the p
   beforeEach(internalEnv);
 
   it('M2-AC02/2 isolation: a client-supplied token header is replaced on a signed-in read', async () => {
-    makeClient = signedIn('token-real');
+    makeClient = signedIn();
 
     const response = await proxy(
       request('/internal', {
         headers: { [ACCESS_TOKEN_HEADER]: 'forged-by-the-client' },
-        cookies: `${SESSION_COOKIE}=good`,
+        cookies: `${SESSION_COOKIE}=${storedSession('token-real')}`,
       }),
     );
 
@@ -452,5 +527,142 @@ describe('M2-AC02/2 isolation: the identity header can only ever come from the p
     expect(response.status).toBe(307);
     expect(forwarded(response)[ACCESS_TOKEN_HEADER]).toBeUndefined();
     expect(response.headers.get('x-middleware-request-' + ACCESS_TOKEN_HEADER)).toBeNull();
+  });
+});
+
+describe('M2-AC02/2 refresh: a session check that fails badly still ends in an answer, never a 500', () => {
+  beforeEach(internalEnv);
+
+  it('M2-AC02/2 refresh: a getClaims that throws ends the session and expires every sb-* cookie, with no 500', async () => {
+    // auth-js is documented to return its errors, and does — except on a cookie
+    // value it cannot parse, where JSON.parse raises out of the storage read. A
+    // 500 would leave the browser holding the cookie that caused it, so the same
+    // request would fail again for ever. The session is ended instead.
+    makeClient = () => ({
+      auth: {
+        getClaims: () => {
+          throw new SyntaxError('Unexpected token b in JSON at position 0');
+        },
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      },
+    });
+
+    const response = await proxy(
+      request('/internal/campaigns', {
+        cookies: `${SESSION_COOKIE}=truncated; ${SESSION_COOKIE}-code-verifier=abc; other=keep`,
+      }),
+    );
+
+    expect(response.status).toBe(307);
+    const location = new URL(response.headers.get('location') as string);
+    expect(location.origin).toBe(APP_ORIGIN);
+    expect(location.pathname).toBe('/internal/sign-in');
+    expect(location.searchParams.get('outcome')).toBe('session_ended');
+    expect(location.searchParams.get('next')).toBe('/internal/campaigns');
+
+    // Every sb-* cookie is expired — the session and the PKCE verifier alike —
+    // and nothing else is touched.
+    const expired = response.cookies.getAll();
+    expect(expired.map((cookie) => cookie.name).sort()).toEqual(
+      [SESSION_COOKIE, `${SESSION_COOKIE}-code-verifier`].sort(),
+    );
+    for (const cookie of expired) {
+      expect(cookie.value, cookie.name).toBe('');
+      expect(cookie.maxAge, cookie.name).toBe(0);
+      expect(cookie.httpOnly, cookie.name).toBe(true);
+      expect(cookie.path, cookie.name).toBe('/');
+    }
+    expect(response.headers.get('cache-control')).toBe('private, no-cache, no-store, must-revalidate, max-age=0');
+  });
+
+  it('M2-AC02/2 refresh: a getClaims that never answers hits the overall deadline, offers a retry and applies no cookie', async () => {
+    // Per-call bounds are not enough: getClaims() can make two calls, so only an
+    // overall deadline bounds the page. And a refresh that has not finished must
+    // leave the browser exactly as it was — half a rotation is worse than none.
+    vi.useFakeTimers();
+    try {
+      makeClient = (options) => ({
+        auth: {
+          getClaims: () => {
+            // It got far enough to buffer a rotated session, and then stalled.
+            options.cookies.setAll([{ name: SESSION_COOKIE, value: 'half-written', options: { path: '/' } }], {});
+            return new Promise(() => {});
+          },
+          getSession: () => new Promise(() => {}),
+        },
+      });
+
+      const pending = proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-stale')}` }));
+      await vi.advanceTimersByTimeAsync(REFRESH_DEADLINE_MS);
+      const response = await pending;
+
+      expect(response.status).toBe(307);
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.searchParams.get('outcome'), 'a deadline says nothing about this session').toBe('unexpected');
+      expect(location.searchParams.get('next')).toBe('/internal');
+      expect(response.cookies.getAll(), 'not one buffered write is applied').toEqual([]);
+      expect(response.headers.get('cache-control')).toBe('private, no-cache, no-store, must-revalidate, max-age=0');
+      // The client was told to stop, so the stalled call is not left running
+      // behind the answer.
+      expect(clientCalls).toHaveLength(1);
+      expect(clientCalls[0].signal?.aborted).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});
+
+describe('M2-AC02/3 cache: the internal build is private and unframeable on every response the proxy produces', () => {
+  beforeEach(internalEnv);
+
+  it('M2-AC02/3 cache: a signed-in read that needed no refresh is still no-store (R20 rev 3)', async () => {
+    makeClient = signedIn();
+
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}` }));
+
+    expect(isPassThrough(response)).toBe(true);
+    expect(response.cookies.getAll(), 'nothing was written this time').toEqual([]);
+    // And it is no-store anyway: the property is Wringy's, not the library's.
+    expect(response.headers.get('cache-control')).toBe('private, no-cache, no-store, must-revalidate, max-age=0');
+    expect(response.headers.get('expires')).toBe('0');
+    expect(response.headers.get('pragma')).toBe('no-cache');
+  });
+
+  it('M2-AC02/3 cache: every internal-mode response refuses framing — rewrites, redirects and the forwarded read', async () => {
+    const cases: { label: string; response: NextResponse }[] = [
+      { label: 'signed-in read', response: await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}` })) },
+      { label: 'public sign-in page', response: await proxy(request('/internal/sign-in')) },
+      { label: 'auth route handler', response: await proxy(request('/auth/sign-out', { method: 'POST' })) },
+      { label: 'root redirect', response: await proxy(request('/')) },
+      { label: 'demo path rewrite', response: await proxy(request('/merchant/campaigns')) },
+      { label: 'dotted demo path rewrite', response: await proxy(request('/campaigns/a.b')) },
+    ];
+    for (const { label, response } of cases) {
+      expect(response.headers.get('content-security-policy'), label).toBe("frame-ancestors 'none'");
+      expect(response.headers.get('x-frame-options'), label).toBe('DENY');
+    }
+
+    // The unauthenticated redirect to the sign-in page carries them too.
+    makeClient = signedOut;
+    const redirected = await proxy(request('/internal'));
+    expect(redirected.status).toBe(307);
+    expect(redirected.headers.get('content-security-policy')).toBe("frame-ancestors 'none'");
+    expect(redirected.headers.get('x-frame-options')).toBe('DENY');
+
+    // Both headers, stated once in the module so a page and a test cannot drift.
+    expect(FRAMING_HEADERS).toEqual({
+      'Content-Security-Policy': "frame-ancestors 'none'",
+      'X-Frame-Options': 'DENY',
+    });
+  });
+
+  it('M2-AC02/3 cache: demo mode adds no framing headers, because the proxy does nothing there', async () => {
+    vi.stubEnv('WRINGY_APP_MODE', 'demo');
+
+    const response = await proxy(request('/merchant/campaigns'));
+
+    expect(isPassThrough(response)).toBe(true);
+    expect(response.headers.get('content-security-policy')).toBeNull();
+    expect(response.headers.get('x-frame-options')).toBeNull();
   });
 });

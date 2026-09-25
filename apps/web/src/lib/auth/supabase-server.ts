@@ -46,6 +46,12 @@ export interface CreateRequestSupabaseOptions {
   readonly cookies: RequestCookieAdapter;
   /** `Secure` on the session cookies. False only for a loopback origin, which has no TLS. */
   readonly secure: boolean;
+  /**
+   * An overall deadline for everything this client does, not just for one call
+   * (`proxy.ts`'s `REFRESH_DEADLINE_MS`). Aborting it aborts whatever call is in
+   * flight; `SUPABASE_REQUEST_TIMEOUT_MS` still bounds each call on its own.
+   */
+  readonly signal?: AbortSignal;
 }
 
 /**
@@ -109,8 +115,15 @@ export function withSessionCookieOptions(
 }
 
 /**
- * OPERATIONAL limit on one call to the Supabase Auth server (not a business
- * rule), matching `api-client.ts`'s limit on a call to Fastify.
+ * OPERATIONAL limit on **one call** to the Supabase Auth server (not a business
+ * rule), the same 5 s `api-client.ts` puts on one call to Fastify.
+ *
+ * One call is not the whole operation. `getClaims()` can make two in a row — the
+ * JWKS fetch, then `POST /token?grant_type=refresh_token` — so a per-call limit
+ * alone bounds a matched `/internal` read at twice this, and at more if auth-js
+ * ever adds a hop. `api-client.ts` bounds the whole operation because it *is* one
+ * call; the proxy gets the same guarantee from its own overall deadline
+ * (`REFRESH_DEADLINE_MS` in `proxy.ts`), handed to `boundedFetch` as `signal`.
  */
 export const SUPABASE_REQUEST_TIMEOUT_MS = 5_000;
 
@@ -122,23 +135,33 @@ export const SUPABASE_REQUEST_TIMEOUT_MS = 5_000;
  * the request that is refreshing the session — with undici's 300 s
  * `headersTimeout` as the only backstop. Every other outbound call the web makes
  * is bounded (`api-client.ts`, `api-read.ts`), and this one is on the path of
- * every matched `/internal` read, so it is bounded the same way.
+ * every matched `/internal` read, so it is bounded twice: per call by `timeoutMs`,
+ * and for the whole operation by `deadline`, which the caller owns.
  *
- * The timer is deliberately never cleared: the deadline covers the body too, so a
- * server that sends headers and then stalls is an abort rather than a hung page.
- * It is unreferenced so it can never hold the process open. An abort surfaces as
- * auth-js's `AuthRetryableFetchError`, which `isRetryableAuthError` (outcomes.ts)
- * turns into a retry rather than a sign-out.
+ * The per-call timer is deliberately never cleared: the deadline covers the body
+ * too, so a server that sends headers and then stalls is an abort rather than a
+ * hung page. It is unreferenced so it can never hold the process open. An abort
+ * surfaces as auth-js's `AuthRetryableFetchError`, which `isRetryableAuthError`
+ * (outcomes.ts) turns into a retry rather than a sign-out.
  */
-export function boundedFetch(timeoutMs: number, fetchImpl: typeof fetch = fetch): typeof fetch {
+export function boundedFetch(
+  timeoutMs: number,
+  fetchImpl: typeof fetch = fetch,
+  deadline?: AbortSignal,
+): typeof fetch {
   return (input, init) => {
     const controller = new AbortController();
     const timer: unknown = setTimeout(() => controller.abort(new Error('supabase request timed out')), timeoutMs);
     (timer as { unref?: () => void }).unref?.();
-    // A caller's own signal still wins, so nothing loses the ability to cancel.
-    init?.signal?.addEventListener('abort', () => controller.abort((init.signal as AbortSignal).reason), {
-      once: true,
-    });
+    // A caller's own signal still wins, so nothing loses the ability to cancel,
+    // and the operation's deadline cancels whatever is in flight when it expires.
+    const follow = (signal: AbortSignal | null | undefined): void => {
+      if (signal === null || signal === undefined) return;
+      if (signal.aborted) controller.abort(signal.reason);
+      else signal.addEventListener('abort', () => controller.abort(signal.reason), { once: true });
+    };
+    follow(init?.signal as AbortSignal | null | undefined);
+    follow(deadline);
     return fetchImpl(input, { ...init, signal: controller.signal });
   };
 }
@@ -153,17 +176,19 @@ export function boundedFetch(timeoutMs: number, fetchImpl: typeof fetch = fetch)
  * headers to the first write only (R20).
  *
  * Every call the client makes is bounded by `SUPABASE_REQUEST_TIMEOUT_MS`
- * (`boundedFetch`).
+ * (`boundedFetch`), and `signal` bounds the whole operation when a caller has a
+ * deadline of its own.
  */
 export function createRequestSupabase({
   supabaseUrl,
   publishableKey,
   cookies,
   secure,
+  signal,
 }: CreateRequestSupabaseOptions): RequestSupabase {
   // Inside the function, once per request: see the header, and check:supabase-scope.
   return createServerClient(supabaseUrl, publishableKey, {
-    global: { fetch: boundedFetch(SUPABASE_REQUEST_TIMEOUT_MS) },
+    global: { fetch: boundedFetch(SUPABASE_REQUEST_TIMEOUT_MS, fetch, signal) },
     cookieOptions: sessionCookieOptions(secure),
     cookies: {
       getAll: cookies.getAll,
