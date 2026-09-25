@@ -8,6 +8,8 @@
  * stopped worker row) is the harness's own (`@wringy/db/testing/connect`), as
  * the worker login or the migrator, never the API's.
  */
+import { readFileSync } from 'node:fs';
+
 import { expect, type Page } from '@playwright/test';
 
 import { loginUrlsAt, withClientAt, type LoginUrls } from '@wringy/db/testing/connect';
@@ -65,6 +67,31 @@ export const COPY: Record<
     draft: '草稿',
   },
 };
+
+/**
+ * One localized string from `src/messages/<locale>/internal.json`, by dotted key
+ * (`signIn.outcomes.cancelled.title`).
+ *
+ * It is READ at run time rather than imported, on purpose. The identity slice
+ * owns that file; this suite owns only the key names of the copy contract. So a
+ * row asserts the string the product actually ships in that locale, and a key
+ * that is missing or empty fails naming itself instead of quietly matching an
+ * empty expectation.
+ *
+ * Paths are relative to apps/web, the directory Playwright runs in.
+ */
+export function internalCopy(locale: Locale, key: string): string {
+  const messages: unknown = JSON.parse(readFileSync(`src/messages/${locale}/internal.json`, 'utf8'));
+  let node: unknown = messages;
+  for (const part of key.split('.')) {
+    if (typeof node !== 'object' || node === null) break;
+    node = (node as Record<string, unknown>)[part];
+  }
+  if (typeof node !== 'string' || node.trim() === '') {
+    throw new Error(`src/messages/${locale}/internal.json has no non-empty string at "${key}"`);
+  }
+  return node;
+}
 
 /** The login URLs of the suite's database, from what the database webServer entry announced. */
 export function e2eDatabase(): LoginUrls {

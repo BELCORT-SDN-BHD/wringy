@@ -197,7 +197,35 @@ export async function onlySessionOf(tag: string): Promise<string> {
   return id;
 }
 
+/** The simulated project's origin (SUPABASE_URL), as the fake-auth entry announced it. */
+export function supabaseUrl(): string {
+  const url = process.env['SUPABASE_URL'];
+  if (!url) throw new Error('SUPABASE_URL is not announced (run through playwright.internal.config.ts)');
+  return url;
+}
+
 // --- signing in ---------------------------------------------------------------
+
+/** What the simulated consent page exposes, for the rows that walk the flow over plain HTTP. */
+export interface ConsentForm {
+  /** The form's own action, resolved against the auth origin. */
+  action: string;
+  /** The hidden state field that names the pending authorize request. */
+  state: string;
+  /** The cancel link, with its HTML entities decoded as a browser would. */
+  cancel: string;
+}
+
+/** Reads the consent page's own form out of its HTML; nothing about it is hard-coded here. */
+export function parseConsentPage(html: string): ConsentForm {
+  const action = /<form[^>]*action="([^"]+)"/.exec(html)?.[1];
+  const state = /name="state" value="([^"]+)"/.exec(html)?.[1];
+  const cancel = /href="([^"]+)"[^>]*data-testid="fake-cancel"/.exec(html)?.[1];
+  if (action === undefined || state === undefined || cancel === undefined) {
+    throw new Error('the simulated consent page did not expose a form action, a state and a cancel link');
+  }
+  return { action: new URL(action, supabaseUrl()).toString(), state, cancel: new URL(cancel.replace(/&amp;/g, '&'), supabaseUrl()).toString() };
+}
 
 export interface SignInOptions {
   /**
