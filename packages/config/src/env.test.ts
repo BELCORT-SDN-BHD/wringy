@@ -7,9 +7,12 @@ import {
   loadApiEnv,
   loadBootstrapEnv,
   loadMigrateEnv,
+  loadPlatformBootstrapEnv,
   loadWebEnv,
   loadWorkerEnv,
   originSchema,
+  publishableKeySchema,
+  tokenBearingOriginSchema,
   tryLoadEnv,
   type EnvSource,
 } from './index';
@@ -399,5 +402,97 @@ describe('M2-AC01 tryLoadEnv', () => {
         throw new TypeError('not an env problem');
       }),
     ).toThrow(TypeError);
+  });
+});
+
+describe('M2-AC02/2 loadPlatformBootstrapEnv requires only what the platform bootstrap uses', () => {
+  const REMOTE = 'postgres://postgres:placeholder@db.staging.example.com:5432/postgres';
+
+  it('M2-AC02/2 no login-role password is required, because none is set', () => {
+    expect(
+      loadPlatformBootstrapEnv({ WRINGY_ENV: 'staging', PG_BOOTSTRAP_ADMIN_URL: REMOTE, PG_BOOTSTRAP_DATABASE: 'postgres' }),
+    ).toEqual({
+      WRINGY_ENV: 'staging',
+      PG_BOOTSTRAP_ADMIN_URL: REMOTE,
+      PG_BOOTSTRAP_DATABASE: 'postgres',
+    });
+    // The role-creating command still requires all three, by name.
+    expect(problemsOf(() => loadBootstrapEnv({ WRINGY_ENV: 'staging', PG_BOOTSTRAP_ADMIN_URL: REMOTE }))).toEqual([
+      { name: 'PG_BOOTSTRAP_API_PASSWORD', problem: 'missing' },
+      { name: 'PG_BOOTSTRAP_MIGRATOR_PASSWORD', problem: 'missing' },
+      { name: 'PG_BOOTSTRAP_WORKER_PASSWORD', problem: 'missing' },
+    ]);
+  });
+
+  it('M2-AC02/2 the admin URL is required outside local, and optional for the embedded cluster', () => {
+    expect(problemsOf(() => loadPlatformBootstrapEnv({ WRINGY_ENV: 'production' }))).toEqual([
+      { name: 'PG_BOOTSTRAP_ADMIN_URL', problem: 'missing' },
+    ]);
+    expect(loadPlatformBootstrapEnv({ WRINGY_ENV: 'local' })).toEqual({
+      WRINGY_ENV: 'local',
+      PG_BOOTSTRAP_DATABASE: 'wringy',
+    });
+  });
+});
+
+describe('M2-AC02/2 no secret key and no plaintext project origin can be configured', () => {
+  /** A legacy service-role JWT: header.payload.signature, payload naming the role. */
+  const serviceRoleJwt = (role: string) =>
+    [
+      Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' }), 'utf8').toString('base64url'),
+      Buffer.from(JSON.stringify({ iss: 'supabase', role, exp: 2_000_000_000 }), 'utf8').toString('base64url'),
+      'c2lnbmF0dXJl',
+    ].join('.');
+
+  it('M2-AC02/2 a sb_secret_ key is refused wherever a publishable key is asked for', () => {
+    // The dashboard shows the two keys side by side, and the loose positive shape
+    // accepts both. The api would send this one as the `apikey` header on every
+    // Auth call; the documented "no secret key, in any variable" has to be a check.
+    for (const secret of ['sb_secret_9aBcDeFgHiJkLmNoPq', 'SB_SECRET_9aBcDeFgHiJkLmNoPq', serviceRoleJwt('service_role')]) {
+      expect(publishableKeySchema.safeParse(secret).success, secret.slice(0, 12)).toBe(false);
+      expect(problemsOf(() => loadApiEnv({ WRINGY_ENV: 'staging', DATABASE_URL: PG_URL, SUPABASE_URL, SESSION_LIVENESS: 'auth_server', SUPABASE_PUBLISHABLE_KEY: secret }))).toEqual([
+        { name: 'SUPABASE_PUBLISHABLE_KEY', problem: 'invalid' },
+      ]);
+      expect(
+        problemsOf(() =>
+          loadWebEnv({
+            WRINGY_ENV: 'staging',
+            API_INTERNAL_URL: 'http://api.internal:3200',
+            WRINGY_APP_MODE: 'internal',
+            APP_ORIGIN: 'https://app.wringy.test',
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY: secret,
+          }),
+        ),
+      ).toEqual([{ name: 'SUPABASE_PUBLISHABLE_KEY', problem: 'invalid' }]);
+    }
+
+    // A publishable key, and a legacy anon JWT, still pass.
+    expect(publishableKeySchema.safeParse(PUBLISHABLE_KEY).success).toBe(true);
+    expect(publishableKeySchema.safeParse(serviceRoleJwt('anon')).success).toBe(true);
+  });
+
+  it('M2-AC02/2 SUPABASE_URL must be https unless it is loopback, because it is the key set', () => {
+    // Plaintext to a hosted host means anyone on the path can publish their own
+    // signing key and mint tokens the hook accepts.
+    for (const plaintext of ['http://my-project.supabase.co', 'http://internal-identity.staging.corp:8000']) {
+      expect(tokenBearingOriginSchema.safeParse(plaintext).success, plaintext).toBe(false);
+      expect(
+        problemsOf(() =>
+          loadApiEnv({ WRINGY_ENV: 'staging', DATABASE_URL: PG_URL, SESSION_LIVENESS: 'auth_server', SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY, SUPABASE_URL: plaintext }),
+        ),
+        plaintext,
+      ).toEqual([{ name: 'SUPABASE_URL', problem: 'invalid' }]);
+    }
+
+    // The credential-free fakes announce a loopback origin with no TLS: they stay.
+    for (const loopback of ['http://127.0.0.1:3100', 'http://localhost:54321', 'http://[::1]:3200']) {
+      expect(tokenBearingOriginSchema.safeParse(loopback).success, loopback).toBe(true);
+    }
+    expect(tokenBearingOriginSchema.safeParse(SUPABASE_URL).success).toBe(true);
+    // The shape rules still apply on top of the scheme rule.
+    expect(tokenBearingOriginSchema.safeParse(`${SUPABASE_URL}/auth/v1`).success).toBe(false);
+    // APP_ORIGIN keeps the plain origin rule: a loopback development origin is http.
+    expect(originSchema.safeParse('http://127.0.0.1:3100').success).toBe(true);
   });
 });

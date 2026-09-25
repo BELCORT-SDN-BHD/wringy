@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 import { parseEnv, type EnvSource } from './parse';
 import {
-  originSchema,
   postgresUrlSchema,
   publishableKeySchema,
   sessionLivenessSchema,
+  tokenBearingOriginSchema,
   wringyEnvSchema,
 } from './shared';
 
@@ -22,12 +22,14 @@ export const LOG_LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace', '
  * `platform.session_is_live`, `auth_server` calls `GET <SUPABASE_URL>/auth/v1/user`
  * with the caller's token and `SUPABASE_PUBLISHABLE_KEY`. There is no default,
  * so a deployment cannot silently pick the wrong one. `SUPABASE_PUBLISHABLE_KEY`
- * is publishable by design; no `sb_secret_…` key is read anywhere.
+ * is publishable by design, and the schema refuses a `sb_secret_…` value outright.
+ * `SUPABASE_URL` must be `https:` unless it is loopback: it is the key set every
+ * token is verified against (`tokenBearingOriginSchema`).
  */
 export const apiEnvSchema = z.object({
   WRINGY_ENV: wringyEnvSchema,
   DATABASE_URL: postgresUrlSchema,
-  SUPABASE_URL: originSchema,
+  SUPABASE_URL: tokenBearingOriginSchema,
   SUPABASE_PUBLISHABLE_KEY: publishableKeySchema,
   SESSION_LIVENESS: sessionLivenessSchema,
   PORT: z.coerce.number().int().min(1).max(65_535).default(3200),
