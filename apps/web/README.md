@@ -113,6 +113,113 @@ renders in the visitor's cookie locale:
 Badges follow the M1 `StatusBadge` rules through the server-safe tone classes in
 `src/components/app/status-tone.ts`. No client code beyond the layout's, no demo store.
 
+## Sign-in (M2-02)
+
+The internal build signs testers in with Google through Supabase Auth (PKCE). The demo build has
+none of this: `WRINGY_APP_MODE` decides, and on a demo origin every endpoint below answers 404, so
+the demo exposes no cookie-writing surface at all.
+
+### The flow
+
+1. `GET /internal` with no session → `src/proxy.ts` → 307 `/internal/sign-in?next=/internal`.
+2. The sign-in page POSTs `next` to `/auth/sign-in`, which stores it in the short-lived
+   `wringy-auth-next` cookie and calls `signInWithOAuth` with the constant
+   `redirectTo = APP_ORIGIN + '/auth/callback'` (so one exact entry in Supabase's redirect
+   allow-list works everywhere), then answers 303 to Google. Google is asked for `email profile`
+   only — no YouTube scope, and no `openid`.
+3. `GET /auth/callback?code=…` exchanges the code for a session, then calls
+   `POST /identity/sign-in` on Fastify with the new access token. Fastify owns the decision: the
+   tester allow-list and the profile upsert. 200 → 303 back to the stored path. 403
+   `sign_in.not_allowed` or `account.disabled` → sign the local session out again and show the
+   matching page. Anything else → clear the session cookies and show `unexpected`.
+4. `GET /internal` with a session → the proxy refreshes it if needed and puts the access token on
+   the request header `x-wringy-access-token`; the page calls `GET /me` and the two M2-01 reads
+   with it as `Authorization: Bearer …`.
+5. `POST /internal/session-probe` → `POST /me/session/probe` → 303 `/internal?probe=…`. This is the
+   reserved fund-sensitive stub: it changes nothing and exists to prove that a state-changing
+   command re-checks session liveness inside its transaction.
+6. `POST /auth/sign-out` → `signOut({ scope: 'local' })` → 303
+   `/internal/sign-in?outcome=signed_out` (已退出此设备；其他设备上的登录不受影响).
+
+### Files
+
+| File | Owns |
+|---|---|
+| `src/proxy.ts` | The routing shape and session refresh on matched private reads |
+| `src/lib/auth/supabase-server.ts` | **The only file that may import a Supabase client library**, and it creates the client inside a function, once per request |
+| `src/lib/auth/mode.ts` | `WRINGY_APP_MODE`, read without throwing |
+| `src/lib/auth/env.ts` | The three internal-mode variables, narrowed once |
+| `src/lib/auth/origin.ts` | The Origin rule (kickoff-package.md §4.5) |
+| `src/lib/auth/next-path.ts` | `safeNextPath()`: a return path that cannot leave `APP_ORIGIN` |
+| `src/lib/auth/outcomes.ts` | The nine outcome codes and where each comes from |
+| `src/lib/auth/no-store.ts` | The cache headers every cookie-writing response carries |
+| `src/lib/auth/api-client.ts` | Bearer calls to Fastify, and reading the proxy's token header |
+| `src/lib/auth/wire.ts` | The header and cookie names both ends share |
+| `src/lib/auth/route-support.ts` | The guard sequence and the cookie jar the four handlers share |
+| `src/app/auth/{sign-in,callback,sign-out}/route.ts` | The three auth endpoints |
+| `src/app/(internal)/internal/session-probe/route.ts` | The probe |
+| `src/app/(internal)/internal/sign-in/page.tsx` | The only public page of the internal build |
+
+Every write path is a Route Handler, never a Server Action: Next checks `Origin` automatically for
+Server Actions only, and each handler applies its own guards in one fixed order — the mode guard
+(404 in demo mode), then the Origin rule (403, before anything upstream is called), then its work.
+
+### What the proxy does
+
+In `demo` mode: nothing. `NextResponse.next()`, no cookie read, no header changed.
+
+In `internal` mode: `/` → 307 `/internal`; any path outside `/internal`, `/internal/…` and
+`/auth/…` → rewritten to the internal not-found page; `GET`/`HEAD` on `/internal` and
+`/internal/…` (except the public sign-in page and the not-found page) → refresh the session, copy
+any refreshed cookies onto both the forwarded request and the response, apply the no-store headers
+when anything was written, and set `x-wringy-access-token`; no session → 307 to the sign-in page
+(`outcome=session_ended` when a session cookie existed). Everything else is passed through.
+
+Two invariants worth knowing before changing it:
+
+- `x-wringy-access-token` is **deleted from every matched request** before anything else happens,
+  and set again only from a session the proxy just verified. A client cannot inject an identity.
+- every redirect's host comes from `APP_ORIGIN`, never from `Host` or `X-Forwarded-Host`.
+
+A Server Component never creates a Supabase client. It cannot set cookies, so a refresh there would
+silently drop the rotated refresh token; that is why the token arrives in a header instead. For the
+same reason the probe handler reads the stored access token straight out of the session cookie
+(`readStoredAccessToken`, using `@supabase/ssr`'s own public helpers) rather than through
+`getSession()` — or `getClaims()` with no argument, which calls `getSession()` and so inherits the
+same refresh.
+
+### Environment
+
+`WRINGY_APP_MODE` (`demo` | `internal`, default `demo`). When it is `internal`, `SUPABASE_URL`,
+`SUPABASE_PUBLISHABLE_KEY` and `APP_ORIGIN` are all required; in `demo` mode none of them is, so
+the demo build, the M1 Playwright suite and the env-less image smoke keep working. The key is
+publishable by design; no `sb_secret_…` key exists anywhere in the web. If internal mode is set
+without those variables, the proxy passes requests through so `/internal` can still render its
+`not-configured` state.
+
+### Outcomes
+
+`/internal/sign-in?outcome=<code>` is the one public page, and each code has a title and a
+description in all three locales under `internal.signIn.outcomes.<code>`:
+
+| Code | When |
+|---|---|
+| `cancelled` | the person declined at Google (`error=access_denied`) |
+| `expired` | `flow_state_not_found` in the query, or `flow_state_expired` from the exchange |
+| `wrong_browser` | `bad_code_verifier`, or this browser holds no PKCE verifier |
+| `session_ended` | a session cookie existed but could not be refreshed |
+| `signed_out` | sign-out confirmed |
+| `signed_out_unconfirmed` | `signOut()` returned an error; this device is cleared anyway |
+| `not_allowed` | 403 `sign_in.not_allowed` — the address is not on the tester list |
+| `disabled` | 403 `account.disabled` |
+| `unexpected` | anything else, including every 503 (retryable, never "signed out") |
+
+### CI
+
+`pnpm depcruise` (rule `supabase-client-only-in-auth-lib`) says where a Supabase client library may
+be imported; `pnpm check:supabase-scope` says how the one allowed file may use it — never at module
+level. Both plant deliberate violations and require them to be rejected.
+
 ## What is installed
 
 Node 24.21.0 (pinned by the root `.npmrc` `use-node-version`, so pnpm downloads and runs it even

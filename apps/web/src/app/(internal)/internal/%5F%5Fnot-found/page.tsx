@@ -12,6 +12,14 @@ import { notFound } from 'next/navigation';
  *
  * The double-underscore name keeps it out of the way of any real product path:
  * nothing links here, and it is not a route anyone is meant to type.
+ *
+ * The folder on disk is `%5F%5Fnot-found`, not `__not-found`. Next treats a folder
+ * beginning with `_` as a **private** folder and leaves it out of the route tree
+ * entirely, so `__not-found` would not have been a route at all — the rewrite
+ * would have landed on `[...rest]` by luck rather than on this page. `%5F` is the
+ * documented escape for a URL segment that starts with an underscore
+ * (node_modules/next/dist/docs/01-app/01-getting-started/02-project-structure.md,
+ * "Private folders"). The URL is `/internal/__not-found`.
  */
 export default function InternalRewrittenNotFound(): never {
   notFound();
