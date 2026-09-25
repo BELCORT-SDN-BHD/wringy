@@ -44,7 +44,6 @@ import {
   cancelSignIn,
   consentAs,
   expect,
-  newTaggedContext,
   onlySessionOf,
   parseConsentPage,
   sessionCookieFingerprint,
@@ -93,11 +92,9 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
 
   for (const locale of LOCALES) {
     test(`M2-AC02/1 simulated sign-in page: a signed-out visitor is sent to a localized sign-in page (${locale})`, async ({
-      browser,
-      tag,
+      tagged,
     }) => {
-      const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-      const page = await context.newPage();
+      const { page, context } = tagged;
       const problems = watchConsole(page);
       await setLocaleCookie(page, locale, HEALTHY_WEB_ORIGIN);
 
@@ -128,17 +125,15 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
       await expectNoSessionCookie(context);
       await internalShot(page, `sign-in-${locale}`);
       expect(problems).toEqual([]);
-      await context.close();
     });
   }
 
   test('M2-AC02/1 simulated login: the visitor comes back to the page they asked for, and the authorize request asks for no extra scopes', async ({
-    browser,
+    tagged,
     tag,
     control,
   }) => {
-    const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-    const page = await context.newPage();
+    const { page } = tagged;
 
     const landed = await signInAs(page, 'alice', { start: `${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.internal}?x=1` });
     expect(pathAndQuery(landed), 'the visitor is back where they started').toBe('/internal?x=1');
@@ -169,30 +164,24 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     expect(profiles[0]).toMatchObject({ contact_email: ALICE.email, display_name: ALICE.fullName, status: 'active' });
 
     await internalShot(page, 'signed-in-header');
-    await context.close();
   });
 
   test('M2-AC02/1 simulated cancel: cancelling at the provider shows the cancelled outcome in the current locale', async ({
-    browser,
-    tag,
+    tagged,
   }) => {
-    const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-    const page = await context.newPage();
+    const { page, context } = tagged;
     await setLocaleCookie(page, 'zh-Hans-MY', HEALTHY_WEB_ORIGIN);
 
     await cancelSignIn(page);
     await expectOutcome(page, 'cancelled', 'zh-Hans-MY');
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hans-MY');
     await expectNoSessionCookie(context);
-    await context.close();
   });
 
   test('M2-AC02/1 simulated not_allowed: a verified address that nobody invited is refused and leaves no session cookie', async ({
-    browser,
-    tag,
+    tagged,
   }) => {
-    const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-    const page = await context.newPage();
+    const { page, context } = tagged;
 
     await signInAs(page, 'mallory');
     await expectOutcome(page, 'not_allowed');
@@ -205,54 +194,43 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     // She got no profile either: the gate runs before the upsert.
     const profiles = await sql<{ id: string }>('migrator', 'SELECT id FROM app.profiles WHERE id = $1', [MALLORY.id]);
     expect(profiles, 'a refused first sign-in writes no profile').toHaveLength(0);
-    await context.close();
   });
 
   test('M2-AC02/1 simulated expired: a flow state that expired before the exchange shows the expired outcome', async ({
-    browser,
-    tag,
-    control,
+    tagged,
   }) => {
+    const { page, context, tag, control } = tagged;
     await control.expireNextFlow(tag);
-    const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-    const page = await context.newPage();
 
     await signInAs(page, 'alice');
     await expectOutcome(page, 'expired');
     await expectNoSessionCookie(context);
-    await context.close();
   });
 
   test('M2-AC02/1 simulated wrong_browser: a consent completed in another browser shows the wrong-browser outcome', async ({
-    browser,
-    tag,
+    tagged,
+    openDevice,
   }) => {
-    // Context A starts the flow, so A holds the PKCE verifier.
-    const started = await newTaggedContext(browser, { tag: `${tag}-a`, baseURL: HEALTHY_WEB_ORIGIN });
-    const startedPage = await started.newPage();
-    const consentUrl = await startSignIn(startedPage);
+    // This browser starts the flow, so it is the one holding the PKCE verifier.
+    const consentUrl = await startSignIn(tagged.page);
 
-    // Context B finishes it. It has no verifier, which is what PKCE is for.
-    const elsewhere = await newTaggedContext(browser, { tag: `${tag}-b`, baseURL: HEALTHY_WEB_ORIGIN });
-    const elsewherePage = await elsewhere.newPage();
-    await elsewherePage.goto(consentUrl);
-    await consentAs(elsewherePage, 'alice', HEALTHY_WEB_ORIGIN);
+    // A second browser finishes it. It has no verifier, which is what PKCE is for.
+    const elsewhere = await openDevice('elsewhere');
+    await elsewhere.page.goto(consentUrl);
+    await consentAs(elsewhere.page, 'alice', HEALTHY_WEB_ORIGIN);
 
-    await expectOutcome(elsewherePage, 'wrong_browser');
-    await expectNoSessionCookie(elsewhere);
-    await started.close();
-    await elsewhere.close();
+    await expectOutcome(elsewhere.page, 'wrong_browser');
+    await expectNoSessionCookie(elsewhere.context);
+    // The browser that started it never got a session either.
+    await expectNoSessionCookie(tagged.context);
   });
 
   test('M2-AC02/1 simulated refresh: an expired access token is refreshed in place, without a call to the provider about the user', async ({
-    browser,
-    tag,
-    control,
+    tagged,
   }) => {
     test.setTimeout(90_000);
+    const { page, context, tag, control } = tagged;
     await control.tokenLifetime(tag, 2);
-    const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-    const page = await context.newPage();
     await signInAs(page, 'alice');
     await expect(page.getByTestId(TESTIDS.signedInAs)).toContainText(ALICE.email);
 
@@ -274,7 +252,6 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     // never asks the auth server who the caller is (§4.3). Counted as a delta:
     // the first sign-in legitimately asked once, through requireLiveSession.
     expect(after.calls.user, 'the refresh must not call the auth server about the user').toBe(before.calls.user);
-    await context.close();
   });
 
   test('M2-AC02/1 simulated sign-out: this device is signed out, the other devices are named, and the back button shows no private data', async ({
@@ -304,14 +281,12 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
   // --- M2-AC02/2: what a live session is, and what ends it -----------------
 
   test('M2-AC02/2 simulated isolation: two signed-in contexts reloading at once never swap identities', async ({
-    browser,
-    tag,
+    tagged,
+    openDevice,
   }) => {
     test.setTimeout(180_000);
-    const aliceContext = await newTaggedContext(browser, { tag: `${tag}-alice`, baseURL: HEALTHY_WEB_ORIGIN });
-    const bobContext = await newTaggedContext(browser, { tag: `${tag}-bob`, baseURL: HEALTHY_WEB_ORIGIN });
-    const alicePage = await aliceContext.newPage();
-    const bobPage = await bobContext.newPage();
+    const alicePage = tagged.page;
+    const bobPage = (await openDevice('bob')).page;
     await signInAs(alicePage, 'alice');
     await signInAs(bobPage, 'bob');
 
@@ -332,20 +307,14 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
       expect(aliceBody, `round ${round}: nothing of Bob on Alice's page`).not.toContain(BOB.email);
       expect(bobBody, `round ${round}: nothing of Alice on Bob's page`).not.toContain(ALICE.email);
     }
-
-    await aliceContext.close();
-    await bobContext.close();
   });
 
   test('M2-AC02/2 simulated session_ended: a session revoked at the provider cannot be refreshed and lands on sign-in', async ({
-    browser,
-    tag,
-    control,
+    tagged,
   }) => {
     test.setTimeout(90_000);
+    const { page, tag, control } = tagged;
     await control.tokenLifetime(tag, 2);
-    const context = await newTaggedContext(browser, { tag, baseURL: HEALTHY_WEB_ORIGIN });
-    const page = await context.newPage();
     await signInAs(page, 'alice');
     await expect(page.getByTestId(TESTIDS.signedInAs)).toContainText(ALICE.email);
 
@@ -356,7 +325,6 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
 
     await expectOutcome(page, 'session_ended');
     expect(await page.locator('body').innerText()).not.toContain(ALICE.email);
-    await context.close();
   });
 
   test('M2-AC02/2 simulated probe: the reserved command answers ok while the session is live and revoked once it is gone', async ({
@@ -387,21 +355,20 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
   });
 
   test('M2-AC02/2 simulated scope: signing out of one device leaves the other device signed in and able to run the command', async ({
-    browser,
-    tag,
+    tagged,
+    openDevice,
   }) => {
     test.setTimeout(120_000);
-    const first = await newTaggedContext(browser, { tag: `${tag}-first`, baseURL: HEALTHY_WEB_ORIGIN });
-    const second = await newTaggedContext(browser, { tag: `${tag}-second`, baseURL: HEALTHY_WEB_ORIGIN });
-    const firstPage = await first.newPage();
-    const secondPage = await second.newPage();
+    const firstPage = tagged.page;
+    const second = await openDevice('second');
+    const secondPage = second.page;
     await signInAs(firstPage, 'alice');
     await signInAs(secondPage, 'alice');
 
     await firstPage.getByTestId(TESTIDS.signOut).click();
     await firstPage.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
     await expectOutcome(firstPage, 'signed_out');
-    await expectNoSessionCookie(first);
+    await expectNoSessionCookie(tagged.context);
 
     // The second device is a different session, so `scope: 'local'` left it alone.
     await secondPage.reload();
@@ -409,9 +376,6 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     await secondPage.getByTestId(TESTIDS.sessionProbe).click();
     await secondPage.waitForURL((url) => url.searchParams.get('probe') !== null);
     await expect(secondPage.getByTestId(TESTIDS.probeResult)).toHaveAttribute('data-probe', 'ok');
-
-    await first.close();
-    await second.close();
   });
 
   test('M2-AC02/2 simulated disabled: a disabled profile is refused, shown the disabled outcome and left with no session cookie', async ({
@@ -623,18 +587,17 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
   });
 
   test('M2-AC02/3 simulated shared cache: an RFC 9111 shared cache between two signed-in people never hands one the other page', async ({
-    browser,
-    tag,
+    tagged,
+    openDevice,
   }) => {
     test.setTimeout(120_000);
     const proxy = await startCachingProxy(HEALTHY_WEB_ORIGIN);
-    const aliceContext = await newTaggedContext(browser, { tag: `${tag}-alice`, baseURL: HEALTHY_WEB_ORIGIN });
-    const bobContext = await newTaggedContext(browser, { tag: `${tag}-bob`, baseURL: HEALTHY_WEB_ORIGIN });
     try {
-      const alicePage = await aliceContext.newPage();
-      const bobPage = await bobContext.newPage();
-      await signInAs(alicePage, 'alice');
-      await signInAs(bobPage, 'bob');
+      const aliceContext = tagged.context;
+      const bob = await openDevice('bob');
+      const bobContext = bob.context;
+      await signInAs(tagged.page, 'alice');
+      await signInAs(bob.page, 'bob');
 
       // Cookies are host-scoped, so each context sends its own session to the
       // proxy's port as it would to the app's.
@@ -665,8 +628,6 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
         await anonymous.dispose();
       }
     } finally {
-      await aliceContext.close();
-      await bobContext.close();
       await proxy.stop();
     }
   });

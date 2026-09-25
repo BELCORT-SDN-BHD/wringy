@@ -455,21 +455,36 @@ export async function startCachingProxy(upstreamOrigin: string): Promise<Caching
 
 // --- the fixtures --------------------------------------------------------------
 
-/** What the `signedIn` fixture hands a test. */
-export interface SignedIn {
-  /** A page in a fresh context, signed in as Alice, pointed at the project's own baseURL. */
+/** One browser that carries its own tag: the test's own, or a second device. */
+export interface Device {
   page: Page;
   context: BrowserContext;
-  user: FakeUser;
-  control: AuthControl;
+  /** The `X-Wringy-Test` value this context stamps on every request. */
   tag: string;
+  control: AuthControl;
 }
+
+/** The test's own browser, signed in as Alice. */
+export interface SignedIn extends Device {
+  user: FakeUser;
+}
+
+/**
+ * Opens a second browser for the rows that need two people, or the same person
+ * twice. The suffix becomes part of its tag, so the two sets of auth calls stay
+ * apart, and the context is closed when the test ends.
+ */
+export type OpenDevice = (suffix: string) => Promise<Device>;
 
 export interface InternalFixtures {
   /** A value unique to this test, stamped on every request the test's contexts make. */
   tag: string;
   control: AuthControl;
+  /** The test's own page and context, with the tag header set. Nobody is signed in yet. */
+  tagged: Device;
+  /** The test's own page and context, signed in as Alice through the real flow. */
   signedIn: SignedIn;
+  openDevice: OpenDevice;
 }
 
 /**
@@ -478,6 +493,13 @@ export interface InternalFixtures {
  * `provide` here because `eslint-config-next`'s `react-hooks/rules-of-hooks`
  * reads a call to `use(...)` as React 19's `use` hook and refuses it outside a
  * component. The name is arbitrary to Playwright; the rule stays on everywhere.
+ *
+ * `tagged` and `signedIn` build on Playwright's OWN `context` and `page`
+ * fixtures rather than calling `browser.newContext()`. That matters: a context
+ * made by hand ignores the project's `use`, so the 320 px project would silently
+ * run at the default 1280, and Playwright's traces, videos and
+ * screenshot-on-failure would not be attached to it. The tag header is added to
+ * the project's context instead, with `setExtraHTTPHeaders`.
  */
 export const test = base.extend<InternalFixtures>({
   tag: async ({}, provide, testInfo) => {
@@ -488,15 +510,32 @@ export const test = base.extend<InternalFixtures>({
   control: async ({}, provide) => {
     await provide(authControl);
   },
-  signedIn: async ({ browser, baseURL, tag, control }, provide) => {
-    const context = await newTaggedContext(browser, { tag, baseURL });
-    const page = await context.newPage();
+  tagged: async ({ context, page, tag, control }, provide) => {
+    await context.setExtraHTTPHeaders({ [TEST_TAG_HEADER]: tag });
+    await provide({ page, context, tag, control });
+  },
+  signedIn: async ({ tagged }, provide) => {
     // The dance is the real one: 307 → sign-in page → POST → consent → callback.
-    await signInAs(page, 'alice');
-    await expect(page.getByTestId(TESTIDS.signedInAs), 'the fixture must land signed in as Alice').toContainText(
+    await signInAs(tagged.page, 'alice');
+    await expect(tagged.page.getByTestId(TESTIDS.signedInAs), 'the fixture must land signed in as Alice').toContainText(
       FAKE_USERS.alice.email,
     );
-    await provide({ page, context, user: FAKE_USERS.alice, control, tag });
-    await context.close();
+    await provide({ ...tagged, user: FAKE_USERS.alice });
+  },
+  openDevice: async ({ browser, baseURL, tag, control }, provide, testInfo) => {
+    const opened: BrowserContext[] = [];
+    const open: OpenDevice = async (suffix) => {
+      const deviceTag = `${tag}-${suffix}`;
+      const context = await browser.newContext({
+        baseURL,
+        // The project's own viewport, which browser.newContext() would not take.
+        viewport: testInfo.project.use.viewport,
+        extraHTTPHeaders: { [TEST_TAG_HEADER]: deviceTag },
+      });
+      opened.push(context);
+      return { page: await context.newPage(), context, tag: deviceTag, control };
+    };
+    await provide(open);
+    for (const context of opened) await context.close();
   },
 });
