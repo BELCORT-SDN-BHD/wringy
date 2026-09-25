@@ -36,9 +36,19 @@ const UNLISTED_USER = '88888888-8888-4888-8888-888888888888';
 const METADATA_USER = '99999999-9999-4999-8999-999999999999';
 const SESSION = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
 
-/** The address as a person would type it; the gate and the row both normalise it. */
+/** The address as a person would type it; the gate normalises it, the row does not. */
 const LISTED_EMAIL = '  Alice.Tan@Example.TEST  ';
 const LISTED_NORM = normalizeEmail(LISTED_EMAIL);
+/** What `app.profiles.contact_email` must hold: the verified claim, only trimmed. */
+const LISTED_VERIFIED = LISTED_EMAIL.trim();
+/**
+ * An address whose normal form names a DIFFERENT mailbox: U+FB01 is the `fi`
+ * ligature, and NFKC expands it. `a\uFB01le@…` and `afile@…` are two mailboxes to
+ * a provider, so the notification address must keep the first spelling.
+ */
+const LIGATURE_USER = '66666666-6666-4666-8666-666666666666';
+const LIGATURE_EMAIL = 'A\uFB01le@Example.test';
+const LIGATURE_NORM = normalizeEmail(LIGATURE_EMAIL);
 
 interface ProfileRow {
   contact_email: string;
@@ -104,7 +114,7 @@ describe('M2-AC02 POST /identity/sign-in', () => {
     expect(response.body).not.toContain('mallory@example.test');
   });
 
-  it('M2-AC02/2 sign-in gate: a listed address creates the profile with the normalised email, the display name and the sign-in stamp; a second sign-in refreshes them; removing the address from the list signs nobody out', async () => {
+  it('M2-AC02/2 sign-in gate: a listed address creates the profile with the verified email, the display name and the sign-in stamp; a second sign-in refreshes them; removing the address from the list signs nobody out', async () => {
     const token = await identity.signToken({
       sub: LISTED_USER,
       sessionId: SESSION,
@@ -114,15 +124,20 @@ describe('M2-AC02 POST /identity/sign-in', () => {
     const created = await signIn(token);
     expect(created.statusCode).toBe(200);
     const body = created.json() as SignInResponse;
+    // The gate compared the normal form (that is what the list holds), but the row
+    // keeps the address as the provider spells it: `contact_email` is the
+    // notification address, and normalisation is a comparison key, not a rewrite
+    // of where somebody is written to (§3.2, D7, R5).
+    expect(LISTED_VERIFIED).not.toBe(LISTED_NORM);
     expect(body.profile).toMatchObject({
       id: LISTED_USER,
-      contactEmail: LISTED_NORM,
+      contactEmail: LISTED_VERIFIED,
       displayName: 'Alice Tan',
       status: 'active',
     });
 
     const [first] = await profileRow(LISTED_USER);
-    expect(first).toMatchObject({ contact_email: LISTED_NORM, display_name: 'Alice Tan', status: 'active' });
+    expect(first).toMatchObject({ contact_email: LISTED_VERIFIED, display_name: 'Alice Tan', status: 'active' });
     expect(first?.last_sign_in_at).toBeInstanceOf(Date);
 
     // A second sign-in with a refreshed provider profile: the same row, restamped.
@@ -136,7 +151,7 @@ describe('M2-AC02 POST /identity/sign-in', () => {
     expect(updated.statusCode).toBe(200);
     const [second] = await profileRow(LISTED_USER);
     expect(second).toMatchObject({
-      contact_email: 'alice.tan+work@example.test',
+      contact_email: 'ALICE.TAN+work@example.test',
       display_name: 'Alice Tan Wei',
     });
     expect(second!.last_sign_in_at.getTime()).toBeGreaterThanOrEqual(first!.last_sign_in_at.getTime());
@@ -149,6 +164,29 @@ describe('M2-AC02 POST /identity/sign-in', () => {
     const afterRemoval = await signIn(again);
     expect(afterRemoval.statusCode).toBe(200);
     expect(await profileRow(LISTED_USER)).toHaveLength(1);
+  });
+
+  it('M2-AC02/2 sign-in gate: normalisation decides the gate, never what the notification address becomes', async () => {
+    // NFKC is the right rule for "is this address on the list?" and the wrong rule
+    // for "where do we write to this person?": `afile@…` is not `a\uFB01le@…`.
+    expect(LIGATURE_NORM).toBe('afile@example.test');
+    expect(LIGATURE_NORM).not.toBe(LIGATURE_EMAIL.toLowerCase());
+    await asMigrator(
+      db,
+      `INSERT INTO app.sign_in_allowlist (email_norm, reason, added_by) VALUES ($1, 'integration test', 'wringy-test')
+       ON CONFLICT (email_norm) DO NOTHING`,
+      [LIGATURE_NORM],
+    );
+
+    const token = await identity.signToken({ sub: LIGATURE_USER, sessionId: SESSION, email: LIGATURE_EMAIL });
+    const response = await signIn(token);
+
+    // The list was matched on the normal form …
+    expect(response.statusCode).toBe(200);
+    // … and the row holds what the provider verified, character for character.
+    const [row] = await profileRow(LIGATURE_USER);
+    expect(row?.contact_email).toBe(LIGATURE_EMAIL);
+    expect(row?.contact_email).not.toBe(LIGATURE_NORM);
   });
 
   it('M2-AC02/2 sign-in gate: a token with no email claim is 401, and a user_metadata.email that is listed does not open the gate', async () => {

@@ -64,7 +64,13 @@ export async function lockProfileById(client: Queryable, id: string): Promise<Pr
 export interface SignInIdentity {
   /** The verified token subject; the primary key. */
   id: string;
-  /** The verified address in its normal form (`normalizeEmail`, @wringy/db). */
+  /**
+   * The verified `email` claim as the provider spells it — the notification
+   * address (§3.2, D7). **Not** the allow-list's normal form: `normalizeEmail` is
+   * NFKC plus lower-case, which rewrites some addresses into a different mailbox,
+   * and it exists to answer one question (is this address listed?), not to decide
+   * where a person is written to.
+   */
   contactEmail: string;
   /** The provider's display name, for display only; null when absent. */
   displayName: string | null;

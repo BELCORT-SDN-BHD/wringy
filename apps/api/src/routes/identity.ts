@@ -73,16 +73,19 @@ export const identityRoutes: FastifyPluginAsyncZod<IdentityRoutesOptions> = asyn
     },
     async (request, reply) => {
       const actor = actorOf(request);
-      if (actor.email === null) {
+      // Held in a local, so the narrowing below survives into the transaction
+      // callback: this is the verified address exactly as the provider spells it.
+      const verifiedEmail = actor.email;
+      if (verifiedEmail === null) {
         request.log.info({ reason: 'no_email_claim' }, 'sign-in refused');
         return reply.code(401).send(errorBody('unauthenticated'));
       }
-      // The gate and the row agree on what an address is, because both normalise
-      // it with the one function packages/db exports (R5). A claim that is not an
-      // address at all is no more usable than a missing one.
+      // The gate asks about the normal form, because the list is written in it
+      // (R5): one function in packages/db, used by the CLI and here. A claim that
+      // is not an address at all is no more usable than a missing one.
       let emailNorm: string;
       try {
-        emailNorm = normalizeEmail(actor.email);
+        emailNorm = normalizeEmail(verifiedEmail);
       } catch (error) {
         if (!(error instanceof InvalidEmailError)) throw error;
         request.log.info({ reason: 'email_claim_not_an_address' }, 'sign-in refused');
@@ -108,9 +111,15 @@ export const identityRoutes: FastifyPluginAsyncZod<IdentityRoutesOptions> = asyn
           if (existing === null && !(await isAllowlisted(client, emailNorm))) {
             throw new SignInRefused(403, 'sign_in.not_allowed', 'address not on the sign-in allow-list');
           }
+          // The verified address as the provider spells it, not the comparison
+          // key: `contact_email` is copied from the verified token and is the
+          // notification address (§3.2, D7, §4.4), while normalisation is NFKC,
+          // which rewrites — a ligature becomes its letters, U+2024 ONE DOT LEADER
+          // becomes `.`, so the normal form can name a different mailbox.
+          // `emailNorm` answers the allow-list question and nothing else (R5).
           return writeProfileOnSignIn(client, {
             id: actor.userId,
-            contactEmail: emailNorm,
+            contactEmail: verifiedEmail.trim(),
             displayName: actor.displayName,
           });
         });
