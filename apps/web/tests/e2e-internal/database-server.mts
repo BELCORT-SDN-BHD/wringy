@@ -12,7 +12,13 @@
  *    throwaway embedded one; roles bootstrapped; a template migrated from zero
  *    as the migrator and marked environment `ci`;
  * 2. a fresh clone of the template, seeded with the fixture campaigns as
- *    `pnpm db:seed:fixtures` does.
+ *    `pnpm db:seed:fixtures` does;
+ * 3. the two allowed testers on `app.sign_in_allowlist`, through the same
+ *    `addAllowlistEntry` the audited CLI uses (M2-02 R5). This happens HERE
+ *    rather than in globalSetup because the api starts before globalSetup runs,
+ *    and `POST /identity/sign-in` reads that table on the first sign-in. The
+ *    third fake identity (Mallory) is deliberately left off it: she is the row
+ *    that proves 403 `sign_in.not_allowed`.
  *
  * It then prints one line that Playwright's `wait.stdout` matches; the named
  * groups become WRINGY_E2E_PG_HOST, WRINGY_E2E_PG_PORT, WRINGY_E2E_PG_DATABASE
@@ -29,6 +35,9 @@
 import { createServer } from 'node:http';
 
 import { createDatabaseIn, seedFixturesIn, startTestCluster } from '@wringy/db/testing/cluster';
+import { allowlistAddAt } from '@wringy/db/testing/connect';
+
+import { allowlistedEmails } from './fake-auth/users';
 
 const running = await startTestCluster();
 let stopping: Promise<void> | undefined;
@@ -37,6 +46,11 @@ const stop = (): Promise<void> => (stopping ??= running.stop());
 try {
   const database = await createDatabaseIn(running.info);
   const seeded = await seedFixturesIn(database);
+
+  const allowed: string[] = [];
+  for (const email of allowlistedEmails()) {
+    allowed.push(await allowlistAddAt(database.urls.migrator, email, { reason: 'internal suite tester', addedBy: 'wringy-e2e' }));
+  }
 
   const control = createServer((request, response) => {
     if (request.method === 'POST' && request.url === '/shutdown') {
@@ -64,7 +78,8 @@ try {
     const controlPort = address && typeof address === 'object' ? address.port : 0;
     console.log(
       `wringy-e2e-database ready host=${running.info.host} port=${running.info.port} database=${database.name} ` +
-        `control=http://127.0.0.1:${controlPort} campaigns=${seeded.campaigns} orgs=${seeded.orgs}`,
+        `control=http://127.0.0.1:${controlPort} campaigns=${seeded.campaigns} orgs=${seeded.orgs} ` +
+        `allowlisted=${allowed.length}`,
     );
   });
 
