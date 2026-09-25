@@ -304,6 +304,18 @@ Every §4.9 `Real` row, up front, with the reason it has not run. The walk is
 |---|---|
 | "M2-AC01 failure and refusal states" (above) | Its two not-found tests recorded, in 实际, that the browser shows "the internal not-found page, **or the demo layout**". Since M2-02 the second half cannot happen on an internal origin: `proxy.ts` rewrites every path outside `/internal`, `/internal/…` and `/auth/…` to the internal not-found page (R12), so `internal.spec.ts`'s row was retitled from "unmatched URL outside /internal renders the demo root layout" to "…renders the internal not-found page, never the demo root layout" and now asserts the internal banner and the absence of the demo toolbar. The M2-AC01 expectation (a 404 inside the right root layout, with `lang`, the CSS and the banner) is unchanged and still passes; only the alternative is gone. Recorded here because R15 requires the change to be in the evidence |
 
+### Reviews registered for M2-02 (D23: what actually ran)
+
+| Review | Ran on | Result | Where |
+|---|---|---|---|
+| Design critique before the build: three independent Claude critics (security, vendor mechanics, testability) against the installed `@supabase/ssr` 0.12.7, auth-js 2.117.2 and Next 16.3.5 sources | the rev-1 design record, 2026-09-25 | 4 blockers, 15 majors, all folded into rev 2 of [m2-02-code-review.md](m2-02-code-review.md) (the `next` cookie, the token header from the proxy, the required `authenticate` option, Mechanism B fail-closed, the two-write no-store, the outcome sources) | this session's scratch; the record's rev-2 markers |
+| W5 adversarial review: 8 Claude lenses over `git diff 6c27eae..6245eb8`, 3 independent refuters per finding | `6245eb8`, 2026-09-26 | 47 findings, 31 confirmed, 29 fixed in `fd65030..91c257a`, 2 recorded as decisions for the founder (token-2, liveness-2 in [known-issues.md](known-issues.md)); independent verifier re-ran every gate and both suites: pass | this section's rows; known-issues |
+| `/code-review` skill (Standards + Spec axes, two parallel sub-agents) — the review `/implement` ends with (D23) | `91c257a` | Standards: no documented-standard violation, two duplicated-code judgement calls kept by design. Spec: 6 missing/partial items, 1 out-of-scope commit (the owner's SKILL.md edit, requested), 4 doubtful items — all accepted and fixed in W6 (`4ce9aa9..3f50af4`) or recorded | W6 rows above |
+| Cross-vendor read-only review (Codex CLI 0.153.4, `gpt-6-astra`) | attempted on `6245eb8`, 2026-09-26 | **NOT EXECUTED**: the Codex account answered "You've hit your usage limit … try again at Sep 30th, 2026 10:25 AM". Registered as run-and-refused, per D23 (nothing enforced; register what ran) | orchestrator log |
+| Independent native read-only review in its place (a fresh Claude Opus reviewer with the Codex brief), on the founder's instruction of 2026-09-26 ("没有 Codex 用 native 也可以") | `91c257a` (+ `06cc868` docs) | no blocker, no major; 10 minors (dotted-path matcher gap, NFKC fold, disabled decided outside the transaction, table-level UPDATE on `status`, `getClaims` throwing on a malformed cookie, the 25–28 s refresh retry under an outage, the transaction-client test gap, the httpOnly assertion gap, no-store on pass-through, no framing protection) — all fixed in W6 with a pinning test each; the review also confirmed token verification, the gate, the Origin rule, redirects, cookie flags and no-store sound | scratchpad `native-review/review.md`; W6 rows |
+
+A Codex pass on the merged tree stays open for when the account's limit resets (it can fold into M2-10's cross-vendor review).
+
 ## W5 adversarial review
 
 On 2026-09-23 the orchestrator ran an adversarial review of `git diff 3def287...9ca00a5`: reviewers
