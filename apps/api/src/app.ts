@@ -32,6 +32,19 @@ import type { SessionLiveness } from './session-liveness';
 /** Every response: private, never stored by a browser or a shared cache. */
 export const CACHE_CONTROL = 'private, no-store';
 
+/** One method/path pair of the built app's route table (`app.routeTable`). */
+export interface RouteEntry {
+  readonly method: string;
+  readonly url: string;
+}
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    /** Every route registered on this app, in registration order (M2-02 R8, R18). */
+    routeTable: readonly RouteEntry[];
+  }
+}
+
 export interface BuildAppOptions {
   /** The runtime-role pool (wringy_api_login). The caller owns it and ends it after app.close(). */
   pool: Pool;
@@ -66,6 +79,18 @@ export function buildApp({
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
   app.decorate('authenticate', authenticate);
+
+  // Every route this app registers, collected as it is registered. `onRoute` is
+  // encapsulated, so a hook added here — before any plugin — also sees the routes
+  // the plugins add. It exists so the README's invariant ("every route but /health
+  // and /health/live runs app.authenticate") is a property a test can check over
+  // the whole route table, instead of a hard-coded list a later ticket can forget
+  // to extend (M2-02 R8, R18).
+  const routeTable: RouteEntry[] = [];
+  app.addHook('onRoute', ({ method, url }) => {
+    for (const one of Array.isArray(method) ? method : [method]) routeTable.push({ method: one, url });
+  });
+  app.decorate('routeTable', routeTable as readonly RouteEntry[]);
 
   app.addHook('onSend', async (_request, reply, payload) => {
     reply.header('cache-control', CACHE_CONTROL);

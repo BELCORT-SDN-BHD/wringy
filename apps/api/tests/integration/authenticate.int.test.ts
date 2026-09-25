@@ -175,16 +175,69 @@ describe('M2-AC02 the authentication hook', () => {
 
   it('M2-AC02/3 the captured logs never contain the token, the session id or a claim value', async () => {
     const before = api.logs.lines.length;
-    const forged = await identity.signWithUnknownKey({ sub: caller.userId, sessionId: caller.sessionId });
+    // Two forgeries, because jose's error classes carry different things and only
+    // one of them can prove this property. A bad signature raises
+    // `JWSSignatureVerificationFailed`, which carries no payload at all — logging
+    // that error object would reveal nothing, so a bad-signature token cannot
+    // detect a violation. A valid signature with a wrong `aud` raises
+    // `JWTClaimValidationFailed`, which keeps the WHOLE decoded payload (and
+    // repeats it under `cause`), and `serializeError` (src/logger.ts) copies an
+    // error's own enumerable fields through a pattern that matches none of
+    // `payload`, `session_id`, `email` or `sub`. So this is the token that bites if
+    // a later edit ever logs `{ err: error }` instead of the code.
+    const badSignature = await identity.signWithUnknownKey({ sub: caller.userId, sessionId: caller.sessionId });
+    const badClaim = await identity.signToken({
+      sub: caller.userId,
+      sessionId: caller.sessionId,
+      email: caller.contactEmail,
+      overrides: { claims: { aud: 'anon' } },
+    });
     await api.app.inject({ method: 'GET', url: '/me', headers: caller.headers });
     await api.app.inject({ method: 'POST', url: '/me/session/probe', headers: caller.headers });
-    await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: bearer(forged) });
+    for (const [label, forged] of [
+      ['a bad signature', badSignature],
+      ['a valid signature with a wrong audience', badClaim],
+    ] as const) {
+      const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: bearer(forged) });
+      expect(response.statusCode, label).toBe(401);
+    }
 
     const written = api.logs.lines.slice(before).join('');
     expect(written).not.toContain(caller.token);
-    expect(written).not.toContain(forged);
+    expect(written).not.toContain(badSignature);
+    expect(written).not.toContain(badClaim);
     expect(written).not.toContain(caller.sessionId);
+    // The claim-validation error carried these too; neither may be in a log line.
+    expect(written).not.toContain(caller.contactEmail);
+    expect(written).not.toContain(caller.userId);
     // The refusal is still useful: it names a reason word.
     expect(written).toContain('request not authenticated');
+  });
+
+  it('M2-AC02/3 forged: every route but /health and /health/live refuses a request with no token', async () => {
+    // The README states this as an invariant, but the hook is added inside each
+    // plugin, so nothing at the root enforces it: a later ticket that registers a
+    // read on the root instance (or in a new plugin that forgets the hook) would
+    // serve it to anybody. Enumerating the built app's own route table is the one
+    // check that grows with the route table instead of needing a new hard-coded
+    // list each time (R8, R18).
+    const routes = api.app.routeTable.filter(({ method }) => method !== 'OPTIONS');
+    expect(routes.length, 'the route table was collected').toBeGreaterThanOrEqual(7);
+
+    const unauthenticated = ['/health', '/health/live'];
+    for (const { method, url } of routes) {
+      const response = await api.app.inject({ method: method as 'GET', url });
+      const label = `${method} ${url}`;
+      if (unauthenticated.includes(url)) {
+        expect(response.statusCode, label).not.toBe(401);
+        // R18: a route that does not read Authorization must not claim to vary by it.
+        expect(response.headers.vary, label).toBeUndefined();
+        continue;
+      }
+      expect(response.statusCode, label).toBe(401);
+      if (method !== 'HEAD') expect(response.json(), label).toEqual(errorBody('unauthenticated'));
+      expect(response.headers.vary, label).toBe('Authorization');
+      expect(response.headers['cache-control'], label).toBe(CACHE_CONTROL);
+    }
   });
 });

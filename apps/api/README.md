@@ -64,6 +64,15 @@ fails to compile rather than serving the internal build to anybody (M2-02 R8).
 `startServer` builds both from the environment (`identityWiringFor`), and the
 integration suite builds them from a key pair generated in the process.
 
+That sentence is a property, not a promise: the hook is added inside each plugin,
+so nothing at the root enforces it and a later route registered elsewhere would
+simply be open. `buildApp` therefore collects every route it registers
+(`app.routeTable`, an `onRoute` hook), and an API-int test injects each of them
+with no `Authorization` header and asserts 401 `unauthenticated` plus
+`Vary: Authorization` -- except the two health routes, which must answer and must
+not claim to vary (R18). The check grows with the route table instead of with a
+hard-coded list.
+
 ### What is verified
 
 `jose` 6.2.12 verifies the bearer token against the project's published key set at
