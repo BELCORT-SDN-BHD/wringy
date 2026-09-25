@@ -36,6 +36,7 @@ import { request as apiRequest, type BrowserContext, type Page } from '@playwrig
 import {
   FAKE_USERS,
   HEALTHY_WEB_ORIGIN,
+  OUTAGE_WEB_ORIGIN,
   SIGN_IN_ROOT,
   TESTIDS,
   TEST_TAG_HEADER,
@@ -279,6 +280,44 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
     await expect(page.getByTestId(TESTIDS.signedInAs)).toHaveCount(0);
     expect(await page.locator('body').innerText()).not.toContain(ALICE.email);
+  });
+
+  test('M2-AC02/1 simulated signed_out_unconfirmed: a sign-out the provider refused still clears this device and says so', async ({
+    signedIn,
+  }) => {
+    const { page, context, tag, control } = signedIn;
+
+    // `signOut()` can come back with an error and no cookies cleared (a
+    // retryable auth-server failure). R10 says Wringy expires every sb-* cookie
+    // itself and tells the person it could not confirm the other end.
+    await control.failNext(tag, 'logout', 500, 'internal_error');
+    await page.getByTestId(TESTIDS.signOut).click();
+    await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
+
+    await expectOutcome(page, 'signed_out_unconfirmed');
+    await expectNoSessionCookie(context);
+    const calls = await control.calls(tag);
+    expect(calls.calls.logout, 'the failed logout was attempted').toBeGreaterThanOrEqual(1);
+  });
+
+  test('M2-AC02/1 simulated unexpected: a callback that cannot reach the api shows the unexpected outcome and keeps no session', async ({
+    tagged,
+  }) => {
+    test.setTimeout(120_000);
+    const { page, context } = tagged;
+
+    // The whole flow against the instance whose API address is closed: the
+    // callback gets its tokens, cannot reach `POST /identity/sign-in`, and must
+    // refuse rather than let a half-made session stand (R10, step 3).
+    await signInAs(page, 'alice', { start: `${OUTAGE_WEB_ORIGIN}${WEB_ROUTES.internal}` });
+
+    await expectOutcome(page, 'unexpected');
+    expect(new URL(page.url()).origin, 'the outage instance answered for itself').toBe(OUTAGE_WEB_ORIGIN);
+    await expectNoSessionCookie(context);
+    // Nothing of the failure reaches the person: no address, no port, no stack.
+    const body = await page.locator('body').innerText();
+    expect(body).not.toContain('ECONNREFUSED');
+    expect(body).not.toMatch(/https?:\/\//);
   });
 
   // --- M2-AC02/2: what a live session is, and what ends it -----------------

@@ -49,6 +49,15 @@ export type { FakeUser, FakeUserName };
 export const WEB_PORT = Number(process.env['WEB_PORT'] ?? 3100);
 export const HEALTHY_WEB_ORIGIN = `http://127.0.0.1:${WEB_PORT}`;
 
+/**
+ * The second `next start` instance, whose `API_INTERNAL_URL` points at a closed
+ * port and whose `APP_ORIGIN` is its own. A sign-in completed against THIS
+ * origin reaches a callback that cannot call `POST /identity/sign-in`, which is
+ * the one honest way to drive the `unexpected` outcome without taking the API
+ * away from every other row.
+ */
+export const OUTAGE_WEB_ORIGIN = `http://127.0.0.1:${WEB_PORT + 1}`;
+
 /** The web routes and pages of the identity slice (M2-02 R10, R11). */
 export const WEB_ROUTES = {
   signIn: '/auth/sign-in',
