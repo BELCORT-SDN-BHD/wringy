@@ -48,14 +48,27 @@ pnpm install
 pnpm db:start            # embedded PostgreSQL 17，打印各账号的本地 URL
 # 根目录 .env：WRINGY_ENV=local，DATABASE_URL_MIGRATOR 用 db:start 打印的迁移账号 URL
 pnpm db:bootstrap        # 只需一次：角色、登录账号、数据库 wringy
+pnpm db:platform-bootstrap --stub-auth   # 只需一次：非超级用户 wringy_platform_admin、
+                         # 桩 auth.sessions 与 platform.session_is_live（--stub-auth 只在 local/ci 接受）
 pnpm db:migrate          # pg-boss schema，再执行全部 SQL 迁移（迁移账号）；重复执行不改变任何东西
 pnpm db:env              # 写入环境标记 ops.environment（local 允许夹具）
 pnpm db:seed:fixtures    # 两个夹具组织、三个夹具活动
-# apps/api/.env、apps/worker/.env：从各自的 .env.example 复制，填 WRINGY_ENV=local 与 db:start 打印的运行账号 URL
-# apps/web/.env.local：WRINGY_ENV=local，API_INTERNAL_URL=http://127.0.0.1:3200（Next 从应用目录读取 .env*）
+pnpm db:allowlist add <你的 Google 邮箱> --reason "<原因>" --by "<你的名字>"
+                         # 谁可以第一次登录内部版本（裁决 D13）；remove/list 同一个命令
+# apps/api/.env、apps/worker/.env：从各自的 .env.example 复制，填 WRINGY_ENV=local 与 db:start 打印的运行账号 URL；
+#   api 另需 SUPABASE_URL、SUPABASE_PUBLISHABLE_KEY 与 SESSION_LIVENESS（本地用 auth_server：
+#   应用库是 embedded 集群，不是 Supabase 项目库，只有 auth_server 适配器答得出“会话还活着吗”）
+# apps/web/.env.local：WRINGY_ENV=local，API_INTERNAL_URL=http://127.0.0.1:3200（Next 从应用目录读取 .env*）；
+#   要走真实 Google 登录再加 WRINGY_APP_MODE=internal 与 SUPABASE_URL、SUPABASE_PUBLISHABLE_KEY、
+#   APP_ORIGIN=http://127.0.0.1:3100（不填 WRINGY_APP_MODE 就是 M1 演示版本，上面三个都不需要）
 pnpm dev                 # web、api、worker 一起启动；然后打开 http://127.0.0.1:3100/internal
 pnpm db:stop
 ```
+
+内部版本的登录走 Supabase Auth 的 Google 提供方，密钥只有可公开的 `sb_publishable_…`；
+真实登录的一次性演练见 [docs/m2-internal/m2-02-real-login-runbook.md](docs/m2-internal/m2-02-real-login-runbook.md)。
+`WRINGY_APP_MODE=internal` 会让 `apps/web/src/proxy.ts` 接管路由，`/` 以外的演示页面都变成内部版本的
+not-found，所以 M1 演示套件自己把 `WRINGY_APP_MODE=demo` 写在 webServer 上，不受本机 `.env.local` 影响。
 
 api 与 worker 的 `dev` 脚本用 Node 自带的监视模式加 tsx 加载器（`node --watch --import tsx`）。原先的 `tsx watch` 在 Windows 上经 `pnpm -r --parallel run dev` 启动时没有任何输出（2026-09-23 在本机复现：12 秒内 0 行；改用 `node --watch --import tsx` 后 `pnpm dev` 25 秒内 api、worker、web 各 7 行）。原因在 `pnpm run` 经 shell 启动 `tsx watch` 这一层，未进一步确认；`pnpm exec tsx watch` 同样的命令有输出。Node 的监视模式偶尔会在启动时因 `node_modules` 里的文件报一次“Change detected”并重启一次，无害。
 
@@ -64,8 +77,11 @@ api 与 worker 的 `dev` 脚本用 Node 自带的监视模式加 tsx 加载器�
 ```bash
 pnpm lint && pnpm typecheck && pnpm test   # 各工作区的 lint、类型、单元测试
 pnpm test:int                # 真实 PostgreSQL 17 集成测试：设置 TEST_DATABASE_URL（超级用户 URL）时用该集群，否则每个套件自起一个临时 embedded 集群
-pnpm depcruise               # 依赖方向检查；还会植入一个违规文件，必须被拒绝
-pnpm check:acceptance        # 验收映射：每个 M2 测试全名带 M2-AC，M2-AC01 每个子项有测试或验收记录行
+pnpm depcruise               # 依赖方向检查；还会植入四个违规文件，必须都被拒绝
+pnpm check:supabase-scope    # 只有 apps/web/src/lib/auth/supabase-server.ts 能 import @supabase/*，
+                             # 且其中每个 createServerClient( 都在函数体内（不能有模块级客户端）
+pnpm check:acceptance        # 验收映射：每个 M2 测试全名带 M2-AC，M2-AC01 与 M2-AC02 每个子项
+                             # 都有测试或验收记录行
 pnpm build                   # 全部构建（web 为 standalone 输出）
 pnpm canary                  # 密钥金丝雀：用金丝雀值构建 web/api/worker，检查产物与日志中不出现任何金丝雀值
 pnpm --filter web e2e        # M1 演示套件（Playwright，3 个视口）

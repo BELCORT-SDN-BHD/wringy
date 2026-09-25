@@ -134,7 +134,13 @@ the demo exposes no cookie-writing surface at all.
    matching page. Anything else → clear the session cookies and show `unexpected`.
 4. `GET /internal` with a session → the proxy refreshes it if needed and puts the access token on
    the request header `x-wringy-access-token`; the page calls `GET /me` and the two M2-01 reads
-   with it as `Authorization: Bearer …`.
+   with it as `Authorization: Bearer …`. A 401 sends the visitor to `outcome=session_ended`; a 403
+   `account.disabled` redirects to `GET /auth/end-session`, because a Server Component cannot set a
+   cookie and a disabled account must leave with none. That handler takes no parameters: it re-reads
+   the stored token without refreshing, re-asks `GET /me`, and only a 403 `account.disabled` or a 401
+   ends the session. Everything else — a 503, an unreachable API, the two refusals the callback owns
+   — changes nothing and sends the visitor back to `/internal`, so a link to it cannot sign anyone
+   out.
 5. `POST /internal/session-probe` → `POST /me/session/probe` → 303 `/internal?probe=…`. This is the
    reserved fund-sensitive stub: it changes nothing and exists to prove that a state-changing
    command re-checks session liveness inside its transaction.
@@ -155,8 +161,9 @@ the demo exposes no cookie-writing surface at all.
 | `src/lib/auth/no-store.ts` | The cache headers every cookie-writing response carries |
 | `src/lib/auth/api-client.ts` | Bearer calls to Fastify, and reading the proxy's token header |
 | `src/lib/auth/wire.ts` | The header and cookie names both ends share |
-| `src/lib/auth/route-support.ts` | The guard sequence and the cookie jar the four handlers share |
+| `src/lib/auth/route-support.ts` | The guard sequence, the shared local sign-out, and the cookie jar the handlers share. Its `adapter.getAll` reports the buffered writes as well as the incoming cookies, because `@supabase/ssr` will only remove a cookie its `getAll` says exists — without that, a refusal could not undo the session it had just written |
 | `src/app/auth/{sign-in,callback,sign-out}/route.ts` | The three auth endpoints |
+| `src/app/auth/end-session/route.ts` | Ending a session the API refuses, for the read that cannot write a cookie |
 | `src/app/(internal)/internal/session-probe/route.ts` | The probe |
 | `src/app/(internal)/internal/sign-in/page.tsx` | The only public page of the internal build |
 
