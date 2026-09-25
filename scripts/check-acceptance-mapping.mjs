@@ -72,7 +72,13 @@ const RECORD = 'docs/m2-internal/acceptance-record.md';
 const TAG = 'M2-AC';
 const VITEST_CONFIG = /^vitest(\.int)?\.config\.(ts|mts|js|mjs)$/;
 /** apps/web is the M1 prototype plus the internal build; only these parts of it are M2. */
-const WEB_M2_VITEST_FILTERS = ['src/app/(internal)/', 'tests/unit/'];
+const WEB_M2_VITEST_FILTERS = [
+  'src/app/(internal)/',
+  'src/app/auth/',
+  'src/lib/auth/',
+  'src/proxy',
+  'tests/unit/',
+];
 const WEB_INTERNAL_PLAYWRIGHT_CONFIG = 'playwright.internal.config.ts';
 const SELF_TEST_DIR = path.join(ROOT, 'scripts', 'fixtures', 'acceptance-self-test');
 

@@ -28,3 +28,12 @@ export type {
   WorkerHealthResponse,
   WorkerState,
 } from './internal';
+export {
+  PROFILE_STATUSES,
+  meResponseSchema,
+  profileSchema,
+  profileStatusSchema,
+  sessionProbeResponseSchema,
+  signInResponseSchema,
+} from './identity';
+export type { MeResponse, Profile, ProfileStatus, SessionProbeResponse, SignInResponse } from './identity';

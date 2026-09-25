@@ -1,8 +1,21 @@
 export { EnvError, parseEnv, tryLoadEnv } from './parse';
 export type { EnvProblem, EnvProblemKind, EnvResult, EnvSource } from './parse';
-export { WRINGY_ENVS, httpUrlSchema, isLoopbackUrl, postgresUrlSchema, wringyEnvSchema } from './shared';
-export type { WringyEnv } from './shared';
-export { loadWebEnv, webEnvSchema } from './web';
+export {
+  APP_MODES,
+  SESSION_LIVENESS_MODES,
+  WRINGY_ENVS,
+  appModeSchema,
+  httpUrlSchema,
+  isHttpOrigin,
+  isLoopbackUrl,
+  originSchema,
+  postgresUrlSchema,
+  publishableKeySchema,
+  sessionLivenessSchema,
+  wringyEnvSchema,
+} from './shared';
+export type { AppMode, SessionLiveness, WringyEnv } from './shared';
+export { INTERNAL_MODE_VARIABLES, loadWebEnv, webEnvSchema } from './web';
 export type { WebEnv } from './web';
 export { LOG_LEVELS, apiEnvSchema, loadApiEnv } from './api';
 export type { ApiEnv } from './api';

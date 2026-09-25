@@ -10,6 +10,10 @@
  *    cannot slip past. Secret-bearing variables carry canary passwords inside
  *    realistic values (postgres URLs with the password in them); the others
  *    carry canary values too, so an accidental inlining of any of them shows.
+ *    Enum-valued variables (WRINGY_ENV, WRINGY_APP_MODE, SESSION_LIVENESS) are
+ *    set to a value their schema accepts and searched for nothing: their whole
+ *    value space is public. Every canary value must satisfy its zod shape, or the
+ *    api refuses to start and step 4 fails on the empty log.
  * 2. Builds, with every canary in the environment: `pnpm --filter web build`
  *    (API_INTERNAL_URL is a canary URL), `pnpm --filter api build`,
  *    `pnpm --filter worker build`.
@@ -55,6 +59,13 @@ const CANARY_WORKER_ID = 'worker-c5Nh9Rj3Vb';
 const CANARY_IMAGE_REF = 'canary/wringy-worker:h7Kx2Pq9Lm';
 const CANARY_DATABASE = 'wringy_g8Fd3Zs6Qy';
 const CANARY_BOOTSTRAP_DATABASE = 'wringy_v4Tb7Jm2Hc';
+// M2-02: the Supabase project origin, the publishable key and the web origin.
+// The values satisfy @wringy/config's originSchema and publishableKeySchema, so
+// the web and api really start with them (checkCoverage would not catch a value
+// the schema rejects; a refusing api writes no log line and fails this script).
+const CANARY_SUPABASE_HOST = 'supabase-w9Kd4Rt7Zx.invalid';
+const CANARY_PUBLISHABLE_KEY = 'sb_publishable_n2Qv8Bm5Hy3Ldk';
+const CANARY_APP_HOST = 'app-t6Jz3Wq8Nc.invalid';
 
 /** Filled in with a port on 127.0.0.1 that nothing listens on, before anything starts. */
 let deadPort = 1;
@@ -69,6 +80,17 @@ function canaries() {
   return [
     { name: 'WRINGY_ENV', value: 'ci', needles: [], for: 'all' },
     { name: 'API_INTERNAL_URL', value: `http://${CANARY_API_HOST}:3200`, needles: [CANARY_API_HOST], for: 'web' },
+    // Enum-valued variables carry no needle, like WRINGY_ENV: their whole value
+    // space is public (`demo|internal`, `database|auth_server`), so a "leak" of
+    // one would be a word, not a secret. They are still set here, with a value
+    // the schema accepts, so the builds and the processes run the internal path.
+    { name: 'WRINGY_APP_MODE', value: 'internal', needles: [], for: 'web' },
+    { name: 'SESSION_LIVENESS', value: 'auth_server', needles: [], for: 'api' },
+    // The publishable key is publishable by design; it is still searched for,
+    // because M2-02 reads it on the server only and it must not reach the bundle.
+    { name: 'SUPABASE_URL', value: `https://${CANARY_SUPABASE_HOST}`, needles: [CANARY_SUPABASE_HOST], for: 'web, api' },
+    { name: 'SUPABASE_PUBLISHABLE_KEY', value: CANARY_PUBLISHABLE_KEY, needles: [CANARY_PUBLISHABLE_KEY], for: 'web, api' },
+    { name: 'APP_ORIGIN', value: `https://${CANARY_APP_HOST}`, needles: [CANARY_APP_HOST], for: 'web' },
     // DATABASE_URL: one name, two logins; the api and the worker each get their own canary password.
     { name: 'DATABASE_URL', value: dbUrl('wringy_api_login', CANARY_API_DB_PASSWORD), needles: [CANARY_API_DB_PASSWORD, CANARY_DATABASE], for: 'api' },
     { name: 'DATABASE_URL (worker)', env: 'DATABASE_URL', value: dbUrl('wringy_worker_login', CANARY_WORKER_DB_PASSWORD), needles: [CANARY_WORKER_DB_PASSWORD], for: 'worker' },
@@ -89,6 +111,13 @@ function canaries() {
 
 /** Worker-only values never searched as the worker's own identity in its own logs. */
 const WORKER_IDENTITY = new Set([CANARY_WORKER_ID, CANARY_IMAGE_REF]);
+
+/**
+ * Variables whose value space is a public enum, so neither the value nor a
+ * mention of the NAME says anything. They carry no needle and are left out of
+ * the informational name report (a build legitimately inlines the mode).
+ */
+const PUBLIC_ENUM_VARIABLES = new Set(['WRINGY_ENV', 'WRINGY_APP_MODE', 'SESSION_LIVENESS']);
 
 /** The environment for a build or a process: every canary, with DATABASE_URL set for `role`. */
 function canaryEnv(role) {
@@ -167,7 +196,7 @@ function scan(files) {
   const namesSeen = new Map();
   // A whole-word match, so PORT does not count inside EXPORT or HOST inside LOCALHOST.
   const variableNames = [...new Set(canaries().map((canary) => canary.env ?? canary.name))]
-    .filter((name) => name !== 'WRINGY_ENV')
+    .filter((name) => !PUBLIC_ENUM_VARIABLES.has(name))
     .map((name) => ({ name, pattern: new RegExp(`(?<![A-Za-z0-9_])${name}(?![A-Za-z0-9_])`) }));
   let count = 0;
   for (const file of files) {

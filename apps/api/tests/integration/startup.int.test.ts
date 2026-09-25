@@ -23,9 +23,22 @@ function freePort(): Promise<number> {
   });
 }
 
+/**
+ * The identity variables @wringy/config/api requires (M2-02 R14). These tests
+ * prove startup and shutdown, not auth behaviour, so they carry a Supabase
+ * project origin that resolves nowhere and a canary-shaped publishable key: no
+ * test here reaches the Auth server.
+ */
+const IDENTITY_ENV = {
+  SUPABASE_URL: 'https://startup-test.invalid',
+  SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_startup_test_only',
+  SESSION_LIVENESS: 'auth_server',
+} as const satisfies Pick<ApiEnv, 'SUPABASE_URL' | 'SUPABASE_PUBLISHABLE_KEY' | 'SESSION_LIVENESS'>;
+
 const envFor = (databaseUrl: string, wringyEnv: ApiEnv['WRINGY_ENV'], port = 0): ApiEnv => ({
   WRINGY_ENV: wringyEnv,
   DATABASE_URL: databaseUrl,
+  ...IDENTITY_ENV,
   HOST: '127.0.0.1',
   PORT: port,
   LOG_LEVEL: 'info',
@@ -34,7 +47,19 @@ const envFor = (databaseUrl: string, wringyEnv: ApiEnv['WRINGY_ENV'], port = 0):
 /** Runs src/main.ts in a child process (tsx) with only the API's variables set, as `pnpm dev` would. */
 function runMain(env: Record<string, string>): Promise<{ code: number | null; output: string }> {
   const childEnv: NodeJS.ProcessEnv = { ...process.env };
-  for (const name of ['WRINGY_ENV', 'DATABASE_URL', 'PORT', 'HOST', 'LOG_LEVEL', 'TEST_DATABASE_URL']) delete childEnv[name];
+  for (const name of [
+    'WRINGY_ENV',
+    'DATABASE_URL',
+    'SUPABASE_URL',
+    'SUPABASE_PUBLISHABLE_KEY',
+    'SESSION_LIVENESS',
+    'PORT',
+    'HOST',
+    'LOG_LEVEL',
+    'TEST_DATABASE_URL',
+  ]) {
+    delete childEnv[name];
+  }
   Object.assign(childEnv, env);
 
   return new Promise((resolve, reject) => {
@@ -89,6 +114,7 @@ describe('M2-AC01 API startup', () => {
     const { code, output } = await runMain({
       WRINGY_ENV: 'staging',
       DATABASE_URL: db.urls.api,
+      ...IDENTITY_ENV,
       PORT: String(await freePort()),
     });
     expect(code).toBe(1);
@@ -98,7 +124,11 @@ describe('M2-AC01 API startup', () => {
   });
 
   it('M2-AC01/2 startup exits 1 on a missing variable and names it without any value', async () => {
-    const { code, output } = await runMain({ WRINGY_ENV: 'ci', HOST: 'host-canary-DO-NOT-LEAK' });
+    const { code, output } = await runMain({
+      WRINGY_ENV: 'ci',
+      ...IDENTITY_ENV,
+      HOST: 'host-canary-DO-NOT-LEAK',
+    });
     expect(code).toBe(1);
     expect(output).toContain('Invalid environment for api: DATABASE_URL is missing');
     expect(output).not.toContain('host-canary-DO-NOT-LEAK');
@@ -132,7 +162,13 @@ describe('M2-AC01 API startup', () => {
   // this runs on Linux and macOS (CI) only.
   it.skipIf(process.platform === 'win32')('SIGTERM closes the server and the pool, and the process exits 0', async () => {
     const port = await freePort();
-    const childEnv: NodeJS.ProcessEnv = { ...process.env, WRINGY_ENV: TEST_WRINGY_ENV, DATABASE_URL: db.urls.api, PORT: String(port) };
+    const childEnv: NodeJS.ProcessEnv = {
+      ...process.env,
+      WRINGY_ENV: TEST_WRINGY_ENV,
+      DATABASE_URL: db.urls.api,
+      ...IDENTITY_ENV,
+      PORT: String(port),
+    };
     delete childEnv.TEST_DATABASE_URL;
     const child = spawn(process.execPath, ['--import', 'tsx', 'src/main.ts'], {
       cwd: API_DIR,

@@ -2,16 +2,28 @@ import { describe, expect, it } from 'vitest';
 
 import {
   EnvError,
+  INTERNAL_MODE_VARIABLES,
+  isHttpOrigin,
   loadApiEnv,
   loadBootstrapEnv,
   loadMigrateEnv,
   loadWebEnv,
   loadWorkerEnv,
+  originSchema,
   tryLoadEnv,
   type EnvSource,
 } from './index';
 
 const PG_URL = 'postgres://wringy_api_login:placeholder@127.0.0.1:54329/wringy';
+/** A Supabase project origin and a publishable key, in the shapes the schemas accept. */
+const SUPABASE_URL = 'https://abcdefghijklmnopqrst.supabase.co';
+const PUBLISHABLE_KEY = 'sb_publishable_AbCdEfGhIjKlMnOpQr';
+/** The three identity variables the api requires (M2-02 R14). */
+const API_IDENTITY = {
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY,
+  SESSION_LIVENESS: 'auth_server',
+} as const;
 
 function problemsOf(load: () => unknown): Array<{ name: string; problem: string }> {
   try {
@@ -25,9 +37,12 @@ function problemsOf(load: () => unknown): Array<{ name: string; problem: string 
 
 describe('M2-AC01 api env', () => {
   it('applies the non-secret defaults', () => {
-    expect(loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL })).toEqual({
+    expect(loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL, ...API_IDENTITY })).toEqual({
       WRINGY_ENV: 'local',
       DATABASE_URL: PG_URL,
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY,
+      SESSION_LIVENESS: 'auth_server',
       PORT: 3200,
       HOST: '127.0.0.1',
       LOG_LEVEL: 'info',
@@ -38,6 +53,7 @@ describe('M2-AC01 api env', () => {
     const env = loadApiEnv({
       WRINGY_ENV: 'ci',
       DATABASE_URL: PG_URL,
+      ...API_IDENTITY,
       PORT: '3300',
       HOST: '0.0.0.0',
       LOG_LEVEL: 'warn',
@@ -48,26 +64,102 @@ describe('M2-AC01 api env', () => {
   });
 
   it('has no default for the database URL', () => {
-    expect(problemsOf(() => loadApiEnv({ WRINGY_ENV: 'local' }))).toEqual([
+    expect(problemsOf(() => loadApiEnv({ WRINGY_ENV: 'local', ...API_IDENTITY }))).toEqual([
       { name: 'DATABASE_URL', problem: 'missing' },
+    ]);
+  });
+
+  it('M2-AC02/2 has no default for the Supabase project, its publishable key or the liveness mechanism', () => {
+    expect(problemsOf(() => loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL }))).toEqual([
+      { name: 'SESSION_LIVENESS', problem: 'missing' },
+      { name: 'SUPABASE_PUBLISHABLE_KEY', problem: 'missing' },
+      { name: 'SUPABASE_URL', problem: 'missing' },
+    ]);
+  });
+
+  it('M2-AC02/2 accepts either liveness mechanism and refuses any other spelling', () => {
+    for (const mechanism of ['database', 'auth_server'] as const) {
+      expect(
+        loadApiEnv({ WRINGY_ENV: 'ci', DATABASE_URL: PG_URL, ...API_IDENTITY, SESSION_LIVENESS: mechanism })
+          .SESSION_LIVENESS,
+      ).toBe(mechanism);
+    }
+    for (const wrong of ['auth-server', 'Auth_Server', 'authserver', 'auth server', 'none']) {
+      expect(
+        problemsOf(() =>
+          loadApiEnv({ WRINGY_ENV: 'ci', DATABASE_URL: PG_URL, ...API_IDENTITY, SESSION_LIVENESS: wrong }),
+        ),
+        wrong,
+      ).toEqual([{ name: 'SESSION_LIVENESS', problem: 'invalid' }]);
+    }
+  });
+
+  it('M2-AC02/2 refuses a publishable key too short to be one, and a Supabase URL that is not an origin', () => {
+    expect(
+      problemsOf(() =>
+        loadApiEnv({
+          WRINGY_ENV: 'ci',
+          DATABASE_URL: PG_URL,
+          ...API_IDENTITY,
+          SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_x',
+          SUPABASE_URL: `${SUPABASE_URL}/auth/v1`,
+        }),
+      ),
+    ).toEqual([
+      { name: 'SUPABASE_PUBLISHABLE_KEY', problem: 'invalid' },
+      { name: 'SUPABASE_URL', problem: 'invalid' },
     ]);
   });
 
   it('treats an empty variable as missing, so a blank .env line never passes', () => {
-    expect(problemsOf(() => loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: '  ' }))).toEqual([
+    expect(problemsOf(() => loadApiEnv({ WRINGY_ENV: 'local', ...API_IDENTITY, DATABASE_URL: '  ' }))).toEqual([
       { name: 'DATABASE_URL', problem: 'missing' },
     ]);
-    expect(loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL, PORT: '' }).PORT).toBe(3200);
+    expect(loadApiEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL, ...API_IDENTITY, PORT: '' }).PORT).toBe(3200);
   });
 
   it('names every bad variable in one error, sorted', () => {
     expect(
-      problemsOf(() => loadApiEnv({ WRINGY_ENV: 'prod', DATABASE_URL: 'https://x.test', PORT: '0' })),
+      problemsOf(() =>
+        loadApiEnv({ WRINGY_ENV: 'prod', DATABASE_URL: 'https://x.test', ...API_IDENTITY, PORT: '0' }),
+      ),
     ).toEqual([
       { name: 'DATABASE_URL', problem: 'invalid' },
       { name: 'PORT', problem: 'invalid' },
       { name: 'WRINGY_ENV', problem: 'invalid' },
     ]);
+  });
+});
+
+describe('M2-AC02/2 originSchema accepts an origin and nothing else', () => {
+  it('M2-AC02/2 accepts a bare http(s) origin, with or without a port', () => {
+    for (const value of [
+      'https://abcdefghijklmnopqrst.supabase.co',
+      'http://127.0.0.1:3100',
+      'http://localhost:3000',
+      'https://internal.wringy.com',
+    ]) {
+      expect(originSchema.safeParse(value).success, value).toBe(true);
+      expect(isHttpOrigin(value), value).toBe(true);
+    }
+  });
+
+  it('M2-AC02/2 refuses a trailing slash, a path, a query, a fragment, credentials and a non-http scheme', () => {
+    for (const value of [
+      'https://x.supabase.co/',
+      'https://x.supabase.co/auth/v1',
+      'https://x.supabase.co?ref=1',
+      'https://x.supabase.co#frag',
+      'https://user:pw@x.supabase.co',
+      'postgres://wringy_api_login:placeholder@127.0.0.1:54329/wringy',
+      'ftp://x.supabase.co',
+      'x.supabase.co',
+      'https://x.supabase.co:443',
+      '',
+    ]) {
+      expect(originSchema.safeParse(value).success, value).toBe(false);
+      expect(isHttpOrigin(value), value).toBe(false);
+    }
   });
 });
 
@@ -114,6 +206,12 @@ describe('M2-AC01/2 an env error never echoes a value', () => {
       IMAGE_REF: `bad ref ${secret}`,
       PG_BOOTSTRAP_ADMIN_URL: `mysql://${secret}`,
       PG_BOOTSTRAP_API_PASSWORD: secret.slice(0, 4),
+      // The M2-02 identity variables, each invalid and each carrying the secret.
+      WRINGY_APP_MODE: `internal-${secret}`,
+      SUPABASE_URL: `https://${secret}.supabase.co/auth/v1`,
+      SUPABASE_PUBLISHABLE_KEY: `sb publishable ${secret}`,
+      APP_ORIGIN: `https://${secret}.example/app`,
+      SESSION_LIVENESS: `auth-server-${secret}`,
     };
     for (const load of loaders) {
       const result = tryLoadEnv(() => load(everything));
@@ -138,7 +236,11 @@ describe('M2-AC01 each process reads only its own variables', () => {
 
   it('M2-AC01/2 gives the web server the API URL and never a database URL', () => {
     const env = loadWebEnv(all);
-    expect(env).toEqual({ WRINGY_ENV: 'local', API_INTERNAL_URL: 'http://127.0.0.1:3200' });
+    expect(env).toEqual({
+      WRINGY_ENV: 'local',
+      API_INTERNAL_URL: 'http://127.0.0.1:3200',
+      WRINGY_APP_MODE: 'demo',
+    });
     expect(Object.keys(env)).not.toContain('DATABASE_URL');
     expect(Object.keys(env)).not.toContain('DATABASE_URL_MIGRATOR');
   });
@@ -175,6 +277,57 @@ describe('M2-AC01 each process reads only its own variables', () => {
     expect(problemsOf(() => loadMigrateEnv({ WRINGY_ENV: 'local', DATABASE_URL: PG_URL }))).toEqual([
       { name: 'DATABASE_URL_MIGRATOR', problem: 'missing' },
     ]);
+  });
+});
+
+describe('M2-AC02/2 the web app mode decides what the internal build needs', () => {
+  const web: EnvSource = { WRINGY_ENV: 'local', API_INTERNAL_URL: 'http://127.0.0.1:3200' };
+
+  it('M2-AC02/2 defaults to demo, which needs no Supabase variables at all', () => {
+    expect(loadWebEnv(web)).toEqual({ ...web, WRINGY_APP_MODE: 'demo' });
+    expect(loadWebEnv({ ...web, WRINGY_APP_MODE: 'demo' })).toEqual({ ...web, WRINGY_APP_MODE: 'demo' });
+  });
+
+  it('M2-AC02/2 internal mode reports exactly the three missing names', () => {
+    expect(problemsOf(() => loadWebEnv({ ...web, WRINGY_APP_MODE: 'internal' }))).toEqual(
+      [...INTERNAL_MODE_VARIABLES].sort().map((name) => ({ name, problem: 'missing' })),
+    );
+    expect(INTERNAL_MODE_VARIABLES).toEqual(['APP_ORIGIN', 'SUPABASE_PUBLISHABLE_KEY', 'SUPABASE_URL']);
+  });
+
+  it('M2-AC02/2 internal mode passes with all three, and keeps them exactly', () => {
+    expect(
+      loadWebEnv({
+        ...web,
+        WRINGY_APP_MODE: 'internal',
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY,
+        APP_ORIGIN: 'http://127.0.0.1:3100',
+      }),
+    ).toEqual({
+      ...web,
+      WRINGY_APP_MODE: 'internal',
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY,
+      APP_ORIGIN: 'http://127.0.0.1:3100',
+    });
+  });
+
+  it('M2-AC02/2 refuses an app mode outside the enum, and an APP_ORIGIN with a path', () => {
+    expect(problemsOf(() => loadWebEnv({ ...web, WRINGY_APP_MODE: 'production' }))).toEqual([
+      { name: 'WRINGY_APP_MODE', problem: 'invalid' },
+    ]);
+    expect(
+      problemsOf(() =>
+        loadWebEnv({
+          ...web,
+          WRINGY_APP_MODE: 'internal',
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY,
+          APP_ORIGIN: 'http://127.0.0.1:3100/internal',
+        }),
+      ),
+    ).toEqual([{ name: 'APP_ORIGIN', problem: 'invalid' }]);
   });
 });
 
