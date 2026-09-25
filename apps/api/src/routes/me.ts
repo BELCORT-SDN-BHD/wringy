@@ -1,0 +1,81 @@
+import type { FastifyPluginAsyncZod } from '@fastify/type-provider-zod';
+import { apiErrorSchema, meResponseSchema, sessionProbeResponseSchema } from '@wringy/contracts';
+import type { Pool } from '@wringy/db';
+
+import { actorOf, profileOf, VARY_AUTHORIZATION } from '../authenticate';
+import { withTransaction } from '../database';
+import { requireLiveSession, type SessionLiveness } from '../session-liveness';
+
+export interface MeRoutesOptions {
+  pool: Pool;
+  liveness: SessionLiveness;
+}
+
+/**
+ * The signed-in person's own two routes.
+ *
+ * - `GET /me` is a read: the profile the authentication hook already loaded, plus
+ *   the access token's own expiry so the page can say how long this tab stays
+ *   signed in without ever holding the token. Reads rely on the token alone, so
+ *   they stay valid for at most its lifetime (§4.6) — that is the accepted
+ *   trade-off, and it is why commands ask more.
+ * - `POST /me/session/probe` is the **reserved fund-sensitive stub** (M2-AC02/2).
+ *   It changes nothing. It exists to prove that `requireLiveSession` really runs
+ *   inside a command's transaction: it opens one, asks the liveness question on
+ *   that same connection, and answers the database clock at the moment of the
+ *   check. A session that has been signed out gets 401 `session.revoked` instead,
+ *   and M3's real fund-sensitive commands reuse exactly this shape.
+ */
+export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { pool, liveness }) => {
+  const liveSession = requireLiveSession(liveness);
+
+  app.addHook('onRequest', app.authenticate);
+  // R18: only routes behind the hook vary by Authorization; /health must not.
+  app.addHook('onSend', async (_request, reply, payload) => {
+    reply.header('vary', VARY_AUTHORIZATION);
+    return payload;
+  });
+
+  app.get(
+    '/me',
+    {
+      schema: {
+        response: { 200: meResponseSchema, 401: apiErrorSchema, 403: apiErrorSchema, 503: apiErrorSchema },
+      },
+    },
+    async (request) => ({
+      profile: profileOf(request),
+      session: { expiresAt: actorOf(request).expiresAt.toISOString() },
+    }),
+  );
+
+  app.post(
+    '/me/session/probe',
+    {
+      schema: {
+        response: {
+          200: sessionProbeResponseSchema,
+          401: apiErrorSchema,
+          403: apiErrorSchema,
+          500: apiErrorSchema,
+          503: apiErrorSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const outcome = await withTransaction(pool, async (client) => {
+        // The guard asks on this client, inside this transaction: nothing can be
+        // signed out between the answer and the work the answer allows.
+        const refused = await liveSession(request, reply, client);
+        if (refused !== undefined) return { refused };
+        // The instant is the database's, read in the same transaction as the check.
+        const { rows } = await client.query<{ checked_at: Date }>('SELECT now() AS checked_at');
+        if (rows[0] === undefined) throw new Error('the clock row is missing');
+        return { checkedAt: rows[0].checked_at };
+      });
+
+      if ('refused' in outcome) return outcome.refused;
+      return reply.code(200).send({ ok: true as const, checkedAt: outcome.checkedAt.toISOString() });
+    },
+  );
+};

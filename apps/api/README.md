@@ -15,6 +15,9 @@ components call it, and it reads PostgreSQL as the runtime login
 | `GET /health` | One connection as the runtime role: `SELECT 1` and the database clock, the newest row of `ops.pgmigrations` against `EXPECTED_MIGRATION_HEAD`, and the pg-boss schema version against `EXPECTED_PGBOSS_VERSION` (both from `@wringy/db`), read through the migrator-owned view `ops.pgboss_schema_version`: the API login has no access to schema `pgboss` (kickoff-package.md §4.11, §8.5). 200 `status: 'ok'`, or 503 `status: 'unavailable'` with each check `ok` or `failing`, the heads read and `dbNow`. A failing check's SQLSTATE goes to the log only |
 | `GET /internal/campaigns` | Fixture campaigns only (`data_origin = 'fixture'`), joined to `app.orgs` for `orgName`, newest `updated_at` first; `dataAsOf` is the database clock |
 | `GET /internal/worker-health` | Every `ops.worker_heartbeat` row with `state` (process liveness) and `queueState` (queue-path liveness) judged on the database clock read in the same statement; `workers: []` when no worker has ever beaten (the page shows unknown, never 0) |
+| `POST /identity/sign-in` | The first-sign-in gate and the profile upsert, in one transaction: session liveness, then `SELECT ... FOR UPDATE` on `app.profiles`, then the `app.sign_in_allowlist` lookup (first sign-in only) or the refresh of `contact_email`, `display_name` and `last_sign_in_at`. The only route a verified subject with no profile row may reach |
+| `GET /me` | The caller's profile and the access token's own `expiresAt`, so a page can say how long this tab stays signed in without holding the token |
+| `POST /me/session/probe` | The reserved fund-sensitive stub (M2-AC02/2). It changes nothing: it opens a transaction, asks session liveness on that same connection and returns `{ ok: true, checkedAt }` on the database clock. A session that has ended gets 401 `session.revoked` instead |
 
 Response bodies are the zod schemas in `@wringy/contracts`. They are the
 allow-list: the type provider serialises the schema's encoded output and
@@ -31,20 +34,97 @@ stack, SQL text or connection string:
 | 404 | `not_found` | No route matches |
 | 4xx | `bad_request` | Fastify rejected the request |
 | 500 | `internal_error` | Anything else; the scrubbed stack is logged |
+| 401 | `unauthenticated` | No acceptable bearer token (see the claim table below). One message for every reason |
+| 401 | `auth.expired` | The signature and the claims were fine; the token's own lifetime has passed |
+| 503 | `auth_unavailable` | The project's JWKS could not be fetched, parsed or reached. **Never** "no matching key", which is the token's fault |
+| 401 | `session.revoked` | The token is valid but its session is gone (signed out, or `not_after` passed) |
+| 503 | `session_check_unavailable` | Whether the session is live could not be established |
+| 403 | `sign_in.not_allowed` | First sign-in, and the verified address is not on `app.sign_in_allowlist` |
+| 403 | `account.disabled` | An operator set `app.profiles.status = 'disabled'` (ruling D12) |
+| 403 | `profile.missing` | A verified subject with no profile row called anything but `POST /identity/sign-in` |
 
-Every response carries `Cache-Control: private, no-store`. There is no CORS, no
-cookie and no browser-facing surface: the web server calls the API
-server-to-server at `API_INTERNAL_URL`.
+The two 503s are deliberate. A JWKS blip, or a liveness question that cannot be
+answered, must not sign every signed-in tester out of the internal build, so both
+are retryable and the web treats every 503 as "unexpected, try again", never as
+"your session ended" (M2-02 R9).
 
-## Authentication: the M2-02 hook point
+Every response carries `Cache-Control: private, no-store`. Responses of routes
+behind the authentication hook also carry `Vary: Authorization`, because their
+content depends on that header; `GET /health` and `GET /health/live` do not read
+it and do not claim to (R18). There is no CORS, no cookie and no browser-facing
+surface: the web server calls the API server-to-server at `API_INTERNAL_URL` with
+`Authorization: Bearer <access token>`.
 
-There is no sign-in in M2-01. Every `/internal/*` route already runs
-`app.authenticate` (src/authenticate.ts) as an `onRequest` hook, and today it
-is a no-op with a `TODO(M2-02)`. M2-02 replaces it with Supabase access-token
-verification (kickoff-package.md §4.4); M2-03 puts `/internal/*` behind an ops
-capability. `buildApp({ authenticate })` accepts the replacement, and a test
-proves both internal routes stop at a refusing hook while `/health/live` does
-not.
+## Authentication
+
+Every route but `/health` and `/health/live` runs `app.authenticate`
+(src/authenticate.ts) as an `onRequest` hook. `buildApp` **requires** the hook and
+the liveness adapter -- there is no default and no no-op, so a forgotten wiring
+fails to compile rather than serving the internal build to anybody (M2-02 R8).
+`startServer` builds both from the environment (`identityWiringFor`), and the
+integration suite builds them from a key pair generated in the process.
+
+### What is verified
+
+`jose` 6.2.12 verifies the bearer token against the project's published key set at
+`${SUPABASE_URL}/auth/v1/.well-known/jwks.json`, with jose's own defaults (cache 10
+minutes, cooldown 30 seconds, timeout 5 seconds). The key-set URL comes from
+configuration and is never derived from the token's own `iss`, which is how a
+forged token would otherwise choose its own key domain.
+
+| Claim or input | Rule |
+|---|---|
+| signature | ES256 only. HS256 is refused, so no shared JWT secret exists anywhere |
+| `iss` | Exactly `${SUPABASE_URL}/auth/v1` |
+| `aud` | Exactly `authenticated` |
+| `exp`, `iat` | Required; 5 seconds of clock tolerance |
+| `sub` | Required. The only identity, and `app.profiles.id` |
+| `session_id` | Required. The subject of the liveness question; never logged |
+| `role` | Required, and must equal `authenticated`. It is a PostgreSQL role name, not a Wringy role |
+| `aal` | Required; kept on the actor, not used for grants in M2 |
+| `is_anonymous` | Must not be `true` |
+| `client_id` | Must be absent. Its presence marks Supabase's OAuth-server feature, which stays disabled |
+| `email` | The top-level claim only, the one GoTrue sets from the identity store. It decides the sign-in gate |
+| `user_metadata`, `app_metadata` | Never used for authorisation. `user_metadata.full_name` (else `.name`) is the display name, for display only |
+| `X-User-Id`, `X-Role`, body `userId`/`orgId`/`role` | Ignored. A valid token of A carrying B's id in every header we might be tempted to read still acts as A (tested) |
+
+Anything not acceptable is one answer, 401 `unauthenticated`, with one fixed
+message: no bearer, a bad signature, a wrong issuer or audience, an algorithm
+outside the allow-list, a missing claim, a wrong role, an anonymous or
+OAuth-client token, and a key id the project does not publish. Only an expired
+token is told apart (`auth.expired`), because the web must sign in again rather
+than report a fault.
+
+The hook then puts `request.actor` (`userId`, `sessionId`, `email`, `displayName`,
+`token`, `expiresAt`) and `request.profile` on the request, so no route has to
+remember to load either. A disabled profile is refused everywhere with 403
+`account.disabled`; a verified subject with no profile row reaches only
+`POST /identity/sign-in`, which declares `config: { allowMissingProfile: true }`.
+
+Nothing identifying is logged. A refusal logs one reason word, and a jose
+claim-validation error is never logged as an object, because it carries the whole
+decoded payload -- the session id with it. An integration row asserts that no
+captured log line contains the token or the session id.
+
+### Session liveness
+
+A revoked session's access token stays valid until its `exp`, so the token alone
+cannot answer "is this session still live?". Reads accept that and rely on the
+token (they are valid for at most its lifetime); every state-changing command asks,
+**inside its own transaction**, so the answer and the write cannot be separated by
+a sign-out. `SESSION_LIVENESS` names the adapter (required, no default):
+
+| Value | Asks | Works where |
+|---|---|---|
+| `database` | `platform.session_is_live(session_id, user_id)`, the SECURITY DEFINER function the platform bootstrap installs (packages/db/src/platform.ts). The query runs on the command's own transaction client | The application database *is* the identity store's database (staging, M2-09), or a local or CI cluster with the stub `auth.sessions` |
+| `auth_server` | `GET ${SUPABASE_URL}/auth/v1/user` with the caller's own token, the publishable key as `apikey` and `X-Supabase-Api-Version: 2024-01-01`; 3 second timeout, below `API_QUERY_TIMEOUT_MS` | Anywhere, including the local internal build, whose app database is an embedded PostgreSQL while sign-in goes to a hosted project |
+
+Both fail closed **towards retry, never towards sign-out**. Only a definite answer
+is `revoked`: an absent or expired session row, or a 401/403 whose GoTrue `code`
+(or `error_code`) is `session_not_found`, `user_not_found` or `user_banned`. A
+5xx, a 429, an unknown code, a body that is not JSON, a timeout, a transport
+failure and a database that cannot be reached are all `unavailable`, and answer
+503 `session_check_unavailable`.
 
 ## Startup
 
@@ -150,6 +230,9 @@ with `WRINGY_ENV=local`.
 |---|---|---|
 | `WRINGY_ENV` | none | `local`, `ci`, `staging` or `production`; must equal `ops.environment.name` |
 | `DATABASE_URL` | none | The API runtime login (`wringy_api_login`) |
+| `SUPABASE_URL` | none | This environment's Supabase project **origin** (no path, no trailing slash). The issuer is `<origin>/auth/v1`, and the key set is fetched from it |
+| `SUPABASE_PUBLISHABLE_KEY` | none | The publishable key (`sb_publishable_...`), for the `auth_server` liveness call. Never a `sb_secret_...` or service-role key: the API holds neither |
+| `SESSION_LIVENESS` | none | `database` or `auth_server` (see Session liveness above). No default: the wrong answer here is a silent one |
 | `PORT` | 3200 | Listen port |
 | `HOST` | 127.0.0.1 | Listen address |
 | `LOG_LEVEL` | info | pino level |
@@ -180,6 +263,19 @@ template migrated from zero and marked `ci`).
 Each file clones the template with `createTestDatabase()`, seeds it with
 `seedFixtures()` where needed, and drives `buildApp()` with `app.inject()` on a
 pool as `wringy_api_login`.
+
+*Credentials are never needed.* `tests/integration/jwt-support.ts` generates an
+ES256 key pair in the process, publishes it as a local JWKS the real hook verifies
+against, and signs every token shape the hook must refuse (an unknown key,
+`alg: none`, HS256 with a publishable key, a wrong issuer or audience, a missing
+claim, a wrong role, an anonymous or OAuth-client token, an unknown key id, an
+expired token). `fakeAuthUserServer()` stands in for `GET /auth/v1/user` with a
+programmable status, body and delay, and records what it was sent as *shapes*
+rather than values, so a failing assertion cannot print a token. `serveJwks()`
+serves a key set over HTTP for the one test that builds the app exactly the way
+`startServer` does, `createRemoteJWKSet` included. `support.ts` `signedIn()`
+arranges one signed-in person: the `app.profiles` row, the stub `auth.sessions`
+row and a token for both.
 
 *Isolation: a committed clone per file, not a rolled-back transaction per test.*
 Signed kickoff-package.md §6.3 says "API integration tests each run in a

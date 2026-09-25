@@ -204,8 +204,12 @@ describe('M2-AC01 API startup', () => {
       const live = await fetch(`http://127.0.0.1:${address.port}/health/live`);
       expect(live.status).toBe(200);
       expect(live.headers.get('cache-control')).toBe('private, no-store');
+      // Since M2-02 startServer builds the real hook from SUPABASE_URL, so the
+      // route is reachable but refuses a request with no bearer token. The 401
+      // proves both: the server serves HTTP, and nothing behind the hook is open.
       const campaigns = await fetch(`http://127.0.0.1:${address.port}/internal/campaigns`);
-      expect(campaigns.status).toBe(200);
+      expect(campaigns.status).toBe(401);
+      expect(campaigns.headers.get('vary')).toBe('Authorization');
     } finally {
       await server.close();
     }

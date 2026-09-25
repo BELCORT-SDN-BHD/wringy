@@ -8,9 +8,15 @@
 #   docker build -f apps/api/Dockerfile -t wringy-api:<git-sha> .
 #
 # Serve (names only; @wringy/config/api): WRINGY_ENV, DATABASE_URL (the
-# wringy_api_login runtime login), LOG_LEVEL. HOST and PORT default to
-# 0.0.0.0:3200 here; Render sets PORT for a web service and requires the host
-# 0.0.0.0 (https://render.com/docs/web-services).
+# wringy_api_login runtime login), SUPABASE_URL (this environment's Supabase
+# project origin, whose /auth/v1 issuer and JWKS every access token is verified
+# against), SUPABASE_PUBLISHABLE_KEY (publishable by design; no sb_secret_ or
+# service-role key is read anywhere), SESSION_LIVENESS (database | auth_server:
+# how a command answers "is this session still live?"), LOG_LEVEL. HOST and PORT
+# default to 0.0.0.0:3200 here; Render sets PORT for a web service and requires
+# the host 0.0.0.0 (https://render.com/docs/web-services).
+# The identity variables are required, so a container without them exits 1 naming
+# the missing name and no value (apps/api/README.md, Authentication).
 #
 # Migrate once per release, before the new api and worker start, with the same
 # image and the migrator login (never a runtime login):

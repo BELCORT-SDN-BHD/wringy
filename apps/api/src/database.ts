@@ -113,6 +113,39 @@ export function isDatabaseUnavailable(error: unknown): boolean {
  * error, a bad statement) is rethrown unchanged and ends as a 500.
  */
 export async function withDatabase<T>(pool: Pool, fn: (client: PoolClient) => Promise<T>): Promise<T> {
+  return runOnClient(pool, fn);
+}
+
+/**
+ * `withDatabase` plus BEGIN/COMMIT on the same client, so a command's guards and
+ * its writes are one transaction (kickoff-package.md §4.6: `requireLiveSession`
+ * runs *inside* the command's transaction, not before it). `fn` throwing rolls
+ * back and rethrows, so a refusal that must leave no row written only has to
+ * throw. The 503-versus-500 rule is unchanged: a lost connection becomes
+ * DatabaseUnavailableError, anything else is rethrown as it is.
+ *
+ * @wringy/db exports a `withTransaction` of its own for direct database code;
+ * this one is the API's, because it must classify failures the way every other
+ * API query does.
+ */
+export async function withTransaction<T>(pool: Pool, fn: (client: PoolClient) => Promise<T>): Promise<T> {
+  return runOnClient(pool, async (client) => {
+    await client.query('BEGIN');
+    try {
+      const result = await fn(client);
+      await client.query('COMMIT');
+      return result;
+    } catch (error) {
+      // A rollback that cannot be sent means the connection is already gone; the
+      // original failure is the one worth reporting, and runOnClient discards the
+      // client when that failure says the connection is unusable.
+      await client.query('ROLLBACK').catch(() => {});
+      throw error;
+    }
+  });
+}
+
+async function runOnClient<T>(pool: Pool, fn: (client: PoolClient) => Promise<T>): Promise<T> {
   let client: PoolClient;
   try {
     client = await pool.connect();
