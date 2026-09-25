@@ -4,7 +4,16 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { errorBody } from '../../src/errors';
 import { REDACTED } from '../../src/logger';
-import { buildTestApi, createTestDatabase, seedFixtures, type TestApi, type TestDatabase } from './support';
+import { createTestIdentity } from './jwt-support';
+import {
+  buildTestApi,
+  createTestDatabase,
+  seedFixtures,
+  signedIn,
+  type SignedIn,
+  type TestApi,
+  type TestDatabase,
+} from './support';
 
 /** A port nothing listens on: bound, read, released. */
 function unusedPort(): Promise<number> {
@@ -33,15 +42,18 @@ describe('M2-AC01 no secret leaves the API', () => {
   let api: TestApi;
   let outage: TestApi;
   let outageUrl: string;
+  let caller: SignedIn;
 
   beforeAll(async () => {
     db = await createTestDatabase();
     await seedFixtures(db);
-    api = await buildTestApi(db.urls.api);
+    const identity = await createTestIdentity();
+    caller = await signedIn(db, identity);
+    api = await buildTestApi(db.urls.api, { identity });
 
     // A pool whose server is unreachable, with a canary password in its URL.
     outageUrl = `postgres://wringy_api_login:canary-pw-DO-NOT-LEAK@127.0.0.1:${await unusedPort()}/wringy`;
-    outage = await buildTestApi(outageUrl);
+    outage = await buildTestApi(outageUrl, { identity });
 
     // A route that fails with the connection string in its message and logs it
     // under secret-looking keys, as careless code might.
@@ -79,7 +91,7 @@ describe('M2-AC01 no secret leaves the API', () => {
       [outage, '/internal/worker-health', 503],
       [outage, '/internal/boom', 500],
     ] as const) {
-      const response = await target.app.inject({ method: 'GET', url });
+      const response = await target.app.inject({ method: 'GET', url, headers: caller.headers });
       expect(response.statusCode, url).toBe(status);
       expectClean(response.body, secrets, `${url} body`);
       expect(response.body, `${url} body carries no stack`).not.toMatch(/\bat .+:\d+:\d+|"stack"/);
@@ -127,7 +139,7 @@ describe('M2-AC01 no secret leaves the API', () => {
       ['/internal/campaigns', 200],
       ['/nope', 404],
     ] as const) {
-      const response = await api.app.inject({ method: 'GET', url: `${path}${query}` });
+      const response = await api.app.inject({ method: 'GET', url: `${path}${query}`, headers: caller.headers });
       expect(response.statusCode, path).toBe(status);
       expectClean(response.body, canaries, `${path} body`);
     }

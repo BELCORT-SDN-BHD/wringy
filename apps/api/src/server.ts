@@ -1,5 +1,6 @@
 /**
- * Process start for the API: pool, app, the environment check, listen.
+ * Process start for the API: pool, identity wiring, app, the environment check,
+ * listen.
  *
  * The API refuses to start unless the database's environment marker
  * (ops.environment.name) equals WRINGY_ENV (kickoff-package.md §8.5,
@@ -8,12 +9,16 @@
  * (pnpm dev starts everything at once, §8.8) it retries with backoff.
  */
 import type { FastifyBaseLogger } from 'fastify';
+import { createRemoteJWKSet } from 'jose';
 
 import type { ApiEnv, WringyEnv } from '@wringy/config';
 import { EnvironmentTableMissingError, readEnvironment, type Pool } from '@wringy/db';
 
 import { buildApp, type ApiApp, type BuildAppOptions } from './app';
+import { createSupabaseAuthenticate } from './authenticate';
 import { createApiPool, isDatabaseUnavailable, sqlStateOf, withDatabase } from './database';
+import { readProfileById } from './profiles';
+import { selectLiveness } from './session-liveness';
 
 /** The API was pointed at a database that belongs to another environment, or at one with no marker. */
 export class EnvironmentRefusedError extends Error {
@@ -75,6 +80,41 @@ export async function verifyEnvironment(
   }
 }
 
+/** What `buildApp` needs to authenticate: the token verifier and the liveness adapter. */
+export type IdentityWiring = Pick<BuildAppOptions, 'authenticate' | 'liveness'>;
+
+/**
+ * The identity wiring this process runs with, built from the environment
+ * (kickoff-package.md §4.4; M2-02 R8, R2):
+ *
+ * - the issuer is `${SUPABASE_URL}/auth/v1` and the key set is that issuer's
+ *   published JWKS, fetched by jose with its own defaults (cache 10 min, cooldown
+ *   30 s, timeout 5 s). The URL is fixed here from configuration and never taken
+ *   from an unverified `iss`, which is how a forged token would otherwise choose
+ *   its own key domain;
+ * - the profile read is one connection as the runtime role, classified like every
+ *   other API query, so an unreachable database is a 503 and never a 401;
+ * - the liveness adapter is the one `SESSION_LIVENESS` names.
+ *
+ * Nothing here is logged. `SUPABASE_URL` is a project identifier rather than a
+ * secret, but it is not log material either; the key it would travel under
+ * (`supabaseUrl`) matches the logger's `SECRET_KEY_PATTERN`, so even a careless
+ * `log.info({ supabaseUrl })` elsewhere is censored (src/logger.ts).
+ *
+ * Exported so a test can build an app exactly the way startServer does.
+ */
+export function identityWiringFor(env: ApiEnv, pool: Pool): IdentityWiring {
+  const issuer = `${env.SUPABASE_URL}/auth/v1`;
+  return {
+    authenticate: createSupabaseAuthenticate({
+      issuer,
+      jwks: createRemoteJWKSet(new URL(`${issuer}/.well-known/jwks.json`)),
+      readProfile: (userId) => withDatabase(pool, (client) => readProfileById(client, userId)),
+    }),
+    liveness: selectLiveness(env, pool),
+  };
+}
+
 export interface StartServerOptions extends Pick<BuildAppOptions, 'logStream' | 'expected'> {
   retry?: RetryPolicy;
 }
@@ -87,9 +127,12 @@ export interface RunningServer {
 }
 
 /**
- * Builds the app on a pool as the runtime login, checks the environment marker,
- * and listens on HOST:PORT. On any failure it logs one fatal line (scrubbed),
- * releases everything it opened and rethrows.
+ * Builds the app on a pool as the runtime login with the real identity wiring,
+ * checks the environment marker, and listens on HOST:PORT. On any failure it logs
+ * one fatal line (scrubbed), releases everything it opened and rethrows.
+ *
+ * No network call is made at startup: jose fetches the key set lazily, on the
+ * first token it has to verify.
  */
 export async function startServer(env: ApiEnv, options: StartServerOptions = {}): Promise<RunningServer> {
   // The pool reports idle-connection errors to the app's logger, which exists once the app does.
@@ -97,7 +140,13 @@ export async function startServer(env: ApiEnv, options: StartServerOptions = {})
   const pool = createApiPool(env.DATABASE_URL, (error) => {
     logger.current?.warn({ err: error }, 'idle database connection failed');
   });
-  const running = buildApp({ pool, logLevel: env.LOG_LEVEL, logStream: options.logStream, expected: options.expected });
+  const running = buildApp({
+    pool,
+    logLevel: env.LOG_LEVEL,
+    logStream: options.logStream,
+    expected: options.expected,
+    ...identityWiringFor(env, pool),
+  });
   logger.current = running.log;
 
   const close = async () => {

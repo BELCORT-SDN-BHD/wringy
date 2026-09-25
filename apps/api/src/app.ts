@@ -1,8 +1,13 @@
 /**
- * buildApp(): the Fastify business API for the M2-01 narrow loop
+ * buildApp(): the Fastify business API for the M2 internal build
  * (kickoff-package.md §8.3). It owns no process concerns (env, signals,
  * listening); src/server.ts and src/main.ts add those. Tests build it with a
  * pool on a harness database and drive it with app.inject().
+ *
+ * Every response is `private, no-store`, including /health. `Vary: Authorization`
+ * is added by the authenticated plugin scopes only (M2-02 R18): /health and
+ * /health/live do not depend on the Authorization header, and saying they do
+ * would be a false statement to a shared cache.
  */
 import Fastify, { type FastifyError } from 'fastify';
 import {
@@ -13,13 +18,16 @@ import {
 import type { ApiEnv } from '@wringy/config';
 import { EXPECTED_MIGRATION_HEAD, EXPECTED_PGBOSS_VERSION, type Pool } from '@wringy/db';
 
-import { authenticateNoop, type AuthenticateHook } from './authenticate';
+import type { AuthenticateHook } from './authenticate';
 import { DatabaseUnavailableError } from './database';
 import { errorBody } from './errors';
 import { loggerOptions, type LogDestination } from './logger';
 import type { ExpectedHeads } from './read-models';
 import { healthRoutes } from './routes/health';
+import { identityRoutes } from './routes/identity';
 import { internalRoutes } from './routes/internal';
+import { meRoutes } from './routes/me';
+import type { SessionLiveness } from './session-liveness';
 
 /** Every response: private, never stored by a browser or a shared cache. */
 export const CACHE_CONTROL = 'private, no-store';
@@ -32,8 +40,17 @@ export interface BuildAppOptions {
   logStream?: LogDestination;
   /** What GET /health compares the database with; this build's heads when omitted. */
   expected?: ExpectedHeads;
-  /** The /internal/* authentication hook; a no-op until M2-02. */
-  authenticate?: AuthenticateHook;
+  /**
+   * Verifies the bearer token and resolves the actor on every authenticated
+   * route. **Required** (M2-02 R8): there is no default, so a forgotten wiring
+   * fails to compile instead of serving the internal build to anybody.
+   */
+  authenticate: AuthenticateHook;
+  /**
+   * How a command answers "is this session still live?" (R2). Required for the
+   * same reason: the wrong answer here is a silent one.
+   */
+  liveness: SessionLiveness;
 }
 
 export function buildApp({
@@ -41,7 +58,8 @@ export function buildApp({
   logLevel = 'info',
   logStream,
   expected = { migrationHead: EXPECTED_MIGRATION_HEAD, pgbossVersion: EXPECTED_PGBOSS_VERSION },
-  authenticate = authenticateNoop,
+  authenticate,
+  liveness,
 }: BuildAppOptions) {
   const app = Fastify({ logger: loggerOptions(logLevel, logStream) }).withTypeProvider<ZodTypeProvider>();
 
@@ -72,6 +90,8 @@ export function buildApp({
 
   app.register(healthRoutes, { pool, expected });
   app.register(internalRoutes, { pool, prefix: '/internal' });
+  app.register(identityRoutes, { pool, liveness });
+  app.register(meRoutes, { pool, liveness });
 
   return app;
 }
