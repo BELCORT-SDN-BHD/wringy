@@ -15,6 +15,11 @@
  * DATABASE_URL_MIGRATOR through @wringy/config (a local run also reads the
  * repository-root `.env` when it exists). No output ever contains the connection
  * string.
+ *
+ * The argument rule itself lives in `src/allowlist-args.ts`, because this module
+ * runs `main()` at import: importing it to test the parser would run the CLI. See
+ * `src/allowlist-args.test.ts` for the cases (a missing `--reason`, an address
+ * that begins with `--`, an unknown option, `list` with arguments).
  */
 import pg from 'pg';
 
@@ -22,59 +27,7 @@ import { EnvError } from '@wringy/config';
 import { loadMigrateEnv } from '@wringy/config/migrate';
 
 import { InvalidEmailError, addAllowlistEntry, listAllowlist, removeAllowlistEntry } from '../allowlist';
-
-const USAGE = [
-  'Usage:',
-  '  pnpm db:allowlist add <email> --reason "<text>" --by "<name>"',
-  '  pnpm db:allowlist remove <email> --reason "<text>" --by "<name>"',
-  '  pnpm db:allowlist list',
-].join('\n');
-
-interface Parsed {
-  command: 'add' | 'remove' | 'list';
-  email?: string;
-  reason?: string;
-  by?: string;
-}
-
-/** Parses argv. `--reason`/`--by` take the next argument; anything else is refused. */
-export function parseAllowlistArgs(argv: readonly string[]): Parsed {
-  const [command, ...rest] = argv;
-  if (command !== 'add' && command !== 'remove' && command !== 'list') {
-    throw new Error(`Unknown command "${command ?? ''}".\n${USAGE}`);
-  }
-
-  const positional: string[] = [];
-  const named: Record<string, string> = {};
-  for (let index = 0; index < rest.length; index += 1) {
-    const argument = rest[index]!;
-    if (argument === '--reason' || argument === '--by') {
-      const value = rest[index + 1];
-      if (value === undefined || value.startsWith('--')) throw new Error(`${argument} needs a value.\n${USAGE}`);
-      named[argument.slice(2)] = value;
-      index += 1;
-    } else if (argument.startsWith('--')) {
-      throw new Error(`Unknown option "${argument}".\n${USAGE}`);
-    } else {
-      positional.push(argument);
-    }
-  }
-
-  if (command === 'list') {
-    if (positional.length > 0 || Object.keys(named).length > 0) throw new Error(`list takes no arguments.\n${USAGE}`);
-    return { command };
-  }
-  if (positional.length !== 1) throw new Error(`${command} takes exactly one email address.\n${USAGE}`);
-  const values: Record<'reason' | 'by', string> = { reason: '', by: '' };
-  for (const option of ['reason', 'by'] as const) {
-    const value = named[option];
-    if (value === undefined || value.trim() === '') {
-      throw new Error(`${command} requires --${option} with a non-empty value.\n${USAGE}`);
-    }
-    values[option] = value;
-  }
-  return { command, email: positional[0], reason: values.reason, by: values.by };
-}
+import { parseAllowlistArgs } from '../allowlist-args';
 
 async function main(): Promise<void> {
   const parsed = parseAllowlistArgs(process.argv.slice(2));
