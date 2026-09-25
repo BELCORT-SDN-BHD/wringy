@@ -104,6 +104,31 @@ describe('M2-AC02/2 app.sign_in_allowlist is written by the migrator only, read 
     await withClientAt(db.urls.migrator, (client) => client.query('DELETE FROM app.sign_in_allowlist'));
   });
 
+  it('M2-AC02/2 a non-ASCII upper-case letter is lower-cased on the way in, whatever the cluster locale folds', async () => {
+    // The table CHECK (email_norm = lower(email_norm)) is the cluster's LC_CTYPE,
+    // and both clusters this repository creates are initdb'd with --locale=C, where
+    // lower() folds ASCII only — so the CHECK would accept 'teÄster@…' on this
+    // machine and refuse it on a UTF-8 cluster. The guarantee is therefore the JS
+    // normal form on every write path, which lower-cases the whole Unicode range:
+    // no row the CLI or the API writes can differ from what the gate compares.
+    const added = await allowlistAdd(db, { email: 'TeÄSTER@Example.test', reason: 'umlaut', addedBy: 'founder' });
+    expect(added.entry.emailNorm).toBe('teäster@example.test');
+    expect(added.entry.emailNorm).toBe(normalizeEmail('TeÄSTER@Example.test'));
+
+    // The gate finds it by the same normal form, and a second spelling is the same row.
+    const second = await allowlistAdd(db, { email: '  teÄster@example.TEST ', reason: 'again', addedBy: 'operator' });
+    expect(second.outcome).toBe('updated');
+    const found = await withClientAt(db.urls.api, async (client) => {
+      const { rows } = await client.query<{ email_norm: string }>(
+        'SELECT email_norm FROM app.sign_in_allowlist WHERE email_norm = $1',
+        [normalizeEmail('TEÄSTER@EXAMPLE.TEST')],
+      );
+      return rows[0]?.email_norm;
+    });
+    expect(found).toBe('teäster@example.test');
+    await withClientAt(db.urls.migrator, (client) => client.query('DELETE FROM app.sign_in_allowlist'));
+  });
+
   it('M2-AC02/2 a full-width, mixed-case, padded address becomes one row the primary key recognises', async () => {
     // U+FF2A FULLWIDTH LATIN CAPITAL LETTER J.
     const pasted = 'Ｊohn.Doe+x@Example.COM ';
