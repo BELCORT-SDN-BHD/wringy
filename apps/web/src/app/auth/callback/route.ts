@@ -35,17 +35,20 @@ import { signInResponseSchema } from '@wringy/contracts';
 import { apiFetch } from '@/lib/auth/api-client';
 import { safeNextPath } from '@/lib/auth/next-path';
 import { outcomeFromCallbackQuery, outcomeFromExchangeError, signInPath, type Outcome } from '@/lib/auth/outcomes';
-import { cookieJar, notFound, seeOther, type CookieJar } from '@/lib/auth/route-support';
+import { cookieJar, errorResponse, notFound, seeOther, type CookieJar } from '@/lib/auth/route-support';
 import { isInternalMode } from '@/lib/auth/mode';
 import { internalAuthEnv } from '@/lib/auth/env';
 import { createRequestSupabase, isSecureOrigin, type RequestSupabase } from '@/lib/auth/supabase-server';
 import { AUTH_NEXT_COOKIE, AUTH_NEXT_COOKIE_PATH } from '@/lib/auth/wire';
 
 export async function GET(request: Request): Promise<NextResponse> {
-  // The mode guard only; PKCE, not Origin, protects this endpoint.
+  // The mode guard only; PKCE, not Origin, protects this endpoint. The two
+  // answers are the same ones `guardRequest` gives the other three handlers: a
+  // demo origin has no such endpoint (404), a misconfigured internal deployment
+  // is a retryable 503 that names no value.
   if (!isInternalMode()) return notFound();
   const env = internalAuthEnv();
-  if (!env.ok) return notFound();
+  if (!env.ok) return errorResponse(503, 'not_configured', 'This build is not configured for sign-in.');
 
   const { appOrigin, supabaseUrl, publishableKey, apiInternalUrl } = env.env;
   const secure = isSecureOrigin(appOrigin);
