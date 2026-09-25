@@ -11,7 +11,7 @@
  */
 
 /** The newest file in packages/db/migrations, as recorded in ops.pgmigrations.name. */
-export const EXPECTED_MIGRATION_HEAD = '0007_data_origin_immutable';
+export const EXPECTED_MIGRATION_HEAD = '0009_sign_in_allowlist';
 
 /** The pgboss.version that pg-boss 12.33.5 installs (its package.json `pgboss.schema`). */
 export const EXPECTED_PGBOSS_VERSION = 42;

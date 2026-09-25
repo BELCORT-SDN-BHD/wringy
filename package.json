@@ -17,9 +17,11 @@
     "db:start": "pnpm --filter @wringy/db run db:start",
     "db:stop": "pnpm --filter @wringy/db run db:stop",
     "db:bootstrap": "pnpm --filter @wringy/db run db:bootstrap",
+    "db:platform-bootstrap": "pnpm --filter @wringy/db run db:platform-bootstrap",
     "db:migrate": "pnpm --filter @wringy/db run migrate",
     "db:env": "pnpm --filter @wringy/db run db:env",
     "db:seed:fixtures": "pnpm --filter @wringy/db run db:seed:fixtures",
+    "db:allowlist": "pnpm --filter @wringy/db run db:allowlist",
     "depcruise": "node scripts/check-dependency-direction.mjs",
     "canary": "node scripts/check-secret-canary.mjs",
     "check:acceptance": "node scripts/check-acceptance-mapping.mjs m2-01"

@@ -2,10 +2,12 @@ import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { EXPECTED_MIGRATION_HEAD, EXPECTED_PGBOSS_VERSION } from '../src/expected-head';
-import { ROLES } from '../src/roles';
+import { SESSION_IS_LIVE_SIGNATURE } from '../src/platform';
+import { AUTH_SCHEMA, PLATFORM_SCHEMA, ROLES } from '../src/roles';
 import {
   COLUMN_PRIVILEGES,
   GRANT_MANIFEST,
+  PLATFORM_BOOTSTRAP_SCHEMAS,
   SCHEMA_PRIVILEGES,
   SEQUENCE_PRIVILEGES,
   SYSTEM_SCHEMAS,
@@ -169,7 +171,9 @@ describe('M2-AC01/2 runtime role privileges', () => {
     );
     for (const { object, name } of functions) {
       const schema = name.slice(0, name.indexOf('.'));
-      if (grants.functions.includes(name) || grants.functions.includes(`${schema}.*`)) {
+      // `object` is the regprocedure text, so a manifest entry may name the
+      // argument types when an overload would otherwise be ambiguous.
+      if (grants.functions.includes(object) || grants.functions.includes(name) || grants.functions.includes(`${schema}.*`)) {
         want[`function ${object}`] = ['EXECUTE'];
       }
     }
@@ -177,8 +181,11 @@ describe('M2-AC01/2 runtime role privileges', () => {
   }
 
   it('M2-AC01/2 runtime role privileges match reviewed grant manifest', async () => {
-    // The scan covers every schema the migrations and pg-boss create, and public.
-    expect(schemas).toEqual(expect.arrayContaining(['app', 'ops', 'pgboss', 'public']));
+    // The scan covers every schema the migrations and pg-boss create, public, and
+    // the two the platform bootstrap installs (M2-AC02/2).
+    expect(schemas).toEqual(
+      expect.arrayContaining(['app', 'ops', 'pgboss', 'public', ...PLATFORM_BOOTSTRAP_SCHEMAS]),
+    );
     for (const grants of Object.values(GRANT_MANIFEST)) {
       const actual = await effective(grants.login);
       expect({ login: grants.login, privileges: actual }).toEqual({
@@ -202,8 +209,13 @@ describe('M2-AC01/2 runtime role privileges', () => {
   });
 
   it('M2-AC01/2 only the migrator and the two runtime groups appear in any ACL, column ACLs included; PUBLIC and the logins hold nothing directly', async () => {
-    // Schema public keeps PostgreSQL's own ACL (checked below); every other ACL in every non-system schema is ours.
-    const ours = schemas.filter((schema) => schema !== 'public');
+    // Schema public keeps PostgreSQL's own ACL (checked below); the two platform
+    // bootstrap schemas have another owner on purpose and are asserted in the
+    // next test; every other ACL in every non-system schema is ours.
+    const bootstrapped: readonly string[] = PLATFORM_BOOTSTRAP_SCHEMAS;
+    const migratorOwned = schemas.filter((schema) => schema !== 'public' && !bootstrapped.includes(schema));
+    const scanned = schemas.filter((schema) => !bootstrapped.includes(schema));
+    const ours = migratorOwned;
     const { rows } = await migrator.query<{ grantee: string }>(
       `WITH acls AS (
          SELECT n.nspacl AS acl FROM pg_catalog.pg_namespace n WHERE n.nspname = ANY($1)
@@ -222,7 +234,7 @@ describe('M2-AC01/2 runtime role privileges', () => {
        SELECT DISTINCT CASE a.grantee WHEN 0 THEN 'PUBLIC' ELSE pg_catalog.pg_get_userbyid(a.grantee) END AS grantee
          FROM acls, LATERAL aclexplode(acls.acl) a
         ORDER BY 1`,
-      [ours, schemas],
+      [ours, scanned],
     );
     expect(rows.map((row) => row.grantee)).toEqual([ROLES.apiGroup, ROLES.workerGroup, ROLES.migrator].sort());
 
@@ -246,6 +258,85 @@ describe('M2-AC01/2 runtime role privileges', () => {
         WHERE n.nspname = 'pgboss' AND p.proacl IS NULL`,
     );
     expect(defaults[0]?.count).toBe(0);
+  });
+
+  it('M2-AC02/2 the platform schema and its function are owned by the non-superuser wringy_platform_admin and grant only wringy_api', async () => {
+    const { rows: owners } = await migrator.query<{
+      schema_owner: string;
+      function_owner: string;
+      owner_is_superuser: boolean;
+      security_definer: boolean;
+      volatility: string;
+      config: string[] | null;
+    }>(
+      `SELECT pg_catalog.pg_get_userbyid(n.nspowner) AS schema_owner,
+              pg_catalog.pg_get_userbyid(p.proowner) AS function_owner,
+              (SELECT r.rolsuper FROM pg_catalog.pg_roles r WHERE r.oid = p.proowner) AS owner_is_superuser,
+              p.prosecdef AS security_definer,
+              p.provolatile::text AS volatility,
+              p.proconfig AS config
+         FROM pg_catalog.pg_namespace n
+         JOIN pg_catalog.pg_proc p ON p.pronamespace = n.oid
+        WHERE n.nspname = $1 AND p.proname = 'session_is_live'`,
+      [PLATFORM_SCHEMA],
+    );
+    expect(owners[0]).toEqual({
+      schema_owner: ROLES.platformAdmin,
+      function_owner: ROLES.platformAdmin,
+      owner_is_superuser: false,
+      security_definer: true,
+      volatility: 's',
+      config: ['search_path=""'],
+    });
+
+    // Its ACLs name the owner and the API group, and nothing else: not PUBLIC,
+    // not the migrator, not the worker.
+    const { rows: grantees } = await migrator.query<{ grantee: string }>(
+      `WITH acls AS (
+         SELECT n.nspacl AS acl FROM pg_catalog.pg_namespace n WHERE n.nspname = $1
+         UNION ALL
+         SELECT p.proacl FROM pg_catalog.pg_proc p
+           JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+          WHERE n.nspname = $1
+       )
+       SELECT DISTINCT CASE a.grantee WHEN 0 THEN 'PUBLIC' ELSE pg_catalog.pg_get_userbyid(a.grantee) END AS grantee
+         FROM acls, LATERAL aclexplode(acls.acl) a
+        ORDER BY 1`,
+      [PLATFORM_SCHEMA],
+    );
+    expect(grantees.map((row) => row.grantee)).toEqual([ROLES.apiGroup, ROLES.platformAdmin].sort());
+  });
+
+  it('M2-AC02/2 wringy_api_login has no USAGE on auth and cannot read auth.sessions (42501), only EXECUTE on the liveness function', async () => {
+    // Every privilege is asked by OID: resolving `auth.sessions` from its name
+    // would itself need USAGE on the schema, which is exactly what is absent
+    // (the migrator running this query has none either).
+    const { rows } = await migrator.query<{ usage: boolean; create: boolean; sessions: boolean; execute: boolean }>(
+      `SELECT has_schema_privilege($1, n.oid, 'USAGE') AS usage,
+              has_schema_privilege($1, n.oid, 'CREATE') AS create,
+              has_table_privilege($1, c.oid, 'SELECT') AS sessions,
+              (SELECT has_function_privilege($1, p.oid, 'EXECUTE')
+                 FROM pg_catalog.pg_proc p
+                 JOIN pg_catalog.pg_namespace pn ON pn.oid = p.pronamespace
+                WHERE pn.nspname = $3 AND p.proname = 'session_is_live') AS execute
+         FROM pg_catalog.pg_namespace n
+         JOIN pg_catalog.pg_class c ON c.relnamespace = n.oid AND c.relname = 'sessions'
+        WHERE n.nspname = $2`,
+      [ROLES.apiLogin, AUTH_SCHEMA, PLATFORM_SCHEMA],
+    );
+    expect(rows[0]).toEqual({ usage: false, create: false, sessions: false, execute: true });
+
+    for (const url of [db.urls.api, db.urls.worker]) {
+      expect(await sqlState(withClientAt(url, (c) => c.query(`SELECT * FROM ${AUTH_SCHEMA}.sessions`)))).toBe('42501');
+    }
+    // The worker has no EXECUTE either: liveness is the API's question.
+    const { rows: worker } = await migrator.query<{ signature: string; execute: boolean }>(
+      `SELECT p.oid::regprocedure::text AS signature, has_function_privilege($1, p.oid, 'EXECUTE') AS execute
+         FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+        WHERE n.nspname = $2`,
+      [ROLES.workerLogin, PLATFORM_SCHEMA],
+    );
+    expect(worker).toEqual([{ signature: SESSION_IS_LIVE_SIGNATURE, execute: false }]);
   });
 
   it('M2-AC01/2 wringy_worker_login cannot read app.campaigns or app.orgs (42501)', async () => {

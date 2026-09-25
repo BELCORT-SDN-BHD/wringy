@@ -34,5 +34,30 @@ export {
 export type { EnvironmentMarker, FixtureRowCounts, SetEnvironmentOptions, SetEnvironmentOutcome } from './environment';
 export { FIXTURES_FILE, FixturesRefusedError, seedFixtures } from './fixtures';
 export type { SeedFixturesOptions, SeedFixturesResult } from './fixtures';
-export { APP_SCHEMA, OPS_SCHEMA, PGBOSS_SCHEMA, ROLES } from './roles';
+export { APP_SCHEMA, AUTH_SCHEMA, OPS_SCHEMA, PGBOSS_SCHEMA, PLATFORM_SCHEMA, ROLES } from './roles';
 export type { RoleName } from './roles';
+export {
+  InvalidEmailError,
+  addAllowlistEntry,
+  listAllowlist,
+  normalizeEmail,
+  removeAllowlistEntry,
+} from './allowlist';
+export type {
+  AddAllowlistEntryOptions,
+  AddAllowlistEntryResult,
+  AddAllowlistOutcome,
+  AllowlistEntry,
+  RemoveAllowlistEntryResult,
+  RemoveAllowlistOutcome,
+} from './allowlist';
+export {
+  PlatformBootstrapRefusedError,
+  SESSION_IS_LIVE_SIGNATURE,
+  authStubSql,
+  installPlatform,
+  platformAdminRoleSql,
+  platformObjectsSql,
+} from './platform';
+export { adminUrlForDatabase } from './platform';
+export type { InstallPlatformOptions, InstallPlatformResult, PlatformAdminClient } from './platform';

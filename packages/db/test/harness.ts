@@ -11,6 +11,11 @@
  * - `seedFixtures(db)` applies the internal-build fixture seed to a clone, the
  *   same way `pnpm db:seed:fixtures` does; `setTestEnvironment(db, name)`
  *   re-marks a clone (for example as production, to see fixtures refused).
+ * - `insertLiveSession(db, …)` / `endSession(db, id)` write the stub
+ *   `auth.sessions` the platform bootstrap installed, as the cluster admin (the
+ *   only role with any rights there); `allowlistAdd(db, …)` lists an address as
+ *   the migrator. Together they drive `platform.session_is_live` and the
+ *   first-sign-in gate (M2-02 R3, R5).
  *
  * The global setup (`@wringy/db/testing/global-setup`, global-setup.ts) starts
  * the cluster through cluster.ts, migrates the template with `pnpm db:migrate`'s
@@ -27,6 +32,7 @@ import type { WringyEnv } from '@wringy/config';
 
 import type { EnvironmentMarker } from '../src/environment';
 import type { SeedFixturesResult } from '../src/fixtures';
+import { addAllowlistEntry, type AddAllowlistEntryResult } from '../src/allowlist';
 import {
   clusterUrl,
   createDatabaseIn,
@@ -34,6 +40,7 @@ import {
   setEnvironmentIn,
   withAdminAt,
   withClientAt,
+  withDatabaseAdminAt,
   type ClusterInfo,
   type TestDatabase,
 } from './cluster';
@@ -55,6 +62,15 @@ export function cluster(): ClusterInfo {
 /** Runs `fn` with a short-lived admin connection to the cluster's `postgres` database. */
 export function withAdmin<T>(fn: (admin: pg.Client) => Promise<T>): Promise<T> {
   return withAdminAt(cluster(), fn);
+}
+
+/**
+ * Runs `fn` with a short-lived cluster-admin connection to `db` itself. Needed
+ * for the stub `auth.sessions`, which is granted to nobody (M2-02 R3): no
+ * Wringy role, the migrator included, may write it.
+ */
+export function withDatabaseAdmin<T>(db: Pick<TestDatabase, 'name'>, fn: (admin: pg.Client) => Promise<T>): Promise<T> {
+  return withDatabaseAdminAt(cluster(), db.name, fn);
 }
 
 /** A URL for `user` on `database` in the test cluster. */
@@ -125,4 +141,40 @@ export async function failureIn(
     const { code, constraint, message } = error as SqlFailure;
     return { code, constraint, message };
   }
+}
+
+/** A session row for `platform.session_is_live`. `notAfter` null means "no expiry". */
+export interface TestSession {
+  sessionId: string;
+  userId: string;
+  notAfter?: Date | null;
+}
+
+/**
+ * Puts a live session in the stub `auth.sessions` of `db`, as the cluster admin.
+ * Idempotent on the session id, so a test can move `notAfter` without a delete.
+ */
+export async function insertLiveSession(db: Pick<TestDatabase, 'name'>, session: TestSession): Promise<void> {
+  await withDatabaseAdmin(db, async (admin) => {
+    await admin.query(
+      `INSERT INTO auth.sessions (id, user_id, not_after) VALUES ($1, $2, $3)
+       ON CONFLICT (id) DO UPDATE SET user_id = excluded.user_id, not_after = excluded.not_after`,
+      [session.sessionId, session.userId, session.notAfter ?? null],
+    );
+  });
+}
+
+/** Removes a session row, which is what a sign-out does on the hosted project. */
+export async function endSession(db: Pick<TestDatabase, 'name'>, sessionId: string): Promise<void> {
+  await withDatabaseAdmin(db, async (admin) => {
+    await admin.query('DELETE FROM auth.sessions WHERE id = $1', [sessionId]);
+  });
+}
+
+/** Lists an address on `app.sign_in_allowlist` as the migrator, as `pnpm db:allowlist add` does. */
+export function allowlistAdd(
+  db: TestDatabase,
+  { email, reason = 'integration test', addedBy = 'wringy-test' }: { email: string; reason?: string; addedBy?: string },
+): Promise<AddAllowlistEntryResult> {
+  return withClientAt(db.urls.migrator, (client) => addAllowlistEntry(client, { email, reason, addedBy }));
 }
