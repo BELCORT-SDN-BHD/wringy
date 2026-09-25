@@ -112,6 +112,39 @@ GRANT USAGE ON SCHEMA ${PLATFORM_SCHEMA} TO ${ROLES.apiGroup};
 GRANT EXECUTE ON FUNCTION ${SESSION_IS_LIVE_SIGNATURE} TO ${ROLES.apiGroup};`;
 }
 
+/**
+ * The lines `pnpm db:platform-bootstrap` prints, including the next step.
+ *
+ * The next step is **not** the same in the two cases, and printing one sentence
+ * for both is how an operator is told to break their own sign-in. With a stub
+ * `auth.sessions`, nothing but a test ever writes a row into it, so Mechanism A
+ * answers "revoked" for every real Supabase session: `SESSION_LIVENESS=database`
+ * there turns every sign-in into 401 `session.revoked` (M2-02 R2; the api's
+ * src/session-liveness.ts says the same). Kept a pure function so the wording is
+ * unit-tested without a cluster.
+ */
+export function platformBootstrapSummary(
+  { WRINGY_ENV, database }: { WRINGY_ENV: string; database: string },
+  result: InstallPlatformResult,
+): string[] {
+  return [
+    `Platform bootstrap complete for WRINGY_ENV=${WRINGY_ENV} on database ${database}.`,
+    result.stubbedAuth
+      ? `  ${AUTH_SCHEMA}.sessions: stub present (id, user_id, not_after), granted to nobody`
+      : `  ${AUTH_SCHEMA}.sessions: the identity store's own table, left untouched`,
+    `  function: ${SESSION_IS_LIVE_SIGNATURE}, SECURITY DEFINER, owner ${result.owner}` +
+      `${result.adminIsSuperuser ? ' (a non-superuser role, so the privilege shape matches a hosted project)' : ''}`,
+    '  grants: USAGE on schema platform and EXECUTE on the function, to wringy_api only',
+    `  verified: the function is executable and can read ${AUTH_SCHEMA}.sessions`,
+    result.stubbedAuth
+      ? 'Next: keep SESSION_LIVENESS=auth_server for the api here. The stub ' +
+        `${AUTH_SCHEMA}.sessions holds no real session, so SESSION_LIVENESS=database would answer ` +
+        '"revoked" for every sign-in. Use database only where the application database IS the identity ' +
+        "store's own database."
+      : 'Next: set SESSION_LIVENESS=database for the api in this environment',
+  ];
+}
+
 export interface InstallPlatformOptions {
   /** The application database this connection is open on; the CREATE grant names it. */
   databaseName: string;
@@ -121,6 +154,37 @@ export interface InstallPlatformOptions {
    * hosted project whose real table must not be shadowed.
    */
   stubAuth: boolean;
+}
+
+/** The all-zero uuid: a session id no identity store issues, for the install's smoke call. */
+const NIL_UUID = '00000000-0000-0000-0000-000000000000';
+
+/**
+ * Calls the function once, so an install that cannot answer fails here instead of
+ * at the first tester's sign-in.
+ *
+ * `CREATE FUNCTION` does not check the table privileges of a SQL body — those are
+ * checked at execution — so everything up to this point can succeed on a project
+ * whose connection role has USAGE on `auth` but not SELECT on `auth.sessions`
+ * (the 2025-04-21 auth-schema restriction, verified only for today's dev
+ * project). At runtime that raises 42501, which the api deliberately does NOT
+ * classify as "unavailable": it becomes 500 `internal_error` on every sign-in,
+ * the least informative answer there is. One call with an id nothing owns costs a
+ * single `EXISTS` and turns that into a named bootstrap refusal.
+ */
+async function verifySessionIsLive(adminClient: PlatformAdminClient): Promise<void> {
+  try {
+    await adminClient.query(`SELECT ${PLATFORM_SCHEMA}.session_is_live($1::uuid, $2::uuid)`, [NIL_UUID, NIL_UUID]);
+  } catch (error) {
+    const code = (error as { code?: unknown }).code;
+    throw new PlatformBootstrapRefusedError(
+      `${SESSION_IS_LIVE_SIGNATURE} was created but cannot be executed (SQLSTATE ${
+        typeof code === 'string' ? code : 'unknown'
+      }). The usual cause is the owner having no SELECT on ${AUTH_SCHEMA}.sessions: a SECURITY DEFINER body is ` +
+        'checked against its owner only when it runs, so the CREATE above succeeds either way. Grant that SELECT ' +
+        `(or run this from a role that has it) and try again. Values are not shown.`,
+    );
+  }
 }
 
 export interface InstallPlatformResult {
@@ -169,6 +233,10 @@ async function roleExists(admin: PlatformAdminClient, name: string): Promise<boo
  * Installs session liveness on the database `adminClient` is open on.
  * Idempotent: running it again changes nothing.
  *
+ * It ends by calling the function once (`verifySessionIsLive`), so the one thing
+ * that can still be wrong afterwards — the owner's SELECT on the sessions table —
+ * is a bootstrap refusal rather than a 500 on somebody's first sign-in.
+ *
  * - A **superuser** admin (the embedded local cluster, CI's service) creates the
  *   stub sessions table when `stubAuth`, then `wringy_platform_admin`, then
  *   builds the platform objects `SET ROLE`-ed to that role, so they are owned by
@@ -206,6 +274,7 @@ export async function installPlatform(
 
   if (!adminIsSuperuser) {
     await adminClient.query(platformObjectsSql());
+    await verifySessionIsLive(adminClient);
     const { rows } = await adminClient.query<{ owner: string }>(`SELECT CURRENT_USER AS owner`);
     return { owner: rows[0]?.owner ?? 'unknown', adminIsSuperuser, stubbedAuth: stubAuth };
   }
@@ -218,5 +287,8 @@ export async function installPlatform(
   } finally {
     await adminClient.query('RESET ROLE');
   }
+  // As the admin, but the body runs as the owner: this is the owner's SELECT
+  // being checked, which is the one thing the CREATE above could not check.
+  await verifySessionIsLive(adminClient);
   return { owner: ROLES.platformAdmin, adminIsSuperuser, stubbedAuth: stubAuth };
 }

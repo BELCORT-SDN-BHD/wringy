@@ -11,9 +11,12 @@
  * that `pnpm db:platform-bootstrap --stub-auth` runs: the stub auth.sessions and
  * platform.session_is_live, owned by the non-superuser wringy_platform_admin
  * (M2-02 R3). So `pnpm db:start && pnpm db:bootstrap && pnpm db:migrate` yields a
- * database the api can use with SESSION_LIVENESS=database. Anywhere else the
- * platform bootstrap stays a separate, explicit command, because it reaches into
- * the hosted identity store's schema.
+ * database the api can use — with SESSION_LIVENESS=auth_server, which is the only
+ * adapter that can answer locally: the stub auth.sessions holds no real Supabase
+ * session (nothing but a test ever writes one), so SESSION_LIVENESS=database would
+ * answer "revoked" for every sign-in. Anywhere else the platform bootstrap stays a
+ * separate, explicit command, because it reaches into the hosted identity store's
+ * schema.
  *
  * Inputs (names in the root .env.example): WRINGY_ENV, PG_BOOTSTRAP_ADMIN_URL,
  * PG_BOOTSTRAP_DATABASE, PG_BOOTSTRAP_{MIGRATOR,API,WORKER}_PASSWORD. Only for

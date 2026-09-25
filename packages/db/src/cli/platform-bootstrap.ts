@@ -15,23 +15,26 @@
  * `installPlatform` refuses it again whenever the admin is not a superuser.
  *
  * Inputs (names in the root `.env.example`): WRINGY_ENV, PG_BOOTSTRAP_ADMIN_URL,
- * PG_BOOTSTRAP_DATABASE. As `pnpm db:bootstrap`, the admin URL may be left unset
- * only for the embedded local cluster, whose superuser is used then
- * (src/bootstrap-plan.ts). Nothing printed here contains a connection string.
+ * PG_BOOTSTRAP_DATABASE — and those only. It creates no login role and sets no
+ * password, so it asks for none of the three `PG_BOOTSTRAP_*_PASSWORD` values
+ * `pnpm db:bootstrap` needs (`loadPlatformBootstrapEnv`, @wringy/config). As
+ * `pnpm db:bootstrap`, the admin URL may be left unset only for the embedded
+ * local cluster, whose superuser is used then (src/bootstrap-plan.ts). Nothing
+ * printed here contains a connection string.
  *
  * Run through tsx (it imports TypeScript from ../ and @wringy/config).
  */
 import pg from 'pg';
 
 import { EnvError } from '@wringy/config';
-import { loadBootstrapEnv } from '@wringy/config/bootstrap';
+import { loadPlatformBootstrapEnv } from '@wringy/config/bootstrap';
 
-import { DevelopmentPasswordRefusedError, resolveBootstrapPlan } from '../bootstrap-plan';
+import { resolvePlatformAdminUrl } from '../bootstrap-plan';
 import {
   PlatformBootstrapRefusedError,
-  SESSION_IS_LIVE_SIGNATURE,
   adminUrlForDatabase,
   installPlatform,
+  platformBootstrapSummary,
 } from '../platform';
 import { AUTH_SCHEMA } from '../roles';
 
@@ -41,14 +44,14 @@ async function main(): Promise<void> {
   if (unknown !== undefined) throw new Error(`Unknown argument "${unknown}"; the only option is --stub-auth.`);
   const stubAuth = args.includes('--stub-auth');
 
-  const env = loadBootstrapEnv();
+  const env = loadPlatformBootstrapEnv();
   if (stubAuth && env.WRINGY_ENV !== 'local' && env.WRINGY_ENV !== 'ci') {
     throw new PlatformBootstrapRefusedError(
       `--stub-auth creates a fake ${AUTH_SCHEMA}.sessions and runs only when WRINGY_ENV is local or ci, not in ${env.WRINGY_ENV}.`,
     );
   }
 
-  const { adminUrl } = resolveBootstrapPlan(env);
+  const adminUrl = resolvePlatformAdminUrl(env);
   const database = env.PG_BOOTSTRAP_DATABASE;
   const admin = new pg.Client({
     connectionString: adminUrlForDatabase(adminUrl, database),
@@ -57,31 +60,17 @@ async function main(): Promise<void> {
   await admin.connect();
   try {
     const result = await installPlatform(admin, { databaseName: database, stubAuth });
-    console.log(
-      [
-        `Platform bootstrap complete for WRINGY_ENV=${env.WRINGY_ENV} on database ${database}.`,
-        result.stubbedAuth
-          ? `  ${AUTH_SCHEMA}.sessions: stub present (id, user_id, not_after), granted to nobody`
-          : `  ${AUTH_SCHEMA}.sessions: the identity store's own table, left untouched`,
-        `  function: ${SESSION_IS_LIVE_SIGNATURE}, SECURITY DEFINER, owner ${result.owner}` +
-          `${result.adminIsSuperuser ? ' (a non-superuser role, so the privilege shape matches a hosted project)' : ''}`,
-        '  grants: USAGE on schema platform and EXECUTE on the function, to wringy_api only',
-        'Next: set SESSION_LIVENESS=database for the api in this environment',
-      ].join('\n'),
-    );
+    console.log(platformBootstrapSummary({ WRINGY_ENV: env.WRINGY_ENV, database }, result).join('\n'));
   } finally {
     await admin.end();
   }
 }
 
 main().catch((error: unknown) => {
-  // EnvError and the two refusals name variables and roles only; pg errors never
+  // EnvError and the refusal name variables and roles only; pg errors never
   // carry the connection string.
   const message = error instanceof Error ? error.message : String(error);
-  const known =
-    error instanceof EnvError ||
-    error instanceof DevelopmentPasswordRefusedError ||
-    error instanceof PlatformBootstrapRefusedError;
+  const known = error instanceof EnvError || error instanceof PlatformBootstrapRefusedError;
   console.error(known ? message : `Platform bootstrap failed: ${message}`);
   process.exitCode = 1;
 });

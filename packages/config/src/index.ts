@@ -12,6 +12,7 @@ export {
   postgresUrlSchema,
   publishableKeySchema,
   sessionLivenessSchema,
+  tokenBearingOriginSchema,
   wringyEnvSchema,
 } from './shared';
 export type { AppMode, SessionLiveness, WringyEnv } from './shared';
@@ -23,5 +24,5 @@ export { loadWorkerEnv, workerEnvSchema } from './worker';
 export type { WorkerEnv } from './worker';
 export { loadMigrateEnv, migrateEnvSchema } from './migrate';
 export type { MigrateEnv } from './migrate';
-export { bootstrapEnvSchema, loadBootstrapEnv } from './bootstrap';
+export { bootstrapEnvSchema, loadBootstrapEnv, loadPlatformBootstrapEnv } from './bootstrap';
 export type { BootstrapEnv } from './bootstrap';

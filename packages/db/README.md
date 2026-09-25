@@ -109,13 +109,27 @@ future. `EXECUTE` is revoked from PUBLIC and granted to `wringy_api` only,
 together with `USAGE` on schema `platform`: the API can ask the question and can
 read nothing in `auth` (`grants.int.test.ts`, `M2-AC02/2`: no `USAGE` on `auth`,
 `SELECT FROM auth.sessions` fails 42501, and the owner is a non-superuser).
-Everything is idempotent, so a second run changes nothing.
+Everything is idempotent, so a second run changes nothing. The install ends by
+calling the function once with an all-zero id: `CREATE OR REPLACE FUNCTION`
+accepts a body whose table the owner cannot read (a SQL body's privileges are
+checked when it runs), so without that call a project whose owner lacks `SELECT`
+on `auth.sessions` installs cleanly and then raises 42501 on every sign-in — which
+the api answers 500 `internal_error`, not 503. The call turns that into a named
+bootstrap refusal.
+
+**A stub `auth.sessions` is not an identity store.** Nothing outside the tests
+ever writes a row into it, so `platform.session_is_live` answers false for every
+real Supabase session: on a local or CI cluster the api must keep
+`SESSION_LIVENESS=auth_server`, and `SESSION_LIVENESS=database` belongs only where
+the application database **is** the identity store's own database (staging, M2-09;
+M2-02 R2). `pnpm db:platform-bootstrap` prints whichever of the two applies to the
+install it just made.
 
 Who installs it:
 
 | Command | When |
 |---|---|
-| `pnpm db:bootstrap` | The embedded local cluster only (`WRINGY_ENV=local` with the admin URL unset or at the `db:start` port) installs it with the stub automatically, so `pnpm db:start && pnpm db:bootstrap && pnpm db:migrate` yields a database where `platform.session_is_live` exists |
+| `pnpm db:bootstrap` | The embedded local cluster only (`WRINGY_ENV=local` with the admin URL unset or at the `db:start` port) installs it with the stub automatically, so `pnpm db:start && pnpm db:bootstrap && pnpm db:migrate` yields a database where `platform.session_is_live` exists — and the api still uses `SESSION_LIVENESS=auth_server` there (see below) |
 | `pnpm db:platform-bootstrap [--stub-auth]` | Every other environment, as an explicit step after `pnpm db:bootstrap`. `--stub-auth` is accepted only when `WRINGY_ENV` is `local` or `ci`, and `installPlatform()` refuses it again whenever the admin is not a superuser |
 | `test/cluster.ts` `prepareTemplate()` | The integration-test template, after the migrations and the marker, through the same `installPlatform()`. The role is cluster-wide, so it shares the advisory lock `bootstrapTestRoles()` takes; the clones inherit the objects with their owners and ACLs |
 
@@ -257,7 +271,7 @@ as Supabase's non-superuser `postgres`.
 |---|---|
 | `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures`, `pnpm db:allowlist` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` and the admin URL is unset or the embedded cluster (a loopback host at port 54329); anywhere else a development password is refused (`src/bootstrap-plan.ts`) |
-| `pnpm db:platform-bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE` (the same admin connection, opened on the application database) |
+| `pnpm db:platform-bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE` (the same admin connection, opened on the application database). Those three only: it creates no login role and sets no password, so none of the `PG_BOOTSTRAP_*_PASSWORD` values is read or required (`loadPlatformBootstrapEnv`). The admin URL may be left unset only when `WRINGY_ENV=local`, where the embedded cluster's superuser is used |
 | `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing, throwaway PostgreSQL 17 on this machine; see "Throwaway clusters only") |
 
 The bootstrap sends passwords to the server as SCRAM-SHA-256 verifiers computed
