@@ -11,11 +11,17 @@
  * @wringy/db sets it explicitly), after which the API has to reconnect and
  * cannot. The privilege is given back at the end and the page recovers. The
  * worker's login is not touched.
+ *
+ * Since M2-02 the page is private, so the test starts from the `signedIn`
+ * fixture. The fixture runs BEFORE the test body, so the sign-in (which reaches
+ * `POST /identity/sign-in`, and therefore the database) completes while the API
+ * still has its access; only the reads under test happen during the outage. The
+ * refresh path is untouched either way: the proxy verifies the token against the
+ * auth server's JWKS, never against this database.
  */
-import { expect, test } from '@playwright/test';
-
 import { POOL_IDLE_TIMEOUT_MS, withClientAt } from '@wringy/db/testing/connect';
 
+import { expect, test } from './fixtures';
 import { e2eDatabase, internalShot, setLocaleCookie } from './support';
 
 async function setApiConnect(allowed: boolean): Promise<void> {
@@ -28,10 +34,11 @@ async function setApiConnect(allowed: boolean): Promise<void> {
 }
 
 test('M2-AC01 the database being unavailable to the API shows the api-unavailable state, never an empty list', async ({
-  page,
+  signedIn,
   baseURL,
 }) => {
   test.setTimeout(120_000);
+  const { page } = signedIn;
   await setLocaleCookie(page, 'en-MY', baseURL);
 
   await setApiConnect(false);

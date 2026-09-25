@@ -8,7 +8,12 @@
  * WRINGY_E2E_PG_DATABASE. Both apps read a variable named DATABASE_URL, each
  * as its own login, so this launcher sets DATABASE_URL to the right role's URL
  * for the one child it starts. Every other variable (WRINGY_ENV, PORT,
- * WORKER_ID, IMAGE_REF, ...) comes from the webServer entry's `env`.
+ * WORKER_ID, IMAGE_REF, SESSION_LIVENESS, ...) comes from the webServer entry's
+ * `env`, and the identity variables the fake auth server announced
+ * (SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) come through `process.env`, which
+ * Playwright fills from that entry's ready line. The api refuses to boot without
+ * them (M2-02 R14), so this launcher names a missing one itself instead of
+ * letting a zod error appear with no context. No value is printed.
  */
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -27,6 +32,19 @@ const database = process.env.WRINGY_E2E_PG_DATABASE;
 if (!host || !Number.isInteger(port) || port <= 0 || !database) {
   console.error('run-with-database: WRINGY_E2E_PG_HOST, WRINGY_E2E_PG_PORT and WRINGY_E2E_PG_DATABASE must be set by the database webServer entry');
   process.exit(2);
+}
+
+if (role === 'api') {
+  const missing = (['SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY', 'SESSION_LIVENESS'] as const).filter(
+    (name) => !process.env[name],
+  );
+  if (missing.length > 0) {
+    console.error(
+      `run-with-database: ${missing.join(', ')} must reach the api. SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY come ` +
+        "from the fake-auth webServer entry's ready line; SESSION_LIVENESS comes from the api entry's env.",
+    );
+    process.exit(2);
+  }
 }
 
 const appDir = fileURLToPath(new URL(`../../../${role}/`, import.meta.url));
