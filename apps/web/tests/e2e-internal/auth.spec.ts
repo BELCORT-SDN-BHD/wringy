@@ -478,7 +478,12 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
 
     const after = await control.calls(tag);
     expect(after.calls.logout, 'a refused sign-out never reached the provider').toBe(before.calls.logout);
-    expect(after.calls.authorize, 'a refused sign-in never reached the provider').toBe(before.calls.authorize);
+    // Not the authorize counter: `signInWithOAuth` builds that URL locally and
+    // calls nothing, so the counter cannot move whether the guard ran or not. What
+    // the refused sign-in must not have done is write: no PKCE verifier and no
+    // return-path cookie, which is observable on the very response that refused it.
+    expect(crossSiteSignIn.headers()['set-cookie'], 'a refused sign-in writes no cookie').toBeUndefined();
+    expect(crossSiteSignOut.headers()['set-cookie'], 'a refused sign-out writes no cookie').toBeUndefined();
 
     // And the session the forgery aimed at is untouched.
     await page.reload();
