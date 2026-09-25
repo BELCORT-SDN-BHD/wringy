@@ -12,6 +12,7 @@
 | 项 | 状态 |
 |---|---|
 | Supabase dev 项目：只开 Google、ES256、Site URL `http://127.0.0.1:3100`、Redirect `http://127.0.0.1:3100/auth/callback` | 前三项已由 agent 用接口核实；后两项按 #21 清单第 3 节由你填写，走查第一步会验证 |
+| **Supabase Auth → Providers → Google → "Confirm email" / 未验证邮箱能否登录** — 需要你在控制台看一眼 | **未核实（只有你能看）**。门禁把令牌里的 `email` 当作"已验证"来用：允许名单比的就是这个地址（D13、R5）。如果这个项目允许未验证邮箱建账号，那么"谁能通过名单"就不再等于"谁真的拥有这个邮箱"。Google 作为唯一提供方本身只回已验证的地址，所以预期这里无需改动；请确认开关是"要求确认/仅已验证"，并把看到的值记进 §4.8 清单行 |
 | Google OAuth dev client 的 test users | `.env.vendors` 的 `GOOGLE_TEST_USER_EMAILS` 里的 4 个账号 |
 | 本机允许名单（tester allowlist，D13） | 这 4 个账号已用 `pnpm db:allowlist add … --reason "M2-02 real login walk" --by orchestrator` 加进本机数据库（`pnpm db:allowlist list` 可看） |
 | 本机环境文件 | `apps/api/.env` 已追加 `SUPABASE_URL`、`SUPABASE_PUBLISHABLE_KEY`、`SESSION_LIVENESS=auth_server`；`apps/web/.env.local` 已生成（`WRINGY_APP_MODE=internal`、`APP_ORIGIN=http://127.0.0.1:3100` 等）。两个文件都不入库 |
@@ -23,7 +24,7 @@
 ```sh
 pnpm db:start            # 若已在跑会提示；数据在 .local/pg
 pnpm db:bootstrap        # 幂等；顺带装 platform.session_is_live 和本机 auth 桩
-pnpm db:migrate          # 迁移头应为 0009_sign_in_allowlist
+pnpm db:migrate          # 迁移头应为 0010_profiles_column_grants
 pnpm db:seed:fixtures    # 演示活动
 pnpm --filter api dev    # 终端 1，127.0.0.1:3200
 pnpm --filter worker dev # 终端 2

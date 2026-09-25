@@ -129,8 +129,10 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
 
 ## M2-02: identity, sessions and sign-in
 
-Recorded 2026-09-26 against branch `feat/m2-02`, after the W5 adversarial review. These are the
-limitations M2-02 accepts, each with the ruling or the reason it is accepted under.
+Recorded 2026-09-26 against branch `feat/m2-02`, after the W5 adversarial review, and extended in W6
+with what the two independent reviews of the integrated tree left accepted (the `__Host-` prefix, the
+refresh deadline, the NFC allow-list key). These are the limitations M2-02 accepts, each with the
+ruling or the reason it is accepted under.
 
 - **A session cookie lives 400 days, whatever Wringy asks for (D14).** `@supabase/ssr` overrides
   the `maxAge` of every cookie it writes with its own fixed 400 days
@@ -183,6 +185,40 @@ limitations M2-02 accepts, each with the ruling or the reason it is accepted und
   nothing: it re-asks `GET /me`, and the single answer that ends a session is `403 account.disabled`
   — the refusal R4 names, and one that is the correct answer for a cross-site caller too. Every 401
   leaves the session alone, because a refused token is not a finished session.
+- **A session cookie can be set by a neighbouring host, because it carries no `__Host-` prefix.**
+  `@supabase/ssr` names its cookies `sb-<ref>-auth-token…` and Wringy does not rename them, so on a
+  shared parent domain any host that can set a cookie for that domain can plant one the browser will
+  send to the internal build ("cookie tossing"). What it buys an attacker is a denial of service and a
+  confusing sign-in page, not a session: the planted value is not a session the Auth server issued, so
+  `getClaims()` refuses it and `proxy.ts` sends the visitor to sign in (and, when the value is not even
+  parseable, ends the session and expires every `sb-*` cookie — `proxy.test.ts`, "a getClaims that
+  throws"). It cannot be closed while the build is served from a loopback origin: `__Host-` requires
+  `Secure`, which a browser will not store for `http://127.0.0.1`, and renaming the library's cookies
+  is not an option it offers. It becomes real the day the internal build has a custom domain, which is
+  **M2-09**: either a dedicated host with nothing else on the parent domain, or the cookie names
+  pinned behind `__Host-` if the library ever allows it.
+- **The session refresh has an 8-second overall deadline, and a refresh that finishes after it leaves
+  the browser on the old refresh token.** `SUPABASE_REQUEST_TIMEOUT_MS` (5 s) bounds one call to the
+  Auth server, but `getClaims()` can make two — the JWKS fetch, then
+  `POST /token?grant_type=refresh_token` — so only an overall deadline bounds the page. `proxy.ts`
+  gives it `REFRESH_DEADLINE_MS = 8_000`, hands the same `AbortController` to `boundedFetch`, and on
+  expiry redirects with `outcome=unexpected` (retryable) while applying **no** buffered cookie write.
+  The trade-off is deliberate: if the refresh completes upstream just after the deadline, the Auth
+  server has rotated the refresh token and the browser still holds the old one. Inside GoTrue's 10 s
+  refresh-token reuse interval the next attempt gets the same new session back, which is why 8 s is
+  under it; outside it the session ends and the tester signs in again, with the `session_ended`
+  wording. The alternative — applying a half-finished rotation to the browser — is worse, because it
+  can leave the browser holding a token neither side accepts.
+- **The allow-list key is NFC, so a listed ASCII address never admits a look-alike non-ASCII
+  mailbox — and never will.** `normalizeEmail` composes (the two spellings of `ä` are one key) but does
+  not compatibility-fold, so `a<U+FB01>le@x` and `ali<U+FF43>e@x` are their own addresses rather than
+  `afile@x` and `alice@x` (`packages/db/src/allowlist.ts`; rev 3 of the kickoff code review changed
+  this from NFKC). That is the safe direction — under NFKC two distinct mailboxes would share one
+  allow-list row, so listing one would admit the other and removing one could not remove the other —
+  but it means an operator who pastes a look-alike spelling of a tester's address lists a mailbox
+  nobody has, and that tester is refused with the neutral `not_allowed` page until the row is written
+  in the spelling the provider verifies. `pnpm db:allowlist list` prints the stored key, which is where
+  such a row is visible.
 - **No real Google sign-in has been executed.** Every M2-AC02 row in the evidence record is
   `simulated` (the local fake Auth server, a locally generated JWKS, or a stubbed liveness port),
   and each §4.9 `Real` row is recorded `NOT EXECUTED` with its reason
