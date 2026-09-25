@@ -58,6 +58,17 @@ export const HEALTHY_WEB_ORIGIN = `http://127.0.0.1:${WEB_PORT}`;
  */
 export const OUTAGE_WEB_ORIGIN = `http://127.0.0.1:${WEB_PORT + 1}`;
 
+/**
+ * The Fastify instance the suite starts, for the rows that must ask the API
+ * directly rather than through a page. Mirrors `API_PORT` in
+ * playwright.internal.config.ts, the way `WEB_PORT` mirrors its entry.
+ *
+ * A row uses this only when the page cannot show the answer: "an access token
+ * that the browser has already thrown away is still refused" is about the API's
+ * own verdict, and the browser has no way to send a cookie it no longer has.
+ */
+export const API_ORIGIN = 'http://127.0.0.1:3200';
+
 /** The web routes and pages of the identity slice (M2-02 R10, R11). */
 export const WEB_ROUTES = {
   signIn: '/auth/sign-in',

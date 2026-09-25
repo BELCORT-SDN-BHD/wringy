@@ -10,12 +10,13 @@
  */
 import { readFileSync } from 'node:fs';
 
-import { expect, type Page } from '@playwright/test';
+import { expect, type BrowserContext, type Page } from '@playwright/test';
 
 import { loginUrlsAt, withClientAt, type LoginUrls } from '@wringy/db/testing/connect';
 
 import { M2_INTERNAL_EVIDENCE_DIR, evidenceShot } from '../e2e/evidence';
 import { LOCALE_COOKIE } from '../../src/i18n/config';
+import { readStoredAccessToken } from '../../src/lib/auth/supabase-server';
 
 export type Locale = 'en-MY' | 'ms-MY' | 'zh-Hans-MY';
 export const LOCALES: Locale[] = ['en-MY', 'ms-MY', 'zh-Hans-MY'];
@@ -142,4 +143,23 @@ export async function expectNoHorizontalScroll(page: Page): Promise<void> {
     innerWidth: window.innerWidth,
   }));
   expect(scrollWidth, `the page scrolls sideways at ${innerWidth}px`).toBeLessThanOrEqual(innerWidth);
+}
+
+/**
+ * The access token stored in this context's session cookie, read with the
+ * application's own reader (`src/lib/auth/supabase-server.ts`).
+ *
+ * The production reader is reused rather than re-implemented so the row cannot
+ * pass against a format the app does not actually write: it combines the cookie
+ * chunks, undoes the `base64url` prefix and takes `access_token`, all through
+ * `@supabase/ssr`'s own helpers.
+ *
+ * The token is returned to the caller and is never logged, asserted on, or put in
+ * a failure message — a row that needs it sends it and asserts the answer.
+ */
+export async function storedAccessToken(context: BrowserContext, supabaseUrl: string): Promise<string> {
+  const values = new Map((await context.cookies()).map((cookie) => [cookie.name, cookie.value]));
+  const token = await readStoredAccessToken(supabaseUrl, (name) => values.get(name) ?? null);
+  expect(token === null, 'the context should hold a session cookie carrying an access token').toBe(false);
+  return token as string;
 }

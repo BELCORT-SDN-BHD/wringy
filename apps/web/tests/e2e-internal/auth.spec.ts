@@ -34,9 +34,11 @@
 import { request as apiRequest, type BrowserContext, type Page } from '@playwright/test';
 
 import {
+  API_ORIGIN,
   FAKE_USERS,
   HEALTHY_WEB_ORIGIN,
   OUTAGE_WEB_ORIGIN,
+  SESSION_COOKIE_PREFIX,
   SIGN_IN_ROOT,
   TESTIDS,
   TEST_TAG_HEADER,
@@ -56,7 +58,16 @@ import {
   supabaseUrl,
   test,
 } from './fixtures';
-import { LOCALES, internalCopy, internalShot, setLocaleCookie, sql, watchConsole } from './support';
+import {
+  LOCALES,
+  expectNoHorizontalScroll,
+  internalCopy,
+  internalShot,
+  setLocaleCookie,
+  sql,
+  storedAccessToken,
+  watchConsole,
+} from './support';
 
 const ALICE = FAKE_USERS.alice;
 const BOB = FAKE_USERS.bob;
@@ -646,14 +657,26 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     tagged,
     openDevice,
   }) => {
-    test.setTimeout(120_000);
+    test.setTimeout(180_000);
     const proxy = await startCachingProxy(HEALTHY_WEB_ORIGIN);
     try {
       const aliceContext = tagged.context;
       const bob = await openDevice('bob');
       const bobContext = bob.context;
+      const stale = await openDevice('stale');
+
+      // Alice's and the third device's tokens live two seconds, so the read below
+      // is the interesting one: a read that REFRESHES, and therefore the one
+      // response of the flow a shared cache would most like to store — it carries
+      // a whole session in its `Set-Cookie` (§4.9).
+      await tagged.control.tokenLifetime(tagged.tag, 2);
+      await tagged.control.tokenLifetime(stale.tag, 2);
       await signInAs(tagged.page, 'alice');
       await signInAs(bob.page, 'bob');
+      await signInAs(stale.page, 'alice');
+
+      // Past the two-second lifetime for both of them, in one wait.
+      await tagged.page.waitForTimeout(3_000);
 
       // Cookies are host-scoped, so each context sends its own session to the
       // proxy's port as it would to the app's.
@@ -661,6 +684,17 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
       const aliceThroughProxy = await aliceContext.request.get(`${proxy.origin}${alicePath}`);
       expect(aliceThroughProxy.status()).toBe(200);
       expect(await aliceThroughProxy.text()).toContain(ALICE.email);
+      // The refresh really happened on this hop, so the assertion is not vacuous …
+      const aliceHeaders = aliceThroughProxy.headers();
+      expect(aliceHeaders['set-cookie'], 'the refreshed read wrote a session back').toBeDefined();
+      // … and a shared cache is forbidden to store it.
+      expect(
+        storableInSharedCache(
+          { method: 'GET', url: `${proxy.origin}${alicePath}`, headers: {} },
+          { status: aliceThroughProxy.status(), headers: aliceHeaders },
+        ),
+        'a response carrying a session must not be storable in a shared cache',
+      ).toBe(false);
 
       // Bob asks for the SAME url a shared cache could have stored for Alice.
       const bobThroughProxy = await bobContext.request.get(`${proxy.origin}${alicePath}`);
@@ -672,8 +706,18 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
       expect(proxy.storedKeys(), 'a private page is not storable in a shared cache').not.toContain(`GET ${alicePath}`);
       expect(proxy.hits(), 'nothing was served out of the shared cache').toBe(0);
 
-      // A signed-out read of the public page writes no cookie at all, so there
-      // is nothing for a cache to leak in the first place.
+      // The public page, asked for by a browser whose session has EXPIRED: the
+      // proxy never touches a public path's cookies, so the response carries no
+      // session for a cache to store and no private data to leak.
+      const expiredPage = await stale.context.request.get(`${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.signInPage}`, {
+        maxRedirects: 0,
+      });
+      expect(expiredPage.status()).toBe(200);
+      expect(expiredPage.headers()['set-cookie'], 'the public page writes nothing for an expired session').toBeUndefined();
+      expect(await expiredPage.text()).not.toContain(ALICE.email);
+
+      // A signed-out read of the public page writes no cookie at all either, so
+      // there is nothing for a cache to leak in the first place.
       const anonymous = await apiRequest.newContext();
       try {
         const publicPage = await anonymous.get(`${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.signInPage}`);
@@ -685,6 +729,190 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
       }
     } finally {
       await proxy.stop();
+    }
+  });
+  test('M2-AC02/2 simulated isolation: every session cookie the sign-in leaves is httpOnly and SameSite=Lax', async ({
+    signedIn,
+  }) => {
+    // `@supabase/ssr` defaults `httpOnly` to false, because it assumes a browser
+    // client; Wringy creates none, so the token must not be readable from
+    // JavaScript (§4.3). SameSite=Lax is what stops a cross-site POST carrying the
+    // session at all, which is the other half of the §4.5 Origin rule.
+    const { context } = signedIn;
+    const cookies = (await context.cookies()).filter((cookie) => cookie.name.startsWith(SESSION_COOKIE_PREFIX));
+
+    expect(cookies.length, 'the sign-in left sb-* cookies to inspect').toBeGreaterThan(0);
+    for (const cookie of cookies) {
+      expect(cookie.httpOnly, `${cookie.name} must be httpOnly`).toBe(true);
+      expect(cookie.sameSite, `${cookie.name} must be SameSite=Lax`).toBe('Lax');
+      expect(cookie.path, cookie.name).toBe('/');
+      // A loopback APP_ORIGIN has no TLS, so Secure would stop the browser storing
+      // the session at all (`isSecureOrigin`); every other origin gets it.
+      expect(cookie.secure, cookie.name).toBe(false);
+    }
+    // And no script can read them, which is what httpOnly is for.
+    const readable = await signedIn.page.evaluate(() => document.cookie);
+    expect(readable, 'no sb-* cookie may be readable from JavaScript').not.toContain(SESSION_COOKIE_PREFIX);
+  });
+
+  test('M2-AC02/2 simulated revoked: an access token from a signed-out session is refused by the API itself', async ({
+    signedIn,
+  }) => {
+    // The browser throws its cookies away at sign-out, so only a direct call can
+    // ask the question that matters: is the TOKEN still worth anything? Its `exp`
+    // is an hour away, so a check of the signature alone would still let it
+    // through — the liveness guard is the only thing that can refuse it (§4.6).
+    const { page, context } = signedIn;
+    const token = await storedAccessToken(context, supabaseUrl());
+
+    await page.getByTestId(TESTIDS.signOut).click();
+    await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
+    await expectOutcome(page, 'signed_out');
+    await expectNoSessionCookie(context);
+
+    const api = await apiRequest.newContext({ baseURL: API_ORIGIN });
+    try {
+      for (const path of ['/me/session/probe', '/identity/sign-in']) {
+        const response = await api.post(path, {
+          headers: { authorization: `Bearer ${token}` },
+          failOnStatusCode: false,
+        });
+        expect(response.status(), path).toBe(401);
+        expect(((await response.json()) as { error: { code: string } }).error.code, path).toBe('session.revoked');
+      }
+      // A read still answers until the token's own `exp`, which is the accepted
+      // trade-off §4.6 names and the reason commands ask more than reads do.
+      const read = await api.get('/me', {
+        headers: { authorization: `Bearer ${token}` },
+        failOnStatusCode: false,
+      });
+      expect(read.status(), 'a read relies on the token alone').toBe(200);
+    } finally {
+      await api.dispose();
+    }
+  });
+
+  test('M2-AC02/2 simulated refresh: two tabs of one browser reload at the same moment and both stay signed in', async ({
+    tagged,
+  }) => {
+    test.setTimeout(120_000);
+    // Two tabs reloading together both find an expired access token and both try
+    // to refresh with the same stored refresh token. GoTrue answers the second one
+    // out of its reuse interval rather than ending the session, and the proxy
+    // writes whichever rotated session it got — so neither tab is signed out. This
+    // is the simulated half of Real row 3.
+    const { context, page, tag, control } = tagged;
+    await control.tokenLifetime(tag, 2);
+    await signInAs(page, 'alice');
+    await expect(page.getByTestId(TESTIDS.signedInAs)).toContainText(ALICE.email);
+
+    const second = await context.newPage();
+    await second.goto(`${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.internal}`);
+    await expect(second.getByTestId(TESTIDS.signedInAs)).toContainText(ALICE.email);
+
+    const before = await sessionCookieFingerprint(context);
+    expect(before, 'the context holds session cookies to begin with').not.toBe('');
+
+    // Past the two-second lifetime, so both reloads have to refresh.
+    await page.waitForTimeout(3_000);
+    await Promise.all([page.reload(), second.reload()]);
+
+    const after = await control.calls(tag);
+    const counts = JSON.stringify(after.calls);
+    for (const [label, tab] of [
+      ['the first tab', page],
+      ['the second tab', second],
+    ] as const) {
+      await expect(tab.getByTestId(TESTIDS.signedInAs), `${label} (${counts})`).toContainText(ALICE.email);
+      await expect(tab.locator(SIGN_IN_ROOT), label).toHaveCount(0);
+    }
+    expect(await sessionCookieFingerprint(context), 'the rotated session was written back').not.toBe(before);
+    await second.close();
+  });
+
+  test('M2-AC02/2 simulated exit: an account whose sign-in is closed can still sign out, and its identity row survives', async ({
+    signedIn,
+  }) => {
+    // 关闭登录入口时保留退出通道，不删除身份记录. Disabling an account closes the way
+    // in (every authenticated request is 403 `account.disabled`) and must not close
+    // the way out: sign-out talks to the Auth server and to the browser's own
+    // cookies, never to the API, so it still works. And nothing about it deletes
+    // anything — the grant itself forbids DELETE on `app.profiles`
+    // (`packages/db/test/profiles.int.test.ts`), so the row is still there
+    // afterwards, disabled, with its address and its sign-in stamp.
+    const { page, context } = signedIn;
+    const setStatus = (status: 'active' | 'disabled') =>
+      sql('migrator', 'UPDATE app.profiles SET status = $2 WHERE id = $1', [ALICE.id, status]);
+
+    await setStatus('disabled');
+    try {
+      // No navigation first: the page is already rendered, and reloading it is the
+      // `disabled` row's subject, not this one's.
+      const signOut = page.waitForResponse(
+        (response) => response.url().endsWith(WEB_ROUTES.signOut) && response.request().method() === 'POST',
+      );
+      await page.getByTestId(TESTIDS.signOut).click();
+      expect((await signOut).status(), 'the exit is a 303, as for any other account').toBe(303);
+      await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
+
+      await expectOutcome(page, 'signed_out');
+      await expectNoSessionCookie(context);
+
+      // The identity record survives the exit, disabled.
+      const rows = await sql<{ status: string; contact_email: string }>(
+        'migrator',
+        'SELECT status, contact_email FROM app.profiles WHERE id = $1',
+        [ALICE.id],
+      );
+      expect(rows).toEqual([{ status: 'disabled', contact_email: ALICE.email }]);
+    } finally {
+      // Alice's uuid is fixed, so every later row would fail on a row left disabled.
+      await setStatus('active');
+    }
+  });
+
+  test('M2-AC02/3 simulated no-demo: a dotted path on an internal origin is the internal not-found page, not the demo tree', async ({
+    signedIn,
+  }) => {
+    // The matcher's rev-3 fix. `/((?!…|.*\..*).*)` excluded every path containing a
+    // dot, so on an internal origin `/campaigns/a.b` was never matched: the proxy
+    // never ran, and the demo catch-all rendered it. `proxy.test.ts` proves the
+    // compiled matcher now matches these paths; this row proves the served page.
+    const { page } = signedIn;
+    for (const path of ['/campaigns/a.b', '/foo.bar', '/internal/x.y']) {
+      const response = await page.goto(`${HEALTHY_WEB_ORIGIN}${path}`);
+      expect(response?.status(), path).toBe(404);
+
+      await expect(page.locator('[data-app-banner="internal-build"]'), path).toBeVisible();
+      const notFound = page.locator('[data-app-state="not-found"]');
+      await expect(notFound, path).toBeVisible();
+      await expect(notFound.getByRole('link', { name: 'Back to the internal build' }), path).toHaveAttribute(
+        'href',
+        '/internal',
+      );
+      // Nothing of the demo build reaches this origin.
+      await expect(page.getByTestId('demo-toolbar-trigger'), path).toHaveCount(0);
+      await expect(page.getByTestId('demo-badge'), path).toHaveCount(0);
+      await expect(page.getByText('This page could not be found.'), path).toHaveCount(0);
+      expect(await page.evaluate((key) => window.localStorage.getItem(key), DEMO_STORAGE_KEY), path).toBeNull();
+    }
+  });
+
+  test('M2-AC02/3 simulated origin: the internal build refuses to be framed, signed in and signed out', async ({
+    signedIn,
+  }) => {
+    // A framed sign-in page is how somebody is made to press "Continue with
+    // Google", "sign out" or the session probe without knowing what they pressed.
+    // Both headers, on every response the proxy produces (R12).
+    const { context } = signedIn;
+    for (const path of [WEB_ROUTES.internal, WEB_ROUTES.signInPage, '/no-such-page']) {
+      const response = await context.request.get(`${HEALTHY_WEB_ORIGIN}${path}`, {
+        maxRedirects: 0,
+        failOnStatusCode: false,
+      });
+      const headers = response.headers();
+      expect(headers['content-security-policy'], path).toContain("frame-ancestors 'none'");
+      expect(headers['x-frame-options'], path).toBe('DENY');
     }
   });
 
@@ -701,3 +929,67 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     await expect(page.getByTestId('locale-prompt')).toHaveCount(0);
   });
 });
+
+/**
+ * The same two public pages at the two narrow viewports M1 is held to (390 and
+ * 320; G14, ruling D26). The rest of this file runs at 1440, because what it
+ * proves is behaviour rather than layout — but the sign-in page and the
+ * signed-out page are the only pages of this build a person meets before they
+ * are signed in, and "it fits on a phone" is not something a 1440 run can say.
+ *
+ * `test.use` sets the viewport for the describe rather than adding two more
+ * Playwright projects: these rows belong to the `auth` project's serial order
+ * (they sign Alice in and out, which is shared state), and a project of their own
+ * would run beside it.
+ *
+ * `internalShot` files each frame under the viewport width, so these runs produce
+ * `sign-in-en-MY-390.png`, `signed-out-320.png` and so on beside the 1440 ones.
+ */
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 320, height: 568 },
+]) {
+  test.describe(`M2-AC02 the internal build's public pages at ${viewport.width}px`, () => {
+    test.use({ viewport });
+
+    for (const locale of LOCALES) {
+      test(`M2-AC02/1 simulated sign-in page: the sign-in page fits ${viewport.width}px and keeps its button (${locale})`, async ({
+        tagged,
+      }) => {
+        const { page, context } = tagged;
+        await setLocaleCookie(page, locale, HEALTHY_WEB_ORIGIN);
+
+        await page.goto(`${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.internal}`);
+        await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
+
+        await expect(page.locator('html')).toHaveAttribute('lang', locale);
+        const root = page.locator(SIGN_IN_ROOT);
+        await expect(root).toBeVisible();
+        await expect(root).toContainText(internalCopy(locale, 'signIn.title'));
+        const button = page.getByTestId(TESTIDS.signInGoogle);
+        await expect(button, 'the one action on the page is visible without scrolling sideways').toBeVisible();
+        await expect(button).toContainText(internalCopy(locale, 'signIn.google'));
+        await expectNoHorizontalScroll(page);
+        await expectNoSessionCookie(context);
+
+        await internalShot(page, `sign-in-${locale}`);
+      });
+    }
+
+    test(`M2-AC02/1 simulated sign-out: the signed-out outcome page fits ${viewport.width}px and offers the way back in`, async ({
+      signedIn,
+    }) => {
+      const { page, context } = signedIn;
+
+      await page.getByTestId(TESTIDS.signOut).click();
+      await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
+
+      await expectOutcome(page, 'signed_out');
+      await expectNoSessionCookie(context);
+      await expect(page.getByTestId(TESTIDS.signInGoogle)).toBeVisible();
+      await expectNoHorizontalScroll(page);
+
+      await internalShot(page, 'signed-out');
+    });
+  });
+}
