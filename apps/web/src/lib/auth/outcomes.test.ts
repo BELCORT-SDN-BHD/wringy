@@ -3,7 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { messagesByLocale } from '@/i18n/messages';
 import { LOCALES } from '@/domain/types';
 
-import { OUTCOMES, isOutcome, outcomeFromCallbackQuery, outcomeFromExchangeError, signInPath } from './outcomes';
+import {
+  OUTCOMES,
+  isOutcome,
+  isRetryableAuthError,
+  outcomeFromCallbackQuery,
+  outcomeFromExchangeError,
+  signInPath,
+} from './outcomes';
 
 /** The query of a callback URL, as the handler reads it. */
 const query = (search: string) => new URL(`https://app.wringy.test/auth/callback${search}`).searchParams;
@@ -108,6 +115,27 @@ describe('M2-AC02/1 outcomes: every way sign-in can end has a code and localized
     ]) {
       expect(outcomeFromExchangeError(error), JSON.stringify(error)).toBe('unexpected');
     }
+  });
+
+  // --- An Auth server that could not answer ----------------------------------
+
+  it('M2-AC02/2 outcomes: an Auth server that could not answer is retryable, not a signed-out session', () => {
+    // R9: the web treats every such answer as `unexpected` (retry), never as
+    // `session_ended`, because a transient Auth-server blip must not sign everyone
+    // out. auth-js reports all of these as AuthRetryableFetchError.
+    expect(isRetryableAuthError({ name: 'AuthRetryableFetchError', status: 0, message: 'fetch failed' })).toBe(true);
+    expect(isRetryableAuthError({ name: 'AuthRetryableFetchError', status: 503 })).toBe(true);
+    expect(isRetryableAuthError({ name: 'AbortError' })).toBe(true);
+    expect(isRetryableAuthError({ name: 'TimeoutError' })).toBe(true);
+    expect(isRetryableAuthError({ name: 'AuthApiError', status: 500 })).toBe(true);
+
+    // A session that is really gone, and everything that is not an error at all.
+    expect(isRetryableAuthError({ name: 'AuthSessionMissingError', status: 400 })).toBe(false);
+    expect(isRetryableAuthError({ name: 'AuthApiError', code: 'refresh_token_not_found', status: 400 })).toBe(false);
+    expect(isRetryableAuthError({ name: 'AuthInvalidJwtError' })).toBe(false);
+    expect(isRetryableAuthError(null)).toBe(false);
+    expect(isRetryableAuthError(undefined)).toBe(false);
+    expect(isRetryableAuthError('nope')).toBe(false);
   });
 
   // --- The sign-in URL -------------------------------------------------------

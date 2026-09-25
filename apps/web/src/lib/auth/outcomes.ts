@@ -107,6 +107,31 @@ export function outcomeFromExchangeError(error: unknown): Outcome {
 }
 
 /**
+ * True when `error` says the Supabase Auth server could not answer, rather than
+ * that this session is over.
+ *
+ * `proxy.ts` gets this error from `getClaims()`, whose JWKS fetch and token
+ * refresh both go over the network. auth-js reports every transport failure,
+ * timeout, abort and 5xx as `AuthRetryableFetchError` (`lib/fetch.js`
+ * `_handleRequest`; `status` is 0 for a transport failure and the response's
+ * status for a 5xx), and that is emphatically **not** a sign-out: R9 requires the
+ * web to treat every such answer as `unexpected` (retry), because a transient
+ * Auth-server blip must not sign every tester out.
+ *
+ * Classified structurally, by `name` and `status`, for the same reason as
+ * `outcomeFromExchangeError`: `@supabase/*` may not be imported outside
+ * `supabase-server.ts` (R17), and a shape check lets a test describe an error
+ * without building a library object.
+ */
+export function isRetryableAuthError(error: unknown): boolean {
+  const { name } = shapeOf(error);
+  if (name === 'AuthRetryableFetchError' || name === 'AbortError' || name === 'TimeoutError') return true;
+  if (error === null || typeof error !== 'object') return false;
+  const { status } = error as { status?: unknown };
+  return typeof status === 'number' && status >= 500;
+}
+
+/**
  * The sign-in URL to redirect to, as a **root-relative** path. Callers that
  * need an absolute URL build it with `new URL(signInPath(...), APP_ORIGIN)`, so
  * the host always comes from the environment and never from a request header

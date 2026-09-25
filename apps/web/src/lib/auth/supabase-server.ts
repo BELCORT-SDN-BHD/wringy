@@ -109,6 +109,41 @@ export function withSessionCookieOptions(
 }
 
 /**
+ * OPERATIONAL limit on one call to the Supabase Auth server (not a business
+ * rule), matching `api-client.ts`'s limit on a call to Fastify.
+ */
+export const SUPABASE_REQUEST_TIMEOUT_MS = 5_000;
+
+/**
+ * `fetchImpl` with a deadline, for every call the Supabase client makes.
+ *
+ * auth-js passes no `signal` and sets no timeout of its own, so without this a
+ * Supabase Auth endpoint that accepts the connection and never answers would hang
+ * the request that is refreshing the session — with undici's 300 s
+ * `headersTimeout` as the only backstop. Every other outbound call the web makes
+ * is bounded (`api-client.ts`, `api-read.ts`), and this one is on the path of
+ * every matched `/internal` read, so it is bounded the same way.
+ *
+ * The timer is deliberately never cleared: the deadline covers the body too, so a
+ * server that sends headers and then stalls is an abort rather than a hung page.
+ * It is unreferenced so it can never hold the process open. An abort surfaces as
+ * auth-js's `AuthRetryableFetchError`, which `isRetryableAuthError` (outcomes.ts)
+ * turns into a retry rather than a sign-out.
+ */
+export function boundedFetch(timeoutMs: number, fetchImpl: typeof fetch = fetch): typeof fetch {
+  return (input, init) => {
+    const controller = new AbortController();
+    const timer: unknown = setTimeout(() => controller.abort(new Error('supabase request timed out')), timeoutMs);
+    (timer as { unref?: () => void }).unref?.();
+    // A caller's own signal still wins, so nothing loses the ability to cancel.
+    init?.signal?.addEventListener('abort', () => controller.abort((init.signal as AbortSignal).reason), {
+      once: true,
+    });
+    return fetchImpl(input, { ...init, signal: controller.signal });
+  };
+}
+
+/**
  * A request-level Supabase client over the cookies `cookies` reads and writes.
  *
  * The `setAll` wrapper re-applies `sessionCookieOptions` through
@@ -116,6 +151,9 @@ export function withSessionCookieOptions(
  * headers argument, which the proxy and the handlers ignore in favour of
  * `noStore()` — applied unconditionally, because the library latches those
  * headers to the first write only (R20).
+ *
+ * Every call the client makes is bounded by `SUPABASE_REQUEST_TIMEOUT_MS`
+ * (`boundedFetch`).
  */
 export function createRequestSupabase({
   supabaseUrl,
@@ -125,6 +163,7 @@ export function createRequestSupabase({
 }: CreateRequestSupabaseOptions): RequestSupabase {
   // Inside the function, once per request: see the header, and check:supabase-scope.
   return createServerClient(supabaseUrl, publishableKey, {
+    global: { fetch: boundedFetch(SUPABASE_REQUEST_TIMEOUT_MS) },
     cookieOptions: sessionCookieOptions(secure),
     cookies: {
       getAll: cookies.getAll,
@@ -148,9 +187,35 @@ export function sessionStorageKey(supabaseUrl: string): string {
   return `sb-${new URL(supabaseUrl).hostname.split('.')[0]}-auth-token`;
 }
 
-/** True for any cookie `@supabase/ssr` may have written for a session (`sb-…`, chunked or not). */
+/**
+ * True for any cookie `@supabase/ssr` may have written on this project's behalf.
+ *
+ * Deliberately broad — every `sb-*` name, session or not — because it answers the
+ * sign-out question: *what must the browser be left holding none of?* That
+ * includes the PKCE verifier cookies (`…-code-verifier`, `…-flows-code-verifier`,
+ * `…-flow-<id>-code-verifier`). It does **not** answer "did this browser have a
+ * session?": `isSessionCookieName` does, because a browser that only started a
+ * sign-in holds a verifier and never had a session.
+ */
 export function isSupabaseAuthCookie(name: string): boolean {
   return name.startsWith('sb-');
+}
+
+/**
+ * True only for the cookie (or a chunk of it) that holds **this project's
+ * session**: `sessionStorageKey(supabaseUrl)`, or `<key>.<n>` when the library
+ * had to split the value.
+ *
+ * The narrow question, kept apart from `isSupabaseAuthCookie` on purpose. An
+ * abandoned sign-in leaves `<key>-code-verifier` behind with the library's fixed
+ * 400-day `maxAge`, so a prefix test would tell `proxy.ts` "a session cookie
+ * existed" for up to 400 days and answer "your session ended, so you were signed
+ * out" to somebody who never had a session.
+ */
+export function isSessionCookieName(supabaseUrl: string, name: string): boolean {
+  const key = sessionStorageKey(supabaseUrl);
+  if (name === key) return true;
+  return name.startsWith(`${key}.`) && /^\d+$/.test(name.slice(key.length + 1));
 }
 
 /** `base64url`-encoded cookie values carry this prefix; a plain JSON value carries none. */

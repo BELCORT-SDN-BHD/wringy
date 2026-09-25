@@ -51,6 +51,18 @@ const signedOut: typeof makeClient = () => ({
   },
 });
 
+/**
+ * A client that could not reach the Auth server: auth-js's own answer for a JWKS
+ * fetch that failed, timed out or was aborted (`AuthRetryableFetchError`, status
+ * 0 for a transport failure and the response's status for a 5xx).
+ */
+const authUnavailable = (error: unknown): typeof makeClient => () => ({
+  auth: {
+    getClaims: () => Promise.resolve({ data: null, error }),
+    getSession: () => Promise.resolve({ data: { session: null }, error }),
+  },
+});
+
 /** A client that refreshes: it writes new cookies through `setAll`, then reports a session. */
 const refreshes = (token = 'token-fresh'): typeof makeClient => (options) => ({
   auth: {
@@ -126,10 +138,50 @@ describe('M2-AC02/3 cache: the demo build is untouched by the proxy', () => {
     vi.stubEnv('WRINGY_ENV', 'ci');
     vi.stubEnv('API_INTERNAL_URL', 'http://127.0.0.1:3200');
 
-    const response = await proxy(request('/internal'));
+    for (const path of ['/internal', '/internal/sign-in', '/auth/callback?code=abc']) {
+      const response = await proxy(request(path));
+      expect(isPassThrough(response), path).toBe(true);
+    }
+    expect(clientCalls).toHaveLength(0);
+  });
+
+  it('M2-AC02/3 cache: internal mode without its variables still never serves the demo build', async () => {
+    // A half-configured internal deployment is exactly the state a first deploy is
+    // in. The routing shape needs no environment, so it still applies: nothing of
+    // the demo build may render on this origin (R12, R13).
+    vi.stubEnv('WRINGY_APP_MODE', 'internal');
+    vi.stubEnv('WRINGY_ENV', 'ci');
+    vi.stubEnv('API_INTERNAL_URL', 'http://127.0.0.1:3200');
+
+    for (const path of ['/merchant/campaigns', '/creator', '/campaigns/abc', '/settings']) {
+      const rewrite = (await proxy(request(path))).headers.get('x-middleware-rewrite');
+      expect(rewrite, path).not.toBeNull();
+      expect(new URL(rewrite as string).pathname, path).toBe('/internal/__not-found');
+    }
+
+    // `/` cannot be redirected without APP_ORIGIN (a Location must never be built
+    // from the request's host), so it is rewritten to the page that names the
+    // missing variables — never to the demo home.
+    const root = await proxy(request('/'));
+    const rootRewrite = root.headers.get('x-middleware-rewrite');
+    expect(rootRewrite).not.toBeNull();
+    expect(new URL(rootRewrite as string).pathname).toBe('/internal');
+    expect(root.headers.get('location')).toBeNull();
+    expect(clientCalls).toHaveLength(0);
+  });
+
+  it('M2-AC02/2 isolation: in demo mode a client-supplied token header survives, which is why every reader gates on the mode', async () => {
+    // R12 keeps the proxy out of the way in demo mode, so it cannot strip the
+    // header either. The guarantee is therefore "trustworthy in internal mode,
+    // never read in demo mode" (wire.ts), and the page's `appMode()` check is what
+    // enforces the second half.
+    vi.stubEnv('WRINGY_APP_MODE', 'demo');
+
+    const response = await proxy(request('/internal', { headers: { [ACCESS_TOKEN_HEADER]: 'forged' } }));
 
     expect(isPassThrough(response)).toBe(true);
-    expect(clientCalls).toHaveLength(0);
+    // Nothing was rewritten at all: the forged header reaches the render untouched.
+    expect(response.headers.get('x-middleware-override-headers')).toBeNull();
   });
 });
 
@@ -245,6 +297,49 @@ describe('M2-AC02/2 isolation: an unauthenticated read is sent to sign in, from 
     const location = new URL(response.headers.get('location') as string);
     expect(location.searchParams.get('outcome')).toBe('session_ended');
     expect(location.searchParams.get('next')).toBe('/internal');
+  });
+
+  it('M2-AC02/2 isolation: an Auth server that cannot answer is a retry, never "your session ended"', async () => {
+    // R9: a transient Auth-server blip must not sign everyone out. The session is
+    // untouched — no cookie is written — so the page offers a retry instead.
+    for (const error of [
+      { name: 'AuthRetryableFetchError', status: 0, message: 'fetch failed' },
+      { name: 'AuthRetryableFetchError', status: 503 },
+      { name: 'AbortError' },
+    ]) {
+      makeClient = authUnavailable(error);
+
+      const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=good` }));
+
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.searchParams.get('outcome'), JSON.stringify(error)).toBe('unexpected');
+      expect(location.searchParams.get('next')).toBe('/internal');
+      expect(response.cookies.getAll()).toEqual([]);
+    }
+  });
+
+  it('M2-AC02/2 isolation: an abandoned sign-in is not a session that ended', async () => {
+    // `sb-…-auth-token-code-verifier` is written when a sign-in STARTS and carries
+    // the library's fixed 400-day maxAge. A browser that only holds one never had
+    // a session, so it must be told "please sign in", not "you were signed out".
+    makeClient = signedOut;
+
+    for (const cookie of [
+      `${SESSION_COOKIE}-code-verifier=abc123`,
+      `${SESSION_COOKIE}-flows-code-verifier=abc123`,
+      `${SESSION_COOKIE}-flow-abcDEF12-code-verifier=abc123`,
+    ]) {
+      const response = await proxy(request('/internal', { cookies: cookie }));
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.searchParams.get('outcome'), cookie).toBeNull();
+    }
+
+    // The session cookie itself, chunked or not, still says session_ended.
+    for (const cookie of [`${SESSION_COOKIE}=expired`, `${SESSION_COOKIE}.0=part`, `${SESSION_COOKIE}.1=part`]) {
+      const response = await proxy(request('/internal', { cookies: cookie }));
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.searchParams.get('outcome'), cookie).toBe('session_ended');
+    }
   });
 
   it('M2-AC02/3 cache: the sign-in redirect is never cacheable', async () => {

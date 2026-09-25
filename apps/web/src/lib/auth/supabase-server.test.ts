@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  boundedFetch,
   isSecureOrigin,
+  isSessionCookieName,
   isSupabaseAuthCookie,
   readStoredAccessToken,
   sessionCookieOptions,
@@ -99,6 +101,30 @@ describe('M2-AC02/2 isolation: the probe reads the stored token without any refr
     expect(isSupabaseAuthCookie('wringy-auth-next')).toBe(false);
   });
 
+  it('M2-AC02/2 isolation: only the session cookie counts as a session, not every sb-* cookie', () => {
+    // The two questions are different. "Clear everything the library wrote" must
+    // include the PKCE verifiers; "did this browser have a session?" must not — an
+    // abandoned sign-in leaves a verifier for the library's fixed 400 days, and
+    // answering "your session ended" to it would be a lie (proxy.ts).
+    expect(isSessionCookieName(SUPABASE_URL, STORAGE_KEY)).toBe(true);
+    expect(isSessionCookieName(SUPABASE_URL, `${STORAGE_KEY}.0`)).toBe(true);
+    expect(isSessionCookieName(SUPABASE_URL, `${STORAGE_KEY}.12`)).toBe(true);
+
+    for (const verifier of [
+      `${STORAGE_KEY}-code-verifier`,
+      `${STORAGE_KEY}-flows-code-verifier`,
+      `${STORAGE_KEY}-flow-abcDEF12-code-verifier`,
+      `${STORAGE_KEY}.x`,
+      'sb-other-auth-token',
+      'wringy-locale',
+    ]) {
+      expect(isSessionCookieName(SUPABASE_URL, verifier), verifier).toBe(false);
+      // …while the broad test still matches every sb-* name, which is what sign-out
+      // needs.
+      if (verifier.startsWith('sb-')) expect(isSupabaseAuthCookie(verifier), verifier).toBe(true);
+    }
+  });
+
   it('M2-AC02/2 isolation: reads the access token out of a base64url session cookie', async () => {
     const jar = cookies({ [STORAGE_KEY]: encodeSession({ access_token: 'token-abc', refresh_token: 'r' }) });
 
@@ -154,5 +180,45 @@ describe('M2-AC02/2 isolation: the probe reads the stored token without any refr
 
     await expect(readStoredAccessToken(SUPABASE_URL, jar)).resolves.toBe('token-abc');
     expect(seen).toEqual([STORAGE_KEY]);
+  });
+});
+
+describe('M2-AC02/2 refresh: every call to the Supabase Auth server is bounded', () => {
+  it('M2-AC02/2 refresh: a request that never answers is aborted rather than hanging the page', async () => {
+    // auth-js passes no signal and sets no timeout, so without this an Auth
+    // endpoint that accepts the connection and never answers would hang every
+    // matched /internal read (undici's 300 s headersTimeout is the only backstop).
+    let observed: AbortSignal | undefined;
+    const stalls: typeof fetch = (_input, init) =>
+      new Promise<Response>((_resolve, reject) => {
+        observed = init?.signal ?? undefined;
+        observed?.addEventListener('abort', () => reject(new Error('aborted')));
+      });
+
+    await expect(boundedFetch(15, stalls)('https://project.supabase.co/auth/v1/user')).rejects.toThrow('aborted');
+    expect(observed?.aborted).toBe(true);
+  });
+
+  it('M2-AC02/2 refresh: a normal answer passes through untouched', async () => {
+    const answers: typeof fetch = () => Promise.resolve(new Response('{}', { status: 200 }));
+
+    const response = await boundedFetch(5_000, answers)('https://project.supabase.co/auth/v1/user');
+
+    expect(response.status).toBe(200);
+  });
+
+  it("M2-AC02/2 refresh: a caller's own abort still wins", async () => {
+    const controller = new AbortController();
+    const stalls: typeof fetch = (_input, init) =>
+      new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new Error('aborted')));
+      });
+
+    const pending = boundedFetch(60_000, stalls)('https://project.supabase.co/auth/v1/user', {
+      signal: controller.signal,
+    });
+    controller.abort();
+
+    await expect(pending).rejects.toThrow('aborted');
   });
 });
