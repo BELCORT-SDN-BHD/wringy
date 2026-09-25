@@ -49,6 +49,14 @@
  *    docs/m2-internal/acceptance-record.md whose first cell starts with
  *    "M2-ACxx/n" (manual evidence, including rows marked NOT EXECUTED: this
  *    checks the mapping, the record says whether it ran).
+ * 3b. (d) A ticket whose spec forbids closing on simulated results (RECORD_ROW_REQUIRED
+ *    below, today m2-02: 模拟结果不能关闭本票) must have, for EVERY sub-item, a row
+ *    in the record of its own — not just a passing test. Its tests all run
+ *    against a fake Auth server and a locally generated key set, so "the tests
+ *    are green" is exactly the evidence that rule says cannot close the ticket;
+ *    the row is where each simulated group is labelled and each unexecuted
+ *    Real row is named (M2-02 R15). NOT EXECUTED rows count here: this checks
+ *    that the evidence is written down, and the record says whether it ran.
  * 4. (c) No listed test file skips a test unconditionally at run time: a
  *    Vitest context skip (`ctx.skip()`, `context.skip(...)`: any `<name>.skip(`
  *    other than it/test/describe/suite/bench) or a Playwright `test.skip()` /
@@ -80,6 +88,12 @@ const WEB_M2_VITEST_FILTERS = [
   'tests/unit/',
 ];
 const WEB_INTERNAL_PLAYWRIGHT_CONFIG = 'playwright.internal.config.ts';
+/**
+ * Tickets whose acceptance forbids closing on simulated results, so every
+ * sub-item needs a record row of its own, not only a green test (rule (d)).
+ * m2-02: "真实测试凭据缺失须列阻塞，模拟结果不能关闭本票" (M2-AC02/3).
+ */
+const RECORD_ROW_REQUIRED = new Set(['m2-02']);
 const SELF_TEST_DIR = path.join(ROOT, 'scripts', 'fixtures', 'acceptance-self-test');
 
 function fail(message) {
@@ -153,11 +167,12 @@ function names(text, subItem) {
   return next === undefined || !/\d/.test(next);
 }
 
-/** The verdicts (a), (b) and (c) for `tests`, record `rows`, sub-items per ticket and run-time skips. */
-function evaluate({ tests, rows, subItemsByTicket, runtimeSkips }) {
+/** The verdicts (a), (b), (c) and (d) for `tests`, record `rows`, sub-items per ticket and run-time skips. */
+function evaluate({ tests, rows, subItemsByTicket, runtimeSkips, recordRowRequired = RECORD_ROW_REQUIRED }) {
   const untagged = tests.filter((test) => !test.name.includes(TAG));
   const tickets = [...subItemsByTicket].map(([ticket, subItems]) => ({
     ticket,
+    recordRowRequired: recordRowRequired.has(ticket),
     items: subItems.map((subItem) => {
       const count = tests.filter((test) => names(test.name, subItem)).length;
       const manual = rows.filter((row) => row.first.startsWith(subItem) && names(row.first, subItem));
@@ -165,9 +180,15 @@ function evaluate({ tests, rows, subItemsByTicket, runtimeSkips }) {
       return { subItem, tests: count, manual: manual.length, notExecuted, mapped: count > 0 || manual.length > 0 };
     }),
   }));
+  const missingRecordRows = tickets
+    .filter((ticket) => ticket.recordRowRequired)
+    .flatMap(({ ticket, items }) => items.filter((item) => item.manual === 0).map((item) => `${ticket} ${item.subItem}`));
   const ok =
-    untagged.length === 0 && runtimeSkips.length === 0 && tickets.every(({ items }) => items.every((item) => item.mapped));
-  return { untagged, tickets, runtimeSkips, ok };
+    untagged.length === 0 &&
+    runtimeSkips.length === 0 &&
+    missingRecordRows.length === 0 &&
+    tickets.every(({ items }) => items.every((item) => item.mapped));
+  return { untagged, tickets, runtimeSkips, missingRecordRows, ok };
 }
 
 // --- 0. Self-test ------------------------------------------------------------
@@ -187,11 +208,25 @@ function selfTest() {
     runtimeSkips: runtimeSkipsIn(skipFile, readFileSync(skipFile, 'utf8')),
   });
 
+  // The same fixtures again, with the fixture ticket declared "simulated results
+  // cannot close it": rule (d) must then refuse every sub-item that has no record
+  // row, including the ones a green test already satisfies.
+  const strict = evaluate({
+    tests: [...playwright, ...vitest],
+    rows: recordRowsOf(read('record.md')),
+    subItemsByTicket: new Map([['self-test', subItemsOf(read('ticket.md'))]]),
+    runtimeSkips: [],
+    recordRowRequired: new Set(['self-test']),
+  });
+
   const got = {
     ok: verdict.ok,
     untagged: verdict.untagged.map((test) => test.name),
     mapped: Object.fromEntries(verdict.tickets[0].items.map((item) => [item.subItem, item.mapped])),
     runtimeSkipLines: verdict.runtimeSkips.map((skip) => skip.line),
+    // Only /5 and /10 have a row in the fixture record.
+    strictMissingRecordRows: strict.missingRecordRows,
+    strictOk: strict.ok,
   };
   const want = {
     ok: false,
@@ -213,6 +248,14 @@ function selfTest() {
     },
     // ctx.skip() and test.fixme() in runtime-skip.fixture.txt; the conditional test.skip is allowed.
     runtimeSkipLines: [4, 8],
+    strictMissingRecordRows: [
+      'self-test M2-AC99/1',
+      'self-test M2-AC99/2',
+      'self-test M2-AC99/3',
+      'self-test M2-AC99/4',
+      'self-test M2-AC99/6',
+    ],
+    strictOk: false,
   };
   if (!isDeepStrictEqual(got, want)) {
     fail(
@@ -221,8 +264,8 @@ function selfTest() {
     );
   }
   console.log(
-    'check:acceptance: self-test passed (an untagged name, a declared skip, a fixme, M2-AC99/10 versus /1 and two ' +
-      'run-time skips were all caught)',
+    'check:acceptance: self-test passed (an untagged name, a declared skip, a fixme, M2-AC99/10 versus /1, two ' +
+      'run-time skips and five sub-items with no record row were all caught)',
   );
 }
 
@@ -359,6 +402,22 @@ for (const { ticket, items } of verdict.tickets) {
         `${item.notExecuted ? ` (${item.notExecuted} NOT EXECUTED)` : ''}   ${item.mapped ? 'OK' : `FAIL: no test name contains "${item.subItem}" and no ${RECORD} row starts with it`}`,
     );
   }
+}
+
+// (d) A ticket that cannot close on simulated results needs a record row per sub-item.
+if (verdict.missingRecordRows.length > 0) {
+  console.log(
+    `\n(d) FAIL: ${verdict.missingRecordRows.length} sub-item(s) of a ticket whose spec forbids closing on ` +
+      `simulated results have no ${RECORD} row of their own:`,
+  );
+  for (const item of verdict.missingRecordRows) console.log(`    ${item}`);
+} else {
+  const strict = [...RECORD_ROW_REQUIRED].filter((ticket) => tickets.includes(ticket));
+  console.log(
+    strict.length === 0
+      ? `\n(d) OK: no ticket in progress forbids closing on simulated results`
+      : `\n(d) OK: every sub-item of ${strict.join(', ')} has a ${RECORD} row of its own`,
+  );
 }
 
 // (c) No listed test file skips a test unconditionally at run time.

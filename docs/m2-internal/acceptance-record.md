@@ -14,6 +14,11 @@ governance evidence lives in the rows below. `pnpm check:acceptance`
 `M2-AC`, and every M2-AC01 sub-item to have a test name or a row here whose first cell starts with
 its ID.
 
+**M2-AC02 is recorded here too** ("M2-AC02 — Google sign-in, session refresh and sign-out" below),
+and under a stricter rule: its spec forbids closing on simulated results, so every one of its
+sub-items must have a row here of its own, and the check refuses the ticket otherwise. Its Real
+rows are recorded up front as **NOT EXECUTED**.
+
 **This is an internal-build acceptance, not a business acceptance.** It records what the internal
 build does on a developer machine and in CI. A fixture campaign read through `/internal` shows that
 the data path works; it proves no business rule. It is not a release either: M2 has no production
@@ -190,6 +195,78 @@ The design sources checked are `phase-0/foundation/design-system-v2`, `phase-0/d
 (`src/app/(demo)/[...notFound]/page.tsx`, which the removal does not touch) answers every URL the
 prototype does not know that way. Its comment says the 404 renders inside the demo root layout; in
 `next start` it did not (observed here; `next dev` not checked).
+
+## M2-AC02 — Google sign-in, session refresh and sign-out (M2-02)
+
+The evidence for [M2-02 / #21](https://github.com/BELCORT-SDN-BHD/wringy/issues/21), acceptance
+M2-AC02/1–3 ([m2-spec.md](../planning/specs/m2-spec.md#m2-ac02),
+[m2-02.md](../planning/tickets/m2-02.md)); the design contract is
+[m2-02-code-review.md](m2-02-code-review.md).
+
+**Every automated row below is `simulated`, and simulated rows cannot close this ticket.** The
+spec says so in as many words — 真实测试凭据缺失须列阻塞，模拟结果不能关闭本票 (M2-AC02/3) — and
+R15 requires both halves of this section: each simulated group labelled, and every §4.9 `Real` row
+present up front, marked **NOT EXECUTED** with its reason. What "simulated" means here is precise:
+
+- the Supabase **Auth server** is a local fake (`apps/web/tests/e2e-internal/fake-auth/server.mts`),
+  driven through the real `@supabase/ssr` client by its own contract self-test;
+- the **key set** is an ES256 pair generated in the test process (`tests/integration/jwt-support.ts`);
+- **Google** is never contacted: no consent screen, no real account, no real scope grant;
+- the **session store** is either the stub `auth.sessions` or a stubbed liveness port.
+
+They prove the code's logic. They do not prove that a real Google account signs in, that Google
+asks for no YouTube scope, or that a real Supabase session answers the liveness question. Those are
+the Real rows, and none of them has been executed.
+
+### Execution (M2-AC02)
+
+| | |
+|---|---|
+| Recorded | 2026-09-26, W5 review-fix worker, after the M2-02 adversarial review |
+| Branch | `feat/m2-02` (not merged). The rows below were taken on the W5 review-fix head; the W1–W3 commits are `6c27eae..HEAD` |
+| Executed by | Agent runs of M2-02 (W1 db/config, W2 api, W3 web, W5 review fixes). **No founder step is recorded here** |
+| Runtime | Node 24.21.0 (root `.npmrc` `use-node-version`), pnpm 10.33.0; PostgreSQL 17.10 through embedded-postgres locally; Chromium only |
+| Migration head | `0009_sign_in_allowlist` (`packages/db/src/expected-head.ts`) |
+| Commands | `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm depcruise`, `pnpm check:supabase-scope`, `pnpm canary`, `pnpm check:acceptance`, `pnpm --filter @wringy/db test:int`, `pnpm --filter api test:int`, `pnpm --filter worker test:int`, `pnpm e2e:internal`, `pnpm --filter web exec playwright test` |
+| Mapping | `pnpm check:acceptance m2-01 m2-02`: M2-AC02/1 48 test names, M2-AC02/2 135, M2-AC02/3 71 (all carrying their ID); plus the rows below |
+
+### Simulated rows (none of these can close the ticket)
+
+| 验收ID | 版本 | 环境 | 测试或人工步骤 | 期望 | 实际 | 时间 | 证据引用 | 未决项 |
+|---|---|---|---|---|---|---|---|---|
+| M2-AC02/1 simulated sign-in outcomes | `feat/m2-02` W5 head; head 0009 | Local + CI; **simulated**: the local fake Auth server, no Google | `apps/web/tests/e2e-internal/auth.spec.ts` (sign-in walk, cancel, expired flow, wrong browser, not-allowed, disabled) and `src/app/auth/route-handlers.test.ts`; the outcome copy in `src/lib/auth/outcomes.test.ts` | Every way sign-in can end has a visible, localized result: `cancelled`, `expired`, `wrong_browser`, `session_ended`, `signed_out`, `signed_out_unconfirmed`, `not_allowed`, `disabled`, `unexpected` | Passed. The nine codes each have a title and a description in en-MY, ms-MY and zh-Hans-MY, asserted against the message files | 2026-09-26 | `apps/web/tests/e2e-internal/auth.spec.ts`; `src/lib/auth/outcomes.test.ts` | **Simulated**: a real Google cancel and a real consent screen are the Real rows below, which have not run |
+| M2-AC02/1 simulated scopes | `feat/m2-02` W5 head | Local + CI; **simulated**: the fake records the authorize URL | The fake's `AuthorizeRecord` is read back: provider, `redirect_to` and the scopes asked for | The authorize call asks for no extra scope, so Google is asked for `email profile` only and no YouTube grant | Passed against the fake | 2026-09-26 | `apps/web/tests/e2e-internal/fake-auth/server.mts`; `auth.spec.ts` | **Simulated**: what Google actually asks the person for is Real row 2 (`scopes`), which has not run |
+| M2-AC02/2 simulated refresh, isolation and the identity header | `feat/m2-02` W5 head | Local + CI; **simulated** | `apps/web/src/proxy.test.ts` (refresh writes to both the forwarded request and the response, no-store, the token header can only come from the proxy, a retryable Auth failure is `unexpected`, an abandoned sign-in is not a session that ended); `auth.spec.ts` two browser contexts | A refreshed session reaches the page and the browser together; two contexts never swap identities; a client-supplied `x-wringy-access-token` can never survive in internal mode | Passed | 2026-09-26 | `src/proxy.test.ts`; `tests/e2e-internal/auth.spec.ts` | **Simulated**: two real tabs against a real Supabase session is Real row 3 (`refresh`), which has not run |
+| M2-AC02/2 simulated session liveness, both adapters | `feat/m2-02` W5 head; head 0009 | Local + CI; **simulated**: the stub `auth.sessions` and an in-process fake `/auth/v1/user` | `apps/api/tests/integration/session-liveness.int.test.ts` (both adapters, fail-closed statuses, the 3 s timeout, the apikey header) and `packages/db/test/platform.int.test.ts` | `database` answers from `platform.session_is_live`; `auth_server` maps 200 → live, `session_not_found`/`user_not_found`/`user_banned` → 401 `session.revoked`, and every other answer, timeout or transport error → 503 `session_check_unavailable`, never a 401 | Passed | 2026-09-26 | `apps/api/tests/integration/session-liveness.int.test.ts`; `packages/db/test/platform.int.test.ts` | **Simulated**: neither adapter has been asked about a real Supabase session — Real row 4 (`bridge`), which has not run |
+| M2-AC02/2 simulated allow-list gate and profile | `feat/m2-02` W5 head; head 0009 | Local + CI, real PostgreSQL 17; **simulated** identity (locally signed tokens) | `apps/api/tests/integration/identity.int.test.ts`; `packages/db/test/allowlist.int.test.ts`; `packages/db/src/allowlist{,-args}.test.ts` | An unlisted address with no profile is 403 `sign_in.not_allowed`; a listed one creates the profile with the **verified** email, the display name and the sign-in stamp; removing the address signs nobody out; a disabled profile is 403 `account.disabled` | Passed. The gate compares the normal form (NFKC, trim, lower-case) while `contact_email` keeps the address as the provider verified it | 2026-09-26 | `apps/api/tests/integration/identity.int.test.ts`; `packages/db/test/allowlist.int.test.ts` | **Simulated**: no real address has passed the gate — Real rows 1 and 7, which have not run |
+| M2-AC02/2 simulated sign-out and the disabled-account exit | `feat/m2-02` W5 head | Local + CI; **simulated** | `src/app/auth/route-handlers.test.ts` (sign-out, `signed_out_unconfirmed`, `GET /auth/end-session`) and `auth.spec.ts` (sign-out, back button) | `signOut({scope:'local'})` only; a sign-out the library could not confirm still expires every `sb-*` cookie; the back button after sign-out shows no private data; only `403 account.disabled` ends a session through `/auth/end-session` | Passed | 2026-09-26 | `src/app/auth/route-handlers.test.ts`; `tests/e2e-internal/auth.spec.ts` | **Simulated**: "other devices stay signed in" against a real session is Real row 5 (`scope`), which has not run |
+| M2-AC02/3 simulated forged and stale tokens | `feat/m2-02` W5 head | Local + CI; **simulated**: an ES256 key pair generated in the process | `apps/api/tests/integration/authenticate.int.test.ts`: unknown key, `alg=none`, HS256 with the publishable key, wrong `iss`/`aud`, missing claims, wrong role, anonymous, `client_id`, unknown `kid`, expired, unreachable JWKS; every route but `/health` and `/health/live` with no token | One 401 `unauthenticated` for every forgery; `auth.expired` for a valid signature past `exp`; 503 `auth_unavailable` (never a 401) when the key set cannot be fetched; no token, session id, email or claim value in any log line | Passed | 2026-09-26 | `apps/api/tests/integration/authenticate.int.test.ts`; `apps/api/src/app.ts` (`routeTable`) | **Simulated**: the tokens are ours, not Supabase's. Real row 9 (`stale`, refresh-token reuse) has not run |
+| M2-AC02/3 simulated Origin, CSRF and the forwarded host | `feat/m2-02` W5 head | Local + CI; **simulated** | `src/lib/auth/origin.test.ts`, `src/app/auth/route-handlers.test.ts`, `auth.spec.ts` ("simulated origin", "simulated callback") | A cross-site POST is 403 before anything upstream is called and writes no cookie; `GET /auth/sign-out` is 405; `next=//evil.example`, `next=https://evil.example` and a forged `X-Forwarded-Host` never leave `APP_ORIGIN` | Passed | 2026-09-26 | `src/lib/auth/origin.test.ts`; `tests/e2e-internal/auth.spec.ts` | **Simulated** |
+| M2-AC02/3 simulated cache and shared-cache behaviour | `feat/m2-02` W5 head | Local + CI; **simulated** | `src/lib/auth/no-store.test.ts`, `route-handlers.test.ts`, `proxy.test.ts`, `auth.spec.ts` cache rows; `apps/api` `CACHE_CONTROL` and `Vary: Authorization` assertions | Every response that writes a cookie is `private, no-store`; an RFC 9111 shared cache carries nothing of user A to user B; API responses behind the hook vary by `Authorization`, and `/health` does not | Passed | 2026-09-26 | `src/lib/auth/no-store.test.ts`; `tests/e2e-internal/auth.spec.ts` | **Simulated**: repeated against a real shared cache in M2-09 |
+| M2-AC02/3 CI checks for this ticket | `feat/m2-02` W5 head | Local; CI on the PR | `pnpm depcruise` (rule `supabase-client-only-in-auth-lib` with its planted violation), `pnpm check:supabase-scope` (planted module-level client and planted second importer), `pnpm canary` (the three new variables), `pnpm check:acceptance m2-01 m2-02` | A module-level Supabase client, a second importer of `@supabase/*` and a leaked configured value are each rejected by a check that is proved to bite | Passed: 4 planted violations rejected; the scope check rejected both plants; the canary found no configured value in a bundle or a log | 2026-09-26 | `scripts/check-dependency-direction.mjs`; `scripts/check-supabase-client-scope.mjs`; `scripts/check-secret-canary.mjs` | CI on the PR is the authoritative run |
+
+### Real rows — NOT EXECUTED (the ticket cannot close on the rows above)
+
+Every §4.9 `Real` row, up front, with the reason it has not run. The walk is
+[m2-02-real-login-runbook.md](m2-02-real-login-runbook.md) §3; its step numbers are given.
+
+| 验收ID | 版本 | 环境 | 测试或人工步骤 | 期望 | 实际 | 时间 | 证据引用 | 未决项 |
+|---|---|---|---|---|---|---|---|---|
+| M2-AC02/1 Real login: a real Google sign-in lands on the original page | — | Local internal build + the Supabase dev project + a real Google test account | Runbook step 1: open `/internal?x=1`, sign in with an allow-listed Google test account | Back on `/internal?x=1`, signed in as that address, with the fixture data | **NOT EXECUTED**: no verified way exists to automate a real Google sign-in in Playwright (G20), and the walk is the founder's — it needs a real Google account and the browser | — | runbook §3 step 1 (`real-01-login.png`) | Blocks closing M2-02 |
+| M2-AC02/1 Real scopes: Google asks for no YouTube grant | — | as above | Runbook step 2: read Google's own consent screen | Name, email address and profile only; no YouTube item | **NOT EXECUTED**: the same walk. The agent verified server-side that Supabase's authorize redirect asks for `scope=email profile` (kickoff §1), which is not the same as seeing the consent screen | — | runbook §3 step 2 (`real-02-consent.png`) | Blocks closing M2-02 |
+| M2-AC02/2 Real refresh: two tabs refresh together and both stay signed in | — | as above | Runbook step 3 | Both tabs stay signed in; no bounce to the sign-in page | **NOT EXECUTED**: needs a real session with a real refresh token | — | runbook §3 step 3 (`real-03-two-tabs.png`) | Blocks closing M2-02 |
+| M2-AC02/2 Real bridge: liveness answers against the real auth.sessions | — | as above, `SESSION_LIVENESS=auth_server` | Runbook step 4: the session probe on `/internal` | `probe=ok`, proving Fastify asked the real Supabase Auth server about this session | **NOT EXECUTED**: only the fake `/auth/v1/user` and the stub table have been asked so far | — | runbook §3 step 4 (`real-04-probe-ok.png`) | Blocks closing M2-02. Mechanism A against a real `auth.sessions` waits for M2-09 |
+| M2-AC02/2 Real scope: local sign-out leaves the other device signed in | — | as above, two browsers | Runbook step 5 | Browser A is signed out; browser B stays signed in and its probe still answers ok | **NOT EXECUTED**: needs two real sessions of one real account | — | runbook §3 step 5 (`real-05a`, `real-05b`) | Blocks closing M2-02 |
+| M2-AC02/3 Real cancel and not_allowed: a refusal is visible and neutral | — | as above, plus a real Google account that is **not** allow-listed | Runbook steps 6 and 7 | "Sign-in cancelled"; and a neutral internal-version page with no data for the unlisted account | **NOT EXECUTED**: the same walk | — | runbook §3 steps 6–7 (`real-06-cancelled.png`, `real-07-not-allowed.png`) | Blocks closing M2-02 |
+| M2-AC02/3 Real logout: the back button shows no private data | — | as above | Runbook step 8 | No signed-in header and no campaign data after going back | **NOT EXECUTED**: the same walk (the simulated E2E row covers the logic) | — | runbook §3 step 8 (`real-08-back.png`) | Blocks closing M2-02 |
+| M2-AC02/3 Real stale: a reused refresh token ends the session | — | as above | §4.9 `Real` "stale": reuse a rotated refresh token outside the reuse interval | The session ends | **NOT EXECUTED**: it needs a script that captures a real refresh token, which a person cannot do by hand and which no tooling here does. The runbook records it as NOT EXECUTED (需脚本); the logic is covered by the simulated API-int rows | — | runbook §3 step 9 | Open: either a small capture script or an accepted gap, for the founder to decide |
+| M2-AC02/1 Real locales: the sign-in page in three languages | — | as above | Runbook step 10 | The sign-in page reads correctly in en-MY, ms-MY and zh-Hans-MY | **NOT EXECUTED**: the simulated suite asserts the copy in all three; a human has not looked at the real page | — | runbook §3 step 10 (`real-10-ms.png`, `real-10-zh.png`) | Blocks closing M2-02 |
+
+### Amendment to an M2-AC01 row (M2-02 R15)
+
+| Row | What changed |
+|---|---|
+| "M2-AC01 failure and refusal states" (above) | Its two not-found tests recorded, in 实际, that the browser shows "the internal not-found page, **or the demo layout**". Since M2-02 the second half cannot happen on an internal origin: `proxy.ts` rewrites every path outside `/internal`, `/internal/…` and `/auth/…` to the internal not-found page (R12), so `internal.spec.ts`'s row was retitled from "unmatched URL outside /internal renders the demo root layout" to "…renders the internal not-found page, never the demo root layout" and now asserts the internal banner and the absence of the demo toolbar. The M2-AC01 expectation (a 404 inside the right root layout, with `lang`, the CSS and the banner) is unchanged and still passes; only the alternative is gone. Recorded here because R15 requires the change to be in the evidence |
 
 ## W5 adversarial review
 
