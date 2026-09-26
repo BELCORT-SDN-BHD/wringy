@@ -60,6 +60,12 @@ pnpm --filter web build && pnpm --filter web start   # 终端 3，127.0.0.1:3100
 
 ## 5. 出错时
 
+- **在 Google 账号选择页或同意页停留超过约 5 分钟后才点下去**：Supabase 的 PKCE flow state 已过期，GoTrue 不再记得这次登录的
+  `redirect_to`，于是把错误发到项目的 **Site URL 根路径**而不是 `/auth/callback`——
+  `GET http://127.0.0.1:3100/?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired`。
+  修好之后（R11 rev 4）这种情况会跳到 `/internal/sign-in?outcome=expired`，页面写"登录链接已过期"；重新点一次"使用 Google 继续"、
+  在一分钟内走完即可。**注意**：这条依赖 dev 项目的 Site URL 就是 `http://127.0.0.1:3100`（§4.8 清单第一行）；若 Site URL 指向别处，
+  错误会发到那个地址，本机什么也看不到，登录页又会变成"没有任何结果"的空页。2026-09-26 走查第一次取消失败就是这个原因。
 - 点 Google 后报 `redirect_uri_mismatch`：Google client 的 Authorized redirect URI 没填 `https://<dev-ref>.supabase.co/auth/v1/callback`（清单第 2 节第 5 步）。
 - Supabase 报 redirect 无效：dev 项目 Site URL / Redirect URLs 不是 `http://127.0.0.1:3100` / `…/auth/callback`。
 - 登录后显示"内部版本暂未开放"（not_allowed）：该邮箱不在本机允许名单，`pnpm db:allowlist add <email> --reason … --by …` 后重登。
