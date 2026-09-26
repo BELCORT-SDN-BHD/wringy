@@ -149,12 +149,18 @@ ruling or the reason it is accepted under.
   cookie's own name and never from the `sb-` prefix.
 - **A recycled Google address inherits an allow-listed tester's access (R16, §3.7).** Identity is
   the verified `sub`, and the allow-list is checked once, at first sign-in. If a workspace address
-  is deleted and given to somebody else, that person signs in as a new `sub` and passes the gate
-  while the address is still listed. Accepted for M2: in this build passing the allow-list *is* the
-  authorisation decision, and the exposure is an internal build holding fixture data only. The
-  mitigation is the operator removing the address (`pnpm db:allowlist remove`) and disabling the
-  profile (`app.profiles.status`), which does sign that person out on the next request. M2-03's
-  membership work is where it must be closed.
+  is deleted and given to somebody else, that person passes the gate while the address is still
+  listed. Accepted for M2: in this build passing the allow-list *is* the authorisation decision, and
+  the exposure is an internal build holding fixture data only. The mitigation is the operator
+  removing the address (`pnpm db:allowlist remove`) and disabling the profile
+  (`app.profiles.status`), which does sign that person out on the next request. **Corrected by
+  M2-03:** this row said the new holder signs in as a new `sub` and that M2-03's membership work
+  would close the risk. Neither holds: Supabase links a new identity carrying a known verified
+  address to the *existing* user, so the new holder signs in as the **old** `sub` and inherits its
+  profile, every membership and every grant, and keying membership by `sub` does not close it. The
+  risk is still open, for the founder — §M2-03 below, R16 and question §6.3 of
+  [m2-03-code-review.md](m2-03-code-review.md); the operator runbook is `packages/db/README.md`
+  ("Retiring an address").
 - **A JWKS key set that is fetched but names no matching key is the token's fault (R9).** jose
   raises `ERR_JWKS_NO_MATCHING_KEY` both for a token naming a key the project does not publish
   (the token's fault, 401) and, more rarely, for a project-side state: a key set served empty, or a
@@ -319,6 +325,12 @@ ticket are hand-offs, not defects.
   operator; the ticket that first queries it adds indexes as an expand step. `actor_label`,
   `reason` and `summary.name` hold operator-typed or org-typed text; the CLI parsers refuse a `--by`
   or `--reason` containing `@`, and the allow-list rows carry only a sha256 of the address.
+  `summary.name` is whatever an admin typed as an org's name — `orgNameSchema` has no `@` rule, so
+  it may even look like an address — and it stays in the append-only log after a rename (the
+  create row's `after.name`, the rename row's `before.name`). "No address reaches the log" means
+  no address the system collects (an invitee's, a member's contact address, an allow-list entry);
+  erasing typed text is operator SQL. A path id is stored in one spelling, lower case, whatever
+  case the caller used (rev 3), so an exact-match `target_id` query finds every row.
 - **A person's org is `live`; fixture campaigns cannot live in it yet (R2, for M2-05).** `0003`'s
   composite FK ties a campaign's label to its org and `0007` makes the org's label immutable, so a
   tester's own org can hold no fixture campaign until M2-05 relaxes
@@ -330,7 +342,15 @@ ticket are hand-offs, not defects.
 - **A creator can be demoted, but never the last admin (D3).** The `org_created` row is tied to the
   org's creator by constraint (`org_members_creator_fkey`); its `role` is current state, so another
   admin may demote the creator later; the last active admin (whose profile is active) can neither
-  leave nor be demoted (`org.last_admin`).
+  leave nor be demoted (`org.last_admin`). What the code enforces is exactly that — no command
+  removes, demotes or lets leave an org's last active admin — not that every org always has one:
+  an org whose only admin an operator disables has no usable admin until the profile is active
+  again, and the seeded fixture orgs (Kopi Kita, Nusantara Fit) have no members at all and cannot
+  get any through the product. An `org_created` row needs the org's creator and they were seeded
+  with none, and an invitation needs an inviter who is already a member (`org_members_creator_fkey`,
+  `org_invitations_inviter_fkey`, neither deferrable; `apps/api/tests/integration/recovery.int.test.ts`
+  header). Hand-off to M2-05: giving Kopi Kita (D11's owner of the public demo campaigns) an admin
+  needs an operator step as the migrator.
 - **Objects outside the caller's org answer 404, not the 403 kickoff §3.4 names.** A member id or
   invitation id that is not in the org given in the path answers `member.not_found` /
   `invitation.not_found`, audited with `reason = not_in_org`; a uniform 404 gives no existence

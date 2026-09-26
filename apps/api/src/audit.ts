@@ -23,7 +23,11 @@
  * a typed before/after summary (role, status, capability, org name — checked at
  * run time by `assertSummaryShape`), the request id (R11: a UUID per request, the
  * `reqId` of every log line) and `session_ref`, the sha256 of the session id. The
- * token, the cookie, the session id itself and any address never reach it.
+ * token, the cookie, the session id itself and every address the system holds
+ * (an invitee's, a member's contact address, an allow-list entry) never reach it.
+ * `summary.name` is the org name an admin typed: free text that may look like
+ * anything, an address included, and that stays in the log after a rename
+ * (known-issues §M2-03).
  *
  * The runtime role has INSERT on the columns written here and no SELECT on the
  * table (0016), so the insert has no `RETURNING`: reading the row back would

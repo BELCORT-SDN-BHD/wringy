@@ -24,7 +24,8 @@
 --   session id, audit_log_session_ref_check), both required on a user row
 --   (audit_log_user_correlation_check).
 --
--- What never enters the table: a token, a cookie, a session id, an address. No
+-- What never enters the table: a token, a cookie, a session id, an address the
+-- system holds (summary.name is the org name an admin typed, free text). No
 -- foreign key from actor_user_id or context_org_id: an audit row must never fail
 -- to write because of referential state. No index beyond the primary key in M2:
 -- D9 keeps the log readable through SQL only, and the ticket that first queries

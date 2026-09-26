@@ -443,7 +443,8 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
       for (const { row } of rows) expect(row.includes(secret), 'an audit row holds a secret').toBe(false);
       expect(logText.includes(secret), 'a log line holds a secret').toBe(false);
     }
-    // No address of any kind in the log or the rows, however it is spelled.
+    // No address the system holds in the log or the rows, however it is spelled. (An org
+    // name is admin-typed free text and could look like one; no org of this file is named so.)
     for (const { row } of rows) expect(row).not.toContain('@');
   });
 });

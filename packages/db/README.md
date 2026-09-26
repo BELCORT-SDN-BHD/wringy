@@ -240,8 +240,15 @@ operator, as the migrator:
 2. runs `pnpm db:allowlist remove <email> --reason "<text>" --by "<name>"`;
 3. disables the profile: `UPDATE app.profiles SET status = 'disabled' WHERE id = '<userId>'`
    (every request from that subject is then refused with 403 `account.disabled`);
-4. revokes the pending invitations sent to that address:
-   `UPDATE app.org_invitations SET status = 'revoked', revoked_by = '<an admin of that org>', revoked_at = now() WHERE invitee_email_norm = '<normalised address>' AND status = 'pending'`.
+4. lists the pending invitations sent to that address,
+   `SELECT org_id, id FROM app.org_invitations WHERE invitee_email_norm = '<normalised address>' AND status = 'pending'`,
+   and asks an admin of each of those orgs to press **Revoke** on the org page: the
+   audited `invitation.revoke` path, which records the admin who did it. Nothing is
+   exposed while that waits — step 2 already stops the address from signing in to
+   this build, and accepting needs a sign-in with the invited address. Do not revoke
+   them with a hand-written `UPDATE`: one statement across several orgs would record
+   one org's admin as the revoker in the others (`revoked_by` only has to be some
+   profile), and it would write no audit row.
 
 Memberships are left as they are: the disabled profile can no longer use them, and
 the history of who belonged stays.

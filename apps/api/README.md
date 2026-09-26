@@ -58,7 +58,7 @@ stack, SQL text or connection string:
 | 403 | `profile.missing` | A verified subject with no profile row called anything but `POST /identity/sign-in` | No |
 | 403 | `org.forbidden` | The caller is not an active member of the org in the path, or no such org exists: one answer, no existence oracle | Yes (`not_a_member` or `org_unknown`) |
 | 403 | `org.admin_required` | The caller is a member, and the command needs an admin of this org | Yes |
-| 409 | `org.last_admin` | A role change, removal, leave or accept would leave the org without an active admin whose profile is active (ruling D3) | Yes |
+| 409 | `org.last_admin` | A role change, removal or leave would leave the org without an active admin whose profile is active (ruling D3). Never accept: accepting only adds a member | Yes |
 | 404 | `member.not_found` | No active member with that id in the org of the path | Yes (`not_in_org`) |
 | 409 | `member.self` | An admin asked to remove themselves; leaving is `POST /orgs/:orgId/leave` | Yes |
 | 403 | `invitation.invalid` | Unknown or revoked invitation token (one answer for both), or a pending one whose inviter is no longer an active admin | Yes (`unknown_token`, `revoked` or `inviter_not_admin`) |

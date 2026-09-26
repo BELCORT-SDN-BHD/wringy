@@ -29,9 +29,9 @@ Payout: delivery of confirmed funds through a verified provider path.
 Operations: authorised review, appeals, exceptions, reconciliation and audit.
 Organisation (组织 / organisasi): a workspace a person creates or joins by invitation; a merchant acts through one.
 Member (成员 / ahli): a person with an active membership of an organisation and one role in it; membership grants no capability.
-Admin (管理员 / pentadbir): the member role that can rename, invite, change roles and remove; an organisation always keeps an active admin.
+Admin (管理员 / pentadbir): the member role that can rename, invite, change roles and remove; no command can remove, demote or let leave an organisation's last active admin.
 Invitation (邀请 / jemputan): a single-use, expiring link that lets only the invited verified address join an organisation with a role.
 Capability (能力授予 / keupayaan): a review, finance or runtime-operations permission granted by an operator, independent of membership.
-Audit (审计 / audit): the append-only record of who did or was refused what, carrying no token, session or address.
+Audit (审计 / audit): the append-only record of who did or was refused what, carrying no token, session id or stored address.
 
 Read canonical rules for exact values and transitions; this glossary does not redefine them.
