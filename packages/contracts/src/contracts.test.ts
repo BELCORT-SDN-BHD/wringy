@@ -1,19 +1,46 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  INVITATION_LIFETIME_DAYS,
+  acceptInvitationResponseSchema,
   apiErrorSchema,
+  changeRoleBodySchema,
+  changeRoleResponseSchema,
+  createInvitationBodySchema,
+  createInvitationResponseSchema,
+  createOrgBodySchema,
+  createOrgResponseSchema,
   healthLiveResponseSchema,
   healthResponseSchema,
   internalCampaignsResponseSchema,
+  invitationPreviewResponseSchema,
+  invitationTokenBodySchema,
+  leaveOrgResponseSchema,
   meResponseSchema,
+  orgDetailResponseSchema,
+  orgInvitationParamsSchema,
+  orgMemberParamsSchema,
+  orgMemberSchema,
+  orgNameSchema,
+  orgParamsSchema,
   profileSchema,
+  removeMemberResponseSchema,
+  renameOrgBodySchema,
+  renameOrgResponseSchema,
+  revokeInvitationResponseSchema,
   sessionProbeResponseSchema,
   signInResponseSchema,
   workerHealthResponseSchema,
+  workspacesResponseSchema,
   type HealthResponse,
   type InternalCampaignsResponse,
+  type Membership,
+  type OrgMember,
+  type OrgSummary,
+  type PendingInvitation,
   type Profile,
   type WorkerHealthResponse,
+  type WorkspacesResponse,
 } from './index';
 
 const campaigns: InternalCampaignsResponse = {
@@ -199,5 +226,258 @@ describe('M2-AC02/2 identity responses are allow-lists', () => {
     expect(signInResponseSchema.safeParse({ profile: { ...profile, contactEmail: null } }).success).toBe(false);
     // The probe's `ok` is the literal true: a falsy answer can never look like a pass.
     expect(sessionProbeResponseSchema.safeParse({ ok: false, checkedAt: profile.lastSignInAt }).success).toBe(false);
+  });
+});
+
+// --- M2-03: organisations, memberships, invitations -------------------------
+
+const orgId = '5b0c1d2e-3f40-4a51-8b62-73c4d5e6f708';
+const userId = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
+const invitationId = 'c3d4e5f6-0718-4293-a4b5-c6d7e8f90a1b';
+const token = 'Ab3_-xYz0123456789abcdefghijklmnopqrstuvwxy';
+
+const org = {
+  id: orgId,
+  name: 'Carol Studio',
+  dataOrigin: 'live',
+  createdAt: '2026-09-26T01:00:00.000Z',
+} satisfies OrgSummary;
+
+const membership = {
+  orgId,
+  userId,
+  role: 'admin',
+  status: 'active',
+  grantBasis: 'org_created',
+  grantedAt: '2026-09-26T01:00:00.000Z',
+} satisfies Membership;
+
+const invitation = {
+  id: invitationId,
+  inviteeEmailNorm: 'dave@example.test',
+  role: 'member',
+  expiresAt: '2026-10-03T01:00:00.000Z',
+  createdAt: '2026-09-26T01:00:00.000Z',
+} satisfies PendingInvitation;
+
+const member = {
+  userId,
+  displayName: 'Carol Wong',
+  role: 'admin',
+  grantedAt: '2026-09-26T01:00:00.000Z',
+} satisfies OrgMember;
+
+const workspaces = {
+  personal: { userId },
+  orgs: [{ orgId, name: 'Carol Studio', role: 'admin', dataOrigin: 'live' }],
+  grants: { org: [{ orgId, capability: 'review' }], platform: ['ops_runtime'] },
+} satisfies WorkspacesResponse;
+
+const orgResponses = [
+  ['GET /me/workspaces', workspacesResponseSchema, workspaces],
+  [
+    'GET /orgs/:orgId (admin)',
+    orgDetailResponseSchema,
+    { org, self: { role: 'admin' }, members: [member], invitations: [invitation] },
+  ],
+  ['GET /orgs/:orgId (member)', orgDetailResponseSchema, { org, self: { role: 'member' }, members: [member] }],
+  ['POST /orgs', createOrgResponseSchema, { org, membership }],
+  ['POST /orgs/:orgId/rename', renameOrgResponseSchema, { org }],
+  ['POST /orgs/:orgId/invitations', createInvitationResponseSchema, { invitation, token }],
+  [
+    'POST /orgs/:orgId/invitations/:invitationId/revoke',
+    revokeInvitationResponseSchema,
+    { invitation: { id: invitationId, status: 'revoked' } },
+  ],
+  ['POST /invitations/preview (mismatch)', invitationPreviewResponseSchema, { state: 'email_mismatch' }],
+  [
+    'POST /invitations/preview (addressed)',
+    invitationPreviewResponseSchema,
+    { state: 'pending', org: { id: orgId, name: 'Carol Studio' }, role: 'member', expiresAt: invitation.expiresAt },
+  ],
+  [
+    'POST /invitations/accept',
+    acceptInvitationResponseSchema,
+    { org, membership: { ...membership, role: 'member', grantBasis: 'invitation' } },
+  ],
+  [
+    'POST /orgs/:orgId/members/:userId/role',
+    changeRoleResponseSchema,
+    { membership: { ...membership, role: 'member' } },
+  ],
+  [
+    'POST /orgs/:orgId/members/:userId/remove',
+    removeMemberResponseSchema,
+    { membership: { ...membership, status: 'removed' } },
+  ],
+  ['POST /orgs/:orgId/leave', leaveOrgResponseSchema, { membership: { ...membership, status: 'removed' } }],
+] as const;
+
+/** Plant leaky keys beside every object of a payload, however deep. */
+function plantLeaks(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(plantLeaks);
+  if (value !== null && typeof value === 'object') {
+    return {
+      ...Object.fromEntries(Object.entries(value).map(([key, inner]) => [key, plantLeaks(inner)])),
+      contactEmail: 'leak@example.test',
+      tokenHash: 'f'.repeat(64),
+    };
+  }
+  return value;
+}
+
+describe('M2-AC03/3 org responses are allow-lists', () => {
+  it.each(orgResponses)('M2-AC03/3 %s round-trips through JSON', (_route, schema, payload) => {
+    const parsed = schema.parse(payload);
+    expect(parsed).toEqual(payload);
+    expect(schema.parse(JSON.parse(JSON.stringify(parsed)))).toEqual(payload);
+  });
+
+  it.each(orgResponses)('M2-AC03/3 %s strips unknown keys at every level', (_route, schema, payload) => {
+    const parsed = schema.parse(plantLeaks(payload));
+    expect(parsed).toEqual(payload);
+    const text = JSON.stringify(parsed);
+    expect(text).not.toContain('leak@example.test');
+    expect(text).not.toContain('tokenHash');
+  });
+
+  it('M2-AC03/3 a member shape names no address of any kind', () => {
+    expect(Object.keys(orgMemberSchema.shape).sort()).toEqual(['displayName', 'grantedAt', 'role', 'userId']);
+    expect(
+      orgMemberSchema.parse({ ...member, email: 'carol@example.test', contactEmail: 'carol@example.test' }),
+    ).toEqual(member);
+  });
+
+  it('M2-AC03/3 a member-only org answer carries no invitations key', () => {
+    const parsed = orgDetailResponseSchema.parse({ org, self: { role: 'member' }, members: [member] });
+    expect('invitations' in parsed).toBe(false);
+  });
+
+  it('M2-AC03/1 rejects a role, status, grant basis or capability outside the contract', () => {
+    expect(changeRoleResponseSchema.safeParse({ membership: { ...membership, role: 'owner' } }).success).toBe(false);
+    expect(
+      changeRoleResponseSchema.safeParse({ membership: { ...membership, status: 'suspended' } }).success,
+    ).toBe(false);
+    expect(
+      createOrgResponseSchema.safeParse({ org, membership: { ...membership, grantBasis: 'self' } }).success,
+    ).toBe(false);
+    expect(
+      workspacesResponseSchema.safeParse({
+        ...workspaces,
+        grants: { org: [{ orgId, capability: 'ops_runtime' }], platform: [] },
+      }).success,
+    ).toBe(false);
+    expect(
+      workspacesResponseSchema.safeParse({ ...workspaces, grants: { org: [], platform: ['review'] } }).success,
+    ).toBe(false);
+  });
+});
+
+describe('M2-AC03/3 the invitation preview says nothing to the wrong account', () => {
+  it('M2-AC03/3 an email_mismatch answer drops the org, the role and the expiry', () => {
+    const parsed = invitationPreviewResponseSchema.parse({
+      state: 'email_mismatch',
+      org: { id: orgId, name: 'Carol Studio' },
+      role: 'admin',
+      expiresAt: invitation.expiresAt,
+    });
+    expect(parsed).toEqual({ state: 'email_mismatch' });
+  });
+
+  it('M2-AC03/3 the addressed states need the org, the role and the expiry', () => {
+    for (const state of ['pending', 'expired', 'accepted'] as const) {
+      expect(invitationPreviewResponseSchema.safeParse({ state }).success).toBe(false);
+      expect(
+        invitationPreviewResponseSchema.safeParse({
+          state,
+          org: { id: orgId, name: 'Carol Studio' },
+          role: 'member',
+          expiresAt: invitation.expiresAt,
+        }).success,
+      ).toBe(true);
+    }
+    // A revoked or unknown token is a 403, never a preview state.
+    expect(
+      invitationPreviewResponseSchema.safeParse({
+        state: 'revoked',
+        org: { id: orgId, name: 'Carol Studio' },
+        role: 'member',
+        expiresAt: invitation.expiresAt,
+      }).success,
+    ).toBe(false);
+  });
+});
+
+describe('M2-AC03/1 an org name is one schema for create and rename', () => {
+  it('M2-AC03/1 accepts a normal name and trims it', () => {
+    expect(orgNameSchema.parse('Kopi Kita')).toBe('Kopi Kita');
+    expect(orgNameSchema.parse('  Kopi Kita \n')).toBe('Kopi Kita');
+    expect(createOrgBodySchema.parse({ name: ' 咖啡 Kita ' })).toEqual({ name: '咖啡 Kita' });
+    expect(renameOrgBodySchema.parse({ name: ' Nusantara Fit ' })).toEqual({ name: 'Nusantara Fit' });
+  });
+
+  it('M2-AC03/1 composes to NFC', () => {
+    const parsed = orgNameSchema.parse('Cafe\u0301 Kita');
+    expect(parsed).toBe('Caf\u00e9 Kita');
+    expect(parsed.normalize('NFC')).toBe(parsed);
+  });
+
+  it('M2-AC03/1 refuses an empty, blank or 101-character name and accepts 100', () => {
+    expect(orgNameSchema.safeParse('').success).toBe(false);
+    expect(orgNameSchema.safeParse('   ').success).toBe(false);
+    expect(orgNameSchema.safeParse('a'.repeat(100)).success).toBe(true);
+    expect(orgNameSchema.safeParse('a'.repeat(101)).success).toBe(false);
+    // Trimmed first: surrounding spaces do not count toward the limit.
+    expect(orgNameSchema.safeParse(` ${'a'.repeat(100)} `).success).toBe(true);
+  });
+
+  it('M2-AC03/1 refuses control and bidi-format characters', () => {
+    // C0, ESC, DEL and C1 controls; LRM, RLM, an embedding, an override and two isolates.
+    const unsafe = ['\u0000', '\u0007', '\u001b', '\u007f', '\u0085'];
+    unsafe.push('\u200e', '\u200f', '\u202a', '\u202e', '\u2066', '\u2069');
+    for (const character of unsafe) {
+      expect(orgNameSchema.safeParse(`Kopi${character}Kita`).success, JSON.stringify(character)).toBe(false);
+    }
+  });
+});
+
+describe('M2-AC03/2 params and bodies', () => {
+  it('M2-AC03/2 path ids must be UUIDs', () => {
+    expect(orgParamsSchema.safeParse({ orgId }).success).toBe(true);
+    expect(orgParamsSchema.safeParse({ orgId: 'x/../..' }).success).toBe(false);
+    expect(orgMemberParamsSchema.safeParse({ orgId, userId }).success).toBe(true);
+    expect(orgMemberParamsSchema.safeParse({ orgId, userId: 'me' }).success).toBe(false);
+    expect(orgInvitationParamsSchema.safeParse({ orgId, invitationId }).success).toBe(true);
+    expect(orgInvitationParamsSchema.safeParse({ orgId, invitationId: '1' }).success).toBe(false);
+  });
+
+  it('M2-AC03/2 a body cannot carry an orgId: plain objects strip it', () => {
+    expect(renameOrgBodySchema.parse({ name: 'Kopi Kita', orgId })).toEqual({ name: 'Kopi Kita' });
+    expect(changeRoleBodySchema.parse({ role: 'member', orgId, userId })).toEqual({ role: 'member' });
+    expect(createInvitationBodySchema.parse({ email: 'dave@example.test', role: 'member', orgId })).toEqual({
+      email: 'dave@example.test',
+      role: 'member',
+    });
+  });
+
+  it('M2-AC03/1 an invitation body is bounded and names a known role', () => {
+    expect(createInvitationBodySchema.safeParse({ email: '', role: 'member' }).success).toBe(false);
+    expect(createInvitationBodySchema.safeParse({ email: 'a'.repeat(321), role: 'member' }).success).toBe(false);
+    expect(createInvitationBodySchema.safeParse({ email: 'dave@example.test', role: 'owner' }).success).toBe(false);
+    expect(changeRoleBodySchema.safeParse({ role: 'finance' }).success).toBe(false);
+  });
+
+  it('M2-AC03/1 an invitation token is exactly 43 base64url characters', () => {
+    expect(token).toHaveLength(43);
+    expect(invitationTokenBodySchema.safeParse({ token }).success).toBe(true);
+    expect(invitationTokenBodySchema.safeParse({ token: token.slice(1) }).success).toBe(false);
+    expect(invitationTokenBodySchema.safeParse({ token: `${token}A` }).success).toBe(false);
+    expect(invitationTokenBodySchema.safeParse({ token: `+${token.slice(1)}` }).success).toBe(false);
+    expect(invitationTokenBodySchema.safeParse({ token: `/${token.slice(1)}` }).success).toBe(false);
+    expect(invitationTokenBodySchema.safeParse({ token: `${token.slice(1)}=` }).success).toBe(false);
+  });
+
+  it('M2-AC03/1 an invitation lasts 7 days (ruling D2)', () => {
+    expect(INVITATION_LIFETIME_DAYS).toBe(7);
   });
 });
