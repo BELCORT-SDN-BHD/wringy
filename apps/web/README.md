@@ -285,12 +285,14 @@ Nothing here is client-side: every write is a plain `<form method="post">` to a 
 
 Every segment is parsed with the contracts' `z.uuid()` first (a failure is the not-found page);
 403 `account.disabled` redirects to `/auth/end-session` and a 401 to sign-in with
-`session_ended`, as `/internal` does (`identity-read.ts`). All four pages are `force-dynamic`. The
-invitation page sets `referrer: 'no-referrer'`; the accept page sets `referrer: 'strict-origin'`
-instead, because under `no-referrer` a browser sends `Origin: null` on the page's own Accept and
-sign-out POSTs and the Origin rule refuses them — `strict-origin` still lets a Referer carry the
-origin only, never the token in the query. In demo mode the org and invitation pages do not
-exist (404).
+`session_ended`, as `/internal` does (`identity-read.ts`). All four pages are `force-dynamic`. Both
+invitation pages set `referrer: 'strict-origin'`: a Referer carries the origin only, never the
+token in the accept page's query. No page of this build uses `no-referrer`, because under it a
+browser sends `Origin: null` on a form POST and the Origin rule refuses it — on the accept page's
+own Accept and sign-out forms, and, since a `<meta name="referrer">` governs the whole document
+and the invitation page's "Back to the organisation" link is a soft navigation that keeps it, on
+every form of the org page and `/internal` after it (`referrer-policy.test.ts` scans `src/app`).
+In demo mode the org and invitation pages do not exist (404).
 
 ### Route Handlers
 

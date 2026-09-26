@@ -704,6 +704,16 @@ for (const viewport of [
       await reachAndPress(carol.getByTestId('invitation-back'));
       await carol.waitForURL((url) => url.pathname === orgPagePath(orgA));
 
+      // "Back" is a soft navigation: the org page now lives in the invitation page's
+      // document, so its forms post under that page's referrer policy. They must still
+      // send a real Origin (R9 rev 3): the rename is submitted here, with no reload first.
+      await expect(carol.getByTestId('org-name')).toHaveText(name);
+      await carol.getByTestId('rename-name').fill(`${name} renamed`);
+      await reachAndPress(carol.getByTestId('rename-submit'));
+      await expectOutcome(carol, orgPagePath(orgA), 'renamed');
+      await expect(carol.getByTestId('org-name')).toHaveText(`${name} renamed`);
+      await expectNoHorizontalScroll(carol);
+
       // The accept page, on Dave's phone.
       const dave = await openDevice('dave');
       await signInTo(dave.page, 'dave', forDave.acceptUrl);
@@ -717,12 +727,6 @@ for (const viewport of [
       const forErin = await invite(carol, orgA, ERIN.email, 'member');
       await carol.goto(orgPagePath(orgA));
       await expect(carol.locator(`[data-invitation-id="${forErin.id}"]`)).toBeVisible();
-      await expectNoHorizontalScroll(carol);
-
-      await carol.getByTestId('rename-name').fill(`${name} renamed`);
-      await reachAndPress(carol.getByTestId('rename-submit'));
-      await expectOutcome(carol, orgPagePath(orgA), 'renamed');
-      await expect(carol.getByTestId('org-name')).toHaveText(`${name} renamed`);
       await expectNoHorizontalScroll(carol);
 
       await memberRow(carol, DAVE.id).getByTestId('member-role-select').selectOption('admin');

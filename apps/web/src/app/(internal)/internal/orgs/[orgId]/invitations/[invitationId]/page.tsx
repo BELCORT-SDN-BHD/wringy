@@ -36,8 +36,19 @@ import { ROLE_STYLE, StateBadge, styleOf } from '../../../../state-badge';
 // The link is read from a cookie on every request; never prerendered, never cached.
 export const dynamic = 'force-dynamic';
 
-// This page holds an accept link, so nothing it links to is told where it came from.
-export const metadata: Metadata = { referrer: 'no-referrer' };
+// This page holds an accept link, so nothing it links to is told more than the origin.
+//
+// `strict-origin`, not `no-referrer` (R9 rev 3). The token is never in this
+// page's URL, so a Referer of the origin gives nothing away. `no-referrer` did
+// harm: a `<meta name="referrer">` sets the policy of the whole document, and
+// App Router's soft navigation — the "Back to the organisation" link, or the
+// browser's Back button — keeps the document, so the policy stayed in force on
+// the org page and on `/internal` afterwards. Every plain form there then posted
+// `Origin: null` and the M2-02 Origin rule refused it with 403 until a full
+// reload (observed in Chromium; the Fetch standard serialises the Origin of a
+// non-GET request as `null` under `no-referrer`). No page of this build may use
+// `no-referrer`.
+export const metadata: Metadata = { referrer: 'strict-origin' };
 
 /**
  * `/internal/orgs/<orgId>/invitations/<invitationId>`: the invitation an admin
