@@ -54,11 +54,36 @@ describe('M2-AC03/3 outcomes: every outcome code has copy in all three languages
     for (const code of R9_OUTCOMES) expect(ORG_OUTCOMES, code).toContain(code);
     expect(new Set(ORG_OUTCOMES).size).toBe(ORG_OUTCOMES.length);
     expect(ORG_OUTCOMES.filter((code) => !R9_OUTCOMES.includes(code)).sort()).toEqual([
+      'invalid_name',
       'invitation_expired',
       'invitation_invalid',
       'invitation_mismatch',
       'invitation_used',
     ]);
+  });
+
+  it('M2-AC03/2 outcomes: a result the web could not confirm never claims nothing was changed, and a renewed sign-in never asks for a new one', () => {
+    // The web gives up after 5 s and the API does not stop on a client disconnect, so an
+    // `unexpected` (an unreachable API, a broken 2xx) or `unavailable` (a 503, possibly at
+    // COMMIT) command may have been saved. And `session_ended` shows in place only when the
+    // proxy has already refreshed the session on the way back, so the person is signed in.
+    const NOTHING_CHANGED: Record<string, RegExp> = {
+      'en-MY': /nothing was changed/i,
+      'ms-MY': /tiada apa-apa diubah/i,
+      'zh-Hans-MY': /没有做任何更改/,
+    };
+    const SIGN_IN_AGAIN: Record<string, RegExp> = {
+      'en-MY': /sign in again/i,
+      'ms-MY': /masuk semula/i,
+      'zh-Hans-MY': /重新登录/,
+    };
+    for (const locale of LOCALES) {
+      const outcomes = (messagesByLocale[locale].internal as unknown as { outcomes: Record<string, string> }).outcomes;
+      for (const code of ['unexpected', 'unavailable']) {
+        expect(outcomes[code], `${locale} ${code}`).not.toMatch(NOTHING_CHANGED[locale]!);
+      }
+      expect(outcomes.session_ended, locale).not.toMatch(SIGN_IN_AGAIN[locale]!);
+    }
   });
 
   it('M2-AC03/3 outcomes: internal.outcomes has exactly one sentence per code in every locale', () => {
@@ -146,9 +171,19 @@ describe('M2-AC03/2 outcomes: a refused command is named from the API’s status
     }
   });
 
-  it('M2-AC03/2 outcomes: a 400 is an address the API would not take only on the invite command', () => {
+  it('M2-AC03/2 outcomes: a 400 is the typed value the API would not take — the address on invite, the name on create and rename — and unexpected elsewhere', () => {
+    const expected: Record<OrgCommand, string> = {
+      create: 'invalid_name',
+      rename: 'invalid_name',
+      invite: 'invalid_email',
+      revoke: 'unexpected',
+      role: 'unexpected',
+      remove: 'unexpected',
+      leave: 'unexpected',
+      accept: 'unexpected',
+    };
     for (const command of COMMANDS) {
-      expect(refusalOutcome(error(400, 'bad_request'), command), command).toBe(command === 'invite' ? 'invalid_email' : 'unexpected');
+      expect(refusalOutcome(error(400, 'bad_request'), command), command).toBe(expected[command]);
     }
   });
 });

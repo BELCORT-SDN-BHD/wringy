@@ -22,7 +22,10 @@ import type { ApiFailure, ApiResult } from '@/lib/auth/api-client';
  * (`invitation.invalid`, `.expired`, `.used`, `.email_mismatch`), which R9's
  * list does not carry: the confirm handler never puts the token back into a URL
  * it builds, so it cannot re-render the accept page and says why on `/internal`
- * instead.
+ * instead. `invalid_name` (R9 rev 3) is the API refusing an org name on create
+ * or rename: a name the form lets through — only spaces, or a pasted
+ * text-direction mark — that `orgNameSchema` refuses, where "try again" could
+ * never succeed.
  */
 export const ORG_OUTCOMES = [
   'created',
@@ -48,6 +51,7 @@ export const ORG_OUTCOMES = [
   'invitation_expired',
   'invitation_used',
   'invitation_mismatch',
+  'invalid_name',
 ] as const;
 
 export type OrgOutcome = (typeof ORG_OUTCOMES)[number];
@@ -85,7 +89,7 @@ export function outcomeFromQuery(query: Query): OrgOutcome | null {
 /** Not an outcome: the answer that ends the session through `/auth/end-session`, as `/internal` does. */
 export const END_SESSION = 'end_session';
 
-/** Which Route Handler is asking; only the invite handler reads a 400 as an address the API would not take. */
+/** Which Route Handler is asking; only invite, create and rename read a 400 as the value the person typed. */
 export type OrgCommand = 'create' | 'rename' | 'invite' | 'revoke' | 'role' | 'remove' | 'leave' | 'accept';
 
 /** The refusals whose code names the outcome, keyed `<status> <code>`. */
@@ -109,8 +113,11 @@ const REFUSALS: Readonly<Record<string, OrgOutcome>> = {
  * - 403 `account.disabled` ends the session (`END_SESSION`), as `/internal` does.
  * - The org and invitation refusals map one to one (`REFUSALS`).
  * - A 400 on the invite handler is `invalid_email` (the API's `normalizeEmail`
- *   refused the address); anywhere else it is `unexpected`, since the forms send
- *   nothing the API should refuse.
+ *   refused the address), and on create and rename `invalid_name` (the API's
+ *   `orgNameSchema` refused the name: the form's `required` lets a name of only
+ *   spaces through, and nothing in it stops a text-direction mark). Those are
+ *   the only free-text fields; anywhere else a 400 is `unexpected`, since the
+ *   other forms send only values the page itself rendered.
  * - A 404 is `not_found`: the member or invitation is not in this org.
  * - A 503 is `unavailable`, retryable; an unreachable API, a 5xx and any code
  *   this list does not know are `unexpected`.
@@ -128,7 +135,10 @@ export function refusalOutcome(
   const named = code === null ? undefined : REFUSALS[`${status} ${code}`];
   if (named !== undefined) return named;
 
-  if (status === 400) return command === 'invite' ? 'invalid_email' : 'unexpected';
+  if (status === 400) {
+    if (command === 'invite') return 'invalid_email';
+    return command === 'create' || command === 'rename' ? 'invalid_name' : 'unexpected';
+  }
   if (status === 404) return 'not_found';
   return 'unexpected';
 }

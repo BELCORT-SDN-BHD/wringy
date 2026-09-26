@@ -275,12 +275,13 @@
     "invalid_email": "That email address could not be used. Check it and try again.",
     "not_pending": "That invitation is no longer pending, so nothing was changed.",
     "not_found": "That member or invitation is not in this organisation, so nothing was changed.",
-    "session_ended": "Your session ended, so nothing was changed. Sign in again and retry.",
-    "unavailable": "The database is unavailable right now, so nothing was changed. Please try again.",
-    "unexpected": "Something went wrong and nothing was changed. Please try again.",
+    "session_ended": "Your sign-in had to be renewed, so nothing was changed. Please try again.",
+    "unavailable": "A service Wringy needs could not be reached just now, so we cannot confirm whether this was saved. Reload the page to check before trying again.",
+    "unexpected": "Something went wrong, so we cannot confirm whether this was saved. Reload the page to check before trying again.",
     "invitation_invalid": "That invitation link is not valid, so you were not added. Ask an admin of the organisation for a new one.",
     "invitation_expired": "That invitation has expired, so you were not added. Ask an admin for a new one.",
     "invitation_used": "That invitation has already been used, so nothing was changed.",
-    "invitation_mismatch": "That invitation was sent to a different address, so you were not added."
+    "invitation_mismatch": "That invitation was sent to a different address, so you were not added.",
+    "invalid_name": "That name could not be used, so nothing was changed. Use 1 to 100 characters, not only spaces, and no hidden formatting characters."
   }
 }

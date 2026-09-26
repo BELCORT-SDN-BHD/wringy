@@ -387,13 +387,14 @@ describe('M2-AC03/2 org commands: every refusal says what happened, and a disabl
     }
   });
 
-  it('M2-AC03/2 org commands: a 400 is invalid_email on the invite handler and unexpected everywhere else', async () => {
+  it('M2-AC03/2 org commands: a 400 is invalid_email on the invite handler, invalid_name on create and rename, and unexpected everywhere else', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     for (const handler of HANDLERS) {
       stubApi(refusal(400, 'bad_request'));
       const response = await handler.call();
-      const expected = handler.name === 'invite' ? 'invalid_email' : 'unexpected';
+      const expected =
+        handler.name === 'invite' ? 'invalid_email' : handler.name === 'create' || handler.name === 'rename' ? 'invalid_name' : 'unexpected';
       expect(location(response), handler.name).toBe(`${APP_ORIGIN}${handler.refusedTo}?outcome=${expected}`);
     }
   });

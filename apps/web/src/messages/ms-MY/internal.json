@@ -275,12 +275,13 @@
     "invalid_email": "Alamat e-mel itu tidak boleh digunakan. Semak dan cuba lagi.",
     "not_pending": "Jemputan itu tidak lagi menunggu, jadi tiada apa-apa diubah.",
     "not_found": "Ahli atau jemputan itu tiada dalam organisasi ini, jadi tiada apa-apa diubah.",
-    "session_ended": "Sesi anda telah tamat, jadi tiada apa-apa diubah. Masuk semula dan cuba lagi.",
-    "unavailable": "Pangkalan data tidak tersedia sekarang, jadi tiada apa-apa diubah. Sila cuba lagi.",
-    "unexpected": "Sesuatu telah tersilap dan tiada apa-apa diubah. Sila cuba lagi.",
+    "session_ended": "Log masuk anda perlu diperbaharui, jadi tiada apa-apa diubah. Sila cuba lagi.",
+    "unavailable": "Perkhidmatan yang diperlukan Wringy tidak dapat dicapai sekarang, jadi kami tidak dapat mengesahkan sama ada perubahan ini disimpan. Muat semula halaman untuk menyemak sebelum mencuba lagi.",
+    "unexpected": "Sesuatu telah tersilap, jadi kami tidak dapat mengesahkan sama ada perubahan ini disimpan. Muat semula halaman untuk menyemak sebelum mencuba lagi.",
     "invitation_invalid": "Pautan jemputan itu tidak sah, jadi anda tidak ditambah. Minta pentadbir organisasi itu untuk jemputan baharu.",
     "invitation_expired": "Jemputan itu telah tamat tempoh, jadi anda tidak ditambah. Minta pentadbir untuk jemputan baharu.",
     "invitation_used": "Jemputan itu telah digunakan, jadi tiada apa-apa diubah.",
-    "invitation_mismatch": "Jemputan itu dihantar kepada alamat lain, jadi anda tidak ditambah."
+    "invitation_mismatch": "Jemputan itu dihantar kepada alamat lain, jadi anda tidak ditambah.",
+    "invalid_name": "Nama itu tidak boleh digunakan, jadi tiada apa-apa diubah. Gunakan 1 hingga 100 aksara, bukan ruang kosong sahaja, dan tanpa aksara pemformatan tersembunyi."
   }
 }
