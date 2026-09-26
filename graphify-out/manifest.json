@@ -2328,10 +2328,10 @@
     "semantic_hash": "eb3e66a721bbe10c66bca5797bbfeb48"
   },
   "docs/PROGRESS.md": {
-    "mtime": 1790380067.9217627,
-    "seen": 1790382858.5154772,
-    "ast_hash": "b4bddeabc89ce6ad935775a3120d8081",
-    "semantic_hash": "b4bddeabc89ce6ad935775a3120d8081"
+    "mtime": 1790406755.1855936,
+    "seen": 1790409266.9434853,
+    "ast_hash": "c726de1308fb880e3194adc4c9999f75",
+    "semantic_hash": "c726de1308fb880e3194adc4c9999f75"
   },
   "docs/adr/README.md": {
     "mtime": 1790055978.9645092,
@@ -6378,10 +6378,10 @@
     "semantic_hash": "5c27369b226fcf2be8a6cfe52224e767"
   },
   "apps/web/README.md": {
-    "mtime": 1790378340.796111,
-    "seen": 1790382858.5154772,
-    "ast_hash": "08c39023ae036076e52b4461072eae87",
-    "semantic_hash": "08c39023ae036076e52b4461072eae87"
+    "mtime": 1790404699.3425055,
+    "seen": 1790409266.9434853,
+    "ast_hash": "14fb80fee05e48642e13d5e148673a19",
+    "semantic_hash": "14fb80fee05e48642e13d5e148673a19"
   },
   "docs/m1-prototype/acceptance-record.md": {
     "mtime": 1790104405.4004881,
@@ -7734,10 +7734,10 @@
     "semantic_hash": "1131541b119de411321ae31eefc6e029"
   },
   "docs/m2-internal/acceptance-record.md": {
-    "mtime": 1790379965.058373,
-    "seen": 1790382858.5154772,
-    "ast_hash": "bdcae4fddf37e26907f75799d6d86338",
-    "semantic_hash": "bdcae4fddf37e26907f75799d6d86338"
+    "mtime": 1790406698.83187,
+    "seen": 1790409266.9434853,
+    "ast_hash": "3b5f4dcd10a4a66b0294ddfe9c69278a",
+    "semantic_hash": "3b5f4dcd10a4a66b0294ddfe9c69278a"
   },
   "docs/m2-internal/kickoff-package.md": {
     "mtime": 1790114000.3807068,
@@ -7746,10 +7746,10 @@
     "semantic_hash": "7112feaebef31875414310d883e6a8b8"
   },
   "docs/m2-internal/known-issues.md": {
-    "mtime": 1790376324.4002535,
-    "seen": 1790382858.5154772,
-    "ast_hash": "0c3098b062ff3c952d1204afc3722f74",
-    "semantic_hash": "0c3098b062ff3c952d1204afc3722f74"
+    "mtime": 1790406662.0954888,
+    "seen": 1790409266.9434853,
+    "ast_hash": "e3939e6d00cf984686cfd82447ea29e1",
+    "semantic_hash": "e3939e6d00cf984686cfd82447ea29e1"
   },
   "packages/config/README.md": {
     "mtime": 1790369791.327449,
@@ -7938,16 +7938,16 @@
     "semantic_hash": "77c4e85ed612d6da079b9bee659c3f95"
   },
   "apps/web/src/lib/auth/outcomes.test.ts": {
-    "mtime": 1790368150.0154495,
-    "seen": 1790382858.5144773,
-    "ast_hash": "0718d8090c433c13c59fde93fcf62385",
-    "semantic_hash": "0718d8090c433c13c59fde93fcf62385"
+    "mtime": 1790403661.3428447,
+    "seen": 1790409266.9434853,
+    "ast_hash": "35651017ef1b72e00f29985046f90212",
+    "semantic_hash": "35651017ef1b72e00f29985046f90212"
   },
   "apps/web/src/lib/auth/outcomes.ts": {
-    "mtime": 1790367790.733013,
-    "seen": 1790382858.5144773,
-    "ast_hash": "81abcb43e268e346818e718c7070c3a3",
-    "semantic_hash": "81abcb43e268e346818e718c7070c3a3"
+    "mtime": 1790403635.40836,
+    "seen": 1790409266.9434853,
+    "ast_hash": "e6f2230ab668887bdb928a48f251b81b",
+    "semantic_hash": "e6f2230ab668887bdb928a48f251b81b"
   },
   "apps/web/src/lib/auth/route-support.test.ts": {
     "mtime": 1790356683.754485,
@@ -7980,28 +7980,28 @@
     "semantic_hash": "5a3a0aec3136a451bda08ad1e3a5b02b"
   },
   "apps/web/src/proxy.test.ts": {
-    "mtime": 1790376630.854413,
-    "seen": 1790382858.5144773,
-    "ast_hash": "546802448bfa627ed1cf99771af3fe8a",
-    "semantic_hash": "546802448bfa627ed1cf99771af3fe8a"
+    "mtime": 1790404489.7754726,
+    "seen": 1790409266.9434853,
+    "ast_hash": "d1a81e1f00f041c9020922f7b519da67",
+    "semantic_hash": "d1a81e1f00f041c9020922f7b519da67"
   },
   "apps/web/src/proxy.ts": {
-    "mtime": 1790376535.466619,
-    "seen": 1790382858.5144773,
-    "ast_hash": "b3545db783fe4e4e0d2f8c4b3e675c78",
-    "semantic_hash": "b3545db783fe4e4e0d2f8c4b3e675c78"
+    "mtime": 1790404453.5954366,
+    "seen": 1790409266.9434853,
+    "ast_hash": "d330a06fd7cba3cde1e61625dc4c2d2f",
+    "semantic_hash": "d330a06fd7cba3cde1e61625dc4c2d2f"
   },
   "apps/web/tests/e2e-internal/auth.spec.ts": {
-    "mtime": 1790376417.16072,
-    "seen": 1790382858.5144773,
-    "ast_hash": "e4a193dc829bb5d31b8902f87024e266",
-    "semantic_hash": "e4a193dc829bb5d31b8902f87024e266"
+    "mtime": 1790404017.4924529,
+    "seen": 1790409266.9434853,
+    "ast_hash": "df9536ae91607eb876ddf7c4ad5dcca0",
+    "semantic_hash": "df9536ae91607eb876ddf7c4ad5dcca0"
   },
   "apps/web/tests/e2e-internal/fake-auth/server.mts": {
-    "mtime": 1790369619.618777,
-    "seen": 1790382858.5144773,
-    "ast_hash": "01d348c6098855acc5ee0f390d0032a7",
-    "semantic_hash": "01d348c6098855acc5ee0f390d0032a7"
+    "mtime": 1790403958.64985,
+    "seen": 1790409266.9434853,
+    "ast_hash": "a0fe45349840bd36dcf47616e97a5504",
+    "semantic_hash": "a0fe45349840bd36dcf47616e97a5504"
   },
   "apps/web/tests/e2e-internal/fake-auth/start.mts": {
     "mtime": 1790355276.7785337,
@@ -8016,10 +8016,10 @@
     "semantic_hash": "8270750fb020d46e8aa4163b2ed9a671"
   },
   "apps/web/tests/e2e-internal/fixtures.ts": {
-    "mtime": 1790375785.5266528,
-    "seen": 1790382858.5144773,
-    "ast_hash": "7755bdcd5dfda4feedd30fff83538889",
-    "semantic_hash": "7755bdcd5dfda4feedd30fff83538889"
+    "mtime": 1790404004.4644074,
+    "seen": 1790409266.9434853,
+    "ast_hash": "cae2d265757bcdfdb8416c4816146fac",
+    "semantic_hash": "cae2d265757bcdfdb8416c4816146fac"
   },
   "apps/web/tests/e2e/global-setup.ts": {
     "mtime": 1790369676.1248293,
@@ -8034,10 +8034,10 @@
     "semantic_hash": "4f940d79a666e50e420b5eca17328d94"
   },
   "apps/web/tests/unit/fake-auth-contract.test.ts": {
-    "mtime": 1790369648.3115227,
-    "seen": 1790382858.5144773,
-    "ast_hash": "e0e424ce340694d5abc4783baba75a93",
-    "semantic_hash": "e0e424ce340694d5abc4783baba75a93"
+    "mtime": 1790403991.5406585,
+    "seen": 1790409266.9434853,
+    "ast_hash": "f56e968fbbd9762ee26293c293a96c38",
+    "semantic_hash": "f56e968fbbd9762ee26293c293a96c38"
   },
   "packages/config/src/env-example.test.ts": {
     "mtime": 1790340575.459633,
@@ -8154,15 +8154,15 @@
     "semantic_hash": "b3799cdfd188b5ee176094d880ed9e1e"
   },
   "docs/m2-internal/m2-02-code-review.md": {
-    "mtime": 1790373362.7438273,
-    "seen": 1790382858.5154772,
-    "ast_hash": "9f6db193025a78442979d1cf9cd10060",
-    "semantic_hash": "9f6db193025a78442979d1cf9cd10060"
+    "mtime": 1790404638.7337756,
+    "seen": 1790409266.9434853,
+    "ast_hash": "52ccd5205f122d555b131d08caa7f783",
+    "semantic_hash": "52ccd5205f122d555b131d08caa7f783"
   },
   "docs/m2-internal/m2-02-real-login-runbook.md": {
-    "mtime": 1790376192.6846874,
-    "seen": 1790382858.5154772,
-    "ast_hash": "b8bb36582ca7e221fd23cb4ff544df50",
-    "semantic_hash": "b8bb36582ca7e221fd23cb4ff544df50"
+    "mtime": 1790404681.4817111,
+    "seen": 1790409266.9434853,
+    "ast_hash": "a4dd0d986ee907e3d2a5c56c67fc7461",
+    "semantic_hash": "a4dd0d986ee907e3d2a5c56c67fc7461"
   }
 }
