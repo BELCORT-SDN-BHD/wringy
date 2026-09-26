@@ -87,20 +87,31 @@ export const invitationTokenSchema = z.string().regex(/^[A-Za-z0-9_-]{43}$/);
 
 // --- Params (every org route is scoped by its path, R5) ----------------------
 
+/**
+ * A uuid path segment in its one canonical spelling, lower case (R5 rev 3).
+ * `z.uuid()` accepts either case and keeps what it was given, while PostgreSQL
+ * compares uuid columns case-blind: an upper-cased own id then passed the
+ * `member.self` string comparison, and `audit_log.target_id` (text) kept the id
+ * as the caller spelled it, so an exact-match query missed those rows. The
+ * lower-casing is an overwrite, not a transform: the output stays a plain
+ * string and the schema stays representable as JSON Schema.
+ */
+const pathUuidSchema = z.uuid().toLowerCase();
+
 export const orgParamsSchema = z.object({
-  orgId: z.uuid(),
+  orgId: pathUuidSchema,
 });
 export type OrgParams = z.output<typeof orgParamsSchema>;
 
 export const orgMemberParamsSchema = z.object({
-  orgId: z.uuid(),
-  userId: z.uuid(),
+  orgId: pathUuidSchema,
+  userId: pathUuidSchema,
 });
 export type OrgMemberParams = z.output<typeof orgMemberParamsSchema>;
 
 export const orgInvitationParamsSchema = z.object({
-  orgId: z.uuid(),
-  invitationId: z.uuid(),
+  orgId: pathUuidSchema,
+  invitationId: pathUuidSchema,
 });
 export type OrgInvitationParams = z.output<typeof orgInvitationParamsSchema>;
 

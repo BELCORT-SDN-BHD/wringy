@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
 import {
   INVITATION_LIFETIME_DAYS,
@@ -449,6 +450,21 @@ describe('M2-AC03/2 params and bodies', () => {
     expect(orgMemberParamsSchema.safeParse({ orgId, userId: 'me' }).success).toBe(false);
     expect(orgInvitationParamsSchema.safeParse({ orgId, invitationId }).success).toBe(true);
     expect(orgInvitationParamsSchema.safeParse({ orgId, invitationId: '1' }).success).toBe(false);
+  });
+
+  it('M2-AC03/2 path ids come out in one spelling, lower case, however the caller cased them', () => {
+    const upper = (id: string) => id.toUpperCase();
+    expect(orgParamsSchema.parse({ orgId: upper(orgId) })).toEqual({ orgId: orgId.toLowerCase() });
+    expect(orgMemberParamsSchema.parse({ orgId: upper(orgId), userId: upper(userId) })).toEqual({
+      orgId: orgId.toLowerCase(),
+      userId: userId.toLowerCase(),
+    });
+    expect(orgInvitationParamsSchema.parse({ orgId, invitationId: upper(invitationId) })).toEqual({
+      orgId: orgId.toLowerCase(),
+      invitationId: invitationId.toLowerCase(),
+    });
+    // Still a plain string schema: the type provider can describe it.
+    expect(z.toJSONSchema(orgMemberParamsSchema)).toMatchObject({ properties: { userId: { type: 'string', format: 'uuid' } } });
   });
 
   it('M2-AC03/2 a body cannot carry an orgId: plain objects strip it', () => {

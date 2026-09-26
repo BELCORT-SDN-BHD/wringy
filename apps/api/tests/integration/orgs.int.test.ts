@@ -301,6 +301,37 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
     ]);
   });
 
+  it('M2-AC03/2 M2-AC03/3 a path id is one id however it is cased: an upper-cased own id is still member.self (409), and every audit row names its target in lower case', async () => {
+    const orgId = await createOrgAs(api, carol, 'Cased Paths');
+    // A second admin, so the last-admin rule cannot be what refuses Carol.
+    await asOrgMember(api, carol, orgId, dave, 'admin');
+    const ORG = orgId.toUpperCase();
+
+    const self = await post(carol, `/orgs/${ORG}/members/${CAROL.userId.toUpperCase()}/remove`);
+    expect(self.statusCode).toBe(409);
+    expect(self.json()).toEqual(errorBody('member.self'));
+    expect(await memberRow(orgId, CAROL.userId)).toMatchObject({ role: 'admin', status: 'active', removal_basis: null });
+
+    expect((await post(carol, `/orgs/${ORG}/rename`, { name: 'Cased Paths Renamed' })).statusCode).toBe(200);
+    expect((await post(carol, `/orgs/${ORG}/members/${DAVE.userId.toUpperCase()}/role`, { role: 'member' })).statusCode).toBe(200);
+    expect((await get(erin, `/orgs/${ORG}`)).statusCode).toBe(403);
+
+    const rows = await auditRows(db, { contextOrgId: orgId });
+    expect(rows.map((row) => [row.action, row.outcome, row.denial_code, row.target_id])).toEqual([
+      ['org.create', 'allowed', null, orgId],
+      ['invitation.create', 'allowed', null, expect.any(String)],
+      ['invitation.accept', 'allowed', null, expect.any(String)],
+      ['member.remove', 'denied', 'member.self', CAROL.userId],
+      ['org.rename', 'allowed', null, orgId],
+      ['member.role_change', 'allowed', null, DAVE.userId],
+      ['org.read', 'denied', 'org.forbidden', orgId],
+    ]);
+    for (const row of rows) expect(row.target_id, row.action).toBe(row.target_id?.toLowerCase());
+    // So the operator's exact-match query finds every row about the org, the crafted ones included.
+    const byTarget = await asMigrator<{ action: string }>(db, 'SELECT action FROM app.audit_log WHERE target_id = $1 ORDER BY id', [orgId]);
+    expect(byTarget.map((row) => row.action)).toEqual(['org.create', 'org.rename', 'org.read']);
+  });
+
   it('M2-AC03/2 an admin renames the org: the stored name is the trimmed NFC form, the change is audited before and after, and an unsafe name is 400 and not audited', async () => {
     const orgId = await createOrgAs(api, carol, 'Old Name');
     const before = await apiAuditCount(db);

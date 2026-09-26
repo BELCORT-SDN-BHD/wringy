@@ -33,7 +33,7 @@ code runs.
 
 | Schema | Shape |
 |---|---|
-| `orgParamsSchema`, `orgMemberParamsSchema`, `orgInvitationParamsSchema` | `{ orgId }`, `{ orgId, userId }`, `{ orgId, invitationId }`, each a UUID: every org route is scoped by its path |
+| `orgParamsSchema`, `orgMemberParamsSchema`, `orgInvitationParamsSchema` | `{ orgId }`, `{ orgId, userId }`, `{ orgId, invitationId }`, each a UUID, lower-cased on the way in so an id has one spelling (an upper-cased own id is still "self", and `audit_log.target_id` is always canonical): every org route is scoped by its path |
 | `createOrgBodySchema`, `renameOrgBodySchema` | `{ name }`, both through `orgNameSchema`: trimmed, NFC-composed, 1–100 characters, no control or bidi-format characters |
 | `createInvitationBodySchema` | `{ email (1–320 characters; the API normalises it), role }` |
 | `invitationTokenBodySchema` | `{ token }`: 43 base64url characters (32 random bytes); only ever a body, never a path |
