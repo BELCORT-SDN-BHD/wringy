@@ -27,6 +27,19 @@
  *
  * ## Internal mode
  *
+ * - **A provider error on any path but `/auth/callback`** → 307 to the sign-in
+ *   page with the outcome it maps to (**rev 4**; a rewrite to the same page when
+ *   the environment is unusable, exactly as for `/`). This is the first thing that
+ *   happens, before the routing shape and before any cookie is read, because it
+ *   is the one case where the browser arrives somewhere nobody sent it: when the
+ *   PKCE flow state has expired GoTrue no longer holds the flow's `redirect_to`,
+ *   so it puts the error on the project's **Site URL root** instead
+ *   (`GET /?error=invalid_request&error_code=bad_oauth_state&…`, captured in the
+ *   founder's real walk of 2026-09-26). Without this, `/` became `/internal`, the
+ *   query was dropped, and the tester met a bare sign-in page with no outcome —
+ *   the silent failure M2-AC02/1 forbids. `/auth/callback` is excluded because it
+ *   reads the same query itself (R11 source one), and no page of this build uses
+ *   an `error` or `error_code` parameter of its own.
  * - `/` → 307 `/internal` (a rewrite to `/internal` when the environment is
  *   unusable, because a `Location` must never be built from the request's host).
  * - Anything outside `/internal`, `/internal/…` and `/auth/…` → rewritten to the
@@ -49,8 +62,10 @@
  *    else happens, and set again only from a token this proxy just verified. A
  *    client cannot inject an identity into a Server Component.
  * 2. Every redirect's host comes from `APP_ORIGIN`, never from `Host` or
- *    `X-Forwarded-Host`. Paths are matched anchored (`/internal` or `/internal/`),
- *    never by bare prefix, so `/internal-tools` is not inside the internal build.
+ *    `X-Forwarded-Host`; where there is no `APP_ORIGIN` there is no redirect
+ *    either, only a same-origin rewrite. Paths are matched anchored (`/internal`
+ *    or `/internal/`), never by bare prefix, so `/internal-tools` is not inside
+ *    the internal build.
  * 3. Every response the proxy produces in internal mode refuses framing
  *    (`FRAMING_HEADERS`), and every response it produces for an authenticated
  *    `/internal` path is `no-store` whether or not a cookie was written this time
@@ -65,7 +80,13 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { internalAuthEnv, type InternalAuthEnv } from '@/lib/auth/env';
 import { appMode } from '@/lib/auth/mode';
 import { noStore } from '@/lib/auth/no-store';
-import { isRetryableAuthError, SIGN_IN_PATH, signInPath, type Outcome } from '@/lib/auth/outcomes';
+import {
+  isRetryableAuthError,
+  outcomeFromSiteUrlError,
+  SIGN_IN_PATH,
+  signInPath,
+  type Outcome,
+} from '@/lib/auth/outcomes';
 import {
   createRequestSupabase,
   isSecureOrigin,
@@ -103,6 +124,12 @@ export const config = {
 
 /** The page under `(internal)` that calls `notFound()`, so the internal not-found renders. */
 const NOT_FOUND_PATH = '/internal/__not-found';
+
+/**
+ * The one path that reads a provider error out of its own query, so the proxy
+ * must not take it away: `GET /auth/callback` is R11's first outcome source.
+ */
+const CALLBACK_PATH = '/auth/callback';
 
 /**
  * The internal build is never framed.
@@ -162,19 +189,21 @@ function passThrough(request: NextRequest): NextResponse {
 }
 
 /**
- * A same-origin rewrite to `path`.
+ * A same-origin rewrite to `target`, a root-relative path of this app with an
+ * optional query of its own (the request's own query is never carried).
  *
  * A rewrite never reaches the browser, so it is built on the URL the request
- * actually arrived at (path replaced) rather than on `APP_ORIGIN`. That keeps it
- * same-origin by construction — an `APP_ORIGIN` that disagreed with the serving
- * origin would otherwise turn a not-found into an outbound request — and it is
- * why the routing shape can be decided before the environment is read.
+ * actually arrived at (path and query replaced) rather than on `APP_ORIGIN`. That
+ * keeps it same-origin by construction — an `APP_ORIGIN` that disagreed with the
+ * serving origin would otherwise turn a not-found into an outbound request — and
+ * it is why the routing shape can be decided before the environment is read.
  */
-function rewriteTo(request: NextRequest, path: string): NextResponse {
-  const target = request.nextUrl.clone();
-  target.pathname = path;
-  target.search = '';
-  return NextResponse.rewrite(target, { request: { headers: forwardedHeaders(request) } });
+function rewriteTo(request: NextRequest, target: string): NextResponse {
+  const asked = new URL(target, request.nextUrl);
+  const rewritten = request.nextUrl.clone();
+  rewritten.pathname = asked.pathname;
+  rewritten.search = asked.search;
+  return NextResponse.rewrite(rewritten, { request: { headers: forwardedHeaders(request) } });
 }
 
 /**
@@ -188,6 +217,35 @@ function rewriteTo(request: NextRequest, path: string): NextResponse {
  */
 function redirect(path: string, appOrigin: string): NextResponse {
   return NextResponse.redirect(new URL(path, appOrigin), 307);
+}
+
+/**
+ * The answer to a provider error that landed somewhere other than the callback
+ * (**rev 4**): the sign-in page, saying what happened.
+ *
+ * Configured, it is a 307 from `APP_ORIGIN` like every other redirect here. With
+ * the three variables still missing it is a **rewrite** to the same page instead,
+ * for the same reason `/` itself is rewritten in that state: there is no
+ * `APP_ORIGIN` to build a `Location` from and a request's own host must never
+ * become one (invariant 2). Either way the outcome reaches the person, which is
+ * the property that matters — an env-less internal origin cannot have started a
+ * sign-in of its own, but it can still be sent one provider's leftovers.
+ *
+ * A root-relative `Location` would be legal HTTP and would need no environment at
+ * all, but Next cannot send one from a proxy: `next/dist/server/web/adapter.js`
+ * hands every `Location` to `new NextURL(location)`, which parses it with
+ * `new URL(input, undefined)` and throws on a relative reference — the whole
+ * request then answers 500. (Next relativizes the `Location` itself, afterwards,
+ * whenever its host equals the request's, so the value on the wire for the
+ * configured case is root-relative anyway.)
+ *
+ * No `next`: the flow that failed is over, and the path the error happened to
+ * land on is not somewhere the visitor was trying to go.
+ */
+function providerErrorAnswer(request: NextRequest, outcome: Outcome): NextResponse {
+  const target = signInPath({ outcome });
+  const env = internalAuthEnv();
+  return noStore(env.ok ? redirect(target, env.env.appOrigin) : rewriteTo(request, target));
 }
 
 /** The two framing headers on every response the internal-mode proxy produces. */
@@ -209,7 +267,16 @@ async function internalProxy(request: NextRequest): Promise<NextResponse> {
   const inInternal = isUnder(pathname, '/internal');
   const inAuth = isUnder(pathname, '/auth');
 
-  // The routing shape first, because it needs no environment: on an internal
+  // A provider error that landed anywhere but the callback, before anything
+  // else: it needs no environment, no cookie and no routing decision, and it is
+  // the only arrival the visitor did not ask for. Everything below would lose
+  // it — `/` becomes `/internal` and drops the query, a path outside the build
+  // becomes a 404 — and a lost provider error is a tester staring at a page
+  // that says nothing happened (rev 4).
+  const providerError = pathname === CALLBACK_PATH ? null : outcomeFromSiteUrlError(request.nextUrl.searchParams);
+  if (providerError !== null) return providerErrorAnswer(request, providerError);
+
+  // The routing shape next, because it needs no environment: on an internal
   // origin the demo build's pages must not render even when the three variables
   // are missing, which is exactly the state a first deploy is in.
   if (!inInternal && !inAuth && pathname !== '/') return rewriteTo(request, NOT_FOUND_PATH);

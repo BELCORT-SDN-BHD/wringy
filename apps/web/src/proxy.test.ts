@@ -325,6 +325,137 @@ describe('M2-AC02/3 cache: internal mode routes only its own paths', () => {
   });
 });
 
+/**
+ * The founder's real walk of 2026-09-26, captured verbatim from the browser's
+ * network log: with the PKCE flow state expired, Supabase does not redirect the
+ * provider error to the flow's `redirect_to` — it puts it on the project's Site
+ * URL root. Every row below is pinned to this one string.
+ */
+const CAPTURED_SITE_URL_REQUEST =
+  'http://127.0.0.1:3100/?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired';
+
+describe('M2-AC02/1 outcomes: a provider error that landed on the Site URL root still reaches the person', () => {
+  beforeEach(internalEnv);
+
+  const location = (response: NextResponse) => response.headers.get('location');
+  /** Where a rewrite pointed, as a root-relative path plus query. */
+  const rewritten = (response: NextResponse) => {
+    const target = response.headers.get('x-middleware-rewrite');
+    if (target === null) return null;
+    const url = new URL(target);
+    return `${url.pathname}${url.search}`;
+  };
+
+  it('M2-AC02/1 outcomes: the captured expired-state request redirects to the expired sign-in page', async () => {
+    const captured = new URL(CAPTURED_SITE_URL_REQUEST);
+    expect(captured.origin, 'the Site URL of the internal build is APP_ORIGIN').toBe(APP_ORIGIN);
+
+    const response = await proxy(request(`${captured.pathname}${captured.search}`));
+
+    expect(response.status).toBe(307);
+    expect(location(response)).toBe(`${APP_ORIGIN}/internal/sign-in?outcome=expired`);
+    // Not one cookie was read to decide this, and no session client was built.
+    expect(clientCalls).toHaveLength(0);
+    // It is an answer about one failed sign-in, so nothing may cache it.
+    expect(response.headers.get('cache-control')).toBe('private, no-cache, no-store, must-revalidate, max-age=0');
+    // And it is an internal-mode response, so it refuses framing like every other.
+    expect(response.headers.get('x-frame-options')).toBe('DENY');
+  });
+
+  it('M2-AC02/1 outcomes: every provider error on the root maps to its own outcome, and no next is carried', async () => {
+    const rows: { search: string; outcome: string }[] = [
+      { search: '?error=access_denied&error_description=The+user+declined', outcome: 'cancelled' },
+      { search: '?error=invalid_request&error_code=bad_oauth_state', outcome: 'expired' },
+      { search: '?error=server_error&error_code=flow_state_not_found', outcome: 'expired' },
+      { search: '?error_code=weird', outcome: 'unexpected' },
+      { search: '?error=server_error', outcome: 'unexpected' },
+    ];
+
+    for (const { search, outcome } of rows) {
+      const response = await proxy(request(`/${search}`));
+
+      expect(response.status, search).toBe(307);
+      expect(location(response), search).toBe(`${APP_ORIGIN}/internal/sign-in?outcome=${outcome}`);
+      // The flow that failed is over; `/` is not somewhere the visitor was going.
+      expect(location(response), search).not.toContain('next=');
+    }
+    expect(clientCalls).toHaveLength(0);
+  });
+
+  it('M2-AC02/2 isolation: the provider-error redirect names APP_ORIGIN even when the forwarded host is forged', async () => {
+    const forged = new NextRequest(new URL('/?error=invalid_request&error_code=bad_oauth_state', 'http://evil.example'), {
+      method: 'GET',
+      headers: { host: 'evil.example', 'x-forwarded-host': 'evil.example' },
+    });
+
+    const response = await proxy(forged);
+
+    const target = new URL(location(response) as string);
+    expect(target.origin).toBe(APP_ORIGIN);
+    expect(target.host).not.toContain('evil.example');
+  });
+
+  it('M2-AC02/1 outcomes: a root request with no provider error keeps the plain 307 to /internal', async () => {
+    const response = await proxy(request('/?x=1'));
+
+    expect(response.status).toBe(307);
+    // Unchanged: the redirect to /internal, not to the sign-in page.
+    expect(location(response)).toBe(`${APP_ORIGIN}/internal`);
+    expect(clientCalls).toHaveLength(0);
+  });
+
+  it('M2-AC02/1 outcomes: the callback keeps its own query, because it is the other outcome source', async () => {
+    // R11 source one: `/auth/callback` reads `error` and `error_code` itself and
+    // owns the session cookies that go with them. The proxy must not answer for it.
+    const response = await proxy(request('/auth/callback?error=access_denied&error_description=declined'));
+
+    expect(isPassThrough(response)).toBe(true);
+    expect(location(response)).toBeNull();
+  });
+
+  it('M2-AC02/1 outcomes: a provider error outside the internal build is an outcome, not a 404', async () => {
+    // A Site URL that names a path, or a stray redirect: the error still reaches
+    // the person rather than being swallowed by the not-found rewrite.
+    for (const path of ['/internal?error=invalid_request&error_code=bad_oauth_state', '/merchant?error=access_denied']) {
+      const response = await proxy(request(path));
+
+      expect(response.status, path).toBe(307);
+      expect(location(response), path).toMatch(new RegExp(`^${APP_ORIGIN}/internal/sign-in\\?outcome=`));
+      expect(rewritten(response), path).toBeNull();
+    }
+  });
+
+  it('M2-AC02/1 outcomes: internal mode without its variables still maps the captured request', async () => {
+    // It needs no environment: the mapping is a pure query read. With no
+    // APP_ORIGIN it is a rewrite rather than a redirect, for the same reason `/`
+    // is rewritten in that state — a `Location` must never be built from the
+    // request's own host — but the outcome still reaches the person, which is the
+    // property M2-AC02/1 asks for.
+    vi.unstubAllEnvs();
+    vi.stubEnv('WRINGY_APP_MODE', 'internal');
+    vi.stubEnv('WRINGY_ENV', 'ci');
+    vi.stubEnv('API_INTERNAL_URL', 'http://127.0.0.1:3200');
+
+    const captured = new URL(CAPTURED_SITE_URL_REQUEST);
+    const response = await proxy(request(`${captured.pathname}${captured.search}`));
+
+    expect(rewritten(response)).toBe('/internal/sign-in?outcome=expired');
+    expect(location(response), 'no Location is invented from the request host').toBeNull();
+    expect(clientCalls).toHaveLength(0);
+  });
+
+  it('M2-AC02/3 cache: demo mode passes the same request through, because the proxy does nothing there', async () => {
+    vi.stubEnv('WRINGY_APP_MODE', 'demo');
+
+    const captured = new URL(CAPTURED_SITE_URL_REQUEST);
+    const response = await proxy(request(`${captured.pathname}${captured.search}`));
+
+    expect(isPassThrough(response)).toBe(true);
+    expect(forwarded(response)).toEqual({});
+    expect(clientCalls).toHaveLength(0);
+  });
+});
+
 describe('M2-AC02/2 isolation: an unauthenticated read is sent to sign in, from APP_ORIGIN only', () => {
   beforeEach(internalEnv);
 

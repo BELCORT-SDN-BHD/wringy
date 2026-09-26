@@ -9,11 +9,31 @@ import {
   isRetryableAuthError,
   outcomeFromCallbackQuery,
   outcomeFromExchangeError,
+  outcomeFromSiteUrlError,
   signInPath,
 } from './outcomes';
 
 /** The query of a callback URL, as the handler reads it. */
 const query = (search: string) => new URL(`https://app.wringy.test/auth/callback${search}`).searchParams;
+
+/**
+ * The query of a **Site URL root** request, as `proxy.ts` reads it.
+ *
+ * This is the third outcome source: once the PKCE flow state has expired GoTrue
+ * cannot resolve the flow's `redirect_to` and sends the provider error to the
+ * project's Site URL instead. `APP_ORIGIN` is the Site URL of the internal build
+ * (kickoff-package.md §4.8), so it arrives at `/`.
+ */
+const siteUrlQuery = (search: string) => new URL(`http://127.0.0.1:3100/${search}`).searchParams;
+
+/**
+ * The request the founder's real walk captured on 2026-09-26, copied verbatim
+ * from the browser's network log. Everything about the expired-state path is
+ * pinned to this one string, so a change to the mapping has to argue with the
+ * observation rather than with a paraphrase of it.
+ */
+const CAPTURED_SITE_URL_REQUEST =
+  'http://127.0.0.1:3100/?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired';
 
 describe('M2-AC02/1 outcomes: every way sign-in can end has a code and localized copy', () => {
   it('M2-AC02/1 outcomes: the nine codes are exactly the ones R11 lists', () => {
@@ -83,6 +103,42 @@ describe('M2-AC02/1 outcomes: every way sign-in can end has a code and localized
     expect(outcomeFromCallbackQuery(query('?error_code=something_new'))).toBe('unexpected');
     expect(outcomeFromCallbackQuery(query('?code=abc123'))).toBeNull();
     expect(outcomeFromCallbackQuery(query(''))).toBeNull();
+  });
+
+  // --- The Site URL root (the flow state expired, so GoTrue lost redirect_to) ---
+
+  it('M2-AC02/1 outcomes: the captured Site-URL request of the real walk is an expired sign-in', () => {
+    // Verbatim from the founder's walk of 2026-09-26 (Supabase dev project, a
+    // real Google account, the chooser left idle from 14:08 to 14:14): GoTrue
+    // sent the error to the Site URL root, NOT to /auth/callback.
+    const captured = new URL(CAPTURED_SITE_URL_REQUEST);
+    expect(captured.pathname, 'the error arrived at the Site URL root').toBe('/');
+    expect(captured.searchParams.get('error_code')).toBe('bad_oauth_state');
+    expect(captured.searchParams.get('error_description')).toBe('OAuth state has expired');
+
+    expect(outcomeFromSiteUrlError(captured.searchParams)).toBe('expired');
+  });
+
+  it('M2-AC02/1 outcomes: every flow-state code on the Site URL root reads as expired', () => {
+    for (const errorCode of ['bad_oauth_state', 'flow_state_expired', 'flow_state_not_found']) {
+      expect(outcomeFromSiteUrlError(siteUrlQuery(`?error=invalid_request&error_code=${errorCode}`)), errorCode).toBe(
+        'expired',
+      );
+      // The same three codes read the same way on the callback, because there is
+      // one table, not two that could drift.
+      expect(outcomeFromCallbackQuery(query(`?error=invalid_request&error_code=${errorCode}`)), errorCode).toBe(
+        'expired',
+      );
+    }
+  });
+
+  it('M2-AC02/1 outcomes: a cancel on the Site URL root is cancelled, anything else unexpected, nothing null', () => {
+    expect(outcomeFromSiteUrlError(siteUrlQuery('?error=access_denied'))).toBe('cancelled');
+    expect(outcomeFromSiteUrlError(siteUrlQuery('?error_code=weird'))).toBe('unexpected');
+    expect(outcomeFromSiteUrlError(siteUrlQuery('?error=server_error'))).toBe('unexpected');
+    // No error at all is not an outcome: `/` is just the root of the app.
+    expect(outcomeFromSiteUrlError(siteUrlQuery('?x=1'))).toBeNull();
+    expect(outcomeFromSiteUrlError(siteUrlQuery(''))).toBeNull();
   });
 
   // --- The exchange error (GoTrue answered POST /token?grant_type=pkce) -------
