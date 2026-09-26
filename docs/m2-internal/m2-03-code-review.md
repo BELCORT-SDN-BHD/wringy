@@ -28,7 +28,11 @@ invitations, audit, PostgreSQL, web, spec and test lenses, every finding put to 
 the fix wave that followed it. Where a finding changed a decision, or the build departed from this record for a
 reason the record must carry, the row is amended in place and marked **(rev 3)**; the build's departures are
 listed one by one in [acceptance-record.md](acceptance-record.md) §M2-AC03 "Build deviations from the design
-record".
+record". Three reviews of the integrated tree at `e46f909` followed the adversarial review — the `code-review`
+skill's Standards axis (no hard violation, two smells) and Spec axis (the unaudited preview and the record-keeping
+items), and a native independent review (no blocker or major; four minors and a nit) — and the W5 fix pass applied
+them: preview now refuses a wrong account with an audited 403 (R7, R12, §3), the two-tabs accept row runs through the
+barrier, the last-admin guard is one helper, and §5 gains the three rows marked **(rev 3)**.
 
 ## 1. Facts established before the design (2026-09-26, orchestrator)
 
@@ -124,6 +128,9 @@ Mail delivery of the invitation link (M2-08 carries it in the outbox); the `/int
 | D11(a) "outside production any org may hold fixture campaigns" | A person's org is `live`; the composite FK from `0003` is untouched; M2-05 relaxes it (a contract step) | R2; M2-AC05/3 rules out the "status on a live row" reading |
 | `0003` header "the API gets SELECT only (M2-01 has no business writes)"; `runtime-role.int.test.ts` "INSERT org refused" | Column-level `INSERT (name, created_by)` and `UPDATE (name)` on `app.orgs`; the refused row is relabelled ("naming `id`") and positive rows are added | D1; recorded as an amendment row to M2-AC01/2 |
 | `api-client.test.ts` M2-AC02/3 "any other status is unexpected" | 5xx and unknown statuses are unexpected; 400/404/409 keep their code | The M2-03 outcomes need the codes; recorded as an amendment row to M2-AC02/3 |
+| **(rev 3)** R15 (this record) "an integration test on the seeded **Kopi Kita** org … invites and accepts a member, grants a review scope, then removes the member, revokes the grant … and revokes an invitation" | `recovery.int.test.ts` runs the member removal and the invitation revoke on a fresh org created through the API, and the grant revoke (once through `pnpm db:grant`) on Kopi Kita. The business rows it asserts kept are Kopi Kita, Nusantara Fit and the fresh org, the three fixture campaigns unchanged, the fresh org's membership rows (the removed one kept as `removed`), both invitations and every audit row written since the start | Kopi Kita has no creator, and neither foreign key a first member needs is deferrable — `org_members_creator_fkey` (an `org_created` row must be the creator's) and `org_invitations_inviter_fkey` (an invitation's inviter must already be a member) — so a creator-less org can never receive its first member honestly. A capability needs no membership (R5), so the grant half stays on the org whose campaigns the assertion is about |
+| **(rev 3)** M2-02's `/internal` (as `b4d6054` left it): a `/me` 403 other than `account.disabled` — `profile.missing` — was neither a redirect nor a failure; the session section was left out and the read was not counted | On `/internal`, a `/me` or `/me/workspaces` error that is not a caller refusal (403 `profile.missing`, a 400 or a 404) renders as `unexpected` and joins the same-failure count (`identity-read.ts` `readOf`) | An M2-02 behaviour change that follows from `apiFetch` keeping the codes of 400, 404 and 409 (R9, the row above): a read that answers neither its data nor a caller refusal is an unexpected failure like any other, never an empty section. The acceptance record lists it as build deviation Web 3 |
+| **(rev 3)** The ticket's "事件通知" ([m2-03.md](../planning/tickets/m2-03.md) L15: "包含本路径所需存储约束、服务器授权、页面状态、事件通知、运营恢复和测试") | M2-03 sends no notification: the admin copies the single-use link from the invitation page and hands it over; the invitation mail is M2-08's | Nothing in the repository sends mail and M2-08 owns the outbox and its delivery (§1, §4); "没有相应改动则不硬建新层". The verified address match (R7) is what makes a mis-delivered link grant nothing |
 
 ## 6. Questions for the founder (none blocks the build)
 
