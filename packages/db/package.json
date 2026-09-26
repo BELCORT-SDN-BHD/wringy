@@ -24,6 +24,7 @@
     "db:env": "tsx --env-file-if-exists=../../.env src/cli/env.ts",
     "db:seed:fixtures": "tsx --env-file-if-exists=../../.env src/cli/seed-fixtures.ts",
     "db:allowlist": "tsx --env-file-if-exists=../../.env src/cli/allowlist.ts",
+    "db:grant": "tsx --env-file-if-exists=../../.env src/cli/grant.ts",
     "db:start": "tsx scripts/local-pg.mjs start",
     "db:stop": "tsx scripts/local-pg.mjs stop",
     "db:bootstrap": "tsx --env-file-if-exists=../../.env scripts/bootstrap.mjs",

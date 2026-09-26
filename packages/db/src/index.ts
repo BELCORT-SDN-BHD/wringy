@@ -52,6 +52,30 @@ export type {
   RemoveAllowlistOutcome,
 } from './allowlist';
 export {
+  GrantRefusedError,
+  ORG_GRANT_CAPABILITIES,
+  PLATFORM_GRANT_CAPABILITIES,
+  grantOrgCapability,
+  grantPlatformCapability,
+  listGrants,
+  revokeOrgCapability,
+  revokePlatformCapability,
+} from './grants';
+export type {
+  GrantAuthor,
+  GrantListing,
+  GrantOutcome,
+  GrantResult,
+  OrgCapabilityGrant,
+  OrgGrantCapability,
+  OrgGrantOptions,
+  PlatformCapabilityGrant,
+  PlatformGrantCapability,
+  PlatformGrantOptions,
+  RevokeOutcome,
+  RevokeResult,
+} from './grants';
+export {
   PlatformBootstrapRefusedError,
   SESSION_IS_LIVE_SIGNATURE,
   authStubSql,

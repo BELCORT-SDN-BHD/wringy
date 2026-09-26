@@ -22,6 +22,7 @@
     "db:env": "pnpm --filter @wringy/db run db:env",
     "db:seed:fixtures": "pnpm --filter @wringy/db run db:seed:fixtures",
     "db:allowlist": "pnpm --filter @wringy/db run db:allowlist",
+    "db:grant": "pnpm --filter @wringy/db run db:grant",
     "depcruise": "node scripts/check-dependency-direction.mjs",
     "check:supabase-scope": "node scripts/check-supabase-client-scope.mjs",
     "canary": "node scripts/check-secret-canary.mjs",
