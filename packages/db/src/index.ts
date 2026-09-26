@@ -48,6 +48,7 @@ export type {
   AddAllowlistEntryResult,
   AddAllowlistOutcome,
   AllowlistEntry,
+  RemoveAllowlistEntryOptions,
   RemoveAllowlistEntryResult,
   RemoveAllowlistOutcome,
 } from './allowlist';

@@ -11,14 +11,54 @@
  *
  * The list is read on the first sign-in only. Removing an address signs nobody
  * out; disabling the profile (`app.profiles.status`) does.
+ *
+ * Every add and remove writes its `app.audit_log` row in the same statement (a
+ * data-modifying CTE, as `pnpm db:grant` does; M2-03 code review R6):
+ * `actor_kind = 'bootstrap'`, `actor_label = --by`, `action = allowlist.add |
+ * allowlist.remove`, `target_type = sign_in_allowlist`, `reason = --reason`, and
+ * `target_id` = the sha256 of the normalised address, in hex: pseudonymous, so the
+ * address itself never enters the log (R3). Removing an address that is not
+ * listed changes nothing and writes no row.
+ *
+ * Imports: `pg`'s types and `node:crypto` only, never `import.meta`, so the
+ * Playwright internal suite (CommonJS) can still load this module through
+ * test/connect.ts.
  */
+import { createHash } from 'node:crypto';
+
 import type pg from 'pg';
 
 type Queryable = Pick<pg.ClientBase, 'query'>;
 
-/** The address could not be put in a normal form (see `normalizeEmail`). */
+/**
+ * The address could not be put in a normal form (see `normalizeEmail`), or the
+ * reason or author of a change is blank or carries an address.
+ */
 export class InvalidEmailError extends Error {
   override readonly name = 'InvalidEmailError';
+}
+
+/**
+ * The audit log's reference to an allow-listed address: the sha256 of its
+ * normal form (UTF-8), in lower-case hex. An operator who knows the address can
+ * find its rows; the row itself tells nobody the address (R3, R6).
+ */
+function addressRef(emailNorm: string): string {
+  return createHash('sha256').update(emailNorm, 'utf8').digest('hex');
+}
+
+/**
+ * `--reason` and `--by` are stored on the row and in the audit log, which never
+ * holds an address: a blank or `@`-bearing value is refused (the CLI's parser
+ * refuses it first; this is the library's own guard).
+ */
+function operatorText(label: string, value: string): string {
+  const trimmed = value.trim();
+  if (trimmed === '') throw new InvalidEmailError(`${label} is required for an allow-list change.`);
+  if (trimmed.includes('@')) {
+    throw new InvalidEmailError(`${label} may not contain "@": the audit log never stores an address.`);
+  }
+  return trimmed;
 }
 
 /**
@@ -66,9 +106,9 @@ export interface AllowlistEntry {
 
 export interface AddAllowlistEntryOptions {
   email: string;
-  /** Why this address may sign in. Required: the row is the audit until M2-03. */
+  /** Why this address may sign in. Required: it is kept on the row and in the audit log. */
   reason: string;
-  /** Who decided. Required, for the same reason. */
+  /** Who decided (the audit row's `actor_label`). Required, for the same reason. */
   addedBy: string;
 }
 
@@ -96,23 +136,30 @@ const toEntry = (row: Row): AllowlistEntry => ({
 
 /**
  * Lists `email` (normalised), or replaces its reason, author and time when it is
- * already listed. Runs as the migrator; the API has SELECT only.
+ * already listed, and audits either as `allowlist.add` in the same statement.
+ * Runs as the migrator; the API has SELECT only.
  */
 export async function addAllowlistEntry(
   client: Queryable,
   { email, reason, addedBy }: AddAllowlistEntryOptions,
 ): Promise<AddAllowlistEntryResult> {
   const emailNorm = normalizeEmail(email);
-  if (reason.trim() === '') throw new InvalidEmailError('A reason is required for an allow-list entry.');
-  if (addedBy.trim() === '') throw new InvalidEmailError('An author (--by) is required for an allow-list entry.');
+  const why = operatorText('A reason (--reason)', reason);
+  const by = operatorText('An author (--by)', addedBy);
   // xmax = 0 on the returned row means this statement inserted it.
   const { rows } = await client.query<Row & { inserted: boolean }>(
-    `INSERT INTO app.sign_in_allowlist (email_norm, reason, added_by)
-          VALUES ($1, $2, $3)
-     ON CONFLICT (email_norm) DO UPDATE
-            SET reason = excluded.reason, added_by = excluded.added_by, added_at = now()
-       RETURNING email_norm, reason, added_by, added_at, xmax = 0 AS inserted`,
-    [emailNorm, reason.trim(), addedBy.trim()],
+    `WITH changed AS (
+       INSERT INTO app.sign_in_allowlist (email_norm, reason, added_by)
+            VALUES ($1, $2, $3)
+       ON CONFLICT (email_norm) DO UPDATE
+              SET reason = excluded.reason, added_by = excluded.added_by, added_at = now()
+         RETURNING email_norm, reason, added_by, added_at, xmax = 0 AS inserted
+     ), audited AS (
+       INSERT INTO app.audit_log (actor_kind, actor_label, action, target_type, target_id, outcome, reason)
+       SELECT 'bootstrap', $3, 'allowlist.add', 'sign_in_allowlist', $4, 'allowed', $2 FROM changed
+     )
+     SELECT email_norm, reason, added_by, added_at, inserted FROM changed`,
+    [emailNorm, why, by, addressRef(emailNorm)],
   );
   const row = rows[0];
   if (row === undefined) throw new Error('The allow-list insert returned no row.');
@@ -128,20 +175,37 @@ export interface RemoveAllowlistEntryResult {
   entry?: AllowlistEntry;
 }
 
+export interface RemoveAllowlistEntryOptions {
+  email: string;
+  /** Why the address is removed: the audit row's `reason`. Required. */
+  reason: string;
+  /** Who decided: the audit row's `actor_label`. Required. */
+  by: string;
+}
+
 /**
- * Removes `email` (normalised) from the list. Nobody is signed out by this: an
+ * Removes `email` (normalised) from the list, and audits it as
+ * `allowlist.remove` in the same statement. Nobody is signed out by this: an
  * existing profile is never re-checked against the list (R5). Disable the
  * profile to end access.
  */
 export async function removeAllowlistEntry(
   client: Queryable,
-  { email }: { email: string },
+  { email, reason, by }: RemoveAllowlistEntryOptions,
 ): Promise<RemoveAllowlistEntryResult> {
   const emailNorm = normalizeEmail(email);
+  const why = operatorText('A reason (--reason)', reason);
+  const author = operatorText('An author (--by)', by);
   const { rows } = await client.query<Row>(
-    `DELETE FROM app.sign_in_allowlist WHERE email_norm = $1
-      RETURNING email_norm, reason, added_by, added_at`,
-    [emailNorm],
+    `WITH changed AS (
+       DELETE FROM app.sign_in_allowlist WHERE email_norm = $1
+        RETURNING email_norm, reason, added_by, added_at
+     ), audited AS (
+       INSERT INTO app.audit_log (actor_kind, actor_label, action, target_type, target_id, outcome, reason)
+       SELECT 'bootstrap', $3, 'allowlist.remove', 'sign_in_allowlist', $4, 'allowed', $2 FROM changed
+     )
+     SELECT email_norm, reason, added_by, added_at FROM changed`,
+    [emailNorm, why, author, addressRef(emailNorm)],
   );
   const row = rows[0];
   return row === undefined ? { emailNorm, outcome: 'absent' } : { emailNorm, outcome: 'removed', entry: toEntry(row) };
