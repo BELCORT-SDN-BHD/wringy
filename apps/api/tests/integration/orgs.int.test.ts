@@ -189,15 +189,17 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
     await asOrgMember(api, carol, orgId, dave);
     await asOrgMember(api, carol, orgId, erin);
 
+    // Thunks, sent one after another: the denial rows are compared in order below, so
+    // the requests must not race each other to the audit log.
     const attempts = [
-      ['invitation.create', post(dave, `/orgs/${orgId}/invitations`, { email: 'someone@example.test', role: 'member' })],
-      ['org.rename', post(dave, `/orgs/${orgId}/rename`, { name: 'Taken Over' })],
-      ['member.role_change', post(dave, `/orgs/${orgId}/members/${ERIN.userId}/role`, { role: 'admin' })],
-      ['member.remove', post(dave, `/orgs/${orgId}/members/${ERIN.userId}/remove`)],
-      ['member.role_change', post(dave, `/orgs/${orgId}/members/${DAVE.userId}/role`, { role: 'admin' })],
+      ['invitation.create', () => post(dave, `/orgs/${orgId}/invitations`, { email: 'someone@example.test', role: 'member' })],
+      ['org.rename', () => post(dave, `/orgs/${orgId}/rename`, { name: 'Taken Over' })],
+      ['member.role_change', () => post(dave, `/orgs/${orgId}/members/${ERIN.userId}/role`, { role: 'admin' })],
+      ['member.remove', () => post(dave, `/orgs/${orgId}/members/${ERIN.userId}/remove`)],
+      ['member.role_change', () => post(dave, `/orgs/${orgId}/members/${DAVE.userId}/role`, { role: 'admin' })],
     ] as const;
     for (const [action, attempt] of attempts) {
-      const response = await attempt;
+      const response = await attempt();
       expect(response.statusCode, action).toBe(403);
       expect(response.json(), action).toEqual(errorBody('org.admin_required'));
     }
