@@ -1,4 +1,4 @@
-import type { FastifyPluginAsyncZod } from '@fastify/type-provider-zod';
+import type { FastifyPluginAsyncZod, ZodTypeProvider } from '@fastify/type-provider-zod';
 import {
   apiErrorSchema,
   changeRoleBodySchema,
@@ -302,38 +302,50 @@ export const orgRoutes: FastifyPluginAsyncZod<OrgRoutesOptions> = async (app, { 
    * reaches the refusal and its audit row instead of an unaudited 400. A
    * non-member gets `org.forbidden`; a member or admin gets
    * `capability.script_only`; both rows say `capability.grant`.
+   *
+   * It lives in a scope of its own whose only content-type parser takes any body
+   * and discards it (R18 rev 3). Fastify parses a body before the handler runs,
+   * so with the default parsers a form or XML body was a 415 and a malformed JSON
+   * body a 400, both refused before the refusal and its audit row. The body is
+   * still read into memory under Fastify's `bodyLimit`; nothing reads it after.
    */
-  app.post(
-    '/orgs/:orgId/capabilities',
-    {
-      schema: {
-        params: orgParamsSchema,
-        response: {
-          400: apiErrorSchema,
-          401: apiErrorSchema,
-          403: apiErrorSchema,
-          500: apiErrorSchema,
-          503: apiErrorSchema,
+  app.register(async (plain) => {
+    const scope = plain.withTypeProvider<ZodTypeProvider>();
+    scope.removeAllContentTypeParsers();
+    scope.addContentTypeParser('*', { parseAs: 'buffer' }, (_request, _body, done) => done(null, undefined));
+
+    scope.post(
+      '/orgs/:orgId/capabilities',
+      {
+        schema: {
+          params: orgParamsSchema,
+          response: {
+            400: apiErrorSchema,
+            401: apiErrorSchema,
+            403: apiErrorSchema,
+            500: apiErrorSchema,
+            503: apiErrorSchema,
+          },
         },
       },
-    },
-    async (request, reply) => {
-      const { orgId } = request.params;
-      const outcome = await runCommand(
-        deps,
-        request,
-        reply,
-        { action: 'capability.grant', contextOrgId: orgId, targetType: 'org', targetId: orgId },
-        async (client, context) => {
-          const access = await readActiveMembership(client, orgId, context.actor.userId);
-          if (access.role === null) {
-            throw new Refused(403, 'org.forbidden', access.orgExists ? 'not_a_member' : 'org_unknown');
-          }
-          throw new Refused(403, 'capability.script_only', 'script_only');
-        },
-      );
-      if ('refused' in outcome) return outcome.refused;
-      throw new Error('the capability route answered without refusing');
-    },
-  );
+      async (request, reply) => {
+        const { orgId } = request.params;
+        const outcome = await runCommand(
+          deps,
+          request,
+          reply,
+          { action: 'capability.grant', contextOrgId: orgId, targetType: 'org', targetId: orgId },
+          async (client, context) => {
+            const access = await readActiveMembership(client, orgId, context.actor.userId);
+            if (access.role === null) {
+              throw new Refused(403, 'org.forbidden', access.orgExists ? 'not_a_member' : 'org_unknown');
+            }
+            throw new Refused(403, 'capability.script_only', 'script_only');
+          },
+        );
+        if ('refused' in outcome) return outcome.refused;
+        throw new Error('the capability route answered without refusing');
+      },
+    );
+  });
 };

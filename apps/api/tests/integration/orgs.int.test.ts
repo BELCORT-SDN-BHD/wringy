@@ -548,6 +548,24 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
     }
     // No body at all reaches the same refusal.
     expect((await post(carol, `/orgs/${orgId}/capabilities`)).statusCode).toBe(403);
+    // So does a body Fastify has no parser for, and one that does not parse (R18 rev 3): the
+    // route never reads a body, so no body can turn the attempt into an unaudited 4xx.
+    const bodies = [
+      ['application/x-www-form-urlencoded', `capability=finance&userId=${CAROL.userId}`],
+      ['text/xml', '<grant capability="finance"/>'],
+      ['application/json', '{"capability": "finance",'],
+      ['application/octet-stream', 'finance'],
+    ] as const;
+    for (const [contentType, payload] of bodies) {
+      const response = await api.app.inject({
+        method: 'POST',
+        url: `/orgs/${orgId}/capabilities`,
+        headers: { ...carol.headers, 'content-type': contentType },
+        payload,
+      });
+      expect(response.statusCode, contentType).toBe(403);
+      expect(response.json(), contentType).toEqual(errorBody('capability.script_only'));
+    }
 
     const denials = await auditRows(db, { contextOrgId: orgId, action: 'capability.grant' });
     expect(denials.map((row) => [row.actor_user_id, row.outcome, row.denial_code, row.reason])).toEqual([
@@ -555,7 +573,16 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
       [DAVE.userId, 'denied', 'capability.script_only', 'script_only'],
       [CAROL.userId, 'denied', 'capability.script_only', 'script_only'],
       [CAROL.userId, 'denied', 'capability.script_only', 'script_only'],
+      ...bodies.map(() => [CAROL.userId, 'denied', 'capability.script_only', 'script_only']),
     ]);
+    // Only this route takes any body: every other command still refuses one it cannot parse.
+    const elsewhere = await api.app.inject({
+      method: 'POST',
+      url: `/orgs/${orgId}/rename`,
+      headers: { ...carol.headers, 'content-type': 'application/x-www-form-urlencoded' },
+      payload: 'name=Form',
+    });
+    expect(elsewhere.statusCode).toBe(415);
     expect(await asMigrator(db, 'SELECT 1 FROM app.admin_scopes WHERE org_id = $1', [orgId])).toEqual([]);
     expect(await asMigrator(db, 'SELECT 1 FROM app.platform_grants WHERE user_id = ANY($1::uuid[])', [[CAROL.userId, DAVE.userId, ERIN.userId]])).toEqual([]);
   });
