@@ -149,6 +149,26 @@ async function accept(page: Page, orgId: string, orgName: string, locale: Locale
   await expect(page.getByTestId('org-name')).toHaveText(orgName);
 }
 
+/**
+ * Starts collecting the Referer of every request `page` sends; the returned
+ * function resolves to them once every request seen so far has reported its
+ * headers. R7 and R9 (rev 3): a Referer may carry an origin, never a path or a
+ * query — so never the invitation token, whether in the accept page's own query
+ * or inside the sign-in page's `next`.
+ */
+function watchReferers(page: Page): () => Promise<string[]> {
+  const pending: Array<Promise<string | undefined>> = [];
+  page.on('request', (request) => {
+    pending.push(
+      request
+        .allHeaders()
+        .then((headers) => headers['referer'])
+        .catch(() => undefined),
+    );
+  });
+  return async () => (await Promise.all(pending)).filter((referer): referer is string => referer !== undefined);
+}
+
 /** The row of `userId` in the org page's members table. */
 const memberRow = (page: Page, userId: string): Locator =>
   page.getByTestId('org-members-table').locator(`[data-member-id="${userId}"]`);
@@ -522,10 +542,23 @@ test.describe('M2-AC03 organisations: one person in two workspaces, and every re
     });
     expect(JSON.stringify(denied).includes(invitation.token), 'the denial row carries no token').toBe(false);
 
+    // Carol, signed out, opens the link: the sign-in detour carries it in `next`, the accept
+    // page in its query. No request from either page says more than the origin in its Referer.
     const carol = await openDevice('carol');
+    const referers = watchReferers(carol.page);
     await signInTo(carol.page, 'carol', invitation.acceptUrl);
     await accept(carol.page, orgC, nameC);
     expect((await membershipOf(orgC, CAROL.id))?.grant_basis).toBe('invitation');
+    const sent = await referers();
+    const fromThisBuild = sent.filter((referer) => new URL(referer).origin === HEALTHY_WEB_ORIGIN);
+    expect(fromThisBuild.length, 'the pages sent requests with a Referer').toBeGreaterThan(0);
+    for (const referer of sent) {
+      expect(referer.includes(invitation.token), 'no Referer carries the invitation token').toBe(false);
+    }
+    for (const referer of fromThisBuild) {
+      const url = new URL(referer);
+      expect(`${url.pathname}${url.search}`, 'a Referer from this build is its origin only').toBe('/');
+    }
   });
 
   test('M2-AC03/1 simulated not allow-listed: Mallory holds a link but cannot sign in, so no membership is written', async ({

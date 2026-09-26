@@ -32,6 +32,11 @@ import { ROLE_STYLE, StateBadge, styleOf } from '../../state-badge';
 export const dynamic = 'force-dynamic';
 
 // The token is in this page's URL, so no request from here may carry it in a Referer (R7).
+// What guarantees it is the `Referrer-Policy: strict-origin` header `proxy.ts` sends on
+// every internal response, in force before the HTML is parsed (R9 rev 3). This
+// `metadata` states the same policy for the document, but a `<meta>` applies only once
+// parsed, and Next emits it after the page's own `<script src>` tags, so on its own it
+// came too late for the page's first chunk requests.
 //
 // `strict-origin`, not the `no-referrer` R9 names: under `no-referrer` the Fetch
 // standard serialises the `Origin` of a non-GET request as `null` ("append a

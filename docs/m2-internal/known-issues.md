@@ -294,7 +294,12 @@ ticket are hand-offs, not defects.
   page-scoped httpOnly cookie for ten minutes (never the admin's URL, history or Referer); the accept
   URL the admin hands over, and therefore the invitee's browser history, the sign-in `next` value
   and the `wringy-auth-next` cookie; never an API path, an API log line or the database (only its
-  sha256). Under `next dev` the request logger would print the accept URL, so `next.config.ts`
+  sha256). Never a Referer beyond the origin: every internal response sends
+  `Referrer-Policy: strict-origin` as a header (rev 3). Until the W4 fix wave only the pages'
+  `<meta>` said so, which a browser applies after it has parsed it — so the accept page's first
+  same-origin chunk requests, and every request of the sign-in page reached with the link as `next`,
+  carried the full URL in their Referer (same-origin only; the address match still made a leaked
+  link grant nothing). Under `next dev` the request logger would print the accept URL, so `next.config.ts`
   ignores `token=` URLs; `next start` (the internal suite, staging) logs no requests. The controls
   that make a leaked link harmless are the address match, single use and the expiry.
 - **The runtime role can no longer read the audit log.** `0016` revokes `SELECT` on `app.audit_log`

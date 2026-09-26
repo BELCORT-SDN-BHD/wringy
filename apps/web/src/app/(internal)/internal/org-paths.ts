@@ -14,7 +14,12 @@ export const INTERNAL_PATH = '/internal';
 /** The Route Handler that ends a refused session; a page or a 303 cannot write that cookie itself. */
 export const END_SESSION_PATH = '/auth/end-session';
 
-/** The accept page. The token rides in its query, which is why the page sends no Referer. */
+/**
+ * The accept page. The token rides in its query, which is why every internal
+ * response carries `Referrer-Policy: strict-origin` (`proxy.ts`) and the page's
+ * own metadata says the same: a Referer from it names the origin only, never the
+ * path or the query.
+ */
 export const ACCEPT_PATH = '/internal/invitations/accept';
 
 /** The Accept form's target: one segment below the page, because a `route.ts` cannot share a page's segment. */
