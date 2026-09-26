@@ -280,6 +280,13 @@ ticket are hand-offs, not defects.
   passes the allow-list inside the window can accept; an admin revokes a pending invitation when an
   address is retired. The link itself grants nothing to another address (`invitation.email_mismatch`,
   proven end to end by the wrong-recipient row).
+- **A pending invitation outlives its inviter's standing, but no longer admits anybody (R7 rev 3).**
+  An invitation acts on the authority of the admin who sent it, and that authority is re-checked
+  when the link is used: once the inviter is removed, leaves, is demoted or is disabled, preview and
+  accept answer 403 `invitation.invalid` (reason `inviter_not_admin`) and nobody is admitted. Remove,
+  leave and demote do not revoke that person's pending invitations (a cascade would be new scope), so
+  they stay in the org's pending list, inert, until an admin revokes them or they expire. The list
+  does not name who sent each one; an operator can, from `app.org_invitations.invited_by`.
 - **An invitation does not bypass the allow-list (R17).** The link holder must be able to sign in to
   this build at all; a not-listed holder gets the neutral sign-in refusal and no membership is
   written (Mallory's row).

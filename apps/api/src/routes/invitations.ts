@@ -16,6 +16,7 @@ import { InvalidEmailError, normalizeEmail, type Pool } from '@wringy/db';
 
 import { actorOf, VARY_AUTHORIZATION, type Actor } from '../authenticate';
 import {
+  isActiveAdmin,
   lockOrgRow,
   readMembershipUnderLock,
   Refused,
@@ -74,6 +75,13 @@ function verifiedEmailNorm(actor: Actor): string | null {
  * The database keeps its sha256. The control that makes a leaked or mis-delivered
  * link grant nothing is the verified address: preview shows the invitation only
  * to the addressed person, and accept refuses anybody else.
+ *
+ * An invitation acts on the authority of the admin who sent it, so that
+ * authority is re-checked when the link is used (M2-AC03/2 "每次读写重核实际成员、
+ * 组织和能力"; R7 rev 3): once the inviter is no longer an active admin whose
+ * profile is active — removed, left, demoted or disabled — a pending invitation of
+ * theirs is 403 `invitation.invalid` (reason `inviter_not_admin`) at preview and
+ * at accept, and admits nobody.
  */
 export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = async (app, { pool, liveness }) => {
   const deps: CommandDeps = { pool, liveness };
@@ -218,8 +226,9 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
   /**
    * `POST /invitations/preview` (any signed-in person; a read). The address is
    * checked **first**: to anybody but the addressed person the answer is
-   * `{ state: 'email_mismatch' }` and nothing else. An unknown or revoked token is
-   * 403 `invitation.invalid`, the answer accept gives, and audited.
+   * `{ state: 'email_mismatch' }` and nothing else. An unknown or revoked token,
+   * and a pending one whose inviter is no longer an active admin, is 403
+   * `invitation.invalid`, the answer accept gives, and audited.
    */
   app.post(
     '/invitations/preview',
@@ -253,12 +262,15 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
           const invitation = await readForPreview(client, tokenHash);
           if (invitation === null) throw new Refused(403, 'invitation.invalid', 'unknown_token');
           if (invitation.inviteeEmailNorm !== emailNorm) return { state: 'email_mismatch' };
-          if (invitation.status === 'revoked') {
-            throw new Refused(403, 'invitation.invalid', 'revoked', {
-              contextOrgId: invitation.orgId,
-              targetType: 'org_invitation',
-              targetId: invitation.id,
-            });
+          const about: AuditDetail = { contextOrgId: invitation.orgId, targetType: 'org_invitation', targetId: invitation.id };
+          if (invitation.status === 'revoked') throw new Refused(403, 'invitation.invalid', 'revoked', about);
+          // A link that could still be accepted is judged as accept will judge it: on its inviter's standing now.
+          if (
+            invitation.status === 'pending' &&
+            !invitation.expired &&
+            !(await isActiveAdmin(client, invitation.orgId, invitation.invitedBy))
+          ) {
+            throw new Refused(403, 'invitation.invalid', 'inviter_not_admin', about);
           }
           return {
             state: invitation.status === 'accepted' ? 'accepted' : invitation.expired ? 'expired' : 'pending',
@@ -278,7 +290,8 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
    * invitation for its org, the org lock, then the invitation `FOR UPDATE` and
    * its state, in the order R7 fixes: unknown or revoked → `invitation.invalid`;
    * accepted → `invitation.used`; expired → `invitation.expired`; another address
-   * → `invitation.email_mismatch`; the caller already an active member → the
+   * → `invitation.email_mismatch`; an inviter who is no longer an active admin →
+   * `invitation.invalid` (rev 3); the caller already an active member → the
    * invitation is closed (revoked by the caller, so nothing stays pending that
    * could re-admit them after a later removal) and 409
    * `invitation.already_member`; otherwise the membership is written (or a
@@ -331,6 +344,10 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
           if (invitation.expired) throw new Refused(403, 'invitation.expired', 'expired', about);
           if (invitation.inviteeEmailNorm !== emailNorm) {
             throw new Refused(403, 'invitation.email_mismatch', 'email_mismatch', about);
+          }
+          // The invitation acts on its inviter's authority, re-checked now, under the org lock (R7 rev 3).
+          if (!(await isActiveAdmin(client, invitation.orgId, invitation.invitedBy))) {
+            throw new Refused(403, 'invitation.invalid', 'inviter_not_admin', about);
           }
 
           const closeAsMember = async (): Promise<Accepted> => {

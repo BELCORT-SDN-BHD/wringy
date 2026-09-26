@@ -32,7 +32,9 @@
  *    the write and its audit row, in the caller's `work`.
  *
  * Accepting an invitation (`routes/invitations.ts`) learns the org from the
- * invitation and follows the same order from step 4 on.
+ * invitation and follows the same order from step 4 on; under the org lock it
+ * also re-checks that the admin who sent the invitation still is one
+ * (`isActiveAdmin`), because the invitation acts on that admin's authority.
  *
  * A refusal anywhere throws `Refused`; the transaction rolls back, and the catch
  * here writes the denial row with `auditDenial` (a fresh client, after the
@@ -140,6 +142,25 @@ export async function countActiveAdmins(client: Queryable, orgId: string, except
     [orgId, exceptUserId ?? null],
   );
   return rows[0]?.admins ?? 0;
+}
+
+/**
+ * Whether `userId` is an active admin of `orgId` whose **profile is active** â€”
+ * the same standing `countActiveAdmins` counts. An invitation is sent on its
+ * inviter's authority, so accept and preview ask this of `invited_by` at the
+ * moment the link is used (R7 rev 3): once the inviter is removed, has left, has
+ * been demoted or has been disabled, their pending invitations admit nobody.
+ * Under the org lock (accept) a plain read is enough, as for step 5.
+ */
+export async function isActiveAdmin(client: Queryable, orgId: string, userId: string): Promise<boolean> {
+  const { rows } = await client.query(
+    `SELECT 1
+       FROM app.org_members m
+       JOIN app.profiles p ON p.id = m.user_id AND p.status = 'active'
+      WHERE m.org_id = $1 AND m.user_id = $2 AND m.status = 'active' AND m.role = 'admin'`,
+    [orgId, userId],
+  );
+  return rows.length === 1;
 }
 
 /** The org capabilities `userId` holds on `orgId` (`app.admin_scopes`, written only by `pnpm db:grant`). */

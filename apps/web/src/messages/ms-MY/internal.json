@@ -254,7 +254,7 @@
       },
       "invalid": {
         "title": "Pautan jemputan ini tidak sah",
-        "description": "Ia mungkin telah dibatalkan, atau pautan tidak disalin sepenuhnya. Minta pentadbir yang menghantarnya untuk jemputan baharu."
+        "description": "Ia mungkin telah dibatalkan, orang yang menghantarnya mungkin bukan lagi pentadbir, atau pautan tidak disalin sepenuhnya. Minta pentadbir organisasi itu untuk jemputan baharu."
       }
     }
   },
@@ -278,7 +278,7 @@
     "session_ended": "Sesi anda telah tamat, jadi tiada apa-apa diubah. Masuk semula dan cuba lagi.",
     "unavailable": "Pangkalan data tidak tersedia sekarang, jadi tiada apa-apa diubah. Sila cuba lagi.",
     "unexpected": "Sesuatu telah tersilap dan tiada apa-apa diubah. Sila cuba lagi.",
-    "invitation_invalid": "Pautan jemputan itu tidak sah, jadi anda tidak ditambah. Minta pentadbir yang menghantarnya untuk jemputan baharu.",
+    "invitation_invalid": "Pautan jemputan itu tidak sah, jadi anda tidak ditambah. Minta pentadbir organisasi itu untuk jemputan baharu.",
     "invitation_expired": "Jemputan itu telah tamat tempoh, jadi anda tidak ditambah. Minta pentadbir untuk jemputan baharu.",
     "invitation_used": "Jemputan itu telah digunakan, jadi tiada apa-apa diubah.",
     "invitation_mismatch": "Jemputan itu dihantar kepada alamat lain, jadi anda tidak ditambah."

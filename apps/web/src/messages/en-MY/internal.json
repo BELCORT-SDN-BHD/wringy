@@ -254,7 +254,7 @@
       },
       "invalid": {
         "title": "This invitation link is not valid",
-        "description": "It may have been revoked, or the link was not copied completely. Ask the admin who sent it for a new one."
+        "description": "It may have been revoked, the person who sent it may no longer be an admin, or the link was not copied completely. Ask an admin of the organisation for a new one."
       }
     }
   },
@@ -278,7 +278,7 @@
     "session_ended": "Your session ended, so nothing was changed. Sign in again and retry.",
     "unavailable": "The database is unavailable right now, so nothing was changed. Please try again.",
     "unexpected": "Something went wrong and nothing was changed. Please try again.",
-    "invitation_invalid": "That invitation link is not valid, so you were not added. Ask the admin who sent it for a new one.",
+    "invitation_invalid": "That invitation link is not valid, so you were not added. Ask an admin of the organisation for a new one.",
     "invitation_expired": "That invitation has expired, so you were not added. Ask an admin for a new one.",
     "invitation_used": "That invitation has already been used, so nothing was changed.",
     "invitation_mismatch": "That invitation was sent to a different address, so you were not added."

@@ -299,6 +299,53 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
     expect(allowed).toMatchObject({ target_id: invitationId, summary: { before: { status: 'pending' }, after: { status: 'revoked' } } });
   });
 
+  it('M2-AC03/2 an invitation acts on its inviter’s authority: once the inviting admin is removed, demoted or disabled, the link is 403 invitation.invalid at preview and at accept, audited, and admits nobody', async () => {
+    // Removed: Dave joins Carol's org as a second admin and invites Frank as an admin; then Carol removes Dave.
+    const removedOrg = await createOrgAs(api, carol, 'Inviter Removed');
+    await asOrgMember(api, carol, removedOrg, dave, 'admin');
+    const fromRemoved = await inviteAs(api, dave, removedOrg, FRANK.email, 'admin');
+    expect((await post(carol.headers, `/orgs/${removedOrg}/members/${DAVE.userId}/remove`)).statusCode).toBe(200);
+
+    // Demoted: the same, with Dave made a member instead.
+    const demotedOrg = await createOrgAs(api, carol, 'Inviter Demoted');
+    await asOrgMember(api, carol, demotedOrg, dave, 'admin');
+    const fromDemoted = await inviteAs(api, dave, demotedOrg, FRANK.email, 'admin');
+    expect((await post(carol.headers, `/orgs/${demotedOrg}/members/${DAVE.userId}/role`, { role: 'member' })).statusCode).toBe(200);
+
+    // Disabled: Dave's own org, his account disabled by an operator after he sent the link.
+    const disabledOrg = await createOrgAs(api, dave, 'Inviter Disabled');
+    const fromDisabled = await inviteAs(api, dave, disabledOrg, FRANK.email, 'admin');
+    await asMigrator(db, `UPDATE app.profiles SET status = 'disabled' WHERE id = $1`, [DAVE.userId]);
+    try {
+      for (const [orgId, { invitationId, token }] of [
+        [removedOrg, fromRemoved],
+        [demotedOrg, fromDemoted],
+        [disabledOrg, fromDisabled],
+      ] as const) {
+        for (const response of [await preview(frank, token), await accept(frank, token)]) {
+          expect(response.statusCode, orgId).toBe(403);
+          expect(response.json(), orgId).toEqual(errorBody('invitation.invalid'));
+        }
+        // Nobody was admitted, and the invitation is still there for an admin to revoke.
+        expect(await memberRow(orgId, FRANK.userId), orgId).toBeUndefined();
+        expect(await invitationRow(invitationId), orgId).toMatchObject({ status: 'pending' });
+        const denials = await auditRows(db, { contextOrgId: orgId, actorUserId: FRANK.userId, outcome: 'denied' });
+        expect(denials.map((row) => [row.action, row.denial_code, row.reason, row.target_id]), orgId).toEqual([
+          ['invitation.preview', 'invitation.invalid', 'inviter_not_admin', invitationId],
+          ['invitation.accept', 'invitation.invalid', 'inviter_not_admin', invitationId],
+        ]);
+      }
+    } finally {
+      await asMigrator(db, `UPDATE app.profiles SET status = 'active' WHERE id = $1`, [DAVE.userId]);
+    }
+    // Carol is still the only admin of the orgs Dave was taken out of.
+    for (const orgId of [removedOrg, demotedOrg]) {
+      expect(await asMigrator(db, `SELECT user_id FROM app.org_members WHERE org_id = $1 AND status = 'active' AND role = 'admin'`, [orgId])).toEqual([
+        { user_id: CAROL.userId },
+      ]);
+    }
+  });
+
   it('M2-AC03/1 an existing member who accepts closes the invitation (revoked by themselves) and gets 409 invitation.already_member with exactly one denial row', async () => {
     const orgId = await createOrgAs(api, carol, 'Already In');
     await asOrgMember(api, carol, orgId, dave);
