@@ -87,6 +87,8 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
   let orgI = '';
   /** Every invitation token this file has seen, for the leak scan. */
   const tokens: string[] = [];
+  /** Every bearer token this file mints besides the people's own (the expired one of the R12 table), for the leak scan. */
+  const extraBearers: string[] = [];
 
   beforeAll(async () => {
     db = await createTestDatabase();
@@ -278,6 +280,7 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
       rows: 0,
       arrange: async () => {
         const expired = await identity.signToken({ sub: CAROL.userId, sessionId: CAROL.sessionId, email: CAROL.email, expiresIn: -60 });
+        extraBearers.push(expired);
         return () => inject(api, 'POST', `/orgs/${orgT}/rename`, bearer(expired), { name: 'Expired' });
       },
     },
@@ -419,6 +422,7 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
     const people = [carol, dave, erin, frank, ivy, jack, henry];
     const secrets = [
       ...tokens,
+      ...extraBearers,
       ...people.map((who) => who.token),
       ...people.map((who) => who.sessionId),
       ...people.map((who) => who.contactEmail),
@@ -428,6 +432,8 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
       'never.invited@example.test',
     ];
     expect(tokens.length).toBeGreaterThanOrEqual(10);
+    // Every bearer token the file signed is scanned for, the expired one of the R12 table included.
+    expect(extraBearers).toHaveLength(1);
 
     const rows = await asMigrator<{ row: string }>(db, 'SELECT row_to_json(a)::text AS row FROM app.audit_log a');
     expect(rows.length).toBeGreaterThan(20);

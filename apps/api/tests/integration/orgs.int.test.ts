@@ -463,7 +463,7 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
     }
   });
 
-  it('M2-AC03/1 GET /me/workspaces lists the personal context, active memberships by name and the grants; a removal drops the org and a revoked, then re-granted capability shows on the next request', async () => {
+  it('M2-AC03/2 M2-AC03/1 GET /me/workspaces lists the personal context, active memberships by name and the grants; a removal drops the org and a revoked, then re-granted capability shows on the next request', async () => {
     const zeta = await createOrgAs(api, grace, 'Zeta Works');
     const alpha = await createOrgAs(api, dave, 'Alpha Shop');
     await asOrgMember(api, dave, alpha, grace);
