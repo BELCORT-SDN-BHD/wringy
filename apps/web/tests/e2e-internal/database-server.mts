@@ -13,12 +13,16 @@
  *    as the migrator and marked environment `ci`;
  * 2. a fresh clone of the template, seeded with the fixture campaigns as
  *    `pnpm db:seed:fixtures` does;
- * 3. the two allowed testers on `app.sign_in_allowlist`, through the same
+ * 3. the allow-listed testers on `app.sign_in_allowlist` (every fake user
+ *    whose `allowlisted` is true, fake-auth/users.ts), through the same
  *    `addAllowlistEntry` the audited CLI uses (M2-02 R5). This happens HERE
  *    rather than in globalSetup because the api starts before globalSetup runs,
- *    and `POST /identity/sign-in` reads that table on the first sign-in. The
- *    third fake identity (Mallory) is deliberately left off it: she is the row
- *    that proves 403 `sign_in.not_allowed`.
+ *    and `POST /identity/sign-in` reads that table on the first sign-in. Mallory
+ *    is deliberately left off it: she is the row that proves 403
+ *    `sign_in.not_allowed`. Since M2-03 (R6) each add also writes an
+ *    `allowlist.add` row to `app.audit_log`, so the suite's database starts with
+ *    those rows and a spec filters audit rows by `action`, `context_org_id` or
+ *    `actor_user_id`, never by a total count.
  *
  * It then prints one line that Playwright's `wait.stdout` matches; the named
  * groups become WRINGY_E2E_PG_HOST, WRINGY_E2E_PG_PORT, WRINGY_E2E_PG_DATABASE
