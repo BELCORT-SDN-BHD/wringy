@@ -147,7 +147,7 @@ export async function countActiveAdmins(client: Queryable, orgId: string, except
 }
 
 /**
- * Whether `userId` is an active admin of `orgId` whose **profile is active** â€”
+ * Whether `userId` is an active admin of `orgId` whose **profile is active** —
  * the same standing `countActiveAdmins` counts. An invitation is sent on its
  * inviter's authority, so accept and preview ask this of `invited_by` at the
  * moment the link is used (R7 rev 3): once the inviter is removed, has left, has
