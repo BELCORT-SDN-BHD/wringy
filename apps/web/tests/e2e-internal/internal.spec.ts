@@ -5,11 +5,21 @@
  * real PostgreSQL 17 database migrated from zero and seeded with the fixture
  * campaigns; the real worker beats into it. Nothing is mocked.
  *
+ * Since M2-02 every one of these pages is private: signed out, `proxy.ts`
+ * answers 307 to `/internal/sign-in`. So each test starts from the `signedIn`
+ * fixture (tests/e2e-internal/fixtures.ts), which walks the real sign-in flow
+ * against the **simulated** identity provider — the one thing in this suite
+ * that is not the real vendor. The M2-AC01 claims themselves are unchanged: what
+ * the page shows still comes from the API and the database, and the identity only
+ * decides whether the page may be read at all.
+ *
  * Runs in the `mobile` (390), `desktop` (1440) and `small` (320) projects.
  * Titles carry `M2-AC01/2` where they prove that sub-item: the
  * page → Fastify → PostgreSQL read.
  */
-import { expect, test, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
+
+import { expect, test } from './fixtures';
 
 import {
   COPY,
@@ -55,10 +65,13 @@ async function arrangeWorker(
 test.describe('M2-AC01 internal build: /internal on the real API, worker and database', () => {
   for (const locale of LOCALES) {
     test(`M2-AC01/2 cold start: /internal lists the three seeded fixture campaigns read through Fastify from PostgreSQL (${locale})`, async ({
-      page,
+      signedIn,
       baseURL,
     }) => {
+      const { page } = signedIn;
       const problems = watchConsole(page);
+      // The locale cookie is set after sign-in and before the read under test,
+      // so the sign-in itself does not have to happen three times per locale.
       await setLocaleCookie(page, locale, baseURL);
       await openInternal(page);
 
@@ -96,9 +109,10 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
   }
 
   test('M2-AC01/2 worker health: the running worker reports healthy within 30 s and the queue round trip becomes ok or is shown as unknown, never 0', async ({
-    page,
+    signedIn,
     baseURL,
   }, testInfo) => {
+    const { page } = signedIn;
     await setLocaleCookie(page, 'en-MY', baseURL);
     const card = page.locator(`[data-worker-id="${E2E_WORKER_ID}"]`);
 
@@ -140,7 +154,8 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
     }
   });
 
-  test('M2-AC01 a worker whose beat is overdue shows stale', async ({ page, baseURL }, testInfo) => {
+  test('M2-AC01 a worker whose beat is overdue shows stale', async ({ signedIn, baseURL }, testInfo) => {
+    const { page } = signedIn;
     const workerId = `e2e-stale-${testInfo.project.name}`;
     await arrangeWorker(workerId, { lastBeatAgo: '2 minutes', roundTripAgo: '5 minutes' });
 
@@ -161,7 +176,8 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
     }
   });
 
-  test('M2-AC01 a worker that recorded a clean stop shows stopped', async ({ page, baseURL }, testInfo) => {
+  test('M2-AC01 a worker that recorded a clean stop shows stopped', async ({ signedIn, baseURL }, testInfo) => {
+    const { page } = signedIn;
     const workerId = `e2e-stopped-${testInfo.project.name}`;
     await arrangeWorker(workerId, { lastBeatAgo: '60 seconds', stoppedAgo: '50 seconds' });
 
@@ -177,7 +193,8 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
     await expect(card.locator('[data-field="last-round-trip"]')).toHaveText(COPY['zh-Hans-MY'].unknown);
   });
 
-  test('M2-AC01 /internal never mounts the demo store', async ({ page, baseURL }) => {
+  test('M2-AC01 /internal never mounts the demo store', async ({ signedIn, baseURL }) => {
+    const { page } = signedIn;
     const problems = watchConsole(page);
     await setLocaleCookie(page, 'en-MY', baseURL);
     await openInternal(page);
@@ -192,10 +209,11 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
   });
 
   test('M2-AC01 /internal at 320 px has no horizontal scroll and the campaigns and worker card are reachable', async ({
-    page,
+    signedIn,
     baseURL,
   }, testInfo) => {
     test.skip(testInfo.project.name !== 'small', 'the 320 px spot check runs in the small project');
+    const { page } = signedIn;
 
     for (const locale of LOCALES) {
       await setLocaleCookie(page, locale, baseURL);
@@ -227,9 +245,10 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
   });
 
   test('M2-AC01 an unmatched /internal path renders the internal not-found inside the internal layout', async ({
-    page,
+    signedIn,
     baseURL,
   }, testInfo) => {
+    const { page } = signedIn;
     const problems = watchConsole(page);
     await setLocaleCookie(page, 'ms-MY', baseURL);
     const response = await page.goto('/internal/no-such-page');
@@ -249,20 +268,32 @@ test.describe('M2-AC01 internal build: /internal on the real API, worker and dat
     expect(problems.filter((problem) => !problem.includes('404'))).toEqual([]);
   });
 
-  test('M2-AC01 an unmatched URL outside /internal renders the not-found page inside the demo root layout', async ({
-    page,
+  // RETITLED in M2-02 (was "… renders the not-found page inside the demo root
+  // layout"). The behaviour it asserted was the M1 one: in demo mode the root
+  // layout wraps every unmatched path, demo toolbar included. In internal mode
+  // `proxy.ts` rewrites every path outside /internal, /internal/… and /auth/…
+  // to the internal not-found page (M2-02 R12), so the demo root layout is
+  // exactly what must NOT appear on this origin. The change is recorded in the
+  // M2 evidence; the sub-item it proves is unchanged.
+  test('M2-AC01 an unmatched URL outside /internal renders the internal not-found page, never the demo root layout', async ({
+    signedIn,
     baseURL,
   }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'one viewport is enough for the routing check');
+    const { page } = signedIn;
     await setLocaleCookie(page, 'en-MY', baseURL);
     const response = await page.goto('/no-such-page');
     expect(response?.status()).toBe(404);
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en-MY');
-    await expect(page.getByText('This page could not be found.')).toBeVisible();
     expect(await page.evaluate(() => document.styleSheets.length)).toBeGreaterThan(0);
-    await expect(page.locator('[data-app-banner="internal-build"]')).toHaveCount(0);
-    // The demo root layout is the one around it: its demo tools are mounted.
-    await expect(page.getByTestId('demo-toolbar-trigger')).toBeVisible();
+    await expect(page.locator('[data-app-banner="internal-build"]')).toHaveText(BANNER);
+    const notFound = page.locator('[data-app-state="not-found"]');
+    await expect(notFound).toContainText('Page not found');
+    await expect(notFound.getByRole('link', { name: 'Back to the internal build' })).toHaveAttribute('href', '/internal');
+    // Nothing of the demo reaches this origin.
+    await expect(page.getByTestId('demo-toolbar-trigger')).toHaveCount(0);
+    await expect(page.getByText('This page could not be found.')).toHaveCount(0);
+    expect(await page.evaluate((key) => window.localStorage.getItem(key), DEMO_STORAGE_KEY)).toBeNull();
   });
 });

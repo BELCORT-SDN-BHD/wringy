@@ -4,8 +4,10 @@
  *
  * `startTestCluster()` gives a real PostgreSQL 17 cluster with the Wringy roles
  * bootstrapped and a template database migrated from zero as the migrator (the
- * pg-boss schema, then every versioned SQL migration: never a hand-kept dump)
- * and marked as environment TEST_WRINGY_ENV (`ci`, which allows fixtures):
+ * pg-boss schema, then every versioned SQL migration: never a hand-kept dump),
+ * marked as environment TEST_WRINGY_ENV (`ci`, which allows fixtures) and given
+ * the platform bootstrap (the stub `auth.sessions` and `platform.session_is_live`
+ * owned by the non-superuser `wringy_platform_admin`, M2-02 R3):
  *
  * - TEST_DATABASE_URL (an admin URL, e.g. CI's postgres:17 service) when set;
  * - otherwise a throwaway embedded PostgreSQL 17 on a free port in a temporary
@@ -53,6 +55,7 @@ import { setEnvironment, type EnvironmentMarker } from '../src/environment';
 import { seedFixtures as applyFixtureSeed, type SeedFixturesResult } from '../src/fixtures';
 import { LOCAL_PASSWORDS, postgresUrl } from '../src/local-dev';
 import { migrateDatabase } from '../src/migrate';
+import { adminUrlForDatabase, installPlatform } from '../src/platform';
 import { ROLES } from '../src/roles';
 import { loginUrlsAt, withClientAt, type LoginUrls } from './connect';
 import { TEST_WRINGY_ENV } from './test-env';
@@ -133,6 +136,20 @@ async function startEmbedded(): Promise<{ adminUrl: string; stop: () => Promise<
 /** Runs `fn` with a short-lived admin connection to the cluster's `postgres` database. */
 export function withAdminAt<T>(cluster: ClusterInfo, fn: (admin: pg.Client) => Promise<T>): Promise<T> {
   return withClientAt(cluster.adminUrl, fn);
+}
+
+/**
+ * Runs `fn` with a short-lived cluster-admin connection to `database` in the
+ * test cluster. The stub `auth.sessions` is owned by the cluster admin and
+ * granted to nobody (M2-02 R3), so this is the only way a test writes a session
+ * row; product code never has such a connection.
+ */
+export function withDatabaseAdminAt<T>(
+  cluster: ClusterInfo,
+  database: string,
+  fn: (admin: pg.Client) => Promise<T>,
+): Promise<T> {
+  return withClientAt(adminUrlForDatabase(cluster.adminUrl, database), fn);
 }
 
 /** A URL for `user` on `database` in the test cluster. */
@@ -294,30 +311,63 @@ export async function assertThrowawayCluster(adminUrl: string): Promise<void> {
 const BOOTSTRAP_LOCK = 'wringy-test-cluster-bootstrap';
 
 /**
- * The login roles and groups as `pnpm db:bootstrap` makes them, with the fixed
- * local development passwords, so pointing TEST_DATABASE_URL at the
- * `pnpm db:start` cluster leaves a working local .env untouched.
+ * Holds the cluster-wide bootstrap lock while `fn` runs.
  *
  * Roles are cluster-wide, and test runs can share one cluster: CI points every
  * suite at one postgres:17 service, and `pnpm test:int` runs the apps/api and
  * apps/worker suites at the same time. Two sessions altering or granting the
  * same role at once fail with "tuple concurrently updated" (XX000; seen in
- * `pnpm test:int` against one cluster on 2026-09-23), so the bootstrap holds a
- * session advisory lock. Every admin connection opens the same database (the
- * admin URL's), which is what an advisory lock is scoped to.
+ * `pnpm test:int` against one cluster on 2026-09-23). The lock is taken on the
+ * admin URL's own database, which is what an advisory lock is scoped to, so
+ * every caller must use this one connection point even when the work it
+ * serialises happens in another database.
  */
-export async function bootstrapTestRoles(cluster: ClusterInfo): Promise<void> {
-  await withAdminAt(cluster, async (admin) => {
+async function withBootstrapLock<T>(cluster: ClusterInfo, fn: () => Promise<T>): Promise<T> {
+  return withAdminAt(cluster, async (admin) => {
     await admin.query('SELECT pg_advisory_lock(hashtext($1))', [BOOTSTRAP_LOCK]);
     try {
-      await ensureRoles(admin, cluster.passwords);
+      return await fn();
     } finally {
       await admin.query('SELECT pg_advisory_unlock(hashtext($1))', [BOOTSTRAP_LOCK]);
     }
   });
 }
 
-/** Roles as `pnpm db:bootstrap` makes them, then the template migrated from zero and marked, as the migrator. */
+/**
+ * The login roles and groups as `pnpm db:bootstrap` makes them, with the fixed
+ * local development passwords, so pointing TEST_DATABASE_URL at the
+ * `pnpm db:start` cluster leaves a working local .env untouched. Serialised
+ * across runs sharing a cluster (see withBootstrapLock).
+ */
+export async function bootstrapTestRoles(cluster: ClusterInfo): Promise<void> {
+  await withBootstrapLock(cluster, () => withAdminAt(cluster, (admin) => ensureRoles(admin, cluster.passwords)));
+}
+
+/**
+ * The platform bootstrap on `database`, exactly as
+ * `pnpm db:platform-bootstrap --stub-auth` runs it: the stub
+ * `auth.sessions(id, user_id, not_after)` owned by the cluster admin and granted
+ * to nobody, then `platform.session_is_live` owned by the non-superuser
+ * `wringy_platform_admin` with EXECUTE for `wringy_api` only (M2-02 R3).
+ *
+ * `wringy_platform_admin` is a cluster-wide role, so this shares the advisory
+ * lock `bootstrapTestRoles` takes; `installPlatform` creates the role only when
+ * it is absent and is idempotent, so a second run changes nothing.
+ */
+export async function bootstrapTestPlatform(cluster: ClusterInfo, database: string): Promise<void> {
+  await withBootstrapLock(cluster, () =>
+    withDatabaseAdminAt(cluster, database, (admin) =>
+      installPlatform(admin, { databaseName: database, stubAuth: true }),
+    ),
+  );
+}
+
+/**
+ * Roles as `pnpm db:bootstrap` makes them, then the template migrated from zero
+ * and marked, as the migrator, then the platform bootstrap as the cluster admin.
+ * The clones inherit all of it (CREATE DATABASE ... TEMPLATE copies objects with
+ * their owners and their ACLs).
+ */
 async function prepareTemplate(cluster: ClusterInfo): Promise<void> {
   await bootstrapTestRoles(cluster);
   await withAdminAt(cluster, async (admin) => {
@@ -329,6 +379,7 @@ async function prepareTemplate(cluster: ClusterInfo): Promise<void> {
   await withClientAt(migratorUrl, async (migrator) => {
     await setEnvironment(migrator, TEST_WRINGY_ENV);
   });
+  await bootstrapTestPlatform(cluster, cluster.templateDatabase);
 }
 
 /** Drops every database whose name belongs to this run (clones and the template). */

@@ -1,7 +1,9 @@
-# M2 internal build (M2-01) — known issues and limitations
+# M2 internal build (M2-01, M2-02) — known issues and limitations
 
-What the M2-01 internal build does not do, what it does in a way a reviewer should know about, and
-what is left unverified. **Nothing here changes a business rule.** M2-01 adds no business value
+What the internal build does not do, what it does in a way a reviewer should know about, and
+what is left unverified. The M2-01 sections are as recorded then; the
+[M2-02 section](#m2-02-identity-sessions-and-sign-in) is added by that ticket and is where the
+identity limitations now live. **Nothing here changes a business rule.** M2-01 adds no business value
 anywhere: the fixture campaigns carry a title, a status and a data origin only
 (`packages/db/src/fixtures.ts` L14; `packages/db/migrations/0003_orgs_campaigns.sql` L32–L44), and
 [campaign-defaults-v1](../../phase-0/foundation/campaign-defaults-v1.md) stays the only source of
@@ -18,13 +20,14 @@ cannot prove on this machine or in CI.
 These follow from the M2-01 scope ([m2-01.md](../planning/tickets/m2-01.md), kickoff-package.md §8.3
 and §8.11). Each is listed because a reviewer could otherwise take it for a capability.
 
-- **No identity.** There is no sign-in. Every `/internal/*` API route runs an `authenticate` hook
-  that is a no-op today (`apps/api/src/authenticate.ts` L22, `TODO(M2-02)`; `apps/api/README.md`
-  L39), and the `/internal` page is open to anyone who can reach the web server. M2-02 adds Supabase
-  sign-in (kickoff-package.md §8.11) and M2-03 puts `/internal/*` behind an ops capability
-  (`apps/api/README.md` L42–L44). The API image listens on `0.0.0.0` when `HOST` says so
-  (`apps/api/README.md` L206); nothing is deployed, so nothing is exposed today, but the internal
-  build must not be deployed where others can reach it before M2-02.
+- **No identity — closed by M2-02.** As recorded for M2-01 there was no sign-in: the `authenticate`
+  hook was a no-op and `/internal` was open to anyone who could reach the web server. M2-02 replaced
+  that: `authenticateNoop` is deleted, `buildApp` requires a real hook, every route but `/health` and
+  `/health/live` verifies a Supabase access token, and `/internal` is behind sign-in through
+  `proxy.ts` (R8, R12; `apps/api/README.md` "Authentication"). What is **not** closed is
+  authorisation: passing the allow-list is still the whole decision, and M2-03 puts `/internal/*`
+  behind an ops capability. See the M2-02 section below. The API image still listens on `0.0.0.0`
+  when `HOST` says so (`apps/api/README.md`); nothing is deployed yet.
 - **No writes.** The API serves GET routes only, and its database login holds SELECT and nothing
   else (`packages/db/test/grant-manifest.ts` L55). The only writers are the worker (its heartbeat
   and pg-boss's own tables) and the migrator (schema, environment marker, fixture seed).
@@ -123,6 +126,105 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
   (`beatStatement`, `apps/worker/src/jobs/heartbeat.ts` L45–L48). That takes at most one beat
   interval, 15 s (`HEARTBEAT_INTERVAL_MS`, `packages/db/src/heartbeat.ts` L14). Raised in review
   of PR #82 and judged outside M2-01's scope, which runs one worker per environment.
+
+## M2-02: identity, sessions and sign-in
+
+Recorded 2026-09-26 against branch `feat/m2-02`, after the W5 adversarial review, and extended in W6
+with what the two independent reviews of the integrated tree left accepted (the `__Host-` prefix, the
+refresh deadline, the NFC allow-list key). These are the limitations M2-02 accepts, each with the
+ruling or the reason it is accepted under.
+
+- **A session cookie lives 400 days, whatever Wringy asks for (D14).** `@supabase/ssr` overrides
+  the `maxAge` of every cookie it writes with its own fixed 400 days
+  (`{...DEFAULT, ...cookieOptions, maxAge: DEFAULT.maxAge}`), so `sessionCookieOptions`
+  deliberately sets none — naming it would look like a control that does not exist
+  (`apps/web/src/lib/auth/supabase-server.ts`). Accepted under ruling D14, which takes Supabase's
+  defaults for M2 and has no inactivity time-box. What actually bounds a session is the access
+  token's own 1-hour `exp` and the liveness check on every command (§4.6): a signed-out or revoked
+  session is refused on the next write, not 400 days later. The same override applies to the PKCE
+  verifier cookies, which is why `proxy.ts` decides "this browser had a session" from the session
+  cookie's own name and never from the `sb-` prefix.
+- **A recycled Google address inherits an allow-listed tester's access (R16, §3.7).** Identity is
+  the verified `sub`, and the allow-list is checked once, at first sign-in. If a workspace address
+  is deleted and given to somebody else, that person signs in as a new `sub` and passes the gate
+  while the address is still listed. Accepted for M2: in this build passing the allow-list *is* the
+  authorisation decision, and the exposure is an internal build holding fixture data only. The
+  mitigation is the operator removing the address (`pnpm db:allowlist remove`) and disabling the
+  profile (`app.profiles.status`), which does sign that person out on the next request. M2-03's
+  membership work is where it must be closed.
+- **A JWKS key set that is fetched but names no matching key is the token's fault (R9).** jose
+  raises `ERR_JWKS_NO_MATCHING_KEY` both for a token naming a key the project does not publish
+  (the token's fault, 401) and, more rarely, for a project-side state: a key set served empty, or a
+  key promoted inside jose's 30 s cooldown so the resolver refuses to re-fetch. R9 classifies the
+  code as a refusal in every case, deliberately and after review, so those two states answer 401 to
+  a live session instead of a retryable 503. Narrow in practice — Supabase publishes a standby key
+  before promoting it — and left as ruled; revisiting it means revisiting R9.
+- **Mechanism B holds a database connection across its network call (R2, §4.6).** §4.6 requires
+  every state-changing command to check liveness *inside* its transaction, and `requireLiveSession`
+  is the same code for both adapters. With `SESSION_LIVENESS=auth_server` that means the 3-second
+  `GET /auth/v1/user` happens while the command holds a checked-out pool client, so a slow Auth
+  server can occupy the pool (`max` 10) and make unrelated reads wait, then answer 503
+  `database_unavailable`. The call is bounded at 3 s and fails closed, so it degrades rather than
+  signs anyone out. Changing when the guard runs for Mechanism B would change §4.6 and R2, which is
+  a design decision, not a fix: raised in the M2-02 review and left for the founder.
+- **The allow-list's CHECK is an ASCII guard.** `CHECK (email_norm = lower(email_norm))` uses the
+  cluster's `LC_CTYPE`, and both clusters this repository creates are initdb'd with `--locale=C`,
+  where `lower()` folds ASCII only — so a hand-written row whose non-ASCII letters are upper-case
+  passes here and would be refused on a UTF-8 cluster. The guarantee is therefore the one normal
+  form in `packages/db/src/allowlist.ts`, which lower-cases the whole Unicode range and is used by
+  the CLI and the API on every write and every lookup (migration `0009` says so in its header).
+- **On a demo origin with an API configured, `/internal` shows a failure.** Every `/internal/*` API
+  route is behind the authentication hook now (R8), and in `demo` mode the page sends no token by
+  design (R13), so the API answers 401 and the page renders one `unexpected` state instead of the
+  M2-01 fixture sections. With no `API_INTERNAL_URL` it is `not-configured`, which is what the
+  env-less image smoke asserts. `WRINGY_APP_MODE=internal` plus a sign-in is how those sections are
+  read now (README "启动顺序"; `apps/web/README.md`).
+- **`GET /auth/end-session` applies no Origin rule.** It is a GET reached by a server-side redirect,
+  where §4.5's rule cannot tell Wringy's own navigation from anybody else's (the same reason
+  `/auth/callback` is exempt). What makes that safe is that it takes no parameters and decides
+  nothing: it re-asks `GET /me`, and the single answer that ends a session is `403 account.disabled`
+  — the refusal R4 names, and one that is the correct answer for a cross-site caller too. Every 401
+  leaves the session alone, because a refused token is not a finished session.
+- **A session cookie can be set by a neighbouring host, because it carries no `__Host-` prefix.**
+  `@supabase/ssr` names its cookies `sb-<ref>-auth-token…` and Wringy does not rename them, so on a
+  shared parent domain any host that can set a cookie for that domain can plant one the browser will
+  send to the internal build ("cookie tossing"). What it buys an attacker is a denial of service and a
+  confusing sign-in page, not a session: the planted value is not a session the Auth server issued, so
+  `getClaims()` refuses it and `proxy.ts` sends the visitor to sign in (and, when the value is not even
+  parseable, ends the session and expires every `sb-*` cookie — `proxy.test.ts`, "a getClaims that
+  throws"). It cannot be closed while the build is served from a loopback origin: `__Host-` requires
+  `Secure`, which a browser will not store for `http://127.0.0.1`, and renaming the library's cookies
+  is not an option it offers. It becomes real the day the internal build has a custom domain, which is
+  **M2-09**: either a dedicated host with nothing else on the parent domain, or the cookie names
+  pinned behind `__Host-` if the library ever allows it.
+- **The session refresh has an 8-second overall deadline, and a refresh that finishes after it leaves
+  the browser on the old refresh token.** `SUPABASE_REQUEST_TIMEOUT_MS` (5 s) bounds one call to the
+  Auth server, but `getClaims()` can make two — the JWKS fetch, then
+  `POST /token?grant_type=refresh_token` — so only an overall deadline bounds the page. `proxy.ts`
+  gives it `REFRESH_DEADLINE_MS = 8_000`, hands the same `AbortController` to `boundedFetch`, and on
+  expiry redirects with `outcome=unexpected` (retryable) while applying **no** buffered cookie write.
+  The trade-off is deliberate: if the refresh completes upstream just after the deadline, the Auth
+  server has rotated the refresh token and the browser still holds the old one. Inside GoTrue's 10 s
+  refresh-token reuse interval the next attempt gets the same new session back, which is why 8 s is
+  under it; outside it the session ends and the tester signs in again, with the `session_ended`
+  wording. The alternative — applying a half-finished rotation to the browser — is worse, because it
+  can leave the browser holding a token neither side accepts.
+- **The allow-list key is NFC, so a listed ASCII address never admits a look-alike non-ASCII
+  mailbox — and never will.** `normalizeEmail` composes (the two spellings of `ä` are one key) but does
+  not compatibility-fold, so `a<U+FB01>le@x` and `ali<U+FF43>e@x` are their own addresses rather than
+  `afile@x` and `alice@x` (`packages/db/src/allowlist.ts`; rev 3 of the kickoff code review changed
+  this from NFKC). That is the safe direction — under NFKC two distinct mailboxes would share one
+  allow-list row, so listing one would admit the other and removing one could not remove the other —
+  but it means an operator who pastes a look-alike spelling of a tester's address lists a mailbox
+  nobody has, and that tester is refused with the neutral `not_allowed` page until the row is written
+  in the spelling the provider verifies. `pnpm db:allowlist list` prints the stored key, which is where
+  such a row is visible.
+- **No real Google sign-in has been executed.** Every M2-AC02 row in the evidence record is
+  `simulated` (the local fake Auth server, a locally generated JWKS, or a stubbed liveness port),
+  and each §4.9 `Real` row is recorded `NOT EXECUTED` with its reason
+  ([acceptance-record.md](acceptance-record.md) "M2-AC02"). Simulated results cannot close the
+  ticket (`m2-spec.md` L59); the founder's walk is
+  [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
 
 ## Governance not yet in force
 

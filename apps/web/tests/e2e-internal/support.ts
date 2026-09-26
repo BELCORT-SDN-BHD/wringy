@@ -8,12 +8,15 @@
  * stopped worker row) is the harness's own (`@wringy/db/testing/connect`), as
  * the worker login or the migrator, never the API's.
  */
-import { expect, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+import { expect, type BrowserContext, type Page } from '@playwright/test';
 
 import { loginUrlsAt, withClientAt, type LoginUrls } from '@wringy/db/testing/connect';
 
 import { M2_INTERNAL_EVIDENCE_DIR, evidenceShot } from '../e2e/evidence';
 import { LOCALE_COOKIE } from '../../src/i18n/config';
+import { readStoredAccessToken } from '../../src/lib/auth/supabase-server';
 
 export type Locale = 'en-MY' | 'ms-MY' | 'zh-Hans-MY';
 export const LOCALES: Locale[] = ['en-MY', 'ms-MY', 'zh-Hans-MY'];
@@ -66,6 +69,31 @@ export const COPY: Record<
   },
 };
 
+/**
+ * One localized string from `src/messages/<locale>/internal.json`, by dotted key
+ * (`signIn.outcomes.cancelled.title`).
+ *
+ * It is READ at run time rather than imported, on purpose. The identity slice
+ * owns that file; this suite owns only the key names of the copy contract. So a
+ * row asserts the string the product actually ships in that locale, and a key
+ * that is missing or empty fails naming itself instead of quietly matching an
+ * empty expectation.
+ *
+ * Paths are relative to apps/web, the directory Playwright runs in.
+ */
+export function internalCopy(locale: Locale, key: string): string {
+  const messages: unknown = JSON.parse(readFileSync(`src/messages/${locale}/internal.json`, 'utf8'));
+  let node: unknown = messages;
+  for (const part of key.split('.')) {
+    if (typeof node !== 'object' || node === null) break;
+    node = (node as Record<string, unknown>)[part];
+  }
+  if (typeof node !== 'string' || node.trim() === '') {
+    throw new Error(`src/messages/${locale}/internal.json has no non-empty string at "${key}"`);
+  }
+  return node;
+}
+
 /** The login URLs of the suite's database, from what the database webServer entry announced. */
 export function e2eDatabase(): LoginUrls {
   const host = process.env.WRINGY_E2E_PG_HOST;
@@ -115,4 +143,23 @@ export async function expectNoHorizontalScroll(page: Page): Promise<void> {
     innerWidth: window.innerWidth,
   }));
   expect(scrollWidth, `the page scrolls sideways at ${innerWidth}px`).toBeLessThanOrEqual(innerWidth);
+}
+
+/**
+ * The access token stored in this context's session cookie, read with the
+ * application's own reader (`src/lib/auth/supabase-server.ts`).
+ *
+ * The production reader is reused rather than re-implemented so the row cannot
+ * pass against a format the app does not actually write: it combines the cookie
+ * chunks, undoes the `base64url` prefix and takes `access_token`, all through
+ * `@supabase/ssr`'s own helpers.
+ *
+ * The token is returned to the caller and is never logged, asserted on, or put in
+ * a failure message — a row that needs it sends it and asserts the answer.
+ */
+export async function storedAccessToken(context: BrowserContext, supabaseUrl: string): Promise<string> {
+  const values = new Map((await context.cookies()).map((cookie) => [cookie.name, cookie.value]));
+  const token = await readStoredAccessToken(supabaseUrl, (name) => values.get(name) ?? null);
+  expect(token === null, 'the context should hold a session cookie carrying an access token').toBe(false);
+  return token as string;
 }

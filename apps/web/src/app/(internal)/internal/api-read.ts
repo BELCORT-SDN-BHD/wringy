@@ -13,12 +13,26 @@
  * - `api-unreachable`: the request did not complete (refused, reset, timed out);
  * - `api-unavailable`: the API answered 503 (its database is unavailable);
  * - `unexpected`: any other status, or a 200 whose body breaks the contract.
+ *
+ * Since M2-02 every `/internal` route sits behind the API's authentication hook
+ * (R8, R19), so each read carries the caller's access token as
+ * `Authorization: Bearer <token>`. The token is supplied by the page, which got
+ * it from `proxy.ts`; this module only forwards it and never logs it. A read
+ * without a token still works the same way — the API answers 401, which is
+ * `unexpected` here, and the page shows a failure state rather than an empty one.
  */
+
+import type { ApiFailure } from '@/lib/auth/api-client';
 
 /** OPERATIONAL limit on one API read from the page (not a business rule). */
 export const INTERNAL_API_TIMEOUT_MS = 5_000;
 
-export type ApiFailure = 'api-unreachable' | 'api-unavailable' | 'unexpected';
+/**
+ * The three page states, defined once in `@/lib/auth/api-client` and re-exported
+ * here so the sections and the failure alert keep importing it from the module
+ * they already use.
+ */
+export type { ApiFailure };
 
 export type ApiRead<T> = { ok: true; data: T } | { ok: false; failure: ApiFailure };
 
@@ -58,6 +72,11 @@ function logFailure(path: string, failure: ApiFailure, detail: string): void {
 export interface ReadInternalApiOptions {
   /** The limit on the whole read, headers and body. Defaults to INTERNAL_API_TIMEOUT_MS; tests pass a shorter one. */
   timeoutMs?: number;
+  /**
+   * The caller's access token, forwarded as `Authorization: Bearer <token>`
+   * (R19). `null` or absent sends no header, which the API answers with 401.
+   */
+  token?: string | null;
 }
 
 /**
@@ -69,17 +88,20 @@ export async function readInternalApi<T>(
   baseUrl: string,
   path: string,
   schema: ResponseSchema<T>,
-  { timeoutMs = INTERNAL_API_TIMEOUT_MS }: ReadInternalApiOptions = {},
+  { timeoutMs = INTERNAL_API_TIMEOUT_MS, token = null }: ReadInternalApiOptions = {},
 ): Promise<ApiRead<T>> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
+    const requestHeaders: Record<string, string> = { accept: 'application/json' };
+    if (token !== null && token !== '') requestHeaders.authorization = `Bearer ${token}`;
+
     let response: Response;
     try {
       response = await fetch(`${baseUrl.replace(/\/+$/, '')}${path}`, {
         cache: 'no-store',
         signal: controller.signal,
-        headers: { accept: 'application/json' },
+        headers: requestHeaders,
       });
     } catch (error) {
       logFailure(path, 'api-unreachable', failureCode(error));

@@ -13,6 +13,16 @@
 #
 # Runtime environment (names only; @wringy/config/web): WRINGY_ENV and
 # API_INTERNAL_URL. Without them /internal renders its "not configured" state.
+#
+# WRINGY_APP_MODE (demo | internal, default demo) selects the implementation
+# (M2-02 R13). The image is built and smoke-tested with it unset, so it serves
+# the demo build and every sign-in endpoint answers 404. Setting it to
+# `internal` additionally requires SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY and
+# APP_ORIGIN; the key is publishable by design and no sb_secret_… key is ever
+# read here. With `internal` set but those three missing, requests are passed
+# through so /internal still renders its "not configured" state rather than
+# failing at the edge of every request.
+#
 # server.js reads PORT and HOSTNAME; Render sets PORT for a web service and
 # requires the host 0.0.0.0 (https://render.com/docs/web-services).
 

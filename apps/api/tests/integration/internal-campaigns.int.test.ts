@@ -3,12 +3,16 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { CACHE_CONTROL } from '../../src/app';
 import { errorBody } from '../../src/errors';
+import { createTestIdentity, type TestIdentity } from './jwt-support';
 import {
   asMigrator,
   buildTestApi,
   createTestDatabase,
   seedFixtures,
+  signedIn,
+  stubLiveness,
   withClientAt,
+  type SignedIn,
   type TestApi,
   type TestDatabase,
 } from './support';
@@ -32,6 +36,8 @@ async function dbNow(db: TestDatabase): Promise<Date> {
 describe('M2-AC01 GET /internal/campaigns', () => {
   let db: TestDatabase;
   let api: TestApi;
+  let identity: TestIdentity;
+  let caller: SignedIn;
 
   beforeAll(async () => {
     db = await createTestDatabase();
@@ -44,7 +50,9 @@ describe('M2-AC01 GET /internal/campaigns', () => {
       `INSERT INTO app.campaigns (id, org_id, title, status, data_origin) VALUES ($1, $2, 'Live campaign', 'published', 'live')`,
       [LIVE_CAMPAIGN, LIVE_ORG],
     );
-    api = await buildTestApi(db.urls.api);
+    identity = await createTestIdentity();
+    caller = await signedIn(db, identity);
+    api = await buildTestApi(db.urls.api, { identity });
   });
 
   afterAll(async () => {
@@ -54,7 +62,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
 
   it('M2-AC01/2 Fastify→PostgreSQL read (API leg): GET /internal/campaigns returns the seeded fixture campaigns', async () => {
     const before = await dbNow(db);
-    const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns' });
+    const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: caller.headers });
 
     expect(response.statusCode).toBe(200);
     expect(response.headers['cache-control']).toBe(CACHE_CONTROL);
@@ -77,7 +85,9 @@ describe('M2-AC01 GET /internal/campaigns', () => {
     // Two statements, two transactions: ops.touch_updated_at() stamps each with its own now().
     await asMigrator(db, `UPDATE app.campaigns SET status = status WHERE id = $1`, [SEEDED[2]!.id]);
     await asMigrator(db, `UPDATE app.campaigns SET status = 'draft' WHERE id = $1`, [SEEDED[0]!.id]);
-    const body = (await api.app.inject({ method: 'GET', url: '/internal/campaigns' })).json() as InternalCampaignsResponse;
+    const body = (
+      await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: caller.headers })
+    ).json() as InternalCampaignsResponse;
 
     expect(body.items[0]?.id).toBe(SEEDED[0]!.id);
     expect(body.items[0]?.status).toBe('draft');
@@ -88,7 +98,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
 
   it('M2-AC01/2 the response schema is the allow-list: an extra column never reaches the response', async () => {
     await addLeakCanaryColumn(db);
-    const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns' });
+    const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: caller.headers });
     expect(response.statusCode).toBe(200);
     expect(response.body).not.toContain('LEAK-CANARY-COLUMN');
     const body = response.json() as InternalCampaignsResponse;
@@ -100,7 +110,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
     // Its own canary column, so the probe holds when run alone (-t) or reordered.
     await addLeakCanaryColumn(db);
     const selected: Array<Record<string, unknown>> = [];
-    const probe = await buildTestApi(db.urls.api);
+    const probe = await buildTestApi(db.urls.api, { identity });
     try {
       // A deliberately careless handler: every campaign column as the API role,
       // passed straight through with extra keys. Only the response schema stands in the way.
@@ -126,7 +136,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
           };
         },
       );
-      const response = await probe.app.inject({ method: 'GET', url: '/internal/leak-probe' });
+      const response = await probe.app.inject({ method: 'GET', url: '/internal/leak-probe', headers: caller.headers });
       expect(response.statusCode).toBe(200);
       // The handler really did hand the serializer the canary column and the internal keys.
       expect(selected).toHaveLength(3);
@@ -147,6 +157,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
 
   it('runs the authenticate hook first on every /internal route (the M2-02 hook point)', async () => {
     const guarded = await buildTestApi(db.urls.api, {
+      liveness: stubLiveness('live'),
       authenticate: async (_request, reply) =>
         reply.code(401).send({ error: { code: 'unauthenticated', message: 'Sign in first.' } }),
     });
@@ -163,7 +174,7 @@ describe('M2-AC01 GET /internal/campaigns', () => {
   });
 
   it('answers an unknown route with 404 not_found', async () => {
-    const response = await api.app.inject({ method: 'GET', url: '/internal/nope' });
+    const response = await api.app.inject({ method: 'GET', url: '/internal/nope', headers: caller.headers });
     expect(response.statusCode).toBe(404);
     expect(response.json()).toEqual(errorBody('not_found'));
     expect(response.headers['cache-control']).toBe(CACHE_CONTROL);
@@ -173,10 +184,13 @@ describe('M2-AC01 GET /internal/campaigns', () => {
 describe('M2-AC01 GET /internal/campaigns on a database without fixtures', () => {
   let db: TestDatabase;
   let api: TestApi;
+  let caller: SignedIn;
 
   beforeAll(async () => {
     db = await createTestDatabase();
-    api = await buildTestApi(db.urls.api);
+    const identity = await createTestIdentity();
+    caller = await signedIn(db, identity);
+    api = await buildTestApi(db.urls.api, { identity });
   });
 
   afterAll(async () => {
@@ -185,7 +199,7 @@ describe('M2-AC01 GET /internal/campaigns on a database without fixtures', () =>
   });
 
   it('is an empty list with the database clock, not an error', async () => {
-    const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns' });
+    const response = await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: caller.headers });
     expect(response.statusCode).toBe(200);
     const body = response.json() as InternalCampaignsResponse;
     expect(body.items).toEqual([]);

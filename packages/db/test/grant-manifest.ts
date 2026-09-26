@@ -17,10 +17,22 @@
  * pg-boss upgrade that adds a table needs no edit here unless the rights differ.
  * The migrator owns every object and is not listed.
  */
-import { ROLES } from '../src/roles';
+import { SESSION_IS_LIVE_SIGNATURE } from '../src/platform';
+import { AUTH_SCHEMA, PLATFORM_SCHEMA, ROLES } from '../src/roles';
 
 /** Schemas the scan skips: PostgreSQL's own catalogs (every `pg_*` schema, matched in SQL) and this one. */
 export const SYSTEM_SCHEMAS = ['information_schema'] as const;
+
+/**
+ * Schemas the **platform bootstrap** owns, not the migrator: the hosted identity
+ * store's `auth` (a three-column stub locally and in CI) and `platform`, whose
+ * owner is `wringy_platform_admin` (M2-02 R3). Every runtime privilege in them is
+ * still covered by the manifest below; what is excluded is only the "every ACL
+ * names the migrator or a runtime group" assertion, because these objects have
+ * another owner on purpose. grants.int.test.ts asserts their owners and grantees
+ * in their own right.
+ */
+export const PLATFORM_BOOTSTRAP_SCHEMAS = [AUTH_SCHEMA, PLATFORM_SCHEMA] as const;
 
 export const SCHEMA_PRIVILEGES = ['USAGE', 'CREATE'] as const;
 export const TABLE_PRIVILEGES = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER'] as const;
@@ -43,7 +55,10 @@ export interface RoleGrants {
   columns: Readonly<Record<string, readonly ColumnPrivilege[]>>;
   /** `schema.sequence` or `schema.*`. */
   sequences: Readonly<Record<string, readonly SequencePrivilege[]>>;
-  /** Functions the role may EXECUTE: `schema.name` or `schema.*`. */
+  /**
+   * Functions the role may EXECUTE: `schema.name`, `schema.*`, or the full
+   * `regprocedure` text (`schema.name(argtypes)`) when overloads matter.
+   */
   functions: readonly string[];
 }
 
@@ -56,18 +71,36 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
     login: ROLES.apiLogin,
     // public: PostgreSQL's own default (PUBLIC keeps USAGE on it); nothing is
     // created there (migrations.int.test.ts, grants.int.test.ts).
-    schemas: { app: ['USAGE'], ops: ['USAGE'], public: ['USAGE'] },
+    // platform: USAGE only, so the one EXECUTE below can be used. Nothing in
+    // `auth`: the API reaches the identity store's sessions solely through that
+    // SECURITY DEFINER function (M2-02 R3).
+    schemas: { app: ['USAGE'], ops: ['USAGE'], platform: ['USAGE'], public: ['USAGE'] },
     tables: {
       'app.orgs': ['SELECT'],
       'app.campaigns': ['SELECT'],
+      // The API upserts the profile at each sign-in and never deletes one (0008).
+      // INSERT and UPDATE are column grants since 0010, so the table itself
+      // carries SELECT only and the writable columns are listed below.
+      'app.profiles': ['SELECT'],
+      // The first-sign-in gate reads the list; only the migrator writes it (0009).
+      'app.sign_in_allowlist': ['SELECT'],
       'ops.environment': ['SELECT'],
       'ops.worker_heartbeat': ['SELECT'],
       'ops.pgmigrations': ['SELECT'],
       'ops.pgboss_schema_version': ['SELECT'],
     },
-    columns: {},
+    // What a sign-in writes, and nothing else (0010; ruling D12, D7). `status` is
+    // absent on purpose: only an operator disables an account, so the runtime role
+    // must not be able to write it. `locale_pref` and `locale_pref_set_at` are
+    // absent because M2-04 owns the feature that writes them.
+    columns: {
+      'app.profiles.id': ['INSERT'],
+      'app.profiles.contact_email': ['INSERT', 'UPDATE'],
+      'app.profiles.display_name': ['INSERT', 'UPDATE'],
+      'app.profiles.last_sign_in_at': ['INSERT', 'UPDATE'],
+    },
     sequences: {},
-    functions: [],
+    functions: [SESSION_IS_LIVE_SIGNATURE],
   },
   // The pg-boss worker: its own heartbeat row, the environment marker, and job
   // DML in pgboss. Nothing in app, no DDL, no DELETE or TRUNCATE outside pgboss.

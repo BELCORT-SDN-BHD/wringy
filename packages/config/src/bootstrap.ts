@@ -48,6 +48,25 @@ export function developmentDefaultsAllowed(env: Pick<BootstrapEnv, 'WRINGY_ENV' 
   );
 }
 
+/**
+ * `pnpm db:platform-bootstrap`: installs `platform.session_is_live` from the same
+ * admin connection, and **nothing else**.
+ *
+ * It creates no login role and sets no password, so it requires none of the three
+ * `PG_BOOTSTRAP_*_PASSWORD` values: asking for secrets a command never uses is
+ * how a documented step becomes impossible to run (packages/db/README.md lists
+ * exactly the three names below for it). The admin URL may be left unset only
+ * when `WRINGY_ENV=local`, where packages/db substitutes the embedded cluster's
+ * superuser; everywhere else it is required.
+ */
+export function loadPlatformBootstrapEnv(source: EnvSource = process.env): BootstrapEnv {
+  const env = parseEnv('platform-bootstrap', bootstrapEnvSchema, source);
+  if (env.WRINGY_ENV !== 'local' && env.PG_BOOTSTRAP_ADMIN_URL === undefined) {
+    throw new EnvError('platform-bootstrap', sortProblems(new Map([['PG_BOOTSTRAP_ADMIN_URL', 'missing']])));
+  }
+  return env;
+}
+
 export function loadBootstrapEnv(source: EnvSource = process.env): BootstrapEnv {
   const env = parseEnv('bootstrap', bootstrapEnvSchema, source);
   if (developmentDefaultsAllowed(env)) return env;

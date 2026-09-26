@@ -1,8 +1,8 @@
 {
-  "//": "Type-checks the tsx-run scripts of the internal suite (database-server.mts, run-with-database.mts) as plain Node ESM. apps/web/tsconfig.json excludes them: under Next's global types (NODE_ENV required on ProcessEnv) the @wringy/db code they import does not type-check, and Next never runs them.",
+  "//": "Type-checks the parts of the internal suite that are plain Node rather than Next.js: the tsx-run scripts (database-server.mts, run-with-database.mts, fake-auth/start.mts), the simulated auth server and the Playwright fixtures. apps/web/tsconfig.json excludes them: under Next's global types (NODE_ENV required on ProcessEnv) the @wringy/db code they import does not type-check, and Next never runs them. Anything here may import only Node, jose, @playwright/test and http-cache-semantics — never src/, whose `@/` alias and DOM types belong to the app config.",
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["*.mts"]
+  "include": ["*.mts", "fixtures.ts", "fake-auth/**/*.ts", "fake-auth/**/*.mts"]
 }

@@ -75,5 +75,65 @@
       "title": "Unexpected answer from the API",
       "description": "The API answered in a way this page does not recognise, so nothing is shown. Nothing was changed."
     }
+  },
+  "signIn": {
+    "title": "Sign in to the internal build",
+    "description": "The internal build is for invited testers. Sign in with the Google account whose address is on the tester list.",
+    "google": "Continue with Google",
+    "returnHint": "After signing in you come back to the page you asked for.",
+    "outcomes": {
+      "cancelled": {
+        "title": "Sign-in cancelled",
+        "description": "You cancelled the sign-in, so nothing changed. You can try again whenever you like."
+      },
+      "expired": {
+        "title": "Sign-in expired",
+        "description": "This sign-in took too long, or its link had already been used. Please start again."
+      },
+      "wrong_browser": {
+        "title": "Finish signing in in the same browser",
+        "description": "This browser did not start the sign-in, or another sign-in was started in the meantime. Please start again here."
+      },
+      "session_ended": {
+        "title": "Your session ended",
+        "description": "Your session ended, so you were signed out. Sign in again to carry on where you were."
+      },
+      "signed_out": {
+        "title": "You have signed out",
+        "description": "You signed out of this device. Sign-ins on your other devices are not affected."
+      },
+      "signed_out_unconfirmed": {
+        "title": "Signed out of this device",
+        "description": "This device is signed out. The server could not confirm that it ended the session, so if you are signed in elsewhere, check that device too."
+      },
+      "not_allowed": {
+        "title": "This is an internal version",
+        "description": "This address is not on the tester list for the internal version. Ask the Wringy team to add it if you should have access."
+      },
+      "disabled": {
+        "title": "This account is disabled",
+        "description": "This account has been disabled, so it cannot be used to sign in. Contact the Wringy team if you think that is a mistake."
+      },
+      "unexpected": {
+        "title": "Sign-in did not finish",
+        "description": "Something went wrong and the sign-in did not finish. Nothing was changed. Please try again."
+      }
+    }
+  },
+  "session": {
+    "signedInAs": "Signed in as {email}",
+    "signOut": "Sign out",
+    "otherDevicesNote": "Signing out ends this device’s session only; your other devices stay signed in."
+  },
+  "probe": {
+    "title": "Session check",
+    "description": "This reserved command changes nothing. It shows that a command which would change something re-checks that your session is still live before it runs.",
+    "button": "Run the session check",
+    "results": {
+      "ok": "The session check passed: this session is still live.",
+      "revoked": "This session is no longer live, so the command was refused. Sign in again.",
+      "unauthenticated": "There was no usable session, so the command was refused.",
+      "unavailable": "The session could not be checked just now, so nothing ran. Nothing was changed. Please try again."
+    }
   }
 }

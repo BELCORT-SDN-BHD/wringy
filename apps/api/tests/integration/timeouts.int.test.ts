@@ -7,7 +7,16 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { API_APPLICATION_NAME, API_QUERY_TIMEOUT_MS, API_STATEMENT_TIMEOUT_MS } from '../../src/database';
 import { errorBody } from '../../src/errors';
-import { buildTestApi, createTestDatabase, seedFixtures, type TestApi, type TestDatabase } from './support';
+import { createTestIdentity } from './jwt-support';
+import {
+  buildTestApi,
+  createTestDatabase,
+  seedFixtures,
+  signedIn,
+  type SignedIn,
+  type TestApi,
+  type TestDatabase,
+} from './support';
 
 /** Backends the API login holds in `database`, and how many of them wait on a lock (read as the cluster admin). */
 async function apiBackends(database: string): Promise<{ total: number; waiting: number }> {
@@ -43,11 +52,14 @@ async function holdLock(db: TestDatabase, table: string): Promise<{ release(): P
 describe('M2-AC01 API reads under a held lock (server-side statement_timeout)', () => {
   let db: TestDatabase;
   let api: TestApi;
+  let caller: SignedIn;
 
   beforeAll(async () => {
     db = await createTestDatabase();
     await seedFixtures(db);
-    api = await buildTestApi(db.urls.api);
+    const identity = await createTestIdentity();
+    caller = await signedIn(db, identity);
+    api = await buildTestApi(db.urls.api, { identity });
   });
 
   afterAll(async () => {
@@ -61,7 +73,9 @@ describe('M2-AC01 API reads under a held lock (server-side statement_timeout)', 
       for (const round of [1, 2, 3]) {
         const started = Date.now();
         const responses = await Promise.all(
-          Array.from({ length: 10 }, () => api.app.inject({ method: 'GET', url: '/internal/campaigns' })),
+          Array.from({ length: 10 }, () =>
+            api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: caller.headers }),
+          ),
         );
         const elapsed = Date.now() - started;
         expect(responses.map((response) => response.statusCode), `round ${round}`).toEqual(Array(10).fill(503));
@@ -78,7 +92,9 @@ describe('M2-AC01 API reads under a held lock (server-side statement_timeout)', 
       await lock.release();
     }
     // The same pool reads again once the lock is gone.
-    expect((await api.app.inject({ method: 'GET', url: '/internal/campaigns' })).statusCode).toBe(200);
+    expect(
+      (await api.app.inject({ method: 'GET', url: '/internal/campaigns', headers: caller.headers })).statusCode,
+    ).toBe(200);
   }, 60_000);
 
   it('M2-AC01/2 /health with ops.pgmigrations locked: the migrations check fails at the server-side limit, the queue check still runs, and the next /health still reaches the database', async () => {

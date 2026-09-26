@@ -51,6 +51,24 @@ export function isEmbeddedClusterUrl(adminUrl: string | undefined): boolean {
   return Number(port || 5432) === LOCAL_PG_PORT;
 }
 
+/**
+ * The admin URL `pnpm db:platform-bootstrap` connects with.
+ *
+ * Deliberately not `resolveBootstrapPlan`: that resolves *passwords* for the
+ * login roles, and this command creates no login role. Sharing it would make the
+ * three `PG_BOOTSTRAP_*_PASSWORD` values required — and a development password
+ * refused — for a command that sets none of them, which is exactly what made the
+ * documented hosted-project step impossible to run.
+ *
+ * The embedded cluster's superuser stands in only where `pnpm db:bootstrap` would
+ * use it too: `WRINGY_ENV=local` with no admin URL given.
+ */
+export function resolvePlatformAdminUrl(env: Pick<BootstrapEnv, 'WRINGY_ENV' | 'PG_BOOTSTRAP_ADMIN_URL'>): string {
+  if (env.PG_BOOTSTRAP_ADMIN_URL !== undefined) return env.PG_BOOTSTRAP_ADMIN_URL;
+  if (env.WRINGY_ENV === 'local') return localUrls().superuser;
+  throw new EnvError('platform-bootstrap', [{ name: 'PG_BOOTSTRAP_ADMIN_URL', problem: 'missing' }]);
+}
+
 export function resolveBootstrapPlan(env: BootstrapEnv): BootstrapPlan {
   const development = developmentDefaultsAllowed(env) && isEmbeddedClusterUrl(env.PG_BOOTSTRAP_ADMIN_URL);
   if (development) {

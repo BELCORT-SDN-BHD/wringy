@@ -17,6 +17,8 @@ PostgreSQL without Docker, and the integration-test harness
 | `src/expected-head.ts` | `EXPECTED_MIGRATION_HEAD` and `EXPECTED_PGBOSS_VERSION`, which GET /health compares the database with; unit-tested against the migrations directory and the installed pg-boss |
 | `src/environment.ts`, `src/cli/env.ts` | The environment marker `ops.environment` and `pnpm db:env` |
 | `src/fixtures.ts`, `src/cli/seed-fixtures.ts`, `fixtures/internal-campaigns.sql` | `pnpm db:seed:fixtures` |
+| `src/allowlist.ts`, `src/cli/allowlist.ts` | `normalizeEmail()` (the one normal form for a sign-in address) and `pnpm db:allowlist add\|remove\|list` over `app.sign_in_allowlist` |
+| `src/platform.ts`, `src/cli/platform-bootstrap.ts` | The platform bootstrap: the SQL for the stub `auth.sessions`, the non-superuser `wringy_platform_admin` and `platform.session_is_live`, plus `installPlatform()` and `pnpm db:platform-bootstrap` |
 | `migrations/NNNN_name.sql` | The migrations, applied as the migration owner. SQL files only, `-- Up Migration` / `-- Down Migration` markers ([node-pg-migrate "Legacy SQL migrations"](https://github.com/salsita/node-pg-migrate/blob/v9.0.0/docs/src/migration-loading-strategies.md)) |
 | `src/roles.ts` | Role and schema names |
 | `src/bootstrap.ts`, `scripts/bootstrap.mjs` | `pnpm db:bootstrap` |
@@ -27,10 +29,10 @@ PostgreSQL without Docker, and the integration-test harness
 
 | Import | File | For |
 |---|---|---|
-| `@wringy/db/testing` | `test/harness.ts` | Vitest integration suites (apps/api, apps/worker): `createTestDatabase()`, `seedFixtures()`, `setTestEnvironment()`, `withRollback()`, `sqlState()`, `withClientAt()`, `TEST_WRINGY_ENV`; the cluster comes from Vitest's `inject('wringyCluster')` |
+| `@wringy/db/testing` | `test/harness.ts` | Vitest integration suites (apps/api, apps/worker): `createTestDatabase()`, `seedFixtures()`, `setTestEnvironment()`, `withRollback()`, `sqlState()`, `failureIn()`, `withClientAt()`, `TEST_WRINGY_ENV`, and for identity `insertLiveSession(db, { sessionId, userId, notAfter? })`, `endSession(db, sessionId)`, `allowlistAdd(db, { email, reason?, addedBy? })` and `withDatabaseAdmin(db, fn)`; the cluster comes from Vitest's `inject('wringyCluster')` |
 | `@wringy/db/testing/global-setup` | `test/global-setup.ts` | The `globalSetup` of every `vitest.int.config.ts` (resolved with `createRequire(import.meta.url).resolve(…)`) |
-| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, run with tsx (the Playwright internal suite's database process, `apps/web/tests/e2e-internal/database-server.mts`): `startTestCluster()`, `bootstrapTestRoles()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()` |
-| `@wringy/db/testing/connect` | `test/connect.ts` | Runners that load test files as CommonJS (Playwright in apps/web): `loginUrlsAt(host, port, database)` and `withClientAt(url, fn)`, importing only `pg` and constants. cluster.ts cannot load there, because `src/migrate.ts` and `src/fixtures.ts` use `import.meta.url` |
+| `@wringy/db/testing/cluster` | `test/cluster.ts` | Code without a Vitest runtime, run with tsx (the Playwright internal suite's database process, `apps/web/tests/e2e-internal/database-server.mts`): `startTestCluster()`, `bootstrapTestRoles()`, `bootstrapTestPlatform()`, `createDatabaseIn()`, `seedFixturesIn()`, `setEnvironmentIn()`, `withClientAt()`, `withDatabaseAdminAt()` |
+| `@wringy/db/testing/connect` | `test/connect.ts` | Runners that load test files as CommonJS (Playwright in apps/web): `loginUrlsAt(host, port, database)`, `withClientAt(url, fn)`, `allowlistAddAt(migratorUrl, email)`, `insertLiveSessionAt(adminUrl, session)` and `endSessionAt(adminUrl, sessionId)`, importing only `pg` and constants. cluster.ts cannot load there, because `src/migrate.ts` and `src/fixtures.ts` use `import.meta.url` |
 
 No product module imports them: the dependency rules cruise `apps/*/src` and
 `packages/*/src` only, and these files live under `test/`.
@@ -43,7 +45,7 @@ import time, so a bundler keeps only what an app uses. `apps/worker`'s esbuild
 bundle relies on it to leave out the migration runner (node-pg-migrate) and
 `src/local-dev.ts`; keep new modules free of import-time effects.
 
-## Schema (M2-01)
+## Schema (M2-01, M2-02)
 
 | Migration | Creates | Rights |
 |---|---|---|
@@ -54,6 +56,15 @@ bundle relies on it to leave out the migration runner (node-pg-migrate) and
 | `0005_pgboss_grants` | Rights on schema `pgboss`, which `pnpm db:migrate` installs first | worker: USAGE, table DML, sequence use, EXECUTE (plus default privileges for later pg-boss objects); api: SELECT on `ops.pgmigrations` (and, until 0006, USAGE on `pgboss` and SELECT on `pgboss.version`) |
 | `0006_pgboss_runtime_bounds` | `ops.pgboss_schema_version` (a migrator-owned, non-updatable view of the pg-boss schema version); CHECK `wringy_queue_shared_table_only` on `pgboss.queue` (every queue unpartitioned, on the shared `job_common` table) | worker: `pgboss.version` SELECT plus UPDATE of the five run-time timestamps only, never `version`; nothing on the view. api: SELECT on the view; its USAGE on `pgboss` and SELECT on `pgboss.version` are revoked, so the API has no `pgboss` access (kickoff-package.md §4.11, §8.5) |
 | `0007_data_origin_immutable` | `ops.assert_data_origin_unchanged()` and a BEFORE UPDATE trigger on `app.orgs` and `app.campaigns`: a row's `data_origin` never changes (23514, constraint `data_origin_immutable`) | None |
+| `0008_profiles` | `app.profiles`: `id` = the verified token subject (no foreign key to the identity store, IT1), `display_name`, `contact_email`, `locale_pref` (CHECK `en-MY`/`ms-MY`/`zh-Hans-MY`) with `locale_pref_set_at`, `status` (CHECK `active`/`disabled`, default `active`), `last_sign_in_at`, `created_at`, `updated_at` with the shared `ops.touch_updated_at()` trigger. **No `data_origin` and no fixture trigger**: every user is a real identity (§3.5) | api: SELECT, INSERT, UPDATE (it upserts at each sign-in), narrowed to four columns by 0010; never DELETE. worker: nothing |
+| `0009_sign_in_allowlist` | `app.sign_in_allowlist(email_norm PK CHECK non-empty and already lower-cased, reason NOT NULL, added_by NOT NULL, added_at)`: who may sign in for the first time (ruling D13) | api: SELECT. Written only by the migrator, through `pnpm db:allowlist` |
+| `0010_profiles_column_grants` | No new object: 0008's table-level INSERT and UPDATE on `app.profiles` become **column** grants, so the runtime role cannot write `status` (ruling D12: only an operator disables an account) or the locale columns M2-04 owns | api: SELECT on the table; INSERT (`id`, `contact_email`, `display_name`, `last_sign_in_at`) and UPDATE (`contact_email`, `display_name`, `last_sign_in_at`) only; never DELETE. worker: nothing |
+
+`app.profiles` and `app.sign_in_allowlist` carry no `data_origin`: a user is
+never a fixture, and the allow-list names real testers' addresses, so there is no
+fixture form of either. `profiles.status = 'disabled'` is the one lever that ends
+someone's access (ruling D12); removing an address from the allow-list signs
+nobody out, because the list is read at the first sign-in only.
 
 Fixture and live data stay apart twice (Implementation Decision 5): the marker
 says whether an environment allows fixture rows, and `ops.assert_fixture_allowed()`
@@ -73,6 +84,81 @@ origins, delete the row and insert a new one.
 | `wringy_worker` | NOLOGIN group | `USAGE` on `ops` and `pgboss`; SELECT on `ops.environment`; SELECT/INSERT/UPDATE on `ops.worker_heartbeat`; pg-boss DML and EXECUTE, except that `pgboss.version` is read-only apart from its run-time timestamps. Nothing in `app`, no CREATE, no TRUNCATE |
 | `wringy_api_login` | login, member of `wringy_api` | API process |
 | `wringy_worker_login` | login, member of `wringy_worker` | Worker process |
+| `wringy_platform_admin` | NOLOGIN, **not** a superuser | Owns schema `platform` and `platform.session_is_live` locally and in CI. Holds only `USAGE` on `auth` with `SELECT` on `auth.sessions`, and `CREATE` on the database. Created by the platform bootstrap, never by a migration |
+
+## Session liveness: the platform bootstrap
+
+`platform.session_is_live(session_id uuid, user_id uuid) RETURNS boolean` answers
+whether the hosted identity store still holds that session (kickoff-package.md
+§4.6 "Mechanism A"; M2-02 R3). It is what the api calls with
+`SESSION_LIVENESS=database`.
+
+It is **not** an app migration. The migrator has no business in the `auth`
+schema, and the function must be owned by a role that can read `auth.sessions`
+and nothing more. So `src/platform.ts` exports the SQL once — `authStubSql()`,
+`platformAdminRoleSql(database)`, `platformObjectsSql()` — and `installPlatform()`
+applies it:
+
+| Admin connection | What happens |
+|---|---|
+| A superuser (the embedded local cluster, CI's `postgres:17` service) | With `stubAuth`, the three-column stub `auth.sessions(id, user_id, not_after)` owned by the admin and granted to nobody. Then `wringy_platform_admin` with `USAGE` on `auth`, `SELECT` on `auth.sessions` and `CREATE` on the database. Then `SET ROLE wringy_platform_admin` for schema `platform` and the function, so a **non-superuser** owns them and the `SECURITY DEFINER` privilege shape matches a hosted project; then `RESET ROLE` |
+| Not a superuser (a hosted project's `postgres`) | `stubAuth` is refused — the real `auth.sessions` must not be shadowed — and the platform objects are created as the admin itself, which already has `SELECT` on that table |
+
+The function is `STABLE`, `SECURITY DEFINER`, `SET search_path = ''`, and it is
+true only when the row matches **both** ids and `not_after` is null or in the
+future. `EXECUTE` is revoked from PUBLIC and granted to `wringy_api` only,
+together with `USAGE` on schema `platform`: the API can ask the question and can
+read nothing in `auth` (`grants.int.test.ts`, `M2-AC02/2`: no `USAGE` on `auth`,
+`SELECT FROM auth.sessions` fails 42501, and the owner is a non-superuser).
+Everything is idempotent, so a second run changes nothing. The install ends by
+calling the function once with an all-zero id: `CREATE OR REPLACE FUNCTION`
+accepts a body whose table the owner cannot read (a SQL body's privileges are
+checked when it runs), so without that call a project whose owner lacks `SELECT`
+on `auth.sessions` installs cleanly and then raises 42501 on every sign-in — which
+the api answers 500 `internal_error`, not 503. The call turns that into a named
+bootstrap refusal.
+
+**A stub `auth.sessions` is not an identity store.** Nothing outside the tests
+ever writes a row into it, so `platform.session_is_live` answers false for every
+real Supabase session: on a local or CI cluster the api must keep
+`SESSION_LIVENESS=auth_server`, and `SESSION_LIVENESS=database` belongs only where
+the application database **is** the identity store's own database (staging, M2-09;
+M2-02 R2). `pnpm db:platform-bootstrap` prints whichever of the two applies to the
+install it just made.
+
+Who installs it:
+
+| Command | When |
+|---|---|
+| `pnpm db:bootstrap` | The embedded local cluster only (`WRINGY_ENV=local` with the admin URL unset or at the `db:start` port) installs it with the stub automatically, so `pnpm db:start && pnpm db:bootstrap && pnpm db:migrate` yields a database where `platform.session_is_live` exists — and the api still uses `SESSION_LIVENESS=auth_server` there (see below) |
+| `pnpm db:platform-bootstrap [--stub-auth]` | Every other environment, as an explicit step after `pnpm db:bootstrap`. `--stub-auth` is accepted only when `WRINGY_ENV` is `local` or `ci`, and `installPlatform()` refuses it again whenever the admin is not a superuser |
+| `test/cluster.ts` `prepareTemplate()` | The integration-test template, after the migrations and the marker, through the same `installPlatform()`. The role is cluster-wide, so it shares the advisory lock `bootstrapTestRoles()` takes; the clones inherit the objects with their owners and ACLs |
+
+## The sign-in allow-list
+
+`pnpm db:allowlist add <email> --reason "<text>" --by "<name>"`,
+`pnpm db:allowlist remove <email> --reason "<text>" --by "<name>"` and
+`pnpm db:allowlist list` are the only way `app.sign_in_allowlist` changes
+(ruling D13). `--reason` and `--by` are required for both changes, because the
+row is the audit record until `app.audit_log` arrives with M2-03, and each change
+prints one line. The CLI runs as the migrator and never prints a connection
+string.
+
+`normalizeEmail()` (`src/allowlist.ts`) is the one normal form: Unicode **NFC**,
+trimmed, lower-cased, with **no dot or plus rewriting** (`a.b@x` and `a+t@x` are
+different addresses to their providers). The CLI and the API's first-sign-in gate
+both call it, so the gate cannot disagree with the list about what an address is,
+and the table's CHECK re-states the lower-case part for a row written by hand.
+Removing an address signs nobody out: the list is read at the first sign-in only.
+
+**NFC, not NFKC.** NFC composes, so the two spellings of one accented letter
+(`ä` as U+00E4, and `a` plus U+0308) are one key. It does **not**
+compatibility-fold, which NFKC would: `ﬁ` (U+FB01) would become `fi` and a
+full-width letter would become its ASCII form, so two distinct mailboxes would
+share one key and listing one would admit the other. Under NFC a listed ASCII
+address admits exactly that address; a look-alike non-ASCII mailbox is simply
+not listed, and is refused (`known-issues.md`, M2-02). A full-width `＠` is not
+an `@` either, so such a value is refused rather than rewritten.
 
 Migration `0001_schemas_roles.sql` creates the schemas, revokes everything from
 PUBLIC, grants the schema usage and sets the default privileges; functions the
@@ -118,10 +204,12 @@ is to start PgBoss with `migrate: false` against this schema
 ```sh
 pnpm db:start           # embedded PostgreSQL 17.10 on 127.0.0.1:54329, data in .local/pg, TimeZone=UTC; prints the URLs
 # put WRINGY_ENV=local and the printed DATABASE_URL_MIGRATOR in the root .env
-pnpm db:bootstrap       # once: groups, logins, database `wringy` (development passwords: WRINGY_ENV=local on the embedded cluster)
+pnpm db:bootstrap       # once: groups, logins, database `wringy` (development passwords: WRINGY_ENV=local on the embedded cluster),
+                        # plus the platform bootstrap with the auth stub, because this is the embedded cluster
 pnpm db:migrate         # pg-boss schema, then all pending SQL migrations, as the migrator; rerunning changes nothing
 pnpm db:env             # the ops.environment marker for WRINGY_ENV (fixtures allowed except in production)
 pnpm db:seed:fixtures   # two fixture orgs and three fixture campaigns; refused unless the marker allows fixtures
+pnpm db:allowlist list  # who may sign in for the first time; `add`/`remove` need --reason and --by
 # api and worker: copy apps/api/.env.example to apps/api/.env and apps/worker/.env.example
 # to apps/worker/.env (both gitignored), with WRINGY_ENV=local and the api / worker URL
 # that db:start printed; then `pnpm dev`, or `pnpm --filter api dev` and `pnpm --filter worker dev`
@@ -191,8 +279,9 @@ as Supabase's non-superuser `postgres`.
 
 | Command | Variables (names in the root `.env.example`) |
 |---|---|
-| `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
+| `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures`, `pnpm db:allowlist` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` and the admin URL is unset or the embedded cluster (a loopback host at port 54329); anywhere else a development password is refused (`src/bootstrap-plan.ts`) |
+| `pnpm db:platform-bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE` (the same admin connection, opened on the application database). Those three only: it creates no login role and sets no password, so none of the `PG_BOOTSTRAP_*_PASSWORD` values is read or required (`loadPlatformBootstrapEnv`). The admin URL may be left unset only when `WRINGY_ENV=local`, where the embedded cluster's superuser is used |
 | `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing, throwaway PostgreSQL 17 on this machine; see "Throwaway clusters only") |
 
 The bootstrap sends passwords to the server as SCRAM-SHA-256 verifiers computed
@@ -204,7 +293,7 @@ string or password.
 
 | Script | Does |
 |---|---|
-| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin), and the heartbeat constants |
+| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin), the heartbeat constants, and `normalizeEmail()` (`M2-AC02/2`) |
 | `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup (`startTestCluster()` in `test/cluster.ts`) bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
 | `pnpm --filter @wringy/db build` | `scripts/build-migrate.mjs`: esbuild bundles `src/cli/migrate.ts` (what `pnpm db:migrate` runs through tsx) into `dist/migrate.js`, with `@wringy/config` and zod inlined and the declared dependencies (`node-pg-migrate`, `pg`, `pg-boss`) external; the build fails on any other external. `dist/` sits beside `migrations/` as `src/` does, so the `import.meta.url` lookups of the migrations directory and the pg-boss CLI hold. The api image runs it as its one-off migrate step (`apps/api/README.md`, "Docker image") |
@@ -240,7 +329,22 @@ manifest"; the worker login refused `app.campaigns` and the API login refused
 change `pgboss.version` or plant a partitioned queue, and `pnpm db:migrate`
 refusing a database where such a queue was planted before 0006; the fixture trigger, the
 composite foreign key and the marker's constraints; and the seed being
-idempotent and refused where fixtures are not allowed. Unit tests carry it for
+idempotent and refused where fixtures are not allowed.
+
+Integration titles carry `M2-AC02/2` for the identity objects: `app.profiles`
+inserted and updated by the API login and never deleted (42501), its locale and
+status CHECKs, its `updated_at` trigger, an insert succeeding where fixtures are
+not allowed (it has no `data_origin`), and a catalog scan showing no such column
+and no fixture trigger (`profiles.int.test.ts`); the allow-list readable by the
+API and writable only by the migrator, its `email_norm` CHECK, a decomposed
+accented spelling becoming the same row as the composed one, and a full-width or
+ligature look-alike being its own row that never matches a listed ASCII address
+(`allowlist.int.test.ts`);
+`platform.session_is_live` answering true, false for a missing session, false for
+a past `not_after` and true for a future one, while no Wringy role can read
+`auth.sessions` (`platform.int.test.ts`); and, in `grants.int.test.ts`, the
+function's non-superuser owner, its grantees, and the API login's lack of any
+privilege on `auth`. Unit tests carry it for
 the installed pg-boss matching its exact pin, migration files that grant nothing
 to PUBLIC or the Supabase API roles and create no login role or password, and a
 SCRAM verifier that never contains the password.

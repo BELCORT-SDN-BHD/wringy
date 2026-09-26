@@ -3,7 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { EnvError } from '@wringy/config';
 import { loadBootstrapEnv } from '@wringy/config/bootstrap';
 
-import { DevelopmentPasswordRefusedError, isEmbeddedClusterUrl, resolveBootstrapPlan } from './bootstrap-plan';
+import { loadPlatformBootstrapEnv } from '@wringy/config/bootstrap';
+
+import {
+  DevelopmentPasswordRefusedError,
+  isEmbeddedClusterUrl,
+  resolveBootstrapPlan,
+  resolvePlatformAdminUrl,
+} from './bootstrap-plan';
 import { LOCAL_PASSWORDS, localUrls } from './local-dev';
 
 const plan = (source: Record<string, string>) => resolveBootstrapPlan(loadBootstrapEnv(source));
@@ -74,5 +81,50 @@ describe('M2-AC01/2 pnpm db:bootstrap uses the development passwords only on the
       },
       developmentPasswords: false,
     });
+  });
+});
+
+describe('M2-AC02/2 pnpm db:platform-bootstrap asks only for what it uses', () => {
+  it('M2-AC02/2 a hosted install needs the admin URL and none of the three login passwords', () => {
+    // It creates no login role and sets no password. Requiring them made the step
+    // packages/db/README.md documents impossible to run: it exited before opening
+    // a connection, naming three secrets it would never have used.
+    const env = loadPlatformBootstrapEnv({
+      WRINGY_ENV: 'staging',
+      PG_BOOTSTRAP_ADMIN_URL: REMOTE,
+      PG_BOOTSTRAP_DATABASE: 'postgres',
+    });
+
+    expect(resolvePlatformAdminUrl(env)).toBe(REMOTE);
+    expect(env.PG_BOOTSTRAP_DATABASE).toBe('postgres');
+    // The password-setting command still requires them, so nothing was loosened.
+    expect(refusal(() => plan({ WRINGY_ENV: 'staging', PG_BOOTSTRAP_ADMIN_URL: REMOTE }))).toBeInstanceOf(EnvError);
+  });
+
+  it('M2-AC02/2 the embedded local cluster still needs no admin URL at all', () => {
+    expect(resolvePlatformAdminUrl(loadPlatformBootstrapEnv({ WRINGY_ENV: 'local' }))).toBe(localUrls().superuser);
+  });
+
+  it('M2-AC02/2 outside local the admin URL is required, by name', () => {
+    const error = refusal(() => loadPlatformBootstrapEnv({ WRINGY_ENV: 'staging' }));
+    expect(error).toBeInstanceOf(EnvError);
+    expect((error as EnvError).problems.map((problem) => problem.name)).toEqual(['PG_BOOTSTRAP_ADMIN_URL']);
+    // And the same refusal comes from the resolver, so neither half can drift.
+    expect(refusal(() => resolvePlatformAdminUrl({ WRINGY_ENV: 'staging' }))).toBeInstanceOf(EnvError);
+  });
+
+  it('M2-AC02/2 a development password is never even looked at here', () => {
+    // resolveBootstrapPlan refuses one (it would land on a shared cluster); this
+    // command sets no password, so the value is irrelevant rather than refused.
+    const source = {
+      WRINGY_ENV: 'staging',
+      PG_BOOTSTRAP_ADMIN_URL: REMOTE,
+      PG_BOOTSTRAP_MIGRATOR_PASSWORD: LOCAL_PASSWORDS.migrator,
+      PG_BOOTSTRAP_API_PASSWORD: LOCAL_PASSWORDS.api,
+      PG_BOOTSTRAP_WORKER_PASSWORD: LOCAL_PASSWORDS.worker,
+    };
+
+    expect(resolvePlatformAdminUrl(loadPlatformBootstrapEnv(source))).toBe(REMOTE);
+    expect(refusal(() => plan(source))).toBeInstanceOf(DevelopmentPasswordRefusedError);
   });
 });

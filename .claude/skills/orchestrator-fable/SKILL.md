@@ -35,8 +35,8 @@ Heavy implementation may require detailed technical reasoning. The orchestrator 
 
 - Dispatch lanes **All lanes get explicit model overrides, FORBID to Overuse model `fable` as lane's model.**:
  1. **Claude native lane:** select the most suitable native `subagents`, `agent-teammates` or `dynamicworkflow` dispatch that can cover the task. **Model discipline is structural, not habitual: the main model (Fable) is mostly the orchestrator.** Select model + effort by capability:
- - Default worker: claude-sonnet-5, effort xhigh. Use default scoped generalist.
- - Escalate to claude-opus-5 xhigh when ambiguity, architectural judgment, cross-service coordination, security sensitivity, or weak validation dominates. Its good for complex agentic coding.
+ - Default worker: claude-sonnet, effort xhigh. Use default scoped generalist.
+ - Escalate to claude-opus, effort xhigh when ambiguity, architectural judgment, cross-service coordination, security sensitivity, or weak validation dominates. Its good for complex agentic coding.
  - Permit explicit Fable escalation for rare unsolved critical subtasks.
  
   Every native dispatch MUST carry an explicit `model` ; max effort tiers up to `xhigh`. 

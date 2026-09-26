@@ -10,7 +10,13 @@
  *    - scripts/fixtures/dependency-violation.ts (apps/web importing @wringy/db)
  *      must be rejected by `web-not-to-server-runtime`;
  *    - scripts/fixtures/dependency-violation-worker.ts (apps/worker importing
- *      @wringy/contracts) must be rejected by `worker-not-to-contracts`.
+ *      @wringy/contracts) must be rejected by `worker-not-to-contracts`;
+ *    - scripts/fixtures/dependency-violation-supabase.ts (a second file in
+ *      apps/web importing @supabase/ssr) must be rejected by
+ *      `supabase-client-only-in-auth-lib` (M2-02 R17);
+ *    - scripts/fixtures/dependency-violation-auth-demo.ts (the M2-02 auth
+ *      library importing the demo store) must be rejected by the widened
+ *      `internal-not-to-demo` (M2-02 R17).
  *    The copies are always removed, even when the cruise throws.
  *
  * Exit 0 only when both halves hold.
@@ -35,6 +41,20 @@ const PLANTED = [
     at: 'apps/worker/src/__dependency-violation__.ts',
     rule: 'worker-not-to-contracts',
     what: 'apps/worker importing @wringy/contracts',
+  },
+  {
+    fixture: 'scripts/fixtures/dependency-violation-supabase.ts',
+    // Under (internal)/ on purpose: a Server Component creating a client is the
+    // case the rule exists to stop.
+    at: 'apps/web/src/app/(internal)/internal/__dependency-violation__.ts',
+    rule: 'supabase-client-only-in-auth-lib',
+    what: 'a second apps/web file importing @supabase/ssr',
+  },
+  {
+    fixture: 'scripts/fixtures/dependency-violation-auth-demo.ts',
+    at: 'apps/web/src/lib/auth/__dependency-violation__.ts',
+    rule: 'internal-not-to-demo',
+    what: 'the M2-02 auth library importing the demo store',
   },
 ];
 

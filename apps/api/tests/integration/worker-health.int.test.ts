@@ -2,7 +2,17 @@ import { workerHealthResponseSchema, type WorkerHealthResponse } from '@wringy/c
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { CACHE_CONTROL } from '../../src/app';
-import { asMigrator, asWorker, buildTestApi, createTestDatabase, type TestApi, type TestDatabase } from './support';
+import { createTestIdentity } from './jwt-support';
+import {
+  asMigrator,
+  asWorker,
+  buildTestApi,
+  createTestDatabase,
+  signedIn,
+  type SignedIn,
+  type TestApi,
+  type TestDatabase,
+} from './support';
 
 const IMAGE = 'ghcr.io/belcort-sdn-bhd/wringy-worker:0123abc';
 
@@ -36,10 +46,16 @@ function queueStatesOf(body: WorkerHealthResponse): Record<string, string> {
 describe('M2-AC01 GET /internal/worker-health', () => {
   let db: TestDatabase;
   let api: TestApi;
+  let caller: SignedIn;
 
   beforeAll(async () => {
     db = await createTestDatabase();
-    api = await buildTestApi(db.urls.api);
+    const identity = await createTestIdentity();
+    // These tests move the HOST clock forward to prove the judgement is the
+    // database's; a token of the default one-hour life would expire under the
+    // shift and the assertion would be about the wrong thing.
+    caller = await signedIn(db, identity, { expiresIn: 24 * 60 * 60 });
+    api = await buildTestApi(db.urls.api, { identity });
   });
 
   afterAll(async () => {
@@ -53,7 +69,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
 
   it('M2-AC01/2 Fastify→PostgreSQL read (API leg): /internal/worker-health computes healthy/stale/stopped/never_seen on the database clock', async () => {
     // never_seen: no worker has ever written a row. The list is empty, never a count of 0 healthy.
-    const empty = await api.app.inject({ method: 'GET', url: '/internal/worker-health' });
+    const empty = await api.app.inject({ method: 'GET', url: '/internal/worker-health', headers: caller.headers });
     expect(empty.statusCode).toBe(200);
     expect(empty.headers['cache-control']).toBe(CACHE_CONTROL);
     const emptyBody = workerHealthResponseSchema.parse(empty.json());
@@ -66,7 +82,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     await beat(db, 'w-restarted', { lastBeatAgo: '3 seconds', stoppedAgo: '300 seconds' });
 
     const [clock] = await asMigrator<{ now: Date }>(db, 'SELECT now() AS now');
-    const response = await api.app.inject({ method: 'GET', url: '/internal/worker-health' });
+    const response = await api.app.inject({ method: 'GET', url: '/internal/worker-health', headers: caller.headers });
     expect(response.statusCode).toBe(200);
     const body = workerHealthResponseSchema.parse(response.json());
 
@@ -88,7 +104,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(Date.now() + hostShift);
     const shifted = workerHealthResponseSchema.parse(
-      (await api.app.inject({ method: 'GET', url: '/internal/worker-health' })).json(),
+      (await api.app.inject({ method: 'GET', url: '/internal/worker-health', headers: caller.headers })).json(),
     );
     vi.useRealTimers();
     expect(statesOf(shifted)).toEqual(statesOf(body));
@@ -102,7 +118,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     await beat(db, 'q-never', { lastBeatAgo: '2 seconds' });
     await beat(db, 'q-stopped-overdue', { lastBeatAgo: '20 minutes', stoppedAgo: '19 minutes', roundTripAgo: '21 minutes' });
 
-    const response = await api.app.inject({ method: 'GET', url: '/internal/worker-health' });
+    const response = await api.app.inject({ method: 'GET', url: '/internal/worker-health', headers: caller.headers });
     expect(response.statusCode).toBe(200);
     const body = workerHealthResponseSchema.parse(response.json());
     const queue = queueStatesOf(body);
@@ -125,7 +141,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(Date.now() + 60 * 60 * 1000);
     const shifted = workerHealthResponseSchema.parse(
-      (await api.app.inject({ method: 'GET', url: '/internal/worker-health' })).json(),
+      (await api.app.inject({ method: 'GET', url: '/internal/worker-health', headers: caller.headers })).json(),
     );
     vi.useRealTimers();
     expect(queueStatesOf(shifted)).toEqual(queue);
@@ -133,7 +149,7 @@ describe('M2-AC01 GET /internal/worker-health', () => {
 
   it('M2-AC01 a worker that beats again after being stale is healthy again', async () => {
     await beat(db, 'w-stale', { lastBeatAgo: '0 seconds' });
-    const body = (await api.app.inject({ method: 'GET', url: '/internal/worker-health' })).json() as WorkerHealthResponse;
+    const body = (await api.app.inject({ method: 'GET', url: '/internal/worker-health', headers: caller.headers })).json() as WorkerHealthResponse;
     expect(statesOf(body)['w-stale']).toBe('healthy');
   });
 });
