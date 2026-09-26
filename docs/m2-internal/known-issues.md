@@ -219,13 +219,40 @@ ruling or the reason it is accepted under.
   nobody has, and that tester is refused with the neutral `not_allowed` page until the row is written
   in the spelling the provider verifies. `pnpm db:allowlist list` prints the stored key, which is where
   such a row is visible.
-- **No real Google sign-in has been executed.** Every M2-AC02 row in the evidence record is
-  `simulated` (the local fake Auth server, a locally generated JWKS, or a stubbed liveness port),
-  and each §4.9 `Real` row is recorded `NOT EXECUTED` with its reason
-  ([acceptance-record.md](acceptance-record.md) "M2-AC02"). Simulated results cannot close the
-  ticket (`m2-spec.md` L59); the founder's walk is
-  [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
-
+- **An expired PKCE flow state comes back on the Site URL, not on the callback — so the Site URL must
+  stay `APP_ORIGIN`.** Found in the founder's real-login walk on 2026-09-26 and fixed in this ticket
+  (R11 rev 4), but it stays recorded because the fix depends on a Supabase setting nobody can see from
+  the code. When the flow state has expired — the tester idled more than about five minutes on
+  Google's account chooser or consent screen — GoTrue no longer holds the flow and therefore no longer
+  knows its `redirect_to`, so it sends the provider error to the project's **Site URL root** instead of
+  to `/auth/callback`:
+  `GET http://127.0.0.1:3100/?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired`
+  (captured verbatim from the browser's network log). `proxy.ts` reads any `error`/`error_code` on any
+  path but `/auth/callback` and answers `/internal/sign-in?outcome=expired`
+  (`outcomeFromSiteUrlError`; `proxy.test.ts`, `outcomes.test.ts`, and the simulated E2E row
+  "M2-AC02/1 simulated expired-state"). Two conditions of that: the Site URL of each project must be
+  `APP_ORIGIN` exactly (the §4.8 checklist item) — a Site URL pointing anywhere else sends the error to
+  a host this app never sees, and the tester is back to a page that says nothing happened, with nothing
+  in any log to show it; and the outcome copy says "expired" for a cancel that merely took too long,
+  because `bad_oauth_state` is all GoTrue tells us (the person's own cancel is no longer knowable at
+  that point). **GoTrue's flow-state lifetime is the project default and was not changed** — about
+  5 minutes, not a Wringy setting and not exposed by `/auth/v1/settings`; the number above is inferred
+  from the walk's two attempts (one at about 6 minutes failed, one inside a minute succeeded), not read
+  from a vendor document.
+- **Every §4.9 `Real` row has now run, and one of them contradicts the kickoff's expectation.** The
+  founder's walk of 2026-09-26 executed the Google rows; the orchestrator's script executed the last two
+  against the real Supabase dev project with admin-minted sessions (not Google). The "stale" row found
+  that reusing an already-rotated refresh token outside the 10 s reuse interval is **refused**
+  (`400 refresh_token_already_used`) but does **not** end the session: the current access token still
+  passes the probe and the current refresh token still rotates. §4.9 expected "the session ends". A
+  stolen, already-rotated token is therefore useless, but a stolen *current* one is as good as the
+  user's until it rotates, and Supabase's family revocation did not fire. Whether the project's
+  refresh-token reuse detection (Supabase dashboard, Auth → Sessions) should revoke the family is a
+  founder dashboard check; the code does not depend on it. Reuse of a token whose child is still unused
+  is answered 200 (a slow-client retry, GoTrue's leniency). The refresh row proved the proxy's refresh
+  path against the real Auth server (a real session stored with a past `expires_at` came back signed
+  in with a new cookie). Record: [acceptance-record.md](acceptance-record.md) "Real rows executed by
+  script". The walk itself is [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
 ## Governance not yet in force
 
 - **Branch protection (D22) waits for the merge.** Today `main` requires only `planning`

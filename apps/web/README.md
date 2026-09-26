@@ -134,6 +134,11 @@ the demo exposes no cookie-writing surface at all.
    `redirectTo = APP_ORIGIN + '/auth/callback'` (so one exact entry in Supabase's redirect
    allow-list works everywhere), then answers 303 to Google. Google is asked for `email profile`
    only — no YouTube scope, and no `openid`.
+   If the PKCE flow state expires first — the tester idles more than about five minutes on Google's
+   chooser or consent screen — Supabase loses the flow's `redirect_to` and sends the provider error to
+   the project's Site URL root instead (`GET /?error=invalid_request&error_code=bad_oauth_state&…`), so
+   `src/proxy.ts` reads it there and answers `/internal/sign-in?outcome=expired` rather than letting the
+   query be dropped (R11 rev 4; the Site URL must be `APP_ORIGIN` for it to arrive at all).
 3. `GET /auth/callback?code=…` exchanges the code for a session, then calls
    `POST /identity/sign-in` on Fastify with the new access token. Fastify owns the decision: the
    tester allow-list and the profile upsert. 200 → 303 back to the stored path. 403
@@ -182,7 +187,11 @@ Server Actions only, and each handler applies its own guards in one fixed order 
 
 In `demo` mode: nothing. `NextResponse.next()`, no cookie read, no header changed.
 
-In `internal` mode: `/` → 307 `/internal`; any path outside `/internal`, `/internal/…` and
+In `internal` mode: an `error` or `error_code` on any path but `/auth/callback` → 307 to
+`/internal/sign-in?outcome=…` first of all, before the routing shape and before any cookie is read
+(that is where an expired flow state's error lands, see step 2 above; a rewrite to the same page when
+the three variables are missing, because a `Location` must never come from the request's host);
+`/` → 307 `/internal`; any path outside `/internal`, `/internal/…` and
 `/auth/…` → rewritten to the internal not-found page; `GET`/`HEAD` on `/internal` and
 `/internal/…` (except the public sign-in page and the not-found page) → refresh the session under an
 overall 8 s deadline, copy any refreshed cookies onto both the forwarded request and the response,

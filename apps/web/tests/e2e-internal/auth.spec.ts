@@ -222,6 +222,39 @@ test.describe('M2-AC02 internal build identity: sign-in, refresh and sign-out ag
     await expectNoSessionCookie(context);
   });
 
+  test('M2-AC02/1 simulated expired-state: a flow state gone at the provider comes back on the Site URL root and still shows the expired outcome', async ({
+    tagged,
+  }) => {
+    // The founder's real walk of 2026-09-26 found this one, and no simulated row
+    // had ever seen it: when the PKCE flow state has expired (the tester idled on
+    // Google's chooser or consent screen past GoTrue's flow-state lifetime),
+    // Supabase does NOT redirect the provider error to `/auth/callback` — it no
+    // longer knows the flow's `redirect_to`, so it puts the error on the project's
+    // **Site URL root** instead. Before the fix the proxy turned `/` into
+    // `/internal`, dropped the query, and the tester met a bare sign-in page with
+    // no outcome at all, which is exactly what M2-AC02/1 forbids
+    // (过期…均有用户可见结果).
+    const { page, context, tag, control } = tagged;
+    await control.expireFlowToSiteUrl(tag);
+
+    // The consent is COMPLETED, not cancelled: the person picked their account and
+    // only then discovered the flow was gone.
+    await signInAs(page, 'alice');
+    await page.waitForURL((url) => url.pathname === WEB_ROUTES.signInPage);
+
+    await expectOutcome(page, 'expired');
+    // The browser really came back through the Site URL root, which is the part
+    // the proxy had to learn to read.
+    expect(
+      page.url().startsWith(`${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.signInPage}`),
+      'the outcome is on the app origin, never on a host a header supplied',
+    ).toBe(true);
+    await expectNoSessionCookie(context);
+    // Nothing was exchanged, so the provider made no session either.
+    const report = await control.calls(tag);
+    expect(report.sessions, 'an expired flow state creates no session').toHaveLength(0);
+  });
+
   test('M2-AC02/1 simulated wrong_browser: a consent completed in another browser shows the wrong-browser outcome', async ({
     tagged,
     openDevice,

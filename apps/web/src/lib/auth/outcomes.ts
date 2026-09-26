@@ -7,7 +7,7 @@
  * `internal.signIn.outcomes.<code>`, so the page always says what happened and
  * what to do next instead of failing silently.
  *
- * The two sources:
+ * The three sources:
  *
  *  - **Callback query parameters**, which Supabase appends when the provider
  *    leg fails before any token exists: a Google cancel arrives as
@@ -18,6 +18,11 @@
  *    `bad_code_verifier` (400), plus auth-js's own
  *    `AuthPKCECodeVerifierMissingError` when this browser holds no verifier
  *    cookie at all.
+ *  - **Supabase's Site-URL error redirect** (rev 4), the one the founder's real
+ *    walk found: once the PKCE flow state has expired, GoTrue no longer holds
+ *    the flow's `redirect_to`, so it sends the provider error to the project's
+ *    **Site URL root** rather than to `/auth/callback`. `proxy.ts` reads it
+ *    there with `outcomeFromSiteUrlError`.
  *
  * `bad_code_verifier` and a missing verifier share the `wrong_browser` copy on
  * purpose: both mean "the browser finishing sign-in is not the browser that
@@ -59,13 +64,32 @@ interface QueryLike {
 }
 
 /**
+ * Every `error_code` that means "the flow state is gone", whichever of the two
+ * URLs Supabase puts it on.
+ *
+ * `flow_state_not_found` is GoTrue saying it holds no record of this flow;
+ * `flow_state_expired` is the same thing said by the token endpoint;
+ * `bad_oauth_state` is what the **Site-URL** redirect carries once the flow
+ * state's lifetime has passed (`error=invalid_request&error_code=bad_oauth_state`
+ * `&error_description=OAuth+state+has+expired`, captured verbatim from the
+ * founder's real walk on 2026-09-26). All three are the same story to the
+ * person: the sign-in took too long, start again.
+ */
+const EXPIRED_FLOW_ERROR_CODES: ReadonlySet<string> = new Set([
+  'bad_oauth_state',
+  'flow_state_expired',
+  'flow_state_not_found',
+]);
+
+/**
  * The outcome a callback's query parameters describe, or `null` when they
  * describe no failure at all (the happy path, where a `code` is present).
  *
- * `error=access_denied` is the cancel Google sends when the person declines;
- * `error_code=flow_state_not_found` is Supabase saying it has no record of this
- * flow. Any other `error` is `unexpected`: the page says something went wrong
- * and offers to start again, rather than guessing.
+ * `error=access_denied` is the cancel Google sends when the person declines, and
+ * it wins over any `error_code`: the person's own cancel is the more useful
+ * thing to say. An `error_code` from `EXPIRED_FLOW_ERROR_CODES` is `expired`.
+ * Any other `error` is `unexpected`: the page says something went wrong and
+ * offers to start again, rather than guessing.
  */
 export function outcomeFromCallbackQuery(params: QueryLike): Outcome | null {
   const error = params.get('error');
@@ -73,8 +97,33 @@ export function outcomeFromCallbackQuery(params: QueryLike): Outcome | null {
 
   if (error === null && errorCode === null) return null;
   if (error === 'access_denied') return 'cancelled';
-  if (errorCode === 'flow_state_not_found') return 'expired';
+  if (errorCode !== null && EXPIRED_FLOW_ERROR_CODES.has(errorCode)) return 'expired';
   return 'unexpected';
+}
+
+/**
+ * The outcome an error Supabase put on the **Site URL root** describes — the
+ * third source (rev 4), and the one no simulated row had seen.
+ *
+ * When the PKCE flow state has expired (the tester idled on Google's account
+ * chooser or consent screen past GoTrue's flow-state lifetime, the project
+ * default of about five minutes), GoTrue no longer holds the flow and therefore
+ * no longer knows its `redirect_to`. It falls back to the project's Site URL and
+ * sends the provider error there instead, which on the internal build is
+ * `GET /?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired`
+ * — never `/auth/callback`. The founder's walk of 2026-09-26 captured exactly
+ * that request, and until this function existed the proxy turned `/` into
+ * `/internal`, dropped the query, and the tester met a bare sign-in page with no
+ * outcome at all.
+ *
+ * The mapping is `outcomeFromCallbackQuery`'s, deliberately and not by accident:
+ * the error is the provider leg failing before any token exists, which is the
+ * same question asked at a different URL, and two tables that must agree would
+ * eventually not. It is a separate export only so the call site in `proxy.ts`
+ * names which source it is reading.
+ */
+export function outcomeFromSiteUrlError(params: QueryLike): Outcome | null {
+  return outcomeFromCallbackQuery(params);
 }
 
 /** The fields this module reads off an unknown thrown or returned value. */
