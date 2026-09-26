@@ -780,10 +780,31 @@ for (const viewport of [
       await expect(memberRow(carol, DAVE.id).locator('[data-state-kind="role"]')).toHaveAttribute('data-state-code', 'admin');
       await expectNoHorizontalScroll(carol);
 
+      // Only the browser that created an invitation is shown its link (R9): Dave, now an admin,
+      // opens Erin's invitation page on his own phone and sees it without a link, while Carol's
+      // page-scoped cookie still shows it to her.
+      const forErinPage = `${orgPagePath(orgA)}/invitations/${forErin.id}`;
+      await dave.page.goto(forErinPage);
+      await expect(dave.page.getByTestId('invitation-address')).toHaveText(ERIN.email);
+      await expect(dave.page.getByTestId('invitation-no-link')).toBeVisible();
+      await expect(dave.page.getByTestId('invitation-accept-link')).toHaveCount(0);
+      await expectNoHorizontalScroll(dave.page);
+      await carol.goto(forErinPage);
+      await expect(carol.getByTestId('invitation-accept-link')).toBeVisible();
+      await carol.goto(orgPagePath(orgA));
+
       await reachAndPress(carol.locator(`[data-invitation-id="${forErin.id}"]`).getByTestId('invitation-revoke-submit'));
       await expectOutcome(carol, orgPagePath(orgA), 'revoked');
       await expect(carol.locator(`[data-invitation-id="${forErin.id}"]`)).toHaveCount(0);
       await expectNoHorizontalScroll(carol);
+
+      // Revoked, the invitation shows no link at all, even to Carol, whose cookie is still alive.
+      await carol.goto(forErinPage);
+      await expect(carol.locator('[data-app-state="invitation-not-pending"]')).toBeVisible();
+      await expect(carol.getByRole('heading', { level: 1, name: internalCopy('en-MY', 'invitations.notPending.title') })).toBeVisible();
+      await expect(carol.getByTestId('invitation-accept-link')).toHaveCount(0);
+      await expectNoHorizontalScroll(carol);
+      await carol.goto(orgPagePath(orgA));
 
       await carol.getByTestId('invite-email').fill(ERIN.email);
       await reachAndPress(carol.getByTestId('invite-submit'));
