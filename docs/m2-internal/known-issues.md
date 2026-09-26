@@ -158,9 +158,9 @@ ruling or the reason it is accepted under.
   would close the risk. Neither holds: Supabase links a new identity carrying a known verified
   address to the *existing* user, so the new holder signs in as the **old** `sub` and inherits its
   profile, every membership and every grant, and keying membership by `sub` does not close it. The
-  risk is still open, for the founder — §M2-03 below, R16 and question §6.3 of
-  [m2-03-code-review.md](m2-03-code-review.md); the operator runbook is `packages/db/README.md`
-  ("Retiring an address").
+  risk is accepted for the internal build by the founder's ruling of 2026-09-27 and revisited before M4 —
+  §M2-03 below, R16 and §6.3 of [m2-03-code-review.md](m2-03-code-review.md); the operator runbook is
+  `packages/db/README.md` ("Retiring an address").
 - **A JWKS key set that is fetched but names no matching key is the token's fault (R9).** jose
   raises `ERR_JWKS_NO_MATCHING_KEY` both for a token naming a key the project does not publish
   (the token's fault, 401) and, more rarely, for a project-side state: a key set served empty, or a
@@ -269,7 +269,7 @@ Recorded 2026-09-26 against branch `feat/m2-03`, from the design record
 M2-03 accepts, each with the ruling or the reason it is accepted under; the rows that name a later
 ticket are hand-offs, not defects.
 
-- **A recycled Google address inherits everything the old holder had (R16; open, for the founder).**
+- **A recycled Google address inherits everything the old holder had (R16; accepted by the founder on 2026-09-27 for the internal build, revisited before M4).**
   Supabase links a new Google identity that carries a known verified address to the *existing*
   user (identity-linking guide; GoTrue `DetermineAccountLinking`), so the new holder signs in as the
   old `sub` and inherits the old profile, every membership including admin, and every review,
@@ -279,8 +279,10 @@ ticket are hand-offs, not defects.
   each grant, remove the address from the allow-list, disable the profile (the hook refuses a
   disabled profile on the next request) and revoke pending invitations. The priced alternative
   (about half a day: pin `user_metadata.provider_id` at first sign-in and refuse a later sign-in whose
-  value differs) needs GoTrue's metadata merge on a linked login verified first. Founder question
-  §6.3 of the design record.
+  value differs) needs GoTrue's metadata merge on a linked login verified first. Ruled on 2026-09-27
+  (design record §6.3): accepted for the internal build with the runbook; before M4, when real
+  merchants and staff turnover would let a departed person's address hand `finance` to a new hire
+  without any grant record, the pin is the candidate mitigation.
 - **A pending invitation follows the address, not the person, for its seven days (D2, D7).** The
   match is the verified `email` claim against `invitee_email_norm`. Whoever holds that address and
   passes the allow-list inside the window can accept; an admin revokes a pending invitation when an
