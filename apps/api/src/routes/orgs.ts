@@ -18,7 +18,7 @@ import type { Pool } from '@wringy/db';
 
 import { actorOf, VARY_AUTHORIZATION } from '../authenticate';
 import {
-  countActiveAdmins,
+  assertNotLastAdmin,
   readActiveMembership,
   Refused,
   runCommand,
@@ -195,9 +195,7 @@ export const orgRoutes: FastifyPluginAsyncZod<OrgRoutesOptions> = async (app, { 
         async (client, context) => {
           const target = await lockMember(client, orgId, userId);
           if (target === null) throw new Refused(404, 'member.not_found', 'not_in_org');
-          if (target.role === 'admin' && role !== 'admin' && (await countActiveAdmins(client, orgId, userId)) === 0) {
-            throw new Refused(409, 'org.last_admin', 'last_admin', { summary: { before: { role: target.role } } });
-          }
+          if (role !== 'admin') await assertNotLastAdmin(client, orgId, { userId, role: target.role });
           const membership = await changeRole(client, orgId, userId, role);
           await context.audit({ summary: { before: { role: target.role }, after: { role: membership.role } } });
           return { membership };
@@ -241,9 +239,7 @@ export const orgRoutes: FastifyPluginAsyncZod<OrgRoutesOptions> = async (app, { 
           if (userId === context.actor.userId) throw new Refused(409, 'member.self', 'self');
           const target = await lockMember(client, orgId, userId);
           if (target === null) throw new Refused(404, 'member.not_found', 'not_in_org');
-          if (target.role === 'admin' && (await countActiveAdmins(client, orgId, userId)) === 0) {
-            throw new Refused(409, 'org.last_admin', 'last_admin', { summary: { before: { role: target.role } } });
-          }
+          await assertNotLastAdmin(client, orgId, { userId, role: target.role });
           const membership = await removeMember(client, orgId, userId, context.actor.userId);
           await context.audit({
             summary: { before: { role: target.role, status: 'active' }, after: { status: membership.status } },
@@ -286,9 +282,7 @@ export const orgRoutes: FastifyPluginAsyncZod<OrgRoutesOptions> = async (app, { 
           // The caller's own row, locked like any target row (after the org lock).
           const own = await lockMember(client, orgId, self);
           if (own === null) throw new Refused(403, 'org.forbidden', 'not_a_member', { targetType: 'org', targetId: orgId });
-          if (own.role === 'admin' && (await countActiveAdmins(client, orgId, self)) === 0) {
-            throw new Refused(409, 'org.last_admin', 'last_admin', { summary: { before: { role: own.role } } });
-          }
+          await assertNotLastAdmin(client, orgId, { userId: self, role: own.role });
           const membership = await leave(client, orgId, self);
           await context.audit({ summary: { before: { role: own.role, status: 'active' }, after: { status: membership.status } } });
           return { membership };

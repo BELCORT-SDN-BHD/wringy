@@ -28,8 +28,8 @@
  *    foreign-key inserts by other transactions (which take `KEY SHARE` on the
  *    org) are not blocked, while two commands on one org serialise;
  * 5. the caller's membership and role re-read under that lock;
- * 6. then the command's own target rows (`FOR UPDATE`), the last-admin count,
- *    the write and its audit row, in the caller's `work`.
+ * 6. then the command's own target rows (`FOR UPDATE`), the last-admin count
+ *    (`assertNotLastAdmin`), the write and its audit row, in the caller's `work`.
  *
  * Accepting an invitation (`routes/invitations.ts`) learns the org and the
  * address from the invitation, refuses another address before any lock (like
@@ -203,6 +203,24 @@ export class Refused extends Error {
     readonly audit: AuditDetail = {},
   ) {
     super(`refused: ${reason}`);
+  }
+}
+
+/**
+ * R5 step 7, the last-admin guard (ruling D3): refuses 409 `org.last_admin` when
+ * `target` is an admin and no other active admin whose profile is active would
+ * remain once it is demoted, removed or leaves. Called under the org lock, after
+ * the target row is locked, by the three commands that can take an admin away
+ * (role change to member, remove, leave); a member target passes untouched.
+ */
+export async function assertNotLastAdmin(
+  client: Queryable,
+  orgId: string,
+  target: { userId: string; role: OrgRole },
+): Promise<void> {
+  if (target.role !== 'admin') return;
+  if ((await countActiveAdmins(client, orgId, target.userId)) === 0) {
+    throw new Refused(409, 'org.last_admin', 'last_admin', { summary: { before: { role: target.role } } });
   }
 }
 
