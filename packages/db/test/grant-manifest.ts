@@ -64,9 +64,11 @@ export interface RoleGrants {
 
 export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', RoleGrants>> = {
   // Fastify: reads business rows and the operations records GET /health and
-  // /internal/* need. No writes in M2-01, no DDL, and nothing in pgboss
-  // (kickoff-package.md §4.11, §8.5): it reads the pg-boss schema version
-  // through the migrator-owned view ops.pgboss_schema_version (0006).
+  // /internal/* need. No DDL and nothing in pgboss (kickoff-package.md §4.11,
+  // §8.5): it reads the pg-boss schema version through the migrator-owned view
+  // ops.pgboss_schema_version (0006). Its writes are column grants only (below):
+  // the sign-in's profile columns (0010) and, since M2-03, the org, membership,
+  // invitation and audit columns its commands write (0011–0016).
   wringy_api: {
     login: ROLES.apiLogin,
     // public: PostgreSQL's own default (PUBLIC keeps USAGE on it); nothing is
@@ -76,8 +78,22 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
     // SECURITY DEFINER function (M2-02 R3).
     schemas: { app: ['USAGE'], ops: ['USAGE'], platform: ['USAGE'], public: ['USAGE'] },
     tables: {
+      // INSERT (name, created_by) and UPDATE (name) are column grants since 0011:
+      // the API cannot choose an org's id, write its data_origin or change its
+      // creator, and UPDATE (name) is what lets a command lock the org row.
       'app.orgs': ['SELECT'],
       'app.campaigns': ['SELECT'],
+      // Memberships and invitations: read on the table, written per column
+      // (0012, 0013), never deleted.
+      'app.org_members': ['SELECT'],
+      'app.org_invitations': ['SELECT'],
+      // Capability grants: read only; `pnpm db:grant` writes them as the migrator
+      // (0014, 0015; ruling D4).
+      'app.admin_scopes': ['SELECT'],
+      'app.platform_grants': ['SELECT'],
+      // app.audit_log is deliberately absent: 0016 revokes the SELECT 0001's
+      // default gave, so the table itself grants the API nothing and its INSERT
+      // is per column below (no UPDATE, no DELETE, no sequence privilege).
       // The API upserts the profile at each sign-in and never deletes one (0008).
       // INSERT and UPDATE are column grants since 0010, so the table itself
       // carries SELECT only and the writable columns are listed below.
@@ -89,15 +105,60 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
       'ops.pgmigrations': ['SELECT'],
       'ops.pgboss_schema_version': ['SELECT'],
     },
-    // What a sign-in writes, and nothing else (0010; ruling D12, D7). `status` is
-    // absent on purpose: only an operator disables an account, so the runtime role
-    // must not be able to write it. `locale_pref` and `locale_pref_set_at` are
-    // absent because M2-04 owns the feature that writes them.
+    // Profiles: what a sign-in writes, and nothing else (0010; ruling D12, D7).
+    // `status` is absent on purpose: only an operator disables an account, so the
+    // runtime role must not be able to write it. `locale_pref` and
+    // `locale_pref_set_at` are absent because M2-04 owns the feature that writes
+    // them. Then the M2-03 columns (0011–0016; kickoff code review R1, R3).
     columns: {
       'app.profiles.id': ['INSERT'],
       'app.profiles.contact_email': ['INSERT', 'UPDATE'],
       'app.profiles.display_name': ['INSERT', 'UPDATE'],
       'app.profiles.last_sign_in_at': ['INSERT', 'UPDATE'],
+      // 0011: create writes the name and the creator; rename writes the name.
+      'app.orgs.name': ['INSERT', 'UPDATE'],
+      'app.orgs.created_by': ['INSERT'],
+      // 0012: create and accept insert; accept's re-activation upsert, role
+      // change, remove and leave update. Never DELETE.
+      'app.org_members.org_id': ['INSERT'],
+      'app.org_members.user_id': ['INSERT'],
+      'app.org_members.role': ['INSERT', 'UPDATE'],
+      'app.org_members.status': ['UPDATE'],
+      'app.org_members.grant_basis': ['INSERT', 'UPDATE'],
+      'app.org_members.invitation_id': ['INSERT', 'UPDATE'],
+      'app.org_members.granted_by': ['INSERT', 'UPDATE'],
+      'app.org_members.granted_at': ['UPDATE'],
+      'app.org_members.removed_by': ['UPDATE'],
+      'app.org_members.removed_at': ['UPDATE'],
+      'app.org_members.removal_basis': ['UPDATE'],
+      // 0013: never UPDATE of role, expires_at or token_hash, so a bug cannot
+      // escalate, extend or re-key a pending invitation.
+      'app.org_invitations.org_id': ['INSERT'],
+      'app.org_invitations.invited_by': ['INSERT'],
+      'app.org_invitations.invitee_email_norm': ['INSERT'],
+      'app.org_invitations.role': ['INSERT'],
+      'app.org_invitations.token_hash': ['INSERT'],
+      'app.org_invitations.expires_at': ['INSERT'],
+      'app.org_invitations.status': ['UPDATE'],
+      'app.org_invitations.accepted_by': ['UPDATE'],
+      'app.org_invitations.accepted_at': ['UPDATE'],
+      'app.org_invitations.revoked_by': ['UPDATE'],
+      'app.org_invitations.revoked_at': ['UPDATE'],
+      // 0016: append-only. Every column but id (identity), occurred_at (the
+      // database clock) and recorded_by (the writing login, current_user).
+      'app.audit_log.actor_kind': ['INSERT'],
+      'app.audit_log.actor_user_id': ['INSERT'],
+      'app.audit_log.actor_label': ['INSERT'],
+      'app.audit_log.context_org_id': ['INSERT'],
+      'app.audit_log.action': ['INSERT'],
+      'app.audit_log.target_type': ['INSERT'],
+      'app.audit_log.target_id': ['INSERT'],
+      'app.audit_log.outcome': ['INSERT'],
+      'app.audit_log.denial_code': ['INSERT'],
+      'app.audit_log.reason': ['INSERT'],
+      'app.audit_log.summary': ['INSERT'],
+      'app.audit_log.request_id': ['INSERT'],
+      'app.audit_log.session_ref': ['INSERT'],
     },
     sequences: {},
     functions: [SESSION_IS_LIVE_SIGNATURE],

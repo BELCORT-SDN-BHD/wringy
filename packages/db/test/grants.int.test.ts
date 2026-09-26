@@ -451,6 +451,97 @@ describe('M2-AC01/2 runtime role privileges', () => {
     }
   });
 
+  it('M2-AC03/3 app.audit_log is append-only for wringy_api_login: SELECT, UPDATE, DELETE and an INSERT naming occurred_at or recorded_by → 42501', async () => {
+    // 0016 revoked the SELECT 0001's default gave and granted INSERT per column,
+    // never on id, occurred_at or recorded_by (M2-03 code review R3).
+    const row = `'system', 'org.read', 'denied', 'org.forbidden'`;
+    for (const sql of [
+      'SELECT * FROM app.audit_log',
+      'SELECT count(*) FROM app.audit_log',
+      `UPDATE app.audit_log SET reason = 'rewritten'`,
+      'DELETE FROM app.audit_log',
+      'TRUNCATE app.audit_log',
+      `INSERT INTO app.audit_log (occurred_at, actor_kind, action, outcome, denial_code) VALUES (now() - interval '1 day', ${row})`,
+      `INSERT INTO app.audit_log (recorded_by, actor_kind, action, outcome, denial_code) VALUES ('wringy_migrator', ${row})`,
+      `INSERT INTO app.audit_log (id, actor_kind, action, outcome, denial_code) OVERRIDING SYSTEM VALUE VALUES (1, ${row})`,
+      // RETURNING reads the row back, which needs SELECT: the API writes without it.
+      `INSERT INTO app.audit_log (actor_kind, action, outcome, denial_code) VALUES (${row}) RETURNING id`,
+    ]) {
+      expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
+    }
+    // The worker has no USAGE on schema app at all.
+    expect(await sqlState(withClientAt(db.urls.worker, (c) => c.query('SELECT * FROM app.audit_log')))).toBe('42501');
+  });
+
+  it('M2-AC03/3 the API login appends an audit row with no sequence privilege, and the row records wringy_api_login as its writer', async () => {
+    const { rows: sequence } = await migrator.query<{ usage: boolean; select: boolean; update: boolean }>(
+      `SELECT has_sequence_privilege($1, s.oid, 'USAGE') AS usage,
+              has_sequence_privilege($1, s.oid, 'SELECT') AS select,
+              has_sequence_privilege($1, s.oid, 'UPDATE') AS update
+         FROM pg_catalog.pg_class s
+        WHERE s.oid = pg_get_serial_sequence('app.audit_log', 'id')::regclass`,
+      [ROLES.apiLogin],
+    );
+    expect(sequence).toEqual([{ usage: false, select: false, update: false }]);
+
+    const requestId = '7d3f0c8e-2a41-4b6e-9f10-3c5d7e9a1b2c';
+    const sessionRef = 'a'.repeat(64);
+    const actor = 'c0ffee00-0000-4000-8000-00000000a0d1';
+    await withClientAt(db.urls.api, (c) =>
+      c.query(
+        `INSERT INTO app.audit_log
+              (actor_kind, actor_user_id, context_org_id, action, target_type, target_id, outcome, denial_code,
+               reason, request_id, session_ref)
+         VALUES ('user', $1, $2, 'org.read', 'org', $5, 'denied', 'org.forbidden', 'not_a_member', $3, $4)`,
+        [actor, 'a0000000-0000-4000-8000-00000000ffff', requestId, sessionRef, 'a0000000-0000-4000-8000-00000000ffff'],
+      ),
+    );
+    const { rows } = await migrator.query<{ recorded_by: string; id: string; fresh: boolean }>(
+      `SELECT recorded_by, id::text AS id, occurred_at > now() - interval '1 minute' AS fresh
+         FROM app.audit_log WHERE request_id = $1`,
+      [requestId],
+    );
+    expect(rows).toEqual([{ recorded_by: ROLES.apiLogin, id: expect.stringMatching(/^\d+$/), fresh: true }]);
+  });
+
+  it('M2-AC03/1 wringy_api_login cannot write a capability grant: INSERT, UPDATE or DELETE on app.admin_scopes and app.platform_grants → 42501', async () => {
+    const subject = 'c0ffee00-0000-4000-8000-00000000a0d2';
+    for (const sql of [
+      `INSERT INTO app.admin_scopes (user_id, org_id, capability, granted_by_operator, reason)
+            VALUES ('${subject}', 'a0000000-0000-4000-8000-000000000001', 'review', 'api', 'self-service')`,
+      `INSERT INTO app.admin_scopes (user_id, org_id, capability, granted_by_operator, reason)
+            VALUES ('${subject}', 'a0000000-0000-4000-8000-000000000001', 'finance', 'api', 'self-service')`,
+      `INSERT INTO app.platform_grants (user_id, capability, granted_by_operator, reason)
+            VALUES ('${subject}', 'ops_runtime', 'api', 'self-service')`,
+      `UPDATE app.admin_scopes SET capability = 'finance'`,
+      `UPDATE app.platform_grants SET reason = 'changed'`,
+      'DELETE FROM app.admin_scopes',
+      'DELETE FROM app.platform_grants',
+    ]) {
+      expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
+    }
+  });
+
+  it('M2-AC03/2 wringy_api_login cannot delete a membership, write an org id, data origin or creator, or change the role, expiry or token hash of an invitation (42501)', async () => {
+    for (const sql of [
+      'DELETE FROM app.org_members',
+      'DELETE FROM app.org_invitations',
+      'DELETE FROM app.orgs',
+      `UPDATE app.org_members SET org_id = org_id`,
+      `UPDATE app.org_members SET user_id = user_id`,
+      `UPDATE app.org_invitations SET role = 'admin'`,
+      `UPDATE app.org_invitations SET expires_at = now() + interval '1 year'`,
+      `UPDATE app.org_invitations SET token_hash = repeat('0', 64)`,
+      `UPDATE app.org_invitations SET invitee_email_norm = 'someone@example.test'`,
+      `UPDATE app.orgs SET data_origin = 'fixture'`,
+      `UPDATE app.orgs SET created_by = NULL`,
+      `INSERT INTO app.orgs (id, name) VALUES (gen_random_uuid(), 'Chosen id')`,
+      `INSERT INTO app.orgs (name, data_origin) VALUES ('Relabelled', 'fixture')`,
+    ]) {
+      expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
+    }
+  });
+
   it('M2-AC01/2 wringy_worker_login cannot read app.campaigns or app.orgs (42501)', async () => {
     expect(await sqlState(withClientAt(db.urls.worker, (c) => c.query('SELECT * FROM app.campaigns')))).toBe('42501');
     expect(await sqlState(withClientAt(db.urls.worker, (c) => c.query('SELECT * FROM app.orgs')))).toBe('42501');
