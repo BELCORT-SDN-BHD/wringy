@@ -50,6 +50,11 @@ export interface OrgViewProps {
  * No member row carries an address of any kind (the contract has none); the
  * pending invitations show the invited address to admins only, because the
  * API sends `invitations` to admins only.
+ *
+ * Each row's buttons are named for the row (rev 3): "Remove Dave Raj", not a
+ * column of identical "Remove"s a screen reader cannot tell apart. The name
+ * starts with the visible label, so a voice command saying what is on screen
+ * still finds it.
  */
 export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
   const t = await getTranslations('internal');
@@ -128,12 +133,24 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
                                     </NativeSelectOption>
                                   ))}
                                 </NativeSelect>
-                                <Button type="submit" size="sm" variant="outline" data-testid="member-role-submit">
+                                <Button
+                                  type="submit"
+                                  size="sm"
+                                  variant="outline"
+                                  aria-label={t('org.members.changeRoleFor', { name })}
+                                  data-testid="member-role-submit"
+                                >
                                   {t('org.members.changeRole')}
                                 </Button>
                               </form>
                               <form method="post" action={ORG_ACTIONS.remove(orgId, member.userId)} data-testid="member-remove-form">
-                                <Button type="submit" size="sm" variant="destructive" data-testid="member-remove-submit">
+                                <Button
+                                  type="submit"
+                                  size="sm"
+                                  variant="destructive"
+                                  aria-label={t('org.members.removeFor', { name })}
+                                  data-testid="member-remove-submit"
+                                >
                                   <UserMinus aria-hidden="true" />
                                   {t('org.members.remove')}
                                 </Button>
@@ -229,7 +246,13 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
                         </TableCell>
                         <TableCell>
                           <form method="post" action={ORG_ACTIONS.revoke(orgId, invitation.id)} data-testid="invitation-revoke-form">
-                            <Button type="submit" size="sm" variant="destructive" data-testid="invitation-revoke-submit">
+                            <Button
+                              type="submit"
+                              size="sm"
+                              variant="destructive"
+                              aria-label={t('org.invitations.revokeFor', { email: invitation.inviteeEmailNorm })}
+                              data-testid="invitation-revoke-submit"
+                            >
                               <CircleX aria-hidden="true" />
                               {t('org.invitations.revoke')}
                             </Button>

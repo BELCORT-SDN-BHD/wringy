@@ -170,7 +170,9 @@
       "you": "(anda)",
       "roleFor": "Peranan untuk {name}",
       "changeRole": "Tukar peranan",
-      "remove": "Keluarkan"
+      "remove": "Keluarkan",
+      "changeRoleFor": "Tukar peranan untuk {name}",
+      "removeFor": "Keluarkan {name}"
     },
     "invite": {
       "title": "Jemputan",
@@ -192,7 +194,8 @@
         "expires": "Tamat tempoh",
         "actions": "Tindakan"
       },
-      "revoke": "Batalkan"
+      "revoke": "Batalkan",
+      "revokeFor": "Batalkan jemputan kepada {email}"
     },
     "rename": {
       "title": "Nama organisasi",

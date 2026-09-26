@@ -685,6 +685,17 @@ for (const viewport of [
         await expect(carol.getByTestId('invite-sign-in-note')).toHaveText(copy('org.invite.signInNote'));
         await expect(carol.getByTestId('org-invitations-table').locator('[data-invitation-id]')).toHaveCount(1);
         await expect(memberRow(carol, DAVE.id).getByTestId('member-remove-submit')).toHaveText(copy('org.members.remove'));
+        // Each row's buttons are named for their row, so a screen reader tells them apart (rev 3).
+        const named = (key: string, value: string): string => copy(key).replace(/\{(name|email)\}/, value);
+        await expect(memberRow(carol, DAVE.id).getByTestId('member-remove-submit')).toHaveAccessibleName(
+          named('org.members.removeFor', DAVE.fullName),
+        );
+        await expect(memberRow(carol, DAVE.id).getByTestId('member-role-submit')).toHaveAccessibleName(
+          named('org.members.changeRoleFor', DAVE.fullName),
+        );
+        await expect(carol.getByTestId('org-invitations-table').getByTestId('invitation-revoke-submit')).toHaveAccessibleName(
+          named('org.invitations.revokeFor', ERIN.email),
+        );
         await internalShot(carol, `org-admin-${locale}`);
 
         // An outsider's forbidden state, in her language.
@@ -693,6 +704,7 @@ for (const viewport of [
         await signInTo(erin.page, 'erin');
         await erin.page.goto(orgPagePath(orgA));
         await expect(erin.page.locator('[data-app-state="org-forbidden"]')).toContainText(copy('org.forbidden.title'));
+        await expect(erin.page.getByRole('heading', { level: 1, name: copy('org.forbidden.title') })).toBeVisible();
         await expect(erin.page.getByTestId('org-forbidden-back')).toHaveText(copy('org.forbidden.back'));
         await internalShot(erin.page, `org-forbidden-${locale}`);
       });

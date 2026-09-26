@@ -110,7 +110,9 @@ export default async function InvitationPage({
               <EmptyMedia variant="icon">
                 <MailQuestionMark aria-hidden="true" />
               </EmptyMedia>
-              <EmptyTitle>{t('invitations.notPending.title')}</EmptyTitle>
+              <EmptyTitle>
+                <h1>{t('invitations.notPending.title')}</h1>
+              </EmptyTitle>
               <EmptyDescription>{t('invitations.notPending.description')}</EmptyDescription>
             </EmptyHeader>
           </Empty>

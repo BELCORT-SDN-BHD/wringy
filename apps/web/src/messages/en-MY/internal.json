@@ -170,7 +170,9 @@
       "you": "(you)",
       "roleFor": "Role for {name}",
       "changeRole": "Change role",
-      "remove": "Remove"
+      "remove": "Remove",
+      "changeRoleFor": "Change role for {name}",
+      "removeFor": "Remove {name}"
     },
     "invite": {
       "title": "Invitations",
@@ -192,7 +194,8 @@
         "expires": "Expires",
         "actions": "Actions"
       },
-      "revoke": "Revoke"
+      "revoke": "Revoke",
+      "revokeFor": "Revoke the invitation to {email}"
     },
     "rename": {
       "title": "Organisation name",

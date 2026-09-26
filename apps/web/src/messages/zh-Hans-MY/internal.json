@@ -170,7 +170,9 @@
       "you": "（你）",
       "roleFor": "{name} 的角色",
       "changeRole": "更改角色",
-      "remove": "移除"
+      "remove": "移除",
+      "changeRoleFor": "更改角色：{name}",
+      "removeFor": "移除 {name}"
     },
     "invite": {
       "title": "邀请",
@@ -192,7 +194,8 @@
         "expires": "过期时间",
         "actions": "操作"
       },
-      "revoke": "撤销"
+      "revoke": "撤销",
+      "revokeFor": "撤销发给 {email} 的邀请"
     },
     "rename": {
       "title": "组织名称",

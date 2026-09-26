@@ -22,7 +22,8 @@ import { INTERNAL_PATH } from './org-paths';
  * that it no longer has access, instead of bouncing somewhere that hides what
  * happened. One wording for "never a member", "no longer a member" and "no such
  * organisation": the API gives one answer for all three, so the page cannot be
- * used to learn whether an org exists.
+ * used to learn whether an org exists. The title is the page's `<h1>`, as the
+ * accept page's states are, so heading navigation finds the state (rev 3).
  */
 export async function OrgForbidden() {
   const t = await getTranslations('internal.org.forbidden');
@@ -33,7 +34,9 @@ export async function OrgForbidden() {
         <EmptyMedia variant="icon">
           <ShieldX aria-hidden="true" />
         </EmptyMedia>
-        <EmptyTitle>{t('title')}</EmptyTitle>
+        <EmptyTitle>
+          <h1>{t('title')}</h1>
+        </EmptyTitle>
         <EmptyDescription>{t('description')}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
