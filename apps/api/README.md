@@ -28,20 +28,42 @@ names its columns.
 Errors are `{ error: { code, message } }` with a fixed English message and no
 stack, SQL text or connection string:
 
-| Status | `code` | When |
-|---|---|---|
-| 503 | `database_unavailable` | No connection could be obtained or it was lost (network codes, SQLSTATE class 08, 57P01–57P03, 53300, 3D000, 28000/28P01, pg's connection messages) |
-| 404 | `not_found` | No route matches |
-| 4xx | `bad_request` | Fastify rejected the request |
-| 500 | `internal_error` | Anything else; the scrubbed stack is logged |
-| 401 | `unauthenticated` | No acceptable bearer token (see the claim table below). One message for every reason |
-| 401 | `auth.expired` | The signature and the claims were fine; the token's own lifetime has passed |
-| 503 | `auth_unavailable` | The project's JWKS could not be fetched, parsed or reached. **Never** "no matching key", which is the token's fault |
-| 401 | `session.revoked` | The token is valid but its session is gone (signed out, or `not_after` passed) |
-| 503 | `session_check_unavailable` | Whether the session is live could not be established |
-| 403 | `sign_in.not_allowed` | First sign-in, and the verified address is not on `app.sign_in_allowlist` |
-| 403 | `account.disabled` | An operator set `app.profiles.status = 'disabled'` (ruling D12) |
-| 403 | `profile.missing` | A verified subject with no profile row called anything but `POST /identity/sign-in` |
+| Status | `code` | When | Audited |
+|---|---|---|---|
+| 503 | `database_unavailable` | No connection could be obtained or it was lost (network codes, SQLSTATE class 08, 57P01–57P03, 53300, 3D000, 28000/28P01, pg's connection messages) | No |
+| 404 | `not_found` | No route matches | No |
+| 4xx | `bad_request` | Fastify rejected the request | No |
+| 500 | `internal_error` | Anything else; the scrubbed stack is logged | No |
+| 401 | `unauthenticated` | No acceptable bearer token (see the claim table below). One message for every reason | No |
+| 401 | `auth.expired` | The signature and the claims were fine; the token's own lifetime has passed | No |
+| 503 | `auth_unavailable` | The project's JWKS could not be fetched, parsed or reached. **Never** "no matching key", which is the token's fault | No |
+| 401 | `session.revoked` | The token is valid but its session is gone (signed out, or `not_after` passed) | No |
+| 503 | `session_check_unavailable` | Whether the session is live could not be established | No |
+| 403 | `sign_in.not_allowed` | First sign-in, and the verified address is not on `app.sign_in_allowlist` | No |
+| 403 | `account.disabled` | An operator set `app.profiles.status = 'disabled'` (ruling D12) | No |
+| 403 | `profile.missing` | A verified subject with no profile row called anything but `POST /identity/sign-in` | No |
+| 403 | `org.forbidden` | The caller is not an active member of the org in the path, or no such org exists: one answer, no existence oracle | Yes (`not_a_member` or `org_unknown`) |
+| 403 | `org.admin_required` | The caller is a member, and the command needs an admin of this org | Yes |
+| 409 | `org.last_admin` | A role change, removal, leave or accept would leave the org without an active admin whose profile is active (ruling D3) | Yes |
+| 404 | `member.not_found` | No active member with that id in the org of the path | Yes (`not_in_org`) |
+| 409 | `member.self` | An admin asked to remove themselves; leaving is `POST /orgs/:orgId/leave` | Yes |
+| 403 | `invitation.invalid` | Unknown or revoked invitation token (one answer for both) | Yes |
+| 403 | `invitation.used` | The invitation was already accepted (single-use, ruling D2) | Yes |
+| 403 | `invitation.expired` | The invitation is past `expires_at` | Yes |
+| 403 | `invitation.email_mismatch` | The verified `email` claim, normalised, is not the address the invitation was sent to | Yes |
+| 409 | `invitation.already_member` | The caller is already an active member; the invitation is closed (revoked by the caller) | Yes |
+| 409 | `invitation.pending` | A pending, unexpired invitation for that address already exists in the org (also the backstop for `23505` on `org_invitations_pending_address_key`) | Yes |
+| 404 | `invitation.not_found` | No invitation with that id in the org of the path | Yes (`not_in_org`) |
+| 409 | `invitation.not_pending` | Only a pending invitation can be revoked | Yes |
+| 403 | `capability.script_only` | `POST /orgs/:orgId/capabilities`, for everybody: capabilities are granted only by `pnpm db:grant` (ruling D4) | Yes (`capability.grant`) |
+
+**Audited** means the refusal writes one denial row to `app.audit_log` (M2-03 R4, R12): the
+actor, the org of the path, the action, `outcome = denied`, the code, a fixed reason word, the
+request id and the sha256 of the session id, and never a token, a session id or an address.
+Refusals decided before an actor is admitted (no or invalid token, `auth.expired`,
+`profile.missing`, `account.disabled`, `session.revoked`), a 400 from schema validation and
+every 503 are logged as a reason word and not audited, so no unauthenticated caller can write
+a row.
 
 The two 503s are deliberate. A JWKS blip, or a liveness question that cannot be
 answered, must not sign every signed-in tester out of the internal build, so both
