@@ -91,9 +91,9 @@ export const orgRoutes: FastifyPluginAsyncZod<OrgRoutesOptions> = async (app, { 
   );
 
   /**
-   * `GET /orgs/:orgId`: the org, the caller's own role and the active members
-   * (display name, role, since — never an address). Admins also get the pending
-   * invitations; a member's answer has no `invitations` key at all.
+   * `GET /orgs/:orgId`: the org, the caller's own id and role, and the active
+   * members (display name, role, since — never an address). Admins also get the
+   * pending invitations; a member's answer has no `invitations` key at all.
    */
   app.get(
     '/orgs/:orgId',
@@ -115,7 +115,11 @@ export const orgRoutes: FastifyPluginAsyncZod<OrgRoutesOptions> = async (app, { 
       const outcome = await runOrgRead(pool, request, reply, orgId, async (client, role) => {
         const org = await readOrg(client, orgId);
         if (org === null) throw new Error('the org of an active membership is missing');
-        const detail: OrgDetailResponse = { org, self: { role }, members: await readMembers(client, orgId) };
+        const detail: OrgDetailResponse = {
+          org,
+          self: { userId: actorOf(request).userId, role },
+          members: await readMembers(client, orgId),
+        };
         if (role === 'admin') detail.invitations = await listPending(client, orgId);
         return detail;
       });

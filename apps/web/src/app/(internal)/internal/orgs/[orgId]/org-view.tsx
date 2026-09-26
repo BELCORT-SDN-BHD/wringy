@@ -30,9 +30,8 @@ const EMAIL_MAX_LENGTH = 320;
 export interface OrgViewProps {
   /** The org as the path named it, already parsed as a uuid: every form posts back to this org. */
   orgId: string;
+  /** The API's answer; `detail.self.userId` is the caller's own row, which carries no remove or role form (leave is theirs). */
   detail: OrgDetailResponse;
-  /** The signed-in person's own id, so their own row carries no remove or role form (leave is theirs). */
-  selfId: string;
   locale: Locale;
 }
 
@@ -52,7 +51,7 @@ export interface OrgViewProps {
  * pending invitations show the invited address to admins only, because the
  * API sends `invitations` to admins only.
  */
-export async function OrgView({ orgId, detail, selfId, locale }: OrgViewProps) {
+export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
   const t = await getTranslations('internal');
   const tCommon = await getTranslations('common');
   const unknown = tCommon('state.unknown');
@@ -94,7 +93,7 @@ export async function OrgView({ orgId, detail, selfId, locale }: OrgViewProps) {
               </TableHeader>
               <TableBody>
                 {members.map((member) => {
-                  const isSelf = member.userId === selfId;
+                  const isSelf = member.userId === self.userId;
                   const name = member.displayName ?? t('org.members.unnamed');
                   return (
                     <TableRow key={member.userId} data-member-id={member.userId} data-member-self={isSelf ? 'true' : 'false'}>

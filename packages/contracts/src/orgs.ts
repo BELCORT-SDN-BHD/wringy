@@ -228,13 +228,17 @@ export const pendingInvitationSchema = z.object({
 export type PendingInvitation = z.output<typeof pendingInvitationSchema>;
 
 /**
- * `GET /orgs/:orgId`: the org, the caller's own role, the active members.
- * `invitations` is present only when the caller is an admin; a member's answer
- * carries no such key at all.
+ * `GET /orgs/:orgId`: the org, the caller's own id and role, the active
+ * members. `self.userId` is what lets the org page leave the caller's own row
+ * without a remove or role form, from this one read (R9 rev 3; it used to take a
+ * second read of `GET /me/workspaces`, whose failure hid an org page whose own
+ * read had succeeded). `invitations` is present only when the caller is an
+ * admin; a member's answer carries no such key at all.
  */
 export const orgDetailResponseSchema = z.object({
   org: orgSummarySchema,
   self: z.object({
+    userId: z.uuid(),
     role: orgRoleSchema,
   }),
   members: z.array(orgMemberSchema),

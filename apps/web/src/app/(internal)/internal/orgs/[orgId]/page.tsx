@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { getLocale, getTranslations } from 'next-intl/server';
 
-import { orgDetailResponseSchema, orgParamsSchema, workspacesResponseSchema } from '@wringy/contracts';
+import { orgDetailResponseSchema, orgParamsSchema } from '@wringy/contracts';
 import { Button } from '@/components/ui/button';
 import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 import { accessTokenFromHeaders, apiFetch } from '@/lib/auth/api-client';
@@ -12,7 +12,7 @@ import { internalAuthEnv } from '@/lib/auth/env';
 import { isInternalMode } from '@/lib/auth/mode';
 
 import { ApiFailureAlert } from '../../api-failure';
-import { orgReadOf, readOf, redirectIfCallerRefused } from '../../identity-read';
+import { orgReadOf, redirectIfCallerRefused } from '../../identity-read';
 import { OrgForbidden } from '../../org-forbidden';
 import { INTERNAL_PATH } from '../../org-paths';
 import { OutcomeAlert } from '../../outcome-alert';
@@ -27,9 +27,10 @@ export const dynamic = 'force-dynamic';
  * m2-03-code-review.md R9 rev 2; M2-AC03/1, /2, /3).
  *
  * Browser → this Server Component → Fastify `GET /orgs/:orgId` (the org, its
- * active members, the caller's own role, and for admins the pending invitations)
- * and `GET /me/workspaces` (only for the caller's own id, so their row carries
- * no remove button), both with the caller's Bearer token from `proxy.ts`.
+ * active members, the caller's own id and role — so their own row carries no
+ * remove button — and for admins the pending invitations), with the caller's
+ * Bearer token from `proxy.ts`. One read: a second one only to learn the
+ * caller's id used to turn its own failure into a failed page (R9 rev 3).
  *
  * The segment is parsed with the contracts' `z.uuid()` first; anything else is
  * this build's not-found page, and no API path is built from it. The API's
@@ -60,22 +61,17 @@ export default async function OrgPage({ params, searchParams }: PageProps<'/inte
   if (!env.ok) {
     body = <ApiFailureAlert failure="unexpected" />;
   } else {
-    const token = await accessTokenFromHeaders();
-    const baseUrl = env.env.apiInternalUrl;
-    const [orgResult, workspacesResult] = await Promise.all([
-      apiFetch(`/orgs/${orgId}`, { baseUrl, token, schema: orgDetailResponseSchema }),
-      apiFetch('/me/workspaces', { baseUrl, token, schema: workspacesResponseSchema }),
-    ]);
-
+    const orgResult = await apiFetch(`/orgs/${orgId}`, {
+      baseUrl: env.env.apiInternalUrl,
+      token: await accessTokenFromHeaders(),
+      schema: orgDetailResponseSchema,
+    });
     redirectIfCallerRefused(orgResult);
-    redirectIfCallerRefused(workspacesResult);
 
     const org = orgReadOf(orgResult);
-    const workspaces = readOf(workspacesResult);
     if (org.kind === 'forbidden') body = <OrgForbidden />;
     else if (org.kind === 'failure') body = <ApiFailureAlert failure={org.failure} />;
-    else if (!workspaces.ok) body = <ApiFailureAlert failure={workspaces.failure} />;
-    else body = <OrgView orgId={orgId} detail={org.data} selfId={workspaces.data.personal.userId} locale={locale} />;
+    else body = <OrgView orgId={orgId} detail={org.data} locale={locale} />;
   }
 
   return (

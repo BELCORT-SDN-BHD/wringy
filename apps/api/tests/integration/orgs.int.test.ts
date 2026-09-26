@@ -513,7 +513,7 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
     expect(asMember.statusCode).toBe(200);
     const memberView = asMember.json() as OrgDetailResponse;
     expect(Object.keys(memberView).sort()).toEqual(['members', 'org', 'self']);
-    expect(memberView.self).toEqual({ role: 'member' });
+    expect(memberView.self).toEqual({ userId: DAVE.userId, role: 'member' });
     expect(asMember.body).not.toContain('@');
     expect(asMember.body).not.toMatch(/contact|email|token/i);
     expect(memberView.members.map((member) => [member.userId, member.displayName, member.role])).toEqual([
@@ -524,7 +524,7 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
     const asAdmin = await get(carol, `/orgs/${orgId}`);
     expect(asAdmin.statusCode).toBe(200);
     const adminView = asAdmin.json() as OrgDetailResponse;
-    expect(adminView.self).toEqual({ role: 'admin' });
+    expect(adminView.self).toEqual({ userId: CAROL.userId, role: 'admin' });
     expect(adminView.invitations).toEqual([
       expect.objectContaining({ id: invitationId, inviteeEmailNorm: 'pending.person@example.test', role: 'member' }),
     ]);

@@ -279,9 +279,9 @@ const orgResponses = [
   [
     'GET /orgs/:orgId (admin)',
     orgDetailResponseSchema,
-    { org, self: { role: 'admin' }, members: [member], invitations: [invitation] },
+    { org, self: { userId, role: 'admin' }, members: [member], invitations: [invitation] },
   ],
-  ['GET /orgs/:orgId (member)', orgDetailResponseSchema, { org, self: { role: 'member' }, members: [member] }],
+  ['GET /orgs/:orgId (member)', orgDetailResponseSchema, { org, self: { userId, role: 'member' }, members: [member] }],
   ['POST /orgs', createOrgResponseSchema, { org, membership }],
   ['POST /orgs/:orgId/rename', renameOrgResponseSchema, { org }],
   ['POST /orgs/:orgId/invitations', createInvitationResponseSchema, { invitation, token }],
@@ -350,8 +350,13 @@ describe('M2-AC03/3 org responses are allow-lists', () => {
   });
 
   it('M2-AC03/3 a member-only org answer carries no invitations key', () => {
-    const parsed = orgDetailResponseSchema.parse({ org, self: { role: 'member' }, members: [member] });
+    const parsed = orgDetailResponseSchema.parse({ org, self: { userId, role: 'member' }, members: [member] });
     expect('invitations' in parsed).toBe(false);
+  });
+
+  it('M2-AC03/2 an org answer names the caller: self carries the caller’s own id beside the role', () => {
+    expect(Object.keys(orgDetailResponseSchema.shape.self.shape).sort()).toEqual(['role', 'userId']);
+    expect(orgDetailResponseSchema.safeParse({ org, self: { role: 'member' }, members: [member] }).success).toBe(false);
   });
 
   it('M2-AC03/1 rejects a role, status, grant basis or capability outside the contract', () => {
