@@ -135,5 +135,152 @@
       "unauthenticated": "There was no usable session, so the command was refused.",
       "unavailable": "The session could not be checked just now, so nothing ran. Nothing was changed. Please try again."
     }
+  },
+  "workspaces": {
+    "title": "Workspaces",
+    "description": "Your own account and the organisations you belong to. Open an organisation to work in it; every page checks your membership again.",
+    "listLabel": "Your workspaces",
+    "personal": "Personal",
+    "personalDescription": "Your own account",
+    "none": "You do not belong to any organisation yet. Create one below, or open an invitation link an admin sent you.",
+    "create": {
+      "nameLabel": "New organisation name",
+      "submit": "Create organisation",
+      "note": "You become the organisation's first admin."
+    }
+  },
+  "role": {
+    "admin": "Admin",
+    "member": "Member"
+  },
+  "org": {
+    "back": "All workspaces",
+    "navLabel": "Workspace navigation",
+    "yourRole": "Your role here:",
+    "members": {
+      "title": "Members",
+      "caption": "Active members of this organisation, with their role and since when",
+      "columns": {
+        "name": "Name",
+        "role": "Role",
+        "since": "Member since",
+        "actions": "Actions"
+      },
+      "unnamed": "Name not set",
+      "you": "(you)",
+      "roleFor": "Role for {name}",
+      "changeRole": "Change role",
+      "remove": "Remove"
+    },
+    "invite": {
+      "title": "Invitations",
+      "description": "Invite someone by their email address. You get a link to send them yourself.",
+      "emailLabel": "Email address",
+      "roleLabel": "Role",
+      "signInNote": "The person must be able to sign in to this build: their address has to be on the tester list.",
+      "lifetime": "The link works once, only for that address, and expires after {days} days.",
+      "handOver": "Wringy does not send the link. You copy it on the next page and send it yourself.",
+      "submit": "Create invitation link"
+    },
+    "invitations": {
+      "title": "Pending invitations",
+      "none": "No invitations are pending.",
+      "caption": "Invitations from this organisation that have not been accepted or revoked",
+      "columns": {
+        "address": "Sent to",
+        "role": "Role",
+        "expires": "Expires",
+        "actions": "Actions"
+      },
+      "revoke": "Revoke"
+    },
+    "rename": {
+      "title": "Organisation name",
+      "nameLabel": "Name",
+      "submit": "Save name"
+    },
+    "leave": {
+      "title": "Leave this organisation",
+      "description": "You lose access to this organisation straight away. An admin can invite you again. The last admin cannot leave.",
+      "submit": "Leave organisation"
+    },
+    "forbidden": {
+      "title": "You do not have access to this organisation",
+      "description": "You are not a member of this organisation, or no longer are. Nothing here was shown or changed.",
+      "back": "Back to your workspaces"
+    }
+  },
+  "invitations": {
+    "backToOrg": "Back to the organisation",
+    "created": {
+      "title": "Invitation link",
+      "description": "An invitation to join {org}."
+    },
+    "fields": {
+      "org": "Organisation",
+      "address": "Sent to",
+      "role": "Role",
+      "expires": "Expires"
+    },
+    "link": {
+      "label": "Accept link",
+      "note": "Copy this link and send it to {email} yourself. It works once, and only when that address signs in."
+    },
+    "noLink": {
+      "title": "The link is no longer shown",
+      "description": "The link is shown only right after the invitation is created, in the browser that created it. If it was lost, revoke this invitation and create a new one."
+    },
+    "notPending": {
+      "title": "This invitation is not pending",
+      "description": "It was accepted or revoked, or you are not an admin of this organisation."
+    },
+    "accept": {
+      "title": "Join {org}",
+      "description": "You were invited to join {org} as {role}.",
+      "submit": "Accept invitation",
+      "home": "Go to the internal build",
+      "expired": {
+        "title": "This invitation has expired",
+        "description": "Ask an admin of {org} to send you a new one."
+      },
+      "used": {
+        "title": "This invitation has already been used",
+        "description": "Each invitation link works once.",
+        "open": "Open {org}"
+      },
+      "mismatch": {
+        "title": "This invitation was sent to a different address",
+        "description": "You are signed in with an account it was not sent to. Sign out, then open the link again and sign in with the address it was sent to."
+      },
+      "invalid": {
+        "title": "This invitation link is not valid",
+        "description": "It may have been revoked, or the link was not copied completely. Ask the admin who sent it for a new one."
+      }
+    }
+  },
+  "outcomes": {
+    "created": "Organisation created. You are its admin.",
+    "renamed": "The organisation name was saved.",
+    "invited": "Invitation created. Copy the link below and send it yourself.",
+    "revoked": "The invitation was revoked. Its link no longer works.",
+    "joined": "You joined this organisation.",
+    "role_changed": "The member's role was changed.",
+    "member_removed": "The member was removed from this organisation.",
+    "left": "You left the organisation.",
+    "forbidden": "You do not have access to that organisation, so nothing was changed.",
+    "admin_required": "Only an admin of this organisation can do that, so nothing was changed. Your role may have changed since the page was loaded.",
+    "last_admin": "An organisation must keep at least one active admin, so nothing was changed. Make another member an admin first.",
+    "already_member": "You are already a member of that organisation. The invitation was closed.",
+    "pending_exists": "An invitation for this address is already pending. Revoke it first to send a new one.",
+    "invalid_email": "That email address could not be used. Check it and try again.",
+    "not_pending": "That invitation is no longer pending, so nothing was changed.",
+    "not_found": "That member or invitation is not in this organisation, so nothing was changed.",
+    "session_ended": "Your session ended, so nothing was changed. Sign in again and retry.",
+    "unavailable": "The database is unavailable right now, so nothing was changed. Please try again.",
+    "unexpected": "Something went wrong and nothing was changed. Please try again.",
+    "invitation_invalid": "That invitation link is not valid, so you were not added. Ask the admin who sent it for a new one.",
+    "invitation_expired": "That invitation has expired, so you were not added. Ask an admin for a new one.",
+    "invitation_used": "That invitation has already been used, so nothing was changed.",
+    "invitation_mismatch": "That invitation was sent to a different address, so you were not added."
   }
 }
