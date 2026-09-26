@@ -300,7 +300,7 @@ ticket are hand-offs, not defects.
   same-origin chunk requests, and every request of the sign-in page reached with the link as `next`,
   carried the full URL in their Referer (same-origin only; the address match still made a leaked
   link grant nothing). Under `next dev` the request logger would print the accept URL, so `next.config.ts`
-  ignores `token=` URLs; `next start` (the internal suite, staging) logs no requests. The controls
+  ignores `token=` URLs, the sign-in redirect's percent-encoded `next=…%3Ftoken%3D…` included (rev 3); `next start` (the internal suite, staging) logs no requests. The controls
   that make a leaked link harmless are the address match, single use and the expiry.
 - **The runtime role can no longer read the audit log.** `0016` revokes `SELECT` on `app.audit_log`
   from `wringy_api` (the kickoff's "INSERT and SELECT only" is a ceiling); the API appends and

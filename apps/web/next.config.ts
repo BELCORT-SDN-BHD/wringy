@@ -32,13 +32,16 @@ const nextConfig: NextConfig = {
 
   // `next dev` logs every incoming request URL WITH its query
   // (next/dist/server/dev/log-requests.js), and an invitation accept link carries
-  // its token as `?token=` (M2-03, m2-03-code-review.md R7, R9 rev 2). Those
-  // requests are not logged at all. `next start` — the internal suite, staging —
-  // logs no incoming requests, so this matters in development only
+  // its token as `?token=` (M2-03, m2-03-code-review.md R7, R9 rev 3). Those
+  // requests are not logged at all — and neither is the sign-in redirect a
+  // signed-out invitee takes first, which carries the same URL percent-encoded
+  // inside `next=` (`%3Ftoken%3D`; `signInPath` builds it with URLSearchParams), so
+  // the pattern matches both spellings. `next start` — the internal suite,
+  // staging — logs no incoming requests, so this matters in development only
   // (node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/logging.md).
   logging: {
     incomingRequests: {
-      ignore: [/[?&]token=/],
+      ignore: [/(?:[?&]|%3F|%26)token(?:=|%3D)/i],
     },
   },
 };
