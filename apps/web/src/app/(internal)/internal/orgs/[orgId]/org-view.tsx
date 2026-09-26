@@ -98,7 +98,7 @@ export async function OrgView({ orgId, detail, selfId, locale }: OrgViewProps) {
                   const name = member.displayName ?? t('org.members.unnamed');
                   return (
                     <TableRow key={member.userId} data-member-id={member.userId} data-member-self={isSelf ? 'true' : 'false'}>
-                      <TableCell className="font-medium">
+                      <TableCell className="min-w-32 font-medium whitespace-normal">
                         <span className="break-words">{name}</span>
                         {isSelf ? <span className="ml-2 text-xs font-normal text-muted-foreground">{t('org.members.you')}</span> : null}
                       </TableCell>
@@ -223,7 +223,7 @@ export async function OrgView({ orgId, detail, selfId, locale }: OrgViewProps) {
                   <TableBody>
                     {invitations.map((invitation) => (
                       <TableRow key={invitation.id} data-invitation-id={invitation.id}>
-                        <TableCell className="font-medium break-all">{invitation.inviteeEmailNorm}</TableCell>
+                        <TableCell className="min-w-40 font-medium break-all whitespace-normal">{invitation.inviteeEmailNorm}</TableCell>
                         <TableCell>{roleBadge(invitation.role)}</TableCell>
                         <TableCell className="text-muted-foreground">
                           <InstantText iso={invitation.expiresAt} locale={locale} unknownLabel={unknown} />

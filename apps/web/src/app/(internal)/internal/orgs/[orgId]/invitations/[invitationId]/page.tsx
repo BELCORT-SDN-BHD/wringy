@@ -115,7 +115,7 @@ export default async function InvitationPage({
               <CardTitle>
                 <h1 className="text-2xl font-semibold tracking-tight break-words">{t('invitations.created.title')}</h1>
               </CardTitle>
-              <CardDescription>{t('invitations.created.description', { org: org.data.org.name })}</CardDescription>
+              <CardDescription className="wrap-break-word">{t('invitations.created.description', { org: org.data.org.name })}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-5">
               <dl className="grid min-w-0 grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-[auto_minmax(0,1fr)]">
@@ -148,7 +148,7 @@ export default async function InvitationPage({
                     className="font-mono text-xs"
                     data-testid="invitation-accept-link"
                   />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm wrap-break-word text-muted-foreground">
                     {t('invitations.link.note', { email: invitation.inviteeEmailNorm })}
                   </p>
                 </div>

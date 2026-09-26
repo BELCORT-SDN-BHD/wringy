@@ -31,8 +31,17 @@ import { ROLE_STYLE, StateBadge, styleOf } from '../../state-badge';
 // Asked on every request: the answer depends on who is signed in and on the invitation's state now.
 export const dynamic = 'force-dynamic';
 
-// The token is in this page's URL, so no link from here may send it on as a Referer (R7).
-export const metadata: Metadata = { referrer: 'no-referrer' };
+// The token is in this page's URL, so no request from here may carry it in a Referer (R7).
+//
+// `strict-origin`, not the `no-referrer` R9 names: under `no-referrer` the Fetch
+// standard serialises the `Origin` of a non-GET request as `null` ("append a
+// request `Origin` header"), so this page's own Accept and sign-out forms reached
+// their Route Handlers with `Origin: null` and the M2-02 Origin rule refused them
+// with 403 (observed in Chromium, 2026-09-26). `strict-origin` gives the same
+// protection for the token — a Referer carries the origin only, never the path or
+// the query, and nothing at all on an https → http downgrade — while the forms
+// keep a real `Origin`.
+export const metadata: Metadata = { referrer: 'strict-origin' };
 
 /**
  * `/internal/invitations/accept?token=…`: the page an invitation link opens
@@ -115,7 +124,7 @@ async function AcceptBody({
                 {t('invitations.accept.title', { org: preview.org.name })}
               </h1>
             </CardTitle>
-            <CardDescription>{t('invitations.accept.description', { org: preview.org.name, role })}</CardDescription>
+            <CardDescription className="wrap-break-word">{t('invitations.accept.description', { org: preview.org.name, role })}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <dl className="grid min-w-0 grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-[auto_minmax(0,1fr)]">
