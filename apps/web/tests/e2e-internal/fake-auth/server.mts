@@ -16,7 +16,23 @@
  * the caller: the publishable key is a fixed literal, `/logout` and `/user`
  * accept any well-formed token this process signed, and the control API under
  * `/_control` lets a test revoke a session, shorten the token lifetime, expire
- * a flow or fail one call. It listens on loopback only and writes no files.
+ * a flow (in either of the two ways GoTrue does) or fail one call. It listens on
+ * loopback only and writes no files.
+ *
+ * TWO WAYS A FLOW STATE EXPIRES, because the real one has two:
+ *
+ *  - `POST /_control/flows/expire-next` marks the flow so the **token exchange**
+ *    refuses it, 422 `flow_state_expired`. That is what GoTrue answers when it
+ *    still holds the flow row and the exchange arrives too late.
+ *  - `POST /_control/flows/expire-to-site-url` makes the flow state already gone
+ *    **when the consent completes**, which is the case the founder's real walk of
+ *    2026-09-26 found: GoTrue no longer holds the flow, so it no longer knows its
+ *    `redirect_to`, and it sends the provider error to the project's **Site URL
+ *    root** instead — `GET <site-url>/?error=invalid_request&error_code=`
+ *    `bad_oauth_state&error_description=OAuth+state+has+expired`, captured
+ *    verbatim from the browser's network log. The fake derives the Site URL from
+ *    the flow's own `redirect_to` origin unless the control call names one, the
+ *    same way a project's Site URL is `APP_ORIGIN` (kickoff-package.md §4.8).
  *
  * THE SUBSET, and who calls it:
  *
@@ -67,6 +83,21 @@ const API_VERSION = '2024-01-01';
 
 /** Supabase's default access-token lifetime (kickoff-package.md §4.8). */
 export const DEFAULT_TOKEN_LIFETIME_SECONDS = 3600;
+
+/**
+ * The query GoTrue puts on the **Site URL root** when the PKCE flow state is
+ * already gone at the moment the provider leg comes back, copied verbatim from
+ * the founder's real walk (2026-09-26, Supabase dev project):
+ *
+ *     GET http://127.0.0.1:3100/?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired
+ *
+ * Written out as one literal rather than assembled from parameters, because the
+ * whole point of this control is to reproduce that request character for
+ * character — the spelling of `bad_oauth_state`, the `+` for the spaces and the
+ * order of the three parameters included.
+ */
+const SITE_URL_EXPIRED_QUERY =
+  'error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired';
 
 /**
  * GoTrue's refresh-token reuse interval: a token that has just been rotated
@@ -232,10 +263,18 @@ export async function startFakeAuthServer({ port = 0, log = true }: FakeAuthServ
   const authorizeRecords = new Map<string, AuthorizeRecord[]>();
   const lifetimeByTag = new Map<string, number>();
   const expireNextByTag = new Set<string>();
+  /**
+   * Tags whose next consent must come back on the Site URL root instead of on
+   * `redirect_to`. The value is the Site URL the control call named, or null to
+   * derive it from the flow's own `redirect_to` origin.
+   */
+  const expireToSiteUrlByTag = new Map<string, string | null>();
   const failuresByTag = new Map<string, Map<FailableEndpoint, ArmedFailure>>();
   const globalFailures = new Map<FailableEndpoint, ArmedFailure>();
   let defaultLifetimeSeconds = DEFAULT_TOKEN_LIFETIME_SECONDS;
   let expireNextGlobal = false;
+  /** The ungated form of `expireToSiteUrlByTag`: `undefined` means "not armed". */
+  let expireToSiteUrlGlobal: string | null | undefined;
   /** The bound origin, so the `iss` claim never depends on the caller's Host header. */
   let selfOrigin = '';
 
@@ -282,6 +321,28 @@ export async function startFakeAuthServer({ port = 0, log = true }: FakeAuthServ
       return true;
     }
     return false;
+  }
+
+  /**
+   * One-shot, per tag, like `takeExpireNext`: whether this consent must come back
+   * on the Site URL root, and which Site URL.
+   *
+   * `{ armed: false }` is the normal case. `{ armed: true, siteUrl: null }` means
+   * "derive it from the flow's `redirect_to`", which is what a project whose Site
+   * URL is `APP_ORIGIN` behaves like.
+   */
+  function takeExpireToSiteUrl(tag: string | null): { armed: boolean; siteUrl: string | null } {
+    if (tag !== null && expireToSiteUrlByTag.has(tag)) {
+      const siteUrl = expireToSiteUrlByTag.get(tag) ?? null;
+      expireToSiteUrlByTag.delete(tag);
+      return { armed: true, siteUrl };
+    }
+    if (expireToSiteUrlGlobal !== undefined) {
+      const siteUrl = expireToSiteUrlGlobal;
+      expireToSiteUrlGlobal = undefined;
+      return { armed: true, siteUrl };
+    }
+    return { armed: false, siteUrl: null };
   }
 
   /** The GoTrue user object, as `GET /user` and the token responses carry it. */
@@ -491,6 +552,21 @@ ${buttons}
       sendError(response, 400, 'validation_failed', 'redirect_to is not a URL.');
       return { tag, status: 400 };
     }
+    // The flow state was already gone when the provider leg came back, so there
+    // is no `redirect_to` to honour: GoTrue falls back to the project's Site URL
+    // and replaces whatever the provider said with its own `bad_oauth_state`.
+    // Whether the person consented or cancelled makes no difference — the flow it
+    // belonged to no longer exists. No code is minted and no session is created.
+    const toSiteUrl = takeExpireToSiteUrl(tag ?? state.tag);
+    if (toSiteUrl.armed) {
+      // A named Site URL is used as it stands (a project's Site URL may carry a
+      // path); a derived one is the callback origin's root, which is what a
+      // project whose Site URL is `APP_ORIGIN` produces and what the walk saw.
+      const siteUrl = toSiteUrl.siteUrl ?? new URL('/', target.origin).toString();
+      sendRedirect(response, `${siteUrl}?${SITE_URL_EXPIRED_QUERY}`);
+      return { tag, status: 302, detail: 'expired_to_site_url' };
+    }
+
     if (userName === null) {
       target.searchParams.set('error', 'access_denied');
       target.searchParams.set('error_code', 'access_denied');
@@ -776,10 +852,12 @@ ${buttons}
       authorizeRecords.clear();
       lifetimeByTag.clear();
       expireNextByTag.clear();
+      expireToSiteUrlByTag.clear();
       failuresByTag.clear();
       globalFailures.clear();
       defaultLifetimeSeconds = DEFAULT_TOKEN_LIFETIME_SECONDS;
       expireNextGlobal = false;
+      expireToSiteUrlGlobal = undefined;
       sendJson(response, 200, { reset: true });
       return { tag: null, status: 200, detail: 'reset' };
     }
@@ -829,6 +907,24 @@ ${buttons}
       else expireNextByTag.add(tag);
       sendJson(response, 200, { expireNext: true, tag });
       return { tag, status: 200, detail: 'expire_next_flow' };
+    }
+
+    if (url.pathname === '/_control/flows/expire-to-site-url' && method === 'POST') {
+      const body = await readBody(request);
+      const tag = readString(body, 'tag') ?? controlTag;
+      const siteUrl = readString(body, 'site_url');
+      if (siteUrl !== null) {
+        try {
+          new URL(siteUrl);
+        } catch {
+          sendError(response, 400, 'validation_failed', 'site_url must be an absolute URL, or be left out.');
+          return { tag, status: 400 };
+        }
+      }
+      if (tag === null) expireToSiteUrlGlobal = siteUrl;
+      else expireToSiteUrlByTag.set(tag, siteUrl);
+      sendJson(response, 200, { expireToSiteUrl: true, tag, siteUrl });
+      return { tag, status: 200, detail: 'expire_flow_to_site_url' };
     }
 
     if (url.pathname === '/_control/fail' && method === 'POST') {

@@ -10,9 +10,10 @@
  * flow: `signInWithOAuth` → the consent page's own form → `exchangeCodeForSession`
  * → `getClaims()` (which must verify the ES256 signature locally, with no call
  * to `/user`) → a refresh, including the 10-second reuse interval → `signOut`
- * → `/user` answering 403 `session_not_found`. It also walks the cancel, the
- * expired-flow and the bad-verifier paths, because those are the three the
- * sign-in page's outcome copy is keyed on (R11).
+ * → `/user` answering 403 `session_not_found`. It also walks the cancel, the two
+ * expired-flow shapes (the token exchange's 422, and the Site-URL redirect the
+ * founder's real walk found) and the bad-verifier path, because those are the
+ * ones the sign-in page's outcome copy is keyed on (R11 rev 4).
  *
  * No browser, no database and no network beyond loopback: this runs in
  * `pnpm --filter web test`.
@@ -31,6 +32,18 @@ import { startFakeAuthServer, type CallReport, type FakeAuthServer } from '../e2
 /** Where the web would send the browser back; the fake only echoes it. */
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const REDIRECT_TO = `${APP_ORIGIN}/auth/callback`;
+
+/**
+ * The query the **real** Supabase dev project put on the Site URL root when the
+ * PKCE flow state had expired, copied verbatim from the browser's network log of
+ * the founder's walk (2026-09-26, 14:14):
+ *
+ *     GET http://127.0.0.1:3100/?error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired
+ *
+ * The fake has a literal of its own; this one is the observation, so the two
+ * disagreeing is a failing test rather than a fake that quietly drifted.
+ */
+const SITE_URL_QUERY = 'error=invalid_request&error_code=bad_oauth_state&error_description=OAuth+state+has+expired';
 
 let server: FakeAuthServer;
 
@@ -315,6 +328,64 @@ describe('M2-AC02/3 the simulated auth harness matches the vendor client it stan
     expect(location.searchParams.get('error')).toBe('access_denied');
     expect(location.searchParams.get('error_description')).toBeTruthy();
     expect(location.searchParams.get('code')).toBeNull();
+  });
+
+  it('M2-AC02/1 simulated harness self-test: a flow state gone at consent time comes back on the SITE URL root', async () => {
+    // The behaviour the founder's real walk found (2026-09-26, Supabase dev
+    // project): once the PKCE flow state has expired GoTrue no longer holds the
+    // flow, so it cannot honour its `redirect_to` and puts the provider error on
+    // the project's Site URL instead. The whole fix rests on this being what the
+    // vendor does, so the fake reproduces the captured request exactly and this
+    // row pins it against the string copied from the browser's network log.
+    const CAPTURED = `${APP_ORIGIN}/?${SITE_URL_QUERY}`;
+
+    const tag = `self-test-site-url-${Date.now()}`;
+    await control('/flows/expire-to-site-url', { tag });
+
+    const jar = memoryCookieJar();
+    const client = newClient(jar, tag);
+    const { data } = await client.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: REDIRECT_TO, skipBrowserRedirect: true },
+    });
+    const form = await openConsent(data.url!, tag);
+
+    // Consent is COMPLETED, not cancelled: the person picked their account and
+    // only then discovered the flow was gone.
+    const location = await submitConsent(form, { user: 'alice' }, tag);
+    expect(location, 'character for character, the request the real project sent').toBe(CAPTURED);
+
+    const landed = new URL(location);
+    // The Site URL root, derived from the flow's own redirect_to origin — not
+    // `/auth/callback`, which is the whole point.
+    expect(landed.pathname).toBe('/');
+    expect(landed.pathname).not.toBe(new URL(REDIRECT_TO).pathname);
+    expect(landed.searchParams.get('error')).toBe('invalid_request');
+    expect(landed.searchParams.get('error_code')).toBe('bad_oauth_state');
+    expect(landed.searchParams.get('error_description')).toBe('OAuth state has expired');
+    // No code was minted, so nothing could be exchanged and no session exists.
+    expect(landed.searchParams.get('code')).toBeNull();
+    expect((await callsFor(tag)).sessions).toHaveLength(0);
+
+    // One-shot, per tag, like every other knob: the next flow of the same tag is
+    // ordinary again, so one armed row cannot leak into the next.
+    const again = await walkToCode(tag);
+    const exchanged = await again.client.auth.exchangeCodeForSession(again.code);
+    expect(exchanged.error, 'the control is armed once, not for ever').toBeNull();
+
+    // A named site_url is honoured too, which is what a project whose Site URL is
+    // not the callback's own origin would do.
+    const namedTag = `self-test-site-url-named-${Date.now()}`;
+    await control('/flows/expire-to-site-url', { tag: namedTag, site_url: 'http://127.0.0.1:3199/somewhere' });
+    const namedJar = memoryCookieJar();
+    const namedClient = newClient(namedJar, namedTag);
+    const named = await namedClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: REDIRECT_TO, skipBrowserRedirect: true },
+    });
+    const namedForm = await openConsent(named.data.url!, namedTag);
+    const namedLocation = await submitConsent(namedForm, { user: 'alice' }, namedTag);
+    expect(namedLocation, 'a named Site URL keeps its own path').toBe(`http://127.0.0.1:3199/somewhere?${SITE_URL_QUERY}`);
   });
 
   it('M2-AC02/3 simulated harness self-test: an expired flow state and a wrong verifier answer the GoTrue codes', async () => {

@@ -185,6 +185,13 @@ export interface AuthControl {
   tokenLifetime(tag: string, seconds: number): Promise<void>;
   /** Makes the tag's NEXT consent produce a flow state that the exchange refuses as expired. */
   expireNextFlow(tag: string): Promise<void>;
+  /**
+   * Makes the tag's NEXT consent find the flow state already gone, so the
+   * provider error comes back on the project's **Site URL root** rather than on
+   * `redirect_to` — the real Supabase behaviour the founder's walk of 2026-09-26
+   * found (`/?error=invalid_request&error_code=bad_oauth_state&…`).
+   */
+  expireFlowToSiteUrl(tag: string): Promise<void>;
   /** Makes the tag's next `/logout` or `/user` call fail once with that status and code. */
   failNext(tag: string, endpoint: 'logout' | 'user', status: number, code: string): Promise<void>;
   /** Ends one session, as a sign-out elsewhere or an operator revoke does. */
@@ -204,6 +211,9 @@ export const authControl: AuthControl = {
   },
   async expireNextFlow(tag) {
     await controlCall('/flows/expire-next', { method: 'POST', body: { tag } });
+  },
+  async expireFlowToSiteUrl(tag) {
+    await controlCall('/flows/expire-to-site-url', { method: 'POST', body: { tag } });
   },
   async failNext(tag, endpoint, status, code) {
     await controlCall('/fail', { method: 'POST', body: { endpoint, status, code, tag } });
