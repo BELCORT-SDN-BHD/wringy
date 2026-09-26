@@ -564,14 +564,17 @@ export const test = base.extend<InternalFixtures>({
     );
     await provide({ ...tagged, user: FAKE_USERS.alice });
   },
-  openDevice: async ({ browser, baseURL, tag, control }, provide, testInfo) => {
+  openDevice: async ({ browser, baseURL, tag, control, viewport }, provide) => {
     const opened: BrowserContext[] = [];
     const open: OpenDevice = async (suffix) => {
       const deviceTag = `${tag}-${suffix}`;
       const context = await browser.newContext({
         baseURL,
-        // The project's own viewport, which browser.newContext() would not take.
-        viewport: testInfo.project.use.viewport,
+        // Playwright's `viewport` option fixture, which browser.newContext() would
+        // not take on its own: the project's viewport, or a `test.use({ viewport })`
+        // override, so a second person's page is sized like the test's own
+        // (m2-03-code-review.md §1 and R13: the 390/320 rows of the orgs spec).
+        viewport,
         extraHTTPHeaders: { [TEST_TAG_HEADER]: deviceTag },
       });
       opened.push(context);

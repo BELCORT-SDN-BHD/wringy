@@ -265,6 +265,78 @@ description in all three locales under `internal.signIn.outcomes.<code>`:
 be imported; `pnpm check:supabase-scope` says how the one allowed file may use it — never at module
 level. Both plant deliberate violations and require them to be rejected.
 
+## Organisations and invitations (M2-03)
+
+The internal build's workspaces, org pages and invitation links
+(`docs/m2-internal/m2-03-code-review.md` R7, R9 rev 2, R10, R17). The web decides nothing: every
+page reads and every form writes through the Fastify API with the caller's token, and the API
+re-authorises each request from the path under the org lock. Everything lives under
+`src/app/(internal)/internal/`, so `internal-not-to-demo` covers it and no demo code is mounted.
+Nothing here is client-side: every write is a plain `<form method="post">` to a Route Handler.
+
+### Pages
+
+| Path | Reads | Shows |
+|---|---|---|
+| `/internal` | `GET /me/workspaces` (beside `/me` and the M2-01 reads, in the same failure composition) | the **Workspaces** section: the personal context, one row per active membership with a role badge and a link, and the create-org form |
+| `/internal/orgs/<orgId>` | `GET /orgs/:orgId`, `GET /me/workspaces` (only for the caller's own id) | name, members (display name, role, since), own role, leave; admins also rename, invite (with the R17 note "must be able to sign in to this build"), pending invitations with revoke, and a role form and a remove button per other member. 403 `org.forbidden` is the in-place `data-app-state="org-forbidden"` state |
+| `/internal/orgs/<orgId>/invitations/<invitationId>` | `GET /orgs/:orgId` (the pending invitation by id) | the accept link in a read-only input (`data-testid="invitation-accept-link"`) from the page-scoped cookie, the address, role and expiry; without the cookie, the invitation without a link |
+| `/internal/invitations/accept?token=…` | `POST /invitations/preview { token }` | to the addressed person the org, role, expiry and an Accept button; to anyone else only "sent to a different address" and a sign-out button; or the expired / used / invalid state |
+
+Every segment is parsed with the contracts' `z.uuid()` first (a failure is the not-found page);
+403 `account.disabled` redirects to `/auth/end-session` and a 401 to sign-in with
+`session_ended`, as `/internal` does (`identity-read.ts`). All four pages are `force-dynamic`. The
+invitation page sets `referrer: 'no-referrer'`; the accept page sets `referrer: 'strict-origin'`
+instead, because under `no-referrer` a browser sends `Origin: null` on the page's own Accept and
+sign-out POSTs and the Origin rule refuses them — `strict-origin` still lets a Referer carry the
+origin only, never the token in the query. In demo mode the org and invitation pages do not
+exist (404).
+
+### Route Handlers
+
+| Handler | API call | Success |
+|---|---|---|
+| `orgs/create/route.ts` | `POST /orgs { name }` | the new org's page, `created` |
+| `orgs/[orgId]/rename/route.ts` | `POST /orgs/:orgId/rename { name }` | `renamed` |
+| `orgs/[orgId]/invitations/create/route.ts` | `POST /orgs/:orgId/invitations { email, role }` | the invitation page, `invited`, with the token cookie |
+| `orgs/[orgId]/invitations/[invitationId]/revoke/route.ts` | `POST …/invitations/:invitationId/revoke` | `revoked` |
+| `orgs/[orgId]/members/[userId]/role/route.ts` | `POST …/members/:userId/role { role }` | `role_changed` |
+| `orgs/[orgId]/members/[userId]/remove/route.ts` | `POST …/members/:userId/remove` | `member_removed` |
+| `orgs/[orgId]/leave/route.ts` | `POST /orgs/:orgId/leave` | `/internal`, `left` |
+| `invitations/accept/confirm/route.ts` | `POST /invitations/accept { token }` | the org's page, `joined` |
+
+One order for all eight (`org-command.ts`): `guardRequest` (404 in demo mode, 403 cross-site) →
+every dynamic segment through `z.uuid()`, a failure answering `/internal?outcome=forbidden`
+without calling the API (Route Handlers receive decoded segments) → the token read from the
+session cookie without a refresh → `apiFetch` with only the fields the form rendered (a posted
+`orgId` is never forwarded; the path decides) → a 303. A role outside the contract's enum answers
+`unexpected` without a call, so it is never reported as a bad address. `apiFetch` sends a JSON
+body and `content-type` only when there is a body, treats any 2xx as success, and keeps the error
+code for 400, 401, 403, 404 and 409.
+
+### Outcomes
+
+`outcomes.ts` names the API's answer; `OutcomeAlert` renders one sentence per code from
+`internal.outcomes.<code>` on `/internal`, the org page and the invitation page (first `?outcome=`
+value only, validated against the list). R9's codes — `created`, `renamed`, `invited`, `revoked`,
+`joined`, `role_changed`, `member_removed`, `left`, `forbidden`, `admin_required`, `last_admin`,
+`already_member`, `pending_exists`, `invalid_email`, `not_pending`, `not_found`, `session_ended`,
+`unavailable`, `unexpected` — plus `invitation_invalid`, `invitation_expired`, `invitation_used`
+and `invitation_mismatch` for the accept refusals, which land on `/internal` because the confirm
+handler never builds a URL with the token in it. 403 `account.disabled` ends the session through
+`/auth/end-session`; a 400 is `invalid_email` on the invite handler only; a 503 is `unavailable`;
+an unreachable API or an unknown code is `unexpected`.
+
+### Where the invitation token may be
+
+The API's 201 body, once; the `wringy-invite-<invitationId>` cookie the invite handler sets
+(httpOnly, `sameSite: lax`, Secure off loopback, path = exactly the invitation page, 10 minutes);
+the accept link the admin copies; the accept page's URL and its hidden form field; the sign-in
+`next` value and the `wringy-auth-next` cookie when the invitee is not yet signed in. Never an
+API path, a redirect this app builds, the admin's URL, a log line (`logFailure` writes method,
+path and code only), or — in development — the `next dev` request log
+(`logging.incomingRequests.ignore: [/[?&]token=/]` in `next.config.ts`).
+
 ## What is installed
 
 Node 24.21.0 (pinned by the root `.npmrc` `use-node-version`, so pnpm downloads and runs it even
@@ -459,6 +531,18 @@ not-found routes); `outage` runs `outage.spec.ts` on the second instance (api-un
 URL or stack on the page); `database-outage` runs last and revokes the API group's CONNECT on
 the database to show `api-unavailable`, then grants it back. Test titles carry `M2-AC01`, and
 `M2-AC01/2` where they prove the page → Fastify → PostgreSQL read.
+
+The simulated identity provider knows six people (`tests/e2e-internal/fake-auth/users.ts`), each a
+fixed `sub` and a `.test` address: `alice` and `bob` (allow-listed; the M2-AC01/M2-AC02 rows),
+`mallory` (verified but **not** allow-listed: the refused sign-in), and for M2-03 `carol` (the
+dual-role account), `dave` (the second org's admin) and `erin` (allow-listed, in no org: the
+outsider). `database-server.mts` allow-lists every `allowlisted: true` user; each add also writes an
+`allowlist.add` audit row, so specs filter `app.audit_log` by `action`, `context_org_id` or
+`actor_user_id` and never count its rows. The `orgs` project (1440, `fullyParallel: false`,
+`testMatch: orgs.spec.ts`) depends on the reading projects only and runs **beside** `auth`, because
+it signs in only Carol, Dave, Erin and Mallory, whom `auth` never touches; `database-outage` waits
+for both. `openDevice` sizes a second browser with Playwright's `viewport` fixture, so a
+`test.use({ viewport })` row at 390 or 320 sizes both people's pages alike.
 
 `@wringy/db` and `tsx` are **devDependencies** of this app for that suite only. The dependency
 rules (`pnpm depcruise`, rule `web-not-to-server-runtime`) cruise `src/`, where importing

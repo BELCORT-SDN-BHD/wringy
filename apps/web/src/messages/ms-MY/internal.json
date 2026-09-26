@@ -135,5 +135,152 @@
       "unauthenticated": "Tiada sesi yang boleh digunakan, jadi perintah itu ditolak.",
       "unavailable": "Sesi tidak dapat diperiksa sekarang, jadi tiada apa-apa dijalankan. Tiada apa-apa diubah. Sila cuba lagi."
     }
+  },
+  "workspaces": {
+    "title": "Ruang kerja",
+    "description": "Akaun anda sendiri dan organisasi yang anda sertai. Buka organisasi untuk bekerja di dalamnya; setiap halaman menyemak semula keahlian anda.",
+    "listLabel": "Ruang kerja anda",
+    "personal": "Peribadi",
+    "personalDescription": "Akaun anda sendiri",
+    "none": "Anda belum menyertai mana-mana organisasi. Cipta satu di bawah, atau buka pautan jemputan yang dihantar oleh pentadbir.",
+    "create": {
+      "nameLabel": "Nama organisasi baharu",
+      "submit": "Cipta organisasi",
+      "note": "Anda menjadi pentadbir pertama organisasi itu."
+    }
+  },
+  "role": {
+    "admin": "Pentadbir",
+    "member": "Ahli"
+  },
+  "org": {
+    "back": "Semua ruang kerja",
+    "navLabel": "Navigasi ruang kerja",
+    "yourRole": "Peranan anda di sini:",
+    "members": {
+      "title": "Ahli",
+      "caption": "Ahli aktif organisasi ini, dengan peranan mereka dan sejak bila",
+      "columns": {
+        "name": "Nama",
+        "role": "Peranan",
+        "since": "Ahli sejak",
+        "actions": "Tindakan"
+      },
+      "unnamed": "Nama belum ditetapkan",
+      "you": "(anda)",
+      "roleFor": "Peranan untuk {name}",
+      "changeRole": "Tukar peranan",
+      "remove": "Keluarkan"
+    },
+    "invite": {
+      "title": "Jemputan",
+      "description": "Jemput seseorang melalui alamat e-melnya. Anda akan mendapat pautan untuk dihantar sendiri kepadanya.",
+      "emailLabel": "Alamat e-mel",
+      "roleLabel": "Peranan",
+      "signInNote": "Orang itu mesti boleh masuk ke versi ini: alamatnya mesti ada dalam senarai penguji.",
+      "lifetime": "Pautan ini berfungsi sekali sahaja, hanya untuk alamat itu, dan tamat tempoh selepas {days} hari.",
+      "handOver": "Wringy tidak menghantar pautan itu. Anda menyalinnya pada halaman seterusnya dan menghantarnya sendiri.",
+      "submit": "Cipta pautan jemputan"
+    },
+    "invitations": {
+      "title": "Jemputan yang menunggu",
+      "none": "Tiada jemputan yang menunggu.",
+      "caption": "Jemputan daripada organisasi ini yang belum diterima atau dibatalkan",
+      "columns": {
+        "address": "Dihantar kepada",
+        "role": "Peranan",
+        "expires": "Tamat tempoh",
+        "actions": "Tindakan"
+      },
+      "revoke": "Batalkan"
+    },
+    "rename": {
+      "title": "Nama organisasi",
+      "nameLabel": "Nama",
+      "submit": "Simpan nama"
+    },
+    "leave": {
+      "title": "Keluar daripada organisasi ini",
+      "description": "Anda kehilangan akses kepada organisasi ini serta-merta. Pentadbir boleh menjemput anda semula. Pentadbir terakhir tidak boleh keluar.",
+      "submit": "Keluar daripada organisasi"
+    },
+    "forbidden": {
+      "title": "Anda tiada akses kepada organisasi ini",
+      "description": "Anda bukan ahli organisasi ini, atau bukan lagi ahli. Tiada apa-apa dipaparkan atau diubah di sini.",
+      "back": "Kembali ke ruang kerja anda"
+    }
+  },
+  "invitations": {
+    "backToOrg": "Kembali ke organisasi",
+    "created": {
+      "title": "Pautan jemputan",
+      "description": "Jemputan untuk menyertai {org}."
+    },
+    "fields": {
+      "org": "Organisasi",
+      "address": "Dihantar kepada",
+      "role": "Peranan",
+      "expires": "Tamat tempoh"
+    },
+    "link": {
+      "label": "Pautan penerimaan",
+      "note": "Salin pautan ini dan hantarkannya sendiri kepada {email}. Ia berfungsi sekali sahaja, dan hanya apabila alamat itu masuk."
+    },
+    "noLink": {
+      "title": "Pautan tidak lagi dipaparkan",
+      "description": "Pautan hanya dipaparkan sejurus selepas jemputan dicipta, dalam pelayar yang menciptanya. Jika pautan hilang, batalkan jemputan ini dan cipta yang baharu."
+    },
+    "notPending": {
+      "title": "Jemputan ini tidak lagi menunggu",
+      "description": "Ia telah diterima atau dibatalkan, atau anda bukan pentadbir organisasi ini."
+    },
+    "accept": {
+      "title": "Sertai {org}",
+      "description": "Anda dijemput untuk menyertai {org} sebagai {role}.",
+      "submit": "Terima jemputan",
+      "home": "Pergi ke versi dalaman",
+      "expired": {
+        "title": "Jemputan ini telah tamat tempoh",
+        "description": "Minta pentadbir {org} menghantar jemputan baharu."
+      },
+      "used": {
+        "title": "Jemputan ini telah digunakan",
+        "description": "Setiap pautan jemputan berfungsi sekali sahaja.",
+        "open": "Buka {org}"
+      },
+      "mismatch": {
+        "title": "Jemputan ini dihantar kepada alamat lain",
+        "description": "Anda masuk dengan akaun yang bukan penerima jemputan ini. Keluar, kemudian buka pautan itu semula dan masuk dengan alamat yang dijemput."
+      },
+      "invalid": {
+        "title": "Pautan jemputan ini tidak sah",
+        "description": "Ia mungkin telah dibatalkan, atau pautan tidak disalin sepenuhnya. Minta pentadbir yang menghantarnya untuk jemputan baharu."
+      }
+    }
+  },
+  "outcomes": {
+    "created": "Organisasi telah dicipta. Anda pentadbirnya.",
+    "renamed": "Nama organisasi telah disimpan.",
+    "invited": "Jemputan telah dicipta. Salin pautan di bawah dan hantarkannya sendiri.",
+    "revoked": "Jemputan telah dibatalkan. Pautannya tidak lagi berfungsi.",
+    "joined": "Anda telah menyertai organisasi ini.",
+    "role_changed": "Peranan ahli telah ditukar.",
+    "member_removed": "Ahli itu telah dikeluarkan daripada organisasi ini.",
+    "left": "Anda telah keluar daripada organisasi itu.",
+    "forbidden": "Anda tiada akses kepada organisasi itu, jadi tiada apa-apa diubah.",
+    "admin_required": "Hanya pentadbir organisasi ini boleh berbuat demikian, jadi tiada apa-apa diubah. Peranan anda mungkin telah berubah sejak halaman dimuatkan.",
+    "last_admin": "Organisasi mesti mengekalkan sekurang-kurangnya seorang pentadbir aktif, jadi tiada apa-apa diubah. Jadikan ahli lain pentadbir dahulu.",
+    "already_member": "Anda sudah menjadi ahli organisasi itu. Jemputan itu telah ditutup.",
+    "pending_exists": "Jemputan untuk alamat ini sudah menunggu. Batalkannya dahulu untuk menghantar yang baharu.",
+    "invalid_email": "Alamat e-mel itu tidak boleh digunakan. Semak dan cuba lagi.",
+    "not_pending": "Jemputan itu tidak lagi menunggu, jadi tiada apa-apa diubah.",
+    "not_found": "Ahli atau jemputan itu tiada dalam organisasi ini, jadi tiada apa-apa diubah.",
+    "session_ended": "Sesi anda telah tamat, jadi tiada apa-apa diubah. Masuk semula dan cuba lagi.",
+    "unavailable": "Pangkalan data tidak tersedia sekarang, jadi tiada apa-apa diubah. Sila cuba lagi.",
+    "unexpected": "Sesuatu telah tersilap dan tiada apa-apa diubah. Sila cuba lagi.",
+    "invitation_invalid": "Pautan jemputan itu tidak sah, jadi anda tidak ditambah. Minta pentadbir yang menghantarnya untuk jemputan baharu.",
+    "invitation_expired": "Jemputan itu telah tamat tempoh, jadi anda tidak ditambah. Minta pentadbir untuk jemputan baharu.",
+    "invitation_used": "Jemputan itu telah digunakan, jadi tiada apa-apa diubah.",
+    "invitation_mismatch": "Jemputan itu dihantar kepada alamat lain, jadi anda tidak ditambah."
   }
 }
