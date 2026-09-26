@@ -286,11 +286,14 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
   );
 
   /**
-   * `POST /invitations/accept` (a command). R5 steps 1–2, an unlocked read of the
-   * invitation for its org, the org lock, then the invitation `FOR UPDATE` and
-   * its state, in the order R7 fixes: unknown or revoked → `invitation.invalid`;
-   * accepted → `invitation.used`; expired → `invitation.expired`; another address
-   * → `invitation.email_mismatch`; an inviter who is no longer an active admin →
+   * `POST /invitations/accept` (a command). R5 steps 1–2 and an unlocked read of
+   * the invitation for its org and its address. The address is checked there,
+   * **first**, as preview checks it (R7 rev 3): an unknown token →
+   * `invitation.invalid`; another address → `invitation.email_mismatch`, before
+   * any lock, so somebody else holding the link learns nothing of its state and
+   * never takes the org's mutex. Then the org lock, the invitation `FOR UPDATE`
+   * and, in order: revoked → `invitation.invalid`; accepted → `invitation.used`;
+   * expired → `invitation.expired`; an inviter who is no longer an active admin →
    * `invitation.invalid` (rev 3); the caller already an active member → the
    * invitation is closed (revoked by the caller, so nothing stays pending that
    * could re-admit them after a later removal) and 409
@@ -333,6 +336,11 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
           const found = await readByTokenHashUnlocked(client, tokenHash);
           if (found === null) throw new Refused(403, 'invitation.invalid', 'unknown_token');
           const about: AuditDetail = { contextOrgId: found.orgId, targetType: 'org_invitation', targetId: found.id };
+          // The address first, as preview checks it, and before any lock (R7 rev 3). The column never
+          // changes, so the unlocked read decides as a locked one would.
+          if (found.inviteeEmailNorm !== emailNorm) {
+            throw new Refused(403, 'invitation.email_mismatch', 'email_mismatch', about);
+          }
 
           // R5 step 4 for the invitation's org, then the invitation itself.
           if (!(await lockOrgRow(client, found.orgId))) throw new Refused(403, 'invitation.invalid', 'unknown_token', about);
@@ -342,9 +350,6 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
           }
           if (invitation.status === 'accepted') throw new Refused(403, 'invitation.used', 'used', about);
           if (invitation.expired) throw new Refused(403, 'invitation.expired', 'expired', about);
-          if (invitation.inviteeEmailNorm !== emailNorm) {
-            throw new Refused(403, 'invitation.email_mismatch', 'email_mismatch', about);
-          }
           // The invitation acts on its inviter's authority, re-checked now, under the org lock (R7 rev 3).
           if (!(await isActiveAdmin(client, invitation.orgId, invitation.invitedBy))) {
             throw new Refused(403, 'invitation.invalid', 'inviter_not_admin', about);

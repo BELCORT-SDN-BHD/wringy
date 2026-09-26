@@ -12,6 +12,7 @@
  */
 import { createHash } from 'node:crypto';
 
+import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import {
@@ -223,6 +224,54 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
     expect(await apiAuditCount(db)).toBe(before);
 
     expect((await accept(dave, token)).statusCode).toBe(200);
+  });
+
+  it('M2-AC03/3 a wrong account holding a used, expired or revoked link learns from accept only what preview tells it — email_mismatch — and never takes the org lock', async () => {
+    const orgId = await createOrgAs(api, carol, 'Not Your Link');
+    const used = await inviteAs(api, carol, orgId, DAVE.email);
+    expect((await accept(dave, used.token)).statusCode).toBe(200);
+    const expired = await inviteAs(api, carol, orgId, FRANK.email);
+    await asMigrator(db, `UPDATE app.org_invitations SET expires_at = now() - interval '1 minute' WHERE id = $1`, [expired.invitationId]);
+    const revoked = await inviteAs(api, carol, orgId, 'somebody.else@example.test');
+    expect((await post(carol.headers, `/orgs/${orgId}/invitations/${revoked.invitationId}/revoke`)).statusCode).toBe(200);
+    const pending = await inviteAs(api, carol, orgId, 'another.person@example.test');
+
+    // The org row held by another transaction: an accept that tried to take the org lock would wait
+    // for it, into the statement timeout. The wrong account is answered at once.
+    const holder = new pg.Client({ connectionString: db.urls.migrator, application_name: 'wringy-test-holder' });
+    await holder.connect();
+    try {
+      await holder.query('BEGIN');
+      await holder.query('SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', [orgId]);
+      for (const { invitationId, token } of [used, expired, revoked, pending]) {
+        const seen = await preview(erin, token);
+        expect(seen.statusCode, invitationId).toBe(200);
+        expect(seen.json(), invitationId).toEqual({ state: 'email_mismatch' });
+        const started = Date.now();
+        const tried = await accept(erin, token);
+        expect(Date.now() - started, `${invitationId} did not wait on the org lock`).toBeLessThan(1_500);
+        expect(tried.statusCode, invitationId).toBe(403);
+        expect(tried.json(), invitationId).toEqual(errorBody('invitation.email_mismatch'));
+      }
+    } finally {
+      await holder.query('ROLLBACK').catch(() => {});
+      await holder.end();
+    }
+
+    expect(await memberRow(orgId, ERIN.userId)).toBeUndefined();
+    const denials = await auditRows(db, { contextOrgId: orgId, actorUserId: ERIN.userId, outcome: 'denied' });
+    expect(denials.map((row) => [row.action, row.denial_code, row.reason, row.target_id])).toEqual(
+      [used, expired, revoked, pending].map(({ invitationId }) => [
+        'invitation.accept',
+        'invitation.email_mismatch',
+        'email_mismatch',
+        invitationId,
+      ]),
+    );
+    // The addressed person still gets the state their own link is in.
+    const again = await accept(dave, used.token);
+    expect(again.statusCode).toBe(403);
+    expect(again.json()).toEqual(errorBody('invitation.used'));
   });
 
   it('M2-AC03/2 an expired invitation previews as expired and is refused at accept (403 invitation.expired); re-inviting the address supersedes it', async () => {

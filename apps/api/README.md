@@ -31,7 +31,7 @@ audit rows (M2-03, migrations 0011–0016).
 | `POST /orgs/:orgId/invitations` `{ email, role }` | Command, admin. The address in the allow-list's normal form (`normalizeEmail`; an address it refuses is 400); a pending unexpired invitation for it is 409 `invitation.pending`, a pending expired one is revoked by the inviter in the same transaction (audited `invitation.revoke`); the token is 32 random bytes, base64url, **answered once** and stored only as its sha256; `expires_at = now() + make_interval(days => INVITATION_LIFETIME_DAYS)`. 201 `{ invitation, token }`; audit `invitation.create` |
 | `POST /orgs/:orgId/invitations/:invitationId/revoke` | Command, admin. Pending → revoked; not pending 409 `invitation.not_pending`; an invitation of another org 404 `invitation.not_found`; audit `invitation.revoke` |
 | `POST /invitations/preview` `{ token }` | Read, any signed-in person. The verified address is checked **first**: anybody else gets `{ state: 'email_mismatch' }` and nothing more. An unknown or revoked token, and a pending one whose inviter is no longer an active admin, is 403 `invitation.invalid` (audited `invitation.preview`); the addressed person sees `{ state: pending \| expired \| accepted, org: { id, name }, role, expiresAt }`. A token with no usable `email` claim is 401 `unauthenticated` |
-| `POST /invitations/accept` `{ token }` | Command (R7). An unlocked read of the invitation for its org, the org lock, the invitation `FOR UPDATE`, then in order: unknown or revoked 403 `invitation.invalid`, accepted 403 `invitation.used`, expired 403 `invitation.expired`, another verified address 403 `invitation.email_mismatch`, an inviter who is no longer an active admin whose profile is active (removed, left, demoted or disabled) 403 `invitation.invalid` — the invitation acts on that admin's authority, re-checked under the org lock — already an active member → the invitation is closed (revoked by the caller) and 409 `invitation.already_member`; otherwise the membership is written (a removed row made active again), the invitation marked accepted, audit `invitation.accept`. 200 `{ org, membership }` |
+| `POST /invitations/accept` `{ token }` | Command (R7). An unlocked read of the invitation for its org and its address: unknown 403 `invitation.invalid`; another verified address 403 `invitation.email_mismatch`, decided there, before any lock and before the invitation's state, as preview decides it — a wrong account holding the link learns nothing more and never takes the org lock. Then the org lock, the invitation `FOR UPDATE`, and in order: revoked 403 `invitation.invalid`, accepted 403 `invitation.used`, expired 403 `invitation.expired`, an inviter who is no longer an active admin whose profile is active (removed, left, demoted or disabled) 403 `invitation.invalid` — the invitation acts on that admin's authority, re-checked under the org lock — already an active member → the invitation is closed (revoked by the caller) and 409 `invitation.already_member`; otherwise the membership is written (a removed row made active again), the invitation marked accepted, audit `invitation.accept`. 200 `{ org, membership }` |
 
 Response bodies are the zod schemas in `@wringy/contracts`. They are the
 allow-list: the type provider serialises the schema's encoded output and
@@ -198,8 +198,9 @@ in an org takes its locks in **one global order**:
    count of active admins **whose profile is active** where the set of admins could
    shrink (`org.last_admin`), the write, and its audit row.
 
-`POST /invitations/accept` learns its org from an unlocked read of the invitation,
-then follows the same order from step 4. `NO KEY UPDATE` rather than `UPDATE`,
+`POST /invitations/accept` learns its org and the invitation's address from an
+unlocked read, refuses another address there (like step 3, before any lock), then
+follows the same order from step 4. `NO KEY UPDATE` rather than `UPDATE`,
 because `FOR UPDATE` on the org row also blocks every foreign-key insert that
 references it (members, invitations, grants) while `NO KEY` does not, and two
 commands on one org still serialise. The order is not a style choice: the kickoff

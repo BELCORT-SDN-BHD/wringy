@@ -103,16 +103,23 @@ export async function createInvitation(client: Queryable, invitation: NewInvitat
   return toPendingInvitation(rows[0]);
 }
 
-/** The invitation a token names, unlocked: accept learns the org to lock from it (R5, R7). */
+/**
+ * The invitation a token names, unlocked: accept learns the org to lock from it
+ * (R5, R7), and the address it was sent to, which accept checks before taking
+ * any lock (R7 rev 3). Both columns are never updated — the runtime role holds
+ * no UPDATE on `org_id` or `invitee_email_norm` (0013) — so this read is as good
+ * as a locked one for them.
+ */
 export async function readByTokenHashUnlocked(
   client: Queryable,
   tokenHash: string,
-): Promise<{ id: string; orgId: string } | null> {
-  const { rows } = await client.query<{ id: string; org_id: string }>(
-    `SELECT id, org_id FROM app.org_invitations WHERE token_hash = $1`,
+): Promise<{ id: string; orgId: string; inviteeEmailNorm: string } | null> {
+  const { rows } = await client.query<{ id: string; org_id: string; invitee_email_norm: string }>(
+    `SELECT id, org_id, invitee_email_norm FROM app.org_invitations WHERE token_hash = $1`,
     [tokenHash],
   );
-  return rows[0] === undefined ? null : { id: rows[0].id, orgId: rows[0].org_id };
+  const row = rows[0];
+  return row === undefined ? null : { id: row.id, orgId: row.org_id, inviteeEmailNorm: row.invitee_email_norm };
 }
 
 /** An invitation's state as the commands judge it, `expired` on the database clock. */

@@ -31,8 +31,10 @@
  * 6. then the command's own target rows (`FOR UPDATE`), the last-admin count,
  *    the write and its audit row, in the caller's `work`.
  *
- * Accepting an invitation (`routes/invitations.ts`) learns the org from the
- * invitation and follows the same order from step 4 on; under the org lock it
+ * Accepting an invitation (`routes/invitations.ts`) learns the org and the
+ * address from the invitation, refuses another address before any lock (like
+ * step 3, an outsider never takes an org lock), and follows the same order from
+ * step 4 on; under the org lock it
  * also re-checks that the admin who sent the invitation still is one
  * (`isActiveAdmin`), because the invitation acts on that admin's authority.
  *
