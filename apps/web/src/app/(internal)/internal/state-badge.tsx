@@ -14,7 +14,9 @@ import {
   CircleStop,
   Database,
   FlaskConical,
+  ShieldCheck,
   TriangleAlert,
+  UserRound,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -55,6 +57,16 @@ export const QUEUE_STATE_STYLE: Record<string, StateStyle> = {
 export const DATA_ORIGIN_STYLE: Record<string, StateStyle> = {
   fixture: { tone: 'attention', icon: FlaskConical },
   live: { tone: 'info', icon: Database },
+};
+
+/**
+ * A membership's role in one org (M2-03, ruling D3). A role is not a health
+ * state, so neither tone says "good" or "bad": admin is `info`, member the
+ * neutral `inactive` grey, and the icon and the label carry the meaning.
+ */
+export const ROLE_STYLE: Record<string, StateStyle> = {
+  admin: { tone: 'info', icon: ShieldCheck },
+  member: { tone: 'inactive', icon: UserRound },
 };
 
 /** A style for `code`, or the unknown style for a code this page does not know. */
