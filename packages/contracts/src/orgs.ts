@@ -279,27 +279,23 @@ export const revokeInvitationResponseSchema = z.object({
 export type RevokeInvitationResponse = z.output<typeof revokeInvitationResponseSchema>;
 
 /**
- * `POST /invitations/preview`. The address is checked first: to anybody but the
- * addressed person the answer is `{ state: 'email_mismatch' }` and nothing else
- * (no org, role or expiry). The addressed person sees the org, the role, the
- * expiry and whether the link is still `pending`, has `expired` or was
- * `accepted`. An unknown or revoked token is a 403, not a state.
+ * `POST /invitations/preview`, as only the addressed person receives it: the
+ * org, the role, the expiry and whether the link is still `pending`, has
+ * `expired` or was `accepted`. The address is checked first, and anybody else
+ * is refused 403 `invitation.email_mismatch` (audited; R7 rev 3), so no 200
+ * body is ever shaped for a wrong account. An unknown or revoked token is a
+ * 403 too, not a state.
  */
 export const INVITATION_PREVIEW_STATES = ['pending', 'expired', 'accepted'] as const;
-export const invitationPreviewResponseSchema = z.discriminatedUnion('state', [
-  z.object({
-    state: z.literal('email_mismatch'),
+export const invitationPreviewResponseSchema = z.object({
+  state: z.enum(INVITATION_PREVIEW_STATES),
+  org: z.object({
+    id: z.uuid(),
+    name: z.string().min(1),
   }),
-  z.object({
-    state: z.enum(INVITATION_PREVIEW_STATES),
-    org: z.object({
-      id: z.uuid(),
-      name: z.string().min(1),
-    }),
-    role: orgRoleSchema,
-    expiresAt: instantSchema,
-  }),
-]);
+  role: orgRoleSchema,
+  expiresAt: instantSchema,
+});
 export type InvitationPreviewResponse = z.output<typeof invitationPreviewResponseSchema>;
 
 /** `POST /invitations/accept`: the org joined and the membership written. */

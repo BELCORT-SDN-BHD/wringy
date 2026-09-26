@@ -200,13 +200,13 @@ describe('M2-AC03/3 accept page: the addressed person sees the invitation, anybo
     // The API's `accepted` is the page's `used`.
     expect(acceptPageState({ kind: 'ok', data: { state: 'accepted', ...PREVIEW } })).toMatchObject({ kind: 'used' });
 
-    // Somebody else holding the link learns nothing about the org, the role or the expiry.
-    const mismatch = acceptPageState({ kind: 'ok', data: { state: 'email_mismatch' } });
+    // Somebody else holding the link is refused by the API (403 invitation.email_mismatch, R7 rev 3)
+    // and learns nothing about the org, the role or the expiry.
+    const mismatch = acceptPageState(error(403, 'invitation.email_mismatch'));
     expect(mismatch).toEqual({ kind: 'email_mismatch' });
     expect(JSON.stringify(mismatch)).not.toContain('Dave Retail');
 
     expect(acceptPageState(error(403, 'invitation.invalid'))).toEqual({ kind: 'invalid' });
-    expect(acceptPageState(error(403, 'invitation.email_mismatch'))).toEqual({ kind: 'email_mismatch' });
     expect(acceptPageState(error(403, 'invitation.used'))).toEqual({ kind: 'invalid' });
     expect(acceptPageState(error(403, 'account.disabled'))).toEqual({ kind: 'end_session' });
     expect(acceptPageState(error(401, 'auth.expired'))).toEqual({ kind: 'session_ended' });

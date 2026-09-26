@@ -145,8 +145,8 @@ export function refusalOutcome(
 
 // --- The accept page -----------------------------------------------------------
 
-/** What the addressed person is shown about the invitation. */
-export type InvitationPreview = Extract<InvitationPreviewResponse, { org: unknown }>;
+/** What the addressed person is shown about the invitation (only they get a 200 preview). */
+export type InvitationPreview = InvitationPreviewResponse;
 
 /**
  * What the accept page renders (R7, R9).
@@ -155,8 +155,9 @@ export type InvitationPreview = Extract<InvitationPreviewResponse, { org: unknow
  *   expiry and the Accept form.
  * - `expired`, `used`: the addressed person, after the fact (`used` is the
  *   API's `accepted`).
- * - `email_mismatch`: somebody else holds the link. They are told only that it
- *   was sent to a different address — no org, role or expiry.
+ * - `email_mismatch`: somebody else holds the link (the API's audited 403
+ *   `invitation.email_mismatch`, R7 rev 3). They are told only that it was
+ *   sent to a different address — no org, role or expiry.
  * - `invalid`: no token, a malformed one (never sent to the API), or one the API
  *   does not know or that was revoked (403 `invitation.invalid`).
  * - `session_ended` / `end_session`: redirects, as on `/internal`.
@@ -177,15 +178,13 @@ export function acceptPageState(result: ApiResult<InvitationPreviewResponse> | n
 
   if (result.kind === 'ok') {
     const preview = result.data;
-    if (preview.state === 'email_mismatch') return { kind: 'email_mismatch' };
     return { kind: preview.state === 'accepted' ? 'used' : preview.state, preview };
   }
 
   if (result.status === 401) return { kind: 'session_ended' };
   if (result.status === 403) {
     if (result.code === 'account.disabled') return { kind: 'end_session' };
-    // The address is checked first (R7), so a mismatch is said as such even if the
-    // API ever answered it as a refusal rather than a state.
+    // The address is checked first (R7 rev 3), so a wrong account is told only that, whatever the link's state.
     if (result.code === 'invitation.email_mismatch') return { kind: 'email_mismatch' };
     if (result.code?.startsWith('invitation.')) return { kind: 'invalid' };
   }

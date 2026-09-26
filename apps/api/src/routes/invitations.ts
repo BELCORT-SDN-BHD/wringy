@@ -73,8 +73,8 @@ function verifiedEmailNorm(actor: Actor): string | null {
  * `/invitations/accept`) or in the one create response: never in an API path,
  * which the request log writes, never in a log field and never in an audit row.
  * The database keeps its sha256. The control that makes a leaked or mis-delivered
- * link grant nothing is the verified address: preview shows the invitation only
- * to the addressed person, and accept refuses anybody else.
+ * link grant nothing is the verified address: preview and accept both refuse
+ * anybody else with 403 `invitation.email_mismatch`, audited (R7 rev 3).
  *
  * An invitation acts on the authority of the admin who sent it, so that
  * authority is re-checked when the link is used (M2-AC03/2 "每次读写重核实际成员、
@@ -224,11 +224,14 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
   );
 
   /**
-   * `POST /invitations/preview` (any signed-in person; a read). The address is
-   * checked **first**: to anybody but the addressed person the answer is
-   * `{ state: 'email_mismatch' }` and nothing else. An unknown or revoked token,
-   * and a pending one whose inviter is no longer an active admin, is 403
-   * `invitation.invalid`, the answer accept gives, and audited.
+   * `POST /invitations/preview` (any signed-in person; a read, no lock). The
+   * address is checked **first**, right after the token lookup: anybody but the
+   * addressed person is refused 403 `invitation.email_mismatch` — the answer
+   * accept gives, audited as `invitation.preview` against the invitation's org —
+   * and learns nothing of the org, the role, the expiry or the link's state
+   * (R7 rev 3). An unknown or revoked token, and a pending one whose inviter is
+   * no longer an active admin, is 403 `invitation.invalid`, the answer accept
+   * gives, and audited. The 200 body is for the addressed person only.
    */
   app.post(
     '/invitations/preview',
@@ -261,8 +264,11 @@ export const invitationRoutes: FastifyPluginAsyncZod<InvitationRoutesOptions> = 
         async (client): Promise<InvitationPreviewResponse> => {
           const invitation = await readForPreview(client, tokenHash);
           if (invitation === null) throw new Refused(403, 'invitation.invalid', 'unknown_token');
-          if (invitation.inviteeEmailNorm !== emailNorm) return { state: 'email_mismatch' };
           const about: AuditDetail = { contextOrgId: invitation.orgId, targetType: 'org_invitation', targetId: invitation.id };
+          // The address first, as accept checks it (R7 rev 3): a wrong account is refused, audited, before the state.
+          if (invitation.inviteeEmailNorm !== emailNorm) {
+            throw new Refused(403, 'invitation.email_mismatch', 'email_mismatch', about);
+          }
           if (invitation.status === 'revoked') throw new Refused(403, 'invitation.invalid', 'revoked', about);
           // A link that could still be accepted is judged as accept will judge it: on its inviter's standing now.
           if (

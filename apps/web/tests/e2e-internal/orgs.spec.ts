@@ -490,7 +490,7 @@ test.describe('M2-AC03 organisations: one person in two workspaces, and every re
     expect(allowed.map((row) => [row.action, row.actor_user_id, row.target_id])).toEqual([['member.role_change', DAVE.id, CAROL.id]]);
   });
 
-  test('M2-AC03/3 simulated wrong recipient: Erin opens a link sent to Carol, learns only that it was sent elsewhere, and her Accept is refused', async ({
+  test('M2-AC03/3 simulated wrong recipient: Erin opens a link sent to Carol, learns only that it was sent elsewhere, and her page view and her Accept are each refused and audited', async ({
     tagged,
     tag,
     openDevice,
@@ -503,7 +503,8 @@ test.describe('M2-AC03 organisations: one person in two workspaces, and every re
     const invitation = await invite(dave, orgC, CAROL.email, 'member');
     const since = await databaseNow();
 
-    // Erin signs in from the link: the page says it was sent elsewhere, and nothing more.
+    // Erin signs in from the link: the page says it was sent elsewhere, and nothing more. Its
+    // preview is refused 403 invitation.email_mismatch and audited (R7 rev 3).
     const erin = await openDevice('erin');
     await signInTo(erin.page, 'erin', invitation.acceptUrl);
     await expect(erin.page.locator('[data-app-state="invitation-mismatch"]')).toBeVisible();
@@ -529,17 +530,20 @@ test.describe('M2-AC03 organisations: one person in two workspaces, and every re
     // Nothing was granted and the link is still Carol's to use.
     expect(await membershipOf(orgC, ERIN.id)).toBeUndefined();
     expect(await invitationStatus(invitation.id)).toBe('pending');
+    // Two denial rows: the page view's preview, then the crafted Accept.
     const denied = await auditRows(orgC, since, 'denied');
-    expect(denied).toHaveLength(1);
-    expectDenial(denied[0], {
-      actor_user_id: ERIN.id,
-      context_org_id: orgC,
-      action: 'invitation.accept',
-      target_type: 'org_invitation',
-      target_id: invitation.id,
-      denial_code: 'invitation.email_mismatch',
-      reason: 'email_mismatch',
-    });
+    expect(denied.map((row) => row.action)).toEqual(['invitation.preview', 'invitation.accept']);
+    for (const [index, action] of (['invitation.preview', 'invitation.accept'] as const).entries()) {
+      expectDenial(denied[index], {
+        actor_user_id: ERIN.id,
+        context_org_id: orgC,
+        action,
+        target_type: 'org_invitation',
+        target_id: invitation.id,
+        denial_code: 'invitation.email_mismatch',
+        reason: 'email_mismatch',
+      });
+    }
     expect(JSON.stringify(denied).includes(invitation.token), 'the denial row carries no token').toBe(false);
 
     // Carol, signed out, opens the link: the sign-in detour carries it in `next`, the accept

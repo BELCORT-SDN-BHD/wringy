@@ -62,8 +62,9 @@ export const metadata: Metadata = { referrer: 'strict-origin' };
  * page asks `POST /invitations/preview { token }` — the token in a POST body,
  * never an API path — and the API checks the verified address **first**: the
  * addressed person sees the org, the role and the expiry and an Accept button;
- * anybody else sees only that it was sent to a different address, with a
- * sign-out button. Accepting posts the token in a hidden field to
+ * anybody else is refused (403 `invitation.email_mismatch`, audited; R7 rev 3)
+ * and sees only that it was sent to a different address, with a sign-out
+ * button. Accepting posts the token in a hidden field to
  * `POST /internal/invitations/accept/confirm`.
  */
 export default async function AcceptInvitationPage({ searchParams }: PageProps<'/internal/invitations/accept'>) {

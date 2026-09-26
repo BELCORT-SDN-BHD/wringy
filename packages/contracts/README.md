@@ -18,7 +18,7 @@ the TypeScript types inferred from them (kickoff-package.md §8.1, §8.3).
 | `POST /orgs/:orgId/rename` | `renameOrgResponseSchema` | `{ org }` (M2-03) |
 | `POST /orgs/:orgId/invitations` | `createInvitationResponseSchema` | 201 `{ invitation: { id, inviteeEmailNorm, role, expiresAt, createdAt }, token }`; the token is answered once (M2-03) |
 | `POST /orgs/:orgId/invitations/:invitationId/revoke` | `revokeInvitationResponseSchema` | `{ invitation: { id, status } }` (M2-03) |
-| `POST /invitations/preview` | `invitationPreviewResponseSchema` | `{ state: 'email_mismatch' }` to anybody but the addressed person; otherwise `{ state: 'pending' \| 'expired' \| 'accepted', org: { id, name }, role, expiresAt }` (M2-03) |
+| `POST /invitations/preview` | `invitationPreviewResponseSchema` | For the addressed person only: `{ state: 'pending' \| 'expired' \| 'accepted', org: { id, name }, role, expiresAt }`; anybody else is refused 403 `invitation.email_mismatch` (M2-03) |
 | `POST /invitations/accept` | `acceptInvitationResponseSchema` | `{ org, membership }` (M2-03) |
 | `POST /orgs/:orgId/members/:userId/role` | `changeRoleResponseSchema` | `{ membership }` (M2-03) |
 | `POST /orgs/:orgId/members/:userId/remove` | `removeMemberResponseSchema` | `{ membership }`, now `removed` (M2-03) |

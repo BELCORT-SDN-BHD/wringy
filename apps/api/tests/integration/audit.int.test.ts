@@ -154,6 +154,8 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
     status: number;
     /** 1 for a refusal of the authorisation logic, 0 for one decided before (R4's scope). */
     rows: 0 | 1;
+    /** The denial row's action, where one code is answered by more than one route. */
+    action?: string;
     /** Arranges what the row needs and returns the one request that is measured. */
     arrange: () => Promise<() => Promise<Response>>;
   }
@@ -221,9 +223,21 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
       code: 'invitation.email_mismatch',
       status: 403,
       rows: 1,
+      action: 'invitation.accept',
       arrange: async () => {
         const { token } = await invite(orgI, 'somebody.else@example.test');
         return () => post(dave, '/invitations/accept', { token });
+      },
+    },
+    // Preview refuses a wrong account the same way, audited (R7 rev 3); it used to answer a 200 state.
+    {
+      code: 'invitation.email_mismatch',
+      status: 403,
+      rows: 1,
+      action: 'invitation.preview',
+      arrange: async () => {
+        const { token } = await invite(orgI, 'somebody.else.again@example.test');
+        return () => post(dave, '/invitations/preview', { token });
       },
     },
     {
@@ -336,7 +350,12 @@ describe('M2-AC03 the audit log: one row per authorisation refusal, none before 
       expect(response.json(), row.code).toEqual(errorBody(row.code));
       expect((await apiAuditCount(db)) - before, row.code).toBe(row.rows);
       if (row.rows === 1) {
-        expect(await latestApiRow(), row.code).toMatchObject({ outcome: 'denied', denial_code: row.code, actor_kind: 'user' });
+        expect(await latestApiRow(), row.code).toMatchObject({
+          outcome: 'denied',
+          denial_code: row.code,
+          actor_kind: 'user',
+          ...(row.action === undefined ? {} : { action: row.action }),
+        });
       }
     }
   });

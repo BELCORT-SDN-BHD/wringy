@@ -290,7 +290,6 @@ const orgResponses = [
     revokeInvitationResponseSchema,
     { invitation: { id: invitationId, status: 'revoked' } },
   ],
-  ['POST /invitations/preview (mismatch)', invitationPreviewResponseSchema, { state: 'email_mismatch' }],
   [
     'POST /invitations/preview (addressed)',
     invitationPreviewResponseSchema,
@@ -380,14 +379,16 @@ describe('M2-AC03/3 org responses are allow-lists', () => {
 });
 
 describe('M2-AC03/3 the invitation preview says nothing to the wrong account', () => {
-  it('M2-AC03/3 an email_mismatch answer drops the org, the role and the expiry', () => {
-    const parsed = invitationPreviewResponseSchema.parse({
-      state: 'email_mismatch',
-      org: { id: orgId, name: 'Carol Studio' },
-      role: 'admin',
-      expiresAt: invitation.expiresAt,
-    });
-    expect(parsed).toEqual({ state: 'email_mismatch' });
+  it('M2-AC03/3 the preview body has no email_mismatch state: a wrong account is refused 403, never shaped a 200', () => {
+    expect(invitationPreviewResponseSchema.safeParse({ state: 'email_mismatch' }).success).toBe(false);
+    expect(
+      invitationPreviewResponseSchema.safeParse({
+        state: 'email_mismatch',
+        org: { id: orgId, name: 'Carol Studio' },
+        role: 'admin',
+        expiresAt: invitation.expiresAt,
+      }).success,
+    ).toBe(false);
   });
 
   it('M2-AC03/3 the addressed states need the org, the role and the expiry', () => {

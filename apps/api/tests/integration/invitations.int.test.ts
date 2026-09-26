@@ -157,10 +157,10 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
       role: 'member',
       expiresAt: invitation.expiresAt,
     });
-    // Anybody else learns only that it is not theirs.
+    // Anybody else learns only that it is not theirs: refused, and audited (R7 rev 3).
     const other = await preview(erin, token);
-    expect(other.statusCode).toBe(200);
-    expect(other.json()).toEqual({ state: 'email_mismatch' });
+    expect(other.statusCode).toBe(403);
+    expect(other.json()).toEqual(errorBody('invitation.email_mismatch'));
 
     const accepted = await accept(dave, token);
     expect(accepted.statusCode).toBe(200);
@@ -184,11 +184,13 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
     expect(rows.map((row) => [row.action, row.outcome, row.actor_user_id, row.denial_code])).toEqual([
       ['org.create', 'allowed', CAROL.userId, null],
       ['invitation.create', 'allowed', CAROL.userId, null],
+      ['invitation.preview', 'denied', ERIN.userId, 'invitation.email_mismatch'],
       ['invitation.accept', 'allowed', DAVE.userId, null],
       ['invitation.accept', 'denied', DAVE.userId, 'invitation.used'],
     ]);
     expect(rows[1]).toMatchObject({ target_type: 'org_invitation', target_id: invitation.id, summary: { after: { role: 'member', status: 'pending' } } });
-    expect(rows[2]).toMatchObject({
+    expect(rows[2]).toMatchObject({ reason: 'email_mismatch', target_type: 'org_invitation', target_id: invitation.id, summary: null });
+    expect(rows[3]).toMatchObject({
       target_type: 'org_invitation',
       target_id: invitation.id,
       summary: { before: { status: 'pending' }, after: { status: 'accepted', role: 'member' } },
@@ -226,7 +228,7 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
     expect((await accept(dave, token)).statusCode).toBe(200);
   });
 
-  it('M2-AC03/3 a wrong account holding a used, expired or revoked link learns from accept only what preview tells it — email_mismatch — and never takes the org lock', async () => {
+  it('M2-AC03/3 a wrong account holding a used, expired, revoked or pending link learns from preview and accept only 403 invitation.email_mismatch, each audited once, and never takes the org lock', async () => {
     const orgId = await createOrgAs(api, carol, 'Not Your Link');
     const used = await inviteAs(api, carol, orgId, DAVE.email);
     expect((await accept(dave, used.token)).statusCode).toBe(200);
@@ -244,14 +246,17 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
       await holder.query('BEGIN');
       await holder.query('SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', [orgId]);
       for (const { invitationId, token } of [used, expired, revoked, pending]) {
+        const before = await apiAuditCount(db);
         const seen = await preview(erin, token);
-        expect(seen.statusCode, invitationId).toBe(200);
-        expect(seen.json(), invitationId).toEqual({ state: 'email_mismatch' });
+        expect(seen.statusCode, invitationId).toBe(403);
+        expect(seen.json(), invitationId).toEqual(errorBody('invitation.email_mismatch'));
+        expect(await apiAuditCount(db), `${invitationId}: one preview denial row`).toBe(before + 1);
         const started = Date.now();
         const tried = await accept(erin, token);
         expect(Date.now() - started, `${invitationId} did not wait on the org lock`).toBeLessThan(1_500);
         expect(tried.statusCode, invitationId).toBe(403);
         expect(tried.json(), invitationId).toEqual(errorBody('invitation.email_mismatch'));
+        expect(await apiAuditCount(db), `${invitationId}: one accept denial row`).toBe(before + 2);
       }
     } finally {
       await holder.query('ROLLBACK').catch(() => {});
@@ -260,13 +265,16 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
 
     expect(await memberRow(orgId, ERIN.userId)).toBeUndefined();
     const denials = await auditRows(db, { contextOrgId: orgId, actorUserId: ERIN.userId, outcome: 'denied' });
-    expect(denials.map((row) => [row.action, row.denial_code, row.reason, row.target_id])).toEqual(
-      [used, expired, revoked, pending].map(({ invitationId }) => [
-        'invitation.accept',
-        'invitation.email_mismatch',
-        'email_mismatch',
-        invitationId,
-      ]),
+    expect(denials.map((row) => [row.action, row.denial_code, row.reason, row.target_type, row.target_id])).toEqual(
+      [used, expired, revoked, pending].flatMap(({ invitationId }) =>
+        (['invitation.preview', 'invitation.accept'] as const).map((action) => [
+          action,
+          'invitation.email_mismatch',
+          'email_mismatch',
+          'org_invitation',
+          invitationId,
+        ]),
+      ),
     );
     // The addressed person still gets the state their own link is in.
     const again = await accept(dave, used.token);
