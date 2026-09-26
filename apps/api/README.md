@@ -212,9 +212,14 @@ commands on one org still serialise. The order is not a style choice: the kickof
 design's "own membership row first, then the org" deadlocked (`40P01`) under
 ordinary concurrent admin actions on PostgreSQL 17. With one order a deadlock is a
 bug and stays a 500. `tests/integration/authorize.int.test.ts` proves the cross
-cases under a barrier (the migrator holds the org row until both requests wait on
-it): remove versus leave, demote versus rename, two admins leaving, two invitations
-of one address — each ends in one success and one refusal, never a 500.
+cases under a barrier (`underBarrier` in `tests/integration/support.ts`: the
+migrator holds the org row until both requests wait on it): remove versus leave,
+two admins leaving (also under a REPEATABLE READ default) and two invitations of
+one address each end in one success and one refusal; demote versus rename, run in
+both orders, ends 200/403 when the demotion goes first and 200/200 when the rename
+does, because the rename is judged on the role held when it runs.
+`tests/integration/invitations.int.test.ts` runs two accepts of one link the same
+way: one 200, one 403 `invitation.used`. None answers a 500.
 
 **What is audited** (src/audit.ts, R3, R4): every allowed command (its row is
 written on the command's own transaction client, so the change and its row commit

@@ -542,8 +542,8 @@ outsider). `database-server.mts` allow-lists every `allowlisted: true` user; eac
 `allowlist.add` audit row, so specs filter `app.audit_log` by `action`, `context_org_id` or
 `actor_user_id` and never count its rows. The `orgs` project (1440, `fullyParallel: false`,
 `testMatch: orgs.spec.ts`) depends on the reading projects only and runs **beside** `auth`, because
-it signs in only Carol, Dave, Erin and Mallory, whom `auth` never touches; `database-outage` waits
-for both. `openDevice` sizes a second browser with Playwright's `viewport` fixture, so a
+it signs in Carol, Dave and Erin, whom `auth` never touches, and tries Mallory, whom `auth` tries
+too and sign-in refuses in both (she is not on the allow-list); `database-outage` waits for both. `openDevice` sizes a second browser with Playwright's `viewport` fixture, so a
 `test.use({ viewport })` row at 390 or 320 sizes both people's pages alike.
 
 `@wringy/db` and `tsx` are **devDependencies** of this app for that suite only. The dependency

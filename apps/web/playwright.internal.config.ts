@@ -137,10 +137,12 @@ export default defineConfig({
       // M2-AC03 (docs/m2-internal/m2-03-code-review.md R13). Its rows create
       // organisations, invite and remove people, so they run in order in one
       // worker (`fullyParallel: false`); every row arranges its own orgs under a
-      // unique name. It signs in only Carol, Dave, Erin and Mallory, identities
-      // the `auth` project never touches, so it runs BESIDE `auth` rather than
-      // after it. The 390 and 320 rows re-run through `test.use({ viewport })`,
-      // which `openDevice` honours for the second person's browser too.
+      // unique name. It signs in Carol, Dave and Erin, identities the `auth`
+      // project never touches, and tries Mallory, whom `auth.spec.ts` tries too:
+      // she is not on the allow-list, so sign-in refuses her in both projects.
+      // So it runs BESIDE `auth` rather than after it. The 390 and 320 rows
+      // re-run through `test.use({ viewport })`, which `openDevice` honours for
+      // the second person's browser too.
       name: 'orgs',
       testMatch: /orgs\.spec\.ts$/,
       fullyParallel: false,
