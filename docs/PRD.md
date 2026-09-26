@@ -3,7 +3,7 @@ document: product-blueprint
 product: Wringy
 status: consolidated-from-accepted-decisions
 updated: 2026-09-26
-implementation_status: m1-prototype-accepted; m2-internal-build-in-progress (google identity built; org membership and saved data unbuilt); product-runtime-unbuilt
+implementation_status: m1-prototype-accepted; m2-internal-build-in-progress (google identity built; org membership built on feat/m2-03, internal acceptance; saved data unbuilt); product-runtime-unbuilt
 purpose: 产品应该是什么样子、解决什么高层问题，以及长期愿景。
 required_focus:
   vision: 产品希望给用户带来什么改变，长期往哪个方向发展。
@@ -92,7 +92,7 @@ Wringy 让商家把内容推广计划变成规则清楚的奖励活动，让内�
 | 阶段 | 交付结果及边界 | 详细范围与验收 |
 |---|---|---|
 | M1 三端交互原型 | 已交付并经创办人验收（2026-09-23）：同一活动贯穿三端；本地演示数据与模拟身份、计量、通知、付款；不证明真实业务可用 | [原型 spec](../phase-0/foundation/milestones/prototype-spec-v1.md) · [验收记录](m1-prototype/acceptance-record.md) · [#1](https://github.com/BELCORT-SDN-BHD/wringy/issues/1) |
-| M2 可保存的内部版 | 进行中：M2-01 骨架与 M2-02 真实 Google 会话已建成（内部验收＋创办人真实登录）；组织隔离（M2-03 起）、数据库保存、任务与通知基础待建；不将演示申请／付款落成正式账目 | [M2 spec](planning/specs/m2-spec.md) · [#10](https://github.com/BELCORT-SDN-BHD/wringy/issues/10) |
+| M2 可保存的内部版 | 进行中：M2-01 骨架与 M2-02 真实 Google 会话已建成（内部验收＋创办人真实登录）；M2-03 组织、成员、邀请、能力授予与审计已在 `feat/m2-03` 建成（内部验收，身份为模拟，待合并）；数据库保存业务数据、任务与通知基础待建；不将演示申请／付款落成正式账目 | [M2 spec](planning/specs/m2-spec.md) · [#10](https://github.com/BELCORT-SDN-BHD/wringy/issues/10) |
 | M3 完整业务模拟 Beta | 真实数据库执行完整规则与恢复约束；外部计量／付款明确模拟 | [M3 spec](planning/specs/m3-spec.md) · [#11](https://github.com/BELCORT-SDN-BHD/wringy/issues/11) |
 | M4 真实接口 | 逐能力验证社交数据、实际主体、付款及退款；至少一个完整通过的社交与匹配支付组合才能进入发布候选 | [M4 spec](planning/specs/m4-spec.md) · [#12](https://github.com/BELCORT-SDN-BHD/wringy/issues/12) |
 | M5 小范围试运营 | 获邀范围内完成真实业务周期，验证运营、容量、恢复、披露和实际结果 | [M5 spec](planning/specs/m5-spec.md) · [#13](https://github.com/BELCORT-SDN-BHD/wringy/issues/13) |
