@@ -79,6 +79,12 @@ export const ERROR_MESSAGES = {
   'invitation.not_pending': 'This invitation is no longer pending.',
   /** Capabilities are granted only by the operator script (ruling D4; R18). */
   'capability.script_only': 'Capabilities cannot be granted through the API.',
+  /**
+   * The route needs a review, finance or ops_runtime grant the caller does not
+   * hold (R5's guards; no M2-03 route uses them yet). Membership never stands in
+   * for a grant.
+   */
+  'capability.required': 'This action needs a capability you do not hold.',
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_MESSAGES;

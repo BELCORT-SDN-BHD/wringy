@@ -1,10 +1,16 @@
 import type { FastifyPluginAsyncZod } from '@fastify/type-provider-zod';
-import { apiErrorSchema, meResponseSchema, sessionProbeResponseSchema } from '@wringy/contracts';
+import {
+  apiErrorSchema,
+  meResponseSchema,
+  sessionProbeResponseSchema,
+  workspacesResponseSchema,
+} from '@wringy/contracts';
 import type { Pool } from '@wringy/db';
 
 import { actorOf, profileOf, VARY_AUTHORIZATION } from '../authenticate';
-import { withTransaction } from '../database';
+import { withDatabase, withTransaction } from '../database';
 import { errorBody } from '../errors';
+import { listWorkspaces } from '../orgs';
 import { lockProfileStatusForShare } from '../profiles';
 import { requireLiveSession, type SessionLiveness } from '../session-liveness';
 
@@ -14,7 +20,7 @@ export interface MeRoutesOptions {
 }
 
 /**
- * The signed-in person's own two routes.
+ * The signed-in person's own routes.
  *
  * - `GET /me` is a read: the profile the authentication hook already loaded, plus
  *   the access token's own expiry so the page can say how long this tab stays
@@ -29,6 +35,12 @@ export interface MeRoutesOptions {
  *   session that has been signed out gets 401 `session.revoked` instead, an
  *   account disabled since the hook's read gets 403 `account.disabled`, and M3's
  *   real fund-sensitive commands reuse exactly this shape.
+ * - `GET /me/workspaces` (M2-03 R10) is the one read behind the workspace
+ *   switcher: the personal context, one row per **active** membership (org name,
+ *   role, label) ordered by name, and the capability grants the caller holds —
+ *   three SELECTs on one pooled client, re-read on every request, so a removal or
+ *   a revoked grant shows on the next one. A grant is not a membership. `GET /me`
+ *   is unchanged.
  */
 export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { pool, liveness }) => {
   const liveSession = requireLiveSession(liveness);
@@ -51,6 +63,22 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
       profile: profileOf(request),
       session: { expiresAt: actorOf(request).expiresAt.toISOString() },
     }),
+  );
+
+  app.get(
+    '/me/workspaces',
+    {
+      schema: {
+        response: {
+          200: workspacesResponseSchema,
+          401: apiErrorSchema,
+          403: apiErrorSchema,
+          500: apiErrorSchema,
+          503: apiErrorSchema,
+        },
+      },
+    },
+    async (request) => withDatabase(pool, (client) => listWorkspaces(client, actorOf(request).userId)),
   );
 
   app.post(
