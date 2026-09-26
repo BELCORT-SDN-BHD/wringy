@@ -239,17 +239,20 @@ ruling or the reason it is accepted under.
   5 minutes, not a Wringy setting and not exposed by `/auth/v1/settings`; the number above is inferred
   from the walk's two attempts (one at about 6 minutes failed, one inside a minute succeeded), not read
   from a vendor document.
-- **Two §4.9 `Real` rows are still not executed.** As recorded before 2026-09-26 no real Google
-  sign-in had happened at all and every §4.9 `Real` row was `NOT EXECUTED`. The founder's walk of
-  2026-09-26 executed nine of them against the Supabase dev project with real Google accounts
-  ([acceptance-record.md](acceptance-record.md), "Real rows — EXECUTED 2026-09-26"); every **automated**
-  M2-AC02 row is still `simulated` (the local fake Auth server, a locally generated JWKS, or a stubbed
-  liveness port), and simulated results cannot close the ticket (`m2-spec.md` L59). What has still not
-  run: `Real stale` (a *rotated* refresh token reused outside the 10 s interval — it needs a capture
-  script, which a person cannot do by hand) and `M2-AC02/2 Real refresh with a real token near expiry`
-  (the walk stayed inside the real token's 1-hour lifetime, so no real refresh was observed). The walk
-  itself is [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
-
+- **Every §4.9 `Real` row has now run, and one of them contradicts the kickoff's expectation.** The
+  founder's walk of 2026-09-26 executed the Google rows; the orchestrator's script executed the last two
+  against the real Supabase dev project with admin-minted sessions (not Google). The "stale" row found
+  that reusing an already-rotated refresh token outside the 10 s reuse interval is **refused**
+  (`400 refresh_token_already_used`) but does **not** end the session: the current access token still
+  passes the probe and the current refresh token still rotates. §4.9 expected "the session ends". A
+  stolen, already-rotated token is therefore useless, but a stolen *current* one is as good as the
+  user's until it rotates, and Supabase's family revocation did not fire. Whether the project's
+  refresh-token reuse detection (Supabase dashboard, Auth → Sessions) should revoke the family is a
+  founder dashboard check; the code does not depend on it. Reuse of a token whose child is still unused
+  is answered 200 (a slow-client retry, GoTrue's leniency). The refresh row proved the proxy's refresh
+  path against the real Auth server (a real session stored with a past `expires_at` came back signed
+  in with a new cookie). Record: [acceptance-record.md](acceptance-record.md) "Real rows executed by
+  script". The walk itself is [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
 ## Governance not yet in force
 
 - **Branch protection (D22) waits for the merge.** Today `main` requires only `planning`
