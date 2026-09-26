@@ -277,6 +277,39 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     expect(await auditRows(db, { contextOrgId: orgId, denialCode: 'org.last_admin' })).toHaveLength(1);
   });
 
+  it('M2-AC03/2 barrier: the lock order holds whatever isolation the database defaults to — with REPEATABLE READ as the login’s default, two admins leaving still leave one admin', async () => {
+    const orgId = await createOrgAs(api, carol, 'Barrier Repeatable Read');
+    await asOrgMember(api, carol, orgId, dave, 'admin');
+    // From here every new session of the runtime login in this database starts with
+    // REPEATABLE READ as its default, as a server, database or role setting would
+    // make it (the cluster admin sets it: only a superuser may). R5 step 5's re-read
+    // and the last-admin count need a fresh snapshot per statement, which READ
+    // COMMITTED gives. `strict` is a new app, so its pool's sessions all start after it.
+    const setDefault = (sql: string) =>
+      withClientAt(cluster().adminUrl, (admin) => admin.query(`ALTER ROLE wringy_api_login IN DATABASE ${pg.escapeIdentifier(db.name)} ${sql}`));
+    await setDefault(`SET default_transaction_isolation = 'repeatable read'`);
+    const strict = await buildTestApi(db.urls.api, { identity });
+    try {
+      const [setting] = await withClientAt(db.urls.api, async (client) =>
+        (await client.query<{ default_transaction_isolation: string }>('SHOW default_transaction_isolation')).rows,
+      );
+      expect(setting).toEqual({ default_transaction_isolation: 'repeatable read' });
+
+      const leave = (who: SignedIn) => () => strict.app.inject({ method: 'POST', url: `/orgs/${orgId}/leave`, headers: who.headers });
+      const responses = await underBarrier(orgId, [leave(carol), leave(dave)]);
+      expect(responses.map((response) => response.statusCode).sort()).toEqual([200, 409]);
+      const admins = await asMigrator(
+        db,
+        `SELECT user_id FROM app.org_members WHERE org_id = $1 AND status = 'active' AND role = 'admin'`,
+        [orgId],
+      );
+      expect(admins).toHaveLength(1);
+    } finally {
+      await strict.close();
+      await setDefault('RESET default_transaction_isolation');
+    }
+  });
+
   it('M2-AC03/2 barrier: two invitations of one address at once — one 201, one 409 invitation.pending, one pending invitation', async () => {
     const orgId = await createOrgAs(api, carol, 'Barrier Two Invites');
     await asOrgMember(api, carol, orgId, dave, 'admin');

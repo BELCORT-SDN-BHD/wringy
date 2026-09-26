@@ -198,6 +198,11 @@ in an org takes its locks in **one global order**:
    count of active admins **whose profile is active** where the set of admins could
    shrink (`org.last_admin`), the write, and its audit row.
 
+Every command's transaction is opened with `BEGIN ISOLATION LEVEL READ COMMITTED`,
+whatever `default_transaction_isolation` the server, database or role sets: steps 5
+and 6 read with plain SELECTs once the lock is held, and each needs a snapshot taken
+after it was granted (under REPEATABLE READ two admins leaving at once both leave).
+
 `POST /invitations/accept` learns its org and the invitation's address from an
 unlocked read, refuses another address there (like step 3, before any lock), then
 follows the same order from step 4. `NO KEY UPDATE` rather than `UPDATE`,
