@@ -414,15 +414,19 @@ schema as the allow-list; the
 runtime role unable to write; and no secret in bodies or logs (the secrets,
 outage and startup tests, and the log scrubber's unit tests).
 
-The M2-03 files (`orgs`, `invitations`, `authorize` and `audit` `.int.test.ts`, and
-`src/audit.test.ts`) carry `M2-AC03` in the `describe` title and `M2-AC03/<n>` in
+The M2-03 files (`orgs`, `invitations`, `authorize`, `audit` and `recovery`
+`.int.test.ts`, and `src/audit.test.ts`) carry `M2-AC03` in the `describe` title and `M2-AC03/<n>` in
 every test title, and their `describe` titles say `simulated identities`: every
 token is signed by the in-process key pair above. They arrange orgs through the
 API's own routes (`createOrgAs`, `inviteAs`, `asOrgMember` in `support.ts`), write
 grants with `@wringy/db`'s `pnpm db:grant` functions as the migrator, and read
 `app.audit_log` as the migrator (the runtime role cannot), always filtered by
 action, org or actor, or compared before and after a request: the database already
-holds the allow-list's own audit rows when a test seeds one.
+holds the allow-list's own audit rows when a test seeds one. `recovery.int.test.ts` is the
+ticket's recovery proof (m2-03-code-review.md R15): a member removed, a Kopi Kita review scope
+revoked once through the `pnpm db:grant` entry (spawned as `packages/db/test/grants-cli.int.test.ts`
+does) and an invitation revoked leave every org, fixture campaign, membership row and audit row in
+place, and `wringy_api_login` cannot `DELETE` from any of those tables (42501).
 
 ## Docker image
 
