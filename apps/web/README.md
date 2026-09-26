@@ -279,7 +279,7 @@ Nothing here is client-side: every write is a plain `<form method="post">` to a 
 | Path | Reads | Shows |
 |---|---|---|
 | `/internal` | `GET /me/workspaces` (beside `/me` and the M2-01 reads, in the same failure composition) | the **Workspaces** section: the personal context, one row per active membership with a role badge and a link, and the create-org form |
-| `/internal/orgs/<orgId>` | `GET /orgs/:orgId`, `GET /me/workspaces` (only for the caller's own id) | name, members (display name, role, since), own role, leave; admins also rename, invite (with the R17 note "must be able to sign in to this build"), pending invitations with revoke, and a role form and a remove button per other member. 403 `org.forbidden` is the in-place `data-app-state="org-forbidden"` state |
+| `/internal/orgs/<orgId>` | `GET /orgs/:orgId` (its `self` names the caller's own id and role) | name, members (display name, role, since), own role, leave; admins also rename, invite (with the R17 note "must be able to sign in to this build"), pending invitations with revoke, and a role form and a remove button per other member. 403 `org.forbidden` is the in-place `data-app-state="org-forbidden"` state |
 | `/internal/orgs/<orgId>/invitations/<invitationId>` | `GET /orgs/:orgId` (the pending invitation by id) | the accept link in a read-only input (`data-testid="invitation-accept-link"`) from the page-scoped cookie, the address, role and expiry; without the cookie, the invitation without a link |
 | `/internal/invitations/accept?token=…` | `POST /invitations/preview { token }` | to the addressed person the org, role, expiry and an Accept button; to anyone else only "sent to a different address" and a sign-out button; or the expired / used / invalid state |
 
