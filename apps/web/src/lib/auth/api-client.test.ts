@@ -87,13 +87,43 @@ describe('M2-AC02/2 revoked: the web keeps the API’s error code so it can say 
     });
   });
 
-  it('M2-AC02/3 cache: any other status is unexpected', () => {
-    for (const status of [400, 404, 405, 500, 502]) {
+  // Amended by M2-03 (m2-03-code-review.md R9 rev 2, §5; an M2-AC02/3 amendment row in
+  // the acceptance record): this row said "any other status is unexpected". The org
+  // outcomes need the codes of 400, 404 and 409, so those now keep theirs; a 5xx and
+  // any status the web does not know stay `unexpected`.
+  it('M2-AC02/3 cache: 5xx and unknown statuses are unexpected; 400/404/409 keep their code', () => {
+    for (const status of [405, 410, 418, 500, 502, 504, 302]) {
       expect(classifyApiResult(status, ME, meResponseSchema), String(status)).toEqual({
         kind: 'failure',
         failure: 'unexpected',
       });
     }
+    for (const [status, code] of [
+      [400, 'bad_request'],
+      [404, 'invitation.not_found'],
+      [404, 'member.not_found'],
+      [409, 'org.last_admin'],
+      [409, 'invitation.pending'],
+    ] as const) {
+      expect(classifyApiResult(status, { error: { code, message: 'x' } }, meResponseSchema), `${status} ${code}`).toEqual({
+        kind: 'error',
+        status,
+        code,
+      });
+    }
+    // With no usable envelope the status still decides, and no code is invented.
+    expect(classifyApiResult(409, undefined, meResponseSchema)).toEqual({ kind: 'error', status: 409, code: null });
+  });
+
+  it('M2-AC03/1 created: any 2xx is success against the contract, and a 2xx that breaks it is not', () => {
+    // POST /orgs and POST /orgs/:orgId/invitations answer 201.
+    expect(classifyApiResult(201, ME, meResponseSchema)).toEqual({ kind: 'ok', data: ME });
+    expect(classifyApiResult(299, ME, meResponseSchema)).toEqual({ kind: 'ok', data: ME });
+    expect(classifyApiResult(201, { profile: PROFILE }, meResponseSchema)).toEqual({
+      kind: 'failure',
+      failure: 'unexpected',
+    });
+    expect(classifyApiResult(204, undefined, meResponseSchema)).toEqual({ kind: 'failure', failure: 'unexpected' });
   });
 
   it('M2-AC02/2 revoked: errorCodeOf reads only a well-formed envelope', () => {
@@ -141,6 +171,50 @@ describe('M2-AC02/2 revoked: every call carries the caller’s token and is boun
 
     expect(calls[0].url).toBe('http://127.0.0.1:3200/me/session/probe');
     expect(calls[0].init.method).toBe('POST');
+  });
+
+  it('M2-AC03/2 command: a call with no body sends no body and no content-type', async () => {
+    // Fastify answers an empty body declared as JSON with 400, so leave, remove and
+    // revoke — which take none — must not claim one (R9 rev 2).
+    const calls = stubFetch(() => json(200, { ok: true }));
+    const passThrough = { safeParse: (input: unknown) => ({ success: true as const, data: input }) };
+
+    await apiFetch('/orgs/a0000000-0000-4000-8000-000000000001/leave', {
+      baseUrl: BASE,
+      token: 'token-abc',
+      method: 'POST',
+      schema: passThrough,
+    });
+
+    expect(calls[0].init.body).toBeUndefined();
+    const sent = calls[0].init.headers as Record<string, string>;
+    expect(sent).not.toHaveProperty('content-type');
+    expect(sent.accept).toBe('application/json');
+  });
+
+  it('M2-AC03/2 command: a body is sent as JSON with its content-type, and never logged', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const calls = stubFetch(() => json(409, { error: { code: 'invitation.pending', message: 'x' } }));
+    const passThrough = { safeParse: (input: unknown) => ({ success: true as const, data: input }) };
+
+    const result = await apiFetch('/orgs/a0000000-0000-4000-8000-000000000001/invitations', {
+      baseUrl: BASE,
+      token: 'token-abc',
+      method: 'POST',
+      body: { email: 'carol@example.test', role: 'member' },
+      schema: passThrough,
+    });
+
+    expect(result).toEqual({ kind: 'error', status: 409, code: 'invitation.pending' });
+    expect(calls[0].init.body).toBe('{"email":"carol@example.test","role":"member"}');
+    const sent = calls[0].init.headers as Record<string, string>;
+    expect(sent['content-type']).toBe('application/json');
+    expect(sent.authorization).toBe('Bearer token-abc');
+    // The log line names the method, the path and the code: not the body, not the token.
+    const logged = warn.mock.calls.map((call) => call.join(' ')).join('\n');
+    expect(logged).toContain('POST /orgs/a0000000-0000-4000-8000-000000000001/invitations failed: invitation.pending (HTTP 409)');
+    expect(logged).not.toContain('carol@example.test');
+    expect(logged).not.toContain('token-abc');
   });
 
   it('M2-AC02/2 revoked: an unreachable API is a failure, and the log names no URL or token', async () => {

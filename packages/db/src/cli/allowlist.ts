@@ -6,10 +6,12 @@
  *   pnpm db:allowlist remove <email> --reason "<text>" --by "<name>"
  *   pnpm db:allowlist list
  *
- * `--reason` and `--by` are required for both changes: the row is the audit
- * record until app.audit_log arrives with M2-03, and a removal is recorded in
- * this command's output. Each change prints one line. Removing an address signs
- * nobody out; disable the profile for that.
+ * `--reason` and `--by` are required for both changes, and neither may contain
+ * `@`: each change writes its `app.audit_log` row in the same statement
+ * (`allowlist.add | allowlist.remove`, actor_label = --by, target_id = the sha256
+ * of the normalised address, never the address; M2-03 code review R6). Each
+ * change prints one line. Removing an address signs nobody out; disable the
+ * profile for that.
  *
  * Runs as the migrator (the API has SELECT only). Reads WRINGY_ENV and
  * DATABASE_URL_MIGRATOR through @wringy/config (a local run also reads the
@@ -63,7 +65,11 @@ async function main(): Promise<void> {
       return;
     }
 
-    const removed = await removeAllowlistEntry(client, { email: parsed.email! });
+    const removed = await removeAllowlistEntry(client, {
+      email: parsed.email!,
+      reason: parsed.reason!,
+      by: parsed.by!,
+    });
     console.log(
       removed.outcome === 'removed'
         ? `Removed ${removed.emailNorm} from the allow-list (by ${parsed.by!}: ${parsed.reason!}). ` +

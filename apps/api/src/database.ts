@@ -124,13 +124,22 @@ export async function withDatabase<T>(pool: Pool, fn: (client: PoolClient) => Pr
  * throw. The 503-versus-500 rule is unchanged: a lost connection becomes
  * DatabaseUnavailableError, anything else is rethrown as it is.
  *
+ * The isolation level is stated, never inherited (M2-03 R5 rev 3): READ
+ * COMMITTED, whatever `default_transaction_isolation` the server, the database
+ * or the role sets. R5's lock order depends on it — step 5 re-reads the caller's
+ * role, and the last-admin count reads the other admins, with plain SELECTs once
+ * the org lock is held, and each needs a snapshot taken after the lock was
+ * granted. Under REPEATABLE READ the snapshot is fixed at the first statement,
+ * so two admins leaving at once both see the other still there and both leave.
+ * `@wringy/db`'s `setEnvironment` pins the same level for the same reason.
+ *
  * @wringy/db exports a `withTransaction` of its own for direct database code;
  * this one is the API's, because it must classify failures the way every other
  * API query does.
  */
 export async function withTransaction<T>(pool: Pool, fn: (client: PoolClient) => Promise<T>): Promise<T> {
   return runOnClient(pool, async (client) => {
-    await client.query('BEGIN');
+    await client.query('BEGIN ISOLATION LEVEL READ COMMITTED');
     try {
       const result = await fn(client);
       await client.query('COMMIT');

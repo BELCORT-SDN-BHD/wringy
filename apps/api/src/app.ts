@@ -9,6 +9,8 @@
  * /health/live do not depend on the Authorization header, and saying they do
  * would be a false statement to a shared cache.
  */
+import { randomUUID } from 'node:crypto';
+
 import Fastify, { type FastifyError } from 'fastify';
 import {
   serializerCompiler,
@@ -26,7 +28,9 @@ import type { ExpectedHeads } from './read-models';
 import { healthRoutes } from './routes/health';
 import { identityRoutes } from './routes/identity';
 import { internalRoutes } from './routes/internal';
+import { invitationRoutes } from './routes/invitations';
 import { meRoutes } from './routes/me';
+import { orgRoutes } from './routes/orgs';
 import type { SessionLiveness } from './session-liveness';
 
 /** Every response: private, never stored by a browser or a shared cache. */
@@ -74,7 +78,14 @@ export function buildApp({
   authenticate,
   liveness,
 }: BuildAppOptions) {
-  const app = Fastify({ logger: loggerOptions(logLevel, logStream) }).withTypeProvider<ZodTypeProvider>();
+  // Every request's id is a UUID (M2-03 R11), not Fastify's per-process `req-N`
+  // counter: it is the `reqId` of each log line and the `request_id` of each audit
+  // row, so a denial and its log line share one key across restarts and
+  // instances. `requestIdHeader` stays off (the default): a client cannot choose it.
+  const app = Fastify({
+    logger: loggerOptions(logLevel, logStream),
+    genReqId: () => randomUUID(),
+  }).withTypeProvider<ZodTypeProvider>();
 
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
@@ -117,6 +128,8 @@ export function buildApp({
   app.register(internalRoutes, { pool, prefix: '/internal' });
   app.register(identityRoutes, { pool, liveness });
   app.register(meRoutes, { pool, liveness });
+  app.register(orgRoutes, { pool, liveness });
+  app.register(invitationRoutes, { pool, liveness });
 
   return app;
 }

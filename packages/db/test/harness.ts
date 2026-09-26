@@ -171,7 +171,10 @@ export async function endSession(db: Pick<TestDatabase, 'name'>, sessionId: stri
   });
 }
 
-/** Lists an address on `app.sign_in_allowlist` as the migrator, as `pnpm db:allowlist add` does. */
+/**
+ * Lists an address on `app.sign_in_allowlist` as the migrator, as `pnpm db:allowlist add` does,
+ * including its `allowlist.add` audit row (M2-03 R6).
+ */
 export function allowlistAdd(
   db: TestDatabase,
   { email, reason = 'integration test', addedBy = 'wringy-test' }: { email: string; reason?: string; addedBy?: string },

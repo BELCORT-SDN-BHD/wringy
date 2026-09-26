@@ -5,7 +5,9 @@ The Fastify business API for the M2 internal build (kickoff-package.md §8.3,
 components call it, and it reads PostgreSQL as the runtime login
 `wringy_api_login` (group `wringy_api`, SELECT only). Fastify 5.12.5 with
 `@fastify/type-provider-zod` 1.0.0 and zod 4.6.5; `pg` 8.23.0 through
-`@wringy/db`; no ORM.
+`@wringy/db`; no ORM. Later tickets add writes through column-level grants only:
+the profile (M2-02), and organisations, memberships, invitations and append-only
+audit rows (M2-03, migrations 0011–0016).
 
 ## Routes
 
@@ -18,6 +20,18 @@ components call it, and it reads PostgreSQL as the runtime login
 | `POST /identity/sign-in` | The first-sign-in gate and the profile upsert, in one transaction: session liveness, then `SELECT ... FOR UPDATE` on `app.profiles` — whose locked row decides, so an account disabled since the hook's read is 403 `account.disabled` here, before any write — then the `app.sign_in_allowlist` lookup (first sign-in only) or the refresh of `contact_email`, `display_name` and `last_sign_in_at`, the only three columns the runtime role may update (migration 0010). The only route a verified subject with no profile row may reach |
 | `GET /me` | The caller's profile and the access token's own `expiresAt`, so a page can say how long this tab stays signed in without holding the token |
 | `POST /me/session/probe` | The reserved fund-sensitive stub (M2-AC02/2). It changes nothing: it opens a transaction, asks session liveness on that same connection, re-reads the account's own `status` there with `SELECT ... FOR SHARE`, and returns `{ ok: true, checkedAt }` on the database clock. A session that has ended gets 401 `session.revoked`; an account disabled since the hook's read gets 403 `account.disabled`, and a row that has gone 403 `profile.missing` |
+| `GET /me/workspaces` | The workspace switcher's one read (M2-03 R10): `{ personal: { userId }, orgs: [{ orgId, name, role, dataOrigin }], grants: { org: [{ orgId, capability }], platform } }` — active memberships only, ordered by org name, and the grants `pnpm db:grant` wrote; three SELECTs on one pooled client, re-read on every request. A grant is not a membership. Not audited |
+| `POST /orgs` `{ name }` | Command. Any signed-in person creates an org (ruling D1): `INSERT (name, created_by)`, so the id and the `live` label are the database's; the creator's `admin` membership on an `org_created` grant; audit `org.create`. 201 `{ org, membership }` |
+| `GET /orgs/:orgId` | Read, active members only: `{ org, self: { userId, role }, members: [{ userId, displayName, role, grantedAt }] }` (`self.userId` is the caller's own id, so the org page needs no second read to find its own row), plus `invitations` (the pending ones, with the invitee's address) for an admin. No member address of any kind; a member's answer has no `invitations` key. A non-member or unknown org is 403 `org.forbidden`, audited `org.read` |
+| `POST /orgs/:orgId/rename` `{ name }` | Command, admin. The name is `orgNameSchema` (trimmed, NFC, 1–100, no control or bidi-format characters); audit `org.rename` with the name before and after |
+| `POST /orgs/:orgId/members/:userId/role` `{ role }` | Command, admin. The target row `FOR UPDATE`; a member of another org (or nobody) is 404 `member.not_found`; demoting the last active admin is 409 `org.last_admin`; audit `member.role_change` |
+| `POST /orgs/:orgId/members/:userId/remove` | Command, admin, not self (409 `member.self`). The row stays, `removed`, `removal_basis = removed_by_admin`; 409 `org.last_admin` as above; audit `member.remove` |
+| `POST /orgs/:orgId/leave` | Command, any active member. The row stays, `removed` by the caller, `removal_basis = left`; the last active admin gets 409 `org.last_admin`; audit `member.leave` |
+| `POST /orgs/:orgId/capabilities` | Exists only to refuse and audit (R18): `params` only, no body schema, never reads a body. It sits in a Fastify scope of its own whose one content-type parser accepts any body and discards it, so a form, XML or malformed-JSON body reaches the refusal and its audit row too instead of an unaudited 415 or 400. A non-member gets `org.forbidden`, a member or admin 403 `capability.script_only`; both rows say `capability.grant`. Grants are written by `pnpm db:grant` alone (ruling D4) |
+| `POST /orgs/:orgId/invitations` `{ email, role }` | Command, admin. The address in the allow-list's normal form (`normalizeEmail`; an address it refuses is 400); a pending unexpired invitation for it is 409 `invitation.pending`, a pending expired one is revoked by the inviter in the same transaction (audited `invitation.revoke`); the token is 32 random bytes, base64url, **answered once** and stored only as its sha256; `expires_at = now() + make_interval(days => INVITATION_LIFETIME_DAYS)`. 201 `{ invitation, token }`; audit `invitation.create` |
+| `POST /orgs/:orgId/invitations/:invitationId/revoke` | Command, admin. Pending → revoked; not pending 409 `invitation.not_pending`; an invitation of another org 404 `invitation.not_found`; audit `invitation.revoke` |
+| `POST /invitations/preview` `{ token }` | Read, any signed-in person, no lock. An unknown token is 403 `invitation.invalid`. The verified address is checked **next**, before the invitation's state: anybody else is refused 403 `invitation.email_mismatch`, audited `invitation.preview` against the invitation's org and id, and learns nothing more — the answer accept gives. A revoked token, and a pending one whose inviter is no longer an active admin, is 403 `invitation.invalid` (audited `invitation.preview`). The 200 body is for the addressed person only: `{ state: pending \| expired \| accepted, org: { id, name }, role, expiresAt }`. A token with no usable `email` claim is 401 `unauthenticated` |
+| `POST /invitations/accept` `{ token }` | Command (R7). An unlocked read of the invitation for its org and its address: unknown 403 `invitation.invalid`; another verified address 403 `invitation.email_mismatch`, decided there, before any lock and before the invitation's state, as preview decides it — a wrong account holding the link learns nothing more and never takes the org lock. Then the org lock, the invitation `FOR UPDATE`, and in order: revoked 403 `invitation.invalid`, accepted 403 `invitation.used`, expired 403 `invitation.expired`, an inviter who is no longer an active admin whose profile is active (removed, left, demoted or disabled) 403 `invitation.invalid` — the invitation acts on that admin's authority, re-checked under the org lock — already an active member → the invitation is closed (revoked by the caller) and 409 `invitation.already_member`; otherwise the membership is written (a removed row made active again), the invitation marked accepted, audit `invitation.accept`. 200 `{ org, membership }` |
 
 Response bodies are the zod schemas in `@wringy/contracts`. They are the
 allow-list: the type provider serialises the schema's encoded output and
@@ -28,20 +42,43 @@ names its columns.
 Errors are `{ error: { code, message } }` with a fixed English message and no
 stack, SQL text or connection string:
 
-| Status | `code` | When |
-|---|---|---|
-| 503 | `database_unavailable` | No connection could be obtained or it was lost (network codes, SQLSTATE class 08, 57P01–57P03, 53300, 3D000, 28000/28P01, pg's connection messages) |
-| 404 | `not_found` | No route matches |
-| 4xx | `bad_request` | Fastify rejected the request |
-| 500 | `internal_error` | Anything else; the scrubbed stack is logged |
-| 401 | `unauthenticated` | No acceptable bearer token (see the claim table below). One message for every reason |
-| 401 | `auth.expired` | The signature and the claims were fine; the token's own lifetime has passed |
-| 503 | `auth_unavailable` | The project's JWKS could not be fetched, parsed or reached. **Never** "no matching key", which is the token's fault |
-| 401 | `session.revoked` | The token is valid but its session is gone (signed out, or `not_after` passed) |
-| 503 | `session_check_unavailable` | Whether the session is live could not be established |
-| 403 | `sign_in.not_allowed` | First sign-in, and the verified address is not on `app.sign_in_allowlist` |
-| 403 | `account.disabled` | An operator set `app.profiles.status = 'disabled'` (ruling D12) |
-| 403 | `profile.missing` | A verified subject with no profile row called anything but `POST /identity/sign-in` |
+| Status | `code` | When | Audited |
+|---|---|---|---|
+| 503 | `database_unavailable` | No connection could be obtained or it was lost (network codes, SQLSTATE class 08, 57P01–57P03, 53300, 3D000, 28000/28P01, pg's connection messages) | No |
+| 404 | `not_found` | No route matches | No |
+| 4xx | `bad_request` | Fastify rejected the request | No |
+| 500 | `internal_error` | Anything else; the scrubbed stack is logged | No |
+| 401 | `unauthenticated` | No acceptable bearer token (see the claim table below). One message for every reason | No |
+| 401 | `auth.expired` | The signature and the claims were fine; the token's own lifetime has passed | No |
+| 503 | `auth_unavailable` | The project's JWKS could not be fetched, parsed or reached. **Never** "no matching key", which is the token's fault | No |
+| 401 | `session.revoked` | The token is valid but its session is gone (signed out, or `not_after` passed) | No |
+| 503 | `session_check_unavailable` | Whether the session is live could not be established | No |
+| 403 | `sign_in.not_allowed` | First sign-in, and the verified address is not on `app.sign_in_allowlist` | No |
+| 403 | `account.disabled` | An operator set `app.profiles.status = 'disabled'` (ruling D12) | No |
+| 403 | `profile.missing` | A verified subject with no profile row called anything but `POST /identity/sign-in` | No |
+| 403 | `org.forbidden` | The caller is not an active member of the org in the path, or no such org exists: one answer, no existence oracle | Yes (`not_a_member` or `org_unknown`) |
+| 403 | `org.admin_required` | The caller is a member, and the command needs an admin of this org | Yes |
+| 409 | `org.last_admin` | A role change, removal or leave would leave the org without an active admin whose profile is active (ruling D3). Never accept: accepting only adds a member | Yes |
+| 404 | `member.not_found` | No active member with that id in the org of the path | Yes (`not_in_org`) |
+| 409 | `member.self` | An admin asked to remove themselves; leaving is `POST /orgs/:orgId/leave` | Yes |
+| 403 | `invitation.invalid` | Unknown or revoked invitation token (one answer for both), or a pending one whose inviter is no longer an active admin | Yes (`unknown_token`, `revoked` or `inviter_not_admin`) |
+| 403 | `invitation.used` | The invitation was already accepted (single-use, ruling D2) | Yes |
+| 403 | `invitation.expired` | The invitation is past `expires_at` | Yes |
+| 403 | `invitation.email_mismatch` | The verified `email` claim, normalised, is not the address the invitation was sent to — at preview and at accept, decided before the invitation's state and before any lock | Yes |
+| 409 | `invitation.already_member` | The caller is already an active member; the invitation is closed (revoked by the caller) | Yes |
+| 409 | `invitation.pending` | A pending, unexpired invitation for that address already exists in the org (also the backstop for `23505` on `org_invitations_pending_address_key`) | Yes |
+| 404 | `invitation.not_found` | No invitation with that id in the org of the path | Yes (`not_in_org`) |
+| 409 | `invitation.not_pending` | Only a pending invitation can be revoked | Yes |
+| 403 | `capability.script_only` | `POST /orgs/:orgId/capabilities`, for everybody: capabilities are granted only by `pnpm db:grant` (ruling D4) | Yes (`capability.grant`) |
+| 403 | `capability.required` | A route behind `requireOrgCapability` or `requirePlatformGrant` (no M2-03 route yet), and the caller does not hold that grant; membership never stands in for one | Yes (`capability.use`, `capability_required` or `platform_grant_required`) |
+
+**Audited** means the refusal writes one denial row to `app.audit_log` (M2-03 R4, R12): the
+actor, the org of the path, the action, `outcome = denied`, the code, a fixed reason word, the
+request id and the sha256 of the session id, and never a token, a session id or an address.
+Refusals decided before an actor is admitted (no or invalid token, `auth.expired`,
+`profile.missing`, `account.disabled`, `session.revoked`), a 400 from schema validation and
+every 503 are logged as a reason word and not audited, so no unauthenticated caller can write
+a row.
 
 The two 503s are deliberate. A JWKS blip, or a liveness question that cannot be
 answered, must not sign every signed-in tester out of the internal build, so both
@@ -134,6 +171,80 @@ is `revoked`: an absent or expired session row, or a 401/403 whose GoTrue `code`
 5xx, a 429, an unknown code, a body that is not JSON, a timeout, a transport
 failure and a database that cannot be reached are all `unavailable`, and answer
 503 `session_check_unavailable`.
+
+### Org scoping and locks
+
+`request.actor` is the verified caller and nothing else; which org a request acts
+in is always the path's `:orgId` (a uuid, or 400 before any code runs). **A body or
+header `orgId` is never read** — bodies are plain `z.object`s, which strip it — and
+the path is a claim the server re-authorises on every request against the caller's
+active membership in `app.org_members` (src/authorize.ts, M2-03 R5). Nothing is
+cached between requests, so a stale tab or a replayed request cannot act in an org
+the caller has left, and a revoked grant is gone on the next request.
+
+Reads (`GET /orgs/:orgId`) check the membership on a pooled client and rely on the
+token alone, like every read. Commands run in one transaction, and every command
+in an org takes its locks in **one global order**:
+
+1. session liveness on the transaction client (as above);
+2. the caller's profile `SELECT … FOR SHARE` (an account disabled since the hook's
+   read is 403 `account.disabled`);
+3. an **unlocked** read of the caller's membership — an outsider or an unknown org
+   is refused here, 403 `org.forbidden`, and never takes an org lock;
+4. the org row `SELECT id FROM app.orgs WHERE id = $1 FOR NO KEY UPDATE`, the org's
+   one mutex (the runtime role may take it because it holds `UPDATE (name)`);
+5. the caller's role re-read under that lock (`org.admin_required` for a member);
+6. the command's target rows `FOR UPDATE` (the other member, the invitation), the
+   count of active admins **whose profile is active** where the set of admins could
+   shrink (`org.last_admin`), the write, and its audit row.
+
+Every command's transaction is opened with `BEGIN ISOLATION LEVEL READ COMMITTED`,
+whatever `default_transaction_isolation` the server, database or role sets: steps 5
+and 6 read with plain SELECTs once the lock is held, and each needs a snapshot taken
+after it was granted (under REPEATABLE READ two admins leaving at once both leave).
+
+`POST /invitations/accept` learns its org and the invitation's address from an
+unlocked read, refuses another address there (like step 3, before any lock), then
+follows the same order from step 4. `NO KEY UPDATE` rather than `UPDATE`,
+because `FOR UPDATE` on the org row also blocks every foreign-key insert that
+references it (members, invitations, grants) while `NO KEY` does not, and two
+commands on one org still serialise. The order is not a style choice: the kickoff
+design's "own membership row first, then the org" deadlocked (`40P01`) under
+ordinary concurrent admin actions on PostgreSQL 17. With one order a deadlock is a
+bug and stays a 500. `tests/integration/authorize.int.test.ts` proves the cross
+cases under a barrier (`underBarrier` in `tests/integration/support.ts`: the
+migrator holds the org row until both requests wait on it): remove versus leave,
+two admins leaving (also under a REPEATABLE READ default) and two invitations of
+one address each end in one success and one refusal; demote versus rename, run in
+both orders, ends 200/403 when the demotion goes first and 200/200 when the rename
+does, because the rename is judged on the role held when it runs.
+`tests/integration/invitations.int.test.ts` runs two accepts of one link the same
+way: one 200, one 403 `invitation.used`. None answers a 500.
+
+**What is audited** (src/audit.ts, R3, R4): every allowed command (its row is
+written on the command's own transaction client, so the change and its row commit
+together — a refused audit insert fails the command), and every refusal of the
+authorisation logic, reads included (its row is written after the rollback, on a
+fresh client, in its own short transaction, and a failure to write it is a `warn`
+line, never a 500 or a changed answer). Refusals decided before an actor is admitted
+— no or invalid token, `auth.expired`, `profile.missing`, `account.disabled`,
+`session.revoked`, a 400 — and every 503 are not audited. Allowed reads are not
+audited. A row names the actor, the org, a `noun.verb` action, the target id, the
+outcome, the error code, a fixed reason word, a before/after summary limited to
+role, status, capability and org name (checked at run time), the request id — a
+UUID (`genReqId`), the same `reqId` as the request's log lines — and
+`session_ref`, the sha256 of the session id. Never a token, the session id or an
+address; `app.audit_log` has no SELECT for the runtime role, so the insert has no
+`RETURNING`.
+
+Capabilities (`review`, `finance` per org; `ops_runtime` for the platform) are
+plain reads of `app.admin_scopes` and `app.platform_grants`, written only by
+`pnpm db:grant`. `requireOrgCapability(pool, capability)` and
+`requirePlatformGrant(pool, capability)` are preHandlers for the tickets that first
+put an action behind a grant: a grant on one org gives nothing on another, review
+and finance give nothing of each other, and neither membership nor admin stands in
+for a grant (403 `capability.required`, audited `capability.use`). A grant opens no
+org: holding one is not membership.
 
 ## Startup
 
@@ -254,7 +365,7 @@ with `WRINGY_ENV=local`.
 | `pnpm --filter api build` | scripts/build.mjs: esbuild bundles src/main.ts to dist/main.js (ESM, node24, sourcemap) |
 | `pnpm --filter api start` | `node --env-file-if-exists=.env dist/main.js` |
 | `pnpm --filter api lint` / `typecheck` | ESLint (typescript-eslint recommended) / `tsc --noEmit` |
-| `pnpm --filter api test` | Unit tests (src/*.test.ts): worker state, redaction, 503-versus-500 classification, config |
+| `pnpm --filter api test` | Unit tests (src/*.test.ts): worker state, redaction, 503-versus-500 classification, config, the audit summary guard |
 | `pnpm --filter api test:int` | Integration tests (tests/integration) on a real PostgreSQL 17 through the `@wringy/db` harness |
 
 **Build.** The workspace packages (`@wringy/*`) ship TypeScript source and are
@@ -313,6 +424,20 @@ page leg is the internal Playwright suite's cold-start tests), with the response
 schema as the allow-list; the
 runtime role unable to write; and no secret in bodies or logs (the secrets,
 outage and startup tests, and the log scrubber's unit tests).
+
+The M2-03 files (`orgs`, `invitations`, `authorize`, `audit` and `recovery`
+`.int.test.ts`, and `src/audit.test.ts`) carry `M2-AC03` in the `describe` title and `M2-AC03/<n>` in
+every test title, and their `describe` titles say `simulated identities`: every
+token is signed by the in-process key pair above. They arrange orgs through the
+API's own routes (`createOrgAs`, `inviteAs`, `asOrgMember` in `support.ts`), write
+grants with `@wringy/db`'s `pnpm db:grant` functions as the migrator, and read
+`app.audit_log` as the migrator (the runtime role cannot), always filtered by
+action, org or actor, or compared before and after a request: the database already
+holds the allow-list's own audit rows when a test seeds one. `recovery.int.test.ts` is the
+ticket's recovery proof (m2-03-code-review.md R15): a member removed, a Kopi Kita review scope
+revoked once through the `pnpm db:grant` entry (spawned as `packages/db/test/grants-cli.int.test.ts`
+does) and an invitation revoked leave every org, fixture campaign, membership row and audit row in
+place, and `wringy_api_login` cannot `DELETE` from any of those tables (42501).
 
 ## Docker image
 

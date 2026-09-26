@@ -1,10 +1,14 @@
 import { ServerCog } from 'lucide-react';
-import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 import { loadWebEnv, tryLoadEnv } from '@wringy/config/web';
-import { internalCampaignsResponseSchema, meResponseSchema, workerHealthResponseSchema } from '@wringy/contracts';
+import {
+  internalCampaignsResponseSchema,
+  meResponseSchema,
+  workerHealthResponseSchema,
+  workspacesResponseSchema,
+} from '@wringy/contracts';
 import {
   Empty,
   EmptyContent,
@@ -16,14 +20,17 @@ import {
 import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 import { accessTokenFromHeaders, apiFetch } from '@/lib/auth/api-client';
 import { appMode } from '@/lib/auth/mode';
-import { signInPath } from '@/lib/auth/outcomes';
 
 import { ApiFailureAlert } from './api-failure';
 import { readInternalApi, type ApiFailure } from './api-read';
 import { CampaignsSection } from './campaigns-section';
+import { readOf, redirectIfCallerRefused } from './identity-read';
+import { OutcomeAlert } from './outcome-alert';
+import { outcomeFromQuery } from './outcomes';
 import { SessionSection } from './session-section';
 import type { ProbeResult } from './session-probe/route';
 import { WorkerHealthSection } from './worker-health-section';
+import { WorkspacesSection } from './workspaces-section';
 
 // Read the environment, the language cookie, the identity header and the API on
 // every request, never at build time (node_modules/next/dist/docs/01-app/02-guides/
@@ -33,15 +40,18 @@ export const dynamic = 'force-dynamic';
 /** The four results `POST /internal/session-probe` can redirect back with. */
 const PROBE_RESULTS = new Set<string>(['ok', 'revoked', 'unauthenticated', 'unavailable']);
 
-/** The Route Handler that ends a refused session, because this page cannot write a cookie. */
-const END_SESSION_PATH = '/auth/end-session';
-
 /**
  * `/internal`: the internal build's narrow loop (kickoff-package.md §8.3):
- * Browser → this Server Component → Fastify `GET /me`, `GET /internal/campaigns`
- * and `GET /internal/worker-health` (server to server, at API_INTERNAL_URL, no
- * cache, 5 s each, each carrying the caller's Bearer token) → PostgreSQL as the
- * API's runtime login.
+ * Browser → this Server Component → Fastify `GET /me`, `GET /me/workspaces`,
+ * `GET /internal/campaigns` and `GET /internal/worker-health` (server to server,
+ * at API_INTERNAL_URL, no cache, 5 s each, each carrying the caller's Bearer
+ * token) → PostgreSQL as the API's runtime login.
+ *
+ * The Workspaces section (M2-03; m2-03-code-review.md R9 rev 2, R10) is one more
+ * read in the same composition: it joins `failures` and `reads`, so when every
+ * read fails the same way the page still shows that state once (the M2-AC01
+ * outage rows). `?outcome=` shows what an org command or an invitation just did
+ * (`OutcomeAlert`; `left`, `forbidden`, the `invitation_*` refusals, …).
  *
  * Page states, each marked with `data-app-state`: `not-configured` (the web
  * server has no usable API_INTERNAL_URL), `api-unreachable`, `api-unavailable`
@@ -104,10 +114,13 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
     const internal = appMode() === 'internal';
     const token = internal ? await accessTokenFromHeaders() : null;
 
-    // One round trip's worth of latency for all three reads, not three.
-    const [me, campaigns, workers] = await Promise.all([
+    // One round trip's worth of latency for all four reads, not four.
+    const [meResult, workspacesResult, campaigns, workers] = await Promise.all([
       internal
         ? apiFetch('/me', { baseUrl: base, token, schema: meResponseSchema })
+        : Promise.resolve(null),
+      internal
+        ? apiFetch('/me/workspaces', { baseUrl: base, token, schema: workspacesResponseSchema })
         : Promise.resolve(null),
       readInternalApi(base, '/internal/campaigns', internalCampaignsResponseSchema, { token }),
       readInternalApi(base, '/internal/worker-health', workerHealthResponseSchema, { token }),
@@ -123,22 +136,23 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
     // re-asks the API rather than trusting its caller. A 401 needs no such detour:
     // the token is simply not accepted any more, and the proxy expires the cookies
     // itself the moment the refresh behind it fails.
-    if (me !== null && me.kind === 'error') {
-      if (me.status === 403 && me.code === 'account.disabled') redirect(END_SESSION_PATH);
-      if (me.status === 401) redirect(signInPath({ outcome: 'session_ended' }));
-    }
+    redirectIfCallerRefused(meResult);
+    redirectIfCallerRefused(workspacesResult);
 
     // `/me` failing the way a data read can fail is a page state, not a redirect:
     // an unreachable API says nothing about whether the session is good (R19).
+    const me = meResult === null ? null : readOf(meResult);
+    const workspaces = workspacesResult === null ? null : readOf(workspacesResult);
+    const identityReads = [me, workspaces].filter((read) => read !== null);
     const failures: ApiFailure[] = [
-      ...(me !== null && me.kind === 'failure' ? [me.failure] : []),
+      ...identityReads.flatMap((read) => (read.ok ? [] : [read.failure])),
       ...(campaigns.ok ? [] : [campaigns.failure]),
       ...(workers.ok ? [] : [workers.failure]),
     ];
-    const reads = (me !== null ? 1 : 0) + 2;
+    const reads = identityReads.length + 2;
     const sameFailureThroughout = failures.length === reads && new Set(failures).size === 1;
 
-    const profile = me !== null && me.kind === 'ok' ? me.data.profile : null;
+    const profile = me !== null && me.ok ? me.data.profile : null;
     const probe = probeOf(await searchParams);
 
     body = sameFailureThroughout ? (
@@ -146,12 +160,15 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
     ) : (
       <>
         {profile !== null ? <SessionSection profile={profile} probe={probe} /> : null}
-        {me !== null && me.kind === 'failure' ? <ApiFailureAlert failure={me.failure} /> : null}
+        {me !== null && !me.ok ? <ApiFailureAlert failure={me.failure} /> : null}
+        {workspaces !== null ? <WorkspacesSection read={workspaces} /> : null}
         <CampaignsSection read={campaigns} locale={locale} />
         <WorkerHealthSection read={workers} locale={locale} />
       </>
     );
   }
+
+  const outcome = outcomeFromQuery(await searchParams);
 
   return (
     <main className="mx-auto flex w-full max-w-5xl min-w-0 flex-1 flex-col gap-8 px-4 py-6 sm:px-6">
@@ -159,6 +176,7 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
         <h1 className="text-2xl font-semibold tracking-tight">{t('page.title')}</h1>
         <p className="text-muted-foreground">{t('page.description')}</p>
       </header>
+      {outcome !== null ? <OutcomeAlert outcome={outcome} /> : null}
       {body}
     </main>
   );

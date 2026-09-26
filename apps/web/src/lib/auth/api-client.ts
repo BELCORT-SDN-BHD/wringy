@@ -13,10 +13,14 @@
  * throws, every failure becomes a named result, and the log line carries a route,
  * a classification and a code — never a URL, a body, a token or a stack.
  *
- * It differs from `api-read.ts` in one way that matters: a 401 or 403 keeps the
+ * It differs from `api-read.ts` in one way that matters: a refusal keeps the
  * API's own error code, so a caller can tell `account.disabled` from
  * `session.revoked` from `sign_in.not_allowed` and pick the right outcome (R4,
- * R9, R11). A page state alone could not carry that.
+ * R9, R11). A page state alone could not carry that. M2-03
+ * (docs/m2-internal/m2-03-code-review.md R9 rev 2) widens it for the commands: a
+ * JSON body, any 2xx as success, and the code kept for 400, 404 and 409 too,
+ * because the org outcomes (`last_admin`, `pending_exists`, `not_found`, …) are
+ * decided by it.
  */
 
 import { headers } from 'next/headers';
@@ -36,13 +40,13 @@ export type ApiFailure = 'api-unreachable' | 'api-unavailable' | 'unexpected';
 /**
  * The outcome of one call.
  *
- * - `ok`: a 200 whose body matched the contract schema.
+ * - `ok`: a 2xx whose body matched the contract schema (a create answers 201).
  * - `error`: the API refused with a status and, when it sent the standard
- *   envelope, its `code`. Used for 401/403, where the code decides what the
- *   person is told.
+ *   envelope, its `code`. Used for 400, 401, 403, 404 and 409
+ *   (`CODED_STATUSES`), where the code decides what the person is told.
  * - `failure`: nothing usable came back. A 503 is `api-unavailable` (the API's
  *   database), an unreachable or stalled API is `api-unreachable`, anything else
- *   — including a 200 that breaks the contract — is `unexpected`.
+ *   — a 5xx, an unknown status, a 2xx that breaks the contract — is `unexpected`.
  */
 export type ApiResult<T> =
   | { readonly kind: 'ok'; readonly data: T }
@@ -60,10 +64,25 @@ export interface ApiFetchOptions<T> {
   /** The caller's verified access token. Absent means "no session": the API answers 401. */
   readonly token: string | null;
   readonly method?: 'GET' | 'POST';
-  /** Validates a 200 body. A 200 that fails it is `unexpected`, never rendered. */
+  /**
+   * A request body, sent as JSON with `content-type: application/json`. When it
+   * is absent nothing is sent and no content-type is set: Fastify answers an
+   * empty body declared as JSON with 400, so a command that takes no body
+   * (leave, remove, revoke) must not claim one (R9 rev 2). Never logged.
+   */
+  readonly body?: unknown;
+  /** Validates a 2xx body. A 2xx that fails it is `unexpected`, never rendered. */
   readonly schema: ResponseSchema<T>;
   readonly timeoutMs?: number;
 }
+
+/**
+ * The statuses whose error code the caller acts on: which session (401), which
+ * account or which refusal (403), and since M2-03 the command refusals — a body
+ * the API would not take (400), an object that is not in this org (404) and a
+ * state conflict such as the last admin (409).
+ */
+const CODED_STATUSES: ReadonlySet<number> = new Set([400, 401, 403, 404, 409]);
 
 /** A network or abort code for the server log; never a URL, a message or a stack. */
 function failureCode(error: unknown): string {
@@ -99,31 +118,34 @@ export function errorCodeOf(body: unknown): string | null {
 
 /** Maps an HTTP answer to a result. Pure, so it is unit-tested directly. */
 export function classifyApiResult<T>(status: number, body: unknown, schema: ResponseSchema<T>): ApiResult<T> {
-  if (status === 200) {
+  if (status >= 200 && status < 300) {
     const parsed = schema.safeParse(body);
     return parsed.success ? { kind: 'ok', data: parsed.data } : { kind: 'failure', failure: 'unexpected' };
   }
-  // The two statuses whose code the caller acts on (R9): which account, which session.
-  if (status === 401 || status === 403) return { kind: 'error', status, code: errorCodeOf(body) };
+  // The statuses whose code the caller acts on (R9): which account, which session, which refusal.
+  if (CODED_STATUSES.has(status)) return { kind: 'error', status, code: errorCodeOf(body) };
   // Every 503 is retryable and must never be read as "signed out" (R9).
   if (status === 503) return { kind: 'failure', failure: 'api-unavailable' };
   return { kind: 'failure', failure: 'unexpected' };
 }
 
 /**
- * Call `path` on the API with the caller's Bearer token and validate a 200 body.
- * Never throws. The limit covers the body too, so an API that sends headers and
- * then stalls is `api-unreachable` rather than a hung page.
+ * Call `path` on the API with the caller's Bearer token (and a JSON body, when
+ * given) and validate a 2xx body. Never throws. The limit covers the body too, so
+ * an API that sends headers and then stalls is `api-unreachable` rather than a
+ * hung page.
  */
 export async function apiFetch<T>(
   path: string,
-  { baseUrl, token, method = 'GET', schema, timeoutMs = API_REQUEST_TIMEOUT_MS }: ApiFetchOptions<T>,
+  { baseUrl, token, method = 'GET', body: requestBody, schema, timeoutMs = API_REQUEST_TIMEOUT_MS }: ApiFetchOptions<T>,
 ): Promise<ApiResult<T>> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const requestHeaders: Record<string, string> = { accept: 'application/json' };
     if (token !== null && token !== '') requestHeaders.authorization = `Bearer ${token}`;
+    const hasBody = requestBody !== undefined;
+    if (hasBody) requestHeaders['content-type'] = 'application/json';
 
     let response: Response;
     try {
@@ -132,6 +154,7 @@ export async function apiFetch<T>(
         cache: 'no-store',
         signal: controller.signal,
         headers: requestHeaders,
+        ...(hasBody ? { body: JSON.stringify(requestBody) } : {}),
       });
     } catch (error) {
       logFailure(method, path, `api-unreachable (${failureCode(error)})`);

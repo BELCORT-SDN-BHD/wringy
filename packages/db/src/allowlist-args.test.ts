@@ -40,6 +40,18 @@ describe('M2-AC02/2 the allow-list CLI refuses an unaudited or ambiguous change'
     }
   });
 
+  it('M2-AC03/3 --reason and --by may not carry an address into the audit log', () => {
+    for (const command of ['add', 'remove'] as const) {
+      const email = 'tester@example.com';
+      expect(() => parseAllowlistArgs([command, email, '--reason', 'r', '--by', 'operator@example.com'])).toThrow(
+        /--by may not contain "@"/,
+      );
+      expect(() =>
+        parseAllowlistArgs([command, email, '--reason', 'asked by boss@example.com', '--by', 'operator']),
+      ).toThrow(/--reason may not contain "@"/);
+    }
+  });
+
   it('M2-AC02/2 an address that looks like an option is refused, never acted on as one', () => {
     // Without this an address beginning with `--` would be parsed as an unknown
     // flag and the command would act on nothing while appearing to work.

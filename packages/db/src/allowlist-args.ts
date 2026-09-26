@@ -7,7 +7,9 @@
  * own `process.argv` (and open a database connection). A rule that cannot be
  * imported cannot be tested, and this one is the audit trail's own gate — the
  * required `--reason` and `--by` are what makes a change to who may sign in
- * recorded rather than anonymous.
+ * recorded rather than anonymous. Since M2-03 both are written to
+ * `app.audit_log`, which never holds an address, so a value containing `@` is
+ * refused too (M2-03 code review R3, R6).
  */
 
 export const ALLOWLIST_USAGE = [
@@ -68,6 +70,11 @@ export function parseAllowlistArgs(argv: readonly string[]): ParsedAllowlistArgs
     const value = named[option];
     if (value === undefined || value.trim() === '') {
       throw new Error(`${command} requires --${option} with a non-empty value.\n${ALLOWLIST_USAGE}`);
+    }
+    if (value.includes('@')) {
+      throw new Error(
+        `--${option} may not contain "@": the audit log never stores an address. Name the operator instead.\n${ALLOWLIST_USAGE}`,
+      );
     }
     values[option] = value;
   }

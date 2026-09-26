@@ -150,6 +150,24 @@ export const FRAMING_HEADERS: Readonly<Record<string, string>> = {
 };
 
 /**
+ * The referrer policy of every response the internal-mode proxy produces, sent as
+ * a **header** (M2-03 R7, R9 rev 3): the origin only in a Referer, never a path or
+ * a query, and nothing on an https → http downgrade.
+ *
+ * A page's `<meta name="referrer">` alone is not enough where the URL holds the
+ * invitation token. The browser applies the meta only once it has parsed it, and
+ * Next emits the metadata after the page's own `<script src>` tags (streamed later
+ * still when a layout's `generateMetadata` is async, as `(internal)/layout.tsx`'s
+ * is), so the page's first same-origin chunk requests went out under the default
+ * policy with the full URL — `?token=` included — as their Referer. The sign-in
+ * page reached with `next=/internal/invitations/accept?token=…` had no policy at
+ * all. A header is in force before the first byte of HTML is parsed. It is not
+ * `no-referrer`: under that the Fetch standard sends `Origin: null` on a form
+ * POST, which the M2-02 Origin rule refuses. The pages keep their `metadata`.
+ */
+export const REFERRER_POLICY = 'strict-origin';
+
+/**
  * OPERATIONAL deadline for the whole session-refresh step of one matched read
  * (not a business rule).
  *
@@ -248,9 +266,10 @@ function providerErrorAnswer(request: NextRequest, outcome: Outcome): NextRespon
   return noStore(env.ok ? redirect(target, env.env.appOrigin) : rewriteTo(request, target));
 }
 
-/** The two framing headers on every response the internal-mode proxy produces. */
+/** The two framing headers and the referrer policy on every response the internal-mode proxy produces. */
 function noFraming<T extends { headers: Headers }>(response: T): T {
   for (const [name, value] of Object.entries(FRAMING_HEADERS)) response.headers.set(name, value);
+  response.headers.set('Referrer-Policy', REFERRER_POLICY);
   return response;
 }
 

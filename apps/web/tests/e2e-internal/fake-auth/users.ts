@@ -1,11 +1,11 @@
 /**
- * The people the fake Supabase Auth server knows (M2-02 R15).
+ * The people the fake Supabase Auth server knows (M2-02 R15; M2-03 R13).
  *
- * Three fixed identities, because the internal suite must be able to say
- * "this is the same person as last time" across a sign-out, a second browser
- * context and a second web instance: the subject of a Supabase access token is
- * a uuid, and `app.profiles.id` is that uuid, so the uuids are constants here
- * rather than generated per run.
+ * Fixed identities, because the internal suite must be able to say "this is
+ * the same person as last time" across a sign-out, a second browser context and
+ * a second web instance: the subject of a Supabase access token is a uuid, and
+ * `app.profiles.id` is that uuid, so the uuids are constants here rather than
+ * generated per run.
  *
  * `allowlisted` says whether the suite's database bootstrap lists the address
  * on `app.sign_in_allowlist` (database-server.mts seeds exactly the listed
@@ -13,12 +13,19 @@
  * verified Google identity that nobody invited, which is the one case
  * `POST /identity/sign-in` answers with 403 `sign_in.not_allowed` (R5).
  *
+ * Carol, Dave and Erin are the M2-03 organisation testers
+ * (docs/m2-internal/m2-03-code-review.md R13): Carol the dual-role account
+ * (her own org's admin, and a member of Dave's), Dave the admin of the second
+ * org, Erin the allow-listed outsider who belongs to neither. The `auth`
+ * project never signs any of them in and never touches their profiles, so the
+ * `orgs` project runs beside it.
+ *
  * The addresses use the reserved `.test` TLD (RFC 2606), so no real mailbox
  * can ever be reached from this suite.
  */
 
-/** The three names the consent page and the control API address a user by. */
-export const FAKE_USER_NAMES = ['alice', 'bob', 'mallory'] as const;
+/** The names the consent page and the control API address a user by. */
+export const FAKE_USER_NAMES = ['alice', 'bob', 'mallory', 'carol', 'dave', 'erin'] as const;
 export type FakeUserName = (typeof FAKE_USER_NAMES)[number];
 
 export interface FakeUser {
@@ -56,6 +63,30 @@ export const FAKE_USERS: Readonly<Record<FakeUserName, FakeUser>> = {
     email: 'mallory@example.test',
     fullName: 'Mallory Ng',
     allowlisted: false,
+  },
+  carol: {
+    // The dual-role account: admin of her own org, member of Dave's.
+    name: 'carol',
+    id: '0ca70100-0000-4000-8000-000000000004',
+    email: 'carol@example.test',
+    fullName: 'Carol Wong',
+    allowlisted: true,
+  },
+  dave: {
+    // The admin of the second org, who invites Carol.
+    name: 'dave',
+    id: '0da4e000-0000-4000-8000-000000000005',
+    email: 'dave@example.test',
+    fullName: 'Dave Raj',
+    allowlisted: true,
+  },
+  erin: {
+    // Allow-listed, in no org: the outsider of the over-reach and wrong-recipient rows.
+    name: 'erin',
+    id: '0e410000-0000-4000-8000-000000000006',
+    email: 'erin@example.test',
+    fullName: 'Erin Lee',
+    allowlisted: true,
   },
 };
 
