@@ -17,7 +17,8 @@ PostgreSQL without Docker, and the integration-test harness
 | `src/expected-head.ts` | `EXPECTED_MIGRATION_HEAD` and `EXPECTED_PGBOSS_VERSION`, which GET /health compares the database with; unit-tested against the migrations directory and the installed pg-boss |
 | `src/environment.ts`, `src/cli/env.ts` | The environment marker `ops.environment` and `pnpm db:env` |
 | `src/fixtures.ts`, `src/cli/seed-fixtures.ts`, `fixtures/internal-campaigns.sql` | `pnpm db:seed:fixtures` |
-| `src/allowlist.ts`, `src/cli/allowlist.ts` | `normalizeEmail()` (the one normal form for a sign-in address) and `pnpm db:allowlist add\|remove\|list` over `app.sign_in_allowlist` |
+| `src/allowlist.ts`, `src/cli/allowlist.ts` | `normalizeEmail()` (the one normal form for a sign-in address) and `pnpm db:allowlist add\|remove\|list` over `app.sign_in_allowlist`; each change writes its `app.audit_log` row in the same statement (M2-03) |
+| `src/grants.ts`, `src/grants-args.ts`, `src/cli/grant.ts` | `pnpm db:grant grant\|revoke\|list`: the only writer of `app.admin_scopes` and `app.platform_grants`, each change and its audit row in one statement (M2-03 R6; below) |
 | `src/platform.ts`, `src/cli/platform-bootstrap.ts` | The platform bootstrap: the SQL for the stub `auth.sessions`, the non-superuser `wringy_platform_admin` and `platform.session_is_live`, plus `installPlatform()` and `pnpm db:platform-bootstrap` |
 | `migrations/NNNN_name.sql` | The migrations, applied as the migration owner. SQL files only, `-- Up Migration` / `-- Down Migration` markers ([node-pg-migrate "Legacy SQL migrations"](https://github.com/salsita/node-pg-migrate/blob/v9.0.0/docs/src/migration-loading-strategies.md)) |
 | `src/roles.ts` | Role and schema names |
@@ -45,7 +46,7 @@ import time, so a bundler keeps only what an app uses. `apps/worker`'s esbuild
 bundle relies on it to leave out the migration runner (node-pg-migrate) and
 `src/local-dev.ts`; keep new modules free of import-time effects.
 
-## Schema (M2-01, M2-02)
+## Schema (M2-01, M2-02, M2-03)
 
 | Migration | Creates | Rights |
 |---|---|---|
@@ -59,10 +60,19 @@ bundle relies on it to leave out the migration runner (node-pg-migrate) and
 | `0008_profiles` | `app.profiles`: `id` = the verified token subject (no foreign key to the identity store, IT1), `display_name`, `contact_email`, `locale_pref` (CHECK `en-MY`/`ms-MY`/`zh-Hans-MY`) with `locale_pref_set_at`, `status` (CHECK `active`/`disabled`, default `active`), `last_sign_in_at`, `created_at`, `updated_at` with the shared `ops.touch_updated_at()` trigger. **No `data_origin` and no fixture trigger**: every user is a real identity (§3.5) | api: SELECT, INSERT, UPDATE (it upserts at each sign-in), narrowed to four columns by 0010; never DELETE. worker: nothing |
 | `0009_sign_in_allowlist` | `app.sign_in_allowlist(email_norm PK CHECK non-empty and already lower-cased, reason NOT NULL, added_by NOT NULL, added_at)`: who may sign in for the first time (ruling D13) | api: SELECT. Written only by the migrator, through `pnpm db:allowlist` |
 | `0010_profiles_column_grants` | No new object: 0008's table-level INSERT and UPDATE on `app.profiles` become **column** grants, so the runtime role cannot write `status` (ruling D12: only an operator disables an account) or the locale columns M2-04 owns | api: SELECT on the table; INSERT (`id`, `contact_email`, `display_name`, `last_sign_in_at`) and UPDATE (`contact_email`, `display_name`, `last_sign_in_at`) only; never DELETE. worker: nothing |
+| `0011_orgs_ownership` | On `app.orgs`: `created_by` (→ `app.profiles`, nullable: the seed's fixture orgs and M2-01's live test orgs have none), `updated_at` with the `ops.touch_updated_at()` trigger, `id DEFAULT gen_random_uuid()`, `data_origin DEFAULT 'live'`, and `orgs_id_created_by_key UNIQUE (id, created_by)`, the target of the creator link below. Expand only | api: SELECT (0003) plus INSERT (`name`, `created_by`) and UPDATE (`name`): it cannot choose an id, write `data_origin` or change the creator, and has no DELETE. UPDATE (`name`) is also what lets a command lock the org row. worker: nothing |
+| `0012_org_members` | `app.org_members`, PK (`org_id`, `user_id`): `role` admin/member, `status` active/removed, `grant_basis` org_created/invitation with `invitation_id` exactly for an invitation, `granted_by`, `granted_at`, the removal triple (all or none), the generated `creator_ref` and `org_members_creator_fkey (org_id, creator_ref) → orgs (id, created_by)` (an `org_created` row exists only for the org's own creator, granted by themselves), a partial index on the active rows' `user_id`, `updated_at` trigger | api: SELECT; INSERT (`org_id`, `user_id`, `role`, `grant_basis`, `invitation_id`, `granted_by`); UPDATE (`role`, `status`, `grant_basis`, `invitation_id`, `granted_by`, `granted_at`, `removed_by`, `removed_at`, `removal_basis`); never DELETE. worker: nothing |
+| `0013_org_invitations` | `app.org_invitations`: `invited_by` must be a member of that org (`org_invitations_inviter_fkey (org_id, invited_by) → org_members`), `invitee_email_norm` (non-empty, lower-cased), `role`, `token_hash` (sha256 hex, UNIQUE; the token is never stored), `status` pending/accepted/revoked with the accepted and revoked pairs set exactly in their state, `expires_at`, and one pending invitation per (org, address). Also `org_members_invitation_fkey (org_id, invitation_id) → org_invitations (org_id, id)`: an invitation of one org never backs a membership of another | api: SELECT; INSERT (`org_id`, `invited_by`, `invitee_email_norm`, `role`, `token_hash`, `expires_at`); UPDATE (`status`, `accepted_by`, `accepted_at`, `revoked_by`, `revoked_at`) only, never `role`, `expires_at` or `token_hash`; never DELETE. worker: nothing |
+| `0014_admin_scopes` | `app.admin_scopes`, PK (`user_id`, `org_id`, `capability`): `review` or `finance` on one org, with `granted_by_operator`, `reason`, `granted_at` | api: SELECT only; written by `pnpm db:grant` as the migrator. worker: nothing |
+| `0015_platform_grants` | `app.platform_grants`, PK (`user_id`, `capability`): `ops_runtime`, with `granted_by_operator`, `reason`, `granted_at` | api: SELECT only; written by `pnpm db:grant`. worker: nothing |
+| `0016_audit_log` | `app.audit_log`: identity `id`, `occurred_at`, `recorded_by` (DEFAULT `current_user`: the writing login), `actor_kind` user/system/bootstrap, `actor_user_id`, `actor_label`, `context_org_id`, `action` (`noun.verb`), `target_type`, `target_id`, `outcome` allowed/denied, `denial_code` (exactly when denied), `reason`, `summary` jsonb, `request_id`, `session_ref` (sha256 hex); a user row needs both correlation columns, a bootstrap row a label. No foreign keys, no index beyond the key | api: INSERT on every column but `id`, `occurred_at` and `recorded_by`, and nothing else: no SELECT (0001's default is revoked), UPDATE, DELETE or sequence privilege, so an insert cannot use RETURNING. worker: nothing |
 
 `app.profiles` and `app.sign_in_allowlist` carry no `data_origin`: a user is
 never a fixture, and the allow-list names real testers' addresses, so there is no
-fixture form of either. `profiles.status = 'disabled'` is the one lever that ends
+fixture form of either. Nor do `app.org_members`, `app.org_invitations`,
+`app.admin_scopes`, `app.platform_grants` and `app.audit_log` (M2-03): each names
+a real person. An org created through the API is `live` by default, and its label
+never changes (0007). `profiles.status = 'disabled'` is the one lever that ends
 someone's access (ruling D12); removing an address from the allow-list signs
 nobody out, because the list is read at the first sign-in only.
 
@@ -80,7 +90,7 @@ origins, delete the row and insert a new one.
 | Role | Kind | Rights |
 |---|---|---|
 | `wringy_migrator` | login | Owns the database, `app`, `ops` and `pgboss`; runs all DDL and writes the marker and the fixture seed. On Supabase possibly `postgres` (unverified) |
-| `wringy_api` | NOLOGIN group | `USAGE` on `app` and `ops`; SELECT on the tables in `test/grant-manifest.ts`, the pg-boss schema version through `ops.pgboss_schema_version`. No writes in M2-01, no CREATE, nothing in `pgboss` |
+| `wringy_api` | NOLOGIN group | `USAGE` on `app` and `ops`; SELECT on the tables in `test/grant-manifest.ts` (not `app.audit_log`), the pg-boss schema version through `ops.pgboss_schema_version`. Its writes are column grants only: the sign-in's profile columns (0010) and the org, membership, invitation and audit columns of 0011–0016. No DELETE anywhere in `app`, no CREATE, nothing in `pgboss` |
 | `wringy_worker` | NOLOGIN group | `USAGE` on `ops` and `pgboss`; SELECT on `ops.environment`; SELECT/INSERT/UPDATE on `ops.worker_heartbeat`; pg-boss DML and EXECUTE, except that `pgboss.version` is read-only apart from its run-time timestamps. Nothing in `app`, no CREATE, no TRUNCATE |
 | `wringy_api_login` | login, member of `wringy_api` | API process |
 | `wringy_worker_login` | login, member of `wringy_worker` | Worker process |
@@ -139,10 +149,20 @@ Who installs it:
 `pnpm db:allowlist add <email> --reason "<text>" --by "<name>"`,
 `pnpm db:allowlist remove <email> --reason "<text>" --by "<name>"` and
 `pnpm db:allowlist list` are the only way `app.sign_in_allowlist` changes
-(ruling D13). `--reason` and `--by` are required for both changes, because the
-row is the audit record until `app.audit_log` arrives with M2-03, and each change
+(ruling D13). `--reason` and `--by` are required for both changes, and each change
 prints one line. The CLI runs as the migrator and never prints a connection
 string.
+
+**Audit rows (M2-03).** Each add (a re-add included) and each remove writes its
+`app.audit_log` row in the same statement, a data-modifying CTE:
+`actor_kind = bootstrap`, `actor_label` = `--by`, `action = allowlist.add` or
+`allowlist.remove`, `target_type = sign_in_allowlist`, `reason` = `--reason`, and
+`target_id` = the sha256 of the normalised address, in hex. The address itself never
+enters the log: an operator who knows it can find its rows by hashing it, and
+nobody else learns it. So `--reason` and `--by` may not contain `@` (the parser
+refuses them, and so does `src/allowlist.ts`). Removing an address that is not
+listed changes nothing and writes no row. The internal E2E database therefore
+starts with `allowlist.add` rows, one per seeded tester.
 
 `normalizeEmail()` (`src/allowlist.ts`) is the one normal form: Unicode **NFC**,
 trimmed, lower-cased, with **no dot or plus rewriting** (`a.b@x` and `a+t@x` are
@@ -171,6 +191,67 @@ on a new schema or on one column fails the manifest test until it is reviewed. N
 `anon`, `authenticated` or `service_role`. Login roles and passwords come only
 from `pnpm db:bootstrap`, never from a migration. Only the two runtime groups
 (and the owner) have CONNECT on the application database.
+
+## Capability grants: `pnpm db:grant`
+
+`app.admin_scopes` (review or finance on one org) and `app.platform_grants`
+(`ops_runtime`) are written only by this script, as the migrator (ruling D4;
+M2-03 R6). The API can read both tables and write neither; there is no in-app
+grant surface, and `POST /orgs/:orgId/capabilities` exists only to refuse and
+audit (apps/api).
+
+```sh
+pnpm db:grant grant org <userId> <orgId> review|finance --reason "<text>" --by "<name>"
+pnpm db:grant grant platform <userId> ops_runtime --reason "<text>" --by "<name>"
+pnpm db:grant revoke org <userId> <orgId> review|finance --reason "<text>" --by "<name>"
+pnpm db:grant revoke platform <userId> ops_runtime --reason "<text>" --by "<name>"
+pnpm db:grant list [<userId>]
+```
+
+- Each grant or revocation and its `app.audit_log` row are **one statement** (a
+  data-modifying CTE in `src/grants.ts`): `actor_kind = bootstrap`,
+  `actor_label` = `--by`, `action = capability.grant` or `capability.revoke`,
+  `target_type = admin_scope` or `platform_grant`, `target_id` = the user id,
+  `context_org_id` for an org scope, `reason` = `--reason`, `summary` =
+  `{ after: { capability } }` or `{ before: { capability } }`. If the audit insert
+  fails, nothing is granted or revoked. A grant already held, or a revocation of
+  nothing, changes nothing and writes no row.
+- A revocation deletes the grant row; the audit row keeps the history.
+- The person must have signed in once (the grant's foreign key to
+  `app.profiles`): otherwise the script answers "this subject has never signed
+  in". Ids are UUIDs; as the migrator, `SELECT id, display_name FROM app.profiles`
+  finds a person's id.
+- `--reason` and `--by` are required and may not contain `@`: they are stored in
+  the audit log, which never holds an address. Unknown options and option-shaped
+  values are refused rather than guessed (`src/grants-args.ts`).
+- A capability is not a membership, and a membership is not a capability: a
+  `review` grant on an org gives no seat in it, and `review` and `finance` are
+  independent.
+
+**Retiring an address (the recycled-address runbook, M2-03 R16).** Supabase links a
+new Google identity that carries a known, verified address to the **existing**
+user, so whoever holds a recycled address signs in as the old subject and inherits
+its profile, every membership and every grant. Until the founder rules otherwise,
+when an address is retired (a tester leaves, a Workspace account is deleted), the
+operator, as the migrator:
+
+1. runs `pnpm db:grant list <userId>`, then `pnpm db:grant revoke …` for each grant
+   it lists;
+2. runs `pnpm db:allowlist remove <email> --reason "<text>" --by "<name>"`;
+3. disables the profile: `UPDATE app.profiles SET status = 'disabled' WHERE id = '<userId>'`
+   (every request from that subject is then refused with 403 `account.disabled`);
+4. lists the pending invitations sent to that address,
+   `SELECT org_id, id FROM app.org_invitations WHERE invitee_email_norm = '<normalised address>' AND status = 'pending'`,
+   and asks an admin of each of those orgs to press **Revoke** on the org page: the
+   audited `invitation.revoke` path, which records the admin who did it. Nothing is
+   exposed while that waits — step 2 already stops the address from signing in to
+   this build, and accepting needs a sign-in with the invited address. Do not revoke
+   them with a hand-written `UPDATE`: one statement across several orgs would record
+   one org's admin as the revoker in the others (`revoked_by` only has to be some
+   profile), and it would write no audit row.
+
+Memberships are left as they are: the disabled profile can no longer use them, and
+the history of who belonged stays.
 
 ## pg-boss schema
 
@@ -210,6 +291,7 @@ pnpm db:migrate         # pg-boss schema, then all pending SQL migrations, as th
 pnpm db:env             # the ops.environment marker for WRINGY_ENV (fixtures allowed except in production)
 pnpm db:seed:fixtures   # two fixture orgs and three fixture campaigns; refused unless the marker allows fixtures
 pnpm db:allowlist list  # who may sign in for the first time; `add`/`remove` need --reason and --by
+pnpm db:grant list      # optional: review/finance/ops_runtime grants; `grant`/`revoke` need --reason and --by
 # api and worker: copy apps/api/.env.example to apps/api/.env and apps/worker/.env.example
 # to apps/worker/.env (both gitignored), with WRINGY_ENV=local and the api / worker URL
 # that db:start printed; then `pnpm dev`, or `pnpm --filter api dev` and `pnpm --filter worker dev`
@@ -279,7 +361,7 @@ as Supabase's non-superuser `postgres`.
 
 | Command | Variables (names in the root `.env.example`) |
 |---|---|
-| `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures`, `pnpm db:allowlist` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
+| `pnpm db:migrate`, `pnpm db:env`, `pnpm db:seed:fixtures`, `pnpm db:allowlist`, `pnpm db:grant` | `WRINGY_ENV`, `DATABASE_URL_MIGRATOR` |
 | `pnpm db:bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE`, `PG_BOOTSTRAP_MIGRATOR_PASSWORD`, `PG_BOOTSTRAP_API_PASSWORD`, `PG_BOOTSTRAP_WORKER_PASSWORD`. The admin URL and passwords are required unless `WRINGY_ENV=local` and the admin URL is unset or the embedded cluster (a loopback host at port 54329); anywhere else a development password is refused (`src/bootstrap-plan.ts`) |
 | `pnpm db:platform-bootstrap` | `WRINGY_ENV`, `PG_BOOTSTRAP_ADMIN_URL`, `PG_BOOTSTRAP_DATABASE` (the same admin connection, opened on the application database). Those three only: it creates no login role and sets no password, so none of the `PG_BOOTSTRAP_*_PASSWORD` values is read or required (`loadPlatformBootstrapEnv`). The admin URL may be left unset only when `WRINGY_ENV=local`, where the embedded cluster's superuser is used |
 | `pnpm test:int` | `TEST_DATABASE_URL` (optional admin URL of an existing, throwaway PostgreSQL 17 on this machine; see "Throwaway clusters only") |
@@ -293,7 +375,7 @@ string or password.
 
 | Script | Does |
 |---|---|
-| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin), the heartbeat constants, and `normalizeEmail()` (`M2-AC02/2`) |
+| `pnpm --filter @wringy/db test` | Unit tests: migration file rules (SQL only, numbering, markers, no `public`, no login or password), SCRAM verifier, the expected-head drift guards (newest migration file; installed pg-boss schema version and exact pin), the heartbeat constants, `normalizeEmail()` (`M2-AC02/2`), and the argument rules of `pnpm db:allowlist` and `pnpm db:grant` (`M2-AC02/2`, `M2-AC03/n`) |
 | `pnpm --filter @wringy/db test:int` / root `pnpm test:int` | Integration tests on a real PostgreSQL 17: `TEST_DATABASE_URL` when set, otherwise a throwaway embedded cluster on a free port. The global setup (`startTestCluster()` in `test/cluster.ts`) bootstraps the roles, migrates a template database from zero with `migrateDatabase()` as the migrator and marks it `ci` (`TEST_WRINGY_ENV`, fixtures allowed); `createTestDatabase()` clones it per file, `withRollback(pool, fn)` isolates each test, `seedFixtures(db)` applies the fixture seed, `setTestEnvironment(db, name)` re-marks a clone, and `failureIn(client, fn)` asserts a refusal inside a savepoint. The global setup installs `test/exit-code-guard.ts`: embedded-postgres registers async-exit-hook, whose `beforeExit` handler calls `process.exit(0)` and would report a failed run as exit 0 (seen with `TEST_DATABASE_URL` set as well); apps/api and apps/worker get the guard through the same global setup |
 | `pnpm --filter @wringy/db lint` / `typecheck` | ESLint / `tsc --noEmit` |
 | `pnpm --filter @wringy/db build` | `scripts/build-migrate.mjs`: esbuild bundles `src/cli/migrate.ts` (what `pnpm db:migrate` runs through tsx) into `dist/migrate.js`, with `@wringy/config` and zod inlined and the declared dependencies (`node-pg-migrate`, `pg`, `pg-boss`) external; the build fails on any other external. `dist/` sits beside `migrations/` as `src/` does, so the `import.meta.url` lookups of the migrations directory and the pg-boss CLI hold. The api image runs it as its one-off migrate step (`apps/api/README.md`, "Docker image") |
@@ -344,7 +426,28 @@ ligature look-alike being its own row that never matches a listed ASCII address
 a past `not_after` and true for a future one, while no Wringy role can read
 `auth.sessions` (`platform.int.test.ts`); and, in `grants.int.test.ts`, the
 function's non-superuser owner, its grantees, and the API login's lack of any
-privilege on `auth`. Unit tests carry it for
+privilege on `auth`.
+
+Integration titles carry `M2-AC03/n` for the organisation objects (M2-03 R13
+*db int*): the manifest for every new table and column grant; the API login
+refused (42501) on reading, updating or deleting `app.audit_log`, on naming
+`occurred_at`, `recorded_by` or `id` in an insert, on writing either grant table,
+on deleting a membership and on changing an invitation's role, expiry or token
+hash (`grants.int.test.ts`); the API appending an audit row with no sequence
+privilege, recorded as `wringy_api_login`; the composition refusals (an
+invitation of org A backing a membership of org B, an inviter who is not a member,
+an `org_created` row for anyone but the creator or granted by someone else, partial
+removal fields, a membership without its grant record), the accept upsert
+re-activating a removed row and leaving an active one alone, the org row lock and
+the row locks the commands take, the fixture seed still applying after 0011, a
+7-day `make_interval` expiry and the audit CHECKs (`orgs.int.test.ts`);
+`pnpm db:grant` writing each change with its audit row atomically, refusing a
+subject that has never signed in, and running end to end through its CLI entry
+(`grants-cli.int.test.ts`); the allow-list changes' pseudonymous audit rows
+(`allowlist.int.test.ts`); and reverting 0011–0016 leaving exactly the catalog of
+a database migrated only to `0010` (`migrations.int.test.ts`, `M2-AC01/2`).
+
+Unit tests carry it for
 the installed pg-boss matching its exact pin, migration files that grant nothing
 to PUBLIC or the Supabase API roles and create no login role or password, and a
 SCRAM verifier that never contains the password.

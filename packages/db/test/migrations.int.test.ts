@@ -4,6 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { ensureDatabase } from '../src/bootstrap';
 import { EXPECTED_MIGRATION_HEAD, EXPECTED_PGBOSS_VERSION } from '../src/expected-head';
 import { MIGRATIONS_SCHEMA, MIGRATIONS_TABLE, listMigrations, migrateDatabase, runMigrations } from '../src/migrate';
+import { installPgBossSchema } from '../src/pgboss';
 import { ROLES } from '../src/roles';
 import { cluster, urlFor, withAdmin, withClientAt } from './harness';
 
@@ -67,6 +68,7 @@ async function catalogSnapshot(url: string) {
 describe('M2-AC01/2 migrations from zero', () => {
   const name = `wringy_t_${cluster().runId}_fresh`;
   const orderName = `wringy_t_${cluster().runId}_order`;
+  const at0010Name = `wringy_t_${cluster().runId}_at0010`;
   const migratorUrl = urlFor(ROLES.migrator, cluster().passwords.migrator, name);
 
   async function query<T extends pg.QueryResultRow>(sql: string, url = migratorUrl): Promise<T[]> {
@@ -77,12 +79,13 @@ describe('M2-AC01/2 migrations from zero', () => {
     await withAdmin(async (admin) => {
       await ensureDatabase(admin, name);
       await ensureDatabase(admin, orderName);
+      await ensureDatabase(admin, at0010Name);
     });
   });
 
   afterAll(async () => {
     await withAdmin(async (admin) => {
-      for (const db of [name, orderName]) {
+      for (const db of [name, orderName, at0010Name]) {
         await admin.query(`DROP DATABASE IF EXISTS ${admin.escapeIdentifier(db)} WITH (FORCE)`);
       }
     });
@@ -192,6 +195,48 @@ describe('M2-AC01/2 migrations from zero', () => {
     expect(down.constraints.some((row) => row.includes('wringy_queue_shared_table_only'))).toBe(false);
 
     expect((await migrateDatabase({ databaseUrl: migratorUrl })).migrations).toEqual(listMigrations().slice(1));
+    expect(await catalogSnapshot(migratorUrl)).toEqual(before);
+  });
+
+  it('M2-AC01/2 reverting 0011–0016 leaves exactly the catalog of a database migrated only to 0010_profiles_column_grants', async () => {
+    // The fixed point above cannot see an incomplete 0011 Down: 0003's Down drops
+    // app.orgs right after it, taking any leftover column, default, key, trigger or
+    // column grant with it. So a second database is migrated only as far as 0010,
+    // and the main one, reverted to the same point, must match it (M2-03 code
+    // review R1 rev 2).
+    const all = listMigrations();
+    const base = '0010_profiles_column_grants';
+    const upTo = all.indexOf(base) + 1;
+    expect(upTo).toBe(10);
+    const newer = all.slice(upTo);
+    expect(newer.slice(0, 6)).toEqual([
+      '0011_orgs_ownership',
+      '0012_org_members',
+      '0013_org_invitations',
+      '0014_admin_scopes',
+      '0015_platform_grants',
+      '0016_audit_log',
+    ]);
+
+    // pnpm db:migrate's order (pg-boss first), stopped at 0010.
+    const at0010Url = urlFor(ROLES.migrator, cluster().passwords.migrator, at0010Name);
+    await installPgBossSchema({ databaseUrl: at0010Url, expectedVersion: EXPECTED_PGBOSS_VERSION });
+    expect(await runMigrations({ databaseUrl: at0010Url, count: upTo })).toEqual(all.slice(0, upTo));
+    const at0010 = await catalogSnapshot(at0010Url);
+    expect(at0010.relations.some((row) => row.startsWith('app.orgs '))).toBe(true);
+    expect(at0010.relations.some((row) => row.startsWith('app.audit_log '))).toBe(false);
+
+    const before = await catalogSnapshot(migratorUrl);
+    expect(before.columns.some((row) => /^app\.orgs\.name .* acl=/.test(row))).toBe(true);
+    expect(before.constraints.some((row) => row.includes('orgs_id_created_by_key'))).toBe(true);
+
+    expect(await runMigrations({ databaseUrl: migratorUrl, direction: 'down', count: newer.length })).toEqual(
+      [...newer].reverse(),
+    );
+    expect(await catalogSnapshot(migratorUrl)).toEqual(at0010);
+
+    // Back to the head, for the tests below.
+    expect((await migrateDatabase({ databaseUrl: migratorUrl })).migrations).toEqual(newer);
     expect(await catalogSnapshot(migratorUrl)).toEqual(before);
   });
 

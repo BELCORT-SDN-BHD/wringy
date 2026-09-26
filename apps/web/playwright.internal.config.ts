@@ -25,7 +25,7 @@ import { defineConfig, devices } from '@playwright/test';
  *    before any server runs, so it cannot read them itself.
  * 2. database: a PostgreSQL 17 cluster (TEST_DATABASE_URL's, or a throwaway
  *    embedded one), a database migrated from zero as the migrator, marked
- *    `ci`, seeded with the fixture campaigns and with the two allowed testers
+ *    `ci`, seeded with the fixture campaigns and with the allow-listed testers
  *    on `app.sign_in_allowlist`, through @wringy/db's test harness
  *    (tests/e2e-internal/database-server.mts). Its ready line names the host,
  *    port and database the same way.
@@ -134,11 +134,27 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
     {
+      // M2-AC03 (docs/m2-internal/m2-03-code-review.md R13). Its rows create
+      // organisations, invite and remove people, so they run in order in one
+      // worker (`fullyParallel: false`); every row arranges its own orgs under a
+      // unique name. It signs in Carol, Dave and Erin, identities the `auth`
+      // project never touches, and tries Mallory, whom `auth.spec.ts` tries too:
+      // she is not on the allow-list, so sign-in refuses her in both projects.
+      // So it runs BESIDE `auth` rather than after it. The 390 and 320 rows
+      // re-run through `test.use({ viewport })`, which `openDevice` honours for
+      // the second person's browser too.
+      name: 'orgs',
+      testMatch: /orgs\.spec\.ts$/,
+      fullyParallel: false,
+      dependencies: READING_PROJECTS,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
+    {
       // Takes the API's database access away and gives it back, so it runs
       // only after every project that reads through the API has finished.
       name: 'database-outage',
       testMatch: /database-outage\.spec\.ts/,
-      dependencies: [...READING_PROJECTS, 'auth'],
+      dependencies: [...READING_PROJECTS, 'auth', 'orgs'],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
   ],

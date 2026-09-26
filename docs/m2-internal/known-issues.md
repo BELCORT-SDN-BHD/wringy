@@ -24,9 +24,12 @@ and §8.11). Each is listed because a reviewer could otherwise take it for a cap
   hook was a no-op and `/internal` was open to anyone who could reach the web server. M2-02 replaced
   that: `authenticateNoop` is deleted, `buildApp` requires a real hook, every route but `/health` and
   `/health/live` verifies a Supabase access token, and `/internal` is behind sign-in through
-  `proxy.ts` (R8, R12; `apps/api/README.md` "Authentication"). What is **not** closed is
-  authorisation: passing the allow-list is still the whole decision, and M2-03 puts `/internal/*`
-  behind an ops capability. See the M2-02 section below. The API image still listens on `0.0.0.0`
+  `proxy.ts` (R8, R12; `apps/api/README.md` "Authentication"). Authorisation arrives in two steps:
+  M2-03 makes every org-scoped route re-read the caller's membership or grant from PostgreSQL on
+  each request (see the M2-03 section below); the M2-01 sections of `/internal` (the fixture
+  campaign list and the worker health) stay visible to any signed-in tester until M2-08, whose
+  M2-AC08/3 ("普通用户看不到运行告警") gates the runtime view behind the `ops_runtime` grant.
+  See the M2-02 section below. The API image still listens on `0.0.0.0`
   when `HOST` says so (`apps/api/README.md`); nothing is deployed yet.
 - **No writes.** The API serves GET routes only, and its database login holds SELECT and nothing
   else (`packages/db/test/grant-manifest.ts` L55). The only writers are the worker (its heartbeat
@@ -146,12 +149,18 @@ ruling or the reason it is accepted under.
   cookie's own name and never from the `sb-` prefix.
 - **A recycled Google address inherits an allow-listed tester's access (R16, §3.7).** Identity is
   the verified `sub`, and the allow-list is checked once, at first sign-in. If a workspace address
-  is deleted and given to somebody else, that person signs in as a new `sub` and passes the gate
-  while the address is still listed. Accepted for M2: in this build passing the allow-list *is* the
-  authorisation decision, and the exposure is an internal build holding fixture data only. The
-  mitigation is the operator removing the address (`pnpm db:allowlist remove`) and disabling the
-  profile (`app.profiles.status`), which does sign that person out on the next request. M2-03's
-  membership work is where it must be closed.
+  is deleted and given to somebody else, that person passes the gate while the address is still
+  listed. Accepted for M2: in this build passing the allow-list *is* the authorisation decision, and
+  the exposure is an internal build holding fixture data only. The mitigation is the operator
+  removing the address (`pnpm db:allowlist remove`) and disabling the profile
+  (`app.profiles.status`), which does sign that person out on the next request. **Corrected by
+  M2-03:** this row said the new holder signs in as a new `sub` and that M2-03's membership work
+  would close the risk. Neither holds: Supabase links a new identity carrying a known verified
+  address to the *existing* user, so the new holder signs in as the **old** `sub` and inherits its
+  profile, every membership and every grant, and keying membership by `sub` does not close it. The
+  risk is still open, for the founder — §M2-03 below, R16 and question §6.3 of
+  [m2-03-code-review.md](m2-03-code-review.md); the operator runbook is `packages/db/README.md`
+  ("Retiring an address").
 - **A JWKS key set that is fetched but names no matching key is the token's fault (R9).** jose
   raises `ERR_JWKS_NO_MATCHING_KEY` both for a token naming a key the project does not publish
   (the token's fault, 401) and, more rarely, for a project-side state: a key set served empty, or a
@@ -253,6 +262,123 @@ ruling or the reason it is accepted under.
   path against the real Auth server (a real session stored with a past `expires_at` came back signed
   in with a new cookie). Record: [acceptance-record.md](acceptance-record.md) "Real rows executed by
   script". The walk itself is [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
+## M2-03: organisations, memberships, capabilities and the audit log
+
+Recorded 2026-09-26 against branch `feat/m2-03`, from the design record
+[m2-03-code-review.md](m2-03-code-review.md) (revision 2) and the build. These are the limitations
+M2-03 accepts, each with the ruling or the reason it is accepted under; the rows that name a later
+ticket are hand-offs, not defects.
+
+- **A recycled Google address inherits everything the old holder had (R16; open, for the founder).**
+  Supabase links a new Google identity that carries a known verified address to the *existing*
+  user (identity-linking guide; GoTrue `DetermineAccountLinking`), so the new holder signs in as the
+  old `sub` and inherits the old profile, every membership including admin, and every review,
+  finance or `ops_runtime` grant. Keying membership by `sub` therefore does **not** close M2-02's
+  R16. Accepted for the M2 internal build (fixture data, named testers) with the operator runbook in
+  `packages/db/README.md` ("Capability grants"): when an address is retired, `pnpm db:grant revoke`
+  each grant, remove the address from the allow-list, disable the profile (the hook refuses a
+  disabled profile on the next request) and revoke pending invitations. The priced alternative
+  (about half a day: pin `user_metadata.provider_id` at first sign-in and refuse a later sign-in whose
+  value differs) needs GoTrue's metadata merge on a linked login verified first. Founder question
+  §6.3 of the design record.
+- **A pending invitation follows the address, not the person, for its seven days (D2, D7).** The
+  match is the verified `email` claim against `invitee_email_norm`. Whoever holds that address and
+  passes the allow-list inside the window can accept; an admin revokes a pending invitation when an
+  address is retired. The link itself grants nothing to another address (`invitation.email_mismatch`,
+  proven end to end by the wrong-recipient row).
+- **A pending invitation outlives its inviter's standing, but no longer admits anybody (R7 rev 3).**
+  An invitation acts on the authority of the admin who sent it, and that authority is re-checked
+  when the link is used: once the inviter is removed, leaves, is demoted or is disabled, preview and
+  accept answer 403 `invitation.invalid` (reason `inviter_not_admin`) and nobody is admitted. Remove,
+  leave and demote do not revoke that person's pending invitations (a cascade would be new scope), so
+  they stay in the org's pending list, inert, until an admin revokes them or they expire. The list
+  does not name who sent each one; an operator can, from `app.org_invitations.invited_by`.
+- **An invitation does not bypass the allow-list (R17).** The link holder must be able to sign in to
+  this build at all; a not-listed holder gets the neutral sign-in refusal and no membership is
+  written (Mallory's row).
+- **Where the invitation token lives (R7).** The API's 201 body once; the admin's browser in a
+  page-scoped httpOnly cookie for ten minutes (never the admin's URL, history or Referer); the accept
+  URL the admin hands over, and therefore the invitee's browser history, the sign-in `next` value
+  and the `wringy-auth-next` cookie; never an API path, an API log line or the database (only its
+  sha256). Never a Referer beyond the origin: every internal response sends
+  `Referrer-Policy: strict-origin` as a header (rev 3). Until the W4 fix wave only the pages'
+  `<meta>` said so, which a browser applies after it has parsed it — so the accept page's first
+  same-origin chunk requests, and every request of the sign-in page reached with the link as `next`,
+  carried the full URL in their Referer (same-origin only; the address match still made a leaked
+  link grant nothing). Under `next dev` the request logger would print the accept URL, so `next.config.ts`
+  ignores `token=` URLs, the sign-in redirect's percent-encoded `next=…%3Ftoken%3D…` included (rev 3); `next start` (the internal suite, staging) logs no requests. The controls
+  that make a leaked link harmless are the address match, single use and the expiry.
+- **The runtime role can no longer read the audit log.** `0016` revokes `SELECT` on `app.audit_log`
+  from `wringy_api` (the kickoff's "INSERT and SELECT only" is a ceiling); the API appends and
+  cannot read, update or delete. M2-08 re-grants `SELECT` when its retry view needs it. One
+  consequence the builders met: `INSERT … RETURNING` needs `SELECT`, so the audit writer inserts
+  without `RETURNING`.
+- **What is audited, and what is not (R4).** Every refusal decided by the authorisation logic writes
+  one denial row (reads and commands alike, including the uniform 404s for objects outside the
+  caller's org). Refusals decided before an actor is admitted — no/invalid/expired token,
+  `profile.missing`, `account.disabled`, `session.revoked`, and a 400 from schema validation — are
+  logged as a reason word and not audited, so no unauthenticated or non-allow-listed caller can write
+  a row. An allow-listed insider can write one row per denied request; D9 keeps everything during M2.
+  Allowed reads are not audited. Every allow-list change and every `db:grant` change writes a
+  bootstrap row, so a seeded test database already holds `allowlist.add` rows.
+- **`app.audit_log` has no indexes and no read surface in M2 (D9).** It is read through SQL by an
+  operator; the ticket that first queries it adds indexes as an expand step. `actor_label`,
+  `reason` and `summary.name` hold operator-typed or org-typed text; the CLI parsers refuse a `--by`
+  or `--reason` containing `@`, and the allow-list rows carry only a sha256 of the address.
+  `summary.name` is whatever an admin typed as an org's name — `orgNameSchema` has no `@` rule, so
+  it may even look like an address — and it stays in the append-only log after a rename (the
+  create row's `after.name`, the rename row's `before.name`). "No address reaches the log" means
+  no address the system collects (an invitee's, a member's contact address, an allow-list entry);
+  erasing typed text is operator SQL. A path id is stored in one spelling, lower case, whatever
+  case the caller used (rev 3), so an exact-match `target_id` query finds every row.
+- **A person's org is `live`; fixture campaigns cannot live in it yet (R2, for M2-05).** `0003`'s
+  composite FK ties a campaign's label to its org and `0007` makes the org's label immutable, so a
+  tester's own org can hold no fixture campaign until M2-05 relaxes
+  `campaigns_org_data_origin_fkey` to an org-only FK plus the environment trigger — a §4.13
+  contract step (M2-AC05/3 rules out "a simulated publish is a status on a live row"). The seed's
+  Kopi Kita stays the org that owns the public demo campaigns (D11).
+- **An org has no `status` column (§5 of the record).** No ruling in D1–D12 suspends or archives an
+  org; the ticket that first needs it adds the column with its domain.
+- **A creator can be demoted, but never the last admin (D3).** The `org_created` row is tied to the
+  org's creator by constraint (`org_members_creator_fkey`); its `role` is current state, so another
+  admin may demote the creator later; the last active admin (whose profile is active) can neither
+  leave nor be demoted (`org.last_admin`). What the code enforces is exactly that — no command
+  removes, demotes or lets leave an org's last active admin — not that every org always has one:
+  an org whose only admin an operator disables has no usable admin until the profile is active
+  again, and the seeded fixture orgs (Kopi Kita, Nusantara Fit) have no members at all and cannot
+  get any through the product. An `org_created` row needs the org's creator and they were seeded
+  with none, and an invitation needs an inviter who is already a member (`org_members_creator_fkey`,
+  `org_invitations_inviter_fkey`, neither deferrable; `apps/api/tests/integration/recovery.int.test.ts`
+  header). Hand-off to M2-05: giving Kopi Kita (D11's owner of the public demo campaigns) an admin
+  needs an operator step as the migrator.
+- **Objects outside the caller's org answer 404, not the 403 kickoff §3.4 names.** A member id or
+  invitation id that is not in the org given in the path answers `member.not_found` /
+  `invitation.not_found`, audited with `reason = not_in_org`; a uniform 404 gives no existence
+  oracle. The org itself, when the caller is not a member, is the 403 `org.forbidden` — the same
+  answer for an org that does not exist.
+- **Every command in an org serialises on the org row.** Revision 1's lock order deadlocked on
+  PostgreSQL 17 under ordinary concurrent admin actions (proven on a scratch cluster), so every
+  command takes `SELECT … FOR NO KEY UPDATE` on the org row first. Two admins acting on one org at
+  the same instant wait for each other for milliseconds; the 4.5 s statement timeout bounds a
+  pathological wait and answers 503. Trivial at M2 volume; revisited if an org ever has hundreds of
+  concurrent admins.
+- **No `/internal/ops` page and no Operations link in this ticket (§5).** Nothing is operable
+  before M2-08; `GET /me/workspaces` already lists the caller's grants for M2-08's page to use. The
+  §3.3 separation clauses that need M2-05/M2-07 tables ("ops_runtime cannot read drafts,
+  submissions") and M2-08's route ("neither can retry notifications") are proven at the guard level
+  now (`requireOrgCapability`, `requirePlatformGrant`) and re-proven on those routes when they exist.
+- **Invitation mail is M2-08's.** M2-03 sends no notification: the admin hands the single-use link
+  over; M2-08 carries the same link through the outbox and Resend.
+- **A deploy rollback over `0011`–`0016` is not proven here (R15, for M2-09).** Image N's `/health`
+  requires an exact migration head and would report `failing` on a `0016` database. The recovery the
+  ticket asks for ("回退撤销新增授权而保留业务记录") is proven the other way: revoking every
+  membership, grant and invitation the walk added leaves the org, its campaigns and every audit row
+  in place, and the runtime role cannot delete any of them by privilege.
+- **Simulated identity in every automated M2-AC03 row.** The internal suite signs in through the
+  local fake Auth server; the database and API rows run on real PostgreSQL 17. The M2-AC03 spec row
+  does not forbid closing on simulated results (unlike M2-AC02); whether the founder walks it with
+  the real Google test users before closing is question §6.1 of the design record.
+
 ## Governance not yet in force
 
 - **Branch protection (D22) waits for the merge.** Today `main` requires only `planning`

@@ -10,8 +10,29 @@
  * verifies tokens against that identity's local key set, so every test that reaches
  * an authenticated route signs one. `signedIn()` arranges the whole shape a route
  * needs — a profile row, a live session row, and a token for both.
+ *
+ * M2-03 adds the organisation helpers (`createOrgAs`, `inviteAs`, `asOrgMember`)
+ * — which arrange through the API's own routes, so an arranged membership is one
+ * the product could have written — the operator's grant functions run as the
+ * migrator (`grantCapability`, `revokeCapability`, `grantPlatform`), and the
+ * audit readers (`auditRows`, `apiAuditCount`), which read `app.audit_log` as the
+ * migrator because the runtime role has no SELECT on it. `underBarrier` runs
+ * requests that must contend for one org's lock at the same moment (the R13
+ * barrier rows of authorize.int.test.ts and invitations.int.test.ts).
  */
+import pg from 'pg';
+import { expect } from 'vitest';
+
+import type { CreateInvitationResponse, CreateOrgResponse, OrgRole } from '@wringy/contracts';
 import {
+  grantOrgCapability,
+  grantPlatformCapability,
+  revokeOrgCapability,
+  type OrgGrantCapability,
+  type PlatformGrantCapability,
+} from '@wringy/db';
+import {
+  cluster,
   createTestDatabase,
   endSession,
   insertLiveSession,
@@ -24,7 +45,7 @@ import {
 
 import { buildApp, type ApiApp, type BuildAppOptions } from '../../src/app';
 import { createSupabaseAuthenticate, type AuthenticateHook, type ReadProfile } from '../../src/authenticate';
-import { createApiPool, withDatabase } from '../../src/database';
+import { API_APPLICATION_NAME, API_STATEMENT_TIMEOUT_MS, createApiPool, withDatabase } from '../../src/database';
 import { readProfileById } from '../../src/profiles';
 import type { LivenessResult, SessionLiveness } from '../../src/session-liveness';
 import { bearer, type TestIdentity } from './jwt-support';
@@ -209,4 +230,241 @@ export async function signedIn(
   if (withSession) await insertLiveSession(db, { sessionId, userId, notAfter });
   const token = await identity.signToken({ sub: userId, sessionId, email: contactEmail, displayName, expiresIn });
   return { userId, sessionId, contactEmail, displayName, token, headers: bearer(token) };
+}
+
+// --- Organisations (M2-03) ---------------------------------------------------
+
+/** One person of an M2-03 test: ids, address and name, all fixed per file. */
+export interface PersonSpec {
+  userId: string;
+  sessionId: string;
+  email: string;
+  name: string;
+}
+
+/** Signs `spec` in: a profile, a live session, and a token whose `email` claim is the address. */
+export function person(db: TestDatabase, identity: TestIdentity, spec: PersonSpec): Promise<SignedIn> {
+  return signedIn(db, identity, {
+    userId: spec.userId,
+    sessionId: spec.sessionId,
+    contactEmail: spec.email,
+    displayName: spec.name,
+  });
+}
+
+/** Fails the arranging step loudly, with the status and the error code only. */
+function arranged(what: string, response: { statusCode: number; body: string }, expected: number): void {
+  if (response.statusCode === expected) return;
+  let code = '';
+  try {
+    code = (JSON.parse(response.body) as { error?: { code?: string } }).error?.code ?? '';
+  } catch {
+    // Not JSON: the status is enough.
+  }
+  throw new Error(`${what} answered ${response.statusCode} ${code}`.trim());
+}
+
+/** `POST /orgs` as `who`; the new org's id. */
+export async function createOrgAs(api: TestApi, who: SignedIn, name: string): Promise<string> {
+  const response = await api.app.inject({ method: 'POST', url: '/orgs', headers: who.headers, payload: { name } });
+  arranged('POST /orgs', response, 201);
+  return (response.json() as CreateOrgResponse).org.id;
+}
+
+/** `POST /orgs/:orgId/invitations` as `admin`; the invitation id and the one-time token. */
+export async function inviteAs(
+  api: TestApi,
+  admin: SignedIn,
+  orgId: string,
+  email: string,
+  role: OrgRole = 'member',
+): Promise<{ invitationId: string; token: string }> {
+  const response = await api.app.inject({
+    method: 'POST',
+    url: `/orgs/${orgId}/invitations`,
+    headers: admin.headers,
+    payload: { email, role },
+  });
+  arranged('POST /orgs/:orgId/invitations', response, 201);
+  const body = response.json() as CreateInvitationResponse;
+  return { invitationId: body.invitation.id, token: body.token };
+}
+
+/** Makes `member` an active member of `orgId` the product's way: `admin` invites, `member` accepts. */
+export async function asOrgMember(
+  api: TestApi,
+  admin: SignedIn,
+  orgId: string,
+  member: SignedIn,
+  role: OrgRole = 'member',
+): Promise<void> {
+  const { token } = await inviteAs(api, admin, orgId, member.contactEmail, role);
+  const response = await api.app.inject({
+    method: 'POST',
+    url: '/invitations/accept',
+    headers: member.headers,
+    payload: { token },
+  });
+  arranged('POST /invitations/accept', response, 200);
+}
+
+const GRANT_AUTHOR = { reason: 'integration test', by: 'wringy-test' } as const;
+
+/** `pnpm db:grant grant org …`'s function, as the migrator (the runtime role cannot write grants). */
+export function grantCapability(
+  db: TestDatabase,
+  grant: { userId: string; orgId: string; capability: OrgGrantCapability },
+): Promise<unknown> {
+  return withClientAt(db.urls.migrator, (client) => grantOrgCapability(client, { ...grant, ...GRANT_AUTHOR }));
+}
+
+/** `pnpm db:grant revoke org …`'s function, as the migrator. */
+export function revokeCapability(
+  db: TestDatabase,
+  grant: { userId: string; orgId: string; capability: OrgGrantCapability },
+): Promise<unknown> {
+  return withClientAt(db.urls.migrator, (client) => revokeOrgCapability(client, { ...grant, ...GRANT_AUTHOR }));
+}
+
+/** `pnpm db:grant grant platform …`'s function, as the migrator. */
+export function grantPlatform(
+  db: TestDatabase,
+  grant: { userId: string; capability: PlatformGrantCapability },
+): Promise<unknown> {
+  return withClientAt(db.urls.migrator, (client) => grantPlatformCapability(client, { ...grant, ...GRANT_AUTHOR }));
+}
+
+/** One `app.audit_log` row, as the migrator reads it. */
+export interface AuditRow {
+  recorded_by: string;
+  actor_kind: string;
+  actor_user_id: string | null;
+  context_org_id: string | null;
+  action: string;
+  target_type: string | null;
+  target_id: string | null;
+  outcome: 'allowed' | 'denied';
+  denial_code: string | null;
+  reason: string | null;
+  summary: Record<string, Record<string, string>> | null;
+  request_id: string | null;
+  session_ref: string | null;
+}
+
+export interface AuditFilter {
+  action?: string;
+  contextOrgId?: string;
+  actorUserId?: string;
+  outcome?: 'allowed' | 'denied';
+  denialCode?: string;
+}
+
+/**
+ * The audit rows matching `filter`, oldest first, read as the migrator. Tests
+ * always filter: the database starts with the allow-list's own rows (R6), so a
+ * total count says nothing.
+ */
+export function auditRows(db: TestDatabase, filter: AuditFilter = {}): Promise<AuditRow[]> {
+  const clauses: string[] = [];
+  const params: unknown[] = [];
+  const add = (column: string, value: string | undefined) => {
+    if (value === undefined) return;
+    params.push(value);
+    clauses.push(`${column} = $${params.length}`);
+  };
+  add('action', filter.action);
+  add('context_org_id::text', filter.contextOrgId);
+  add('actor_user_id::text', filter.actorUserId);
+  add('outcome', filter.outcome);
+  add('denial_code', filter.denialCode);
+  return asMigrator<AuditRow>(
+    db,
+    `SELECT recorded_by, actor_kind, actor_user_id, context_org_id, action, target_type, target_id, outcome,
+            denial_code, reason, summary, request_id, session_ref
+       FROM app.audit_log
+      ${clauses.length === 0 ? '' : `WHERE ${clauses.join(' AND ')}`}
+      ORDER BY id`,
+    params,
+  );
+}
+
+/** How many rows the API's runtime login has written so far; tests compare it before and after a request. */
+export async function apiAuditCount(db: TestDatabase): Promise<number> {
+  const rows = await asMigrator<{ n: number }>(
+    db,
+    `SELECT count(*)::int AS n FROM app.audit_log WHERE recorded_by = 'wringy_api_login'`,
+  );
+  return rows[0]?.n ?? 0;
+}
+
+/** The log records of one request, by its id (R11: the audit row's `request_id`). */
+export function logsOfRequest(logs: LogCapture, requestId: string): Array<Record<string, unknown>> {
+  return logs.records.filter((record) => record.reqId === requestId);
+}
+
+/**
+ * A barrier for the R13 concurrency rows. Holds `orgId`'s row `FOR UPDATE` as
+ * the migrator in an open transaction, starts `requests`, waits until
+ * `requests.length` API backends wait on a lock, commits, and returns the
+ * responses — all inside the API's statement timeout. Both requests therefore
+ * contend for the org lock at the same moment, every time. The wait is read from
+ * `pg_stat_activity` every 25 ms as the cluster admin: PostgreSQL shows another
+ * role's `wait_event_type` only to a superuser or a `pg_read_all_stats` member.
+ *
+ * With `inOrder`, each request is started only once every one before it waits on
+ * the lock, so they are granted it in the order given: PostgreSQL hands a row
+ * lock to its waiters in the order they queued (the first waiter holds the tuple
+ * lock, the others queue behind it).
+ */
+export async function underBarrier<T>(
+  db: TestDatabase,
+  orgId: string,
+  requests: Array<() => Promise<T>>,
+  { inOrder = false } = {},
+): Promise<T[]> {
+  const barrier = new pg.Client({ connectionString: db.urls.migrator, application_name: 'wringy-test-barrier' });
+  await barrier.connect();
+  let open = false;
+  try {
+    await barrier.query('BEGIN');
+    open = true;
+    await barrier.query('SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', [orgId]);
+    const started = Date.now();
+    const waitingOnTheLock = (count: number) =>
+      withClientAt(cluster().adminUrl, async (admin) => {
+        for (;;) {
+          const { rows } = await admin.query<{ waiting: number }>(
+            `SELECT count(*)::int AS waiting FROM pg_catalog.pg_stat_activity
+              WHERE datname = $1 AND application_name = $2 AND wait_event_type = 'Lock'`,
+            [db.name, API_APPLICATION_NAME],
+          );
+          if ((rows[0]?.waiting ?? 0) >= count) return;
+          if (Date.now() - started > 3_000) throw new Error('the requests never reached the org lock');
+          await new Promise((resolve) => setTimeout(resolve, 25));
+        }
+      });
+    let pending: Promise<T[]>;
+    if (inOrder) {
+      const fired: Array<Promise<T>> = [];
+      for (const request of requests) {
+        const one = request();
+        one.catch(() => {});
+        fired.push(one);
+        await waitingOnTheLock(fired.length);
+      }
+      pending = Promise.all(fired);
+    } else {
+      pending = Promise.all(requests.map((request) => request()));
+      pending.catch(() => {});
+      await waitingOnTheLock(requests.length);
+    }
+    await barrier.query('COMMIT');
+    open = false;
+    const responses = await pending;
+    expect(Date.now() - started).toBeLessThan(API_STATEMENT_TIMEOUT_MS);
+    return responses;
+  } finally {
+    if (open) await barrier.query('ROLLBACK').catch(() => {});
+    await barrier.end();
+  }
 }

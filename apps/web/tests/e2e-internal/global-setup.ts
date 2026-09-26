@@ -4,7 +4,7 @@
  * Playwright runs this AFTER every webServer entry is up, so the database was
  * already made by the second entry (database-server.mts: a PostgreSQL 17
  * cluster, a template migrated from zero, a clone seeded with the fixtures and
- * with the allowed testers, all through `@wringy/db/testing/cluster`) and the
+ * with the allow-listed testers, all through `@wringy/db/testing/cluster`) and the
  * simulated auth server by the first. This setup checks both through their own
  * connections before any test runs, and exports what the tests rely on into
  * process.env, which the test workers inherit:

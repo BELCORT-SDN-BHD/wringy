@@ -15,6 +15,11 @@
  *   not be fetched) and `session_check_unavailable` (the liveness question could
  *   not be answered) are 503 and retryable. Answering 401 there would sign every
  *   signed-in tester out of the internal build because one network call failed.
+ *
+ * The organisation codes are M2-03 R12. Domain codes stay dotted; each is a
+ * refusal of the authorisation logic, so each writes one denial row to
+ * `app.audit_log` (R4). The identity codes above, `bad_request` and every 503 are
+ * decided before an actor is admitted and are not audited.
  */
 import type { ApiError } from '@wringy/contracts';
 
@@ -39,6 +44,47 @@ export const ERROR_MESSAGES = {
   'account.disabled': 'This account is disabled.',
   /** A verified subject with no profile called something other than POST /identity/sign-in. */
   'profile.missing': 'This account has not completed sign-in.',
+
+  // --- Organisations, memberships, invitations, capabilities (M2-03 R12) -----
+  // Every one of these is decided by the authorisation logic and is audited
+  // (R4): one denial row per refusal, never the token, the session id or an
+  // address. The messages say what the caller may do next and nothing about
+  // whether an object the caller cannot see exists.
+
+  /** Not an active member of this org, or no such org: one answer, no existence oracle. */
+  'org.forbidden': 'You do not have access to this organisation.',
+  /** The caller is a member, but the command needs an admin of this org. */
+  'org.admin_required': 'Only an admin of this organisation can do this.',
+  /** The change would leave the org without an active admin (ruling D3). */
+  'org.last_admin': 'An organisation must keep at least one active admin.',
+  /** No active member with that id in this org (audited as `not_in_org`). */
+  'member.not_found': 'No such member in this organisation.',
+  /** An admin tried to remove themselves: leaving is its own command. */
+  'member.self': 'Use leave to remove yourself from an organisation.',
+  /** Unknown or revoked invitation token; the same answer for both. */
+  'invitation.invalid': 'This invitation link is not valid.',
+  /** The invitation was already accepted: links are single-use (ruling D2). */
+  'invitation.used': 'This invitation has already been used.',
+  /** The invitation is past its expiry. */
+  'invitation.expired': 'This invitation has expired.',
+  /** The signed-in account's verified address is not the one the invitation was sent to. */
+  'invitation.email_mismatch': 'This invitation was sent to a different address.',
+  /** The caller is already an active member; the invitation is closed. */
+  'invitation.already_member': 'You are already a member of this organisation.',
+  /** A pending, unexpired invitation for this address already exists in this org. */
+  'invitation.pending': 'An invitation for this address is already pending.',
+  /** No invitation with that id in this org (audited as `not_in_org`). */
+  'invitation.not_found': 'No such invitation in this organisation.',
+  /** Only a pending invitation can be revoked. */
+  'invitation.not_pending': 'This invitation is no longer pending.',
+  /** Capabilities are granted only by the operator script (ruling D4; R18). */
+  'capability.script_only': 'Capabilities cannot be granted through the API.',
+  /**
+   * The route needs a review, finance or ops_runtime grant the caller does not
+   * hold (R5's guards; no M2-03 route uses them yet). Membership never stands in
+   * for a grant.
+   */
+  'capability.required': 'This action needs a capability you do not hold.',
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_MESSAGES;

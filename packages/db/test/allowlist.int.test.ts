@@ -1,7 +1,10 @@
+import { createHash } from 'node:crypto';
+
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { listAllowlist, normalizeEmail, removeAllowlistEntry } from '../src/allowlist';
+import { InvalidEmailError, addAllowlistEntry, listAllowlist, normalizeEmail, removeAllowlistEntry } from '../src/allowlist';
+import { ROLES } from '../src/roles';
 import { allowlistAdd, createTestDatabase, failureIn, sqlState, withClientAt, withRollback, type TestDatabase } from './harness';
 
 describe('M2-AC02/2 app.sign_in_allowlist is written by the migrator only, read by the API', () => {
@@ -91,11 +94,11 @@ describe('M2-AC02/2 app.sign_in_allowlist is written by the migrator only, read 
     expect(seenByApi.map((entry) => entry.emailNorm)).toEqual(listed.map((entry) => entry.emailNorm));
 
     const removed = await withClientAt(db.urls.migrator, (client) =>
-      removeAllowlistEntry(client, { email: ' TESTER.one@example.com ' }),
+      removeAllowlistEntry(client, { email: ' TESTER.one@example.com ', reason: 'left the team', by: 'founder' }),
     );
     expect(removed).toMatchObject({ emailNorm: 'tester.one@example.com', outcome: 'removed' });
     const absent = await withClientAt(db.urls.migrator, (client) =>
-      removeAllowlistEntry(client, { email: 'tester.one@example.com' }),
+      removeAllowlistEntry(client, { email: 'tester.one@example.com', reason: 'again', by: 'founder' }),
     );
     expect(absent).toEqual({ emailNorm: 'tester.one@example.com', outcome: 'absent' });
     expect((await withClientAt(db.urls.migrator, (client) => listAllowlist(client))).map((e) => e.emailNorm)).toEqual([
@@ -172,5 +175,144 @@ describe('M2-AC02/2 app.sign_in_allowlist is written by the migrator only, read 
     expect(ligature, 'a ligature address does not match a listed ASCII one').toEqual([]);
 
     await withClientAt(db.urls.migrator, (client) => client.query('DELETE FROM app.sign_in_allowlist'));
+  });
+});
+
+/**
+ * Since M2-03 every allow-list change writes its audit row in the same statement,
+ * and the row names the address only by its sha256 (M2-03 code review R3, R6).
+ */
+describe('M2-AC03/3 allow-list changes are audited, pseudonymously, in the same statement', () => {
+  let db: TestDatabase;
+  let migrator: pg.Pool;
+
+  const sha256 = (value: string) => createHash('sha256').update(value, 'utf8').digest('hex');
+
+  const auditRows = async () =>
+    (
+      await migrator.query<{
+        recorded_by: string;
+        actor_kind: string;
+        actor_user_id: string | null;
+        actor_label: string;
+        context_org_id: string | null;
+        action: string;
+        target_type: string;
+        target_id: string;
+        outcome: string;
+        reason: string;
+        summary: unknown;
+        request_id: string | null;
+        session_ref: string | null;
+      }>(
+        `SELECT recorded_by::text AS recorded_by, actor_kind, actor_user_id, actor_label, context_org_id, action,
+                target_type, target_id, outcome, reason, summary, request_id, session_ref
+           FROM app.audit_log WHERE action LIKE 'allowlist.%' ORDER BY id`,
+      )
+    ).rows;
+
+  beforeAll(async () => {
+    db = await createTestDatabase();
+    migrator = new pg.Pool({ connectionString: db.urls.migrator, max: 2 });
+  });
+
+  afterAll(async () => {
+    await migrator?.end();
+    await db?.drop();
+  });
+
+  it('M2-AC03/3 add, re-add and remove each write one bootstrap row whose target is the sha256 of the normal form, and removing nothing writes nothing', async () => {
+    const email = ' Audit.Tester@Example.TEST ';
+    const norm = 'audit.tester@example.test';
+    await withClientAt(db.urls.migrator, (client) =>
+      addAllowlistEntry(client, { email, reason: 'new tester', addedBy: 'founder' }),
+    );
+    await withClientAt(db.urls.migrator, (client) =>
+      addAllowlistEntry(client, { email: norm, reason: 'renewed', addedBy: 'operator' }),
+    );
+    await withClientAt(db.urls.migrator, (client) =>
+      removeAllowlistEntry(client, { email, reason: 'left the pilot', by: 'founder' }),
+    );
+    const absent = await withClientAt(db.urls.migrator, (client) =>
+      removeAllowlistEntry(client, { email, reason: 'twice', by: 'founder' }),
+    );
+    expect(absent.outcome).toBe('absent');
+
+    const common = {
+      recorded_by: ROLES.migrator,
+      actor_kind: 'bootstrap',
+      actor_user_id: null,
+      context_org_id: null,
+      target_type: 'sign_in_allowlist',
+      target_id: sha256(norm),
+      outcome: 'allowed',
+      summary: null,
+      request_id: null,
+      session_ref: null,
+    };
+    expect(await auditRows()).toEqual([
+      { ...common, action: 'allowlist.add', actor_label: 'founder', reason: 'new tester' },
+      { ...common, action: 'allowlist.add', actor_label: 'operator', reason: 'renewed' },
+      { ...common, action: 'allowlist.remove', actor_label: 'founder', reason: 'left the pilot' },
+    ]);
+    expect(sha256(norm)).toMatch(/^[0-9a-f]{64}$/);
+
+    // No spelling of the address, local part included, is anywhere in the log.
+    const { rows } = await migrator.query<{ row: string }>(`SELECT row_to_json(a)::text AS row FROM app.audit_log a`);
+    const text = rows.map((row) => row.row).join('\n').toLowerCase();
+    expect(text).not.toContain('audit.tester');
+    expect(text).not.toContain('example.test');
+    expect(text).not.toContain('@');
+  });
+
+  it('M2-AC03/3 an address in --by or --reason is refused by the library too, and nothing is written', async () => {
+    const before = (await auditRows()).length;
+    for (const author of [
+      { reason: 'r', addedBy: 'founder@example.test' },
+      { reason: 'asked by boss@example.test', addedBy: 'founder' },
+    ]) {
+      await expect(
+        withClientAt(db.urls.migrator, (client) =>
+          addAllowlistEntry(client, { email: 'someone@example.test', ...author }),
+        ),
+      ).rejects.toBeInstanceOf(InvalidEmailError);
+    }
+    await expect(
+      withClientAt(db.urls.migrator, (client) =>
+        removeAllowlistEntry(client, { email: 'someone@example.test', reason: 'r', by: 'founder@example.test' }),
+      ),
+    ).rejects.toThrow(/--by\) may not contain "@"/);
+    expect((await auditRows()).length).toBe(before);
+    expect(await withClientAt(db.urls.migrator, (client) => listAllowlist(client))).toEqual([]);
+  });
+
+  it('M2-AC03/3 an allow-list change cannot be written without its audit row (a planted trigger refuses the audit insert)', async () => {
+    await withClientAt(db.urls.migrator, (client) =>
+      addAllowlistEntry(client, { email: 'kept@example.test', reason: 'before the trigger', addedBy: 'founder' }),
+    );
+    await migrator.query(`CREATE FUNCTION ops.wringy_test_refuse_audit() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN
+        RAISE EXCEPTION 'audit insert refused by the test';
+      END
+      $$`);
+    await migrator.query(`CREATE TRIGGER wringy_test_refuse_audit BEFORE INSERT ON app.audit_log
+                            FOR EACH ROW EXECUTE FUNCTION ops.wringy_test_refuse_audit()`);
+    try {
+      await expect(
+        withClientAt(db.urls.migrator, (client) =>
+          addAllowlistEntry(client, { email: 'refused@example.test', reason: 'r', addedBy: 'founder' }),
+        ),
+      ).rejects.toThrow(/audit insert refused by the test/);
+      await expect(
+        withClientAt(db.urls.migrator, (client) =>
+          removeAllowlistEntry(client, { email: 'kept@example.test', reason: 'r', by: 'founder' }),
+        ),
+      ).rejects.toThrow(/audit insert refused by the test/);
+    } finally {
+      await migrator.query('DROP TRIGGER wringy_test_refuse_audit ON app.audit_log');
+      await migrator.query('DROP FUNCTION ops.wringy_test_refuse_audit()');
+    }
+    const listed = await withClientAt(db.urls.migrator, (client) => listAllowlist(client));
+    expect(listed.map((entry) => entry.emailNorm)).toEqual(['kept@example.test']);
   });
 });

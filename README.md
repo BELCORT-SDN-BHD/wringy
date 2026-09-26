@@ -54,7 +54,10 @@ pnpm db:migrate          # pg-boss schema，再执行全部 SQL 迁移（迁移�
 pnpm db:env              # 写入环境标记 ops.environment（local 允许夹具）
 pnpm db:seed:fixtures    # 两个夹具组织、三个夹具活动
 pnpm db:allowlist add <你的 Google 邮箱> --reason "<原因>" --by "<你的名字>"
-                         # 谁可以第一次登录内部版本（裁决 D13）；remove/list 同一个命令
+                         # 谁可以第一次登录内部版本（裁决 D13）；remove/list 同一个命令；每次改动写一行审计
+pnpm db:grant grant org <用户id> <组织id> review --reason "<原因>" --by "<你的名字>"
+                         # 可选，只有运营者需要：review/finance 按组织授予，platform ops_runtime 全平台授予（裁决 D4）；
+                         # revoke/list 同一个命令；用户须先登录过一次（有 profiles 行）；每次改动写一行审计
 # apps/api/.env、apps/worker/.env：从各自的 .env.example 复制，填 WRINGY_ENV=local 与 db:start 打印的运行账号 URL；
 #   api 另需 SUPABASE_URL、SUPABASE_PUBLISHABLE_KEY 与 SESSION_LIVENESS（本地用 auth_server：
 #   应用库是 embedded 集群，不是 Supabase 项目库，只有 auth_server 适配器答得出“会话还活着吗”）

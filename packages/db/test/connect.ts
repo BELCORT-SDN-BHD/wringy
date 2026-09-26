@@ -7,7 +7,9 @@
  * (Playwright in apps/web, whose package has no "type": "module"): cluster.ts
  * reaches migrate.ts and fixtures.ts, which use `import.meta.url`, and cannot be
  * loaded there. Nothing here may import a module that does; `src/allowlist.ts`
- * qualifies, importing only `pg`'s types.
+ * qualifies, importing only `pg`'s types and `node:crypto` (a builtin loads under
+ * CommonJS as well; it hashes the address for the allow-list's audit row, M2-03
+ * R6). `src/grants.ts` qualifies too.
  */
 import pg from 'pg';
 
@@ -56,7 +58,10 @@ export async function withClientAt<T>(url: string, fn: (client: pg.Client) => Pr
 /**
  * Lists `email` on `app.sign_in_allowlist` in the database `migratorUrl` names,
  * for the Playwright internal suite's first-sign-in scenarios (M2-02 R5). The
- * normal form is computed by the one function the CLI and the API also use.
+ * normal form is computed by the one function the CLI and the API also use, and
+ * the same statement writes the `allowlist.add` audit row the CLI writes (M2-03
+ * R6), so the suite's database starts with one such row per seeded tester.
+ * `reason` and `addedBy` may not contain `@`.
  */
 export async function allowlistAddAt(
   migratorUrl: string,

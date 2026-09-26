@@ -26,6 +26,8 @@ import {
   FAKE_PUBLISHABLE_KEY,
   FAKE_USERS,
   TEST_TAG_HEADER,
+  allowlistedEmails,
+  type FakeUserName,
 } from '../e2e-internal/fake-auth/users';
 import { startFakeAuthServer, type CallReport, type FakeAuthServer } from '../e2e-internal/fake-auth/server.mjs';
 
@@ -120,6 +122,10 @@ async function openConsent(authorizeUrl: string, tag: string): Promise<{ action:
   expect(html, 'the consent page offers one button per fake user').toContain('data-testid="fake-user-alice"');
   expect(html).toContain('data-testid="fake-user-bob"');
   expect(html).toContain('data-testid="fake-user-mallory"');
+  // The M2-03 organisation testers (m2-03-code-review.md R13).
+  expect(html).toContain('data-testid="fake-user-carol"');
+  expect(html).toContain('data-testid="fake-user-dave"');
+  expect(html).toContain('data-testid="fake-user-erin"');
   return { action: action!, state: state!, cancel: cancel! };
 }
 
@@ -142,7 +148,10 @@ async function submitConsent(
 }
 
 /** Starts a flow through the real client and walks it to the code the callback would see. */
-async function walkToCode(tag: string): Promise<{ client: ReturnType<typeof newClient>; jar: ReturnType<typeof memoryCookieJar>; code: string }> {
+async function walkToCode(
+  tag: string,
+  user: FakeUserName = 'alice',
+): Promise<{ client: ReturnType<typeof newClient>; jar: ReturnType<typeof memoryCookieJar>; code: string }> {
   const jar = memoryCookieJar();
   const client = newClient(jar, tag);
   const { data, error } = await client.auth.signInWithOAuth({
@@ -152,7 +161,7 @@ async function walkToCode(tag: string): Promise<{ client: ReturnType<typeof newC
   expect(error).toBeNull();
   expect(data.url, 'signInWithOAuth returns the authorize URL').toContain('/auth/v1/authorize');
   const form = await openConsent(data.url!, tag);
-  const location = await submitConsent(form, { user: 'alice' }, tag);
+  const location = await submitConsent(form, { user }, tag);
   const code = new URL(location).searchParams.get('code');
   expect(code, 'the consent redirect carries a code').toBeTruthy();
   return { client, jar, code: code! };
@@ -386,6 +395,34 @@ describe('M2-AC02/3 the simulated auth harness matches the vendor client it stan
     const namedForm = await openConsent(named.data.url!, namedTag);
     const namedLocation = await submitConsent(namedForm, { user: 'alice' }, namedTag);
     expect(namedLocation, 'a named Site URL keeps its own path').toBe(`http://127.0.0.1:3199/somewhere?${SITE_URL_QUERY}`);
+  });
+
+  it('M2-AC03/1 simulated harness self-test: Carol, Dave and Erin each have a consent button and sign in as themselves', async () => {
+    // The M2-03 organisation testers (m2-03-code-review.md R13). Each is a distinct
+    // subject with its own verified address, so an org row keyed by `sub` and an
+    // invitation matched on the verified `email` claim see three different people.
+    for (const name of ['carol', 'dave', 'erin'] as const) {
+      const user = FAKE_USERS[name];
+      const { client, code } = await walkToCode(`self-test-${name}-${Date.now()}`, name);
+
+      const exchanged = await client.auth.exchangeCodeForSession(code);
+      expect(exchanged.error, name).toBeNull();
+      const claims = await client.auth.getClaims();
+      expect(claims.error, name).toBeNull();
+      expect(claims.data?.claims['sub'], name).toBe(user.id);
+      expect(claims.data?.claims['email'], name).toBe(user.email);
+      expect(exchanged.data.session?.user.user_metadata['full_name'], name).toBe(user.fullName);
+    }
+
+    // All three are on the suite's allow-list; Mallory stays the one refused identity.
+    expect(allowlistedEmails()).toEqual(
+      expect.arrayContaining([FAKE_USERS.carol.email, FAKE_USERS.dave.email, FAKE_USERS.erin.email]),
+    );
+    expect(allowlistedEmails()).not.toContain(FAKE_USERS.mallory.email);
+    // Six distinct subjects and six distinct addresses.
+    const users = Object.values(FAKE_USERS);
+    expect(new Set(users.map((user) => user.id)).size).toBe(users.length);
+    expect(new Set(users.map((user) => user.email)).size).toBe(users.length);
   });
 
   it('M2-AC02/3 simulated harness self-test: an expired flow state and a wrong verifier answer the GoTrue codes', async () => {

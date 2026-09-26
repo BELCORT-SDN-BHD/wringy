@@ -135,5 +135,156 @@
       "unauthenticated": "没有可用的会话，命令被拒绝。",
       "unavailable": "目前无法检查会话，因此没有执行任何操作。没有做任何更改。请重试。"
     }
+  },
+  "workspaces": {
+    "title": "工作区",
+    "description": "你的个人账号以及你所属的组织。打开某个组织即可在其中操作；每个页面都会重新核实你的成员身份。",
+    "listLabel": "你的工作区",
+    "personal": "个人",
+    "personalDescription": "你自己的账号",
+    "none": "你还不属于任何组织。可以在下方创建一个，或打开管理员发给你的邀请链接。",
+    "create": {
+      "nameLabel": "新组织名称",
+      "submit": "创建组织",
+      "note": "你将成为该组织的第一位管理员。"
+    }
+  },
+  "role": {
+    "admin": "管理员",
+    "member": "成员"
+  },
+  "org": {
+    "back": "所有工作区",
+    "navLabel": "工作区导航",
+    "yourRole": "你在此的角色：",
+    "members": {
+      "title": "成员",
+      "caption": "此组织的在职成员，及其角色和加入时间",
+      "columns": {
+        "name": "名称",
+        "role": "角色",
+        "since": "加入时间",
+        "actions": "操作"
+      },
+      "unnamed": "未设置名称",
+      "you": "（你）",
+      "roleFor": "{name} 的角色",
+      "changeRole": "更改角色",
+      "remove": "移除",
+      "changeRoleFor": "更改角色：{name}",
+      "removeFor": "移除 {name}"
+    },
+    "invite": {
+      "title": "邀请",
+      "description": "通过电子邮件地址邀请他人。你会得到一个链接，由你自己发送给对方。",
+      "emailLabel": "电子邮件地址",
+      "roleLabel": "角色",
+      "signInNote": "对方必须能够登录此版本：其地址必须在测试者名单中。",
+      "lifetime": "该链接只能使用一次，仅限该地址，并在 {days} 天后过期。",
+      "handOver": "Wringy 不会发送该链接。你将在下一页复制链接并自行发送。",
+      "submit": "创建邀请链接"
+    },
+    "invitations": {
+      "title": "待处理的邀请",
+      "none": "没有待处理的邀请。",
+      "caption": "此组织发出、尚未被接受或撤销的邀请",
+      "columns": {
+        "address": "发送至",
+        "role": "角色",
+        "expires": "过期时间",
+        "actions": "操作"
+      },
+      "revoke": "撤销",
+      "revokeFor": "撤销发给 {email} 的邀请"
+    },
+    "rename": {
+      "title": "组织名称",
+      "nameLabel": "名称",
+      "submit": "保存名称"
+    },
+    "leave": {
+      "title": "退出此组织",
+      "description": "你将立即失去对此组织的访问权限。管理员可以再次邀请你。最后一位管理员不能退出。",
+      "submit": "退出组织"
+    },
+    "forbidden": {
+      "title": "你无权访问此组织",
+      "description": "你不是此组织的成员，或已不再是成员。此处没有显示或更改任何内容。",
+      "back": "返回你的工作区"
+    }
+  },
+  "invitations": {
+    "backToOrg": "返回组织",
+    "created": {
+      "title": "邀请链接",
+      "description": "加入 {org} 的邀请。"
+    },
+    "fields": {
+      "org": "组织",
+      "address": "发送至",
+      "role": "角色",
+      "expires": "过期时间"
+    },
+    "link": {
+      "label": "接受链接",
+      "note": "请复制此链接并自行发送给 {email}。该链接只能使用一次，且仅在该地址登录时有效。"
+    },
+    "noLink": {
+      "title": "链接已不再显示",
+      "description": "链接只在邀请刚创建时、在创建它的浏览器中显示。如果链接已丢失，请撤销此邀请并重新创建。"
+    },
+    "notPending": {
+      "title": "此邀请不在待处理状态",
+      "description": "它已被接受或撤销，或者你不是此组织的管理员。"
+    },
+    "accept": {
+      "title": "加入 {org}",
+      "description": "你被邀请以{role}身份加入 {org}。",
+      "submit": "接受邀请",
+      "home": "前往内部版本",
+      "expired": {
+        "title": "此邀请已过期",
+        "description": "请联系 {org} 的管理员重新发送邀请。"
+      },
+      "used": {
+        "title": "此邀请已被使用",
+        "description": "每个邀请链接只能使用一次。",
+        "open": "打开 {org}"
+      },
+      "mismatch": {
+        "title": "此邀请是发送给另一个地址的",
+        "description": "你当前登录的账号不是此邀请的收件人。请退出登录，然后重新打开链接，并使用收件地址登录。"
+      },
+      "invalid": {
+        "title": "此邀请链接无效",
+        "description": "它可能已被撤销，发送邀请的人可能已不再是管理员，或链接未完整复制。请联系该组织的管理员重新发送。"
+      }
+    }
+  },
+  "outcomes": {
+    "created": "组织已创建。你是它的管理员。",
+    "renamed": "组织名称已保存。",
+    "invited": "邀请已创建。请复制下方链接并自行发送。",
+    "revoked": "邀请已撤销，其链接不再有效。",
+    "joined": "你已加入此组织。",
+    "role_changed": "成员的角色已更改。",
+    "member_removed": "该成员已从此组织移除。",
+    "left": "你已退出该组织。",
+    "forbidden": "你无权访问该组织，因此没有做任何更改。",
+    "admin_required": "只有此组织的管理员才能执行此操作，因此没有做任何更改。页面加载后你的角色可能已发生变化。",
+    "last_admin": "组织必须保留至少一位在职管理员，因此没有做任何更改。请先将另一位成员设为管理员。",
+    "already_member": "你已是该组织的成员。此邀请已关闭。",
+    "pending_exists": "此地址已有一个待处理的邀请。如需重新发送，请先撤销它。",
+    "invalid_email": "该电子邮件地址无法使用。请检查后重试。",
+    "not_pending": "该邀请已不在待处理状态，因此没有做任何更改。",
+    "not_found": "该成员或邀请不属于此组织，因此没有做任何更改。",
+    "session_ended": "你的登录需要续期，因此没有做任何更改。请重试。",
+    "unavailable": "Wringy 需要的服务目前无法连接，我们无法确认此操作是否已保存。请先刷新页面查看，再决定是否重试。",
+    "unexpected": "出现了问题，我们无法确认此操作是否已保存。请先刷新页面查看，再决定是否重试。",
+    "invitation_invalid": "该邀请链接无效，你未被加入。请联系该组织的管理员重新发送。",
+    "invitation_expired": "该邀请已过期，你未被加入。请联系管理员重新发送。",
+    "invitation_used": "该邀请已被使用，因此没有做任何更改。",
+    "invitation_mismatch": "该邀请是发送给另一个地址的，你未被加入。",
+    "invalid_name": "无法使用该名称，因此没有做任何更改。请使用 1 到 100 个字符，不能只有空格，也不能包含隐藏的格式字符。"
   }
 }

@@ -4,7 +4,7 @@ import { NextRequest, type NextResponse } from 'next/server';
 import type { CreateRequestSupabaseOptions } from '@/lib/auth/supabase-server';
 import { ACCESS_TOKEN_HEADER } from '@/lib/auth/wire';
 
-import { config, FRAMING_HEADERS, proxy, REFRESH_DEADLINE_MS } from './proxy';
+import { config, FRAMING_HEADERS, proxy, REFERRER_POLICY, REFRESH_DEADLINE_MS } from './proxy';
 
 /**
  * The request-level Supabase client is the one thing the proxy talks to, so it is
@@ -787,6 +787,27 @@ describe('M2-AC02/3 cache: the internal build is private and unframeable on ever
     });
   });
 
+  it('M2-AC03/3 invitation link: every internal-mode response carries Referrer-Policy strict-origin as a header, so a page whose URL holds the token never sends it in a Referer, not even from its first chunk requests', async () => {
+    const accept = '/internal/invitations/accept?token=inviteToken_0123456789-abcdefghijklmnopqrst';
+    const cases: { label: string; response: NextResponse }[] = [
+      {
+        label: 'the accept page, signed in',
+        response: await proxy(request(accept, { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}` })),
+      },
+      { label: 'the sign-in page, with the accept link as next', response: await proxy(request(`/internal/sign-in?next=${encodeURIComponent(accept)}`)) },
+      { label: 'auth route handler', response: await proxy(request('/auth/sign-out', { method: 'POST' })) },
+      { label: 'root redirect', response: await proxy(request('/')) },
+    ];
+    // Signed out, the accept page redirects to sign-in: that answer carries it too.
+    makeClient = signedOut;
+    cases.push({ label: 'the accept page, signed out', response: await proxy(request(accept)) });
+    for (const { label, response } of cases) {
+      expect(response.headers.get('referrer-policy'), label).toBe('strict-origin');
+    }
+    // Never no-referrer: under it a form POST sends `Origin: null`, which the Origin rule refuses.
+    expect(REFERRER_POLICY).toBe('strict-origin');
+  });
+
   it('M2-AC02/3 cache: demo mode adds no framing headers, because the proxy does nothing there', async () => {
     vi.stubEnv('WRINGY_APP_MODE', 'demo');
 
@@ -795,5 +816,6 @@ describe('M2-AC02/3 cache: the internal build is private and unframeable on ever
     expect(isPassThrough(response)).toBe(true);
     expect(response.headers.get('content-security-policy')).toBeNull();
     expect(response.headers.get('x-frame-options')).toBeNull();
+    expect(response.headers.get('referrer-policy')).toBeNull();
   });
 });
