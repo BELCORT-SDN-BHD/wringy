@@ -16,8 +16,13 @@
  * the product could have written — the operator's grant functions run as the
  * migrator (`grantCapability`, `revokeCapability`, `grantPlatform`), and the
  * audit readers (`auditRows`, `apiAuditCount`), which read `app.audit_log` as the
- * migrator because the runtime role has no SELECT on it.
+ * migrator because the runtime role has no SELECT on it. `underBarrier` runs
+ * requests that must contend for one org's lock at the same moment (the R13
+ * barrier rows of authorize.int.test.ts and invitations.int.test.ts).
  */
+import pg from 'pg';
+import { expect } from 'vitest';
+
 import type { CreateInvitationResponse, CreateOrgResponse, OrgRole } from '@wringy/contracts';
 import {
   grantOrgCapability,
@@ -27,6 +32,7 @@ import {
   type PlatformGrantCapability,
 } from '@wringy/db';
 import {
+  cluster,
   createTestDatabase,
   endSession,
   insertLiveSession,
@@ -39,7 +45,7 @@ import {
 
 import { buildApp, type ApiApp, type BuildAppOptions } from '../../src/app';
 import { createSupabaseAuthenticate, type AuthenticateHook, type ReadProfile } from '../../src/authenticate';
-import { createApiPool, withDatabase } from '../../src/database';
+import { API_APPLICATION_NAME, API_STATEMENT_TIMEOUT_MS, createApiPool, withDatabase } from '../../src/database';
 import { readProfileById } from '../../src/profiles';
 import type { LivenessResult, SessionLiveness } from '../../src/session-liveness';
 import { bearer, type TestIdentity } from './jwt-support';
@@ -394,4 +400,71 @@ export async function apiAuditCount(db: TestDatabase): Promise<number> {
 /** The log records of one request, by its id (R11: the audit row's `request_id`). */
 export function logsOfRequest(logs: LogCapture, requestId: string): Array<Record<string, unknown>> {
   return logs.records.filter((record) => record.reqId === requestId);
+}
+
+/**
+ * A barrier for the R13 concurrency rows. Holds `orgId`'s row `FOR UPDATE` as
+ * the migrator in an open transaction, starts `requests`, waits until
+ * `requests.length` API backends wait on a lock, commits, and returns the
+ * responses — all inside the API's statement timeout. Both requests therefore
+ * contend for the org lock at the same moment, every time. The wait is read from
+ * `pg_stat_activity` every 25 ms as the cluster admin: PostgreSQL shows another
+ * role's `wait_event_type` only to a superuser or a `pg_read_all_stats` member.
+ *
+ * With `inOrder`, each request is started only once every one before it waits on
+ * the lock, so they are granted it in the order given: PostgreSQL hands a row
+ * lock to its waiters in the order they queued (the first waiter holds the tuple
+ * lock, the others queue behind it).
+ */
+export async function underBarrier<T>(
+  db: TestDatabase,
+  orgId: string,
+  requests: Array<() => Promise<T>>,
+  { inOrder = false } = {},
+): Promise<T[]> {
+  const barrier = new pg.Client({ connectionString: db.urls.migrator, application_name: 'wringy-test-barrier' });
+  await barrier.connect();
+  let open = false;
+  try {
+    await barrier.query('BEGIN');
+    open = true;
+    await barrier.query('SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', [orgId]);
+    const started = Date.now();
+    const waitingOnTheLock = (count: number) =>
+      withClientAt(cluster().adminUrl, async (admin) => {
+        for (;;) {
+          const { rows } = await admin.query<{ waiting: number }>(
+            `SELECT count(*)::int AS waiting FROM pg_catalog.pg_stat_activity
+              WHERE datname = $1 AND application_name = $2 AND wait_event_type = 'Lock'`,
+            [db.name, API_APPLICATION_NAME],
+          );
+          if ((rows[0]?.waiting ?? 0) >= count) return;
+          if (Date.now() - started > 3_000) throw new Error('the requests never reached the org lock');
+          await new Promise((resolve) => setTimeout(resolve, 25));
+        }
+      });
+    let pending: Promise<T[]>;
+    if (inOrder) {
+      const fired: Array<Promise<T>> = [];
+      for (const request of requests) {
+        const one = request();
+        one.catch(() => {});
+        fired.push(one);
+        await waitingOnTheLock(fired.length);
+      }
+      pending = Promise.all(fired);
+    } else {
+      pending = Promise.all(requests.map((request) => request()));
+      pending.catch(() => {});
+      await waitingOnTheLock(requests.length);
+    }
+    await barrier.query('COMMIT');
+    open = false;
+    const responses = await pending;
+    expect(Date.now() - started).toBeLessThan(API_STATEMENT_TIMEOUT_MS);
+    return responses;
+  } finally {
+    if (open) await barrier.query('ROLLBACK').catch(() => {});
+    await barrier.end();
+  }
 }

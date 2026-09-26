@@ -6,12 +6,12 @@
  * grant. Identities are simulated (a local key pair, the real hook); the database
  * is a real PostgreSQL 17 read by the app as `wringy_api_login`.
  *
- * **Barrier rows.** Each concurrency row holds the org row `FOR UPDATE` as the
- * migrator in an open transaction, fires both requests, waits (polling
- * `pg_stat_activity` every 25 ms, as the cluster admin: PostgreSQL shows another
- * role's `wait_event_type` only to a superuser or a `pg_read_all_stats` member,
- * which is how timeouts.int.test.ts reads it too) until both API backends wait
- * on a lock, then commits. Both requests therefore contend for the org lock at
+ * **Barrier rows** (`underBarrier`, support.ts). Each concurrency row holds the
+ * org row `FOR UPDATE` as the migrator in an open transaction, fires both
+ * requests, waits (polling `pg_stat_activity` every 25 ms, as the cluster admin:
+ * PostgreSQL shows another role's `wait_event_type` only to a superuser or a
+ * `pg_read_all_stats` member, which is how timeouts.int.test.ts reads it too)
+ * until both API backends wait on a lock, then commits. Both requests therefore contend for the org lock at
  * the same moment, every time, inside the 4.5 s statement timeout. No request may
  * answer 500: revision 1's lock order ended these cases in a deadlock (`40P01`).
  * The ordered variant fires the requests one at a time instead, each only once the
@@ -27,7 +27,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { cluster } from '@wringy/db/testing';
 
 import { requireOrgCapability, requirePlatformGrant } from '../../src/authorize';
-import { API_APPLICATION_NAME, API_STATEMENT_TIMEOUT_MS, createApiPool } from '../../src/database';
+import { createApiPool } from '../../src/database';
 import { errorBody } from '../../src/errors';
 import { createTestIdentity, type TestIdentity } from './jwt-support';
 import {
@@ -41,6 +41,7 @@ import {
   grantPlatform,
   logsOfRequest,
   person,
+  underBarrier,
   withClientAt,
   type PersonSpec,
   type SignedIn,
@@ -112,61 +113,6 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     api.app.inject({ method: 'POST', url, headers: who.headers, ...(payload === undefined ? {} : { payload }) });
   const get = (who: SignedIn, url: string) => api.app.inject({ method: 'GET', url, headers: who.headers });
 
-  /**
-   * Holds `orgId`'s row `FOR UPDATE` as the migrator, starts `requests`, waits
-   * until `requests.length` API backends wait on a lock, commits, and returns the
-   * responses — all inside the API's statement timeout. With `inOrder`, each
-   * request is started only once every one before it waits on the lock, so they
-   * are granted it in the order given.
-   */
-  async function underBarrier<T>(orgId: string, requests: Array<() => Promise<T>>, { inOrder = false } = {}): Promise<T[]> {
-    const barrier = new pg.Client({ connectionString: db.urls.migrator, application_name: 'wringy-test-barrier' });
-    await barrier.connect();
-    let open = false;
-    try {
-      await barrier.query('BEGIN');
-      open = true;
-      await barrier.query('SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', [orgId]);
-      const started = Date.now();
-      const waitingOnTheLock = (count: number) =>
-        withClientAt(cluster().adminUrl, async (admin) => {
-          for (;;) {
-            const { rows } = await admin.query<{ waiting: number }>(
-              `SELECT count(*)::int AS waiting FROM pg_catalog.pg_stat_activity
-                WHERE datname = $1 AND application_name = $2 AND wait_event_type = 'Lock'`,
-              [db.name, API_APPLICATION_NAME],
-            );
-            if ((rows[0]?.waiting ?? 0) >= count) return;
-            if (Date.now() - started > 3_000) throw new Error('the requests never reached the org lock');
-            await new Promise((resolve) => setTimeout(resolve, 25));
-          }
-        });
-      let pending: Promise<T[]>;
-      if (inOrder) {
-        const fired: Array<Promise<T>> = [];
-        for (const request of requests) {
-          const one = request();
-          one.catch(() => {});
-          fired.push(one);
-          await waitingOnTheLock(fired.length);
-        }
-        pending = Promise.all(fired);
-      } else {
-        pending = Promise.all(requests.map((request) => request()));
-        pending.catch(() => {});
-        await waitingOnTheLock(requests.length);
-      }
-      await barrier.query('COMMIT');
-      open = false;
-      const responses = await pending;
-      expect(Date.now() - started).toBeLessThan(API_STATEMENT_TIMEOUT_MS);
-      return responses;
-    } finally {
-      if (open) await barrier.query('ROLLBACK').catch(() => {});
-      await barrier.end();
-    }
-  }
-
   it('M2-AC03/2 an outsider and an unknown org get the same 403 org.forbidden; each denial row carries the request id of its log line and the sha256 of the session id', async () => {
     const orgId = await createOrgAs(api, carol, 'Correlated');
     const outsider = await get(erin, `/orgs/${orgId}`);
@@ -227,7 +173,7 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     const orgId = await createOrgAs(api, carol, 'Barrier Remove Leave');
     await asOrgMember(api, carol, orgId, dave, 'admin');
 
-    const [remove, leave] = await underBarrier(orgId, [
+    const [remove, leave] = await underBarrier(db, orgId, [
       () => post(carol, `/orgs/${orgId}/members/${DAVE.userId}/remove`),
       () => post(dave, `/orgs/${orgId}/leave`),
     ]);
@@ -270,7 +216,7 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     // (step 3); only the role re-read under it (step 5) can refuse the rename.
     const first = await createOrgAs(api, carol, 'Barrier Demote First');
     await asOrgMember(api, carol, first, dave, 'admin');
-    const [demote, rename] = await underBarrier(first, [demoteDave(first), renameAsDave(first)], { inOrder: true });
+    const [demote, rename] = await underBarrier(db, first, [demoteDave(first), renameAsDave(first)], { inOrder: true });
     expect(demote!.statusCode).toBe(200);
     expect(rename!.statusCode).toBe(403);
     expect(rename!.json()).toEqual(errorBody('org.admin_required'));
@@ -282,7 +228,7 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     // The rename reaches the lock first: Dave is still an admin when it runs.
     const second = await createOrgAs(api, carol, 'Barrier Rename First');
     await asOrgMember(api, carol, second, dave, 'admin');
-    const [renamed, demoted] = await underBarrier(second, [renameAsDave(second), demoteDave(second)], { inOrder: true });
+    const [renamed, demoted] = await underBarrier(db, second, [renameAsDave(second), demoteDave(second)], { inOrder: true });
     expect(renamed!.statusCode).toBe(200);
     expect(demoted!.statusCode).toBe(200);
     expect(await nameOf(second)).toBe('Renamed By Dave');
@@ -293,7 +239,7 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     const orgId = await createOrgAs(api, carol, 'Barrier Two Leave');
     await asOrgMember(api, carol, orgId, dave, 'admin');
 
-    const responses = await underBarrier(orgId, [
+    const responses = await underBarrier(db, orgId, [
       () => post(carol, `/orgs/${orgId}/leave`),
       () => post(dave, `/orgs/${orgId}/leave`),
     ]);
@@ -327,7 +273,7 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
       expect(setting).toEqual({ default_transaction_isolation: 'repeatable read' });
 
       const leave = (who: SignedIn) => () => strict.app.inject({ method: 'POST', url: `/orgs/${orgId}/leave`, headers: who.headers });
-      const responses = await underBarrier(orgId, [leave(carol), leave(dave)]);
+      const responses = await underBarrier(db, orgId, [leave(carol), leave(dave)]);
       expect(responses.map((response) => response.statusCode).sort()).toEqual([200, 409]);
       const admins = await asMigrator(
         db,
@@ -345,7 +291,7 @@ describe('M2-AC03 authorisation: one answer, one lock order, independent capabil
     const orgId = await createOrgAs(api, carol, 'Barrier Two Invites');
     await asOrgMember(api, carol, orgId, dave, 'admin');
 
-    const responses = await underBarrier(orgId, [
+    const responses = await underBarrier(db, orgId, [
       () => post(carol, `/orgs/${orgId}/invitations`, { email: 'same.person@example.test', role: 'member' }),
       () => post(dave, `/orgs/${orgId}/invitations`, { email: 'Same.Person@example.test', role: 'admin' }),
     ]);

@@ -35,6 +35,7 @@ import {
   createTestDatabase,
   inviteAs,
   person,
+  underBarrier,
   type PersonSpec,
   type SignedIn,
   type TestApi,
@@ -504,14 +505,21 @@ describe('M2-AC03 invitations through the API (simulated identities)', () => {
     expect(await apiAuditCount(db)).toBe(before + 2);
   });
 
-  it('M2-AC03/2 two tabs racing to accept one link: one joins, the other sees invitation.used under the row lock, and nothing answers 500', async () => {
+  it('M2-AC03/2 two tabs racing to accept one link through the org-lock barrier: one joins, the other sees invitation.used under the row lock, one membership row, and nothing answers 500', async () => {
     const orgId = await createOrgAs(api, carol, 'Two Tabs');
-    const { token } = await inviteAs(api, carol, orgId, ERIN.email);
-    const responses = await Promise.all([accept(erin, token), accept(erin, token)]);
+    const { invitationId, token } = await inviteAs(api, carol, orgId, ERIN.email);
+    // Both accepts pass the unlocked read and the address check, then wait on the org row the
+    // migrator holds; the barrier commits once both API backends wait, so they contend every time.
+    const responses = await underBarrier(db, orgId, [() => accept(erin, token), () => accept(erin, token)]);
     const statuses = responses.map((response) => response.statusCode).sort();
     expect(statuses).toEqual([200, 403]);
     const refused = responses.find((response) => response.statusCode === 403)!;
     expect(refused.json()).toEqual(errorBody('invitation.used'));
-    expect(await memberRow(orgId, ERIN.userId)).toMatchObject({ status: 'active', role: 'member' });
+    expect(await memberRow(orgId, ERIN.userId)).toMatchObject({ status: 'active', role: 'member', invitation_id: invitationId });
+    expect(
+      await asMigrator(db, 'SELECT 1 FROM app.org_members WHERE org_id = $1 AND user_id = $2', [orgId, ERIN.userId]),
+      'exactly one membership row',
+    ).toHaveLength(1);
+    expect(await invitationRow(invitationId)).toMatchObject({ status: 'accepted', accepted_by: ERIN.userId });
   });
 });
