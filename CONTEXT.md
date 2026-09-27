@@ -35,5 +35,6 @@ Capability (能力授予 / keupayaan): a review, finance or runtime-operations p
 Audit (审计 / audit): the append-only record of who did or was refused what, carrying no token, session id or stored address.
 Preferred language (偏好语言 / bahasa pilihan): the language a person explicitly chose, saved to their account when signed in and to this browser when not; skipping saves none.
 Suggested language (建议语言 / bahasa cadangan): the language offered from the browser's languages, or English, until a person chooses; never saved as a preference.
+Unsaved choice (未保存的选择 / pilihan belum disimpan): a language a signed-in person chose that the account does not yet hold, because the save failed; it decides the page on this browser until a retry saves it or the session ends, and is never carried to another device.
 
 Read canonical rules for exact values and transitions; this glossary does not redefine them.
