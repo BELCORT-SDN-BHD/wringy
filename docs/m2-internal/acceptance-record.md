@@ -573,7 +573,7 @@ below as **NOT EXECUTED**.
 | Runtime | Node 24.21.0 (root `.npmrc` `use-node-version`), pnpm 10.33.0; PostgreSQL 17.10 through embedded-postgres 17.10.0-beta.17 locally; Chromium only; Windows 11 |
 | Migration head | `0018_profiles_locale_grants` (`packages/db/src/expected-head.ts`) |
 | Commands | `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm depcruise`, `pnpm check:supabase-scope`, `pnpm canary`, `pnpm --filter @wringy/db test:int`, `pnpm --filter api test:int`, `pnpm --filter worker test:int`, `pnpm build`, `pnpm e2e:internal` (every project; `locale` runs beside `auth` and `orgs`), `pnpm --filter web e2e --workers=6` with `API_INTERNAL_URL` as `apps/web/.env.local` sets it, `pnpm check:acceptance`, `python -X utf8 scripts/check-planning.py`; results under "M2-04 gate runs" below |
-| Mapping | @@MAP@@ |
+| Mapping | `pnpm check:acceptance m2-01 m2-02 m2-03 m2-04` on `724ab2f`: 900 test names from 10 sources, all carrying `M2-AC`; M2-AC04/1 by 45 test names, M2-AC04/2 by 86, M2-AC04/3 by 17; plus the rows below |
 | R1's pre-merge pair count | `SELECT count(*) FROM app.profiles WHERE (locale_pref IS NULL) <> (locale_pref_set_at IS NULL)` has no deployed database to run on: the two Supabase projects hold only Auth, and the application database is the embedded cluster locally until M2-09 moves it to Supabase and Render. The only database that holds profile rows is the owner's local development cluster (`pnpm db:start`), and nothing has ever written either column there: `0008` gives neither a default, so every row a sign-in created holds NULL in both; `0010` kept the runtime role from writing them; and outside M2-04's own files and tests, no code in the tree names them. The population is known, so the count is 0 by construction; `0017`'s ALTER would refuse otherwise (23514) rather than leave a bad row. That cluster must be migrated to `0018` (`pnpm db:migrate`) before the API of this branch is started against it (docs/PROGRESS.md) |
 
 ### Rows (simulated identity, real PostgreSQL 17)
@@ -674,7 +674,26 @@ record's text should be amended at clock-out.
 
 ### M2-04 gate runs
 
-@@GATES@@
+All fifteen gates on `724ab2f` (the code of `1bcac9b`; the commit after it adds documentation only), run in
+sequence by an independent gate runner on 2026-09-27 19:21–19:37 +08:00, Windows 11, Node 24.21.0 through
+the root `.npmrc`, pnpm 10.33.0, embedded clusters (no `TEST_DATABASE_URL`). Local only; CI runs when the
+branch is pushed. No suite changed a tracked file.
+
+| Gate | Command | Result |
+|---|---|---|
+| Types | `pnpm typecheck` | exit 0 |
+| Lint | `pnpm lint` | exit 0 |
+| Unit | `pnpm test` | exit 0: contracts 56, config 33, db 96, worker 25, api 59, web 636 (51 files) |
+| Dependency direction | `pnpm depcruise` | PASS: 489 modules, 2352 dependencies; the four planted violations rejected, each by its rule |
+| Supabase client scope | `pnpm check:supabase-scope` | PASS: 320 files; both plants rejected |
+| Acceptance mapping | `pnpm check:acceptance` (`m2-01 m2-02 m2-03 m2-04`) | PASS: 900 names from 10 sources; M2-AC04/1 45, /2 86, /3 17 tests; every M2-AC02 sub-item has its record row; no unconditional run-time skip in 94 files |
+| Planning | `python -X utf8 scripts/check-planning.py` | exit 0: 5 specifications, 60 tasks, acyclic |
+| Integration | `pnpm --filter @wringy/db test:int`, `pnpm --filter api test:int`, `pnpm --filter worker test:int` | exit 0: db 104 (15 files, 20 s), api 111 passed and 1 skipped (17 files; the SIGTERM test skips on win32; 47 s), worker 15 (5 files, 23 s) |
+| Build | `pnpm build` | exit 0: 35 web routes |
+| Secret canary | `pnpm canary` | PASS: 19 variables covered; 0 canary values in `.next/static` (70 files), `.next/server` (1025), the rest of `.next` (1932), both bundles, and the api and worker startup logs |
+| Internal-build suite | `pnpm e2e:internal` | 107 passed, 4 skipped (viewport scoping), 0 failed, 1.9 min; the `auth`, `orgs`, `locale`, `mobile`, `web-outage` and `database-outage` projects together (111 tests) |
+| M1 demo suite | `cd apps/web && API_INTERNAL_URL=http://127.0.0.1:3200 pnpm e2e --workers=6` | 327 passed, 33 skipped, 0 failed, 6.5 min |
+| Whitespace | `git diff --check` | clean |
 
 ## W5 adversarial review
 
