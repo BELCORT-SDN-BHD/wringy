@@ -10,7 +10,7 @@
  * | Cookie                  | Meaning                                                      | httpOnly |
  * |-------------------------|--------------------------------------------------------------|----------|
  * | `wringy-locale`         | the guest's explicit saved preference (a signed-out choose)   | no       |
- * | `wringy-locale-session` | an explicit choice the signed-in account does not yet hold    | yes      |
+ * | `wringy-locale-session` | an explicit choice the signed-in account does not yet hold, with the instant it was made (`<locale>.<epoch ms>`) | yes |
  * | `wringy-locale-carry`   | the choice made on the sign-in page, for the sign-in that starts now (10 min, `/auth`) | yes |
  * | `wringy-locale-prompt`  | the first-visit prompt was answered or skipped this browsing session | yes |
  *
@@ -32,7 +32,7 @@
  * sign-in page is carried only by a sign-in that starts within ten minutes.
  */
 
-import { LOCALE_COOKIE, type Locale } from '@/i18n/config';
+import { isLocale, LOCALE_COOKIE, type Locale } from '@/i18n/config';
 import { AUTH_NEXT_COOKIE_MAX_AGE_SECONDS, AUTH_NEXT_COOKIE_PATH } from '@/lib/auth/wire';
 
 /** The guest's explicit saved preference. The same cookie the demo writes. */
@@ -86,9 +86,49 @@ export function writeGuestChoice(jar: CookieWriter, locale: Locale, secure: bool
   jar.set(GUEST_LOCALE_COOKIE, locale, guestLocaleCookieOptions(secure));
 }
 
-/** A signed-in choice the account could not take (R4), or a carry that failed (R6). */
+/**
+ * The unsaved choice as the cookie holds it: the locale and the instant it was
+ * made, `<locale>.<epoch ms>` on this web host's clock (e.g. `ms-MY.1790000000000`).
+ *
+ * The instant is what lets a newer explicit choice outrank it (`resolve.ts`): a
+ * render cannot expire a cookie, so a choice that failed to save here and was
+ * then overtaken by a save on another device would otherwise decide this
+ * browser's page again — with a Retry that writes the older choice over the
+ * newer one. It is compared with `profiles.locale_pref_set_at`, the database's
+ * clock; skew between the two hosts can misorder only choices made within that
+ * skew of each other, a display preference off by seconds at most.
+ */
+export interface UnsavedChoice {
+  readonly locale: Locale;
+  /** Epoch milliseconds when this browser's choice was made. */
+  readonly at: number;
+}
+
+export function unsavedChoiceValue({ locale, at }: UnsavedChoice): string {
+  return `${locale}.${Math.trunc(at)}`;
+}
+
+/** The stamp's digits: a non-negative whole number of milliseconds. */
+const EPOCH_MS = /^\d{1,15}$/;
+
+/**
+ * A raw `wringy-locale-session` value, read back. Unstamped (a value written
+ * before the stamp existed), malformed or naming no locale is `null`, which
+ * counts as absent: a choice of unknown age never outranks the account.
+ */
+export function readUnsavedChoice(raw: string | null | undefined): UnsavedChoice | null {
+  if (typeof raw !== 'string') return null;
+  const dot = raw.indexOf('.');
+  if (dot < 0) return null;
+  const locale = raw.slice(0, dot);
+  const stamp = raw.slice(dot + 1);
+  if (!isLocale(locale) || !EPOCH_MS.test(stamp)) return null;
+  return { locale, at: Number(stamp) };
+}
+
+/** A signed-in choice the account could not take (R4), or a carry that failed (R6), stamped now. */
 export function writeUnsaved(jar: CookieWriter, locale: Locale, secure: boolean): void {
-  jar.set(LOCALE_SESSION_COOKIE, locale, sessionChoiceCookieOptions(secure));
+  jar.set(LOCALE_SESSION_COOKIE, unsavedChoiceValue({ locale, at: Date.now() }), sessionChoiceCookieOptions(secure));
 }
 
 /** The account holds the choice now, or the session it belonged to has ended (R4, R6). */
@@ -124,7 +164,11 @@ export function unsavedExpiry(secure: boolean): { name: string; value: string; o
   return { name: LOCALE_SESSION_COOKIE, value: '', options: { ...sessionChoiceCookieOptions(secure), maxAge: 0 } };
 }
 
-/** The raw language cookies a request arrived with. Values are unchecked: `resolveLocale` reads each through `isLocale`. */
+/**
+ * The raw language cookies a request arrived with. Values are unchecked:
+ * `resolveLocale` reads the guest's through `isLocale` and the session choice
+ * through `readUnsavedChoice`.
+ */
 export interface LocaleCookies {
   readonly sessionChoice: string | undefined;
   readonly guestChoice: string | undefined;

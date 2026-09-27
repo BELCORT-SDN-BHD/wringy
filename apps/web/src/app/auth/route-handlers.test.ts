@@ -811,12 +811,20 @@ describe('M2-AC04/2 carry: the sign-in page’s choice is carried into the accou
       incoming.set('wringy-locale-carry', 'zh-Hans-MY');
       stubSignIn(() => json(200, { profile: PROFILE }), answer);
 
+      const before = Date.now();
       const response = await callback(get('/auth/callback?code=abc'));
+      const after = Date.now();
 
       const url = landing(response);
       expect(url.searchParams.get('outcome')).toBe('locale_not_saved');
       expect(url.searchParams.get('from')).toBeNull();
-      expect(setCookieOf(response, 'wringy-locale-session')).toMatchObject({ value: 'zh-Hans-MY', httpOnly: true, path: '/' });
+      expect(setCookieOf(response, 'wringy-locale-session')).toMatchObject({ httpOnly: true, path: '/' });
+      // The unsaved choice carries the instant it was made (N1): `<locale>.<epoch ms>`.
+      const [locale, stamp] = String(setCookieOf(response, 'wringy-locale-session')?.value).split('.');
+      expect(locale).toBe('zh-Hans-MY');
+      expect(stamp).toMatch(/^\d+$/);
+      expect(Number(stamp)).toBeGreaterThanOrEqual(before);
+      expect(Number(stamp)).toBeLessThanOrEqual(after);
       expect(expiresCookie(response, 'wringy-locale-carry')).toBe(true);
       expect(setCookieOf(response, SESSION_COOKIE)?.value, 'the person is signed in all the same').toBe('new-session');
     }

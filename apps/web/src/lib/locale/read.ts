@@ -65,23 +65,38 @@ export const readMe = cache(
     apiFetch('/me', { baseUrl, token, schema: meResponseSchema }),
 );
 
-/** The preference a `/me` answer carries; any failure is `'unknown'`, never "none". */
-export function accountPreferenceOf(result: ApiResult<MeResponse>): AccountPreference {
-  return result.kind === 'ok' ? result.data.profile.localePref : 'unknown';
+/**
+ * What the account read says about the language: the preference, and the instant
+ * it was set (`localePrefSetAt`), which the resolution compares with an unsaved
+ * choice's stamp so the newer explicit choice decides.
+ */
+export interface AccountLanguage {
+  readonly preference: AccountPreference;
+  readonly setAt: string | null;
 }
 
-/** The preference, or `'unknown'` once `budgetMs` has passed. The read is not cancelled. */
-export async function accountPreferenceWithin(
+/** Nothing known about the account: no token, a failed read, or one that ran out of time. */
+export const UNKNOWN_ACCOUNT: AccountLanguage = { preference: 'unknown', setAt: null };
+
+/** The language a `/me` answer carries; any failure is `'unknown'`, never "none". */
+export function accountLanguageOf(result: ApiResult<MeResponse>): AccountLanguage {
+  if (result.kind !== 'ok') return UNKNOWN_ACCOUNT;
+  const { localePref, localePrefSetAt } = result.data.profile;
+  return { preference: localePref, setAt: localePrefSetAt };
+}
+
+/** The account's language, or `UNKNOWN_ACCOUNT` once `budgetMs` has passed. The read is not cancelled. */
+export async function accountLanguageWithin(
   read: Promise<ApiResult<MeResponse>>,
   budgetMs: number = ACCOUNT_READ_BUDGET_MS,
-): Promise<AccountPreference> {
+): Promise<AccountLanguage> {
   let timer: ReturnType<typeof setTimeout> | undefined;
-  const expired = new Promise<AccountPreference>((resolve) => {
-    timer = setTimeout(() => resolve('unknown'), budgetMs);
+  const expired = new Promise<AccountLanguage>((resolve) => {
+    timer = setTimeout(() => resolve(UNKNOWN_ACCOUNT), budgetMs);
     (timer as { unref?: () => void }).unref?.();
   });
   try {
-    return await Promise.race([read.then(accountPreferenceOf), expired]);
+    return await Promise.race([read.then(accountLanguageOf), expired]);
   } finally {
     clearTimeout(timer);
   }
@@ -92,15 +107,15 @@ export const resolveInternalLocale = cache(async (): Promise<ResolvedLocale> => 
   const [jar, requestHeaders, token] = await Promise.all([cookies(), headers(), accessTokenFromHeaders()]);
   const env = internalAuthEnv();
 
-  const accountPreference: AccountPreference =
-    token !== null && env.ok ? await accountPreferenceWithin(readMe(token, env.env.apiInternalUrl)) : 'unknown';
+  const account = token !== null && env.ok ? await accountLanguageWithin(readMe(token, env.env.apiInternalUrl)) : UNKNOWN_ACCOUNT;
   const stored = readLocaleCookies((name) => jar.get(name)?.value);
 
   return resolveLocale({
     signedIn: token !== null,
     holdsSessionCookie: env.ok && holdsSessionCookie(env.env.supabaseUrl, jar.getAll()),
     sessionChoice: stored.sessionChoice,
-    accountPreference,
+    accountPreference: account.preference,
+    accountPreferenceSetAt: account.setAt,
     guestChoice: stored.guestChoice,
     acceptLanguage: requestHeaders.get('accept-language'),
     promptDone: stored.promptDone,

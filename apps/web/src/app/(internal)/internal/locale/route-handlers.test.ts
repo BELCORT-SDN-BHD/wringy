@@ -23,6 +23,7 @@ vi.mock('next/headers', () => ({
 
 const { POST: switchLocale, asksForJson, reasonOf, returnPathname } = await import('./route');
 const { rendersSignedOut } = await import('@/lib/auth/internal-paths');
+const { readUnsavedChoice } = await import('@/lib/locale/cookies');
 
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const API = 'http://127.0.0.1:3200';
@@ -113,6 +114,12 @@ const setCookieNames = (response: Response) =>
 const isExpiry = (response: Response, name: string) => {
   const set = cookie(response, name);
   return set !== undefined && set.value === '' && set.maxAge === 0;
+};
+
+/** The unsaved choice `response` writes, read back through its stamp (`<locale>.<epoch ms>`), or null. */
+const unsavedWritten = (response: Response) => {
+  const value = cookie(response, 'wringy-locale-session')?.value;
+  return readUnsavedChoice(typeof value === 'string' ? value : undefined);
 };
 
 function expectNoStore(response: Response, label = ''): void {
@@ -358,16 +365,19 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
       signIn();
       stubApi(answer);
 
+      const before = Date.now();
       const response = await switchLocale(post(choose('ms-MY')));
+      const after = Date.now();
 
       expect(response.status, reason).toBe(200);
       expect(await response.json(), reason).toEqual({ switched: true, locale: 'ms-MY', scope: 'account', saved: false, reason });
-      expect(cookie(response, 'wringy-locale-session'), reason).toMatchObject({
-        value: 'ms-MY',
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-      });
+      expect(cookie(response, 'wringy-locale-session'), reason).toMatchObject({ httpOnly: true, sameSite: 'lax', path: '/' });
+      // Stamped with the instant of this choice (N1), so a newer save to the account on any device outranks it.
+      expect(cookie(response, 'wringy-locale-session')?.value, reason).toMatch(/^ms-MY\.\d+$/);
+      const written = unsavedWritten(response);
+      expect(written?.locale, reason).toBe('ms-MY');
+      expect(written?.at, reason).toBeGreaterThanOrEqual(before);
+      expect(written?.at, reason).toBeLessThanOrEqual(after);
       expect(cookie(response, 'wringy-locale-session')?.maxAge, 'a browsing-session cookie').toBeUndefined();
       expect(cookie(response, 'wringy-locale'), reason).toBeUndefined();
       expect(cookie(response, 'wringy-locale-prompt')?.value, reason).toBe('1');
@@ -382,7 +392,7 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
     const response = await switchLocale(post(choose('ms-MY')));
 
     expect(await response.json()).toMatchObject({ saved: false, reason: 'unexpected' });
-    expect(cookie(response, 'wringy-locale-session')?.value).toBe('ms-MY');
+    expect(unsavedWritten(response)?.locale).toBe('ms-MY');
   });
 
   it('M2-AC04/2 locale handler: a 401 is session_ended as JSON and locale_not_saved as a form — never the org copy that says nothing changed', async () => {
@@ -393,13 +403,13 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
       stubApi(refusal(401, code));
       const asJson = await switchLocale(post(choose('ms-MY')));
       expect(await asJson.json(), code).toMatchObject({ saved: false, reason: 'session_ended' });
-      expect(cookie(asJson, 'wringy-locale-session')?.value, code).toBe('ms-MY');
+      expect(unsavedWritten(asJson)?.locale, code).toBe('ms-MY');
 
       stubApi(refusal(401, code));
       const asForm = await switchLocale(post(choose('ms-MY', '/internal'), { mode: 'form' }));
       expect(asForm.status, code).toBe(303);
       expect(asForm.headers.get('location'), code).toBe(`${APP_ORIGIN}/internal?outcome=locale_not_saved`);
-      expect(cookie(asForm, 'wringy-locale-session')?.value, code).toBe('ms-MY');
+      expect(unsavedWritten(asForm)?.locale, code).toBe('ms-MY');
     }
   });
 

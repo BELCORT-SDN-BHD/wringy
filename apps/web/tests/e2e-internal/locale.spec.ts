@@ -719,7 +719,9 @@ for (const locale of LOCALES) {
         await expectInNamedRegion(unsavedNotice(phone.page), next);
         await expect(phone.page.getByTestId('locale-status-retry')).toBeVisible();
         expect(await readAccountPreference(FIONA.id), 'the row is unchanged').toEqual(saved);
-        expect((await localeCookies(phone.context))[LOCALE_COOKIES.session]).toBe(next);
+        expect((await localeCookies(phone.context))[LOCALE_COOKIES.session], 'the choice, stamped with its instant').toMatch(
+          new RegExp(`^${next}\\.\\d+$`),
+        );
 
         // Reload: the language and the notice come from the cookie, not from client state.
         await phone.page.reload();
@@ -788,6 +790,53 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
     await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('zh-Hans-MY');
 
     expect(problems).toEqual([]);
+  });
+
+  /**
+   * N1: a render cannot expire a cookie, so an unsaved choice that another device
+   * has since overtaken would decide this browser's page again — "not saved", with
+   * a Retry that writes the older choice over the newer one. The cookie carries the
+   * instant it was made, and a later `locale_pref_set_at` wins.
+   */
+  test('M2-AC04/2 simulated spent unsaved choice: Malay that failed to save on the phone is overtaken by the laptop saving Malay, then Chinese, and never comes back on the phone as "not saved"', async ({
+    openDevice,
+  }) => {
+    test.setTimeout(120_000);
+    await setAccountPreference(FIONA, 'en-MY');
+
+    // The phone: saving Malay fails, so the phone holds it as an unsaved choice, stamped when it was made.
+    const phone = await openDevice('phone');
+    const phoneProblems = watchConsole(phone.page);
+    await signInFrom(phone.page, 'fiona');
+    await expectBodyLocale(phone.page, 'en-MY', 'account');
+    await phone.control.failNext(phone.tag, 'user', 500, 'unexpected_failure');
+    await switchInHeader(phone.page, 'ms-MY');
+    await expectBodyLocale(phone.page, 'ms-MY', 'session');
+    await expect(unsavedNotice(phone.page)).toHaveAttribute('data-locale', 'ms-MY');
+    expect((await localeCookies(phone.context))[LOCALE_COOKIES.session]).toMatch(/^ms-MY\.\d+$/);
+
+    // The laptop saves Malay: the account now holds the phone's choice, so the phone's next render says nothing unsaved.
+    const laptop = await openDevice('laptop');
+    const laptopProblems = watchConsole(laptop.page);
+    await signInFrom(laptop.page, 'fiona');
+    await switchInHeader(laptop.page, 'ms-MY');
+    await expectBodyLocale(laptop.page, 'ms-MY', 'account');
+    await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('ms-MY');
+    await phone.page.reload();
+    await expectBodyLocale(phone.page, 'ms-MY', 'account');
+    await expect(unsavedNotice(phone.page)).toHaveCount(0);
+
+    // The laptop then saves Chinese: the phone follows the account, and its spent Malay stays spent.
+    await switchInHeader(laptop.page, 'zh-Hans-MY');
+    await expectBodyLocale(laptop.page, 'zh-Hans-MY', 'account');
+    await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('zh-Hans-MY');
+    await phone.page.reload();
+    await expectBodyLocale(phone.page, 'zh-Hans-MY', 'account');
+    await expect(unsavedNotice(phone.page), 'no "not saved" for a choice the account has moved past').toHaveCount(0);
+    await expect(phone.page.getByTestId('locale-status-retry'), 'and no Retry that would write it back').toHaveCount(0);
+    expect((await readAccountPreference(FIONA.id))?.localePref, 'nothing wrote the older choice back').toBe('zh-Hans-MY');
+
+    expect([...phoneProblems, ...laptopProblems]).toEqual([]);
   });
 
   test('M2-AC04/2 simulated refused storage (mocked handler answer): when the browser keeps no cookie from a guest choice, the page says so and stays in one language', async ({

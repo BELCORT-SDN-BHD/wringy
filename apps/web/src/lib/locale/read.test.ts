@@ -32,7 +32,7 @@ vi.mock('next/headers', () => ({
   headers: () => Promise.resolve(request.headers),
 }));
 
-const { ACCOUNT_READ_BUDGET_MS, accountPreferenceOf, accountPreferenceWithin, readMe, resolveInternalLocale } =
+const { ACCOUNT_READ_BUDGET_MS, UNKNOWN_ACCOUNT, accountLanguageOf, accountLanguageWithin, readMe, resolveInternalLocale } =
   await import('./read');
 
 const PROFILE = {
@@ -89,27 +89,27 @@ describe('M2-AC04/1 API stalled: the language does not wait for a slow account r
     vi.useFakeTimers();
     const never = new Promise<ApiResult<MeResponse>>(() => {});
     let settled: unknown = 'pending';
-    void accountPreferenceWithin(never).then((value) => {
+    void accountLanguageWithin(never).then((value) => {
       settled = value;
     });
 
     await vi.advanceTimersByTimeAsync(ACCOUNT_READ_BUDGET_MS - 1);
     expect(settled).toBe('pending');
     await vi.advanceTimersByTimeAsync(1);
-    expect(settled).toBe('unknown');
+    expect(settled).toEqual({ preference: 'unknown', setAt: null });
     expect(ACCOUNT_READ_BUDGET_MS).toBe(1_500);
   });
 
-  it('M2-AC04/1 API stalled: an answer inside the budget is the account’s preference, a refusal or a failure is unknown', async () => {
-    const ok = (localePref: string | null) =>
-      Promise.resolve({ kind: 'ok', data: { ...ME, profile: { ...PROFILE, localePref } } } as ApiResult<MeResponse>);
-    expect(await accountPreferenceWithin(ok('ms-MY'))).toBe('ms-MY');
-    expect(await accountPreferenceWithin(ok(null))).toBeNull();
+  it('M2-AC04/1 API stalled: an answer inside the budget is the account’s preference and its instant, a refusal or a failure is unknown', async () => {
+    const ok = (localePref: string | null, localePrefSetAt: string | null) =>
+      Promise.resolve({ kind: 'ok', data: { ...ME, profile: { ...PROFILE, localePref, localePrefSetAt } } } as ApiResult<MeResponse>);
+    expect(await accountLanguageWithin(ok('ms-MY', PROFILE.localePrefSetAt))).toEqual({ preference: 'ms-MY', setAt: PROFILE.localePrefSetAt });
+    expect(await accountLanguageWithin(ok(null, null))).toEqual({ preference: null, setAt: null });
 
-    expect(accountPreferenceOf({ kind: 'error', status: 401, code: 'auth.expired' })).toBe('unknown');
-    expect(accountPreferenceOf({ kind: 'error', status: 403, code: 'account.disabled' })).toBe('unknown');
+    expect(accountLanguageOf({ kind: 'error', status: 401, code: 'auth.expired' })).toEqual(UNKNOWN_ACCOUNT);
+    expect(accountLanguageOf({ kind: 'error', status: 403, code: 'account.disabled' })).toEqual(UNKNOWN_ACCOUNT);
     for (const failure of ['api-unavailable', 'api-unreachable', 'unexpected'] as const) {
-      expect(accountPreferenceOf({ kind: 'failure', failure }), failure).toBe('unknown');
+      expect(accountLanguageOf({ kind: 'failure', failure }), failure).toEqual({ preference: 'unknown', setAt: null });
     }
   });
 
@@ -119,23 +119,26 @@ describe('M2-AC04/1 API stalled: the language does not wait for a slow account r
     const read = readMe('token-for-the-simulated-caller', base);
 
     const started = performance.now();
-    const preference = await accountPreferenceWithin(read);
+    const account = await accountLanguageWithin(read);
     const waited = performance.now() - started;
 
-    expect(preference).toBe('unknown');
+    expect(account).toEqual(UNKNOWN_ACCOUNT);
     expect(waited).toBeGreaterThanOrEqual(ACCOUNT_READ_BUDGET_MS - 50);
     expect(waited).toBeLessThan(ACCOUNT_READ_BUDGET_MS + 1_000);
 
     // The race did not cancel the read: the page that awaits it gets the answer.
     const result = await read;
     expect(result.kind).toBe('ok');
-    expect(accountPreferenceOf(result)).toBe('ms-MY');
+    expect(accountLanguageOf(result).preference).toBe('ms-MY');
   }, 15_000);
 
   it('M2-AC04/1 API stalled: against a prompt API, the preference arrives well inside the budget', async () => {
     const base = await sleepyApi(0);
     const started = performance.now();
-    expect(await accountPreferenceWithin(readMe('token-for-the-simulated-caller', base))).toBe('ms-MY');
+    expect(await accountLanguageWithin(readMe('token-for-the-simulated-caller', base))).toEqual({
+      preference: 'ms-MY',
+      setAt: PROFILE.localePrefSetAt,
+    });
     expect(performance.now() - started).toBeLessThan(ACCOUNT_READ_BUDGET_MS);
   });
 
@@ -171,9 +174,24 @@ describe('M2-AC04/1 API stalled: the language does not wait for a slow account r
     const page = await pageRead;
     const pageAfter = performance.now() - started;
     expect(page.kind).toBe('ok');
-    expect(accountPreferenceOf(page)).toBe('ms-MY');
+    expect(accountLanguageOf(page).preference).toBe('ms-MY');
     expect(pageAfter).toBeGreaterThanOrEqual(3_000 - 50);
   }, 15_000);
+});
+
+describe('M2-AC04/2 account: the account read carries the instant the preference was set, so an older unsaved choice does not decide', () => {
+  it('M2-AC04/2 account: a stamped session choice older than the account’s localePrefSetAt yields to the account; a newer one decides', async () => {
+    const base = await sleepyApi(0);
+    stubInternalEnv(base);
+    request.headers = new Headers({ [ACCESS_TOKEN_HEADER]: 'token-for-the-simulated-caller' });
+    const accountSetAt = Date.parse(PROFILE.localePrefSetAt); // the account holds ms-MY since then
+
+    request.cookies.set('wringy-locale-session', `zh-Hans-MY.${accountSetAt - 1}`);
+    expect(await resolveInternalLocale()).toMatchObject({ locale: 'ms-MY', source: 'account', unsaved: null });
+
+    request.cookies.set('wringy-locale-session', `zh-Hans-MY.${accountSetAt + 1}`);
+    expect(await resolveInternalLocale()).toMatchObject({ locale: 'zh-Hans-MY', source: 'session', unsaved: 'zh-Hans-MY' });
+  });
 });
 
 describe('M2-AC04/1 prompt: the sign-in and not-found pages do not ask a browser that holds a session', () => {
