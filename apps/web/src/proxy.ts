@@ -97,8 +97,8 @@ import {
 } from '@/lib/auth/outcomes';
 import {
   createRequestSupabase,
+  holdsSessionCookie,
   isSecureOrigin,
-  isSessionCookieName,
   isSupabaseAuthCookie,
   readStoredAccessToken,
   sessionCookieOptions,
@@ -353,7 +353,7 @@ async function refreshAndForward(
   // The session cookie itself, not any `sb-*` cookie: an abandoned sign-in leaves
   // `sb-<ref>-auth-token-code-verifier` behind for the library's fixed 400 days,
   // and a browser that only started a sign-in never had a session to end.
-  const hadSessionCookie = request.cookies.getAll().some(({ name }) => isSessionCookieName(supabaseUrl, name));
+  const hadSessionCookie = holdsSessionCookie(supabaseUrl, request.cookies.getAll());
   const secure = isSecureOrigin(appOrigin);
   const written: BufferedCookie[] = [];
 

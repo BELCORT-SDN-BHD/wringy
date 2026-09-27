@@ -70,8 +70,8 @@ import { apiFetch, type ApiResult } from '@/lib/auth/api-client';
 import { safeNextPath } from '@/lib/auth/next-path';
 import { noStore } from '@/lib/auth/no-store';
 import { SIGN_IN_PATH } from '@/lib/auth/outcomes';
-import { cookieJar, errorResponse, guardRequest, seeOther, type CookieJar } from '@/lib/auth/route-support';
-import { isSecureOrigin, isSessionCookieName, readStoredAccessToken } from '@/lib/auth/supabase-server';
+import { cookieJar, errorResponse, guardRequest, seeOther } from '@/lib/auth/route-support';
+import { holdsSessionCookie, isSecureOrigin, readStoredAccessToken } from '@/lib/auth/supabase-server';
 import { expireUnsaved, writeCarry, writeGuestChoice, writePromptDone, writeUnsaved } from '@/lib/locale/cookies';
 
 import type { SkippedBody, SwitchedBody, SwitchReason } from '../locale-switch-logic';
@@ -174,7 +174,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const chosen = locale as Locale;
   // The page that posted decides: a page rendered signed out never saves to the account whose cookie arrived.
-  if (rendersSignedOut(next) || !(await signedIn(jar, supabaseUrl))) {
+  if (rendersSignedOut(next) || !holdsSessionCookie(supabaseUrl, (await jar.adapter.getAll()) ?? [])) {
     writeGuestChoice(jar, chosen, secure);
     writeCarry(jar, chosen, secure);
     expireUnsaved(jar, secure);
@@ -204,10 +204,4 @@ export async function POST(request: Request): Promise<NextResponse> {
   if (json) return reply({ switched: true, locale: chosen, scope: 'account', saved: false, reason });
   if (reason === 'account_disabled') return jar.applyTo(seeOther(END_SESSION_PATH, appOrigin));
   return backTo('locale_not_saved');
-}
-
-/** Whether the browser holds this project's session cookie: the signed-in branch, whatever the token then says. */
-async function signedIn(jar: CookieJar, supabaseUrl: string): Promise<boolean> {
-  const cookies = (await jar.adapter.getAll()) ?? [];
-  return cookies.some(({ name }) => isSessionCookieName(supabaseUrl, name));
 }

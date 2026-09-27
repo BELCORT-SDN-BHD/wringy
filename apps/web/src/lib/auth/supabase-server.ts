@@ -243,6 +243,19 @@ export function isSessionCookieName(supabaseUrl: string, name: string): boolean 
   return name.startsWith(`${key}.`) && /^\d+$/.test(name.slice(key.length + 1));
 }
 
+/**
+ * Whether `cookies` holds this project's session cookie, whole or chunked
+ * (`isSessionCookieName`): somebody may be signed in on this browser, verified or
+ * not. The one spelling of that question for its three askers, so they cannot
+ * drift apart on what counts: `proxy.ts` (did a session end, or was there none?),
+ * `POST /internal/locale` (is there an account to try?) and the language
+ * resolution (may the prompt ask?).
+ */
+export function holdsSessionCookie(supabaseUrl: string, cookies: Iterable<{ readonly name: string }>): boolean {
+  for (const { name } of cookies) if (isSessionCookieName(supabaseUrl, name)) return true;
+  return false;
+}
+
 /** `base64url`-encoded cookie values carry this prefix; a plain JSON value carries none. */
 const BASE64_PREFIX = 'base64-';
 
