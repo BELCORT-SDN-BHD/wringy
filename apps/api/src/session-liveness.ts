@@ -163,23 +163,33 @@ export const NOT_LIVE_REFUSAL = {
   unavailable: { status: 503, code: 'session_check_unavailable' },
 } as const satisfies Record<Exclude<LivenessResult, 'live'>, { status: number; code: ErrorCode }>;
 
-/** Sends the refusal, or returns undefined when the session is live. */
-function refuseUnlessLive(reply: FastifyReply, state: LivenessResult): FastifyReply | undefined {
-  if (state === 'live') return undefined;
+/**
+ * Sends the refusal and answers `true`, or answers `false` when the session is
+ * live. Never the reply itself: a Fastify reply is a thenable, so an async
+ * function that returned it would resolve to `undefined` once the reply was
+ * sent, and a caller that awaited the guard could not tell a refusal from a
+ * pass (found by M2-04: the probe carried on after its 401).
+ */
+function refuseUnlessLive(reply: FastifyReply, state: LivenessResult): boolean {
+  if (state === 'live') return false;
   const { status, code } = NOT_LIVE_REFUSAL[state];
-  return reply.code(status).send(errorBody(code));
+  reply.code(status).send(errorBody(code));
+  return true;
 }
 
 /**
- * Refuses a request whose session is no longer live. Returning the reply from a
- * hook or a handler stops the route there; undefined means carry on.
+ * Refuses a request whose session is no longer live. Resolves `true` when it
+ * refused (the 401 or 503 is already sent, and the caller must stop: return
+ * without writing, or throw so its transaction rolls back), `false` when the
+ * session is live. As a preHandler the value is not read: Fastify stops the
+ * route because the reply has been sent.
  */
 export type LiveSessionGuard = (
   request: FastifyRequest,
   reply: FastifyReply,
   /** The command's transaction client, when it has one open. */
   client?: LivenessClient,
-) => Promise<FastifyReply | undefined>;
+) => Promise<boolean>;
 
 /**
  * The guard §4.6 asks for. Given a command's transaction client it asks on that

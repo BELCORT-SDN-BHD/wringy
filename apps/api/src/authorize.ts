@@ -477,7 +477,11 @@ export async function runRead<T>(
 
 /**
  * A preHandler: returns undefined to let the route run, or the reply it sent.
- * The same shape as `LiveSessionGuard`, so a route can list both.
+ * Only ever a preHandler: Fastify stops the chain because the reply has been
+ * sent, whatever the hook resolves to, so a route can list it beside
+ * `requireLiveSession`. Awaited inside a handler it would resolve to undefined
+ * either way (a reply is a thenable), which is why `LiveSessionGuard` resolves
+ * a boolean instead (found by M2-04).
  */
 export type CapabilityGuard = (request: FastifyRequest, reply: FastifyReply) => Promise<FastifyReply | undefined>;
 

@@ -759,8 +759,12 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
       if (frame === page.mainFrame()) documents.push(new URL(frame.url()).pathname);
     });
 
-    // Past the two-second lifetime, so the tab's stored access token is expired.
-    await page.waitForTimeout(3_000);
+    // Past the two-second lifetime AND the API's five seconds of clock tolerance
+    // on `exp` (apps/api/src/authenticate.ts CLOCK_TOLERANCE_SECONDS), so the API
+    // itself refuses the tab's stored access token. Three seconds, as the M2-02
+    // rows wait, is enough for the web's own refresh but not for the API, which
+    // then accepts the token and saves (the first integration run found this).
+    await page.waitForTimeout(8_000);
     // Tokens minted from here on live an hour, so the session the refresh renews stays usable for Retry.
     await control.tokenLifetime(tag, 3600);
 

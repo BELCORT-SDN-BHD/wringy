@@ -134,8 +134,9 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
       const outcome = await withTransaction(pool, async (client) => {
         // The guard asks on this client, inside this transaction: nothing can be
         // signed out between the answer and the work the answer allows.
-        const refused = await liveSession(request, reply, client);
-        if (refused !== undefined) return { refused };
+        // `true` means the 401 or 503 is already sent: stop here, so nothing
+        // after the verdict runs (no lock, no clock read, no second send).
+        if (await liveSession(request, reply, client)) return { refused: reply };
         // And the account itself is re-read on the same client, with FOR SHARE:
         // the hook read the profile on another connection before this transaction
         // opened, so an operator disabling the account in between would otherwise
@@ -184,9 +185,10 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
           // Liveness on this client first, as every command asks it. The command
           // maps the verdict itself and throws, as runCommand and the sign-in do,
           // rather than using the probe's guard: a refusal here has to stop the
-          // work and roll the transaction back, and the guard's answer is a
-          // Fastify reply, which `await` resolves to undefined (a reply is a
-          // thenable), so it cannot tell the caller that it refused.
+          // work and roll the transaction back, and the guard sends its reply
+          // before this handler could answer anything else. (The guard used to
+          // resolve to the reply, which `await` turned into undefined because a
+          // reply is a thenable; it now resolves a boolean. Found by this command.)
           const state = await liveness.check(actor, client);
           if (state !== 'live') {
             const { status, code } = NOT_LIVE_REFUSAL[state];

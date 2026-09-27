@@ -174,6 +174,17 @@ is `revoked`: an absent or expired session row, or a 401/403 whose GoTrue `code`
 failure and a database that cannot be reached are all `unavailable`, and answer
 503 `session_check_unavailable`.
 
+A command asks in one of two ways, both on its own transaction client. Either
+it calls `liveness.check` and maps the verdict through `NOT_LIVE_REFUSAL`,
+throwing so the transaction rolls back (`runOrgCommand`, `POST /identity/sign-in`,
+`POST /me/locale`), or it calls the guard `requireLiveSession`, which sends the
+refusal itself and resolves `true`, after which the command must stop (the probe).
+The guard resolves a boolean, never the reply: a Fastify reply is a thenable, so
+an async guard that returned it resolved to `undefined` once the 401 was sent,
+and a command that awaited it carried on (found by M2-04; an integration row in
+`session-liveness.int.test.ts` proves a guarded command writes nothing and runs
+no further statement after a revoked verdict).
+
 ### Org scoping and locks
 
 `request.actor` is the verified caller and nothing else; which org a request acts

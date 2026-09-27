@@ -19,13 +19,15 @@ import type { SessionProbeResponse } from '@wringy/contracts';
 import {
   authServerLiveness,
   databaseLiveness,
+  requireLiveSession,
   type LivenessClient,
   type SessionLiveness,
 } from '../../src/session-liveness';
-import { createApiPool } from '../../src/database';
+import { createApiPool, withTransaction } from '../../src/database';
 import { errorBody } from '../../src/errors';
 import { createTestIdentity, fakeAuthUserServer, TEST_PUBLISHABLE_KEY, type FakeAuthUserServer, type TestIdentity } from './jwt-support';
 import {
+  asMigrator,
   buildTestApi,
   createTestDatabase,
   endSession,
@@ -348,5 +350,115 @@ describe('M2-AC02 every command asks the liveness question on its own transactio
     };
     expect(await port.check(actor)).toBe('unavailable');
     expect(log).toEqual([{ gotClient: false, midTransaction: false }]);
+  });
+});
+
+describe('M2-AC02 the liveness guard stops the command that awaits it (found by M2-04)', () => {
+  let db: TestDatabase;
+  let identity: TestIdentity;
+  let caller: SignedIn;
+
+  beforeAll(async () => {
+    db = await createTestDatabase();
+    identity = await createTestIdentity();
+    caller = await signedIn(db, identity);
+  });
+
+  afterAll(async () => {
+    await db?.drop();
+  });
+
+  /**
+   * A port that answers `revoked` on the command's own connection and, from that
+   * verdict on, records every statement the command sends on that connection.
+   * `arm` resets the record for the next request, so the BEGIN before the verdict
+   * is never counted. The wrapper goes on each client once; the pools are ended
+   * with the row.
+   */
+  function revokedAndWatching(): { liveness: SessionLiveness; after: string[]; arm(): void } {
+    const after: string[] = [];
+    const wrapped = new WeakSet<object>();
+    let armed = false;
+    const liveness: SessionLiveness = {
+      check: async (_actor, client) => {
+        if (client === undefined) throw new Error('the guard must ask on the command transaction client');
+        const target = client as unknown as { query: (...args: unknown[]) => unknown };
+        if (!wrapped.has(target)) {
+          wrapped.add(target);
+          const original = target.query.bind(target);
+          target.query = (...args: unknown[]) => {
+            if (armed) {
+              const [sql] = args;
+              after.push(typeof sql === 'string' ? sql : String((sql as { text?: unknown }).text));
+            }
+            return original(...args);
+          };
+        }
+        armed = true;
+        return 'revoked';
+      },
+    };
+    return {
+      liveness,
+      after,
+      arm: () => {
+        after.length = 0;
+        armed = false;
+      },
+    };
+  }
+
+  it('M2-AC02/2 revoked: after a revoked verdict from requireLiveSession, a guarded command writes nothing and runs no further statement, and neither does the probe (found by M2-04)', async () => {
+    const watch = revokedAndWatching();
+    const api = await buildTestApi(db.urls.api, { identity, liveness: watch.liveness });
+    const guard = requireLiveSession(watch.liveness);
+    const writePool = createApiPool(db.urls.api, () => {});
+    // A command in the shape me.ts documents for M3's fund-sensitive commands:
+    // the guard on the transaction client, then a write the runtime role may make.
+    api.app.register(async (scope) => {
+      scope.addHook('onRequest', scope.authenticate);
+      scope.post('/probe/guarded-write', async (request, reply) => {
+        await withTransaction(writePool, async (client) => {
+          if (await guard(request, reply, client)) return;
+          await client.query('UPDATE app.profiles SET display_name = $2 WHERE id = $1', [
+            caller.userId,
+            'written after a refusal',
+          ]);
+        });
+        return reply.sent ? reply : reply.code(200).send({ ok: true });
+      });
+    });
+    const profileRow = () =>
+      asMigrator<{ display_name: string | null; updated_at: Date }>(
+        db,
+        'SELECT display_name, updated_at FROM app.profiles WHERE id = $1',
+        [caller.userId],
+      );
+
+    try {
+      const before = await profileRow();
+      expect(before).toHaveLength(1);
+
+      watch.arm();
+      const write = await api.app.inject({ method: 'POST', url: '/probe/guarded-write', headers: caller.headers });
+      expect(write.statusCode).toBe(401);
+      expect(write.json()).toEqual(errorBody('session.revoked'));
+      // Only the transaction's end follows the verdict: the UPDATE never ran.
+      expect(watch.after).toEqual(['COMMIT']);
+      expect(await profileRow()).toEqual(before);
+
+      watch.arm();
+      const probe = await api.app.inject({ method: 'POST', url: '/me/session/probe', headers: caller.headers });
+      expect(probe.statusCode).toBe(401);
+      expect(probe.json()).toEqual(errorBody('session.revoked'));
+      // No `FOR SHARE` re-read and no clock read after the verdict.
+      expect(watch.after).toEqual(['COMMIT']);
+
+      // Fastify warns when a handler sends twice; before the fix the probe did.
+      expect(api.logs.records.filter((record) => Number(record.level) >= 40)).toEqual([]);
+    } finally {
+      await api.close();
+      await writePool.end().catch(() => {});
+    }
   });
 });

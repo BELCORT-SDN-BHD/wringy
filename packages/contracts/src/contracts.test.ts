@@ -187,7 +187,7 @@ describe('M2-AC02/2 identity responses are allow-lists', () => {
     }
   });
 
-  it('M2-AC02/2 strips unknown keys, so no token, session id or locale row leaks out', () => {
+  it('M2-AC02/2 strips unknown keys, so no token, session id or debug field leaks out', () => {
     const leaky = {
       profile: {
         ...profile,
@@ -205,7 +205,7 @@ describe('M2-AC02/2 identity responses are allow-lists', () => {
     }
   });
 
-  it('M2-AC02/2 profileSchema alone names six fields and nothing else', () => {
+  it('M2-AC02/2 profileSchema names eight fields and nothing else: the six of M2-02 and, since M2-04, localePref and localePrefSetAt', () => {
     expect(Object.keys(profileSchema.shape).sort()).toEqual([
       'contactEmail',
       'createdAt',
