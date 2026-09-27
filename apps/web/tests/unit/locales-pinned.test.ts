@@ -28,8 +28,8 @@ import { describe, expect, it } from 'vitest';
 
 import { LOCALES as DOMAIN_LOCALES } from '@/domain/types';
 
-describe('the three locales, named twice', () => {
-  it('apps/web/src/domain/types.ts LOCALES equals @wringy/contracts LOCALES', () => {
+describe('M2-AC04/1 the three codes: the two lists that name them', () => {
+  it('M2-AC04/1 the three codes: apps/web/src/domain/types.ts LOCALES equals @wringy/contracts LOCALES', () => {
     expect(DOMAIN_LOCALES).toEqual(CONTRACTS_LOCALES);
   });
 });
