@@ -97,7 +97,8 @@ export const SESSION_COOKIE_PREFIX = 'sb-';
  * way `NEXT_COOKIE` mirrors the return-path cookie.
  *
  * - `guest`: the guest's explicit saved preference (script-readable, one year);
- * - `session`: an explicit choice the signed-in account does not hold yet;
+ * - `session`: an explicit choice the signed-in account does not hold yet, as
+ *   `<locale>.<epoch ms>` (the instant it was made, so a newer account save wins);
  * - `carry`: the choice made on the sign-in page, for the sign-in that starts now
  *   (path `/auth`, ten minutes);
  * - `prompt`: the language prompt was answered or skipped in this browsing session.

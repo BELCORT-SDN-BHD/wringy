@@ -13,29 +13,47 @@
  *
  * - **`skip`** writes the prompt cookie and nothing else: a skip records no
  *   preference in any scope, so a signed-in skip leaves `locale_pref` NULL.
- * - **`choose`, signed out** (no session cookie for this project, **or a post
- *   from a page that renders signed out**, see below): the guest cookie, the
- *   carry cookie (for a sign-in that starts within ten minutes, R6), the prompt
- *   cookie; any `wringy-locale-session` is expired.
- * - **`choose`, signed in**: `POST /me/locale` with the stored token, read as the
- *   probe reads it (no refresh). On success the session-choice cookie is
- *   expired — the account holds the choice now — and the prompt cookie is set.
- *   On any failure `wringy-locale-session` is written instead (the language is
- *   switched, the preference is not saved) with the reason. The guest cookie is
- *   never written for a signed-in choice.
+ * - **`choose`, no session cookie** for this project: the guest's choice — the
+ *   guest cookie, the carry cookie (for a sign-in that starts within ten
+ *   minutes, R6), the prompt cookie; any `wringy-locale-session` is expired.
+ * - **`choose` with a session cookie**: `POST /me/locale` with the stored token,
+ *   read as the probe reads it (no refresh). On success the session-choice
+ *   cookie is expired — the account holds the choice now — and the prompt
+ *   cookie is set. On a failure, what happens depends on the page that posted
+ *   (below).
  *
- * ## The page that posted decides
+ * ## The page that posted decides the fallback; the API decides the account
  *
- * `proxy.ts` renders the sign-in page and the not-found page without a session
- * check, so they resolve as signed out whatever cookies the browser holds (R3).
- * A choice posted from one of them is the guest's, like everything else those
- * pages show: the handler never calls the API with the session cookie the
- * request arrived with, which on a shared device can be somebody else's, stale
- * or still valid. The choice lands in an account only through the carry cookie,
- * with the token of the sign-in that follows (R6). `next` names the page: the
- * sign-in path, the not-found path, or any path outside `/internal`, which the
- * proxy rewrites to the not-found page while the address bar — and so the
- * client's `usePathname()` — keeps what the visitor typed.
+ * A choice made inside a session is saved to that session's account at once,
+ * wherever it was made (the founder's ruling: a signed-in choice is saved). The
+ * API is what says whether there is such a session: the handler asks it with
+ * the token the browser holds and never guesses from the page.
+ *
+ * The page decides what happens when the API says no, and what a success must
+ * also write. `proxy.ts` renders the sign-in page, the not-found page, `/auth/…`
+ * and every path outside the build without a session check, so those pages
+ * resolve as signed out whatever the jar holds (R3); `rendersSignedOut`
+ * (`lib/auth/internal-paths.ts`, the module the proxy routes by) names them from
+ * `next`, which for a path the proxy rewrites is still what the address bar —
+ * and so the client's `usePathname()` — shows.
+ *
+ * - **An ordinary page**: a failure writes `wringy-locale-session` (the language
+ *   is switched, the preference is not saved, the page offers Retry) with the
+ *   reason. The guest cookie is never written for a signed-in choice.
+ * - **A page that renders signed out**: a success also writes the guest cookie,
+ *   because that page reads the guest's order and must switch too, and expires
+ *   any carry, which could only take an older choice into the next sign-in. A
+ *   refusal or failure of any kind (401, `session.revoked`, 403, 5xx,
+ *   unreachable, no usable token) is the guest's choice, exactly as with no
+ *   session cookie at all: guest, carry and prompt cookies, and never
+ *   `wringy-locale-session`, which such a page would never show — the choice
+ *   would be invisible and lost. It lands in an account only through the carry,
+ *   with the token of the sign-in that follows (R6).
+ *
+ * On a shared device the session in the jar may be somebody else's: a choice
+ * made over it is saved to that account, exactly as a header switch inside the
+ * same session on `/internal` would be (M2-02's accepted residual of a session
+ * left open). A stale or revoked one saves nothing: the API refuses it.
  *
  * ## JSON or a redirect
  *
@@ -49,7 +67,7 @@
  * echoes what this request wrote, so the client can tell a stale answer — or
  * `200 { skipped: true }`. Everything else is a form, answered 303 to `next` with
  * `?outcome=locale_saved | locale_switched | locale_not_saved`, or to
- * `/auth/end-session` for a disabled account.
+ * `/auth/end-session` for a disabled account on an ordinary page.
  *
  * `next` is reduced by `safeNextPath`, then to its **pathname**, then by
  * `safeNextPath` again: the query and the fragment are dropped, so an invitation
@@ -67,12 +85,12 @@ import { NextResponse } from 'next/server';
 import { setLocaleResponseSchema } from '@wringy/contracts';
 import { isLocale, type Locale } from '@/i18n/config';
 import { apiFetch, type ApiResult } from '@/lib/auth/api-client';
+import { rendersSignedOut } from '@/lib/auth/internal-paths';
 import { safeNextPath } from '@/lib/auth/next-path';
 import { noStore } from '@/lib/auth/no-store';
-import { SIGN_IN_PATH } from '@/lib/auth/outcomes';
-import { cookieJar, errorResponse, guardRequest, seeOther, type CookieJar } from '@/lib/auth/route-support';
-import { isSecureOrigin, isSessionCookieName, readStoredAccessToken } from '@/lib/auth/supabase-server';
-import { expireUnsaved, writeCarry, writeGuestChoice, writePromptDone, writeUnsaved } from '@/lib/locale/cookies';
+import { cookieJar, errorResponse, guardRequest, seeOther } from '@/lib/auth/route-support';
+import { holdsSessionCookie, isSecureOrigin, readStoredAccessToken } from '@/lib/auth/supabase-server';
+import { expireCarry, expireUnsaved, writeCarry, writeGuestChoice, writePromptDone, writeUnsaved } from '@/lib/locale/cookies';
 
 import type { SkippedBody, SwitchedBody, SwitchReason } from '../locale-switch-logic';
 import { END_SESSION_PATH } from '../org-paths';
@@ -100,19 +118,6 @@ export function asksForJson(request: HeaderBearing): boolean {
  */
 export function returnPathname(raw: string, appOrigin: string): string {
   return safeNextPath(new URL(safeNextPath(raw === '' ? null : raw), appOrigin).pathname);
-}
-
-/** The page `proxy.ts` rewrites every path outside `/internal` and `/auth` to (its `NOT_FOUND_PATH`). */
-const NOT_FOUND_PATH = '/internal/__not-found';
-
-/**
- * Whether the page at `pathname` renders signed out whatever the cookie jar holds:
- * the two pages the proxy passes through without a session check, and every path
- * outside `/internal`, which it rewrites to one of them.
- */
-export function rendersSignedOut(pathname: string): boolean {
-  if (pathname === SIGN_IN_PATH || pathname === NOT_FOUND_PATH) return true;
-  return pathname !== '/internal' && !pathname.startsWith('/internal/');
 }
 
 /** Why a signed-in save failed, or null when it did not (R4, R12). */
@@ -173,14 +178,19 @@ export async function POST(request: Request): Promise<NextResponse> {
   if (intent === 'skip') return json ? reply({ skipped: true }) : backTo(null);
 
   const chosen = locale as Locale;
-  // The page that posted decides: a page rendered signed out never saves to the account whose cookie arrived.
-  if (rendersSignedOut(next) || !(await signedIn(jar, supabaseUrl))) {
+
+  /** The guest's choice in this browser, carried into a sign-in that starts within ten minutes (R4, R6). */
+  const asGuest = (): NextResponse => {
     writeGuestChoice(jar, chosen, secure);
     writeCarry(jar, chosen, secure);
     expireUnsaved(jar, secure);
     return json ? reply({ switched: true, locale: chosen, scope: 'guest', saved: true }) : backTo('locale_switched');
-  }
+  };
 
+  if (!holdsSessionCookie(supabaseUrl, (await jar.adapter.getAll()) ?? [])) return asGuest();
+
+  // The API decides the account; the page that posted decides the fallback (see the header).
+  const signedOutPage = rendersSignedOut(next);
   const token = await readStoredAccessToken(supabaseUrl, (name) => jar.read(name));
   const reason =
     token === null
@@ -197,17 +207,20 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   if (reason === null) {
     expireUnsaved(jar, secure);
+    if (signedOutPage) {
+      // That page renders the guest's order, so it switches only through the guest cookie; an older carry would
+      // take a superseded choice into the next sign-in.
+      writeGuestChoice(jar, chosen, secure);
+      expireCarry(jar, secure);
+    }
     return json ? reply({ switched: true, locale: chosen, scope: 'account', saved: true }) : backTo('locale_saved');
   }
+
+  // A page rendered signed out never shows an unsaved choice: it would be invisible there, and lost.
+  if (signedOutPage) return asGuest();
 
   writeUnsaved(jar, chosen, secure);
   if (json) return reply({ switched: true, locale: chosen, scope: 'account', saved: false, reason });
   if (reason === 'account_disabled') return jar.applyTo(seeOther(END_SESSION_PATH, appOrigin));
   return backTo('locale_not_saved');
-}
-
-/** Whether the browser holds this project's session cookie: the signed-in branch, whatever the token then says. */
-async function signedIn(jar: CookieJar, supabaseUrl: string): Promise<boolean> {
-  const cookies = (await jar.adapter.getAll()) ?? [];
-  return cookies.some(({ name }) => isSessionCookieName(supabaseUrl, name));
 }

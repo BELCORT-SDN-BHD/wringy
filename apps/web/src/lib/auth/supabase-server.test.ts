@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   boundedFetch,
+  holdsSessionCookie,
   isSecureOrigin,
   isSessionCookieName,
   isSupabaseAuthCookie,
@@ -123,6 +124,17 @@ describe('M2-AC02/2 isolation: the probe reads the stored token without any refr
       // needs.
       if (verifier.startsWith('sb-')) expect(isSupabaseAuthCookie(verifier), verifier).toBe(true);
     }
+  });
+
+  it('M2-AC04/1 shared device: a jar holds a session cookie when any one of its cookies is the session, whole or a chunk of it', () => {
+    // The one test proxy.ts, POST /internal/locale and the language resolution all ask.
+    const jar = (...names: string[]) => names.map((name) => ({ name, value: 'v' }));
+    expect(holdsSessionCookie(SUPABASE_URL, jar(STORAGE_KEY))).toBe(true);
+    expect(holdsSessionCookie(SUPABASE_URL, jar('wringy-locale', `${STORAGE_KEY}.1`))).toBe(true);
+    expect(holdsSessionCookie(SUPABASE_URL, jar())).toBe(false);
+    expect(holdsSessionCookie(SUPABASE_URL, jar(`${STORAGE_KEY}-code-verifier`, 'sb-other-auth-token', 'wringy-locale-session'))).toBe(
+      false,
+    );
   });
 
   it('M2-AC02/2 isolation: reads the access token out of a base64url session cookie', async () => {

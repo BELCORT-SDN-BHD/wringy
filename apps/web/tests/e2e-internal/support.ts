@@ -163,7 +163,8 @@ export type LocaleSource = 'session' | 'account' | 'guest' | 'browser' | 'defaul
 /**
  * The locale cookies `context` holds, by name (fixtures.ts `LOCALE_COOKIES`); a
  * cookie it does not hold is absent from the result. The values are language
- * codes and the prompt flag, never a credential, so a failing row may print them.
+ * codes (the session choice's followed by its `.<epoch ms>` stamp) and the prompt
+ * flag, never a credential, so a failing row may print them.
  */
 export async function localeCookies(context: BrowserContext): Promise<Partial<Record<LocaleCookieName, string>>> {
   const names = new Set<string>(Object.values(LOCALE_COOKIES));

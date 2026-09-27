@@ -40,7 +40,8 @@
  * - saved: the landing URL carries `outcome=locale_synced` and
  *   `from=<previous preference | none>`, set through `searchParams`, and the page
  *   shows an undoable notice; not saved (a 401 included): `wringy-locale-session`
- *   keeps the choice for this browsing session and the outcome is
+ *   keeps the choice for this browsing session, stamped with the instant it was
+ *   made (`writeUnsaved`) so a newer save to the account outranks it, and the outcome is
  *   `locale_not_saved`; `account.disabled`: the new session is signed out again
  *   and the person is told the account is disabled, as for the sign-in itself;
  * - the carry cookie is **spent** by a sign-in the API let in (used, equal to the

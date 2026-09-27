@@ -7,11 +7,17 @@
  * cannot game the order:
  *
  * 1. `session` — `wringy-locale-session`, an explicit choice the account does
- *    not hold yet (a failed save or a failed carry). Read only when the request
- *    carries a token: a leftover with no session belongs to nobody. A value the
- *    account is known to hold already (saved since, on this device or another)
- *    is not unsaved: the account decides, so no notice says "not saved" beside a
- *    card that says "Saved".
+ *    not hold yet (a failed save or a failed carry), stamped with the instant it
+ *    was made (`cookies.ts` `readUnsavedChoice`). Read only when the request
+ *    carries a token: a leftover with no session belongs to nobody. It decides
+ *    only while it is the newest explicit choice: when the account's
+ *    `localePrefSetAt` is later than its stamp, somebody saved a newer choice
+ *    since, on another device or this one, and the account decides
+ *    (localization-v1 "新的明确选择优先"; the account is the truth). Otherwise a
+ *    render would bring a spent choice back as "not saved", and its Retry would
+ *    write the older choice over the newer one. A value the account is known to
+ *    hold already is not unsaved either: the account decides, so no notice says
+ *    "not saved" beside a card that says "Saved".
  * 2. `account` — the signed-in person's `profiles.locale_pref`. `'unknown'` when
  *    there is no token or the read failed or ran out of time: the order simply
  *    continues.
@@ -33,20 +39,24 @@
  *
  * The sign-in and not-found pages render without a token whatever the browser
  * holds (`read.ts`), so there the language resolves as a guest's, and `POST
- * /internal/locale` treats a choice made there the same way: the guest's,
- * carried only into the account of the sign-in that follows. A session cookie in
+ * /internal/locale` writes the guest cookie for every choice made there, so the
+ * page switches: saved to the account when the session the browser holds is live
+ * (the API decides), otherwise the guest's, carried only into the account of the
+ * sign-in that follows. A session cookie in
  * the jar there still means somebody may be signed in whose account nobody read,
  * which for the prompt is `'unknown'`: not asked. On a shared device that keeps
  * the next person from being asked there too, until the cookie is gone (a sign-in
  * or a sign-out replaces it); the header's Language control switches for them all
  * the same.
  *
- * Every raw cookie value passes `isLocale`; an invalid value counts as absent.
+ * Every raw cookie value passes `isLocale` (the session choice's locale part,
+ * with a well-formed stamp); an invalid value counts as absent.
  */
 
 import { DEFAULT_LOCALE, isLocale, type Locale } from '@/i18n/config';
 
 import { suggestLocale } from './accept-language';
+import { readUnsavedChoice } from './cookies';
 
 /** Which step decided. Rendered as `<body data-locale-source>`. */
 export type LocaleSource = 'session' | 'account' | 'guest' | 'browser' | 'default';
@@ -63,9 +73,15 @@ export interface ResolveInput {
    * be signed in, and it decides the prompt alone, never the language.
    */
   readonly holdsSessionCookie: boolean;
-  /** Raw `wringy-locale-session`. */
+  /** Raw `wringy-locale-session`: `<locale>.<epoch ms>`. */
   readonly sessionChoice: string | null | undefined;
   readonly accountPreference: AccountPreference;
+  /**
+   * `profiles.locale_pref_set_at` as the API serialises it: when the account's
+   * preference was last set. Null when it holds none, or when the preference is
+   * `'unknown'`.
+   */
+  readonly accountPreferenceSetAt: string | null;
   /** Raw `wringy-locale`. */
   readonly guestChoice: string | null | undefined;
   readonly acceptLanguage: string | null | undefined;
@@ -86,9 +102,21 @@ export interface ResolvedLocale {
 const valid = (value: string | null | undefined): Locale | null =>
   isLocale(value ?? undefined) ? (value as Locale) : null;
 
+/**
+ * The session choice when it is still the newest explicit choice, else null: an
+ * account whose preference was set later than the choice's stamp holds a newer
+ * one. Not knowing the account (`'unknown'`) cannot make the choice older.
+ */
+function newestSessionChoice(raw: string | null | undefined, accountPreference: AccountPreference, setAt: string | null): Locale | null {
+  const unsaved = readUnsavedChoice(raw);
+  if (unsaved === null) return null;
+  if (accountPreference === 'unknown' || setAt === null) return unsaved.locale;
+  return Date.parse(setAt) > unsaved.at ? null : unsaved.locale;
+}
+
 export function resolveLocale(input: ResolveInput): ResolvedLocale {
   const accountPreference: AccountPreference = input.signedIn ? input.accountPreference : 'unknown';
-  const sessionChoice = input.signedIn ? valid(input.sessionChoice) : null;
+  const sessionChoice = input.signedIn ? newestSessionChoice(input.sessionChoice, accountPreference, input.accountPreferenceSetAt) : null;
   const guestChoice = valid(input.guestChoice);
 
   const decided = ((): { locale: Locale; source: LocaleSource } => {
