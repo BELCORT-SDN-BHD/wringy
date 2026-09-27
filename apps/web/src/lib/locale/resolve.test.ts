@@ -92,6 +92,21 @@ describe('M2-AC04/2 account: the account’s preference and an unsaved choice', 
     expect(resolved).toMatchObject({ locale: 'en-MY', source: 'session', unsaved: 'en-MY', accountPreference: 'ms-MY' });
   });
 
+  it('M2-AC04/2 account: a session choice the account already holds is saved, not unsaved (session zh + account zh → account)', () => {
+    // A save that failed here, then the same language saved on another device: no "not saved" notice beside "Saved".
+    const resolved = resolveLocale(signedIn({ sessionChoice: 'zh-Hans-MY', accountPreference: 'zh-Hans-MY' }));
+    expect(resolved).toMatchObject({ locale: 'zh-Hans-MY', source: 'account', accountPreference: 'zh-Hans-MY', unsaved: null });
+    // Only a preference known to be the same counts: none saved, or a read that failed, leaves the choice unsaved.
+    expect(resolveLocale(signedIn({ sessionChoice: 'zh-Hans-MY', accountPreference: null }))).toMatchObject({
+      source: 'session',
+      unsaved: 'zh-Hans-MY',
+    });
+    expect(resolveLocale(signedIn({ sessionChoice: 'zh-Hans-MY', accountPreference: 'unknown' }))).toMatchObject({
+      source: 'session',
+      unsaved: 'zh-Hans-MY',
+    });
+  });
+
   it('M2-AC04/2 account: a failed account read with a guest cookie falls through to the guest cookie', () => {
     const resolved = resolveLocale(signedIn({ accountPreference: 'unknown', guestChoice: 'zh-Hans-MY', acceptLanguage: 'ms' }));
     expect(resolved).toMatchObject({ locale: 'zh-Hans-MY', source: 'guest', accountPreference: 'unknown' });

@@ -310,6 +310,26 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
     expectNoStore(response);
   });
 
+  it('M2-AC04/2 locale handler: a save that changes nothing is still a success, and the session choice goes', async () => {
+    // This browser's own choice once failed to save; the account holds that language now.
+    for (const mode of ['json', 'form'] as const) {
+      incoming.clear();
+      signIn();
+      incoming.set('wringy-locale-session', 'zh-Hans-MY');
+      const calls = stubApi(saved); // PROFILE.localePref is already zh-Hans-MY.
+
+      const response = await switchLocale(post(choose('zh-Hans-MY'), { mode }));
+
+      expect(calls, mode).toHaveLength(1);
+      if (mode === 'json') {
+        expect(await response.json()).toEqual({ switched: true, locale: 'zh-Hans-MY', scope: 'account', saved: true });
+      } else {
+        expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal?outcome=locale_saved`);
+      }
+      expect(isExpiry(response, 'wringy-locale-session'), mode).toBe(true);
+    }
+  });
+
   it('M2-AC04/2 locale handler: a saved choice form lands on the page with locale_saved', async () => {
     signIn();
     stubApi(saved);

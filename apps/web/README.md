@@ -380,7 +380,9 @@ through `resolveInternalLocale()` (`read.ts`, `React.cache`d), which `src/i18n/r
 the layout, the metadata and every page agree:
 
 1. `wringy-locale-session`, read only when the request carries a token (a leftover with no session
-   belongs to nobody);
+   belongs to nobody), and only while the account is not known to hold that same language — once it
+   does (saved since, here or on another device), the account decides and no "not saved" notice
+   shows beside a card that says "Saved";
 2. the account's `profiles.locale_pref`, from `GET /me` through `readMe()` — one memoised read per
    request that `/internal`'s page shares — raced against a **1.5 s** bound: on timeout or any failure
    it is `unknown` and the order continues (the read keeps running for the page);
