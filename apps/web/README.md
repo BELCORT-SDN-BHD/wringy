@@ -370,7 +370,7 @@ cookie jar. All are `sameSite: lax` (the callback is a cross-site top-level GET 
 |---|---|---|---|---|---|
 | `wringy-locale` | the guest's explicit saved preference (the same cookie the demo writes) | a signed-out `choose` | never by this build | 1 year | no — the demo writes it from script, and the switch reads it back to detect a refused store |
 | `wringy-locale-session` | an explicit choice the signed-in account does not hold yet | a failed save, a failed carry | a successful save or Retry, a successful carry, every successful sign-in, sign-out, end-session's sign-out branch, the proxy's `session_ended` | browser session | yes |
-| `wringy-locale-carry` | the choice made on the sign-in page, for the sign-in that starts now | a signed-out `choose` | every exit of the callback | 10 min, path `/auth` | yes |
+| `wringy-locale-carry` | the choice made on the sign-in page, for the sign-in that starts now | a signed-out `choose` (and every `choose` from a page that renders signed out) | the callback, once the API has answered for a person: a sign-in it let in, or a `not_allowed` / `disabled` refusal; an attempt that failed before that keeps it for the retry | 10 min, path `/auth` | yes |
 | `wringy-locale-prompt` | the first-visit prompt was answered or skipped this browsing session | `choose` and `skip` | never by this build | browser session | yes |
 
 ### The resolution order
@@ -453,8 +453,12 @@ everywhere beats two). A disabled account leaves through `/auth/end-session`.
 from the profile's preference is saved with **the token the exchange just returned**, never the one
 the request arrived with (on a shared device that may be somebody else's). Saved → `locale_synced`
 with `from`; not saved → the session choice and `locale_not_saved`; `account.disabled` → signed out
-again and `disabled`. The carry cookie is expired on every exit, and a guest preference from an
-earlier browsing session is never carried.
+again and `disabled`. The carry cookie is spent once the API has answered for a person — a sign-in it
+let in (whether the carry was used, equal to the preference or invalid) or a refusal that names who
+was signing in (`not_allowed`, `disabled`, a carry refused as disabled) — and kept by an attempt that
+failed before that (a Google cancel, a flow Supabase no longer holds, an exchange error, a missing
+code, a 5xx or an unreachable API), so the retry lands in the language just chosen; its ten-minute
+max-age bounds it either way. A guest preference from an earlier browsing session is never carried.
 
 ### Without JavaScript
 
