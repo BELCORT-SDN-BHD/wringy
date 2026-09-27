@@ -28,9 +28,11 @@
  * - M2-AC04/1: the browser's suggestion and the prompt (preview, Skip); a saved
  *   preference asked about never again; a shared device; a leftover choice never
  *   carried; a choice on a page that renders signed out, over the session cookie
- *   somebody else left behind (live, revoked, and on the not-found page);
+ *   somebody else left behind (live: saved to that account; revoked: the guest's;
+ *   and live on the not-found page);
  * - M2-AC04/2: the six-run walk (choose → save → new device → failure → retry),
- *   a transport failure, refused storage, a sign-in's choice over the account
+ *   a transport failure, an unsaved choice another device overtook, refused
+ *   storage, a sign-in's choice over the account
  *   value with Undo, the same choice kept through a cancelled sign-in, the
  *   invitee, the idle tab, guest persistence, two quick choices;
  * - M2-AC04/3: the three languages at 1440 and 390 (the evidence frames; the
@@ -554,87 +556,141 @@ test.describe('M2-AC04 the language preference: suggestion, prompt and the share
   });
 
   /**
-   * security-privacy-1: the sign-in page and the not-found page render signed out
-   * whatever cookies the browser holds, so a choice made on them is the guest's
-   * (the handler's "the page that posted decides"), even over a session cookie
-   * somebody else left behind. Gopal signs in and walks away; Fiona, at the same
-   * browser, chooses on the sign-in page and then signs in herself.
+   * The sign-in page and the not-found page render signed out whatever cookies the
+   * browser holds, and a choice made on them follows W7's rule (S1): the API
+   * decides the account, the page decides the fallback. Over a LIVE session the
+   * choice is saved to that session's account — exactly what a header switch inside
+   * the same session on `/internal` would do (M2-02's accepted residual of a
+   * session left open) — and the guest cookie switches the page; nothing is
+   * carried. Over a REVOKED session the API refuses, nothing is written anywhere,
+   * and the choice is the guest's, carried into the sign-in that follows. Gopal
+   * signs in and walks away; Fiona, at the same browser, chooses on the sign-in
+   * page and then signs in herself.
    *
-   * "No `POST /me/locale` reached the API with Gopal's session" is observed at the
+   * Whether a command reached the API with Gopal's session is observed at the
    * simulated auth server: every command the API runs asks it about the caller's
    * session (`GET /auth/v1/user`, `SESSION_LIVENESS=auth_server`), and it counts
    * that call against the tag of the context that created the session, revoked or
-   * not, while `GET /me` and the page reads never ask. So the tag's `user` count
-   * holding still is the API's own evidence that no command ran with his token.
-   * The row alone could not say it for the revoked run: the API refuses a revoked
-   * session and writes nothing either way.
+   * not, while `GET /me` and the page reads never ask.
    */
-  for (const leftover of ['live', 'revoked'] as const) {
-    test(`M2-AC04/1 simulated shared device, a ${leftover} session left behind: Fiona chooses Chinese on the sign-in page over Gopal's session cookie; nothing reaches his account, the choice is the guest's, and her own sign-in carries it into her account alone`, async ({
-      tagged,
-    }) => {
-      test.setTimeout(90_000);
-      await setAccountPreference(GOPAL, 'ms-MY');
-      await setAccountPreference(FIONA, 'en-MY');
-      const { page, context, tag, control } = tagged;
-      const problems = watchConsole(page);
+  test("M2-AC04/1 simulated shared device, a live session left behind: a choice on the sign-in page over Gopal's live session is saved to his account like any switch inside it, the page switches, nothing is carried, and no other account changes", async ({
+    tagged,
+  }) => {
+    test.setTimeout(90_000);
+    await setAccountPreference(GOPAL, 'ms-MY');
+    await setAccountPreference(FIONA, 'en-MY');
+    const { page, context, tag, control } = tagged;
+    const problems = watchConsole(page);
 
-      // Gopal signs in on this browser and walks away; his session cookie stays in the jar.
-      await signInFrom(page, 'gopal');
-      await expectBodyLocale(page, 'ms-MY', 'account');
-      const gopalSession = await onlySessionOf(tag);
-      if (leftover === 'revoked') await control.revokeSession(gopalSession);
-      expect((await control.liveSessions()).includes(gopalSession), `Gopal's session is ${leftover}`).toBe(leftover === 'live');
-      const gopalBefore = await readAccountPreference(GOPAL.id);
-      const commandsBefore = (await control.calls(tag)).calls.user;
+    // Gopal signs in on this browser and walks away; his live session stays in the jar.
+    await signInFrom(page, 'gopal');
+    await expectBodyLocale(page, 'ms-MY', 'account');
+    const gopalSession = await onlySessionOf(tag);
+    expect((await control.liveSessions()).includes(gopalSession), "Gopal's session is live").toBe(true);
+    const gopalBefore = await readAccountPreference(GOPAL.id);
+    const fionaBefore = await readAccountPreference(FIONA.id);
+    const commandsBefore = (await control.calls(tag)).calls.user;
 
-      // The sign-in page renders signed out: the browser's language, no account known.
-      await page.goto(WEB_ROUTES.signInPage);
-      expect(await sessionCookieNames(context), "Gopal's session cookie is still in the jar").not.toEqual([]);
-      await expectBodyLocale(page, 'en-MY', 'browser');
-      await expect(page.locator('body')).toHaveAttribute('data-account-preference', 'unknown');
-      // Nobody answered the prompt in this browser, yet it does not ask: whoever holds the session may have
-      // a saved preference the page could not read (spec-7). The header still switches, below.
-      expect((await localeCookies(context))[LOCALE_COOKIES.prompt], 'the prompt was never answered here').toBeUndefined();
-      await expect(prompt(page), 'a session nobody verified is an account nobody read: not asked').toHaveCount(0);
+    // The sign-in page renders signed out: the browser's language, no account known.
+    await page.goto(WEB_ROUTES.signInPage);
+    expect(await sessionCookieNames(context), "Gopal's session cookie is still in the jar").not.toEqual([]);
+    await expectBodyLocale(page, 'en-MY', 'browser');
+    await expect(page.locator('body')).toHaveAttribute('data-account-preference', 'unknown');
+    // Nobody answered the prompt in this browser, yet it does not ask: whoever holds the session may have
+    // a saved preference the page could not read (spec-7). The header still switches, below.
+    expect((await localeCookies(context))[LOCALE_COOKIES.prompt], 'the prompt was never answered here').toBeUndefined();
+    await expect(prompt(page), 'a session nobody verified is an account nobody read: not asked').toHaveCount(0);
 
-      // Fiona chooses Chinese: the guest's choice, carried for the sign-in that starts now.
-      await switchInHeader(page, 'zh-Hans-MY');
-      await expectBodyLocale(page, 'zh-Hans-MY', 'guest');
-      await expectLive(page, 'saved-guest', internalCopy('zh-Hans-MY', 'locale.live.savedGuest'));
-      const chosen = await localeCookies(context);
-      expect(chosen[LOCALE_COOKIES.guest], 'the choice is the guest cookie').toBe('zh-Hans-MY');
-      expect(chosen[LOCALE_COOKIES.carry], 'the choice is carried into the sign-in that follows').toBe('zh-Hans-MY');
-      expect(chosen[LOCALE_COOKIES.session], "nothing is kept as an unsaved choice of Gopal's account").toBeUndefined();
-      expect((await control.calls(tag)).calls.user, "no command reached the API with Gopal's session").toBe(commandsBefore);
-      expect(await readAccountPreference(GOPAL.id), "Gopal's row is unchanged").toEqual(gopalBefore);
+    // A choice of Chinese: saved to the account of the session this browser holds, and the page switches.
+    await switchInHeader(page, 'zh-Hans-MY');
+    await expectBodyLocale(page, 'zh-Hans-MY', 'guest');
+    await expectLive(page, 'saved-account', internalCopy('zh-Hans-MY', 'locale.live.savedAccount'));
+    const chosen = await localeCookies(context);
+    expect(chosen[LOCALE_COOKIES.guest], 'the page renders the guest order, so the guest cookie switches it').toBe('zh-Hans-MY');
+    expect(chosen[LOCALE_COOKIES.carry], 'saved already, so nothing is carried into the next sign-in').toBeUndefined();
+    expect(chosen[LOCALE_COOKIES.session], 'the account holds it: no unsaved choice').toBeUndefined();
+    expect((await control.calls(tag)).calls.user, "one command, with Gopal's live session").toBe(commandsBefore + 1);
+    await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe('zh-Hans-MY');
+    const gopalAfter = await readAccountPreference(GOPAL.id);
+    expect(laterThan(gopalAfter?.setAtMicros ?? null, gopalBefore?.setAtMicros ?? null), "a new instant on Gopal's row").toBe(true);
+    expect(await readAccountPreference(FIONA.id), "Fiona's row is unchanged").toEqual(fionaBefore);
 
-      // Fiona signs in from this page: her sign-in carries the choice into her account, and only hers.
-      const landed = await signInFrom(page, 'fiona', `${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.signInPage}`);
-      expect(landed.pathname).toBe(WEB_ROUTES.internal);
-      expect(landed.searchParams.get('outcome')).toBe('locale_synced');
-      expect(landed.searchParams.get('from')).toBe('en-MY');
-      await expect(page.getByTestId(TESTIDS.signedInAs)).toContainText(FIONA.email);
-      await expectBodyLocale(page, 'zh-Hans-MY', 'account');
-      await expect(syncedNotice(page)).toHaveAttribute('data-from', 'en-MY');
-      await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('zh-Hans-MY');
-      expect(await readAccountPreference(GOPAL.id), "Gopal's row is still unchanged").toEqual(gopalBefore);
-      expect((await localeCookies(context))[LOCALE_COOKIES.carry], 'the carry is spent').toBeUndefined();
+    // Fiona signs in from this page: nothing is carried, so she lands in her own account's language.
+    const landed = await signInFrom(page, 'fiona', `${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.signInPage}`);
+    expect(landed.pathname).toBe(WEB_ROUTES.internal);
+    expect(landed.searchParams.get('outcome'), 'nothing was carried, so nothing is announced').toBeNull();
+    await expect(page.getByTestId(TESTIDS.signedInAs)).toContainText(FIONA.email);
+    await expectBodyLocale(page, 'en-MY', 'account');
+    await expect(syncedNotice(page)).toHaveCount(0);
+    expect(await readAccountPreference(FIONA.id), "Fiona's row is still unchanged").toEqual(fionaBefore);
+    expect(await readAccountPreference(GOPAL.id), "her sign-in did not touch Gopal's row").toEqual(gopalAfter);
 
-      expect(problems).toEqual([]);
-    });
-  }
+    expect(problems).toEqual([]);
+  });
 
-  test("M2-AC04/1 simulated shared device on the not-found page: a choice on a path the proxy rewrites to not-found, over Gopal's live session cookie, is the guest's and reaches no account", async ({
+  test("M2-AC04/1 simulated shared device, a revoked session left behind: Fiona chooses Chinese on the sign-in page over Gopal's revoked session cookie; the API refuses it and nothing reaches his account, the choice is the guest's, and her own sign-in carries it into her account alone", async ({
+    tagged,
+  }) => {
+    test.setTimeout(90_000);
+    await setAccountPreference(GOPAL, 'ms-MY');
+    await setAccountPreference(FIONA, 'en-MY');
+    const { page, context, tag, control } = tagged;
+    const problems = watchConsole(page);
+
+    // Gopal signs in on this browser and walks away; his session is revoked, its cookie stays in the jar.
+    await signInFrom(page, 'gopal');
+    await expectBodyLocale(page, 'ms-MY', 'account');
+    const gopalSession = await onlySessionOf(tag);
+    await control.revokeSession(gopalSession);
+    expect((await control.liveSessions()).includes(gopalSession), "Gopal's session is revoked").toBe(false);
+    const gopalBefore = await readAccountPreference(GOPAL.id);
+    const commandsBefore = (await control.calls(tag)).calls.user;
+
+    // The sign-in page renders signed out: the browser's language, no account known.
+    await page.goto(WEB_ROUTES.signInPage);
+    expect(await sessionCookieNames(context), "Gopal's session cookie is still in the jar").not.toEqual([]);
+    await expectBodyLocale(page, 'en-MY', 'browser');
+    await expect(page.locator('body')).toHaveAttribute('data-account-preference', 'unknown');
+    expect((await localeCookies(context))[LOCALE_COOKIES.prompt], 'the prompt was never answered here').toBeUndefined();
+    await expect(prompt(page), 'a session nobody verified is an account nobody read: not asked').toHaveCount(0);
+
+    // Fiona chooses Chinese: the API refuses the revoked session, so the choice is the guest's, carried for the sign-in that starts now.
+    await switchInHeader(page, 'zh-Hans-MY');
+    await expectBodyLocale(page, 'zh-Hans-MY', 'guest');
+    await expectLive(page, 'saved-guest', internalCopy('zh-Hans-MY', 'locale.live.savedGuest'));
+    const chosen = await localeCookies(context);
+    expect(chosen[LOCALE_COOKIES.guest], 'the choice is the guest cookie').toBe('zh-Hans-MY');
+    expect(chosen[LOCALE_COOKIES.carry], 'the choice is carried into the sign-in that follows').toBe('zh-Hans-MY');
+    expect(chosen[LOCALE_COOKIES.session], "nothing is kept as an unsaved choice of Gopal's account").toBeUndefined();
+    expect((await control.calls(tag)).calls.user, "the API asked once about Gopal's session, and refused it").toBe(commandsBefore + 1);
+    expect(await readAccountPreference(GOPAL.id), "Gopal's row is unchanged").toEqual(gopalBefore);
+
+    // Fiona signs in from this page: her sign-in carries the choice into her account, and only hers.
+    const landed = await signInFrom(page, 'fiona', `${HEALTHY_WEB_ORIGIN}${WEB_ROUTES.signInPage}`);
+    expect(landed.pathname).toBe(WEB_ROUTES.internal);
+    expect(landed.searchParams.get('outcome')).toBe('locale_synced');
+    expect(landed.searchParams.get('from')).toBe('en-MY');
+    await expect(page.getByTestId(TESTIDS.signedInAs)).toContainText(FIONA.email);
+    await expectBodyLocale(page, 'zh-Hans-MY', 'account');
+    await expect(syncedNotice(page)).toHaveAttribute('data-from', 'en-MY');
+    await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('zh-Hans-MY');
+    expect(await readAccountPreference(GOPAL.id), "Gopal's row is still unchanged").toEqual(gopalBefore);
+    expect((await localeCookies(context))[LOCALE_COOKIES.carry], 'the carry is spent').toBeUndefined();
+
+    expect(problems).toEqual([]);
+  });
+
+  test("M2-AC04/1 simulated shared device on the not-found page: a choice on a path the proxy rewrites to not-found, over Gopal's live session, is saved to his account like any switch inside it, the page switches, and no other account changes", async ({
     tagged,
   }) => {
     await setAccountPreference(GOPAL, 'ms-MY');
+    await setAccountPreference(FIONA, 'en-MY');
     const { page, context, tag, control } = tagged;
     const problems = watchConsole(page);
 
     await signInFrom(page, 'gopal');
     await expectBodyLocale(page, 'ms-MY', 'account');
-    const gopalBefore = await readAccountPreference(GOPAL.id);
+    const fionaBefore = await readAccountPreference(FIONA.id);
     const commandsBefore = (await control.calls(tag)).calls.user;
 
     // A path outside /internal: the proxy rewrites it to the not-found page, which renders signed out.
@@ -650,14 +706,15 @@ test.describe('M2-AC04 the language preference: suggestion, prompt and the share
 
     await switchInHeader(page, 'zh-Hans-MY');
     await expectBodyLocale(page, 'zh-Hans-MY', 'guest');
-    await expectLive(page, 'saved-guest', internalCopy('zh-Hans-MY', 'locale.live.savedGuest'));
+    await expectLive(page, 'saved-account', internalCopy('zh-Hans-MY', 'locale.live.savedAccount'));
     expect(new URL(page.url()).pathname, 'the switch stays on the page it was made on').toBe('/campaigns');
     const chosen = await localeCookies(context);
-    expect(chosen[LOCALE_COOKIES.guest]).toBe('zh-Hans-MY');
-    expect(chosen[LOCALE_COOKIES.carry]).toBe('zh-Hans-MY');
+    expect(chosen[LOCALE_COOKIES.guest], 'the page renders the guest order, so the guest cookie switches it').toBe('zh-Hans-MY');
+    expect(chosen[LOCALE_COOKIES.carry], 'saved already, so nothing is carried').toBeUndefined();
     expect(chosen[LOCALE_COOKIES.session]).toBeUndefined();
-    expect((await control.calls(tag)).calls.user, "no command reached the API with Gopal's session").toBe(commandsBefore);
-    expect(await readAccountPreference(GOPAL.id), "Gopal's row is unchanged").toEqual(gopalBefore);
+    expect((await control.calls(tag)).calls.user, "one command, with Gopal's live session").toBe(commandsBefore + 1);
+    await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe('zh-Hans-MY');
+    expect(await readAccountPreference(FIONA.id), "Fiona's row is unchanged").toEqual(fionaBefore);
 
     // The not-found page answers 404 by design (M2-02 R12), and Chromium logs any 4xx document as a console error.
     const ownStatus = `${HEALTHY_WEB_ORIGIN}/campaigns: Failed to load resource: the server responded with a status of 404 (Not Found)`;

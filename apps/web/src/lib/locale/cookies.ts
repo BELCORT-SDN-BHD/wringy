@@ -144,8 +144,10 @@ export function writeCarry(jar: CookieWriter, locale: Locale, secure: boolean): 
 /**
  * The callback, once the API has answered for a person: a sign-in it let in, or a
  * refusal naming who was signing in (R6 rev 3). An attempt that failed before
- * that keeps the carry for the retry. The path must match the write's, or the
- * browser keeps it.
+ * that keeps the carry for the retry. Also `POST /internal/locale`, when a choice
+ * on a page that renders signed out was saved to the session's account: a carry
+ * left from before would take an older choice into the next sign-in. The path
+ * must match the write's, or the browser keeps it.
  */
 export function expireCarry(jar: CookieWriter, secure: boolean): void {
   jar.expire(LOCALE_CARRY_COOKIE, carryCookieOptions(secure));

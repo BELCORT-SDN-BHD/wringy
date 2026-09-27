@@ -39,8 +39,10 @@
  *
  * The sign-in and not-found pages render without a token whatever the browser
  * holds (`read.ts`), so there the language resolves as a guest's, and `POST
- * /internal/locale` treats a choice made there the same way: the guest's,
- * carried only into the account of the sign-in that follows. A session cookie in
+ * /internal/locale` writes the guest cookie for every choice made there, so the
+ * page switches: saved to the account when the session the browser holds is live
+ * (the API decides), otherwise the guest's, carried only into the account of the
+ * sign-in that follows. A session cookie in
  * the jar there still means somebody may be signed in whose account nobody read,
  * which for the prompt is `'unknown'`: not asked. On a shared device that keeps
  * the next person from being asked there too, until the cookie is gone (a sign-in

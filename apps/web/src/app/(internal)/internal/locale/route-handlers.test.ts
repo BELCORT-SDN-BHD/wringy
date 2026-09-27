@@ -459,48 +459,112 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
   });
 });
 
-describe('M2-AC04/1 shared device: a choice from a page that renders signed out is the guest’s, whatever cookie arrived', () => {
+describe('M2-AC04/1 shared device: on a page that renders signed out, the API decides the account and the page decides the fallback', () => {
   /** The pages `proxy.ts` renders without a session check, as their switchers post them. */
   const SIGNED_OUT_PAGES = ['/internal/sign-in', '/internal/__not-found', '/campaigns', '/internal-tools'];
 
-  /** Somebody's session in the jar: still valid, or stale (the token no longer decodes). */
-  const SESSIONS: [string, () => void][] = [
-    ['a live session', () => signIn()],
-    ['a stale session', () => incoming.set(SESSION_COOKIE, 'truncated')],
+  /**
+   * A session in the jar that saves nothing: stale (the token no longer decodes,
+   * so the API is never asked), or one the API refuses or cannot answer for.
+   */
+  const REFUSED: [string, () => ApiCall[] | null][] = [
+    ['a stale session', () => (incoming.set(SESSION_COOKIE, 'truncated'), stubApi(saved))],
+    ['a revoked session', () => (signIn(), stubApi(refusal(401, 'session.revoked')))],
+    ['an expired token', () => (signIn(), stubApi(refusal(401, 'auth.expired')))],
+    ['a disabled account', () => (signIn(), stubApi(refusal(403, 'account.disabled')))],
+    ['a missing profile', () => (signIn(), stubApi(refusal(403, 'profile.missing')))],
+    ['an API that cannot answer', () => (signIn(), stubApi(refusal(503, 'database_unavailable')))],
+    ['an API that failed', () => (signIn(), stubApi(() => json(500, {})))],
+    [
+      'an unreachable API',
+      () => (signIn(), vi.stubGlobal('fetch', () => Promise.reject(Object.assign(new Error('connect'), { code: 'ECONNREFUSED' }))), null),
+    ],
   ];
 
-  it('M2-AC04/1 shared device: over somebody’s session, a choice on the sign-in or not-found page calls nothing and sets the guest, carry and prompt cookies', async () => {
+  it('M2-AC04/1 shared device: with a live session in the jar, a choice on the sign-in or not-found page is saved to that session’s account, and the guest cookie switches the page; nothing is carried', async () => {
+    for (const next of [...SIGNED_OUT_PAGES, '/auth/no-such-handler']) {
+      incoming.clear();
+      signIn();
+      const calls = stubApi(saved);
+
+      const response = await switchLocale(post(choose('zh-Hans-MY', next)));
+
+      expect(calls.map((call) => call.url), `${next}: one save, with the session the browser holds`).toEqual([`${API}/me/locale`]);
+      expect((calls[0]?.init.headers as Record<string, string>).authorization, next).toBe(`Bearer ${ACCESS_TOKEN}`);
+      expect(JSON.parse(String(calls[0]?.init.body)), next).toEqual({ locale: 'zh-Hans-MY' });
+      expect(await response.json(), next).toEqual({ switched: true, locale: 'zh-Hans-MY', scope: 'account', saved: true });
+      // The page renders the guest's order, so it switches through the guest cookie.
+      expect(cookie(response, 'wringy-locale'), next).toMatchObject({ value: 'zh-Hans-MY', httpOnly: false, path: '/' });
+      expect(isExpiry(response, 'wringy-locale-carry'), `${next}: no carry, and an older one cannot outlive this choice`).toBe(true);
+      expect(cookie(response, 'wringy-locale-carry'), next).toMatchObject({ path: '/auth' });
+      expect(isExpiry(response, 'wringy-locale-session'), `${next}: the account holds it`).toBe(true);
+      expect(cookie(response, 'wringy-locale-prompt')?.value, next).toBe('1');
+      expectNoStore(response, next);
+    }
+  });
+
+  it('M2-AC04/1 shared device: with a stale, revoked or refused session in the jar, a choice there saves nothing and is the guest’s, carried into the next sign-in — never an unsaved choice', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
     for (const next of SIGNED_OUT_PAGES) {
-      for (const [label, arrange] of SESSIONS) {
+      for (const [label, arrange] of REFUSED) {
         incoming.clear();
         arrange();
-        const calls = stubApi(saved);
 
         const response = await switchLocale(post(choose('zh-Hans-MY', next)));
 
         const row = `${next}, ${label}`;
-        expect(calls, `${row}: no API call with the cookie that arrived`).toHaveLength(0);
         expect(await response.json(), row).toEqual({ switched: true, locale: 'zh-Hans-MY', scope: 'guest', saved: true });
         expect(cookie(response, 'wringy-locale')?.value, row).toBe('zh-Hans-MY');
         expect(cookie(response, 'wringy-locale-carry'), row).toMatchObject({ value: 'zh-Hans-MY', path: '/auth', maxAge: 600 });
         expect(cookie(response, 'wringy-locale-prompt')?.value, row).toBe('1');
+        // Such a page never shows an unsaved choice, so none is written: only the expiry of any leftover.
         expect(isExpiry(response, 'wringy-locale-session'), row).toBe(true);
         expectNoStore(response, row);
       }
     }
   });
 
-  it('M2-AC04/1 shared device: the same choice as a form lands back on that page with locale_switched', async () => {
-    signIn();
-    const calls = stubApi(saved);
+  it('M2-AC04/1 shared device: a stale session is never sent to the API; a revoked one is asked once, and refused', async () => {
+    incoming.set(SESSION_COOKIE, 'truncated');
+    const stale = stubApi(saved);
+    await switchLocale(post(choose('ms-MY', '/internal/sign-in')));
+    expect(stale, 'a token that does not decode is not a token').toHaveLength(0);
 
+    incoming.clear();
+    signIn();
+    const revoked = stubApi(refusal(401, 'session.revoked'));
+    await switchLocale(post(choose('ms-MY', '/internal/sign-in')));
+    expect(revoked.map((call) => call.url)).toEqual([`${API}/me/locale`]);
+  });
+
+  it('M2-AC04/1 shared device: as forms, a saved choice lands back on that page with locale_saved, a refused one with locale_switched and the carry', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
     for (const next of ['/internal/sign-in', '/internal/__not-found']) {
-      const response = await switchLocale(post(choose('ms-MY', next), { mode: 'form' }));
-      expect(response.status, next).toBe(303);
-      expect(response.headers.get('location'), next).toBe(`${APP_ORIGIN}${next}?outcome=locale_switched`);
-      expect(cookie(response, 'wringy-locale-carry')?.value, next).toBe('ms-MY');
+      incoming.clear();
+      signIn();
+      stubApi(saved);
+      const kept = await switchLocale(post(choose('ms-MY', next), { mode: 'form' }));
+      expect(kept.status, next).toBe(303);
+      expect(kept.headers.get('location'), next).toBe(`${APP_ORIGIN}${next}?outcome=locale_saved`);
+      expect(cookie(kept, 'wringy-locale')?.value, next).toBe('ms-MY');
+      expect(isExpiry(kept, 'wringy-locale-carry'), next).toBe(true);
+
+      incoming.clear();
+      signIn();
+      stubApi(refusal(401, 'session.revoked'));
+      const refused = await switchLocale(post(choose('ms-MY', next), { mode: 'form' }));
+      expect(refused.status, next).toBe(303);
+      expect(refused.headers.get('location'), `${next}: never end-session or not-saved from a page that renders signed out`).toBe(
+        `${APP_ORIGIN}${next}?outcome=locale_switched`,
+      );
+      expect(cookie(refused, 'wringy-locale-carry')?.value, next).toBe('ms-MY');
     }
-    expect(calls).toHaveLength(0);
+    // A disabled account on such a page is the guest's choice too, not a trip to end-session.
+    incoming.clear();
+    signIn();
+    stubApi(refusal(403, 'account.disabled'));
+    const disabled = await switchLocale(post(choose('ms-MY', '/internal/sign-in'), { mode: 'form' }));
+    expect(disabled.headers.get('location')).toBe(`${APP_ORIGIN}/internal/sign-in?outcome=locale_switched`);
   });
 
   it('M2-AC04/2 locale handler: an ordinary internal page keeps the signed-in branch', async () => {
@@ -559,6 +623,12 @@ describe('M2-AC04/2 locale handler: a request that asked for JSON never gets a 3
     { name: 'account 503', arrange: () => (signIn(), stubApi(refusal(503, 'database_unavailable'))), form: choose('ms-MY') },
     { name: 'account 500', arrange: () => (signIn(), stubApi(() => json(500, {}))), form: choose('ms-MY') },
     { name: 'no usable token', arrange: () => incoming.set(SESSION_COOKIE, 'truncated'), form: choose('ms-MY') },
+    { name: 'signed-out page saved', arrange: () => (signIn(), stubApi(saved)), form: choose('ms-MY', '/internal/sign-in') },
+    {
+      name: 'signed-out page disabled',
+      arrange: () => (signIn(), stubApi(refusal(403, 'account.disabled'))),
+      form: choose('ms-MY', '/internal/sign-in'),
+    },
     { name: 'bad locale', arrange: () => stubApi(saved), form: choose('xx') },
   ];
 
