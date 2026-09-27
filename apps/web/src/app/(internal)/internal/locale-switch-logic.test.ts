@@ -31,7 +31,7 @@ describe('M2-AC04/2 switch: one request in flight, and a newer choice replaces t
     const step = choose(IDLE, 'zh-Hans-MY');
     expect(step.post).toBe('zh-Hans-MY');
     expect(step.effect).toBe('none');
-    expect(step.state).toEqual({ inFlight: 'zh-Hans-MY', queued: null, shown: 'zh-Hans-MY', result: 'pending', reason: null });
+    expect(step.state).toEqual({ inFlight: 'zh-Hans-MY', queued: null, shown: 'zh-Hans-MY', result: 'pending', reason: null, wrote: false });
   });
 
   it('M2-AC04/2 switch: choices made while one is in flight post nothing; the newest replaces the pending value', () => {
@@ -62,7 +62,34 @@ describe('M2-AC04/2 switch: one request in flight, and a newer choice replaces t
 
     const fresh = settle(stale.state, switched({ locale: 'ms-MY' }), stored);
     expect(fresh).toMatchObject({ post: null, effect: 'refresh' });
-    expect(fresh.state).toEqual({ inFlight: null, queued: null, shown: 'ms-MY', result: 'saved-account', reason: null });
+    expect(fresh.state).toEqual({ inFlight: null, queued: null, shown: 'ms-MY', result: 'saved-account', reason: null, wrote: false });
+  });
+
+  it('M2-AC04/2 switch: two quick choices where the superseded one was written and the newest fails — the page re-renders what the server holds', () => {
+    // The first choice is saved on the server, but a newer one is pending, so its answer is stale.
+    let state = choose(IDLE, 'ms-MY').state;
+    state = choose(state, 'zh-Hans-MY').state;
+    const stale = settle(state, switched({ locale: 'ms-MY' }), stored);
+    expect(stale).toMatchObject({ post: 'zh-Hans-MY', effect: 'none' });
+
+    // The newest then fails (transport, a refusal, a 5xx): nothing new is shown, but the
+    // server holds Malay, so the page re-renders rather than stay in a language nothing holds.
+    for (const answer of [{ kind: 'failed' as const }, switched({ locale: 'en-MY' })]) {
+      const failed = settle(stale.state, answer, stored);
+      expect(failed.effect, JSON.stringify(answer)).toBe('refresh');
+      expect(failed.post, JSON.stringify(answer)).toBeNull();
+      expect(failed.state, JSON.stringify(answer)).toEqual({ ...IDLE, result: 'not-switched' });
+    }
+    // A superseded guest answer counts only when the browser really stored its cookie.
+    let guest = choose(IDLE, 'ms-MY').state;
+    guest = choose(guest, 'zh-Hans-MY').state;
+    const refusedStale = settle(guest, switched({ locale: 'ms-MY', scope: 'guest' }), refused);
+    expect(settle(refusedStale.state, { kind: 'failed' }, stored).effect).toBe('none');
+    const storedStale = settle(guest, switched({ locale: 'ms-MY', scope: 'guest' }), stored);
+    expect(settle(storedStale.state, { kind: 'failed' }, refused).effect).toBe('refresh');
+    // A superseded answer that itself failed wrote nothing: the failure still changes nothing.
+    const failedStale = settle(state, { kind: 'failed' }, stored);
+    expect(settle(failedStale.state, { kind: 'failed' }, stored).effect).toBe('none');
   });
 });
 
@@ -82,7 +109,7 @@ describe('M2-AC04/2 switch: the echo rule — only the answer to what this clien
   it('M2-AC04/2 switch: a failed request (transport, a refusal, a redirect) keeps the old language and says so', () => {
     const step = settle(inFlight('ms-MY'), { kind: 'failed' }, stored);
     expect(step).toMatchObject({ post: null, effect: 'none' });
-    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'not-switched', reason: null });
+    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'not-switched', reason: null, wrote: false });
   });
 
   it('M2-AC04/2 switch: switched but not saved re-renders (the server shows the notice), and names the reason', () => {
@@ -117,7 +144,7 @@ describe('M2-AC04/2 switch: refused storage — a guest switch the browser would
     });
     expect(asked).toEqual(['ms-MY']);
     expect(step).toMatchObject({ effect: 'none', post: null });
-    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'refused', reason: null });
+    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'refused', reason: null, wrote: false });
   });
 
   it('M2-AC04/2 switch: an account answer never consults the guest cookie', () => {

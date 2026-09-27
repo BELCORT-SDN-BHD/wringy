@@ -23,7 +23,10 @@
  *   language everywhere beats two.
  * - **A failed request** (transport, a `guardRequest` refusal, an unreadable
  *   body, a redirect) wrote nothing: the old language stays and the live region
- *   says it could not switch.
+ *   says it could not switch. Unless a choice it superseded was written: the
+ *   stale answer is not acted on, but it is remembered (`wrote`), and a newest
+ *   request that then fails re-renders what the server now holds instead of
+ *   leaving the page in a language nothing holds any more.
  */
 
 import { isLocale, type Locale } from '@/i18n/config';
@@ -64,9 +67,14 @@ export interface SwitchState {
   readonly result: LiveResult;
   /** The reason of a `not-saved` result. */
   readonly reason: SwitchReason | null;
+  /**
+   * An answer this run of requests superseded was a switch the server wrote, so
+   * the server may now render a language the page does not show yet.
+   */
+  readonly wrote: boolean;
 }
 
-export const IDLE: SwitchState = { inFlight: null, queued: null, shown: null, result: '', reason: null };
+export const IDLE: SwitchState = { inFlight: null, queued: null, shown: null, result: '', reason: null, wrote: false };
 
 /** One answer, as the client reads it. */
 export type SwitchAnswer =
@@ -89,7 +97,7 @@ export function choose(state: SwitchState, locale: Locale): Step {
     return { state: { ...state, queued: locale, shown: locale, result: 'pending', reason: null }, post: null, effect: 'none' };
   }
   return {
-    state: { inFlight: locale, queued: null, shown: locale, result: 'pending', reason: null },
+    state: { ...state, inFlight: locale, queued: null, shown: locale, result: 'pending', reason: null, wrote: false },
     post: locale,
     effect: 'none',
   };
@@ -102,41 +110,62 @@ export function choose(state: SwitchState, locale: Locale): Step {
 export function settle(state: SwitchState, answer: SwitchAnswer, guestStored: (locale: Locale) => boolean): Step {
   const asked = state.inFlight;
 
-  // A newer choice replaced this one: the answer is stale whatever it says.
+  // A newer choice replaced this one: the answer is stale whatever it says. What it
+  // wrote is remembered, so a newest request that then fails still shows it.
   if (state.queued !== null) {
     return {
-      state: { ...state, inFlight: state.queued, queued: null, result: 'pending', reason: null },
+      state: {
+        ...state,
+        inFlight: state.queued,
+        queued: null,
+        result: 'pending',
+        reason: null,
+        wrote: state.wrote || wroteBy(answer, guestStored),
+      },
       post: state.queued,
       effect: 'none',
     };
   }
 
-  const settled = { inFlight: null, queued: null } as const;
+  const settled = { inFlight: null, queued: null, wrote: false } as const;
+  // Nothing new to show. But when a superseded choice was written, the server now
+  // renders that one, so the page re-renders what it holds rather than stay in a
+  // language neither the account nor any cookie holds any more.
+  const unchanged: SwitchEffect = state.wrote ? 'refresh' : 'none';
 
   // Nothing was written, or not what this client asked for: the old language stays.
   if (answer.kind === 'failed' || answer.locale !== asked) {
-    return { state: { ...settled, shown: null, result: 'not-switched', reason: null }, post: null, effect: 'none' };
+    return { state: { ...state, ...settled, shown: null, result: 'not-switched', reason: null }, post: null, effect: unchanged };
   }
 
   if (answer.scope === 'guest') {
     if (!guestStored(answer.locale)) {
-      return { state: { ...settled, shown: null, result: 'refused', reason: null }, post: null, effect: 'none' };
+      return { state: { ...state, ...settled, shown: null, result: 'refused', reason: null }, post: null, effect: unchanged };
     }
-    return { state: { ...settled, shown: answer.locale, result: 'saved-guest', reason: null }, post: null, effect: 'refresh' };
+    return { state: { ...state, ...settled, shown: answer.locale, result: 'saved-guest', reason: null }, post: null, effect: 'refresh' };
   }
 
   if (answer.saved) {
-    return { state: { ...settled, shown: answer.locale, result: 'saved-account', reason: null }, post: null, effect: 'refresh' };
+    return { state: { ...state, ...settled, shown: answer.locale, result: 'saved-account', reason: null }, post: null, effect: 'refresh' };
   }
 
   // Switched, not saved. A disabled account leaves through end-session; every other
   // reason re-renders, and the server shows the unsaved notice with its Retry.
   const reason = answer.reason ?? 'unexpected';
   return {
-    state: { ...settled, shown: answer.locale, result: 'not-saved', reason },
+    state: { ...state, ...settled, shown: answer.locale, result: 'not-saved', reason },
     post: null,
     effect: reason === 'account_disabled' ? 'end-session' : 'refresh',
   };
+}
+
+/**
+ * Whether a stale answer changed what the server renders: a switch the account
+ * or the session cookie now holds, or a guest cookie the browser really stored.
+ */
+function wroteBy(answer: SwitchAnswer, guestStored: (locale: Locale) => boolean): boolean {
+  if (answer.kind !== 'switched') return false;
+  return answer.scope === 'account' || guestStored(answer.locale);
 }
 
 const isReason = (value: unknown): value is SwitchReason =>
