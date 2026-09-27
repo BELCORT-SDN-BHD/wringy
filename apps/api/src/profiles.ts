@@ -105,11 +105,11 @@ export async function lockProfileStatusForShare(client: Queryable, id: string): 
  *
  * `NO KEY` rather than `FOR UPDATE` because eight foreign keys reference
  * `app.profiles (id)` (an org's creator, three membership columns, two
- * invitation columns and both grant tables), and every insert or key update that
- * references a profile takes `KEY SHARE` on it;
- * `FOR UPDATE` would block those, `FOR NO KEY UPDATE` does not — the reason
- * `lockOrgRow` (authorize.ts) locks the org row the same way. The runtime role may
- * take it because it holds UPDATE on some column of the row (0010, 0018).
+ * invitation columns and both grant tables), and every insert that references a
+ * profile takes `KEY SHARE` on it: `FOR UPDATE` would block those, `FOR NO KEY
+ * UPDATE` does not — the reason `lockOrgRow` (authorize.ts) locks the org row
+ * the same way. The runtime role may take it because it holds UPDATE on some
+ * column of the row (0010, 0018).
  */
 export async function lockProfileStatusForWrite(client: Queryable, id: string): Promise<ProfileStatus | null> {
   const { rows } = await client.query<{ status: ProfileStatus }>(
