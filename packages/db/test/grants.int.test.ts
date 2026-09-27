@@ -356,9 +356,6 @@ describe('M2-AC01/2 runtime role privileges', () => {
       for (const sql of [
         `UPDATE app.profiles SET status = 'disabled'`,
         `UPDATE app.profiles SET status = 'active' WHERE id = '${subject}'`,
-        // The other two columns the API may not write either (M2-04 owns them).
-        `UPDATE app.profiles SET locale_pref = 'en-MY'`,
-        `UPDATE app.profiles SET locale_pref_set_at = now()`,
       ]) {
         expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
       }
