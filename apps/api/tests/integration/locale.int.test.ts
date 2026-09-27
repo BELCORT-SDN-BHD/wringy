@@ -225,9 +225,13 @@ describe('M2-AC04 POST /me/locale saves the language preference to the account (
     expect(await localeRow(FIONA.userId)).toEqual(before);
   });
 
-  it('M2-AC04/2 a revoked session is 401 session.revoked and writes nothing: liveness is asked on the command’s own connection', async () => {
+  it('M2-AC04/2 a revoked session is 401 session.revoked and writes nothing, through the real database adapter after a live save on the same app', async () => {
     // The real `platform.session_is_live` on the stub `auth.sessions`, the way
     // the probe's rows ask it; the default app answers liveness with a stub.
+    // This row cannot tell which connection asked: given no client, the adapter
+    // asks on a pooled one of its own and reads the same committed revocation.
+    // That the command hands it its transaction client is proven by the
+    // recording port in session-liveness.int.test.ts.
     const ivan = await person(db, identity, IVAN);
     const pool = createApiPool(db.urls.api, () => {});
     const live = await buildTestApi(db.urls.api, { identity, liveness: databaseLiveness(pool) });

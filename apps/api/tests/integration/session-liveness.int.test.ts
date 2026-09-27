@@ -313,15 +313,21 @@ describe('M2-AC02 every command asks the liveness question on its own transactio
     },
   });
 
-  for (const { url, expected } of [
+  const commands: ReadonlyArray<{ url: string; payload?: Record<string, unknown>; expected: number }> = [
     { url: '/identity/sign-in', expected: 200 },
     { url: '/me/session/probe', expected: 200 },
-  ] as const) {
+    // M2-04's command maps the verdict itself instead of using the guard, so only
+    // this row notices if it stops handing the port its transaction client: the
+    // revoked-session row in locale.int.test.ts asks the real adapter, which
+    // falls back to a pooled connection of its own and answers the same.
+    { url: '/me/locale', payload: { locale: 'ms-MY' }, expected: 200 },
+  ];
+  for (const { url, payload, expected } of commands) {
     it(`M2-AC02/2 revoked: POST ${url} checks liveness on the command's own connection, inside its open transaction`, async () => {
       const log: Recorded[] = [];
       const api = await buildTestApi(db.urls.api, { identity, liveness: recordingLiveness(log) });
       try {
-        const response = await api.app.inject({ method: 'POST', url, headers: caller.headers });
+        const response = await api.app.inject({ method: 'POST', url, headers: caller.headers, payload });
 
         // The port only answered `live` because both halves held, so a green status
         // here IS the assertion; the log says which half was observed.
