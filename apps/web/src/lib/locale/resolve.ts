@@ -25,7 +25,11 @@
  * (`browser` or `default`), the prompt cookie is absent, and either the visitor
  * is signed out or the account is known to hold no preference. Never when the
  * account read is `'unknown'`: a person with a saved preference is not asked
- * again because the API blinked ("有已保存偏好的用户不会反复被问").
+ * again because the API blinked ("有已保存偏好的用户不会反复被问"). On the sign-in
+ * and not-found pages every visitor resolves as signed out (`read.ts`), so the
+ * prompt there asks whoever is at the device as a guest, and `POST
+ * /internal/locale` treats the answer the same way: a guest choice, carried only
+ * into the account of the sign-in that follows.
  *
  * Every raw cookie value passes `isLocale`; an invalid value counts as absent.
  */

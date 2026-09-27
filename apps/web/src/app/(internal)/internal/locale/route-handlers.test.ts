@@ -21,7 +21,7 @@ vi.mock('next/headers', () => ({
   headers: () => Promise.resolve(new Headers()),
 }));
 
-const { POST: switchLocale, asksForJson, reasonOf, returnPathname } = await import('./route');
+const { POST: switchLocale, asksForJson, reasonOf, rendersSignedOut, returnPathname } = await import('./route');
 
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const API = 'http://127.0.0.1:3200';
@@ -424,6 +424,88 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
       [409, 'account.disabled'],
     ] as const) {
       expect(reasonOf({ kind: 'error', status, code }), `${status} ${code}`).toBe('unexpected');
+    }
+  });
+});
+
+describe('M2-AC04/1 shared device: a choice from a page that renders signed out is the guest’s, whatever cookie arrived', () => {
+  /** The pages `proxy.ts` renders without a session check, as their switchers post them. */
+  const SIGNED_OUT_PAGES = ['/internal/sign-in', '/internal/__not-found', '/campaigns', '/internal-tools'];
+
+  /** Somebody's session in the jar: still valid, or stale (the token no longer decodes). */
+  const SESSIONS: [string, () => void][] = [
+    ['a live session', () => signIn()],
+    ['a stale session', () => incoming.set(SESSION_COOKIE, 'truncated')],
+  ];
+
+  it('M2-AC04/1 shared device: over somebody’s session, a choice on the sign-in or not-found page calls nothing and sets the guest, carry and prompt cookies', async () => {
+    for (const next of SIGNED_OUT_PAGES) {
+      for (const [label, arrange] of SESSIONS) {
+        incoming.clear();
+        arrange();
+        const calls = stubApi(saved);
+
+        const response = await switchLocale(post(choose('zh-Hans-MY', next)));
+
+        const row = `${next}, ${label}`;
+        expect(calls, `${row}: no API call with the cookie that arrived`).toHaveLength(0);
+        expect(await response.json(), row).toEqual({ switched: true, locale: 'zh-Hans-MY', scope: 'guest', saved: true });
+        expect(cookie(response, 'wringy-locale')?.value, row).toBe('zh-Hans-MY');
+        expect(cookie(response, 'wringy-locale-carry'), row).toMatchObject({ value: 'zh-Hans-MY', path: '/auth', maxAge: 600 });
+        expect(cookie(response, 'wringy-locale-prompt')?.value, row).toBe('1');
+        expect(isExpiry(response, 'wringy-locale-session'), row).toBe(true);
+        expectNoStore(response, row);
+      }
+    }
+  });
+
+  it('M2-AC04/1 shared device: the same choice as a form lands back on that page with locale_switched', async () => {
+    signIn();
+    const calls = stubApi(saved);
+
+    for (const next of ['/internal/sign-in', '/internal/__not-found']) {
+      const response = await switchLocale(post(choose('ms-MY', next), { mode: 'form' }));
+      expect(response.status, next).toBe(303);
+      expect(response.headers.get('location'), next).toBe(`${APP_ORIGIN}${next}?outcome=locale_switched`);
+      expect(cookie(response, 'wringy-locale-carry')?.value, next).toBe('ms-MY');
+    }
+    expect(calls).toHaveLength(0);
+  });
+
+  it('M2-AC04/2 locale handler: an ordinary internal page keeps the signed-in branch', async () => {
+    for (const next of ['/internal', '/internal/orgs/0c0ffee0-0000-4000-8000-00000000000a', '/internal/invitations/accept', '/internal/sign-in-help']) {
+      incoming.clear();
+      signIn();
+      const calls = stubApi(saved);
+
+      const response = await switchLocale(post(choose('zh-Hans-MY', next)));
+
+      expect(calls.map((call) => call.url), next).toEqual([`${API}/me/locale`]);
+      expect((await response.json()).scope, next).toBe('account');
+      expect(cookie(response, 'wringy-locale-carry'), next).toBeUndefined();
+    }
+  });
+
+  it('M2-AC04/1 shared device: the handler’s signed-out pages are exactly the ones the proxy renders without a session check', async () => {
+    // Drift guard: run the real proxy on the pages the handler treats as signed out,
+    // with a session cookie in the jar, and check none of them is forwarded a token.
+    const { proxy } = await import('@/proxy');
+    const { NextRequest } = await import('next/server');
+    const tokenHeaderForwarded = (response: Response) =>
+      (response.headers.get('x-middleware-override-headers') ?? '').split(',').includes('x-wringy-access-token');
+
+    for (const path of SIGNED_OUT_PAGES) {
+      const request = new NextRequest(new URL(path, APP_ORIGIN), { headers: { cookie: `${SESSION_COOKIE}=${storedSession(ACCESS_TOKEN)}` } });
+      const response = await proxy(request);
+      expect(response.status, path).toBe(200);
+      expect(tokenHeaderForwarded(response), path).toBe(false);
+      const rewrite = response.headers.get('x-middleware-rewrite');
+      const rendered = rewrite === null ? path : new URL(rewrite).pathname;
+      expect(rendersSignedOut(rendered), `${path} renders ${rendered}`).toBe(true);
+      expect(rendersSignedOut(path), path).toBe(true);
+    }
+    for (const path of ['/internal', '/internal/orgs/abc', '/internal/sign-in/x', '/internal/__not-found/x']) {
+      expect(rendersSignedOut(path), path).toBe(false);
     }
   });
 });

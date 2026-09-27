@@ -403,9 +403,14 @@ already holds.
 `src/app/(internal)/internal/locale/route.ts`, under `guardRequest` (404 in demo mode, 503 without its
 variables, 403 cross-site). Fields `intent` (`choose` | `skip`), `locale` (one of the three, else 400
 and nothing written) and `next`. `skip` sets the prompt cookie only. A signed-out `choose` sets the
-guest, carry and prompt cookies and expires the session choice. A signed-in `choose` (this project's
-session cookie present) calls `POST /me/locale` with the stored token, read without a refresh: saved →
-the session choice is expired; any failure → `wringy-locale-session` is written (switched, not saved).
+guest, carry and prompt cookies and expires the session choice. **The page that posted decides**: a
+`choose` from the sign-in page, the not-found page or any path outside `/internal` (which the proxy
+rewrites to the not-found page) is always the signed-out one, because those pages render signed out
+whatever the jar holds; the API is never called with the session cookie the request arrived with,
+which on a shared device may be somebody else's, and the choice reaches an account only through the
+carry. A signed-in `choose` (this project's session cookie present, from any other internal page)
+calls `POST /me/locale` with the stored token, read without a refresh: saved → the session choice is
+expired; any failure → `wringy-locale-session` is written (switched, not saved).
 A request that asked for JSON (`Sec-Fetch-Mode` not `navigate` **and** `Accept` listing the literal
 `application/json`) never gets a 3xx: `200 { switched: true, locale, scope, saved, reason? }` or
 `200 { skipped: true }`. A form gets a 303 to `next` (its pathname only) with
