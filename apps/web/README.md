@@ -346,11 +346,14 @@ an unreachable API or an unknown code is `unexpected`.
 The API's 201 body, once; the `wringy-invite-<invitationId>` cookie the invite handler sets
 (httpOnly, `sameSite: lax`, Secure off loopback, path = exactly the invitation page, 10 minutes);
 the accept link the admin copies; the accept page's URL and its hidden form field; the sign-in
-`next` value and the `wringy-auth-next` cookie when the invitee is not yet signed in. Never an
-API path, a redirect this app builds, the admin's URL, a log line (`logFailure` writes method,
-path and code only), or — in development — the `next dev` request log
-(`logging.incomingRequests.ignore: [/[?&]token=/]` in `next.config.ts`). The language switch never
-carries it either (M2-04 R4): every language form posts `next` as the page's pathname only, and
+`next` value and the `wringy-auth-next` cookie when the invitee is not yet signed in; and, for that
+invitee, the one redirect this app builds that carries it: the callback's 303 back to the stored
+`next`, which is the person's own accept URL and, since M2-04, may also carry the locale outcome
+(`outcome=locale_synced&from=…` or `outcome=locale_not_saved`, set through `searchParams` beside the
+token). Never an API path, any other redirect this app builds, the admin's URL, a log line
+(`logFailure` writes method, path and code only), or — in development — the `next dev` request log
+(`logging.incomingRequests.ignore: [/[?&]token=/]` in `next.config.ts`). The language switch's own
+303 never carries it (M2-04 R4): every language form posts `next` as the page's pathname only, and
 `POST /internal/locale` reduces it to a pathname again before building its 303, so a no-JS switch on
 the accept page returns to the accept page without its token and the person re-opens the link
 (known-issues). The in-place switch with JavaScript does not navigate at all.
@@ -370,7 +373,7 @@ cookie jar. All are `sameSite: lax` (the callback is a cross-site top-level GET 
 |---|---|---|---|---|---|
 | `wringy-locale` | the guest's explicit saved preference (the same cookie the demo writes) | a signed-out `choose` | never by this build | 1 year | no — the demo writes it from script, and the switch reads it back to detect a refused store |
 | `wringy-locale-session` | an explicit choice the signed-in account does not hold yet | a failed save, a failed carry | a successful save or Retry, a successful carry, every successful sign-in, sign-out, end-session's sign-out branch, the proxy's `session_ended` | browser session | yes |
-| `wringy-locale-carry` | the choice made on the sign-in page, for the sign-in that starts now | a signed-out `choose` | every exit of the callback | 10 min, path `/auth` | yes |
+| `wringy-locale-carry` | the choice made on the sign-in page, for the sign-in that starts now | a signed-out `choose` (and every `choose` from a page that renders signed out) | the callback, once the API has answered for a person: a sign-in it let in, or a `not_allowed` / `disabled` refusal; an attempt that failed before that keeps it for the retry | 10 min, path `/auth` | yes |
 | `wringy-locale-prompt` | the first-visit prompt was answered or skipped this browsing session | `choose` and `skip` | never by this build | browser session | yes |
 
 ### The resolution order
@@ -380,10 +383,16 @@ through `resolveInternalLocale()` (`read.ts`, `React.cache`d), which `src/i18n/r
 the layout, the metadata and every page agree:
 
 1. `wringy-locale-session`, read only when the request carries a token (a leftover with no session
-   belongs to nobody);
+   belongs to nobody), and only while the account is not known to hold that same language — once it
+   does (saved since, here or on another device), the account decides and no "not saved" notice
+   shows beside a card that says "Saved";
 2. the account's `profiles.locale_pref`, from `GET /me` through `readMe()` — one memoised read per
    request that `/internal`'s page shares — raced against a **1.5 s** bound: on timeout or any failure
-   it is `unknown` and the order continues (the read keeps running for the page);
+   it is `unknown` and the order continues (the read keeps running for the page). The bound decides
+   the language, not the render: `/internal`'s page awaits the same read for its own content under
+   `apiFetch`'s 5 s, so a `/me` answering between 1.5 s and 5 s renders that page when it answers, in
+   the language resolved without the account, beside a card showing the saved preference; no other
+   internal page awaits `/me`;
 3. `wringy-locale`;
 4. `Accept-Language` as a suggestion only (`accept-language.ts`: q-values, then header order; `en*`,
    `ms*`, `zh`/`zh-Hans*`/`zh-CN`/`zh-SG`/`zh-MY`; Traditional Chinese matches nothing);
@@ -394,23 +403,32 @@ suggestion (steps 4–5), the prompt cookie is absent, and the visitor is signed
 known to hold none — never when the account read is `unknown`. `<body>` carries `data-locale`,
 `data-locale-source` (`session|account|guest|browser|default`) and `data-account-preference`
 (`<locale>|none|unknown`). The sign-in and not-found pages are passed through the proxy without a
-session check, so there the visitor resolves as signed out; on a path the proxy's matcher excludes, a
-client-sent token header reaches the render, which can learn only the language of a token the caller
-already holds.
+session check, so there the visitor resolves as signed out — the prompt may ask a signed-in person
+there, as a guest — and the handler treats a choice made there as the guest's (below); on a path
+the proxy's matcher excludes, a client-sent token header reaches the render, which can learn only the
+language of a token the caller already holds.
 
 ### The handler: `POST /internal/locale`
 
 `src/app/(internal)/internal/locale/route.ts`, under `guardRequest` (404 in demo mode, 503 without its
 variables, 403 cross-site). Fields `intent` (`choose` | `skip`), `locale` (one of the three, else 400
 and nothing written) and `next`. `skip` sets the prompt cookie only. A signed-out `choose` sets the
-guest, carry and prompt cookies and expires the session choice. A signed-in `choose` (this project's
-session cookie present) calls `POST /me/locale` with the stored token, read without a refresh: saved →
-the session choice is expired; any failure → `wringy-locale-session` is written (switched, not saved).
+guest, carry and prompt cookies and expires the session choice. **The page that posted decides**: a
+`choose` from the sign-in page, the not-found page or any path outside `/internal` (which the proxy
+rewrites to the not-found page) is always the signed-out one, because those pages render signed out
+whatever the jar holds; the API is never called with the session cookie the request arrived with,
+which on a shared device may be somebody else's, and the choice reaches an account only through the
+carry. A signed-in `choose` (this project's session cookie present, from any other internal page)
+calls `POST /me/locale` with the stored token, read without a refresh: saved → the session choice is
+expired; any failure → `wringy-locale-session` is written (switched, not saved).
 A request that asked for JSON (`Sec-Fetch-Mode` not `navigate` **and** `Accept` listing the literal
 `application/json`) never gets a 3xx: `200 { switched: true, locale, scope, saved, reason? }` or
 `200 { skipped: true }`. A form gets a 303 to `next` (its pathname only) with
 `?outcome=locale_saved | locale_switched | locale_not_saved`, or to `/auth/end-session` for a disabled
-account. Every response is `no-store`.
+account. `next` passes `safeNextPath` before and after it is reduced to a pathname, because a dot
+segment can resolve an accepted path into a protocol-relative one (`/internal/..//evil.example` →
+`//evil.example`); the 303 sets that pathname on a URL of `APP_ORIGIN`, so its origin cannot change.
+Every response is `no-store`.
 
 ### The switch, the controls and the notices
 
@@ -443,8 +461,12 @@ everywhere beats two). A disabled account leaves through `/auth/end-session`.
 from the profile's preference is saved with **the token the exchange just returned**, never the one
 the request arrived with (on a shared device that may be somebody else's). Saved → `locale_synced`
 with `from`; not saved → the session choice and `locale_not_saved`; `account.disabled` → signed out
-again and `disabled`. The carry cookie is expired on every exit, and a guest preference from an
-earlier browsing session is never carried.
+again and `disabled`. The carry cookie is spent once the API has answered for a person — a sign-in it
+let in (whether the carry was used, equal to the preference or invalid) or a refusal that names who
+was signing in (`not_allowed`, `disabled`, a carry refused as disabled) — and kept by an attempt that
+failed before that (a Google cancel, a flow Supabase no longer holds, an exchange error, a missing
+code, a 5xx or an unreachable API), so the retry lands in the language just chosen; its ten-minute
+max-age bounds it either way. A guest preference from an earlier browsing session is never carried.
 
 ### Without JavaScript
 

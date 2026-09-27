@@ -97,7 +97,12 @@ export function writeCarry(jar: CookieWriter, locale: Locale, secure: boolean): 
   jar.set(LOCALE_CARRY_COOKIE, locale, carryCookieOptions(secure));
 }
 
-/** Every exit of the callback (R6). The path must match the write's, or the browser keeps it. */
+/**
+ * The callback, once the API has answered for a person: a sign-in it let in, or a
+ * refusal naming who was signing in (R6 rev 3). An attempt that failed before
+ * that keeps the carry for the retry. The path must match the write's, or the
+ * browser keeps it.
+ */
 export function expireCarry(jar: CookieWriter, secure: boolean): void {
   jar.expire(LOCALE_CARRY_COOKIE, carryCookieOptions(secure));
 }

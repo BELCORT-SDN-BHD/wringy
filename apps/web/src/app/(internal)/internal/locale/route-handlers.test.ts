@@ -21,7 +21,7 @@ vi.mock('next/headers', () => ({
   headers: () => Promise.resolve(new Headers()),
 }));
 
-const { POST: switchLocale, asksForJson, reasonOf, returnPathname } = await import('./route');
+const { POST: switchLocale, asksForJson, reasonOf, rendersSignedOut, returnPathname } = await import('./route');
 
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const API = 'http://127.0.0.1:3200';
@@ -310,6 +310,26 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
     expectNoStore(response);
   });
 
+  it('M2-AC04/2 locale handler: a save that changes nothing is still a success, and the session choice goes', async () => {
+    // This browser's own choice once failed to save; the account holds that language now.
+    for (const mode of ['json', 'form'] as const) {
+      incoming.clear();
+      signIn();
+      incoming.set('wringy-locale-session', 'zh-Hans-MY');
+      const calls = stubApi(saved); // PROFILE.localePref is already zh-Hans-MY.
+
+      const response = await switchLocale(post(choose('zh-Hans-MY'), { mode }));
+
+      expect(calls, mode).toHaveLength(1);
+      if (mode === 'json') {
+        expect(await response.json()).toEqual({ switched: true, locale: 'zh-Hans-MY', scope: 'account', saved: true });
+      } else {
+        expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal?outcome=locale_saved`);
+      }
+      expect(isExpiry(response, 'wringy-locale-session'), mode).toBe(true);
+    }
+  });
+
   it('M2-AC04/2 locale handler: a saved choice form lands on the page with locale_saved', async () => {
     signIn();
     stubApi(saved);
@@ -428,6 +448,88 @@ describe('M2-AC04/2 locale handler: a signed-in choice is saved to the account, 
   });
 });
 
+describe('M2-AC04/1 shared device: a choice from a page that renders signed out is the guest’s, whatever cookie arrived', () => {
+  /** The pages `proxy.ts` renders without a session check, as their switchers post them. */
+  const SIGNED_OUT_PAGES = ['/internal/sign-in', '/internal/__not-found', '/campaigns', '/internal-tools'];
+
+  /** Somebody's session in the jar: still valid, or stale (the token no longer decodes). */
+  const SESSIONS: [string, () => void][] = [
+    ['a live session', () => signIn()],
+    ['a stale session', () => incoming.set(SESSION_COOKIE, 'truncated')],
+  ];
+
+  it('M2-AC04/1 shared device: over somebody’s session, a choice on the sign-in or not-found page calls nothing and sets the guest, carry and prompt cookies', async () => {
+    for (const next of SIGNED_OUT_PAGES) {
+      for (const [label, arrange] of SESSIONS) {
+        incoming.clear();
+        arrange();
+        const calls = stubApi(saved);
+
+        const response = await switchLocale(post(choose('zh-Hans-MY', next)));
+
+        const row = `${next}, ${label}`;
+        expect(calls, `${row}: no API call with the cookie that arrived`).toHaveLength(0);
+        expect(await response.json(), row).toEqual({ switched: true, locale: 'zh-Hans-MY', scope: 'guest', saved: true });
+        expect(cookie(response, 'wringy-locale')?.value, row).toBe('zh-Hans-MY');
+        expect(cookie(response, 'wringy-locale-carry'), row).toMatchObject({ value: 'zh-Hans-MY', path: '/auth', maxAge: 600 });
+        expect(cookie(response, 'wringy-locale-prompt')?.value, row).toBe('1');
+        expect(isExpiry(response, 'wringy-locale-session'), row).toBe(true);
+        expectNoStore(response, row);
+      }
+    }
+  });
+
+  it('M2-AC04/1 shared device: the same choice as a form lands back on that page with locale_switched', async () => {
+    signIn();
+    const calls = stubApi(saved);
+
+    for (const next of ['/internal/sign-in', '/internal/__not-found']) {
+      const response = await switchLocale(post(choose('ms-MY', next), { mode: 'form' }));
+      expect(response.status, next).toBe(303);
+      expect(response.headers.get('location'), next).toBe(`${APP_ORIGIN}${next}?outcome=locale_switched`);
+      expect(cookie(response, 'wringy-locale-carry')?.value, next).toBe('ms-MY');
+    }
+    expect(calls).toHaveLength(0);
+  });
+
+  it('M2-AC04/2 locale handler: an ordinary internal page keeps the signed-in branch', async () => {
+    for (const next of ['/internal', '/internal/orgs/0c0ffee0-0000-4000-8000-00000000000a', '/internal/invitations/accept', '/internal/sign-in-help']) {
+      incoming.clear();
+      signIn();
+      const calls = stubApi(saved);
+
+      const response = await switchLocale(post(choose('zh-Hans-MY', next)));
+
+      expect(calls.map((call) => call.url), next).toEqual([`${API}/me/locale`]);
+      expect((await response.json()).scope, next).toBe('account');
+      expect(cookie(response, 'wringy-locale-carry'), next).toBeUndefined();
+    }
+  });
+
+  it('M2-AC04/1 shared device: the handler’s signed-out pages are exactly the ones the proxy renders without a session check', async () => {
+    // Drift guard: run the real proxy on the pages the handler treats as signed out,
+    // with a session cookie in the jar, and check none of them is forwarded a token.
+    const { proxy } = await import('@/proxy');
+    const { NextRequest } = await import('next/server');
+    const tokenHeaderForwarded = (response: Response) =>
+      (response.headers.get('x-middleware-override-headers') ?? '').split(',').includes('x-wringy-access-token');
+
+    for (const path of SIGNED_OUT_PAGES) {
+      const request = new NextRequest(new URL(path, APP_ORIGIN), { headers: { cookie: `${SESSION_COOKIE}=${storedSession(ACCESS_TOKEN)}` } });
+      const response = await proxy(request);
+      expect(response.status, path).toBe(200);
+      expect(tokenHeaderForwarded(response), path).toBe(false);
+      const rewrite = response.headers.get('x-middleware-rewrite');
+      const rendered = rewrite === null ? path : new URL(rewrite).pathname;
+      expect(rendersSignedOut(rendered), `${path} renders ${rendered}`).toBe(true);
+      expect(rendersSignedOut(path), path).toBe(true);
+    }
+    for (const path of ['/internal', '/internal/orgs/abc', '/internal/sign-in/x', '/internal/__not-found/x']) {
+      expect(rendersSignedOut(path), path).toBe(false);
+    }
+  });
+});
+
 describe('M2-AC04/2 locale handler: a request that asked for JSON never gets a 3xx', () => {
   /** One arrangement per branch the handler has. */
   const BRANCHES: { name: string; arrange: () => void; form: Record<string, string> }[] = [
@@ -481,6 +583,12 @@ describe('M2-AC04/2 locale handler: a request that asked for JSON never gets a 3
   });
 });
 
+/**
+ * Paths `safeNextPath` accepts as they stand, whose dot segments `URL` resolves
+ * to the protocol-relative `//evil.example`: re-parsed as a path, that is a host.
+ */
+const DOT_SEGMENT_HOSTILE = ['/internal/..//evil.example', '/.//evil.example/x', '/%2e%2e//evil.example'];
+
 describe('M2-AC04/2 locale handler: the return path is a pathname of this origin, never a query', () => {
   it('M2-AC04/2 locale handler: next is reduced by safeNextPath and loses its query and fragment', () => {
     expect(returnPathname('/internal/orgs/abc', APP_ORIGIN)).toBe('/internal/orgs/abc');
@@ -488,9 +596,20 @@ describe('M2-AC04/2 locale handler: the return path is a pathname of this origin
       '/internal/invitations/accept',
     );
     expect(returnPathname('/internal?outcome=created#x', APP_ORIGIN)).toBe('/internal');
-    for (const hostile of ['', '//evil.example', 'https://evil.example/x', '/\\evil.example', 'javascript:alert(1)', 'internal', '/internal\r\nSet-Cookie: a=b']) {
+    for (const hostile of [
+      '',
+      '//evil.example',
+      'https://evil.example/x',
+      '/\\evil.example',
+      'javascript:alert(1)',
+      'internal',
+      '/internal\r\nSet-Cookie: a=b',
+      ...DOT_SEGMENT_HOSTILE,
+    ]) {
       expect(returnPathname(hostile, APP_ORIGIN), JSON.stringify(hostile)).toBe('/internal');
     }
+    // An ordinary dot segment still resolves to the page it names.
+    expect(returnPathname('/internal/orgs/../invitations', APP_ORIGIN)).toBe('/internal/invitations');
   });
 
   it('M2-AC04/2 locale handler: a form from the accept page returns to it without its token, and with the outcome set, not appended', async () => {
@@ -508,8 +627,10 @@ describe('M2-AC04/2 locale handler: the return path is a pathname of this origin
   });
 
   it('M2-AC04/2 locale handler: a hostile next lands on /internal of APP_ORIGIN', async () => {
-    for (const hostile of ['//evil.example/x', 'https://evil.example']) {
+    for (const hostile of ['//evil.example/x', 'https://evil.example', ...DOT_SEGMENT_HOSTILE]) {
       const response = await switchLocale(post(choose('ms-MY', hostile), { mode: 'form' }));
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.origin, hostile).toBe(APP_ORIGIN);
       expect(response.headers.get('location'), hostile).toBe(`${APP_ORIGIN}/internal?outcome=locale_switched`);
     }
   });

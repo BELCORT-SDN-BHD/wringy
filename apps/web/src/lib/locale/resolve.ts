@@ -8,7 +8,10 @@
  *
  * 1. `session` — `wringy-locale-session`, an explicit choice the account does
  *    not hold yet (a failed save or a failed carry). Read only when the request
- *    carries a token: a leftover with no session belongs to nobody.
+ *    carries a token: a leftover with no session belongs to nobody. A value the
+ *    account is known to hold already (saved since, on this device or another)
+ *    is not unsaved: the account decides, so no notice says "not saved" beside a
+ *    card that says "Saved".
  * 2. `account` — the signed-in person's `profiles.locale_pref`. `'unknown'` when
  *    there is no token or the read failed or ran out of time: the order simply
  *    continues.
@@ -25,7 +28,11 @@
  * (`browser` or `default`), the prompt cookie is absent, and either the visitor
  * is signed out or the account is known to hold no preference. Never when the
  * account read is `'unknown'`: a person with a saved preference is not asked
- * again because the API blinked ("有已保存偏好的用户不会反复被问").
+ * again because the API blinked ("有已保存偏好的用户不会反复被问"). On the sign-in
+ * and not-found pages every visitor resolves as signed out (`read.ts`), so the
+ * prompt there asks whoever is at the device as a guest, and `POST
+ * /internal/locale` treats the answer the same way: a guest choice, carried only
+ * into the account of the sign-in that follows.
  *
  * Every raw cookie value passes `isLocale`; an invalid value counts as absent.
  */
@@ -72,7 +79,8 @@ export function resolveLocale(input: ResolveInput): ResolvedLocale {
   const guestChoice = valid(input.guestChoice);
 
   const decided = ((): { locale: Locale; source: LocaleSource } => {
-    if (sessionChoice !== null) return { locale: sessionChoice, source: 'session' };
+    // Equal to the account's known preference, the choice is saved: the account step decides.
+    if (sessionChoice !== null && sessionChoice !== accountPreference) return { locale: sessionChoice, source: 'session' };
     if (accountPreference !== null && accountPreference !== 'unknown') return { locale: accountPreference, source: 'account' };
     if (guestChoice !== null) return { locale: guestChoice, source: 'guest' };
     const suggested = suggestLocale(input.acceptLanguage);
