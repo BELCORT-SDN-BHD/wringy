@@ -31,7 +31,9 @@
  * The token is `accessTokenFromHeaders()`, which `proxy.ts` sets from a session it
  * just verified on every matched internal read, after removing whatever a client
  * sent. The sign-in and not-found pages are passed through without a session
- * check, so there the visitor resolves as signed out. On a path the proxy's
+ * check, so there the visitor resolves as signed out; a session cookie in the jar
+ * (`isSessionCookieName`, the proxy's own test) only keeps the prompt from asking
+ * somebody whose account nobody read (`resolve.ts`). On a path the proxy's
  * matcher excludes (`/internal/x.png`) a client-sent token header reaches the
  * render unstripped; what it can learn is the language preference of a token the
  * caller already holds, because the API verifies every token it is sent.
@@ -43,6 +45,7 @@ import { cookies, headers } from 'next/headers';
 import { meResponseSchema, type MeResponse } from '@wringy/contracts';
 import { accessTokenFromHeaders, apiFetch, type ApiResult } from '@/lib/auth/api-client';
 import { internalAuthEnv } from '@/lib/auth/env';
+import { isSessionCookieName } from '@/lib/auth/supabase-server';
 
 import { readLocaleCookies } from './cookies';
 import { resolveLocale, type AccountPreference, type ResolvedLocale } from './resolve';
@@ -92,9 +95,11 @@ export const resolveInternalLocale = cache(async (): Promise<ResolvedLocale> => 
   const accountPreference: AccountPreference =
     token !== null && env.ok ? await accountPreferenceWithin(readMe(token, env.env.apiInternalUrl)) : 'unknown';
   const stored = readLocaleCookies((name) => jar.get(name)?.value);
+  const holdsSessionCookie = env.ok && jar.getAll().some(({ name }) => isSessionCookieName(env.env.supabaseUrl, name));
 
   return resolveLocale({
     signedIn: token !== null,
+    holdsSessionCookie,
     sessionChoice: stored.sessionChoice,
     accountPreference,
     guestChoice: stored.guestChoice,

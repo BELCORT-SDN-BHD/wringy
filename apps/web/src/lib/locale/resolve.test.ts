@@ -11,6 +11,7 @@ import { resolveLocale, type ResolveInput } from './resolve';
 /** Nothing known: a signed-out visitor with no cookies and no Accept-Language. */
 const NOTHING: ResolveInput = {
   signedIn: false,
+  holdsSessionCookie: false,
   sessionChoice: undefined,
   accountPreference: 'unknown',
   guestChoice: undefined,
@@ -21,6 +22,7 @@ const NOTHING: ResolveInput = {
 const signedIn = (overrides: Partial<ResolveInput> = {}): ResolveInput => ({
   ...NOTHING,
   signedIn: true,
+  holdsSessionCookie: true,
   accountPreference: null,
   ...overrides,
 });
@@ -143,6 +145,29 @@ describe('M2-AC04/1 prompt: asked only while the language is a suggestion, and n
     // The API blinked: this person may well have a saved preference, so they are not asked.
     expect(resolveLocale(signedIn({ accountPreference: 'unknown', acceptLanguage: 'ms' })).showPrompt).toBe(false);
     expect(resolveLocale(signedIn({ accountPreference: 'unknown' })).showPrompt).toBe(false);
+  });
+
+  it('M2-AC04/1 prompt: a session cookie the render did not verify is an account nobody read, so nobody is asked (the sign-in and not-found pages)', () => {
+    // Those pages render without a token whatever the jar holds (read.ts): the language is resolved as a guest's…
+    const unverified = { ...NOTHING, holdsSessionCookie: true };
+    expect(resolveLocale({ ...unverified, acceptLanguage: 'ms' })).toMatchObject({
+      locale: 'ms-MY',
+      source: 'browser',
+      accountPreference: 'unknown',
+      unsaved: null,
+      showPrompt: false,
+    });
+    expect(resolveLocale(unverified)).toMatchObject({ source: 'default', showPrompt: false });
+    // …whatever the caller passed for the account: without a token there is none to ask, so "none" is not known either.
+    expect(resolveLocale({ ...unverified, accountPreference: null }).showPrompt).toBe(false);
+    // …and the order is the guest's, unchanged: the guest cookie decides, a leftover session choice still counts for nobody.
+    expect(resolveLocale({ ...unverified, guestChoice: 'zh-Hans-MY', sessionChoice: 'ms-MY' })).toMatchObject({
+      locale: 'zh-Hans-MY',
+      source: 'guest',
+      unsaved: null,
+    });
+    // No session cookie at all is a guest, who is asked.
+    expect(resolveLocale({ ...NOTHING, acceptLanguage: 'ms' }).showPrompt).toBe(true);
   });
 
   it('M2-AC04/1 prompt: an explicit choice anywhere means no prompt', () => {

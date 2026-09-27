@@ -399,13 +399,16 @@ the layout, the metadata and every page agree:
 5. `en-MY`.
 
 An invalid cookie value counts as absent. The first-visit prompt shows while the language is only a
-suggestion (steps 4–5), the prompt cookie is absent, and the visitor is signed out or the account is
-known to hold none — never when the account read is `unknown`. `<body>` carries `data-locale`,
-`data-locale-source` (`session|account|guest|browser|default`) and `data-account-preference`
-(`<locale>|none|unknown`). The sign-in and not-found pages are passed through the proxy without a
-session check, so there the visitor resolves as signed out — the prompt may ask a signed-in person
-there, as a guest — and the handler treats a choice made there as the guest's (below); on a path
-the proxy's matcher excludes, a client-sent token header reaches the render, which can learn only the
+suggestion (steps 4–5), the prompt cookie is absent, and the visitor is a guest (no session cookie at
+all) or the account is known to hold none — never when the account read is `unknown`. `<body>` carries
+`data-locale`, `data-locale-source` (`session|account|guest|browser|default`) and
+`data-account-preference` (`<locale>|none|unknown`). The sign-in and not-found pages are passed
+through the proxy without a session check, so there the language resolves as a guest's and the
+handler treats a choice made there as the guest's (below). A session cookie in the jar there is an
+account nobody read, so the prompt does not ask: a signed-in person with a saved preference is not
+asked again on those pages, and on a shared device neither is the next person until that cookie is
+replaced or expired — the header's Language control switches for them all the same. On a path the
+proxy's matcher excludes, a client-sent token header reaches the render, which can learn only the
 language of a token the caller already holds.
 
 ### The handler: `POST /internal/locale`

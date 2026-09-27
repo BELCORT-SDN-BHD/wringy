@@ -74,6 +74,16 @@ async function sleepyApi(delayMs: number): Promise<string> {
   return `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 }
 
+/** Internal mode with every variable the sign-in flow needs, against the API at `apiUrl`. */
+function stubInternalEnv(apiUrl: string): void {
+  vi.stubEnv('WRINGY_APP_MODE', 'internal');
+  vi.stubEnv('WRINGY_ENV', 'ci');
+  vi.stubEnv('API_INTERNAL_URL', apiUrl);
+  vi.stubEnv('SUPABASE_URL', 'https://project.supabase.co');
+  vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_fake_0123456789abcdef');
+  vi.stubEnv('APP_ORIGIN', 'http://127.0.0.1:3100');
+}
+
 describe('M2-AC04/1 API stalled: the language does not wait for a slow account read', () => {
   it('M2-AC04/1 API stalled: a read that never answers is unknown at 1.5 s, and not before', async () => {
     vi.useFakeTimers();
@@ -133,12 +143,7 @@ describe('M2-AC04/1 API stalled: the language does not wait for a slow account r
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     const base = await sleepyApi(3_000);
     const token = 'token-for-the-simulated-caller';
-    vi.stubEnv('WRINGY_APP_MODE', 'internal');
-    vi.stubEnv('WRINGY_ENV', 'ci');
-    vi.stubEnv('API_INTERNAL_URL', base);
-    vi.stubEnv('SUPABASE_URL', 'https://project.supabase.co');
-    vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_fake_0123456789abcdef');
-    vi.stubEnv('APP_ORIGIN', 'http://127.0.0.1:3100');
+    stubInternalEnv(base);
     // A signed-in render (the proxy's token header) in a browser that holds a guest choice.
     request.headers = new Headers({ [ACCESS_TOKEN_HEADER]: token, 'accept-language': 'ms' });
     request.cookies.set('wringy-locale', 'zh-Hans-MY');
@@ -169,4 +174,33 @@ describe('M2-AC04/1 API stalled: the language does not wait for a slow account r
     expect(accountPreferenceOf(page)).toBe('ms-MY');
     expect(pageAfter).toBeGreaterThanOrEqual(3_000 - 50);
   }, 15_000);
+});
+
+describe('M2-AC04/1 prompt: the sign-in and not-found pages do not ask a browser that holds a session', () => {
+  /**
+   * spec-7: the proxy renders those two pages without a token whatever the jar
+   * holds, so the render cannot read the account. A session cookie there means
+   * somebody may be signed in with a saved preference nobody read, which is the
+   * prompt's `'unknown'`: not asked. The cookie's name is the one `@supabase/ssr`
+   * writes for `SUPABASE_URL` (`sb-<project ref>-auth-token`, or its chunks).
+   */
+  it('M2-AC04/1 prompt: no token and a session cookie, whole or chunked, is not asked; the PKCE verifier alone or no sb- cookie is a guest, who is', async () => {
+    stubInternalEnv('http://127.0.0.1:9');
+    request.headers = new Headers({ 'accept-language': 'ms' });
+
+    const guest = await resolveInternalLocale();
+    expect(guest).toMatchObject({ locale: 'ms-MY', source: 'browser', accountPreference: 'unknown', showPrompt: true });
+
+    for (const name of ['sb-project-auth-token', 'sb-project-auth-token.0']) {
+      request.cookies.clear();
+      request.cookies.set(name, 'base64-eyJhY2Nlc3NfdG9rZW4iOiJzdGFsZSJ9');
+      const unverified = await resolveInternalLocale();
+      expect(unverified, name).toMatchObject({ locale: 'ms-MY', source: 'browser', accountPreference: 'unknown', showPrompt: false });
+    }
+
+    // A sign-in that was started and never finished leaves only the verifier: nobody is signed in.
+    request.cookies.clear();
+    request.cookies.set('sb-project-auth-token-code-verifier', 'verifier');
+    expect((await resolveInternalLocale()).showPrompt).toBe(true);
+  });
 });

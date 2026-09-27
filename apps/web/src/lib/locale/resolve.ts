@@ -25,14 +25,21 @@
  * 不被旧账号记录静默覆盖").
  *
  * The first-visit prompt shows when the language is only a suggestion
- * (`browser` or `default`), the prompt cookie is absent, and either the visitor
- * is signed out or the account is known to hold no preference. Never when the
- * account read is `'unknown'`: a person with a saved preference is not asked
- * again because the API blinked ("有已保存偏好的用户不会反复被问"). On the sign-in
- * and not-found pages every visitor resolves as signed out (`read.ts`), so the
- * prompt there asks whoever is at the device as a guest, and `POST
- * /internal/locale` treats the answer the same way: a guest choice, carried only
- * into the account of the sign-in that follows.
+ * (`browser` or `default`), the prompt cookie is absent, and the visitor is known
+ * to have no preference to be asked about: a guest (no session cookie at all), or
+ * a signed-in person whose account is known to hold none. Never when the account
+ * read is `'unknown'`: a person with a saved preference is not asked again
+ * because the API blinked ("有已保存偏好的用户不会反复被问").
+ *
+ * The sign-in and not-found pages render without a token whatever the browser
+ * holds (`read.ts`), so there the language resolves as a guest's, and `POST
+ * /internal/locale` treats a choice made there the same way: the guest's,
+ * carried only into the account of the sign-in that follows. A session cookie in
+ * the jar there still means somebody may be signed in whose account nobody read,
+ * which for the prompt is `'unknown'`: not asked. On a shared device that keeps
+ * the next person from being asked there too, until the cookie is gone (a sign-in
+ * or a sign-out replaces it); the header's Language control switches for them all
+ * the same.
  *
  * Every raw cookie value passes `isLocale`; an invalid value counts as absent.
  */
@@ -50,6 +57,12 @@ export type AccountPreference = Locale | null | 'unknown';
 export interface ResolveInput {
   /** The request carries an access token (the proxy verified a session). */
   readonly signedIn: boolean;
+  /**
+   * The browser holds this project's session cookie, verified or not. Without a
+   * token (the sign-in and not-found pages) it is the only sign that somebody may
+   * be signed in, and it decides the prompt alone, never the language.
+   */
+  readonly holdsSessionCookie: boolean;
   /** Raw `wringy-locale-session`. */
   readonly sessionChoice: string | null | undefined;
   readonly accountPreference: AccountPreference;
@@ -89,7 +102,8 @@ export function resolveLocale(input: ResolveInput): ResolvedLocale {
   })();
 
   const onlySuggested = decided.source === 'browser' || decided.source === 'default';
-  const mayAsk = !input.signedIn || accountPreference === null;
+  // A guest is asked, and an account known to hold none. A session cookie this render did not verify is an account nobody read.
+  const mayAsk = input.signedIn ? accountPreference === null : !input.holdsSessionCookie;
 
   return {
     ...decided,

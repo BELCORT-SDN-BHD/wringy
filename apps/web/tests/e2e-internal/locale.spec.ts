@@ -593,6 +593,10 @@ test.describe('M2-AC04 the language preference: suggestion, prompt and the share
       expect(await sessionCookieNames(context), "Gopal's session cookie is still in the jar").not.toEqual([]);
       await expectBodyLocale(page, 'en-MY', 'browser');
       await expect(page.locator('body')).toHaveAttribute('data-account-preference', 'unknown');
+      // Nobody answered the prompt in this browser, yet it does not ask: whoever holds the session may have
+      // a saved preference the page could not read (spec-7). The header still switches, below.
+      expect((await localeCookies(context))[LOCALE_COOKIES.prompt], 'the prompt was never answered here').toBeUndefined();
+      await expect(prompt(page), 'a session nobody verified is an account nobody read: not asked').toHaveCount(0);
 
       // Fiona chooses Chinese: the guest's choice, carried for the sign-in that starts now.
       await switchInHeader(page, 'zh-Hans-MY');
@@ -640,6 +644,9 @@ test.describe('M2-AC04 the language preference: suggestion, prompt and the share
     expect(await sessionCookieNames(context), "Gopal's session cookie is still in the jar").not.toEqual([]);
     await expectBodyLocale(page, 'en-MY', 'browser');
     await expect(page.locator('body')).toHaveAttribute('data-account-preference', 'unknown');
+    // Gopal's Malay is saved, and the page cannot read it: he is not asked again (spec-7).
+    expect((await localeCookies(context))[LOCALE_COOKIES.prompt], 'the prompt was never answered here').toBeUndefined();
+    await expect(prompt(page), 'a session nobody verified is an account nobody read: not asked').toHaveCount(0);
 
     await switchInHeader(page, 'zh-Hans-MY');
     await expectBodyLocale(page, 'zh-Hans-MY', 'guest');
