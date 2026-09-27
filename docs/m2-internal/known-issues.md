@@ -262,6 +262,22 @@ ruling or the reason it is accepted under.
   path against the real Auth server (a real session stored with a past `expires_at` came back signed
   in with a new cookie). Record: [acceptance-record.md](acceptance-record.md) "Real rows executed by
   script". The walk itself is [m2-02-real-login-runbook.md](m2-02-real-login-runbook.md).
+- **Fixed, found by M2-04: `requireLiveSession` could not tell its caller that it had refused.** The
+  guard resolved to the Fastify reply it had sent, and a reply is a thenable, so `await` turned it
+  into `undefined` even after the 401 or 503 had gone out. `POST /me/session/probe`'s
+  `if (refused !== undefined)` therefore never fired: after a revoked verdict the probe still took its
+  `FOR SHARE` lock, read the clock and tried a second send. That was harmless there, because the probe
+  writes nothing and the first send wins, but `me.ts` and the API README present the probe as the
+  shape M3's fund-sensitive commands reuse, and a command copied from it would have written on a
+  revoked session. The M2-02 rows could not see it: they assert the status and body, and the first
+  send is the right one. The M2-04 API lane found it when its revoked-session row saved a preference
+  through the guard. The guard now sends and resolves `true` (`false` when live); the probe stops on
+  `true`; `POST /me/locale` maps `liveness.check` itself, like `runOrgCommand`. A new row in
+  `session-liveness.int.test.ts` proves a guarded command writes nothing and runs no further
+  statement after a revoked verdict, and it fails against the old guard (the UPDATE ran). The
+  capability guards keep returning the reply: they are only ever preHandlers, where Fastify stops
+  on a sent reply whatever the hook resolves to.
+
 ## M2-03: organisations, memberships, capabilities and the audit log
 
 Recorded 2026-09-26 against branch `feat/m2-03`, from the design record
@@ -380,6 +396,94 @@ ticket are hand-offs, not defects.
   local fake Auth server; the database and API rows run on real PostgreSQL 17. The M2-AC03 spec row
   does not forbid closing on simulated results (unlike M2-AC02); whether the founder walks it with
   the real Google test users before closing is question §6.1 of the design record.
+
+## M2-04: the language preference
+
+Recorded 2026-09-27 against branch `feat/m2-04`, from the design record
+[m2-04-code-review.md](m2-04-code-review.md) (revision 2), the three build lanes' reports and the
+integration. These are the limitations M2-04 accepts, each with the decision or the reason it is
+accepted under; the rows that name a later ticket are hand-offs, not defects.
+
+- **On one developer host the demo and the internal build share `wringy-locale` (development only; §1).**
+  Cookies are host-scoped, not port-scoped, and the demo writes `wringy-locale` on every hydration
+  whether or not the choice was explicit, while the internal build reads that cookie as the guest's
+  explicit preference (R3 step 3). A demo run on `127.0.0.1` therefore leaves a value the internal
+  build on the same host treats as chosen. Deployed builds are on different hosts; clear the cookie
+  when switching modes locally.
+- **A choice made on the sign-in page is carried for ten minutes, and a neighbouring host can plant
+  it (R6's residual).** Within the carry cookie's ten minutes, a stranger who chose a language on a
+  shared device's sign-in page and walked away has that choice carried into the next person's
+  account, visibly, with the synced notice and Undo. A neighbouring host that can plant cookies
+  (M2-02's cookie-tossing limitation, M2-09's `__Host-` decision) can now also plant a carry or a
+  session-choice value. Either way the effect is a display language the person sees and can undo,
+  not a security boundary.
+- **When the browser refuses the cookie, the page is not switched (§5).** localization-v1 says the
+  interface can still switch when saving fails or the browser refuses storage. The internal build's
+  pages are rendered on the server from the cookie, so without it a switch would leave the page in
+  two languages, which the same document forbids more strongly. The client announces that the
+  browser refused to store the choice and keeps one language everywhere (the refused-storage row, a
+  mocked handler answer).
+- **Without JavaScript, a switch on the accept page loses the invitation token (R4, §5).** The no-JS
+  form posts the pathname only, because the token inventory forbids the token in a redirect this app
+  builds; the person re-opens the link. The in-place switch keeps the URL and is the tested claim
+  (the invitee row).
+- **`0010`'s Down has no test (R1).** The whole-chain fixed point cannot see a `profiles` column
+  grant, because `0008`'s Down drops the table right after, and the at-`0010` comparison reverts
+  only the migrations after `0010`. With `0010`'s `REVOKE UPDATE` line removed, every migrations row
+  still passed in the design critic's run (9 of 9). `0010` is applied everywhere and never edited, so
+  the gap is recorded, not fixed; `0017`'s
+  and `0018`'s Downs are covered by the at-`0010` row and the newest-migration row
+  (`packages/db/README.md` "Which test checks each Down").
+- **Clause 3.10 is proven by unit tests only (R9).** The catalogue parity test fails the build on a
+  missing or empty key, so the critical-copy guard cannot fire in this tree. It is proven by
+  `critical-copy.test.ts` on mutated catalogues, plus a test that every guarded form's keys resolve in
+  all three catalogues today. The guarded forms are the five membership commands (role change,
+  remove member, revoke invitation, leave, accept); localization-v1's money and payout copy joins the
+  list with M3.
+- **Amounts and rule versions across a switch are M2-05's (R7).** The internal build shows neither,
+  so clauses 3.6 and 3.8 are recorded NOT APPLICABLE; M2-05 proves them where they first appear.
+- **The request key is not consumed until M2-05 (R8).** The create-org and invite forms carry a key
+  minted on the client, and the switch keeps it and re-posts nothing, but no Route Handler reads it
+  and the API has no `request_dedup` yet. A submit before hydration carries an empty key; what
+  M2-05 does with a keyless command is its decision.
+- **The `X-Request-Key` header is M2-05's (R8, §5).** No header is sent until its consumer exists;
+  forwarding a value the API ignores could be proven no further than a unit test on fetch arguments.
+- **M2-08 and a NULL preference (§4).** `locale_pref` NULL means "no explicit choice". Which language
+  M2-08 mails such a person in is M2-08's decision, and it must never read the guest or session
+  cookies.
+- **The Malay and Chinese copy of M2-04 is an unreviewed draft, as M1's is.** The builders wrote the
+  `internal.locale.*` and `internal.outcomes.locale_*` strings in the style of the existing
+  catalogues; the prompt says so through `common.localePrompt.draftNote`. Professional review is
+  the known M1 limitation.
+- **On the sign-in page and the not-found page, a signed-in switch is saved but not shown there.**
+  The proxy passes `/internal/sign-in` and the internal not-found page through without a session
+  check (`proxy.ts`), so those renders carry no token and resolve as signed out. A signed-in person's
+  header switch there is saved to the account (the handler sees the session cookie), but that page
+  re-renders in the guest or browser language; the next internal page shows the saved language.
+  Changing it needs a proxy change the web lane's brief did not cover.
+- **`zh-MY` is suggested as Simplified Chinese, beyond R3's list.** `accept-language.ts` maps `zh-MY`
+  to `zh-Hans-MY` as well as `zh`, `zh-Hans*`, `zh-CN` and `zh-SG`, because Chinese in Malaysia is
+  written in Simplified script and `MY` is the target locale's own region. Traditional tags
+  (`zh-Hant*`, `zh-TW`, `zh-HK`, `zh-MO`) still match nothing. Unit-proven only.
+- **The status badges carry `data-state-code` and `data-state-tone`, not the `data-status` R7 names.**
+  The internal build's `StateBadge` renders `data-state-kind`, `data-state-code` and `data-state-tone`;
+  `data-status` belongs to the demo's badge. The rows read the real attributes; R7's wording is the
+  record's, not the page's.
+- **The request key is minted on the first client render, not in an effect (R8).** `RequestKeyField`
+  mints it with `useState(newRequestKey)`, so the hidden input is empty in the server HTML and filled
+  once hydrated; the repository's `react-hooks/set-state-in-effect` rule forbids the effect form R8
+  describes. The outcome R8 asks for holds: never server-rendered, the same across `router.refresh()`.
+- **The three lane branches' commits carry an "Opus 5.5" attribution trailer.** The lanes followed
+  the session's attribution instruction, not the build brief's; the pull request's squash commit
+  carries the session's own.
+- **A deploy rollback over `0018` is not drilled here (R15 b, for M2-09).** The CLI refuses `down`
+  outside local and CI. The previous image never reads the two columns and the rows stay readable,
+  but its `/health` reports the head mismatch, as for M2-03's `0016`. The local recovery is proven
+  on its own clone (`locale-recovery.int.test.ts`).
+- **Simulated identity in every automated M2-AC04 row.** The internal suite signs Fiona, Gopal, Dave
+  and Mallory in through the local fake Auth server; the database and API rows run on real
+  PostgreSQL 17. The M2-AC04 spec row does not forbid closing on simulated results; whether the
+  founder walks the §3 flow in a real Chrome before closing is question §6.1 of the design record.
 
 ## Governance not yet in force
 

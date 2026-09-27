@@ -33,5 +33,7 @@ Admin (管理员 / pentadbir): the member role that can rename, invite, change r
 Invitation (邀请 / jemputan): a single-use, expiring link that lets only the invited verified address join an organisation with a role.
 Capability (能力授予 / keupayaan): a review, finance or runtime-operations permission granted by an operator, independent of membership.
 Audit (审计 / audit): the append-only record of who did or was refused what, carrying no token, session id or stored address.
+Preferred language (偏好语言 / bahasa pilihan): the language a person explicitly chose, saved to their account when signed in and to this browser when not; skipping saves none.
+Suggested language (建议语言 / bahasa cadangan): the language offered from the browser's languages, or English, until a person chooses; never saved as a preference.
 
 Read canonical rules for exact values and transitions; this glossary does not redefine them.

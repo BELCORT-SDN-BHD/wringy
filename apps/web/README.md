@@ -688,7 +688,10 @@ context with `wringy-locale-prompt=1` (httpOnly, SameSite=Lax, the healthy origi
 instance shares because cookies are host-scoped) **except in the `locale` project**, whose rows are
 about the prompt. The rows that switch the language through `wringy-locale` (`setLocaleCookie`)
 keep working unchanged: since M2-04 that cookie is the guest's explicit preference, which decides
-the page whenever the account holds none.
+the page whenever the account holds none. The fixtures hold the four cookie names as literals
+(`LOCALE_COOKIES` in `fixtures.ts`), because that file may import nothing from `src/`;
+`tests/unit/locale-cookie-names.test.ts` asserts they equal the names `src/lib/locale/cookies.ts`
+exports, so the two cannot drift.
 
 `@wringy/db` and `tsx` are **devDependencies** of this app for that suite only. The dependency
 rules (`pnpm depcruise`, rule `web-not-to-server-runtime`) cruise `src/`, where importing
