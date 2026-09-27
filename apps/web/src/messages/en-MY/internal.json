@@ -261,6 +261,40 @@
       }
     }
   },
+  "locale": {
+    "apply": "Apply",
+    "card": {
+      "title": "Settings · Preferred language",
+      "description": "Saved to your account and used on every device you sign in on.",
+      "fieldLabel": "Preferred language",
+      "save": "Save",
+      "notSet": "Not set",
+      "savedAs": "Saved: {name}",
+      "savedAt": "Saved {time}"
+    },
+    "live": {
+      "pending": "Switching language…",
+      "savedAccount": "Language switched and saved to your account",
+      "savedGuest": "Language switched and saved to this browser",
+      "notSaved": "Language switched, preference not saved",
+      "notSwitched": "The language could not be switched. Try again.",
+      "refused": "This browser refused to store the choice, so the language was not switched. Allow cookies and try again."
+    },
+    "status": {
+      "unsaved": "You switched to {name}, but the preference is not saved to your account yet.",
+      "retry": "Retry",
+      "synced": "Saved as your account language.",
+      "syncedFrom": "Saved as your account language (was {name}).",
+      "change": "Change in Settings",
+      "undo": "Undo"
+    },
+    "prompt": {
+      "selectLabel": "Language"
+    },
+    "critical": {
+      "unavailable": "The explanation for this action is not available in the current language yet. Switch to a fully available language before confirming."
+    }
+  },
   "outcomes": {
     "created": "Organisation created. You are its admin.",
     "renamed": "The organisation name was saved.",
@@ -285,6 +319,10 @@
     "invitation_expired": "That invitation has expired, so you were not added. Ask an admin for a new one.",
     "invitation_used": "That invitation has already been used, so nothing was changed.",
     "invitation_mismatch": "That invitation was sent to a different address, so you were not added.",
-    "invalid_name": "That name could not be used, so nothing was changed. Use 1 to 100 characters, not only spaces, and no hidden formatting characters."
+    "invalid_name": "That name could not be used, so nothing was changed. Use 1 to 100 characters, not only spaces, and no hidden formatting characters.",
+    "locale_saved": "Language preference saved.",
+    "locale_switched": "Language switched.",
+    "locale_not_saved": "Language switched, but the preference could not be saved. Retry from the language settings.",
+    "locale_synced": "Saved as your account language."
   }
 }
