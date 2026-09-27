@@ -651,17 +651,44 @@ URL or stack on the page); `database-outage` runs last and revokes the API group
 the database to show `api-unavailable`, then grants it back. Test titles carry `M2-AC01`, and
 `M2-AC01/2` where they prove the page → Fastify → PostgreSQL read.
 
-The simulated identity provider knows six people (`tests/e2e-internal/fake-auth/users.ts`), each a
-fixed `sub` and a `.test` address: `alice` and `bob` (allow-listed; the M2-AC01/M2-AC02 rows),
-`mallory` (verified but **not** allow-listed: the refused sign-in), and for M2-03 `carol` (the
+The simulated identity provider knows eight people (`tests/e2e-internal/fake-auth/users.ts`), each
+a fixed `sub` and a `.test` address: `alice` and `bob` (allow-listed; the M2-AC01/M2-AC02 rows),
+`mallory` (verified but **not** allow-listed: the refused sign-in), for M2-03 `carol` (the
 dual-role account), `dave` (the second org's admin) and `erin` (allow-listed, in no org: the
-outsider). `database-server.mts` allow-lists every `allowlisted: true` user; each add also writes an
-`allowlist.add` audit row, so specs filter `app.audit_log` by `action`, `context_org_id` or
-`actor_user_id` and never count its rows. The `orgs` project (1440, `fullyParallel: false`,
+outsider), and for M2-04 `fiona` and `gopal` (allow-listed: the only people whose account language
+the suite writes). `database-server.mts` allow-lists every `allowlisted: true` user; each add also
+writes an `allowlist.add` audit row, so specs filter `app.audit_log` by `action`, `context_org_id`
+or `actor_user_id` and never count its rows. The `orgs` project (1440, `fullyParallel: false`,
 `testMatch: orgs.spec.ts`) depends on the reading projects only and runs **beside** `auth`, because
 it signs in Carol, Dave and Erin, whom `auth` never touches, and tries Mallory, whom `auth` tries
-too and sign-in refuses in both (she is not on the allow-list); `database-outage` waits for both. `openDevice` sizes a second browser with Playwright's `viewport` fixture, so a
-`test.use({ viewport })` row at 390 or 320 sizes both people's pages alike.
+too and sign-in refuses in both (she is not on the allow-list). `openDevice` sizes a second browser
+with Playwright's `viewport` fixture, so a `test.use({ viewport })` row at 390 or 320 sizes both
+people's pages alike; `openDevice(suffix, { locale })` also gives it a browser language, which the
+context sends as its only `Accept-Language` tag (left out, a hand-made context sends none).
+
+The `locale` project (M2-AC04; `locale.spec.ts`, 1440, `fullyParallel: false`) proves the language
+preference end to end: the browser's suggestion and the first-visit prompt, a saved preference that
+is never asked about again, the shared device and the leftover choice, the choose → save → new
+device → failure → retry walk in each language at 1440 and 390, the transport failure on the outage
+instance, refused storage (the one mocked answer in the file, labelled in its title), the sign-in's
+carry with its Undo, the invitee, the idle tab, guest persistence, two quick choices, every control
+and notice in three languages with the evidence frames, the typed input and request key surviving a
+switch, the instants, and the two shared-cache rows. It signs in Fiona and Gopal, whom `auth` and
+`orgs` never touch, Dave only to invite Fiona into an org of the row's own, and Mallory only to be
+refused, so it runs **beside** `auth` and `orgs`; `database-outage` waits for all three. Fiona's and
+Gopal's preferences are shared state, so every row first arranges the one it starts from as the
+migrator (`setAccountPreference` in `support.ts`); no row gives Alice, Bob, Carol, Dave or Erin a
+preference, and the file's last row checks that. The record's "API stalled" row is not an E2E row:
+the 1.5 s bound on the account read is a unit test plus an integration row of `read.ts`.
+
+The prompt-cookie rule: every signed-in M2-01–03 row resolves its language from the browser (the
+runner's context sends `en-US`) and its people hold no account preference, so each would meet the
+M2-04 prompt above the page. The shared `tagged` and `openDevice` fixtures therefore start every
+context with `wringy-locale-prompt=1` (httpOnly, SameSite=Lax, the healthy origin, which the outage
+instance shares because cookies are host-scoped) **except in the `locale` project**, whose rows are
+about the prompt. The rows that switch the language through `wringy-locale` (`setLocaleCookie`)
+keep working unchanged: since M2-04 that cookie is the guest's explicit preference, which decides
+the page whenever the account holds none.
 
 `@wringy/db` and `tsx` are **devDependencies** of this app for that suite only. The dependency
 rules (`pnpm depcruise`, rule `web-not-to-server-runtime`) cruise `src/`, where importing
