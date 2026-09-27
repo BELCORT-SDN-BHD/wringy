@@ -317,8 +317,12 @@ ticket are hand-offs, not defects.
 - **Where the invitation token lives (R7).** The API's 201 body once; the admin's browser in a
   page-scoped httpOnly cookie for ten minutes (never the admin's URL, history or Referer); the accept
   URL the admin hands over, and therefore the invitee's browser history, the sign-in `next` value
-  and the `wringy-auth-next` cookie; never an API path, an API log line or the database (only its
-  sha256). Never a Referer beyond the origin: every internal response sends
+  and the `wringy-auth-next` cookie; and the one redirect this app builds that carries it, the
+  callback's 303 back to the stored `next`, the invitee's own accept URL, which since M2-04 may also
+  carry the locale outcome (`outcome=locale_synced&from=…` or `outcome=locale_not_saved`) beside it,
+  set through `searchParams` (M2-04 W5, security-privacy-4); no other redirect this app builds does,
+  and the language switch's own 303 never does. Never an API path, an API log line or the database
+  (only its sha256). Never a Referer beyond the origin: every internal response sends
   `Referrer-Policy: strict-origin` as a header (rev 3). Until the W4 fix wave only the pages'
   `<meta>` said so, which a browser applies after it has parsed it — so the accept page's first
   same-origin chunk requests, and every request of the sign-in page reached with the link as `next`,
@@ -401,9 +405,22 @@ ticket are hand-offs, not defects.
 
 Recorded 2026-09-27 against branch `feat/m2-04`, from the design record
 [m2-04-code-review.md](m2-04-code-review.md) (revision 2), the three build lanes' reports and the
-integration. These are the limitations M2-04 accepts, each with the decision or the reason it is
-accepted under; the rows that name a later ticket are hand-offs, not defects.
+integration; amended at clock-out after the W4 adversarial review, the W5 fix wave
+(`5e44646..bc4e7a9`) and the founder's rulings (revision 3). These are the limitations M2-04 accepts,
+each with the decision or the reason it is accepted under; the rows that name a later ticket are
+hand-offs, not defects.
 
+- **The founder's rulings (2026-09-27, the design record §6, each as recommended).** #27 closes on the
+  automated evidence and the acceptance record once the pull request merges, and the real Google walk
+  of the §3 flow is an M2-10 row on staging; `RECORD_ROW_REQUIRED` stays `{m2-02}`. Across devices the
+  account is the only truth: a signed-in choice is saved at once, and only a choice that failed to
+  save outranks it, until Retry succeeds or the session ends. A choice made on the sign-in page is
+  saved to the account by the sign-in that follows within ten minutes, with the synced notice and
+  Undo and no confirmation question; since W5 it survives the callback's retryable exits for the
+  retry. The technical points stand as proposed: no audit row for a preference change
+  (`locale_pref_set_at` is the record); four cookies, three of them httpOnly; the critical-copy guard
+  covers the five membership commands until M3 adds its money confirmations; the request key is
+  minted and kept across a switch only, and the header and server-side dedup are M2-05's.
 - **On one developer host the demo and the internal build share `wringy-locale` (development only; §1).**
   Cookies are host-scoped, not port-scoped, and the demo writes `wringy-locale` on every hydration
   whether or not the choice was explicit, while the internal build reads that cookie as the guest's
@@ -412,21 +429,25 @@ accepted under; the rows that name a later ticket are hand-offs, not defects.
   when switching modes locally.
 - **A choice made on the sign-in page is carried for ten minutes, and a neighbouring host can plant
   it (R6's residual).** Within the carry cookie's ten minutes, a stranger who chose a language on a
-  shared device's sign-in page and walked away has that choice carried into the next person's
-  account, visibly, with the synced notice and Undo. A neighbouring host that can plant cookies
+  shared device's sign-in page and walked away — including one whose sign-in was cancelled, expired
+  or failed before the API answered, which now keeps the carry for a retry (W5 critic-4) — has that
+  choice carried into the next person's account, visibly, with the synced notice and Undo; a
+  `not_allowed` or `disabled` refusal still spends it. A neighbouring host that can plant cookies
   (M2-02's cookie-tossing limitation, M2-09's `__Host-` decision) can now also plant a carry or a
   session-choice value. Either way the effect is a display language the person sees and can undo,
   not a security boundary.
 - **When the browser refuses the cookie, the page is not switched (§5).** localization-v1 says the
   interface can still switch when saving fails or the browser refuses storage. The internal build's
   pages are rendered on the server from the cookie, so without it a switch would leave the page in
-  two languages, which the same document forbids more strongly. The client announces that the
-  browser refused to store the choice and keeps one language everywhere (the refused-storage row, a
-  mocked handler answer).
+  two languages, which the same document forbids more strongly. The client says the browser refused
+  to store the choice, so the language was not switched, asks to allow cookies and try again, and
+  keeps one language everywhere (the refused-storage row, a mocked handler answer). There is no Retry
+  control, because a retry would be refused again (W5 spec-11).
 - **Without JavaScript, a switch on the accept page loses the invitation token (R4, §5).** The no-JS
-  form posts the pathname only, because the token inventory forbids the token in a redirect this app
-  builds; the person re-opens the link. The in-place switch keeps the URL and is the tested claim
-  (the invitee row).
+  form posts the pathname only, because the token inventory allows the token in one redirect this app
+  builds only — the callback's 303 back to the invitee's own accept URL — and the language switch's
+  own 303 is not it; the person re-opens the link. The in-place switch keeps the URL and is the tested
+  claim (the invitee row).
 - **`0010`'s Down has no test (R1).** The whole-chain fixed point cannot see a `profiles` column
   grant, because `0008`'s Down drops the table right after, and the at-`0010` comparison reverts
   only the migrations after `0010`. With `0010`'s `REVOKE UPDATE` line removed, every migrations row
@@ -454,28 +475,96 @@ accepted under; the rows that name a later ticket are hand-offs, not defects.
 - **The Malay and Chinese copy of M2-04 is an unreviewed draft, as M1's is.** The builders wrote the
   `internal.locale.*` and `internal.outcomes.locale_*` strings in the style of the existing
   catalogues; the prompt says so through `common.localePrompt.draftNote`. Professional review is
-  the known M1 limitation.
-- **On the sign-in page and the not-found page, a signed-in switch is saved but not shown there.**
-  The proxy passes `/internal/sign-in` and the internal not-found page through without a session
-  check (`proxy.ts`), so those renders carry no token and resolve as signed out. A signed-in person's
-  header switch there is saved to the account (the handler sees the session cookie), but that page
-  re-renders in the guest or browser language; the next internal page shows the saved language.
-  Changing it needs a proxy change the web lane's brief did not cover.
+  the known M1 limitation. The W5 strings `internal.locale.prompt.description`,
+  `internal.locale.status.regionLabel`, `internal.locale.live.notSkipped` and the reworded
+  `internal.outcomes.locale_not_saved` are unreviewed drafts in Malay and Chinese too.
+- **On the sign-in page and the not-found page every visitor is the guest (R3, R4; W5
+  security-privacy-1, spec-7).** The proxy passes `/internal/sign-in` and the internal not-found page
+  (and every path it rewrites to it) through without a session check (`proxy.ts`), so those renders
+  carry no token and resolve as signed out. `POST /internal/locale` treats a choice posted from them
+  as the guest's: guest, carry and prompt cookies, and never a call to the API with the session
+  cookie the request arrived with. A signed-in person's switch there changes only the guest cookie,
+  which their account outranks on every other page, and reaches the account only through the carry
+  if they sign in again within ten minutes. The first-visit prompt does not ask there while the
+  browser holds a session cookie, so a person with a saved preference is not asked again; on a
+  shared device the next person is not asked there either until that cookie is replaced or expired,
+  and the header still switches for them. Changing either needs the proxy to verify sessions on
+  those pages, which stays M2-02's. (Until W5 a signed-in switch there was saved to the account of
+  whatever session cookie arrived, which on a shared device could be somebody else's.)
+- **A not-found render on a path the proxy's matcher excludes still takes the signed-in branch (W5
+  residual).** On a path such as `/internal/x.png` the proxy does not run, so the not-found page
+  renders without a token, as signed out, while its switcher posts that path, which `POST
+  /internal/locale` treats as an ordinary internal page: with this project's session cookie in the
+  jar, the choice is saved to that session's account. The W5 ruling kept the session-cookie rule
+  everywhere but the sign-in and not-found paths; covering the matcher's static-suffix paths in
+  `rendersSignedOut` is the open option.
+- **A crafted link can show the synced notice once (R6's guard, W5 security-privacy-3).** The notice
+  appears when the URL says `outcome=locale_synced` with a `from` that is a locale or `none`, and
+  this render's account preference is the displayed language (and differs from `from`). It does not
+  check that this sign-in saved anything. Since W5 every in-place switch strips `outcome` and `from`
+  before it refreshes, so a real landing is consumed by the next switch. What remains is a crafted
+  or bookmarked landing URL, opened by someone whose account already holds the displayed language:
+  it shows "saved as your account language (was X)" until the next switch, and its Undo is an
+  ordinary choice of X. It is a display the person sees and can reverse, not a write they did not
+  ask for.
+- **The 1.5 s bound decides the language, not `/internal`'s render (R13, W5 nextjs-4).**
+  `/internal`'s page awaits the same `GET /me` read for its own content under `apiFetch`'s 5 s, so a
+  `/me` answering between 1.5 s and 5 s renders that page late, in the language resolved without the
+  account (the guest cookie, the browser, English), while its Language card shows the saved
+  preference from the same answer. No other internal page awaits `/me`. Pinned by `read.test.ts`.
+- **A sign-out that commits after a command's liveness check does not stop that command (§4.6;
+  M2-02 R2, M2-04 R2; W5 postgres-3).** Every command asks liveness on its own transaction
+  immediately before its work. But the transaction runs READ COMMITTED and
+  `platform.session_is_live` is a plain SELECT that locks nothing, so a session revoked between the
+  check and COMMIT is neither blocked nor seen by the write, and the write lands. With
+  `SESSION_LIVENESS=auth_server` the question is a network call with no link to the transaction at
+  all. What holds: a session revoked before the check is refused and nothing is written, and one
+  revoked after it is refused on the next command. In M2 the window is the time between the check
+  and COMMIT, on commands that move no money (the sign-in, the org and invitation commands, `POST
+  /me/locale`). Before M3's fund-sensitive commands reuse the shape, M3 decides whether they need
+  more: asking again just before COMMIT, or a lock on the session row that a sign-out has to wait
+  for. Decide it together with M2-02's liveness-2 ("Mechanism B holds a database connection across
+  its network call", §M2-02), since both are about when the question is asked relative to the
+  transaction. The code comments (`apps/api/src/session-liveness.ts`, `database.ts`,
+  `routes/me.ts`) and the API README's Session liveness section said the answer and the write
+  "cannot be separated by a sign-out"; W5 corrected them (`8d2b19b`).
+- **Two quick choices whose newest fails end on the one the server wrote (R5, W5 nextjs-5).** When a
+  newer choice replaces one in flight and the superseded request was a switch the server wrote (an
+  account answer, or a guest cookie the browser stored), a newest request that then fails, answers
+  another locale or is refused triggers one refresh, so the page shows what the server holds: the
+  superseded choice. The live region reports the newest request's own result. Until W5 the client
+  said nothing had switched while the server held the first choice. Proven by a
+  `locale-switch-logic.test.ts` row only; no E2E row drives a failing second request.
+- **A stale session choice returns if the account later changes (W5 a11y-i18n-6 residual).** A
+  `wringy-locale-session` equal to the account's preference is treated as saved, but the cookie stays
+  until that device's next successful save, sign-in or sign-out; if the account is later changed to
+  another language elsewhere, the old cookie decides again on that device and shows the unsaved
+  notice with Retry.
+- **Focus goes to the header switcher even when a Retry fails again (W5 a11y-i18n-5).** Before any
+  refresh, focus inside the prompt or a notice moves to the header switcher, because that refresh
+  usually removes the control. A Retry that fails again also refreshes, and its notice stays, so
+  focus leaves a button that is still there. The live region still says the preference was not
+  saved. Skip's failure announcement is unit-proven only.
 - **`zh-MY` is suggested as Simplified Chinese, beyond R3's list.** `accept-language.ts` maps `zh-MY`
   to `zh-Hans-MY` as well as `zh`, `zh-Hans*`, `zh-CN` and `zh-SG`, because Chinese in Malaysia is
   written in Simplified script and `MY` is the target locale's own region. Traditional tags
-  (`zh-Hant*`, `zh-TW`, `zh-HK`, `zh-MO`) still match nothing. Unit-proven only.
+  (`zh-Hant*`, `zh-TW`, `zh-HK`, `zh-MO`) still match nothing. Unit-proven only. Revision 3 of the
+  design record adds it to R3's list.
 - **The status badges carry `data-state-code` and `data-state-tone`, not the `data-status` R7 names.**
   The internal build's `StateBadge` renders `data-state-kind`, `data-state-code` and `data-state-tone`;
-  `data-status` belongs to the demo's badge. The rows read the real attributes; R7's wording is the
-  record's, not the page's.
+  `data-status` belongs to the demo's badge. The rows read the real attributes; revision 3 of the
+  design record amends R7's wording to them.
 - **The request key is minted on the first client render, not in an effect (R8).** `RequestKeyField`
   mints it with `useState(newRequestKey)`, so the hidden input is empty in the server HTML and filled
   once hydrated; the repository's `react-hooks/set-state-in-effect` rule forbids the effect form R8
   describes. The outcome R8 asks for holds: never server-rendered, the same across `router.refresh()`.
+  Revision 3 of the design record amends R8's wording to it.
 - **The three lane branches' commits carry an "Opus 5.5" attribution trailer.** The lanes followed
   the session's attribution instruction, not the build brief's; the pull request's squash commit
-  carries the session's own.
+  carries the session's own. In the W5 fix wave it went the other way: work orders A, B and C and
+  the two integration merges carry the brief's "Fable 5.1" trailer, while work order A2's two
+  commits (`19e0579`, `6051668`) and the fix round's two (`a0be1aa`, `bc4e7a9`) carry "Opus 5.5",
+  the session's attribution instruction.
 - **A deploy rollback over `0018` is not drilled here (R15 b, for M2-09).** The CLI refuses `down`
   outside local and CI. The previous image never reads the two columns and the rows stay readable,
   but its `/health` reports the head mismatch, as for M2-03's `0016`. The local recovery is proven
@@ -483,7 +572,9 @@ accepted under; the rows that name a later ticket are hand-offs, not defects.
 - **Simulated identity in every automated M2-AC04 row.** The internal suite signs Fiona, Gopal, Dave
   and Mallory in through the local fake Auth server; the database and API rows run on real
   PostgreSQL 17. The M2-AC04 spec row does not forbid closing on simulated results; whether the
-  founder walks the §3 flow in a real Chrome before closing is question §6.1 of the design record.
+  founder walks the §3 flow in a real Chrome before closing was question §6.1 of the design record,
+  and the founder ruled on 2026-09-27 that #27 closes on the automated evidence, with the real walk
+  an M2-10 row on staging.
 
 ## Governance not yet in force
 
