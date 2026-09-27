@@ -73,6 +73,14 @@
  * 4. `getClaims()` cannot hang the page and cannot half-write a session: it runs
  *    under `REFRESH_DEADLINE_MS`, and a deadline or a throw applies no buffered
  *    cookie write at all.
+ *
+ * ## The unsaved language choice (M2-04)
+ *
+ * The two branches that answer `session_ended` also expire
+ * `wringy-locale-session` when the browser sent one (m2-04-code-review.md R6):
+ * it was a choice that session had not saved to its account, and a session that
+ * ended must not leave it to outrank the next person's. `unexpected` (a retry)
+ * and a browser that held no session cookie leave it alone.
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
@@ -96,6 +104,7 @@ import {
   sessionCookieOptions,
 } from '@/lib/auth/supabase-server';
 import { ACCESS_TOKEN_HEADER } from '@/lib/auth/wire';
+import { LOCALE_SESSION_COOKIE, unsavedExpiry } from '@/lib/locale/cookies';
 
 /**
  * Everything except Next's own assets, the favicon and any path ending in a
@@ -398,6 +407,7 @@ async function refreshAndForward(
     for (const { name, value, options } of expireSupabaseCookies(request, secure)) {
       response.cookies.set(name, value, options);
     }
+    expireUnsavedChoice(request, response, secure);
     return noStore(response);
   }
   clearTimeout(timer as Parameters<typeof clearTimeout>[0]);
@@ -426,6 +436,7 @@ async function refreshAndForward(
     const response = redirect(signInPath({ next: nextPath, outcome }), appOrigin);
     // Clear whatever the library decided to expire, and never let this be cached.
     for (const { name, value, options } of written) response.cookies.set(name, value, options);
+    if (outcome === 'session_ended') expireUnsavedChoice(request, response, secure);
     return noStore(response);
   }
 
@@ -437,6 +448,17 @@ async function refreshAndForward(
   // no-store on a private page is Wringy's own property, not one inherited from
   // a library that latches its headers to the first write of a response.
   return noStore(response);
+}
+
+/**
+ * A session that ended takes its unsaved language choice with it (M2-04 R6):
+ * `wringy-locale-session`, expired only when the browser sent it, so a sign-in
+ * redirect for somebody who never chose writes nothing it does not need.
+ */
+function expireUnsavedChoice(request: NextRequest, response: NextResponse, secure: boolean): void {
+  if (!request.cookies.has(LOCALE_SESSION_COOKIE)) return;
+  const { name, value, options } = unsavedExpiry(secure);
+  response.cookies.set(name, value, options);
 }
 
 /**

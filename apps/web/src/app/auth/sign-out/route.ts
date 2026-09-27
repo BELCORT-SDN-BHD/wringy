@@ -16,6 +16,11 @@
  * command re-checks liveness in its transaction (R2, R8).
  *
  * There is no `GET`: Next answers 405 for an unexported method (§4.5 rule 3).
+ *
+ * M2-04 (m2-04-code-review.md R6): signing out also expires
+ * `wringy-locale-session`, the choice this session had not saved to its account,
+ * so it cannot outrank the next person's account. The guest's own cookie and the
+ * prompt cookie stay: they belong to this browser, not to the session.
  */
 
 import type { NextResponse } from 'next/server';
@@ -23,6 +28,7 @@ import type { NextResponse } from 'next/server';
 import { signInPath } from '@/lib/auth/outcomes';
 import { cookieJar, guardRequest, seeOther, signOutLocally } from '@/lib/auth/route-support';
 import { createRequestSupabase, isSecureOrigin } from '@/lib/auth/supabase-server';
+import { expireUnsaved } from '@/lib/locale/cookies';
 
 export async function POST(request: Request): Promise<NextResponse> {
   const guard = guardRequest(request);
@@ -36,6 +42,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   // Whatever the library did or did not clear, the browser keeps nothing.
   const confirmed = await signOutLocally(supabase, jar, secure);
+  expireUnsaved(jar, secure);
 
   return jar.applyTo(seeOther(signInPath({ outcome: confirmed ? 'signed_out' : 'signed_out_unconfirmed' }), appOrigin));
 }

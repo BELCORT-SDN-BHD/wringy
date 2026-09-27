@@ -819,3 +819,70 @@ describe('M2-AC02/3 cache: the internal build is private and unframeable on ever
     expect(response.headers.get('referrer-policy')).toBeNull();
   });
 });
+
+describe('M2-AC04/1 shared device: a session the proxy ends takes its unsaved language choice with it', () => {
+  beforeEach(internalEnv);
+
+  const UNSAVED = 'wringy-locale-session=zh-Hans-MY';
+  const expiresUnsaved = (response: NextResponse) => {
+    const cookie = response.cookies.get('wringy-locale-session');
+    return cookie !== undefined && cookie.value === '' && cookie.maxAge === 0;
+  };
+
+  it('M2-AC04/1 shared device: a session cookie that could not be refreshed (session_ended) expires the unsaved choice', async () => {
+    makeClient = signedOut;
+
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=expired; ${UNSAVED}; wringy-locale=ms-MY` }));
+
+    expect(new URL(response.headers.get('location') as string).searchParams.get('outcome')).toBe('session_ended');
+    expect(expiresUnsaved(response)).toBe(true);
+    expect(response.cookies.get('wringy-locale-session')).toMatchObject({ httpOnly: true, sameSite: 'lax', path: '/' });
+    // The guest's own preference belongs to this browser, not to the session.
+    expect(response.cookies.get('wringy-locale')).toBeUndefined();
+  });
+
+  it('M2-AC04/1 shared device: a getClaims that throws (session_ended) expires the unsaved choice beside the sb-* cookies', async () => {
+    makeClient = () => ({
+      auth: {
+        getClaims: () => {
+          throw new SyntaxError('Unexpected token b in JSON at position 0');
+        },
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      },
+    });
+
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=truncated; ${UNSAVED}` }));
+
+    expect(new URL(response.headers.get('location') as string).searchParams.get('outcome')).toBe('session_ended');
+    expect(expiresUnsaved(response)).toBe(true);
+    expect(response.cookies.getAll().map((cookie) => cookie.name).sort()).toEqual([SESSION_COOKIE, 'wringy-locale-session'].sort());
+  });
+
+  it('M2-AC04/1 shared device: an Auth server that cannot answer (unexpected) leaves the unsaved choice alone', async () => {
+    makeClient = authUnavailable({ name: 'AuthRetryableFetchError', status: 0 });
+
+    const response = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}; ${UNSAVED}` }));
+
+    expect(new URL(response.headers.get('location') as string).searchParams.get('outcome')).toBe('unexpected');
+    expect(response.cookies.get('wringy-locale-session')).toBeUndefined();
+  });
+
+  it('M2-AC04/1 shared device: a browser that held no session cookie leaves it alone', async () => {
+    makeClient = signedOut;
+
+    for (const cookies of [UNSAVED, `${SESSION_COOKIE}-code-verifier=abc; ${UNSAVED}`]) {
+      const response = await proxy(request('/internal', { cookies }));
+      expect(new URL(response.headers.get('location') as string).searchParams.get('outcome'), cookies).toBeNull();
+      expect(response.cookies.get('wringy-locale-session'), cookies).toBeUndefined();
+    }
+  });
+
+  it('M2-AC04/1 shared device: a live session’s read leaves it alone, and a session_ended with nothing to expire writes nothing more', async () => {
+    const live = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=${storedSession('token-abc')}; ${UNSAVED}` }));
+    expect(live.cookies.get('wringy-locale-session')).toBeUndefined();
+
+    makeClient = signedOut;
+    const ended = await proxy(request('/internal', { cookies: `${SESSION_COOKIE}=expired` }));
+    expect(ended.cookies.get('wringy-locale-session')).toBeUndefined();
+  });
+});
