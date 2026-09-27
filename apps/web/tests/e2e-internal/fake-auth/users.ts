@@ -1,5 +1,5 @@
 /**
- * The people the fake Supabase Auth server knows (M2-02 R15; M2-03 R13).
+ * The people the fake Supabase Auth server knows (M2-02 R15; M2-03 R13; M2-04 R13).
  *
  * Fixed identities, because the internal suite must be able to say "this is
  * the same person as last time" across a sign-out, a second browser context and
@@ -20,12 +20,20 @@
  * project never signs any of them in and never touches their profiles, so the
  * `orgs` project runs beside it.
  *
+ * Fiona and Gopal are the M2-04 language testers
+ * (docs/m2-internal/m2-04-code-review.md R13): the only people whose
+ * `app.profiles.locale_pref` the `locale` project writes, arranges as the
+ * migrator or reads back. Neither `auth` nor `orgs` ever signs them in, so the
+ * `locale` project runs beside both; and no `locale` row gives Alice, Bob,
+ * Carol, Dave or Erin an account preference, which is what keeps every earlier
+ * row that sets the `wringy-locale` cookie resolving by that cookie.
+ *
  * The addresses use the reserved `.test` TLD (RFC 2606), so no real mailbox
  * can ever be reached from this suite.
  */
 
 /** The names the consent page and the control API address a user by. */
-export const FAKE_USER_NAMES = ['alice', 'bob', 'mallory', 'carol', 'dave', 'erin'] as const;
+export const FAKE_USER_NAMES = ['alice', 'bob', 'mallory', 'carol', 'dave', 'erin', 'fiona', 'gopal'] as const;
 export type FakeUserName = (typeof FAKE_USER_NAMES)[number];
 
 export interface FakeUser {
@@ -86,6 +94,22 @@ export const FAKE_USERS: Readonly<Record<FakeUserName, FakeUser>> = {
     id: '0e410000-0000-4000-8000-000000000006',
     email: 'erin@example.test',
     fullName: 'Erin Lee',
+    allowlisted: true,
+  },
+  fiona: {
+    // The M2-04 walk's person: her account preference is saved, carried and retried.
+    name: 'fiona',
+    id: '0f10a000-0000-4000-8000-000000000007',
+    email: 'fiona@example.test',
+    fullName: 'Fiona Chen',
+    allowlisted: true,
+  },
+  gopal: {
+    // The M2-04 person whose saved preference a leftover choice must never overwrite.
+    name: 'gopal',
+    id: '06a0a100-0000-4000-8000-000000000008',
+    email: 'gopal@example.test',
+    fullName: 'Gopal Nair',
     allowlisted: true,
   },
 };

@@ -126,6 +126,9 @@ async function openConsent(authorizeUrl: string, tag: string): Promise<{ action:
   expect(html).toContain('data-testid="fake-user-carol"');
   expect(html).toContain('data-testid="fake-user-dave"');
   expect(html).toContain('data-testid="fake-user-erin"');
+  // The M2-04 language testers (m2-04-code-review.md R13).
+  expect(html).toContain('data-testid="fake-user-fiona"');
+  expect(html).toContain('data-testid="fake-user-gopal"');
   return { action: action!, state: state!, cancel: cancel! };
 }
 
@@ -419,10 +422,80 @@ describe('M2-AC02/3 the simulated auth harness matches the vendor client it stan
       expect.arrayContaining([FAKE_USERS.carol.email, FAKE_USERS.dave.email, FAKE_USERS.erin.email]),
     );
     expect(allowlistedEmails()).not.toContain(FAKE_USERS.mallory.email);
-    // Six distinct subjects and six distinct addresses.
+    // Every subject and every address is distinct.
     const users = Object.values(FAKE_USERS);
     expect(new Set(users.map((user) => user.id)).size).toBe(users.length);
     expect(new Set(users.map((user) => user.email)).size).toBe(users.length);
+  });
+
+  it('M2-AC04/1 simulated harness self-test: Fiona and Gopal each have a consent button and sign in as themselves', async () => {
+    // The M2-04 language testers (m2-04-code-review.md R13): the only people whose
+    // account preference the `locale` project writes. `openConsent` asserts both
+    // buttons; this row proves each one yields its own subject and address, so a
+    // preference written for one can never be read back as the other's.
+    for (const name of ['fiona', 'gopal'] as const) {
+      const user = FAKE_USERS[name];
+      const { client, code } = await walkToCode(`self-test-${name}-${Date.now()}`, name);
+
+      const exchanged = await client.auth.exchangeCodeForSession(code);
+      expect(exchanged.error, name).toBeNull();
+      const claims = await client.auth.getClaims();
+      expect(claims.error, name).toBeNull();
+      expect(claims.data?.claims['sub'], name).toBe(user.id);
+      expect(claims.data?.claims['email'], name).toBe(user.email);
+      expect(exchanged.data.session?.user.user_metadata['full_name'], name).toBe(user.fullName);
+    }
+
+    expect(FAKE_USERS.fiona).toMatchObject({
+      id: '0f10a000-0000-4000-8000-000000000007',
+      email: 'fiona@example.test',
+      fullName: 'Fiona Chen',
+      allowlisted: true,
+    });
+    expect(FAKE_USERS.gopal).toMatchObject({
+      id: '06a0a100-0000-4000-8000-000000000008',
+      email: 'gopal@example.test',
+      fullName: 'Gopal Nair',
+      allowlisted: true,
+    });
+    // Both are on the suite's allow-list, so the `locale` project's sign-ins are not refused.
+    expect(allowlistedEmails()).toEqual(expect.arrayContaining([FAKE_USERS.fiona.email, FAKE_USERS.gopal.email]));
+  });
+
+  it("M2-AC04/2 simulated harness self-test: a failure armed for one tag's user read fails that session's next liveness check only", async () => {
+    // The M2-04 walk (m2-04-code-review.md R13) makes the API's liveness check answer
+    // 503 for ONE command on the second device: `failNext(tag, 'user', 500, …)` arms
+    // a one-shot failure of `GET /auth/v1/user` for that device's tag, and the api's
+    // `auth_server` adapter calls `/user` server to server, with no tag header. So the
+    // failure has to reach the call through the session the tag created, fire once,
+    // and leave every other session alone.
+    const tag = `self-test-fail-user-${Date.now()}`;
+    const other = `${tag}-other`;
+    const mine = await walkToCode(tag, 'fiona');
+    const theirs = await walkToCode(other, 'gopal');
+    const myToken = (await mine.client.auth.exchangeCodeForSession(mine.code)).data.session!.access_token;
+    const theirToken = (await theirs.client.auth.exchangeCodeForSession(theirs.code)).data.session!.access_token;
+
+    // Exactly what the api's liveness adapter sends: the caller's token and the key, no tag.
+    const liveness = (token: string) =>
+      fetch(`${server.url}/auth/v1/user`, {
+        headers: { authorization: `Bearer ${token}`, apikey: FAKE_PUBLISHABLE_KEY, 'x-supabase-api-version': '2024-01-01' },
+      });
+
+    await control('/fail', { endpoint: 'user', status: 500, code: 'unexpected_failure', tag });
+
+    // Another tag's session is untouched by the armed failure.
+    expect((await liveness(theirToken)).status, 'the other session').toBe(200);
+    // This tag's session: the next check fails with the armed status …
+    const failed = await liveness(myToken);
+    expect(failed.status, 'the armed check').toBe(500);
+    expect(((await failed.json()) as { code?: string }).code).toBe('unexpected_failure');
+    // … and only that one: the retry that follows succeeds.
+    expect((await liveness(myToken)).status, 'the check after it').toBe(200);
+
+    const report = await callsFor(tag);
+    expect(report.calls.user, 'both checks of this session were attributed to its tag').toBe(2);
+    expect((await callsFor(other)).calls.user).toBe(1);
   });
 
   it('M2-AC02/3 simulated harness self-test: an expired flow state and a wrong verifier answer the GoTrue codes', async () => {
