@@ -481,6 +481,12 @@ describe('M2-AC04/2 locale handler: a request that asked for JSON never gets a 3
   });
 });
 
+/**
+ * Paths `safeNextPath` accepts as they stand, whose dot segments `URL` resolves
+ * to the protocol-relative `//evil.example`: re-parsed as a path, that is a host.
+ */
+const DOT_SEGMENT_HOSTILE = ['/internal/..//evil.example', '/.//evil.example/x', '/%2e%2e//evil.example'];
+
 describe('M2-AC04/2 locale handler: the return path is a pathname of this origin, never a query', () => {
   it('M2-AC04/2 locale handler: next is reduced by safeNextPath and loses its query and fragment', () => {
     expect(returnPathname('/internal/orgs/abc', APP_ORIGIN)).toBe('/internal/orgs/abc');
@@ -488,9 +494,20 @@ describe('M2-AC04/2 locale handler: the return path is a pathname of this origin
       '/internal/invitations/accept',
     );
     expect(returnPathname('/internal?outcome=created#x', APP_ORIGIN)).toBe('/internal');
-    for (const hostile of ['', '//evil.example', 'https://evil.example/x', '/\\evil.example', 'javascript:alert(1)', 'internal', '/internal\r\nSet-Cookie: a=b']) {
+    for (const hostile of [
+      '',
+      '//evil.example',
+      'https://evil.example/x',
+      '/\\evil.example',
+      'javascript:alert(1)',
+      'internal',
+      '/internal\r\nSet-Cookie: a=b',
+      ...DOT_SEGMENT_HOSTILE,
+    ]) {
       expect(returnPathname(hostile, APP_ORIGIN), JSON.stringify(hostile)).toBe('/internal');
     }
+    // An ordinary dot segment still resolves to the page it names.
+    expect(returnPathname('/internal/orgs/../invitations', APP_ORIGIN)).toBe('/internal/invitations');
   });
 
   it('M2-AC04/2 locale handler: a form from the accept page returns to it without its token, and with the outcome set, not appended', async () => {
@@ -508,8 +525,10 @@ describe('M2-AC04/2 locale handler: the return path is a pathname of this origin
   });
 
   it('M2-AC04/2 locale handler: a hostile next lands on /internal of APP_ORIGIN', async () => {
-    for (const hostile of ['//evil.example/x', 'https://evil.example']) {
+    for (const hostile of ['//evil.example/x', 'https://evil.example', ...DOT_SEGMENT_HOSTILE]) {
       const response = await switchLocale(post(choose('ms-MY', hostile), { mode: 'form' }));
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.origin, hostile).toBe(APP_ORIGIN);
       expect(response.headers.get('location'), hostile).toBe(`${APP_ORIGIN}/internal?outcome=locale_switched`);
     }
   });

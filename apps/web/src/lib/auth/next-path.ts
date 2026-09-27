@@ -23,6 +23,13 @@
  *  - anything with a CR or LF (or any other control character), which could
  *    split the `Location` header;
  *  - an absent, empty or over-long value.
+ *
+ * The guarantee is about resolving the result against the origin **in one
+ * step**, as the callback does (`new URL(next, appOrigin)`). Dot segments are
+ * left alone, so `/internal/..//evil.example` is accepted, and resolving it
+ * yields the pathname `//evil.example` on `APP_ORIGIN`. A caller that takes
+ * that pathname and parses it again as a path must run it through this
+ * function a second time: `POST /internal/locale`'s `returnPathname` does.
  */
 
 /** Where an absent, empty or refused `next` lands: the internal build's own home. */

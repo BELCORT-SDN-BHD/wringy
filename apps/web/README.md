@@ -410,7 +410,10 @@ A request that asked for JSON (`Sec-Fetch-Mode` not `navigate` **and** `Accept` 
 `application/json`) never gets a 3xx: `200 { switched: true, locale, scope, saved, reason? }` or
 `200 { skipped: true }`. A form gets a 303 to `next` (its pathname only) with
 `?outcome=locale_saved | locale_switched | locale_not_saved`, or to `/auth/end-session` for a disabled
-account. Every response is `no-store`.
+account. `next` passes `safeNextPath` before and after it is reduced to a pathname, because a dot
+segment can resolve an accepted path into a protocol-relative one (`/internal/..//evil.example` →
+`//evil.example`); the 303 sets that pathname on a URL of `APP_ORIGIN`, so its origin cannot change.
+Every response is `no-store`.
 
 ### The switch, the controls and the notices
 

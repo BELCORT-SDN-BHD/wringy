@@ -37,11 +37,13 @@
  * `?outcome=locale_saved | locale_switched | locale_not_saved`, or to
  * `/auth/end-session` for a disabled account.
  *
- * `next` is reduced by `safeNextPath` and then to its **pathname**: the query and
- * the fragment are dropped, so an invitation token in the accept page's URL is
- * never rebuilt into a redirect (the no-JS switch there returns to the accept
- * page without its token; recorded in known-issues). The redirect is built with
- * `URL` and `searchParams.set`, never by concatenation.
+ * `next` is reduced by `safeNextPath`, then to its **pathname**, then by
+ * `safeNextPath` again: the query and the fragment are dropped, so an invitation
+ * token in the accept page's URL is never rebuilt into a redirect (the no-JS
+ * switch there returns to the accept page without its token; recorded in
+ * known-issues), and a dot segment cannot leave a protocol-relative path behind.
+ * The redirect sets that pathname on a URL of `APP_ORIGIN` and the outcome with
+ * `searchParams.set`, never by concatenation, so its origin cannot change.
  *
  * Every response is `noStore()`.
  */
@@ -73,9 +75,16 @@ export function asksForJson(request: HeaderBearing): boolean {
   return accept.split(',').some((range) => range.split(';')[0]?.trim().toLowerCase() === 'application/json');
 }
 
-/** The pathname of a safe return path: no query and no fragment ever survive (R4). */
+/**
+ * The pathname of a safe return path: no query and no fragment ever survive (R4).
+ *
+ * `safeNextPath` runs again on the reduced pathname, because resolving dot
+ * segments can turn a value it accepted into a protocol-relative path —
+ * `/internal/..//evil.example` and `/%2e%2e//evil.example` both reduce to
+ * `//evil.example` — which any later `new URL(path, origin)` reads as a host.
+ */
 export function returnPathname(raw: string, appOrigin: string): string {
-  return new URL(safeNextPath(raw === '' ? null : raw), appOrigin).pathname;
+  return safeNextPath(new URL(safeNextPath(raw === '' ? null : raw), appOrigin).pathname);
 }
 
 /** Why a signed-in save failed, or null when it did not (R4, R12). */
@@ -119,9 +128,14 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const jar = await cookieJar();
 
-  /** A 303 to `next`, with the outcome set through `searchParams` when there is one. */
+  /**
+   * A 303 to `next`, with the outcome set through `searchParams` when there is one.
+   * The path is set on a URL of this origin rather than resolved against it, so
+   * no value of `next` can change the host, whatever `returnPathname` let through.
+   */
   const backTo = (outcome: Exclude<LocaleOutcome, 'locale_synced'> | null): NextResponse => {
-    const target = new URL(next, appOrigin);
+    const target = new URL('/', appOrigin);
+    target.pathname = next;
     if (outcome !== null) target.searchParams.set('outcome', outcome);
     return jar.applyTo(seeOther(target.toString(), appOrigin));
   };

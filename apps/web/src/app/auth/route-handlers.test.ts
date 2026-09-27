@@ -359,6 +359,24 @@ describe('M2-AC02/1 callback: each way the provider leg can end shows its own lo
     }
   });
 
+  it('M2-AC02/3 callback: a next whose dot segments resolve to //host still lands on APP_ORIGIN', async () => {
+    // The callback resolves the stored path against APP_ORIGIN in one step and never
+    // re-parses the pathname it gets, so the `//evil.example` a dot segment leaves is
+    // a path on this origin, not a host (the locale handler's re-parse is the one that
+    // needed a second safeNextPath).
+    for (const hostile of ['/internal/..//evil.example', '/.//evil.example/x', '/%2e%2e//evil.example']) {
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-auth-next', hostile);
+      stubApi(() => json(200, { profile: PROFILE }));
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.origin, hostile).toBe(APP_ORIGIN);
+      expect(location.host, hostile).toBe('127.0.0.1:3100');
+    }
+  });
+
   it('M2-AC02/1 callback: 403 sign_in.not_allowed signs the local session out and says not_allowed', async () => {
     authBehaviour.exchangeCodeForSession = writesSession;
     stubApi(() => json(403, { error: { code: 'sign_in.not_allowed', message: 'x' } }));

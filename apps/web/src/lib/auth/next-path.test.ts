@@ -69,10 +69,24 @@ describe('M2-AC02/3 callback: the return path can never leave APP_ORIGIN', () =>
       '/internal\r\nSet-Cookie: a=b',
       'internal',
       '',
+      // Dot segments that resolve to `//evil.example`: in one step the host is still APP_ORIGIN's.
+      '/internal/..//evil.example',
+      '/.//evil.example/x',
+      '/%2e%2e//evil.example',
     ];
     for (const value of values) {
       const url = new URL(safeNextPath(value), APP_ORIGIN);
       expect(url.origin, value).toBe(APP_ORIGIN);
     }
+  });
+
+  it('M2-AC02/3 callback: a resolved pathname parsed again is checked again, because dot segments can leave //host', () => {
+    // Why a caller that re-parses the reduced pathname runs safeNextPath twice
+    // (the locale handler's returnPathname): the first pass accepts the value…
+    const accepted = safeNextPath('/internal/..//evil.example');
+    const reduced = new URL(accepted, APP_ORIGIN).pathname;
+    expect(reduced).toBe('//evil.example');
+    // …and the second refuses what it reduced to.
+    expect(safeNextPath(reduced)).toBe(DEFAULT_NEXT_PATH);
   });
 });
