@@ -934,7 +934,10 @@ for (const locale of LOCALES) {
 
         // A save that fails: the not-saved outcome and the unsaved notice, in the row's language.
         await switchInHeader(page, other);
+        await expectBodyLocale(page, other, 'account');
         await expectLive(page, 'saved-account', internalCopy(other, 'locale.live.savedAccount'));
+        // That switch's command has finished before the failure is armed, so the failure meets the card's save.
+        await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(other);
         await device.control.failNext(device.tag, 'user', 500, 'unexpected_failure');
         await page.getByTestId('locale-card-select').selectOption(locale);
         await page.getByTestId('locale-card-save').click();
