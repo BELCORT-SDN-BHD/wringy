@@ -187,10 +187,10 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
           // Liveness on this client first, as every command asks it. The command
           // maps the verdict itself and throws, as runCommand and the sign-in do,
           // rather than using the probe's guard: a refusal here has to stop the
-          // work and roll the transaction back, and the guard sends its reply
-          // before this handler could answer anything else. (The guard used to
-          // resolve to the reply, which `await` turned into undefined because a
-          // reply is a thenable; it now resolves a boolean. Found by this command.)
+          // work and roll the transaction back, but the guard sends its own reply
+          // and a `FastifyReply` is a thenable, so awaiting it would resolve to
+          // undefined on a refusal the same as on a pass — this command could not
+          // tell the two apart, let alone stop on the refusal and roll back.
           const state = await liveness.check(actor, client);
           if (state !== 'live') {
             const { status, code } = NOT_LIVE_REFUSAL[state];
