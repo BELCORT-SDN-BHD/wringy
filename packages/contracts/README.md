@@ -12,6 +12,7 @@ the TypeScript types inferred from them (kickoff-package.md §8.1, §8.3).
 | `POST /identity/sign-in` | `signInResponseSchema` | `{ profile }` (M2-02) |
 | `GET /me` | `meResponseSchema` | `{ profile, session: { expiresAt } }` (M2-02) |
 | `POST /me/session/probe` | `sessionProbeResponseSchema` | `{ ok: true, checkedAt }`: the reserved fund-sensitive stub that proves the session-liveness guard; it changes nothing (M2-02) |
+| `POST /me/locale` | `setLocaleResponseSchema` | `{ profile }`, carrying the freshly written `localePref` and `localePrefSetAt` (M2-04) |
 | `GET /me/workspaces` | `workspacesResponseSchema` | `{ personal: { userId }, orgs: [{ orgId, name, role, dataOrigin }], grants: { org: [{ orgId, capability }], platform: [capability] } }` (M2-03) |
 | `POST /orgs` | `createOrgResponseSchema` | 201 `{ org, membership }`: the creator's `org_created` admin membership (M2-03) |
 | `GET /orgs/:orgId` | `orgDetailResponseSchema` | `{ org, self: { role }, members: [{ userId, displayName, role, grantedAt }], invitations? }`; `invitations` only for an admin (M2-03) |
@@ -38,6 +39,7 @@ code runs.
 | `createInvitationBodySchema` | `{ email (1–320 characters; the API normalises it), role }` |
 | `invitationTokenBodySchema` | `{ token }`: 43 base64url characters (32 random bytes); only ever a body, never a path |
 | `changeRoleBodySchema` | `{ role }` |
+| `setLocaleBodySchema` | `{ locale }`, through `localeSchema` (M2-04) |
 
 Bodies are plain `z.object`s too, never strict: an unknown key such as a body
 `orgId` is stripped, so the path alone decides which org a command touches.
@@ -45,19 +47,29 @@ Bodies are plain `z.object`s too, never strict: an unknown key such as a body
 web copy interpolates it.
 
 `profileSchema` (`src/identity.ts`) is `{ id, displayName, contactEmail, status,
-lastSignInAt, createdAt }`: `id` is the verified token subject (`sub`), never an
-email; `status` is `active` or `disabled` (ruling D12). No token, refresh token,
-session id or locale row is in any of these shapes. No member shape of
-`src/orgs.ts` carries an address of any kind; the only address on the wire is a
-pending invitation's `inviteeEmailNorm`, shown to that org's admins.
+lastSignInAt, createdAt, localePref, localePrefSetAt }`: `id` is the verified
+token subject (`sub`), never an email; `status` is `active` or `disabled` (ruling
+D12); `localePref` is the person's explicit language choice through
+`localeSchema`, or null when they have never made one, and `localePrefSetAt` is
+the instant it was last set — the pair is always both null or both set (M2-04;
+migration 0017's CHECK). No token, refresh token or session id is in any of
+these shapes. No member shape of `src/orgs.ts` carries an address of any kind;
+the only address on the wire is a pending invitation's `inviteeEmailNorm`, shown
+to that org's admins.
+
+`localeSchema` (`src/identity.ts`) is `LOCALES = ['en-MY', 'ms-MY',
+'zh-Hans-MY']` (M2-04): the three languages the internal build resolves and
+renders; there is no `en`, no regionless `zh`, and Traditional Chinese
+(`zh-Hant-MY`) is not offered.
 
 Enumerations: org `role` is `admin` or `member`; membership `status` is `active` or
 `removed`, `grantBasis` is `org_created` or `invitation`; invitation `status` is
 `pending`, `accepted` or `revoked`; org capabilities are `review` and `finance`, the
 platform capability is `ops_runtime`; profile `status` is `active` or `disabled`; campaign `status` is `draft` or `published`; `dataOrigin` is
 `fixture` or `live` (the database column is `data_origin`); worker `state` is
-`healthy`, `stale`, `never_seen` (shown as "unknown") or `stopped`. Instants are
-ISO 8601 with an offset; ids are UUIDs.
+`healthy`, `stale`, `never_seen` (shown as "unknown") or `stopped`; locale is
+`en-MY`, `ms-MY` or `zh-Hans-MY`. Instants are ISO 8601 with an offset; ids are
+UUIDs.
 
 ## Rules
 

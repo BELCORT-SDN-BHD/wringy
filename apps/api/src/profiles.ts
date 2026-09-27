@@ -4,12 +4,15 @@
  * One module owns the column list, the row-to-contract mapping and the three
  * statements the API is allowed to run (SELECT, INSERT, UPDATE — never DELETE,
  * which the grant refuses anyway), so the authentication hook, `GET /me` and the
- * sign-in command cannot disagree about what a profile is.
+ * sign-in command cannot disagree about what a profile is. The column list also
+ * carries `locale_pref` and `locale_pref_set_at` (migrations 0017–0018; M2-04
+ * R2): the person's explicit language choice and the instant it was last set,
+ * both null until a preference is written.
  *
  * Every instant comes from PostgreSQL: `last_sign_in_at` is `now()` on the
  * database clock, never the API host's.
  */
-import type { Profile, ProfileStatus } from '@wringy/contracts';
+import type { Locale, Profile, ProfileStatus } from '@wringy/contracts';
 import type { PoolClient } from '@wringy/db';
 
 type Queryable = Pick<PoolClient, 'query'>;
@@ -18,7 +21,8 @@ type Queryable = Pick<PoolClient, 'query'>;
  * The columns the Profile contract needs, listed explicitly (defence in depth:
  * the zod response schema is still the final allow-list for what leaves the API).
  */
-const PROFILE_COLUMNS = 'id, display_name, contact_email, status, last_sign_in_at, created_at';
+const PROFILE_COLUMNS =
+  'id, display_name, contact_email, status, last_sign_in_at, created_at, locale_pref, locale_pref_set_at';
 
 interface ProfileRow {
   id: string;
@@ -27,6 +31,8 @@ interface ProfileRow {
   status: ProfileStatus;
   last_sign_in_at: Date;
   created_at: Date;
+  locale_pref: Locale | null;
+  locale_pref_set_at: Date | null;
 }
 
 function toProfile(row: ProfileRow): Profile {
@@ -37,6 +43,8 @@ function toProfile(row: ProfileRow): Profile {
     status: row.status,
     lastSignInAt: row.last_sign_in_at.toISOString(),
     createdAt: row.created_at.toISOString(),
+    localePref: row.locale_pref,
+    localePrefSetAt: row.locale_pref_set_at === null ? null : row.locale_pref_set_at.toISOString(),
   };
 }
 

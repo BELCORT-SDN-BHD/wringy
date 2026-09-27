@@ -77,6 +77,8 @@ const PROFILE = {
   status: 'active',
   lastSignInAt: '2026-09-25T01:00:00.000Z',
   createdAt: '2026-09-20T01:00:00.000Z',
+  localePref: null,
+  localePrefSetAt: null,
 };
 
 function internalEnv(): void {

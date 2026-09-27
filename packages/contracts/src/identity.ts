@@ -13,13 +13,25 @@ export const profileStatusSchema = z.enum(PROFILE_STATUSES);
 export type ProfileStatus = z.output<typeof profileStatusSchema>;
 
 /**
+ * The three languages the internal build resolves and renders (M2-04 R2;
+ * localization-v1). `en-MY`, `ms-MY` and `zh-Hans-MY` are the only codes a
+ * person can choose; there is no `en`, no regionless `zh`, and Traditional
+ * Chinese (`zh-Hant-MY`) is not offered.
+ */
+export const LOCALES = ['en-MY', 'ms-MY', 'zh-Hans-MY'] as const;
+export const localeSchema = z.enum(LOCALES);
+export type Locale = z.output<typeof localeSchema>;
+
+/**
  * The signed-in person, as the API is willing to say it. The schema is the
  * allow-list: a field not named here never leaves the API, because `z.object`
  * strips unknown keys. `id` is the verified token subject (`sub`), never an
  * email. `contactEmail` is the verified address, refreshed at each sign-in and
  * used for notifications; `displayName` comes from the provider's profile and is
- * for display only. Nothing here is a token, a session id or a locale decision
- * (M2-04 owns the locale as a feature; the columns exist already).
+ * for display only. `localePref` is the person's explicit language choice, or
+ * null when they have never made one; `localePrefSetAt` is the database instant
+ * it was last set. The pair is always both null or both set (migration 0017's
+ * CHECK): there is no state where a preference exists without its instant.
  */
 export const profileSchema = z.object({
   id: z.uuid(),
@@ -28,6 +40,8 @@ export const profileSchema = z.object({
   status: profileStatusSchema,
   lastSignInAt: instantSchema,
   createdAt: instantSchema,
+  localePref: localeSchema.nullable(),
+  localePrefSetAt: instantSchema.nullable(),
 });
 export type Profile = z.output<typeof profileSchema>;
 
@@ -61,3 +75,26 @@ export const sessionProbeResponseSchema = z.object({
   checkedAt: instantSchema,
 });
 export type SessionProbeResponse = z.output<typeof sessionProbeResponseSchema>;
+
+/**
+ * `POST /me/locale` (M2-04 R2): the body naming the one explicit choice a
+ * signed-in person can make. Like every body in this package this is a plain
+ * `z.object`, so a caller naming a `userId` or any other key changes nobody's
+ * row but their own — the path to the account is the verified token, never a
+ * field in the payload.
+ */
+export const setLocaleBodySchema = z.object({
+  locale: localeSchema,
+});
+export type SetLocaleBody = z.output<typeof setLocaleBodySchema>;
+
+/**
+ * `POST /me/locale` (M2-04 R2): the command answers the profile as it now
+ * stands, carrying the freshly written `localePref` and `localePrefSetAt` —
+ * the same shape `GET /me` and `POST /identity/sign-in` answer, so a caller
+ * never needs a second read to see its own write.
+ */
+export const setLocaleResponseSchema = z.object({
+  profile: profileSchema,
+});
+export type SetLocaleResponse = z.output<typeof setLocaleResponseSchema>;
