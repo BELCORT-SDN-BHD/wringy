@@ -67,8 +67,9 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
   // /internal/* need. No DDL and nothing in pgboss (kickoff-package.md §4.11,
   // §8.5): it reads the pg-boss schema version through the migrator-owned view
   // ops.pgboss_schema_version (0006). Its writes are column grants only (below):
-  // the sign-in's profile columns (0010) and, since M2-03, the org, membership,
-  // invitation and audit columns its commands write (0011–0016).
+  // the sign-in's profile columns (0010), since M2-03 the org, membership,
+  // invitation and audit columns its commands write (0011–0016), and since M2-04
+  // the profile's language preference pair (0018).
   wringy_api: {
     login: ROLES.apiLogin,
     // public: PostgreSQL's own default (PUBLIC keeps USAGE on it); nothing is
@@ -105,16 +106,19 @@ export const GRANT_MANIFEST: Readonly<Record<'wringy_api' | 'wringy_worker', Rol
       'ops.pgmigrations': ['SELECT'],
       'ops.pgboss_schema_version': ['SELECT'],
     },
-    // Profiles: what a sign-in writes, and nothing else (0010; ruling D12, D7).
-    // `status` is absent on purpose: only an operator disables an account, so the
-    // runtime role must not be able to write it. `locale_pref` and
-    // `locale_pref_set_at` are absent because M2-04 owns the feature that writes
-    // them. Then the M2-03 columns (0011–0016; kickoff code review R1, R3).
+    // Profiles: what a sign-in writes (0010; ruling D12, D7) and the language
+    // preference pair `POST /me/locale` writes (0018; M2-04 R1, R2), UPDATE only:
+    // the first sign-in never inserts a preference. `status` is absent on
+    // purpose: only an operator disables an account, so the runtime role must not
+    // be able to write it. Then the M2-03 columns (0011–0016; kickoff code review
+    // R1, R3).
     columns: {
       'app.profiles.id': ['INSERT'],
       'app.profiles.contact_email': ['INSERT', 'UPDATE'],
       'app.profiles.display_name': ['INSERT', 'UPDATE'],
       'app.profiles.last_sign_in_at': ['INSERT', 'UPDATE'],
+      'app.profiles.locale_pref': ['UPDATE'],
+      'app.profiles.locale_pref_set_at': ['UPDATE'],
       // 0011: create writes the name and the creator; rename writes the name.
       'app.orgs.name': ['INSERT', 'UPDATE'],
       'app.orgs.created_by': ['INSERT'],

@@ -69,6 +69,7 @@ describe('M2-AC01/2 migrations from zero', () => {
   const name = `wringy_t_${cluster().runId}_fresh`;
   const orderName = `wringy_t_${cluster().runId}_order`;
   const at0010Name = `wringy_t_${cluster().runId}_at0010`;
+  const previousName = `wringy_t_${cluster().runId}_previous`;
   const migratorUrl = urlFor(ROLES.migrator, cluster().passwords.migrator, name);
 
   async function query<T extends pg.QueryResultRow>(sql: string, url = migratorUrl): Promise<T[]> {
@@ -80,12 +81,13 @@ describe('M2-AC01/2 migrations from zero', () => {
       await ensureDatabase(admin, name);
       await ensureDatabase(admin, orderName);
       await ensureDatabase(admin, at0010Name);
+      await ensureDatabase(admin, previousName);
     });
   });
 
   afterAll(async () => {
     await withAdmin(async (admin) => {
-      for (const db of [name, orderName, at0010Name]) {
+      for (const db of [name, orderName, at0010Name, previousName]) {
         await admin.query(`DROP DATABASE IF EXISTS ${admin.escapeIdentifier(db)} WITH (FORCE)`);
       }
     });
@@ -198,24 +200,31 @@ describe('M2-AC01/2 migrations from zero', () => {
     expect(await catalogSnapshot(migratorUrl)).toEqual(before);
   });
 
-  it('M2-AC01/2 reverting 0011–0016 leaves exactly the catalog of a database migrated only to 0010_profiles_column_grants', async () => {
-    // The fixed point above cannot see an incomplete 0011 Down: 0003's Down drops
-    // app.orgs right after it, taking any leftover column, default, key, trigger or
-    // column grant with it. So a second database is migrated only as far as 0010,
-    // and the main one, reverted to the same point, must match it (M2-03 code
-    // review R1 rev 2).
+  it('M2-AC01/2 reverting every migration after 0010 (0011–0018) leaves exactly the catalog of a database migrated only to 0010', async () => {
+    // The fixed point above cannot see an incomplete Down of anything that
+    // changes a table an older Down drops: 0003's Down drops app.orgs right after
+    // 0011's, and 0008's Down drops app.profiles right after 0017's and 0018's,
+    // taking any leftover column, default, key, trigger, CHECK or column grant
+    // with them. So a second database is migrated only as far as 0010, and the
+    // main one, reverted to the same point, must match it: the snapshot reads
+    // `pg_attribute.attacl` and `pg_constraint`, so a REVOKE missing from 0018's
+    // Down or a DROP missing from 0017's fails here (M2-03 code review R1 rev 2;
+    // M2-04 R1 rev 2). 0010's own Down is outside this comparison and covered by
+    // no test (packages/db/README.md).
     const all = listMigrations();
     const base = '0010_profiles_column_grants';
     const upTo = all.indexOf(base) + 1;
     expect(upTo).toBe(10);
     const newer = all.slice(upTo);
-    expect(newer.slice(0, 6)).toEqual([
+    expect(newer.slice(0, 8)).toEqual([
       '0011_orgs_ownership',
       '0012_org_members',
       '0013_org_invitations',
       '0014_admin_scopes',
       '0015_platform_grants',
       '0016_audit_log',
+      '0017_profiles_locale_pair_check',
+      '0018_profiles_locale_grants',
     ]);
 
     // pnpm db:migrate's order (pg-boss first), stopped at 0010.
@@ -225,10 +234,16 @@ describe('M2-AC01/2 migrations from zero', () => {
     const at0010 = await catalogSnapshot(at0010Url);
     expect(at0010.relations.some((row) => row.startsWith('app.orgs '))).toBe(true);
     expect(at0010.relations.some((row) => row.startsWith('app.audit_log '))).toBe(false);
+    expect(at0010.columns.some((row) => /^app\.profiles\.locale_pref .* acl=/.test(row))).toBe(false);
+    expect(at0010.constraints.some((row) => row.includes('profiles_locale_pref_pair_check'))).toBe(false);
 
     const before = await catalogSnapshot(migratorUrl);
     expect(before.columns.some((row) => /^app\.orgs\.name .* acl=/.test(row))).toBe(true);
     expect(before.constraints.some((row) => row.includes('orgs_id_created_by_key'))).toBe(true);
+    // What 0017 and 0018 add is visible to the snapshot, so their Downs are compared too.
+    expect(before.columns.some((row) => /^app\.profiles\.locale_pref .* acl=/.test(row))).toBe(true);
+    expect(before.columns.some((row) => /^app\.profiles\.locale_pref_set_at .* acl=/.test(row))).toBe(true);
+    expect(before.constraints.some((row) => row.includes('profiles_locale_pref_pair_check'))).toBe(true);
 
     expect(await runMigrations({ databaseUrl: migratorUrl, direction: 'down', count: newer.length })).toEqual(
       [...newer].reverse(),
@@ -237,6 +252,31 @@ describe('M2-AC01/2 migrations from zero', () => {
 
     // Back to the head, for the tests below.
     expect((await migrateDatabase({ databaseUrl: migratorUrl })).migrations).toEqual(newer);
+    expect(await catalogSnapshot(migratorUrl)).toEqual(before);
+  });
+
+  it('M2-AC01/2 reverting the newest migration leaves exactly the catalog of a database migrated to the one before it', async () => {
+    // The at-0010 comparison above covers today's newest migrations, but only
+    // because its list was extended for them. This row needs no edit when a
+    // migration is added: whatever file is newest, its Down must return the
+    // catalog to that of a database that never ran it (M2-04 R1 rev 2).
+    const all = listMigrations();
+    const newest = all.at(-1);
+    expect(newest).toBe(EXPECTED_MIGRATION_HEAD);
+
+    // pnpm db:migrate's order (pg-boss first), stopped one short of the head.
+    const previousUrl = urlFor(ROLES.migrator, cluster().passwords.migrator, previousName);
+    await installPgBossSchema({ databaseUrl: previousUrl, expectedVersion: EXPECTED_PGBOSS_VERSION });
+    expect(await runMigrations({ databaseUrl: previousUrl, count: all.length - 1 })).toEqual(all.slice(0, -1));
+    const previous = await catalogSnapshot(previousUrl);
+
+    const before = await catalogSnapshot(migratorUrl);
+
+    expect(await runMigrations({ databaseUrl: migratorUrl, direction: 'down', count: 1 })).toEqual([newest]);
+    expect(await catalogSnapshot(migratorUrl)).toEqual(previous);
+
+    // Back to the head, for the tests below.
+    expect((await migrateDatabase({ databaseUrl: migratorUrl })).migrations).toEqual([newest]);
     expect(await catalogSnapshot(migratorUrl)).toEqual(before);
   });
 

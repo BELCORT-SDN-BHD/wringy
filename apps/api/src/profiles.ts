@@ -5,9 +5,10 @@
  * statements the API is allowed to run (SELECT, INSERT, UPDATE — never DELETE,
  * which the grant refuses anyway), so the authentication hook, `GET /me` and the
  * sign-in command cannot disagree about what a profile is. The column list also
- * carries `locale_pref` and `locale_pref_set_at` (migrations 0017–0018; M2-04
- * R2): the person's explicit language choice and the instant it was last set,
- * both null until a preference is written.
+ * carries `locale_pref` and `locale_pref_set_at` (columns of 0008, written by the
+ * API since 0018, kept a pair by 0017; M2-04 R2): the person's explicit language
+ * choice and the instant it was last set, both null until a preference is
+ * written.
  *
  * Every instant comes from PostgreSQL: `last_sign_in_at` is `now()` on the
  * database clock, never the API host's.
@@ -86,6 +87,57 @@ export async function lockProfileStatusForShare(client: Queryable, id: string): 
     [id],
   );
   return rows[0]?.status ?? null;
+}
+
+/**
+ * The row's `status` re-read with `FOR NO KEY UPDATE`, for a command that is
+ * about to write the caller's own profile (`POST /me/locale`; M2-04 R2). Null
+ * when the row is gone.
+ *
+ * The locked row decides, as in the sign-in: lock, decide, write. Reading
+ * `status` and then updating in two unlocked statements would give READ
+ * COMMITTED a third answer (an operator re-enabling the account between them),
+ * and taking `FOR SHARE` first, as the probe does, deadlocks two concurrent
+ * writes of the same row (40P01): each holds the share lock the other's UPDATE
+ * waits for. So a command that writes the profile never takes `FOR SHARE` on it
+ * before the write; this lock serialises two such commands, and an operator's
+ * `UPDATE status` waits behind it.
+ *
+ * `NO KEY` rather than `FOR UPDATE` because eight foreign keys reference
+ * `app.profiles (id)` (an org's creator, three membership columns, two
+ * invitation columns and both grant tables), and every insert that references a
+ * profile takes `KEY SHARE` on it: `FOR UPDATE` would block those, `FOR NO KEY
+ * UPDATE` does not — the reason `lockOrgRow` (authorize.ts) locks the org row
+ * the same way. The runtime role may take it because it holds UPDATE on some
+ * column of the row (0010, 0018).
+ */
+export async function lockProfileStatusForWrite(client: Queryable, id: string): Promise<ProfileStatus | null> {
+  const { rows } = await client.query<{ status: ProfileStatus }>(
+    `SELECT status FROM app.profiles WHERE id = $1 FOR NO KEY UPDATE`,
+    [id],
+  );
+  return rows[0]?.status ?? null;
+}
+
+/**
+ * Writes the person's explicit language choice and stamps when it was made
+ * (M2-04 R2; migration 0018 grants exactly these two columns, 0017 keeps them a
+ * pair). `locale_pref_set_at` is the command's transaction start (`now()`), on
+ * the database clock: it does not follow commit order, so under contention the
+ * last writer can carry the earlier instant.
+ *
+ * Called only with the row held by `lockProfileStatusForWrite` on the same
+ * transaction, so the UPDATE cannot miss; if it ever returns no row that is a
+ * bug, and the command answers 500 rather than a silent success.
+ */
+export async function setProfileLocale(client: Queryable, id: string, locale: Locale): Promise<Profile> {
+  const { rows } = await client.query<ProfileRow>(
+    `UPDATE app.profiles SET locale_pref = $2, locale_pref_set_at = now() WHERE id = $1
+       RETURNING ${PROFILE_COLUMNS}`,
+    [id, locale],
+  );
+  if (rows[0] === undefined) throw new Error('the locked profile row was not updated');
+  return toProfile(rows[0]);
 }
 
 export interface SignInIdentity {

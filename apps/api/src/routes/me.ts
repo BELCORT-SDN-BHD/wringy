@@ -3,20 +3,39 @@ import {
   apiErrorSchema,
   meResponseSchema,
   sessionProbeResponseSchema,
+  setLocaleBodySchema,
+  setLocaleResponseSchema,
   workspacesResponseSchema,
+  type Profile,
 } from '@wringy/contracts';
 import type { Pool } from '@wringy/db';
 
 import { actorOf, profileOf, VARY_AUTHORIZATION } from '../authenticate';
 import { withDatabase, withTransaction } from '../database';
-import { errorBody } from '../errors';
+import { errorBody, type ErrorCode } from '../errors';
 import { listWorkspaces } from '../orgs';
-import { lockProfileStatusForShare } from '../profiles';
-import { requireLiveSession, type SessionLiveness } from '../session-liveness';
+import { lockProfileStatusForShare, lockProfileStatusForWrite, setProfileLocale } from '../profiles';
+import { NOT_LIVE_REFUSAL, requireLiveSession, type SessionLiveness } from '../session-liveness';
 
 export interface MeRoutesOptions {
   pool: Pool;
   liveness: SessionLiveness;
+}
+
+/**
+ * A refusal decided inside a self-service command's transaction (liveness, then
+ * the caller's own locked row). Throwing it rolls the transaction back, so a
+ * refused command leaves no row written; the handler answers it outside.
+ */
+class SelfCommandRefused extends Error {
+  override readonly name = 'SelfCommandRefused';
+  constructor(
+    readonly status: 401 | 403 | 503,
+    readonly code: ErrorCode,
+    readonly reason: string,
+  ) {
+    super(`command refused: ${reason}`);
+  }
 }
 
 /**
@@ -41,6 +60,23 @@ export interface MeRoutesOptions {
  *   three SELECTs on one pooled client, re-read on every request, so a removal or
  *   a revoked grant shows on the next one. A grant is not a membership. `GET /me`
  *   is unchanged.
+ * - `POST /me/locale { locale }` (M2-04 R2) saves the caller's explicit language
+ *   choice to their own profile and answers the profile as it now stands. It is a
+ *   command, so it opens a transaction, asks liveness on it first and rolls back
+ *   on every refusal (a revoked session is 401 `session.revoked`); then it
+ *   **locks the caller's row before deciding anything** (`FOR NO KEY UPDATE`,
+ *   `lockProfileStatusForWrite`) and lets the locked row decide, as the sign-in
+ *   does — a gone row is 403 `profile.missing`, a disabled one 403
+ *   `account.disabled`, and only then the UPDATE, which cannot miss while the lock
+ *   is held. Not the probe's `FOR SHARE`: share-then-write deadlocks two calls of
+ *   one person (40P01), and an unlocked read-then-write has a third answer under
+ *   READ COMMITTED. `locale_pref_set_at` is the command's transaction start
+ *   (`now()`), the record of when the choice was made; it does not follow commit
+ *   order. **Not audited**: no authority is exercised and nobody else is
+ *   affected, which is also why the sign-in's own profile refresh writes no row
+ *   (M2-04 §5, §6.4). The body is a plain `z.object`, so a `userId` in it is
+ *   stripped and the token alone names the row; a locale outside the three is
+ *   Fastify's 400 `bad_request` before the handler.
  */
 export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { pool, liveness }) => {
   const liveSession = requireLiveSession(liveness);
@@ -122,6 +158,56 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
 
       if ('refused' in outcome) return outcome.refused;
       return reply.code(200).send({ ok: true as const, checkedAt: outcome.checkedAt.toISOString() });
+    },
+  );
+
+  app.post(
+    '/me/locale',
+    {
+      schema: {
+        body: setLocaleBodySchema,
+        response: {
+          200: setLocaleResponseSchema,
+          400: apiErrorSchema,
+          401: apiErrorSchema,
+          403: apiErrorSchema,
+          500: apiErrorSchema,
+          503: apiErrorSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const actor = actorOf(request);
+      let profile: Profile;
+      try {
+        profile = await withTransaction(pool, async (client) => {
+          // Liveness on this client first, as every command asks it. The command
+          // maps the verdict itself and throws, as runCommand and the sign-in do,
+          // rather than using the probe's guard: a refusal here has to stop the
+          // work and roll the transaction back, and the guard's answer is a
+          // Fastify reply, which `await` resolves to undefined (a reply is a
+          // thenable), so it cannot tell the caller that it refused.
+          const state = await liveness.check(actor, client);
+          if (state !== 'live') {
+            const { status, code } = NOT_LIVE_REFUSAL[state];
+            throw new SelfCommandRefused(status, code, `session_${state}`);
+          }
+          // The caller's own row, locked before anything is decided (R2 rev 2):
+          // the locked row's status is the one the write is judged on, and a
+          // second call by the same person waits here instead of deadlocking.
+          const status = await lockProfileStatusForWrite(client, actor.userId);
+          if (status === null) throw new SelfCommandRefused(403, 'profile.missing', 'profile_missing');
+          if (status === 'disabled') throw new SelfCommandRefused(403, 'account.disabled', 'account_disabled');
+          return setProfileLocale(client, actor.userId, request.body.locale);
+        });
+      } catch (error) {
+        if (!(error instanceof SelfCommandRefused)) throw error;
+        // The reason word only, like the probe: never the token, the session id
+        // or an address. Not audited (M2-04 §5).
+        request.log.info({ reason: error.reason }, 'request refused');
+        return reply.code(error.status).send(errorBody(error.code));
+      }
+      return reply.code(200).send({ profile });
     },
   );
 };
