@@ -97,7 +97,21 @@ export type PageOutcome = OrgOutcome | Exclude<LocaleOutcome, 'locale_synced'>;
 /** The language outcomes that confirm a change; `locale_not_saved` reads as a problem. */
 export const LOCALE_CONFIRMATION_OUTCOMES: ReadonlySet<PageOutcome> = new Set<PageOutcome>(['locale_saved', 'locale_switched']);
 
-const PAGE_LOCALE_OUTCOMES: readonly string[] = ['locale_saved', 'locale_switched', 'locale_not_saved'];
+/** Every outcome that reads as a confirmation, org or language, so `OutcomeAlert` needs one check. */
+export const PAGE_CONFIRMATION_OUTCOMES: ReadonlySet<PageOutcome> = new Set<PageOutcome>([
+  ...CONFIRMATION_OUTCOMES,
+  ...LOCALE_CONFIRMATION_OUTCOMES,
+]);
+
+/**
+ * `LOCALE_OUTCOMES` minus `locale_synced`, which `locale-status.tsx` renders
+ * instead of `OutcomeAlert` (Standards T6): derived from the one list rather
+ * than copied, so a fifth language code cannot reach `OutcomeAlert` without
+ * this predicate — or the exclusion above — being told about it.
+ */
+function isPageLocaleOutcome(value: string): value is Exclude<LocaleOutcome, 'locale_synced'> {
+  return value !== 'locale_synced' && (LOCALE_OUTCOMES as readonly string[]).includes(value);
+}
 
 /** A page's `searchParams`, as Next hands them over. */
 export type Query = Record<string, string | string[] | undefined>;
@@ -111,7 +125,7 @@ export function firstValue(value: string | string[] | undefined): string | undef
 export function outcomeFromQuery(query: Query): PageOutcome | null {
   const value = firstValue(query.outcome);
   if (isOrgOutcome(value)) return value;
-  return value !== undefined && PAGE_LOCALE_OUTCOMES.includes(value) ? (value as PageOutcome) : null;
+  return value !== undefined && isPageLocaleOutcome(value) ? value : null;
 }
 
 /**

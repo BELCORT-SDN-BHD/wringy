@@ -493,6 +493,16 @@ Every control is a plain form first: the header's Apply, the prompt's Continue a
 Save, Retry and Undo all post to the handler and land with an outcome. The one limitation is the
 accept page, whose token is never rebuilt into a redirect (above).
 
+### Files
+
+| File | Owns |
+|---|---|
+| `locale-switch-logic.ts` | The switch's decisions as pure functions: the one-request-in-flight queue, the echo rule, refused storage, Skip's own pending flag, and `withoutLocaleOutcome`, what a refresh strips from the URL before it commits |
+| `locale-card-form.tsx` | The Language card's form: a plain `choose` post before hydration, landing back on `/internal` with an outcome; once hydrated, the same in-place switch as the header, the prompt, Retry and Undo, in place so the create-org name and request key beside it survive |
+| `hydrated.ts` | `useHydrated()`, false while the server renders and while the client hydrates and true right after: what keeps a minted request key from rendering before the client has minted one |
+| `embed.tsx` | `withSlot()`, a placeholder no catalogue contains, for the one argument to `t()` that must render as an element — an `InstantText`, a language name carrying its own `lang` — inside one catalogue sentence, so word order stays the translator's |
+| `critical-copy-alert.tsx` | `missingCriticalCopy()` (M2-03's guarded confirmations: whether the active language's catalogue has every key a critical form needs) and `CriticalCopyAlert`, the alert a guarded submit shows disabled instead of falling back to another language |
+
 ## What is installed
 
 Node 24.21.0 (pinned by the root `.npmrc` `use-node-version`, so pnpm downloads and runs it even

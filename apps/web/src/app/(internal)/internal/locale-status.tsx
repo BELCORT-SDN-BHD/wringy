@@ -44,6 +44,7 @@ import type { Locale } from '@/i18n/config';
 import type { AccountPreference } from '@/lib/locale/resolve';
 
 import { SLOT, withSlot } from './embed';
+import { LocaleChoiceFields } from './locale-choice-fields';
 import { LOCALE_ENDPOINT } from './locale-switch-logic';
 import { TRANSIENT_PROPS, useLocaleSwitch } from './locale-switch-provider';
 import { fromOfQuery } from './outcomes';
@@ -84,9 +85,7 @@ function ChooseForm({ locale, children }: { locale: Locale; children: ReactNode 
         choose(locale);
       }}
     >
-      <input type="hidden" name="intent" value="choose" />
-      <input type="hidden" name="locale" value={locale} />
-      <input type="hidden" name="next" value={pathname} />
+      <LocaleChoiceFields intent="choose" locale={locale} next={pathname} />
       {children}
     </form>
   );

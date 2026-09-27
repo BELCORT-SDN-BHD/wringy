@@ -32,9 +32,11 @@ import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
-import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
-import { LOCALES, isLocale, type Locale } from '@/i18n/config';
+import { NativeSelect } from '@/components/ui/native-select';
+import { isLocale, type Locale } from '@/i18n/config';
 
+import { LocaleChoiceFields } from './locale-choice-fields';
+import { LocaleOptions } from './locale-options';
 import { LOCALE_ENDPOINT, LOCALE_SWITCHER_ID, type LiveResult } from './locale-switch-logic';
 import { useLocaleSwitch } from './locale-switch-provider';
 
@@ -92,8 +94,7 @@ export function LocaleSwitcher() {
           if (typeof chosen === 'string' && isLocale(chosen)) choose(chosen);
         }}
       >
-        <input type="hidden" name="intent" value="choose" />
-        <input type="hidden" name="next" value={pathname} />
+        <LocaleChoiceFields intent="choose" next={pathname} />
         <NativeSelect
           id={LOCALE_SWITCHER_ID}
           name="locale"
@@ -106,11 +107,7 @@ export function LocaleSwitcher() {
           aria-label={common('shell.languageLabel')}
           data-testid="locale-switcher"
         >
-          {LOCALES.map((code) => (
-            <NativeSelectOption key={code} value={code} lang={code}>
-              {common(`locale.${code}`)}
-            </NativeSelectOption>
-          ))}
+          <LocaleOptions label={(code) => common(`locale.${code}`)} />
         </NativeSelect>
         <Button type="submit" size="sm" variant="outline" data-testid="locale-switcher-apply">
           {t('apply')}

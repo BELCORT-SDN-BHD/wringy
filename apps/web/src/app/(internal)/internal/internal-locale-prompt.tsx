@@ -29,9 +29,11 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
-import { LOCALES, isLocale, type Locale } from '@/i18n/config';
+import { NativeSelect } from '@/components/ui/native-select';
+import { isLocale, type Locale } from '@/i18n/config';
 
+import { LocaleChoiceFields } from './locale-choice-fields';
+import { LocaleOptions } from './locale-options';
 import { LOCALE_ENDPOINT } from './locale-switch-logic';
 import { TRANSIENT_PROPS, useLocaleSwitch } from './locale-switch-provider';
 
@@ -74,7 +76,7 @@ export function InternalLocalePrompt({ suggested, copy }: InternalLocalePromptPr
         action={LOCALE_ENDPOINT}
         className="mx-auto flex w-full max-w-5xl min-w-0 flex-col gap-3 px-4 py-3 sm:flex-row sm:items-end sm:justify-between sm:px-6"
       >
-        <input type="hidden" name="next" value={pathname} />
+        <LocaleChoiceFields next={pathname} />
         <div className="flex min-w-0 flex-col gap-1">
           <p id={titleId} className="text-sm font-medium">
             {text.title}
@@ -95,11 +97,7 @@ export function InternalLocalePrompt({ suggested, copy }: InternalLocalePromptPr
               className="w-full sm:w-auto"
               data-testid="internal-locale-prompt-select"
             >
-              {LOCALES.map((code) => (
-                <NativeSelectOption key={code} value={code} lang={code}>
-                  {names(code)}
-                </NativeSelectOption>
-              ))}
+              <LocaleOptions label={(code) => names(code)} />
             </NativeSelect>
           </div>
           <div className="flex flex-wrap gap-2">

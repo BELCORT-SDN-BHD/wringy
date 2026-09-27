@@ -5,12 +5,13 @@ import type { Profile } from '@wringy/contracts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
-import { LOCALES, type Locale } from '@/i18n/config';
+import { NativeSelect } from '@/components/ui/native-select';
+import { type Locale } from '@/i18n/config';
 
 import { SLOT, withSlot } from './embed';
 import { InstantText } from './instant-text';
 import { LocaleCardForm } from './locale-card-form';
+import { LocaleOptions } from './locale-options';
 import { INTERNAL_PATH } from './org-paths';
 
 /**
@@ -75,9 +76,7 @@ export async function LocaleSection({ profile, locale }: { profile: Profile; loc
             )}
           </div>
 
-          <LocaleCardForm>
-            <input type="hidden" name="intent" value="choose" />
-            <input type="hidden" name="next" value={INTERNAL_PATH} />
+          <LocaleCardForm next={INTERNAL_PATH}>
             <div className="flex min-w-0 flex-col gap-2">
               <Label htmlFor="locale-card-select">{t('fieldLabel')}</Label>
               {/* Keyed by what it starts on: React never re-applies `defaultValue`, and an
@@ -90,11 +89,7 @@ export async function LocaleSection({ profile, locale }: { profile: Profile; loc
                 defaultValue={initial}
                 data-testid="locale-card-select"
               >
-                {LOCALES.map((code) => (
-                  <NativeSelectOption key={code} value={code} lang={code}>
-                    {common(`locale.${code}`)}
-                  </NativeSelectOption>
-                ))}
+                <LocaleOptions label={(code) => common(`locale.${code}`)} />
               </NativeSelect>
             </div>
             <div>

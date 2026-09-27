@@ -177,7 +177,8 @@ export const NOT_LIVE_REFUSAL = {
  * live. Never the reply itself: a Fastify reply is a thenable, so an async
  * function that returned it would resolve to `undefined` once the reply was
  * sent, and a caller that awaited the guard could not tell a refusal from a
- * pass (found by M2-04: the probe carried on after its 401).
+ * pass — it would read `undefined` either way and carry on as though the
+ * session were still live, past a 401 or 503 already on the wire.
  */
 function refuseUnlessLive(reply: FastifyReply, state: LivenessResult): boolean {
   if (state === 'live') return false;
