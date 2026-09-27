@@ -10,7 +10,7 @@ import { LOCALES, type Locale } from '@/i18n/config';
 
 import { SLOT, withSlot } from './embed';
 import { InstantText } from './instant-text';
-import { LOCALE_ENDPOINT } from './locale-switch-logic';
+import { LocaleCardForm } from './locale-card-form';
 import { INTERNAL_PATH } from './org-paths';
 
 /**
@@ -18,19 +18,22 @@ import { INTERNAL_PATH } from './org-paths';
  * m2-04-code-review.md R5 rev 2, R7): the account's own preference and the
  * place to change it.
  *
- * Titled "Settings · Preferred language" so the prompt's "you can change this
- * anytime in Settings" is true in a build with no Settings page (record §5).
- * It shows what the account holds, from the same `GET /me` the page already
- * read — `Not set`, or `Saved: 简体中文` with the instant it was saved through
- * `InstantText` (Malaysia time, offset written out, the API's instant in
- * `<time datetime>`) — and a plain form: a `NativeSelect` named by the card's
- * own `<Label>`, and Save, posting `choose` to `POST /internal/locale`, which
- * answers the form with a 303 back here and an outcome.
+ * Titled "Settings · Preferred language" so the synced notice's "Change in
+ * Settings" names a place that exists in a build with no Settings page (record
+ * §5). It shows what the account holds, from the same `GET /me` the page
+ * already read — `Not set`, or `Saved: 简体中文` with the instant it was saved
+ * through `InstantText` (Malaysia time, offset written out, the API's instant in
+ * `<time datetime>`) — and a form: a `NativeSelect` named by the card's own
+ * `<Label>`, and Save. Without JavaScript Save posts `choose` to
+ * `POST /internal/locale`, which answers with a 303 back here and an outcome;
+ * with it, Save is the in-place switch (`LocaleCardForm`).
  */
 export async function LocaleSection({ profile, locale }: { profile: Profile; locale: Locale }) {
   const t = await getTranslations('internal.locale.card');
   const common = await getTranslations('common');
   const preference = profile.localePref;
+  // What the select starts on, and its key, so it follows every switch made anywhere on the page.
+  const initial = preference ?? locale;
 
   return (
     <section aria-labelledby="internal-locale-title" data-internal-section="locale" className="flex min-w-0 flex-col gap-3">
@@ -72,17 +75,21 @@ export async function LocaleSection({ profile, locale }: { profile: Profile; loc
             )}
           </div>
 
-          <form
-            method="post"
-            action={LOCALE_ENDPOINT}
-            className="flex flex-col gap-3 sm:flex-row sm:items-end"
-            data-testid="locale-card-form"
-          >
+          <LocaleCardForm>
             <input type="hidden" name="intent" value="choose" />
             <input type="hidden" name="next" value={INTERNAL_PATH} />
             <div className="flex min-w-0 flex-col gap-2">
               <Label htmlFor="locale-card-select">{t('fieldLabel')}</Label>
-              <NativeSelect id="locale-card-select" name="locale" defaultValue={preference ?? locale} data-testid="locale-card-select">
+              {/* Keyed by what it starts on: React never re-applies `defaultValue`, and an
+                  in-place switch keeps this node, so without the key it would keep showing
+                  the old language beside "Saved: <new>" and Save would post it back. */}
+              <NativeSelect
+                key={initial}
+                id="locale-card-select"
+                name="locale"
+                defaultValue={initial}
+                data-testid="locale-card-select"
+              >
                 {LOCALES.map((code) => (
                   <NativeSelectOption key={code} value={code} lang={code}>
                     {common(`locale.${code}`)}
@@ -95,7 +102,7 @@ export async function LocaleSection({ profile, locale }: { profile: Profile; loc
                 {t('save')}
               </Button>
             </div>
-          </form>
+          </LocaleCardForm>
         </CardContent>
       </Card>
     </section>

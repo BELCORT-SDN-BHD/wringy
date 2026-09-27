@@ -23,10 +23,18 @@
  *   language everywhere beats two.
  * - **A failed request** (transport, a `guardRequest` refusal, an unreadable
  *   body, a redirect) wrote nothing: the old language stays and the live region
- *   says it could not switch.
+ *   says it could not switch. Unless a choice it superseded was written: the
+ *   stale answer is not acted on, but it is remembered (`wrote`), and a newest
+ *   request that then fails re-renders what the server now holds instead of
+ *   leaving the page in a language nothing holds any more.
+ * - **Skip** records nothing but the prompt's answer. It has its own pending
+ *   flag, so a second press while it is in flight sends nothing, and a failure
+ *   is announced (`not-skipped`) instead of passing in silence.
  */
 
 import { isLocale, type Locale } from '@/i18n/config';
+
+import { LOCALE_OUTCOMES } from './outcomes';
 
 /** The Route Handler every language control posts to. */
 export const LOCALE_ENDPOINT = '/internal/locale';
@@ -51,8 +59,15 @@ export interface SkippedBody {
   readonly skipped: true;
 }
 
+/**
+ * The header switcher's `<select>` id. Before a refresh removes the control
+ * that has focus (the prompt's Continue and Skip, Retry, Undo), focus moves
+ * here: the header is on every internal page and a refresh keeps it.
+ */
+export const LOCALE_SWITCHER_ID = 'internal-locale-switcher';
+
 /** What the live region says, as `data-result`. Empty when nothing has happened yet. */
-export type LiveResult = 'saved-account' | 'saved-guest' | 'not-saved' | 'not-switched' | 'refused' | 'pending' | '';
+export type LiveResult = 'saved-account' | 'saved-guest' | 'not-saved' | 'not-switched' | 'refused' | 'not-skipped' | 'pending' | '';
 
 export interface SwitchState {
   /** The value of the request in flight, or null. */
@@ -64,9 +79,16 @@ export interface SwitchState {
   readonly result: LiveResult;
   /** The reason of a `not-saved` result. */
   readonly reason: SwitchReason | null;
+  /**
+   * An answer this run of requests superseded was a switch the server wrote, so
+   * the server may now render a language the page does not show yet.
+   */
+  readonly wrote: boolean;
+  /** A Skip is in flight: another press sends nothing until it settles. */
+  readonly skipping: boolean;
 }
 
-export const IDLE: SwitchState = { inFlight: null, queued: null, shown: null, result: '', reason: null };
+export const IDLE: SwitchState = { inFlight: null, queued: null, shown: null, result: '', reason: null, wrote: false, skipping: false };
 
 /** One answer, as the client reads it. */
 export type SwitchAnswer =
@@ -89,7 +111,7 @@ export function choose(state: SwitchState, locale: Locale): Step {
     return { state: { ...state, queued: locale, shown: locale, result: 'pending', reason: null }, post: null, effect: 'none' };
   }
   return {
-    state: { inFlight: locale, queued: null, shown: locale, result: 'pending', reason: null },
+    state: { ...state, inFlight: locale, queued: null, shown: locale, result: 'pending', reason: null, wrote: false },
     post: locale,
     effect: 'none',
   };
@@ -102,41 +124,87 @@ export function choose(state: SwitchState, locale: Locale): Step {
 export function settle(state: SwitchState, answer: SwitchAnswer, guestStored: (locale: Locale) => boolean): Step {
   const asked = state.inFlight;
 
-  // A newer choice replaced this one: the answer is stale whatever it says.
+  // A newer choice replaced this one: the answer is stale whatever it says. What it
+  // wrote is remembered, so a newest request that then fails still shows it.
   if (state.queued !== null) {
     return {
-      state: { ...state, inFlight: state.queued, queued: null, result: 'pending', reason: null },
+      state: {
+        ...state,
+        inFlight: state.queued,
+        queued: null,
+        result: 'pending',
+        reason: null,
+        wrote: state.wrote || wroteBy(answer, guestStored),
+      },
       post: state.queued,
       effect: 'none',
     };
   }
 
-  const settled = { inFlight: null, queued: null } as const;
+  const settled = { inFlight: null, queued: null, wrote: false } as const;
+  // Nothing new to show. But when a superseded choice was written, the server now
+  // renders that one, so the page re-renders what it holds rather than stay in a
+  // language neither the account nor any cookie holds any more.
+  const unchanged: SwitchEffect = state.wrote ? 'refresh' : 'none';
 
   // Nothing was written, or not what this client asked for: the old language stays.
   if (answer.kind === 'failed' || answer.locale !== asked) {
-    return { state: { ...settled, shown: null, result: 'not-switched', reason: null }, post: null, effect: 'none' };
+    return { state: { ...state, ...settled, shown: null, result: 'not-switched', reason: null }, post: null, effect: unchanged };
   }
 
   if (answer.scope === 'guest') {
     if (!guestStored(answer.locale)) {
-      return { state: { ...settled, shown: null, result: 'refused', reason: null }, post: null, effect: 'none' };
+      return { state: { ...state, ...settled, shown: null, result: 'refused', reason: null }, post: null, effect: unchanged };
     }
-    return { state: { ...settled, shown: answer.locale, result: 'saved-guest', reason: null }, post: null, effect: 'refresh' };
+    return { state: { ...state, ...settled, shown: answer.locale, result: 'saved-guest', reason: null }, post: null, effect: 'refresh' };
   }
 
   if (answer.saved) {
-    return { state: { ...settled, shown: answer.locale, result: 'saved-account', reason: null }, post: null, effect: 'refresh' };
+    return { state: { ...state, ...settled, shown: answer.locale, result: 'saved-account', reason: null }, post: null, effect: 'refresh' };
   }
 
   // Switched, not saved. A disabled account leaves through end-session; every other
   // reason re-renders, and the server shows the unsaved notice with its Retry.
   const reason = answer.reason ?? 'unexpected';
   return {
-    state: { ...settled, shown: answer.locale, result: 'not-saved', reason },
+    state: { ...state, ...settled, shown: answer.locale, result: 'not-saved', reason },
     post: null,
     effect: reason === 'account_disabled' ? 'end-session' : 'refresh',
   };
+}
+
+/**
+ * Whether a stale answer changed what the server renders: a switch the account
+ * or the session cookie now holds, or a guest cookie the browser really stored.
+ */
+function wroteBy(answer: SwitchAnswer, guestStored: (locale: Locale) => boolean): boolean {
+  if (answer.kind !== 'switched') return false;
+  return answer.scope === 'account' || guestStored(answer.locale);
+}
+
+/** What a Skip press does: `send` is false while one is already in flight. */
+export interface SkipStep {
+  readonly state: SwitchState;
+  readonly send: boolean;
+}
+
+/**
+ * Skip pressed. A second press while the first is in flight sends nothing. A
+ * previous "could not skip" is cleared, so a second failure is announced again.
+ */
+export function skip(state: SwitchState): SkipStep {
+  if (state.skipping) return { state, send: false };
+  return { state: { ...state, skipping: true, result: state.result === 'not-skipped' ? '' : state.result }, send: true };
+}
+
+/**
+ * The Skip's answer. A 200 set the prompt cookie: re-render, and the prompt is
+ * gone. Anything else recorded nothing: the prompt stays and the live region
+ * says the answer could not be recorded.
+ */
+export function settleSkip(state: SwitchState, ok: boolean): Step {
+  if (ok) return { state: { ...state, skipping: false }, post: null, effect: 'refresh' };
+  return { state: { ...state, skipping: false, result: 'not-skipped', reason: null }, post: null, effect: 'none' };
 }
 
 const isReason = (value: unknown): value is SwitchReason =>
@@ -154,4 +222,32 @@ export function answerOf(status: number, body: unknown): SwitchAnswer {
 /** The form body of a choice or a skip, as the no-JS form would post it. */
 export function switchForm(intent: 'choose' | 'skip', locale: Locale, next: string): URLSearchParams {
   return new URLSearchParams({ intent, locale, next });
+}
+
+const CONSUMED_OUTCOMES: readonly string[] = LOCALE_OUTCOMES;
+
+/**
+ * `href` without its language outcome, as a same-origin path (`/internal?x=1#y`),
+ * or null when there is nothing to strip.
+ *
+ * A language outcome in the URL is consumed once: `?outcome=locale_*` and `from`
+ * describe the switch that landed there, and after any in-place switch they
+ * describe nothing — a `router.refresh()` re-renders the same URL, so a stale
+ * "saved" or "not saved" alert, or a synced notice with a stale "was X" and its
+ * Undo, would survive beside what the switch just did. The provider strips them
+ * from the address before it refreshes.
+ *
+ * `outcome` goes when its first value — the one the page shows — is one of the
+ * four language outcomes; an organisation outcome is left alone. `from` has no
+ * meaning without `locale_synced` and always goes. Every other parameter (an
+ * invitation's `token`) and the fragment stay.
+ */
+export function withoutLocaleOutcome(href: string): string | null {
+  const url = new URL(href);
+  const outcome = url.searchParams.get('outcome');
+  const consumed = outcome !== null && CONSUMED_OUTCOMES.includes(outcome);
+  if (!consumed && !url.searchParams.has('from')) return null;
+  if (consumed) url.searchParams.delete('outcome');
+  url.searchParams.delete('from');
+  return `${url.pathname}${url.search}${url.hash}`;
 }

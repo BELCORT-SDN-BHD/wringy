@@ -62,13 +62,21 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** The prompt's own copy in all three languages, so its preview needs no catalogue on the client. */
+/**
+ * The prompt's own copy in all three languages, so its preview needs no
+ * catalogue on the client. The demo prompt's `common.localePrompt.*`, except its
+ * description: "change this anytime in Settings" names a page this build does
+ * not have, and the prompt is shown to guests, who get no Language card either.
+ * `internal.locale.prompt.description` points at the header's Language menu,
+ * which every internal page has.
+ */
 function promptCopy(): Record<Locale, PromptCopy> {
   return Object.fromEntries(
     LOCALES.map((code) => {
       const { common, internal } = getMessages(code);
-      const { title, description, draftNote, continue: proceed, skip } = common.localePrompt;
-      return [code, { title, description, draftNote, continue: proceed, skip, selectLabel: internal.locale.prompt.selectLabel }];
+      const { title, draftNote, continue: proceed, skip } = common.localePrompt;
+      const { description, selectLabel } = internal.locale.prompt;
+      return [code, { title, description, draftNote, continue: proceed, skip, selectLabel }];
     }),
   ) as Record<Locale, PromptCopy>;
 }

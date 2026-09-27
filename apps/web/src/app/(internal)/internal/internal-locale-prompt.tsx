@@ -16,8 +16,11 @@
  * languages comes from the server as a prop — this prompt's six strings, not the
  * catalogues. Continue records the choice (`choose`, through the same switch as
  * the header); Skip records nothing anywhere, restores the suggestion and hides
- * the prompt for this browsing session. Without JavaScript it is a plain form
- * whose two submit buttons carry the intent.
+ * the prompt for this browsing session; while it is in flight a second press
+ * does nothing, and if it fails the header's live region says the answer could
+ * not be recorded. Without JavaScript it is a plain form whose two submit
+ * buttons carry the intent. A refresh that answers the prompt removes it, so
+ * focus in it moves to the header switcher first (`TRANSIENT_PROPS`).
  */
 
 import { useId, useState } from 'react';
@@ -30,9 +33,9 @@ import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { LOCALES, isLocale, type Locale } from '@/i18n/config';
 
 import { LOCALE_ENDPOINT } from './locale-switch-logic';
-import { useLocaleSwitch } from './locale-switch-provider';
+import { TRANSIENT_PROPS, useLocaleSwitch } from './locale-switch-provider';
 
-/** The prompt's copy in one language: `common.localePrompt.*` and `internal.locale.prompt.selectLabel`. */
+/** The prompt's copy in one language: `common.localePrompt.*` but its description, and `internal.locale.prompt.*`. */
 export interface PromptCopy {
   readonly title: string;
   readonly description: string;
@@ -51,7 +54,7 @@ export interface InternalLocalePromptProps {
 export function InternalLocalePrompt({ suggested, copy }: InternalLocalePromptProps) {
   const names = useTranslations('common.locale');
   const pathname = usePathname();
-  const { choose, skip } = useLocaleSwitch();
+  const { state, choose, skip } = useLocaleSwitch();
   const [preview, setPreview] = useState<Locale>(suggested);
   const titleId = useId();
   const selectId = useId();
@@ -64,6 +67,7 @@ export function InternalLocalePrompt({ suggested, copy }: InternalLocalePromptPr
       lang={preview}
       data-testid="internal-locale-prompt"
       className="border-b bg-card"
+      {...TRANSIENT_PROPS}
     >
       <form
         method="post"
@@ -111,14 +115,18 @@ export function InternalLocalePrompt({ suggested, copy }: InternalLocalePromptPr
             >
               {text.continue}
             </Button>
+            {/* aria-disabled, not disabled, while a Skip is in flight: a disabled button
+                drops the focus it holds, and a second press must simply do nothing. */}
             <Button
               type="submit"
               name="intent"
               value="skip"
               variant="ghost"
+              aria-disabled={state.skipping || undefined}
               data-testid="internal-locale-prompt-skip"
               onClick={(event) => {
                 event.preventDefault();
+                if (state.skipping) return;
                 setPreview(suggested);
                 skip(suggested);
               }}

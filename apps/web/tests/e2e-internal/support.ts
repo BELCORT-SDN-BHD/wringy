@@ -91,7 +91,8 @@ export function internalCopy(locale: Locale, key: string): string {
 /**
  * One localized string from `src/messages/<locale>/common.json`, read at run time
  * for the same reason as `internalCopy`. The M2-04 prompt reuses
- * `common.localePrompt.*`, the header switcher is named by
+ * `common.localePrompt.*` but its description (the internal build's own is
+ * `internal.locale.prompt.description`), the header switcher is named by
  * `common.shell.languageLabel`, and the three language names are
  * `common.locale.<code>` (m2-04-code-review.md R5, R10).
  */

@@ -2,7 +2,18 @@ import { describe, expect, it } from 'vitest';
 
 import { guestCookieHolds } from '@/lib/locale/cookies';
 
-import { IDLE, answerOf, choose, settle, switchForm, type SwitchAnswer, type SwitchState } from './locale-switch-logic';
+import {
+  IDLE,
+  answerOf,
+  choose,
+  settle,
+  settleSkip,
+  skip,
+  switchForm,
+  withoutLocaleOutcome,
+  type SwitchAnswer,
+  type SwitchState,
+} from './locale-switch-logic';
 
 /**
  * The in-place switch's decisions (M2-04; m2-04-code-review.md R5 rev 2, R13
@@ -31,7 +42,7 @@ describe('M2-AC04/2 switch: one request in flight, and a newer choice replaces t
     const step = choose(IDLE, 'zh-Hans-MY');
     expect(step.post).toBe('zh-Hans-MY');
     expect(step.effect).toBe('none');
-    expect(step.state).toEqual({ inFlight: 'zh-Hans-MY', queued: null, shown: 'zh-Hans-MY', result: 'pending', reason: null });
+    expect(step.state).toEqual({ ...IDLE, inFlight: 'zh-Hans-MY', shown: 'zh-Hans-MY', result: 'pending' });
   });
 
   it('M2-AC04/2 switch: choices made while one is in flight post nothing; the newest replaces the pending value', () => {
@@ -62,7 +73,34 @@ describe('M2-AC04/2 switch: one request in flight, and a newer choice replaces t
 
     const fresh = settle(stale.state, switched({ locale: 'ms-MY' }), stored);
     expect(fresh).toMatchObject({ post: null, effect: 'refresh' });
-    expect(fresh.state).toEqual({ inFlight: null, queued: null, shown: 'ms-MY', result: 'saved-account', reason: null });
+    expect(fresh.state).toEqual({ ...IDLE, shown: 'ms-MY', result: 'saved-account' });
+  });
+
+  it('M2-AC04/2 switch: two quick choices where the superseded one was written and the newest fails — the page re-renders what the server holds', () => {
+    // The first choice is saved on the server, but a newer one is pending, so its answer is stale.
+    let state = choose(IDLE, 'ms-MY').state;
+    state = choose(state, 'zh-Hans-MY').state;
+    const stale = settle(state, switched({ locale: 'ms-MY' }), stored);
+    expect(stale).toMatchObject({ post: 'zh-Hans-MY', effect: 'none' });
+
+    // The newest then fails (transport, a refusal, a 5xx): nothing new is shown, but the
+    // server holds Malay, so the page re-renders rather than stay in a language nothing holds.
+    for (const answer of [{ kind: 'failed' as const }, switched({ locale: 'en-MY' })]) {
+      const failed = settle(stale.state, answer, stored);
+      expect(failed.effect, JSON.stringify(answer)).toBe('refresh');
+      expect(failed.post, JSON.stringify(answer)).toBeNull();
+      expect(failed.state, JSON.stringify(answer)).toEqual({ ...IDLE, result: 'not-switched' });
+    }
+    // A superseded guest answer counts only when the browser really stored its cookie.
+    let guest = choose(IDLE, 'ms-MY').state;
+    guest = choose(guest, 'zh-Hans-MY').state;
+    const refusedStale = settle(guest, switched({ locale: 'ms-MY', scope: 'guest' }), refused);
+    expect(settle(refusedStale.state, { kind: 'failed' }, stored).effect).toBe('none');
+    const storedStale = settle(guest, switched({ locale: 'ms-MY', scope: 'guest' }), stored);
+    expect(settle(storedStale.state, { kind: 'failed' }, refused).effect).toBe('refresh');
+    // A superseded answer that itself failed wrote nothing: the failure still changes nothing.
+    const failedStale = settle(state, { kind: 'failed' }, stored);
+    expect(settle(failedStale.state, { kind: 'failed' }, stored).effect).toBe('none');
   });
 });
 
@@ -82,7 +120,7 @@ describe('M2-AC04/2 switch: the echo rule — only the answer to what this clien
   it('M2-AC04/2 switch: a failed request (transport, a refusal, a redirect) keeps the old language and says so', () => {
     const step = settle(inFlight('ms-MY'), { kind: 'failed' }, stored);
     expect(step).toMatchObject({ post: null, effect: 'none' });
-    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'not-switched', reason: null });
+    expect(step.state).toEqual({ ...IDLE, result: 'not-switched' });
   });
 
   it('M2-AC04/2 switch: switched but not saved re-renders (the server shows the notice), and names the reason', () => {
@@ -117,7 +155,7 @@ describe('M2-AC04/2 switch: refused storage — a guest switch the browser would
     });
     expect(asked).toEqual(['ms-MY']);
     expect(step).toMatchObject({ effect: 'none', post: null });
-    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'refused', reason: null });
+    expect(step.state).toEqual({ ...IDLE, result: 'refused' });
   });
 
   it('M2-AC04/2 switch: an account answer never consults the guest cookie', () => {
@@ -137,6 +175,41 @@ describe('M2-AC04/2 switch: refused storage — a guest switch the browser would
     expect(guestCookieHolds('wringy-locale-x=ms-MY', 'ms-MY')).toBe(false);
     expect(guestCookieHolds('xwringy-locale=ms-MY', 'ms-MY')).toBe(false);
     expect(guestCookieHolds('', 'ms-MY')).toBe(false);
+  });
+});
+
+describe('M2-AC04/1 switch: Skip has a pending state and says when it could not be recorded', () => {
+  it('M2-AC04/1 switch: a Skip is sent once; a second press while it is in flight sends nothing', () => {
+    const first = skip(IDLE);
+    expect(first.send).toBe(true);
+    expect(first.state).toEqual({ ...IDLE, skipping: true });
+
+    const again = skip(first.state);
+    expect(again.send).toBe(false);
+    expect(again.state).toBe(first.state);
+  });
+
+  it('M2-AC04/1 switch: an answered Skip re-renders without the prompt and says nothing', () => {
+    const step = settleSkip(skip(IDLE).state, true);
+    expect(step).toEqual({ state: IDLE, post: null, effect: 'refresh' });
+  });
+
+  it('M2-AC04/1 switch: a failed Skip keeps the prompt, says it could not be recorded, and can be pressed again, which clears that sentence', () => {
+    const failed = settleSkip(skip(IDLE).state, false);
+    expect(failed).toEqual({ state: { ...IDLE, result: 'not-skipped' }, post: null, effect: 'none' });
+
+    const retried = skip(failed.state);
+    expect(retried.send).toBe(true);
+    // Cleared, so a second failure is a change the live region announces again.
+    expect(retried.state).toEqual({ ...IDLE, skipping: true, result: '' });
+  });
+
+  it('M2-AC04/1 switch: a Skip leaves a choice in flight alone, and a choice settling leaves the Skip in flight', () => {
+    const choosing = choose(IDLE, 'ms-MY').state;
+    const skipping = skip(choosing);
+    expect(skipping.state).toMatchObject({ inFlight: 'ms-MY', result: 'pending', skipping: true });
+    expect(settle(skipping.state, switched(), stored).state).toMatchObject({ skipping: true, result: 'saved-account' });
+    expect(settleSkip(skipping.state, true).state).toMatchObject({ inFlight: 'ms-MY', skipping: false, result: 'pending' });
   });
 });
 
@@ -171,6 +244,32 @@ describe('M2-AC04/2 switch: the handler’s answer is read defensively', () => {
     ] as const) {
       expect(answerOf(status, body), `${status} ${JSON.stringify(body)}`).toEqual({ kind: 'failed' });
     }
+  });
+
+  it('M2-AC04/2 switch: a locale outcome and its from are consumed by the next in-place switch; everything else in the URL stays', () => {
+    const at = (path: string) => `http://127.0.0.1:3100${path}`;
+    // Each of the four language outcomes, and the from of a carried choice, goes.
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_saved'))).toBe('/internal');
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_switched'))).toBe('/internal');
+    expect(withoutLocaleOutcome(at('/internal/orgs/x?outcome=locale_not_saved'))).toBe('/internal/orgs/x');
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_synced&from=ms-MY'))).toBe('/internal');
+    // The invitation token of an accept landing stays; so do other parameters and the fragment.
+    expect(withoutLocaleOutcome(at('/internal/invitations/accept?token=abc&outcome=locale_synced&from=none'))).toBe(
+      '/internal/invitations/accept?token=abc',
+    );
+    expect(withoutLocaleOutcome(at('/internal?visitor=1&outcome=locale_saved&probe=ok#internal-locale-title'))).toBe(
+      '/internal?visitor=1&probe=ok#internal-locale-title',
+    );
+    // Only the first outcome is shown, so only a first value that is a language outcome is consumed, with every repeat.
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_saved&outcome=created'))).toBe('/internal');
+    // An organisation outcome is not the switch's to consume; a stray from still is.
+    expect(withoutLocaleOutcome(at('/internal/orgs/x?outcome=created'))).toBeNull();
+    expect(withoutLocaleOutcome(at('/internal?outcome=created&outcome=locale_saved'))).toBeNull();
+    expect(withoutLocaleOutcome(at('/internal?outcome=created&from=ms-MY'))).toBe('/internal?outcome=created');
+    expect(withoutLocaleOutcome(at('/internal?outcome=LOCALE_SAVED'))).toBeNull();
+    // Nothing to strip: null, so the provider leaves history alone.
+    expect(withoutLocaleOutcome(at('/internal'))).toBeNull();
+    expect(withoutLocaleOutcome(at('/internal/sign-in?next=%2Finternal'))).toBeNull();
   });
 
   it('M2-AC04/2 switch: the client posts exactly the no-JS form’s fields', () => {

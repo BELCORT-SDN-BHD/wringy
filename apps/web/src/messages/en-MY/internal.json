@@ -278,7 +278,8 @@
       "savedGuest": "Language switched and saved to this browser",
       "notSaved": "Language switched, preference not saved",
       "notSwitched": "The language could not be switched. Try again.",
-      "refused": "This browser refused to store the choice, so the language was not switched. Allow cookies and try again."
+      "refused": "This browser refused to store the choice, so the language was not switched. Allow cookies and try again.",
+      "notSkipped": "Skipping the language question could not be recorded. Try again."
     },
     "status": {
       "unsaved": "You switched to {name}, but the preference is not saved to your account yet.",
@@ -286,10 +287,12 @@
       "synced": "Saved as your account language.",
       "syncedFrom": "Saved as your account language (was {name}).",
       "change": "Change in Settings",
-      "undo": "Undo"
+      "undo": "Undo",
+      "regionLabel": "Language notice"
     },
     "prompt": {
-      "selectLabel": "Language"
+      "selectLabel": "Language",
+      "description": "You can change this anytime with the Language menu at the top of every page."
     },
     "critical": {
       "unavailable": "The explanation for this action is not available in the current language yet. Switch to a fully available language before confirming."
@@ -322,7 +325,7 @@
     "invalid_name": "That name could not be used, so nothing was changed. Use 1 to 100 characters, not only spaces, and no hidden formatting characters.",
     "locale_saved": "Language preference saved.",
     "locale_switched": "Language switched.",
-    "locale_not_saved": "Language switched, but the preference could not be saved. Retry from the language settings.",
+    "locale_not_saved": "Language switched, but the preference could not be saved. Press Retry in the notice above to save it.",
     "locale_synced": "Saved as your account language."
   }
 }

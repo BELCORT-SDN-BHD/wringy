@@ -278,7 +278,8 @@
       "savedGuest": "已切换并保存到此浏览器",
       "notSaved": "已切换语言，偏好尚未保存",
       "notSwitched": "未能切换语言，请重试。",
-      "refused": "此浏览器拒绝保存该选择，因此语言没有切换。请允许 Cookie 后重试。"
+      "refused": "此浏览器拒绝保存该选择，因此语言没有切换。请允许 Cookie 后重试。",
+      "notSkipped": "未能记录跳过语言选择，请重试。"
     },
     "status": {
       "unsaved": "你已切换为{name}，但该偏好尚未保存到账号。",
@@ -286,10 +287,12 @@
       "synced": "已保存为账号语言。",
       "syncedFrom": "已按本次选择保存为账号语言（原为 {name}）。",
       "change": "在设置中修改",
-      "undo": "撤销"
+      "undo": "撤销",
+      "regionLabel": "语言提示"
     },
     "prompt": {
-      "selectLabel": "语言"
+      "selectLabel": "语言",
+      "description": "之后可随时通过每个页面顶部的“语言”菜单修改。"
     },
     "critical": {
       "unavailable": "当前语言的说明暂不可用；请切换到完整可用的语言后再确认。"
@@ -322,7 +325,7 @@
     "invalid_name": "无法使用该名称，因此没有做任何更改。请使用 1 到 100 个字符，不能只有空格，也不能包含隐藏的格式字符。",
     "locale_saved": "语言偏好已保存。",
     "locale_switched": "语言已切换。",
-    "locale_not_saved": "语言已切换，但偏好未能保存。请在语言设置中重试。",
+    "locale_not_saved": "语言已切换，但偏好未能保存。请点击上方提示中的“重试”来保存。",
     "locale_synced": "已保存为账号语言。"
   }
 }

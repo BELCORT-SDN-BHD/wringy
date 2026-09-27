@@ -32,9 +32,16 @@
  *   a transport failure, refused storage, a sign-in's choice over the account
  *   value with Undo, the invitee, the idle tab, guest persistence, two quick
  *   choices;
- * - M2-AC04/3: the three languages at 1440 and 390 (the evidence frames), the
- *   typed input and the request key surviving a switch, the instants;
+ * - M2-AC04/3: the three languages at 1440 and 390 (the evidence frames; the
+ *   card in place and without JavaScript; a language outcome consumed by the
+ *   next switch), the keyboard on the header switcher, the typed input and the
+ *   request key surviving a switch from the header and from the card, the
+ *   instants;
  * - then the sign-in page's caching (M2-AC04/1) and the cross-user cache (/2).
+ *
+ * Every header switch picks a language and presses Apply: choosing alone
+ * switches nothing (a11y-i18n-1). Every control whose success removes it (the
+ * prompt's Continue and Skip, Retry, Undo) leaves focus on the header switcher.
  *
  * R13's "/1 API stalled" row is NOT here, by the record's own words: the
  * simulated server cannot stall, and the outage instance's closed port answers
@@ -134,9 +141,37 @@ const syncedNotice = (page: Page): Locator => page.getByTestId('locale-status-sy
 /** The Language card on `/internal`. */
 const card = (page: Page): Locator => page.locator('section[data-internal-section="locale"]');
 
-/** Picks `locale` in the header switcher; with JavaScript, the change is the switch. */
+/** The header switcher's Apply button, visible with JavaScript too. */
+const apply = (page: Page): Locator => page.getByTestId('locale-switcher-apply');
+
+/** Picks `locale` in the header switcher and presses Apply: picking alone switches nothing (a11y-i18n-1). */
 async function switchInHeader(page: Page, locale: Locale): Promise<void> {
   await switcher(page).selectOption(locale);
+  await apply(page).click();
+}
+
+/**
+ * Saves the Language card the way a browser without JavaScript does:
+ * `form.submit()` fires no submit event, so no script sees it and the browser
+ * posts the plain form and follows the handler's 303, as it does before hydration.
+ */
+async function submitCardWithoutScript(page: Page): Promise<void> {
+  await page.getByTestId('locale-card-form').evaluate((form) => (form as HTMLFormElement).submit());
+}
+
+/** A notice sits in its own landmark: a region named `internal.locale.status.regionLabel` (a11y-i18n-9). */
+async function expectInNamedRegion(notice: Locator, locale: Locale): Promise<void> {
+  const region = notice.locator('xpath=ancestor::section[1]');
+  await expect(region).toHaveRole('region');
+  await expect(region).toHaveAccessibleName(internalCopy(locale, 'locale.status.regionLabel'));
+}
+
+/** No organisation or language outcome alert is shown, and the URL carries none of the language's. */
+async function expectNoLocaleOutcome(page: Page, why: string): Promise<void> {
+  await expect(page.getByTestId('org-outcome'), why).toHaveCount(0);
+  const url = new URL(page.url());
+  expect(url.searchParams.get('outcome'), why).toBeNull();
+  expect(url.searchParams.get('from'), why).toBeNull();
 }
 
 /** The live region's answer, by `data-result` and by its sentence in the language the page ended in. */
@@ -293,6 +328,9 @@ async function expectHeader(page: Page, locale: Locale): Promise<void> {
   await expect(switcher(page)).toHaveAccessibleName(commonCopy(locale, 'shell.languageLabel'));
   await expect(switcher(page)).toHaveValue(locale);
   await expectLanguageOptions(switcher(page));
+  // Apply stays once hydrated: it, not a change of the select, is the switch (a11y-i18n-1).
+  await expect(apply(page)).toBeVisible();
+  await expect(apply(page)).toHaveText(internalCopy(locale, 'locale.apply'));
 }
 
 /** The prompt, in `locale`: its region named by its title, its select by its label (R5, R10). */
@@ -301,7 +339,9 @@ async function expectPrompt(page: Page, locale: Locale): Promise<void> {
   await expect(region).toBeVisible();
   await expect(region).toHaveAttribute('lang', locale);
   await expect(region).toHaveAccessibleName(commonCopy(locale, 'localePrompt.title'));
-  await expect(region).toContainText(commonCopy(locale, 'localePrompt.description'));
+  // The internal build's own description: it points at the header's Language menu, not a Settings page (a11y-i18n-8).
+  await expect(region).toContainText(internalCopy(locale, 'locale.prompt.description'));
+  await expect(region).not.toContainText(commonCopy(locale, 'localePrompt.description'));
   // True of this build: the Malay and Chinese copy is an unreviewed draft.
   await expect(region).toContainText(commonCopy(locale, 'localePrompt.draftNote'));
   await expect(promptSelect(page)).toHaveAccessibleName(internalCopy(locale, 'locale.prompt.selectLabel'));
@@ -365,6 +405,7 @@ test.describe('M2-AC04 the language preference: suggestion, prompt and the share
     await malay.page.getByTestId('internal-locale-prompt-skip').click();
     await expect(prompt(malay.page)).toHaveCount(0);
     await expectBodyLocale(malay.page, 'ms-MY', 'browser');
+    await expect(switcher(malay.page), 'focus left the prompt for the header before the prompt went').toBeFocused();
     expect(posts, 'Skip is one request to the language handler').toEqual([LOCALE_PATH]);
     const skipped = await localeCookies(malay.context);
     expect(skipped[LOCALE_COOKIES.guest], 'Skip saves no guest preference').toBeUndefined();
@@ -560,6 +601,7 @@ for (const locale of LOCALES) {
         await expectLive(phone.page, 'not-saved', internalCopy(next, 'locale.live.notSaved'));
         await expect(unsavedNotice(phone.page)).toHaveAttribute('data-locale', next);
         await expect(unsavedNotice(phone.page)).toContainText(internalCopy(next, 'locale.status.unsaved').replace('{name}', localeName(next)));
+        await expectInNamedRegion(unsavedNotice(phone.page), next);
         await expect(phone.page.getByTestId('locale-status-retry')).toBeVisible();
         expect(await readAccountPreference(FIONA.id), 'the row is unchanged').toEqual(saved);
         expect((await localeCookies(phone.context))[LOCALE_COOKIES.session]).toBe(next);
@@ -574,6 +616,7 @@ for (const locale of LOCALES) {
         await phone.page.getByTestId('locale-status-retry').click();
         await expect(unsavedNotice(phone.page)).toHaveCount(0);
         await expectBodyLocale(phone.page, next, 'account');
+        await expect(switcher(phone.page), 'focus left the notice for the header before the notice went').toBeFocused();
         await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe(next);
         const retried = await readAccountPreference(FIONA.id);
         expect(laterThan(retried?.setAtMicros ?? null, saved?.setAtMicros ?? null), 'the retry wrote a new instant').toBe(true);
@@ -688,6 +731,7 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
     const synced = syncedNotice(page);
     await expect(synced).toHaveAttribute('data-from', 'ms-MY');
     await expect(synced).toContainText(internalCopy('zh-Hans-MY', 'locale.status.syncedFrom').replace('{name}', localeName('ms-MY')));
+    await expectInNamedRegion(synced, 'zh-Hans-MY');
     // The embedded language name carries its own language (R10).
     await expect(synced.locator('[lang="ms-MY"]')).toHaveText(localeName('ms-MY'));
     await expect(page.getByTestId('locale-status-undo')).toHaveAccessibleName(internalCopy('zh-Hans-MY', 'locale.status.undo'));
@@ -700,6 +744,8 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
     await expectBodyLocale(page, 'ms-MY', 'account');
     await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe('ms-MY');
     await expect(syncedNotice(page)).toHaveCount(0);
+    await expect(switcher(page), 'focus left the notice for the header before the notice went').toBeFocused();
+    await expectNoLocaleOutcome(page, 'the synced landing was consumed by the Undo');
 
     expect(problems).toEqual([]);
   });
@@ -824,7 +870,7 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
     }
   });
 
-  test('M2-AC04/2 simulated two quick choices: two selections in the same tick end with the last one in the page, on the row and in the live region', async ({
+  test('M2-AC04/2 simulated two quick choices: two header submissions in the same tick end with the last one in the page, on the row and in the live region', async ({
     tagged,
   }) => {
     await setAccountPreference(FIONA, 'en-MY');
@@ -834,11 +880,14 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
     await expectBodyLocale(page, 'en-MY', 'account');
     const posts = watchPosts(page);
 
-    await switcher(page).evaluate((element) => {
-      const select = element as HTMLSelectElement;
+    // Two Applies in one tick: the second is chosen while the first is in flight.
+    await page.getByTestId('locale-switcher-form').evaluate((element) => {
+      const form = element as HTMLFormElement;
+      const select = form.querySelector('select');
+      if (select === null) throw new Error('the header switcher has no select');
       for (const value of ['ms-MY', 'zh-Hans-MY']) {
         select.value = value;
-        select.dispatchEvent(new Event('change', { bubbles: true }));
+        form.requestSubmit();
       }
     });
 
@@ -866,6 +915,13 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
  * with the card, the unsaved notice) and the 320 px check of the sign-in page,
  * `/internal` and the org page. Gopal's account first holds another language, so
  * the sign-in carries the row's language over it and the synced notice names it.
+ *
+ * On the way it proves what the W5 fixes changed: the card's select follows a
+ * header switch (spec-4); the card's Save switches in place with JavaScript and
+ * lands with an outcome without it (critic-3); and a language outcome in the URL
+ * is consumed by the next in-place switch — the synced notice by a header switch,
+ * a "saved" landing by a failing header switch, a "not saved" landing by Retry
+ * (spec-1).
  */
 for (const locale of LOCALES) {
   for (const width of [1440, 390] as const) {
@@ -877,7 +933,7 @@ for (const locale of LOCALES) {
         tag,
       }) => {
         test.setTimeout(240_000);
-        const [other] = othersOf(locale);
+        const [other, third] = othersOf(locale);
         await setAccountPreference(GOPAL, other);
         const device: Device = await openDevice('guest', { locale: BROWSER_TAG[locale] });
         const { page } = device;
@@ -896,6 +952,7 @@ for (const locale of LOCALES) {
         await expect(prompt(page)).toHaveCount(0);
         await expectBodyLocale(page, locale, 'guest');
         await expectLive(page, 'saved-guest', internalCopy(locale, 'locale.live.savedGuest'));
+        await expect(switcher(page), 'focus left the prompt for the header before the prompt went').toBeFocused();
 
         // The sign-in carries it over the account's other language, and says so.
         const landed = await signInFrom(page, 'gopal');
@@ -906,9 +963,22 @@ for (const locale of LOCALES) {
         await expect(synced).toHaveAttribute('data-from', other);
         await expect(synced).toContainText(internalCopy(locale, 'locale.status.syncedFrom').replace('{name}', localeName(other)));
         await expect(synced.locator(`[lang="${other}"]`)).toHaveText(localeName(other));
+        await expectInNamedRegion(synced, locale);
         await expect(page.getByTestId('locale-status-undo')).toHaveAccessibleName(internalCopy(locale, 'locale.status.undo'));
         await expect(page.getByTestId('locale-status-change')).toHaveText(internalCopy(locale, 'locale.status.change'));
         await internalShot(page, `locale-synced-${locale}`);
+
+        // Another switch consumes the landing: the account now holds the third language, and the
+        // notice must not come back saying it replaced the other one, with an Undo to it (spec-1).
+        await switchInHeader(page, third);
+        await expectBodyLocale(page, third, 'account');
+        await expectLive(page, 'saved-account', internalCopy(third, 'locale.live.savedAccount'));
+        await expect(syncedNotice(page), 'no stale "was <other>" beside a language it never replaced').toHaveCount(0);
+        await expectNoLocaleOutcome(page, 'the synced landing was consumed by the switch');
+        await switchInHeader(page, locale);
+        await expectBodyLocale(page, locale, 'account');
+        await expect(syncedNotice(page)).toHaveCount(0);
+        await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(locale);
 
         // /internal: the header and the card.
         await page.goto(WEB_ROUTES.internal);
@@ -928,33 +998,64 @@ for (const locale of LOCALES) {
         await expect
           .poll(() => campaignBadges(page))
           .toEqual(badgesBefore.map((badge) => ({ ...badge, label: statusLabel(other, badge.code) })));
+        // The card's select follows a switch made elsewhere, so its Save cannot post the old value back (spec-4).
+        await expect(page.getByTestId('locale-card-state')).toHaveAttribute('data-account-preference', other);
+        await expect(page.getByTestId('locale-card-select')).toHaveValue(other);
 
-        // The card's own form, back to the row's language: the saved outcome.
+        // The card's Save, with JavaScript: in place, back to the row's language, no outcome, same URL (critic-3).
+        const internalUrl = page.url();
         await page.getByTestId('locale-card-select').selectOption(locale);
         await page.getByTestId('locale-card-save').click();
+        await expectBodyLocale(page, locale, 'account');
+        await expectLive(page, 'saved-account', internalCopy(locale, 'locale.live.savedAccount'));
+        expect(page.url(), 'the card switched in place').toBe(internalUrl);
+        await expectNoLocaleOutcome(page, 'an in-place save lands with no outcome');
+        await expect(page.getByTestId('locale-card-select')).toHaveValue(locale);
+        await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(locale);
+
+        // The card without JavaScript, back to the row's language: the saved outcome.
+        await switchInHeader(page, other);
+        await expectBodyLocale(page, other, 'account');
+        await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(other);
+        await page.getByTestId('locale-card-select').selectOption(locale);
+        await submitCardWithoutScript(page);
         await landOnInternalWith(page, 'locale_saved');
         await expectBodyLocale(page, locale, 'account');
         await expectOrgOutcome(page, 'locale_saved', locale);
 
-        // A save that fails: the not-saved outcome and the unsaved notice, in the row's language.
+        // A header switch that then fails: the unsaved notice, and no "saved" left beside it (spec-1).
+        await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(locale);
+        await device.control.failNext(device.tag, 'user', 500, 'unexpected_failure');
         await switchInHeader(page, other);
+        await expectBodyLocale(page, other, 'session');
+        await expectLive(page, 'not-saved', internalCopy(other, 'locale.live.notSaved'));
+        await expect(unsavedNotice(page)).toHaveAttribute('data-locale', other);
+        await expectNoLocaleOutcome(page, 'the "saved" landing was consumed by the failing switch');
+        await page.getByTestId('locale-status-retry').click();
+        await expect(unsavedNotice(page)).toHaveCount(0);
         await expectBodyLocale(page, other, 'account');
-        await expectLive(page, 'saved-account', internalCopy(other, 'locale.live.savedAccount'));
-        // That switch's command has finished before the failure is armed, so the failure meets the card's save.
+        await expect(switcher(page), 'focus left the notice for the header before the notice went').toBeFocused();
         await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(other);
+
+        // A save that fails without JavaScript: the not-saved outcome and the unsaved notice, in the row's language.
         await device.control.failNext(device.tag, 'user', 500, 'unexpected_failure');
         await page.getByTestId('locale-card-select').selectOption(locale);
-        await page.getByTestId('locale-card-save').click();
+        await submitCardWithoutScript(page);
         await landOnInternalWith(page, 'locale_not_saved');
         await expectBodyLocale(page, locale, 'session');
         await expectOrgOutcome(page, 'locale_not_saved', locale);
         await expect(unsavedNotice(page)).toHaveAttribute('data-locale', locale);
         await expect(unsavedNotice(page)).toContainText(internalCopy(locale, 'locale.status.unsaved').replace('{name}', localeName(locale)));
+        await expectInNamedRegion(unsavedNotice(page), locale);
         await expect(page.getByTestId('locale-status-retry')).toHaveAccessibleName(internalCopy(locale, 'locale.status.retry'));
         await internalShot(page, `locale-unsaved-${locale}`);
+        // Retry consumes the landing: no "could not be saved" survives the save that just happened (spec-1).
         await page.getByTestId('locale-status-retry').click();
         await expect(unsavedNotice(page)).toHaveCount(0);
         await expectBodyLocale(page, locale, 'account');
+        await expectLive(page, 'saved-account', internalCopy(locale, 'locale.live.savedAccount'));
+        await expectNoLocaleOutcome(page, 'the "not saved" landing was consumed by Retry');
+        await expect(switcher(page), 'focus left the notice for the header before the notice went').toBeFocused();
         await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe(locale);
 
         // A guest's plain form post is answered `locale_switched`. The sign-in page shows no org
@@ -1035,6 +1136,73 @@ test.describe('M2-AC04 the language preference: what a switch may not change', (
     );
     expect(audit, 'exactly one org.create row').toEqual([{ action: 'org.create', actor_user_id: FIONA.id }]);
     expect(posts.filter((path) => path === CREATE_ORG_PATH), 'the create was posted once').toHaveLength(1);
+
+    expect(problems).toEqual([]);
+  });
+
+  test('M2-AC04/3 simulated input survives the card: saving on the Language card switches in place, keeps the typed org name, the request key and the URL, and posts only itself', async ({
+    tagged,
+    tag,
+  }) => {
+    test.setTimeout(90_000);
+    await setAccountPreference(FIONA, 'en-MY');
+    const { page } = tagged;
+    const problems = watchConsole(page);
+    await signInFrom(page, 'fiona');
+    await expectBodyLocale(page, 'en-MY', 'account');
+
+    const name = `Kad 咖啡 Fiona ${uniqueSuffix(tag)}`;
+    await page.getByTestId('create-org-name').fill(name);
+    const keyField = page.locator('form[data-testid="create-org-form"] input[type="hidden"][name="requestKey"][data-testid="request-key"]');
+    await expect(keyField, 'the key is minted after mount').toHaveValue(REQUEST_KEY);
+    const key = await keyField.inputValue();
+    const url = page.url();
+    const posts = watchPosts(page);
+
+    await page.getByTestId('locale-card-select').selectOption('zh-Hans-MY');
+    await page.getByTestId('locale-card-save').click();
+    await expectBodyLocale(page, 'zh-Hans-MY', 'account');
+    await expectLive(page, 'saved-account', internalCopy('zh-Hans-MY', 'locale.live.savedAccount'));
+    expect(page.url(), 'the URL is unchanged: the card did not leave the page').toBe(url);
+    await expect(page.getByTestId('create-org-name'), 'the typed name survives').toHaveValue(name);
+    await expect(keyField, 'the request key survives').toHaveValue(key);
+    await expect(page.getByTestId('org-outcome'), 'an in-place save lands with no outcome').toHaveCount(0);
+    expect(posts, 'the save posted to the language handler once, and to no command handler').toEqual([LOCALE_PATH]);
+    await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('zh-Hans-MY');
+    await expect(page.getByTestId('locale-card-state')).toHaveAttribute('data-account-preference', 'zh-Hans-MY');
+    await expect(page.getByTestId('locale-card-select')).toHaveValue('zh-Hans-MY');
+
+    expect(problems).toEqual([]);
+  });
+
+  test('M2-AC04/3 simulated keyboard: moving through the header switcher with the arrow keys switches and saves nothing; Apply switches once, to the language chosen', async ({
+    tagged,
+  }) => {
+    await setAccountPreference(FIONA, 'en-MY');
+    const { page } = tagged;
+    const problems = watchConsole(page);
+    await signInFrom(page, 'fiona');
+    await expectBodyLocale(page, 'en-MY', 'account');
+    const before = await readAccountPreference(FIONA.id);
+    const posts = watchPosts(page);
+
+    // A closed native select changes its value on every arrow key (Chromium on Windows and Linux).
+    await switcher(page).focus();
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await expect(switcher(page), 'the keyboard moved through Bahasa Melayu to 简体中文').toHaveValue('zh-Hans-MY');
+    // An absence is only seen by waiting: a switch on change would have posted within this second.
+    await page.waitForTimeout(1_000);
+    expect(posts, 'moving through the options posts nothing').toEqual([]);
+    await expectBodyLocale(page, 'en-MY', 'account');
+    await expect(live(page)).toHaveAttribute('data-result', '');
+    expect(await readAccountPreference(FIONA.id), 'nothing passed on the way was saved').toEqual(before);
+
+    await apply(page).click();
+    await expectBodyLocale(page, 'zh-Hans-MY', 'account');
+    await expectLive(page, 'saved-account', internalCopy('zh-Hans-MY', 'locale.live.savedAccount'));
+    expect(posts, 'Apply posted once').toEqual([LOCALE_PATH]);
+    await expect.poll(async () => (await readAccountPreference(FIONA.id))?.localePref).toBe('zh-Hans-MY');
 
     expect(problems).toEqual([]);
   });

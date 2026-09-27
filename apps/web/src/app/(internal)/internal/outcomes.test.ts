@@ -144,17 +144,36 @@ describe('M2-AC04/2 outcomes: the language handler’s codes and the from of a c
     for (const code of LOCALE_OUTCOMES) expect(ORG_OUTCOMES as readonly string[], code).not.toContain(code);
   });
 
-  it('M2-AC04/2 outcomes: every language code has one sentence in every locale, and a not-saved one never claims a save', () => {
+  it('M2-AC04/2 outcomes: every language code has one sentence in every locale; a not-saved one says it was not saved and sends the reader to the notice’s own Retry', () => {
     const SAVED: Record<string, RegExp> = {
       'en-MY': /^Language preference saved\.$/,
       'ms-MY': /^Pilihan bahasa telah disimpan\.$/,
       'zh-Hans-MY': /^语言偏好已保存。$/,
     };
+    // The words that say the save did not happen, in each language's own catalogue.
+    const NOT_SAVED: Record<string, string> = {
+      'en-MY': 'could not be saved',
+      'ms-MY': 'tidak dapat disimpan',
+      'zh-Hans-MY': '未能保存',
+    };
     for (const locale of LOCALES) {
-      const outcomes = (messagesByLocale[locale].internal as unknown as { outcomes: Record<string, string> }).outcomes;
+      const internal = messagesByLocale[locale].internal as unknown as {
+        outcomes: Record<string, string>;
+        locale: { status: { retry: string }; card: { title: string } };
+      };
+      const { outcomes } = internal;
       for (const code of LOCALE_OUTCOMES) expect(outcomes[code]?.trim(), `${locale} ${code}`).not.toBe('');
       expect(outcomes.locale_saved, locale).toMatch(SAVED[locale]!);
-      expect(outcomes.locale_not_saved, locale).not.toMatch(SAVED[locale]!);
+      const notSaved = outcomes.locale_not_saved ?? '';
+      expect(notSaved, locale).toContain(NOT_SAVED[locale]!);
+      // Neither the saved sentence nor its claim, anywhere in it.
+      expect(notSaved, locale).not.toContain(outcomes.locale_saved!.replace(/[.。]$/, ''));
+      // The Retry is the unsaved notice's button, named by the word that button shows —
+      // not a Settings place: the org page, which shows this outcome too, has no Language card.
+      expect(notSaved, locale).toContain(internal.locale.status.retry);
+      const settings = internal.locale.card.title.split(' · ')[0]!.toLowerCase();
+      expect(settings.length, locale).toBeGreaterThan(0);
+      expect(notSaved.toLowerCase(), locale).not.toContain(settings);
     }
   });
 
