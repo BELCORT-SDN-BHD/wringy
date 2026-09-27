@@ -167,7 +167,7 @@ describe('M2-AC04/2 locale handler: guarded like every other write path', () => 
     const calls = stubApi(saved);
     signIn();
 
-    for (const form of [
+    const forms: Record<string, string>[] = [
       choose('en'),
       choose('en-US'),
       choose('zh-Hant-MY'),
@@ -176,7 +176,8 @@ describe('M2-AC04/2 locale handler: guarded like every other write path', () => 
       { intent: 'choose', next: '/internal' },
       { intent: 'save', locale: 'ms-MY', next: '/internal' },
       { locale: 'ms-MY', next: '/internal' },
-    ]) {
+    ];
+    for (const form of forms) {
       for (const mode of ['json', 'form'] as const) {
         const response = await switchLocale(post(form, { mode }));
         const label = `${mode} ${JSON.stringify(form)}`;
