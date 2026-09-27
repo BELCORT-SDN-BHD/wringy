@@ -14,9 +14,11 @@
  *   (`?outcome=locale_synced&from=<locale|none>`). Shown only when `from` is a
  *   locale or `none` and this render's account preference **is** the displayed
  *   language (and, when `from` is a locale, differs from it); otherwise it is
- *   dropped like an unknown code, so a crafted URL cannot show a save that did
- *   not happen. With a previous language it offers Undo; always a way to the
- *   Language card.
+ *   dropped like an unknown code. The guard proves the account holds the
+ *   displayed language, not that this sign-in saved it: a crafted or stale link
+ *   can still show the notice over a preference saved earlier, and its Undo is
+ *   then an ordinary choice (accepted, security-privacy-3). With a previous
+ *   language it offers Undo; always a way to the Language card.
  *
  * Each notice is its own named region (`<section aria-label>`,
  * `internal.locale.status.regionLabel`), rendered only while it shows. They sit

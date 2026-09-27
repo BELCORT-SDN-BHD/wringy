@@ -440,23 +440,39 @@ The switch is server-authoritative (`locale-switch-provider.tsx`, decisions in t
 re-renders every node — server text, client text, `<html lang>` — in one commit and keeps typed input,
 a `NativeSelect` choice and a minted request key. No other language's catalogue reaches the client.
 One request is in flight at a time and a newer choice replaces the pending one; only an answer whose
-`locale` echoes the latest choice is acted on; after a guest answer the client checks that the browser
-really stored `wringy-locale`, and if it did not it says so and does not refresh (one language
-everywhere beats two). A disabled account leaves through `/auth/end-session`.
+`locale` echoes the latest choice is acted on, but a superseded answer the server wrote is remembered,
+so when the newest request then fails the page still refreshes and shows what the server holds. After
+a guest answer the client checks that the browser really stored `wringy-locale`, and if it did not it
+says so and does not refresh (one language everywhere beats two). Before the refresh a language
+outcome in the URL (`?outcome=locale_*` and `from`) is stripped with `history.replaceState`, because it
+described the switch that landed there, not this one; the no-JavaScript form keeps its `?outcome=`,
+and an organisation outcome stays. Focus inside a control the refresh may remove (the prompt, the
+notices' Retry and Undo) moves to the header switcher first. A disabled account leaves through
+`/auth/end-session`.
 
 - **Header switcher** (`locale-switcher.tsx`), on every internal page: a `NativeSelect`
-  (`aria-label` = `common.shell.languageLabel`) in a plain form whose Apply button is hidden once
-  hydrated, and a polite live region (`locale-live`, `data-result`).
+  (`aria-label` = `common.shell.languageLabel`) in a plain form with an Apply button that stays
+  visible once hydrated. Choosing only moves the selection; the form's submit (Apply, by pointer or
+  keyboard) switches, because a closed native select fires `change` on every arrow key and switching
+  there would apply every language passed on the way. Beside it a polite live region (`locale-live`,
+  `data-result`).
 - **First-visit prompt** (`internal-locale-prompt.tsx`), inline above the page: choosing previews the
   prompt's own copy and `lang` (all three languages come from the server as props) and posts nothing;
-  Continue records the choice; Skip records none anywhere.
+  Continue records the choice; Skip records none anywhere, and goes through the switch state, so a
+  second press while it is in flight sends nothing and a failure is announced.
 - **Language card** (`locale-section.tsx`) on `/internal`: `Not set` or `Saved: <name>` with the saved
-  instant as `InstantText`, and a plain Save form.
-- **Notices** (`locale-status.tsx`), at layout level on every internal page: "switched, not saved" with
-  Retry, whenever the session choice decided while signed in — it comes from the cookie, so it survives
-  a reload and a new document; and "saved as your account language (was X)" with Undo after a sign-in
-  carried the sign-in page's choice (`?outcome=locale_synced&from=…`), shown only when this render's
-  account preference is the displayed language, so a crafted URL cannot claim a save.
+  instant as `InstantText`, and a Save form whose select is keyed by what it starts on, so it follows a
+  switch made anywhere on the page. Without JavaScript Save posts and lands with
+  `?outcome=locale_saved`; with it Save is the in-place switch (`locale-card-form.tsx`), so the
+  create-org name and request key beside it survive.
+- **Notices** (`locale-status.tsx`), at layout level on every internal page, each in its own named
+  region (`<section aria-label>`) while it shows: "switched, not saved" with Retry, whenever the
+  session choice decided while signed in — it comes from the cookie, so it survives a reload and a new
+  document; and "saved as your account language (was X)" with Undo after a sign-in carried the sign-in
+  page's choice (`?outcome=locale_synced&from=…`), shown only when this render's account preference is
+  the displayed language. That guard proves the account holds the language, not that this sign-in
+  saved it: a crafted or stale link can still show the notice over a preference saved earlier, and its
+  Undo is then an ordinary choice.
 
 ### The carry into the account
 
