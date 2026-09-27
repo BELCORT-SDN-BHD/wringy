@@ -21,7 +21,8 @@ vi.mock('next/headers', () => ({
   headers: () => Promise.resolve(new Headers()),
 }));
 
-const { POST: switchLocale, asksForJson, reasonOf, rendersSignedOut, returnPathname } = await import('./route');
+const { POST: switchLocale, asksForJson, reasonOf, returnPathname } = await import('./route');
+const { rendersSignedOut } = await import('@/lib/auth/internal-paths');
 
 const APP_ORIGIN = 'http://127.0.0.1:3100';
 const API = 'http://127.0.0.1:3200';
@@ -507,14 +508,17 @@ describe('M2-AC04/1 shared device: a choice from a page that renders signed out 
   });
 
   it('M2-AC04/1 shared device: the handler’s signed-out pages are exactly the ones the proxy renders without a session check', async () => {
-    // Drift guard: run the real proxy on the pages the handler treats as signed out,
-    // with a session cookie in the jar, and check none of them is forwarded a token.
+    // Drift guard over the one module both files read (`lib/auth/internal-paths.ts`):
+    // run the real proxy on the pages the handler treats as signed out, with a session
+    // cookie in the jar, and check none of them is forwarded a token; then on the
+    // pages it treats as signed in, with no cookie, and check each is session-checked
+    // (sent to sign in) or is the root's redirect into the build.
     const { proxy } = await import('@/proxy');
     const { NextRequest } = await import('next/server');
     const tokenHeaderForwarded = (response: Response) =>
       (response.headers.get('x-middleware-override-headers') ?? '').split(',').includes('x-wringy-access-token');
 
-    for (const path of SIGNED_OUT_PAGES) {
+    for (const path of [...SIGNED_OUT_PAGES, '/auth/no-such-handler']) {
       const request = new NextRequest(new URL(path, APP_ORIGIN), { headers: { cookie: `${SESSION_COOKIE}=${storedSession(ACCESS_TOKEN)}` } });
       const response = await proxy(request);
       expect(response.status, path).toBe(200);
@@ -524,8 +528,12 @@ describe('M2-AC04/1 shared device: a choice from a page that renders signed out 
       expect(rendersSignedOut(rendered), `${path} renders ${rendered}`).toBe(true);
       expect(rendersSignedOut(path), path).toBe(true);
     }
-    for (const path of ['/internal', '/internal/orgs/abc', '/internal/sign-in/x', '/internal/__not-found/x']) {
+    for (const path of ['/', '/internal', '/internal/orgs/abc', '/internal/sign-in/x', '/internal/__not-found/x']) {
       expect(rendersSignedOut(path), path).toBe(false);
+      const response = await proxy(new NextRequest(new URL(path, APP_ORIGIN)));
+      expect(response.status, path).toBe(307);
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.pathname, path).toBe(path === '/' ? '/internal' : '/internal/sign-in');
     }
   });
 });

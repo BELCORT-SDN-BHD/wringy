@@ -32,10 +32,12 @@
  * pages show: the handler never calls the API with the session cookie the
  * request arrived with, which on a shared device can be somebody else's, stale
  * or still valid. The choice lands in an account only through the carry cookie,
- * with the token of the sign-in that follows (R6). `next` names the page: the
- * sign-in path, the not-found path, or any path outside `/internal`, which the
- * proxy rewrites to the not-found page while the address bar — and so the
- * client's `usePathname()` — keeps what the visitor typed.
+ * with the token of the sign-in that follows (R6). `next` names the page, and
+ * `rendersSignedOut` (`lib/auth/internal-paths.ts`, the module the proxy routes
+ * by) says how it rendered: the sign-in path, the not-found path, `/auth/…`, or
+ * any path outside the build, which the proxy rewrites to the not-found page while
+ * the address bar — and so the client's `usePathname()` — keeps what the visitor
+ * typed.
  *
  * ## JSON or a redirect
  *
@@ -67,9 +69,9 @@ import { NextResponse } from 'next/server';
 import { setLocaleResponseSchema } from '@wringy/contracts';
 import { isLocale, type Locale } from '@/i18n/config';
 import { apiFetch, type ApiResult } from '@/lib/auth/api-client';
+import { rendersSignedOut } from '@/lib/auth/internal-paths';
 import { safeNextPath } from '@/lib/auth/next-path';
 import { noStore } from '@/lib/auth/no-store';
-import { SIGN_IN_PATH } from '@/lib/auth/outcomes';
 import { cookieJar, errorResponse, guardRequest, seeOther } from '@/lib/auth/route-support';
 import { holdsSessionCookie, isSecureOrigin, readStoredAccessToken } from '@/lib/auth/supabase-server';
 import { expireUnsaved, writeCarry, writeGuestChoice, writePromptDone, writeUnsaved } from '@/lib/locale/cookies';
@@ -100,19 +102,6 @@ export function asksForJson(request: HeaderBearing): boolean {
  */
 export function returnPathname(raw: string, appOrigin: string): string {
   return safeNextPath(new URL(safeNextPath(raw === '' ? null : raw), appOrigin).pathname);
-}
-
-/** The page `proxy.ts` rewrites every path outside `/internal` and `/auth` to (its `NOT_FOUND_PATH`). */
-const NOT_FOUND_PATH = '/internal/__not-found';
-
-/**
- * Whether the page at `pathname` renders signed out whatever the cookie jar holds:
- * the two pages the proxy passes through without a session check, and every path
- * outside `/internal`, which it rewrites to one of them.
- */
-export function rendersSignedOut(pathname: string): boolean {
-  if (pathname === SIGN_IN_PATH || pathname === NOT_FOUND_PATH) return true;
-  return pathname !== '/internal' && !pathname.startsWith('/internal/');
 }
 
 /** Why a signed-in save failed, or null when it did not (R4, R12). */

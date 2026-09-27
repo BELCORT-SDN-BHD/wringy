@@ -36,6 +36,8 @@
  * also lets the tests describe an error without building a library object.
  */
 
+import { SIGN_IN_PATH } from './internal-paths';
+
 /** Every outcome code, in the order the copy and the tests list them. */
 export const OUTCOMES = [
   'cancelled',
@@ -50,9 +52,6 @@ export const OUTCOMES = [
 ] as const;
 
 export type Outcome = (typeof OUTCOMES)[number];
-
-/** The only public page of the internal build (R11). */
-export const SIGN_IN_PATH = '/internal/sign-in';
 
 export function isOutcome(value: string | null | undefined): value is Outcome {
   return typeof value === 'string' && (OUTCOMES as readonly string[]).includes(value);

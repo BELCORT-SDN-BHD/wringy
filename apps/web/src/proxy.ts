@@ -86,15 +86,10 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 import { internalAuthEnv, type InternalAuthEnv } from '@/lib/auth/env';
+import { internalRouteOf, NOT_FOUND_PATH } from '@/lib/auth/internal-paths';
 import { appMode } from '@/lib/auth/mode';
 import { noStore } from '@/lib/auth/no-store';
-import {
-  isRetryableAuthError,
-  outcomeFromSiteUrlError,
-  SIGN_IN_PATH,
-  signInPath,
-  type Outcome,
-} from '@/lib/auth/outcomes';
+import { isRetryableAuthError, outcomeFromSiteUrlError, signInPath, type Outcome } from '@/lib/auth/outcomes';
 import {
   createRequestSupabase,
   holdsSessionCookie,
@@ -130,9 +125,6 @@ import { LOCALE_SESSION_COOKIE, unsavedExpiry } from '@/lib/locale/cookies';
 export const config = {
   matcher: ['/((?!_next/|favicon\\.ico|.*\\.(?:ico|png|svg|jpg|jpeg|gif|webp|txt|xml|map|js|css|woff|woff2)$).*)'],
 };
-
-/** The page under `(internal)` that calls `notFound()`, so the internal not-found renders. */
-const NOT_FOUND_PATH = '/internal/__not-found';
 
 /**
  * The one path that reads a provider error out of its own query, so the proxy
@@ -196,11 +188,6 @@ interface BufferedCookie {
   name: string;
   value: string;
   options: Record<string, unknown>;
-}
-
-/** True when `pathname` is `base` itself or something under it — anchored, never a bare prefix. */
-function isUnder(pathname: string, base: string): boolean {
-  return pathname === base || pathname.startsWith(`${base}/`);
 }
 
 /** The forwarded request headers, always without any token a client may have sent. */
@@ -292,8 +279,9 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 /** Everything the proxy does on an internal origin, before the framing headers go on. */
 async function internalProxy(request: NextRequest): Promise<NextResponse> {
   const { pathname, search } = request.nextUrl;
-  const inInternal = isUnder(pathname, '/internal');
-  const inAuth = isUnder(pathname, '/auth');
+  // One classification, shared with `POST /internal/locale`'s `rendersSignedOut`
+  // (`lib/auth/internal-paths.ts`), so the handler never guesses how a page rendered.
+  const route = internalRouteOf(pathname);
 
   // A provider error that landed anywhere but the callback, before anything
   // else: it needs no environment, no cookie and no routing decision, and it is
@@ -307,22 +295,21 @@ async function internalProxy(request: NextRequest): Promise<NextResponse> {
   // The routing shape next, because it needs no environment: on an internal
   // origin the demo build's pages must not render even when the three variables
   // are missing, which is exactly the state a first deploy is in.
-  if (!inInternal && !inAuth && pathname !== '/') return rewriteTo(request, NOT_FOUND_PATH);
+  if (route === 'outside') return rewriteTo(request, NOT_FOUND_PATH);
 
   // Internal mode without its variables: let the page say so. `/` is rewritten
   // rather than redirected, because there is no APP_ORIGIN to build a `Location`
   // from and a request's own host must never become one.
   const env = internalAuthEnv();
-  if (!env.ok) return pathname === '/' ? rewriteTo(request, '/internal') : passThrough(request);
+  if (!env.ok) return route === 'root' ? rewriteTo(request, '/internal') : passThrough(request);
 
   const { appOrigin } = env.env;
-  if (pathname === '/') return redirect('/internal', appOrigin);
+  if (route === 'root') return redirect('/internal', appOrigin);
 
   const isRead = request.method === 'GET' || request.method === 'HEAD';
-  // `/auth/…` is always a route handler, and a non-GET owns its own cookies.
-  if (!inInternal || !isRead) return passThrough(request);
-  // The only public internal page, and the page that renders not-found.
-  if (pathname === SIGN_IN_PATH || pathname === NOT_FOUND_PATH) return passThrough(request);
+  // `/auth/…` is always a route handler, the sign-in and not-found pages are
+  // public, and a non-GET owns its own cookies: none of them is session-checked here.
+  if (route !== 'private' || !isRead) return passThrough(request);
 
   return refreshAndForward(request, env.env, `${pathname}${search}`);
 }
