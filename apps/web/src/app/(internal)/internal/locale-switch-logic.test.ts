@@ -2,7 +2,16 @@ import { describe, expect, it } from 'vitest';
 
 import { guestCookieHolds } from '@/lib/locale/cookies';
 
-import { IDLE, answerOf, choose, settle, switchForm, type SwitchAnswer, type SwitchState } from './locale-switch-logic';
+import {
+  IDLE,
+  answerOf,
+  choose,
+  settle,
+  switchForm,
+  withoutLocaleOutcome,
+  type SwitchAnswer,
+  type SwitchState,
+} from './locale-switch-logic';
 
 /**
  * The in-place switch's decisions (M2-04; m2-04-code-review.md R5 rev 2, R13
@@ -198,6 +207,32 @@ describe('M2-AC04/2 switch: the handler’s answer is read defensively', () => {
     ] as const) {
       expect(answerOf(status, body), `${status} ${JSON.stringify(body)}`).toEqual({ kind: 'failed' });
     }
+  });
+
+  it('M2-AC04/2 switch: a locale outcome and its from are consumed by the next in-place switch; everything else in the URL stays', () => {
+    const at = (path: string) => `http://127.0.0.1:3100${path}`;
+    // Each of the four language outcomes, and the from of a carried choice, goes.
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_saved'))).toBe('/internal');
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_switched'))).toBe('/internal');
+    expect(withoutLocaleOutcome(at('/internal/orgs/x?outcome=locale_not_saved'))).toBe('/internal/orgs/x');
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_synced&from=ms-MY'))).toBe('/internal');
+    // The invitation token of an accept landing stays; so do other parameters and the fragment.
+    expect(withoutLocaleOutcome(at('/internal/invitations/accept?token=abc&outcome=locale_synced&from=none'))).toBe(
+      '/internal/invitations/accept?token=abc',
+    );
+    expect(withoutLocaleOutcome(at('/internal?visitor=1&outcome=locale_saved&probe=ok#internal-locale-title'))).toBe(
+      '/internal?visitor=1&probe=ok#internal-locale-title',
+    );
+    // Only the first outcome is shown, so only a first value that is a language outcome is consumed, with every repeat.
+    expect(withoutLocaleOutcome(at('/internal?outcome=locale_saved&outcome=created'))).toBe('/internal');
+    // An organisation outcome is not the switch's to consume; a stray from still is.
+    expect(withoutLocaleOutcome(at('/internal/orgs/x?outcome=created'))).toBeNull();
+    expect(withoutLocaleOutcome(at('/internal?outcome=created&outcome=locale_saved'))).toBeNull();
+    expect(withoutLocaleOutcome(at('/internal?outcome=created&from=ms-MY'))).toBe('/internal?outcome=created');
+    expect(withoutLocaleOutcome(at('/internal?outcome=LOCALE_SAVED'))).toBeNull();
+    // Nothing to strip: null, so the provider leaves history alone.
+    expect(withoutLocaleOutcome(at('/internal'))).toBeNull();
+    expect(withoutLocaleOutcome(at('/internal/sign-in?next=%2Finternal'))).toBeNull();
   });
 
   it('M2-AC04/2 switch: the client posts exactly the no-JS form’s fields', () => {

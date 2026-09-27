@@ -31,6 +31,8 @@
 
 import { isLocale, type Locale } from '@/i18n/config';
 
+import { LOCALE_OUTCOMES } from './outcomes';
+
 /** The Route Handler every language control posts to. */
 export const LOCALE_ENDPOINT = '/internal/locale';
 
@@ -183,4 +185,32 @@ export function answerOf(status: number, body: unknown): SwitchAnswer {
 /** The form body of a choice or a skip, as the no-JS form would post it. */
 export function switchForm(intent: 'choose' | 'skip', locale: Locale, next: string): URLSearchParams {
   return new URLSearchParams({ intent, locale, next });
+}
+
+const CONSUMED_OUTCOMES: readonly string[] = LOCALE_OUTCOMES;
+
+/**
+ * `href` without its language outcome, as a same-origin path (`/internal?x=1#y`),
+ * or null when there is nothing to strip.
+ *
+ * A language outcome in the URL is consumed once: `?outcome=locale_*` and `from`
+ * describe the switch that landed there, and after any in-place switch they
+ * describe nothing — a `router.refresh()` re-renders the same URL, so a stale
+ * "saved" or "not saved" alert, or a synced notice with a stale "was X" and its
+ * Undo, would survive beside what the switch just did. The provider strips them
+ * from the address before it refreshes.
+ *
+ * `outcome` goes when its first value — the one the page shows — is one of the
+ * four language outcomes; an organisation outcome is left alone. `from` has no
+ * meaning without `locale_synced` and always goes. Every other parameter (an
+ * invitation's `token`) and the fragment stay.
+ */
+export function withoutLocaleOutcome(href: string): string | null {
+  const url = new URL(href);
+  const outcome = url.searchParams.get('outcome');
+  const consumed = outcome !== null && CONSUMED_OUTCOMES.includes(outcome);
+  if (!consumed && !url.searchParams.has('from')) return null;
+  if (consumed) url.searchParams.delete('outcome');
+  url.searchParams.delete('from');
+  return `${url.pathname}${url.search}${url.hash}`;
 }
