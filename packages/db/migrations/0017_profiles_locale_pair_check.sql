@@ -16,10 +16,15 @@
 -- the resolution order would read as a choice without a date or a date without a
 -- choice. `POST /me/locale` writes both in one UPDATE (R2), so it never meets it.
 --
--- No row has ever been written to these columns (0010 kept them out of the API's
--- reach and nothing else writes them), so the ALTER cannot fail on existing data.
--- Before the merge the count of rows breaking the pair is run on the dev and
--- staging projects and recorded (expected 0; R1).
+-- No deployed application database exists yet: the dev and staging Supabase
+-- projects hold only Auth, and until M2-09 the application database is a local
+-- or test cluster. R1's pre-merge count of rows breaking the pair on those two
+-- projects therefore had nothing to run on and was not run. Every profile row a
+-- local cluster holds was created with both columns NULL: 0008 gives neither a
+-- default, 0010 kept them out of the API's reach, and nothing else writes them.
+-- Where a half-set row did exist, the ALTER would refuse with 23514 and stop the
+-- migration; the CHECK is not added NOT VALID, so it never stands over a row that
+-- breaks it.
 --
 -- Deliberately not done here: no default, no trigger that stamps
 -- `locale_pref_set_at` (the command writes the database's `now()` itself), no
