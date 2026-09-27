@@ -6,8 +6,9 @@ components call it, and it reads PostgreSQL as the runtime login
 `wringy_api_login` (group `wringy_api`, SELECT only). Fastify 5.12.5 with
 `@fastify/type-provider-zod` 1.0.0 and zod 4.6.5; `pg` 8.23.0 through
 `@wringy/db`; no ORM. Later tickets add writes through column-level grants only:
-the profile (M2-02), and organisations, memberships, invitations and append-only
-audit rows (M2-03, migrations 0011–0016).
+the profile (M2-02), organisations, memberships, invitations and append-only
+audit rows (M2-03, migrations 0011–0016), and the account's language preference
+(M2-04, migrations 0017–0018).
 
 ## Routes
 
@@ -17,9 +18,10 @@ audit rows (M2-03, migrations 0011–0016).
 | `GET /health` | One connection as the runtime role: `SELECT 1` and the database clock, the newest row of `ops.pgmigrations` against `EXPECTED_MIGRATION_HEAD`, and the pg-boss schema version against `EXPECTED_PGBOSS_VERSION` (both from `@wringy/db`), read through the migrator-owned view `ops.pgboss_schema_version`: the API login has no access to schema `pgboss` (kickoff-package.md §4.11, §8.5). 200 `status: 'ok'`, or 503 `status: 'unavailable'` with each check `ok` or `failing`, the heads read and `dbNow`. A failing check's SQLSTATE goes to the log only |
 | `GET /internal/campaigns` | Fixture campaigns only (`data_origin = 'fixture'`), joined to `app.orgs` for `orgName`, newest `updated_at` first; `dataAsOf` is the database clock |
 | `GET /internal/worker-health` | Every `ops.worker_heartbeat` row with `state` (process liveness) and `queueState` (queue-path liveness) judged on the database clock read in the same statement; `workers: []` when no worker has ever beaten (the page shows unknown, never 0) |
-| `POST /identity/sign-in` | The first-sign-in gate and the profile upsert, in one transaction: session liveness, then `SELECT ... FOR UPDATE` on `app.profiles` — whose locked row decides, so an account disabled since the hook's read is 403 `account.disabled` here, before any write — then the `app.sign_in_allowlist` lookup (first sign-in only) or the refresh of `contact_email`, `display_name` and `last_sign_in_at`, the only three columns the runtime role may update (migration 0010). The only route a verified subject with no profile row may reach |
+| `POST /identity/sign-in` | The first-sign-in gate and the profile upsert, in one transaction: session liveness, then `SELECT ... FOR UPDATE` on `app.profiles` — whose locked row decides, so an account disabled since the hook's read is 403 `account.disabled` here, before any write — then the `app.sign_in_allowlist` lookup (first sign-in only) or the refresh of `contact_email`, `display_name` and `last_sign_in_at`, the three columns a sign-in may update (migration 0010). The upsert never names the language preference, so a later sign-in keeps it (M2-04). The only route a verified subject with no profile row may reach |
 | `GET /me` | The caller's profile and the access token's own `expiresAt`, so a page can say how long this tab stays signed in without holding the token. The profile now carries `localePref` and `localePrefSetAt`, the account's explicit language choice and when it was last set, both null until a preference is written (M2-04) |
 | `POST /me/session/probe` | The reserved fund-sensitive stub (M2-AC02/2). It changes nothing: it opens a transaction, asks session liveness on that same connection, re-reads the account's own `status` there with `SELECT ... FOR SHARE`, and returns `{ ok: true, checkedAt }` on the database clock. A session that has ended gets 401 `session.revoked`; an account disabled since the hook's read gets 403 `account.disabled`, and a row that has gone 403 `profile.missing` |
+| `POST /me/locale` `{ locale }` | Command, self-service (M2-04 R2): saves the caller's explicit language choice, one of `en-MY`, `ms-MY`, `zh-Hans-MY` (anything else is 400 `bad_request` before the handler; a body `userId` is stripped, so only the caller's row is ever written). One transaction: session liveness, then the caller's own row `SELECT status ... FOR NO KEY UPDATE` — a gone row is 403 `profile.missing`, a disabled one 403 `account.disabled` — then `UPDATE app.profiles SET locale_pref = $2, locale_pref_set_at = now()` with `RETURNING`, the two columns migration 0018 grants. 200 `{ profile }` with `localePref` and `localePrefSetAt`. Not audited (see Self-service profile writes) |
 | `GET /me/workspaces` | The workspace switcher's one read (M2-03 R10): `{ personal: { userId }, orgs: [{ orgId, name, role, dataOrigin }], grants: { org: [{ orgId, capability }], platform } }` — active memberships only, ordered by org name, and the grants `pnpm db:grant` wrote; three SELECTs on one pooled client, re-read on every request. A grant is not a membership. Not audited |
 | `POST /orgs` `{ name }` | Command. Any signed-in person creates an org (ruling D1): `INSERT (name, created_by)`, so the id and the `live` label are the database's; the creator's `admin` membership on an `org_created` grant; audit `org.create`. 201 `{ org, membership }` |
 | `GET /orgs/:orgId` | Read, active members only: `{ org, self: { userId, role }, members: [{ userId, displayName, role, grantedAt }] }` (`self.userId` is the caller's own id, so the org page needs no second read to find its own row), plus `invitations` (the pending ones, with the invitee's address) for an admin. No member address of any kind; a member's answer has no `invitations` key. A non-member or unknown org is 403 `org.forbidden`, audited `org.read` |
@@ -229,7 +231,7 @@ fresh client, in its own short transaction, and a failure to write it is a `warn
 line, never a 500 or a changed answer). Refusals decided before an actor is admitted
 — no or invalid token, `auth.expired`, `profile.missing`, `account.disabled`,
 `session.revoked`, a 400 — and every 503 are not audited. Allowed reads are not
-audited. A row names the actor, the org, a `noun.verb` action, the target id, the
+audited, nor is `POST /me/locale`, a self-service write (below). A row names the actor, the org, a `noun.verb` action, the target id, the
 outcome, the error code, a fixed reason word, a before/after summary limited to
 role, status, capability and org name (checked at run time), the request id — a
 UUID (`genReqId`), the same `reqId` as the request's log lines — and
@@ -245,6 +247,37 @@ put an action behind a grant: a grant on one org gives nothing on another, revie
 and finance give nothing of each other, and neither membership nor admin stands in
 for a grant (403 `capability.required`, audited `capability.use`). A grant opens no
 org: holding one is not membership.
+
+### Self-service profile writes
+
+`POST /me/locale` (M2-04 R2) changes the caller's own profile row and nothing
+else, so it has no org lock and no audit row: no authority is exercised and
+nobody else is affected, the sign-in's own profile refresh is the precedent, and
+`locale_pref_set_at` is the record of when the choice was made. Its transaction
+takes the profile row in the order the sign-in does — **lock, decide, write**:
+
+1. session liveness on the transaction client (as above; a refusal rolls back);
+2. the caller's row `SELECT status FROM app.profiles WHERE id = $1 FOR NO KEY
+   UPDATE` (`lockProfileStatusForWrite`), whose locked `status` decides:
+   `profile.missing` or `account.disabled`, logged as a reason word;
+3. the UPDATE of the pair with `RETURNING`, which cannot miss while the lock is
+   held.
+
+A command that writes the profile **never takes `FOR SHARE` on it first**:
+share-then-write deadlocks two calls of one person (`40P01`, a 500), and an
+unlocked read-then-write has a third answer under READ COMMITTED (an operator
+re-enabling the account between the two statements). `FOR SHARE` stays right for
+the probe and for `runOrgCommand`'s step 2, which do not write the profile.
+`NO KEY` for the reason the org row uses it: eight foreign keys reference
+`app.profiles (id)`, and `FOR UPDATE` would block their inserts. An operator's
+`UPDATE status` waits behind the lock, so the answer is always the state the row
+was in when the write was judged. `locale_pref_set_at` is the command's
+transaction start (`now()`): strictly increasing across sequential commands, but
+it does not follow commit order under contention. `tests/integration/locale.int.test.ts`
+proves both races under `underProfileBarrier` (support.ts; the migrator holds the
+profile row `FOR UPDATE`): an operator disabling the account while the command
+waits is 403 `account.disabled` with nothing written, and two calls by one person
+both answer 200 with the row holding the second.
 
 ## Startup
 
@@ -438,6 +471,13 @@ ticket's recovery proof (m2-03-code-review.md R15): a member removed, a Kopi Kit
 revoked once through the `pnpm db:grant` entry (spawned as `packages/db/test/grants-cli.int.test.ts`
 does) and an invitation revoked leave every org, fixture campaign, membership row and audit row in
 place, and `wringy_api_login` cannot `DELETE` from any of those tables (42501).
+
+`locale.int.test.ts` (M2-04) carries `M2-AC04` in its `describe` title, which says `simulated
+identities`, and `M2-AC04/1` (the three codes accepted, every other value refused) or `M2-AC04/2`
+(the preference saved to the account and kept there) in every test title. It reads the pair as the
+migrator, `locale_pref_set_at::text` included, so the ordering of two writes is compared to the
+microsecond while the API's own instants (millisecond precision through `pg`) are compared with
+`>=`. The recovery proof of M2-04 (R15 a) is a database test, `packages/db/test/locale-recovery.int.test.ts`.
 
 ## Docker image
 
