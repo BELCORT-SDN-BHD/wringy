@@ -22,6 +22,10 @@
  * write over an httpOnly cookie is silently ignored, and the switch reads it
  * back to tell a refused store from a saved one (R5).
  *
+ * `wringy-locale-session` holds what the glossary (`CONTEXT.md`) calls the
+ * **unsaved choice**; the code's names for it — the session choice, `unsaved`,
+ * `writeUnsaved` — all mean that one thing.
+ *
  * The session and prompt cookies have no `maxAge`: they live for the browsing
  * session. The carry cookie shares the return-path cookie's lifetime and scope
  * (`AUTH_NEXT_COOKIE_MAX_AGE_SECONDS`, `/auth`), so a choice made on the
