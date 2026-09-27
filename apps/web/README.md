@@ -346,11 +346,14 @@ an unreachable API or an unknown code is `unexpected`.
 The API's 201 body, once; the `wringy-invite-<invitationId>` cookie the invite handler sets
 (httpOnly, `sameSite: lax`, Secure off loopback, path = exactly the invitation page, 10 minutes);
 the accept link the admin copies; the accept page's URL and its hidden form field; the sign-in
-`next` value and the `wringy-auth-next` cookie when the invitee is not yet signed in. Never an
-API path, a redirect this app builds, the admin's URL, a log line (`logFailure` writes method,
-path and code only), or — in development — the `next dev` request log
-(`logging.incomingRequests.ignore: [/[?&]token=/]` in `next.config.ts`). The language switch never
-carries it either (M2-04 R4): every language form posts `next` as the page's pathname only, and
+`next` value and the `wringy-auth-next` cookie when the invitee is not yet signed in; and, for that
+invitee, the one redirect this app builds that carries it: the callback's 303 back to the stored
+`next`, which is the person's own accept URL and, since M2-04, may also carry the locale outcome
+(`outcome=locale_synced&from=…` or `outcome=locale_not_saved`, set through `searchParams` beside the
+token). Never an API path, any other redirect this app builds, the admin's URL, a log line
+(`logFailure` writes method, path and code only), or — in development — the `next dev` request log
+(`logging.incomingRequests.ignore: [/[?&]token=/]` in `next.config.ts`). The language switch's own
+303 never carries it (M2-04 R4): every language form posts `next` as the page's pathname only, and
 `POST /internal/locale` reduces it to a pathname again before building its 303, so a no-JS switch on
 the accept page returns to the accept page without its token and the person re-opens the link
 (known-issues). The in-place switch with JavaScript does not navigate at all.
