@@ -19,6 +19,17 @@ const INSERT = `INSERT INTO app.profiles (id, display_name, contact_email, last_
                 VALUES ($1, $2, $3, now())
              RETURNING id, status, locale_pref, locale_pref_set_at, created_at, updated_at`;
 
+/**
+ * `POST /me/locale`'s two statements (M2-04 R2), as apps/api/src/profiles.ts runs
+ * them: the caller's row locked first, then the pair written with the API's own
+ * column list (its `PROFILE_COLUMNS`) in RETURNING. Spelled out here because this
+ * package may not import the app.
+ */
+const LOCK_FOR_WRITE = `SELECT status FROM app.profiles WHERE id = $1 FOR NO KEY UPDATE`;
+const SET_LOCALE = `UPDATE app.profiles SET locale_pref = $2, locale_pref_set_at = now() WHERE id = $1
+                  RETURNING id, display_name, contact_email, status, last_sign_in_at, created_at,
+                            locale_pref, locale_pref_set_at`;
+
 describe('M2-AC02/2 app.profiles is written by the API login only, and never deleted', () => {
   let db: TestDatabase;
   /** A second clone marked production, where fixtures are not allowed. */
@@ -90,34 +101,90 @@ describe('M2-AC02/2 app.profiles is written by the API login only, and never del
     }
   });
 
-  it('M2-AC02/2 the API login may write only the columns a sign-in refreshes: status, locale_pref and locale_pref_set_at are 42501 (0010)', async () => {
+  it('M2-AC02/2 the API login writes the sign-in columns and, since 0018, the two locale columns; `status` stays 42501, and an INSERT naming a locale column is 42501', async () => {
     await withClientAt(db.urls.api, async (client) => {
       await client.query(INSERT, [SUBJECT, 'Tester One', 'tester.one@example.com']);
     });
     try {
       // 0010 replaced 0008's table-level INSERT/UPDATE with column grants, so the
-      // runtime role cannot disable or re-enable an account (ruling D12) and cannot
-      // write the locale columns M2-04 owns.
-      for (const sql of [
-        `UPDATE app.profiles SET status = 'disabled'`,
-        `UPDATE app.profiles SET status = 'active'`,
-        `UPDATE app.profiles SET locale_pref = 'en-MY'`,
-        `UPDATE app.profiles SET locale_pref_set_at = now()`,
-      ]) {
+      // runtime role cannot disable or re-enable an account (ruling D12); 0018
+      // added UPDATE of the language preference pair and nothing else (M2-04 R1).
+      for (const sql of [`UPDATE app.profiles SET status = 'disabled'`, `UPDATE app.profiles SET status = 'active'`]) {
         expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql))), sql).toBe('42501');
       }
-      // An INSERT that names `status` is refused for the same reason.
-      expect(
-        await sqlState(
-          withClientAt(db.urls.api, (c) =>
-            c.query(
-              `INSERT INTO app.profiles (id, contact_email, status, last_sign_in_at)
-                    VALUES ($1, 'other@example.com', 'disabled', now())`,
-              [OTHER_SUBJECT],
-            ),
+      // An INSERT that names `status` is refused for the same reason, and so is one
+      // that names either locale column: a first sign-in creates the row with no
+      // preference, and a preference is only ever a later, explicit choice. Each
+      // locale column is named alone, so a granted INSERT would have met 0017's
+      // pair CHECK (23514) instead: 42501 is the privilege, not the constraint.
+      for (const [column, value] of [
+        ['status', `'disabled'`],
+        ['locale_pref', `'en-MY'`],
+        ['locale_pref_set_at', 'now()'],
+      ] as const) {
+        const sql = `INSERT INTO app.profiles (id, contact_email, ${column}, last_sign_in_at)
+                          VALUES ($1, 'other@example.com', ${value}, now())`;
+        expect(await sqlState(withClientAt(db.urls.api, (c) => c.query(sql, [OTHER_SUBJECT]))), column).toBe('42501');
+      }
+
+      // The command's two statements (M2-04 R2) as the API login, committed: the
+      // lock needs UPDATE on some column of the row (0010 already gave three), the
+      // UPDATE needs 0018, and RETURNING reads through the table's SELECT (0008).
+      // `locale_pref_set_at` is the transaction's `now()`.
+      const written = await withClientAt(db.urls.api, async (client) => {
+        await client.query('BEGIN');
+        const locked = await client.query<{ status: string }>(LOCK_FOR_WRITE, [SUBJECT]);
+        const { rows } = await client.query<Record<string, unknown>>(SET_LOCALE, [SUBJECT, 'ms-MY']);
+        const clock = await client.query<{ now: Date }>('SELECT now() AS now');
+        await client.query('COMMIT');
+        return { locked: locked.rows, rows, now: clock.rows[0]?.now };
+      });
+      expect(written.locked).toEqual([{ status: 'active' }]);
+      expect(written.rows).toHaveLength(1);
+      expect(written.rows[0]).toMatchObject({
+        id: SUBJECT,
+        display_name: 'Tester One',
+        contact_email: 'tester.one@example.com',
+        status: 'active',
+        locale_pref: 'ms-MY',
+        locale_pref_set_at: written.now,
+      });
+
+      // A disabled profile: the API login still takes the lock and reads
+      // `disabled`, which is where the command stops (403 `account.disabled`). The
+      // UPDATE carries no status filter — the locked row decides (R2 rev 2) — so
+      // the 0-row outcome on a disabled profile is the command never reaching it,
+      // and the operator's disable leaves the saved preference readable.
+      await withClientAt(db.urls.migrator, (c) =>
+        c.query(`UPDATE app.profiles SET status = 'disabled' WHERE id = $1`, [SUBJECT]),
+      );
+      const onDisabled = await withClientAt(db.urls.api, async (client) => {
+        await client.query('BEGIN');
+        const { rows } = await client.query<{ status: string }>(LOCK_FOR_WRITE, [SUBJECT]);
+        await client.query('ROLLBACK');
+        return rows;
+      });
+      expect(onDisabled).toEqual([{ status: 'disabled' }]);
+      // A subject with no row: the lock finds nothing (403 `profile.missing`), and
+      // the UPDATE on its own would write 0 rows, which the lock makes unreachable.
+      const onMissing = await withClientAt(db.urls.api, async (client) => {
+        await client.query('BEGIN');
+        const locked = await client.query(LOCK_FOR_WRITE, [OTHER_SUBJECT]);
+        const updated = await client.query(SET_LOCALE, [OTHER_SUBJECT, 'en-MY']);
+        await client.query('ROLLBACK');
+        return { locked: locked.rowCount, updated: updated.rowCount };
+      });
+      expect(onMissing).toEqual({ locked: 0, updated: 0 });
+      const [row] = (
+        await withClientAt(db.urls.migrator, (c) =>
+          c.query<{ status: string; locale_pref: string | null }>(
+            'SELECT status, locale_pref FROM app.profiles WHERE id = $1',
+            [SUBJECT],
           ),
-        ),
-      ).toBe('42501');
+        )
+      ).rows;
+      expect(row).toEqual({ status: 'disabled', locale_pref: 'ms-MY' });
+
       // And the three columns a sign-in refreshes are still writable.
       await withClientAt(db.urls.api, (c) =>
         c.query(
@@ -130,9 +197,58 @@ describe('M2-AC02/2 app.profiles is written by the API login only, and never del
     }
   });
 
+  it('M2-AC04/2 the pair CHECK refuses a preference without its instant and an instant without its preference (23514 `profiles_locale_pref_pair_check`)', async () => {
+    // As the API login, the one writer 0018 admits: the grant is per column, so
+    // either column alone gets past the privilege check and meets 0017's CHECK.
+    // The pair is the explicit flag (M2-04 §5): both null is "no explicit choice",
+    // both set is a choice and when it was made, and nothing in between.
+    await withRollback(api, async (client) => {
+      await client.query(INSERT, [SUBJECT, null, 'tester.one@example.com']);
+      const pairFailure = async (sql: string) => {
+        const failure = await failureIn(client, () => client.query(sql, [SUBJECT]));
+        return { sql, code: failure?.code, constraint: failure?.constraint };
+      };
+      const refused = (sql: string) => ({ sql, code: '23514', constraint: 'profiles_locale_pref_pair_check' });
+
+      // From "no explicit choice": one column alone, in each direction.
+      for (const sql of [
+        `UPDATE app.profiles SET locale_pref = 'ms-MY' WHERE id = $1`,
+        `UPDATE app.profiles SET locale_pref_set_at = now() WHERE id = $1`,
+      ]) {
+        expect(await pairFailure(sql)).toEqual(refused(sql));
+      }
+
+      // The pair written together, as the command writes it, succeeds.
+      const { rows } = await client.query<{ locale_pref: string; set: boolean }>(
+        `UPDATE app.profiles SET locale_pref = 'zh-Hans-MY', locale_pref_set_at = now() WHERE id = $1
+      RETURNING locale_pref, locale_pref_set_at IS NOT NULL AS set`,
+        [SUBJECT],
+      );
+      expect(rows).toEqual([{ locale_pref: 'zh-Hans-MY', set: true }]);
+
+      // From a saved choice: dropping either half alone is refused the same way.
+      for (const sql of [
+        `UPDATE app.profiles SET locale_pref = NULL WHERE id = $1`,
+        `UPDATE app.profiles SET locale_pref_set_at = NULL WHERE id = $1`,
+      ]) {
+        expect(await pairFailure(sql)).toEqual(refused(sql));
+      }
+      // The row still holds the whole pair.
+      const { rows: after } = await client.query<{ locale_pref: string; set: boolean }>(
+        'SELECT locale_pref, locale_pref_set_at IS NOT NULL AS set FROM app.profiles WHERE id = $1',
+        [SUBJECT],
+      );
+      expect(after).toEqual([{ locale_pref: 'zh-Hans-MY', set: true }]);
+    });
+  });
+
   it('M2-AC02/2 the locale CHECK admits only the three supported codes, and the status CHECK only active or disabled', async () => {
-    // As the migrator: since 0010 only the operator's account may write `status`
-    // and the locale columns, so the CHECKs are proved on the account that can.
+    // As the migrator, because `status` is the operator's alone (0010, ruling
+    // D12): the status CHECK can only be met on the account that may write it.
+    // The locale CHECK binds every writer, the API login included since 0018. The
+    // first loop writes the pair together, so by the second the instant is set,
+    // 0017's pair CHECK holds, and each refusal there is the three-code CHECK of
+    // 0008.
     await withRollback(migrator, async (client) => {
       await client.query(INSERT, [SUBJECT, null, 'tester.one@example.com']);
 

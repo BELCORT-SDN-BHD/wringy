@@ -355,6 +355,8 @@ describe('M2-AC02 a disabled or missing profile', () => {
       status: 'active',
       lastSignInAt: new Date().toISOString(),
       createdAt: new Date().toISOString(),
+      localePref: null,
+      localePrefSetAt: null,
     };
     const stale = await buildTestApi(db.urls.api, {
       identity,

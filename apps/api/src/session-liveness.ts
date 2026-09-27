@@ -4,8 +4,16 @@
  *
  * A revoked session's access token stays valid until its `exp`, so a token alone
  * cannot answer this. Reads accept that (they are valid for at most the token's
- * lifetime); every state-changing command asks, **inside its own transaction**, so
- * the answer and the write cannot be separated by a sign-out.
+ * lifetime); every state-changing command asks **on its own transaction,
+ * immediately before its work**. What that guarantees: a session revoked before
+ * the check is refused and nothing is written; one revoked after it is refused on
+ * the next command. It does not hold the session until COMMIT. The command runs
+ * READ COMMITTED and `platform.session_is_live` is a plain SELECT that locks
+ * nothing, so a sign-out that commits between the check and COMMIT neither waits
+ * for the command nor is seen by its write, and the write lands; the auth-server
+ * adapter's question is a network call with no link to the transaction at all.
+ * Whether M3's fund-sensitive commands need more (asking again just before
+ * COMMIT, or a lock) is left to M3 (known-issues §M2-04).
  *
  * - `database` (Mechanism A) calls `platform.session_is_live(session_id, user_id)`,
  *   the SECURITY DEFINER function the platform bootstrap installs
@@ -47,8 +55,9 @@ export interface LivenessClient {
 export interface SessionLiveness {
   /**
    * @param client The command's transaction client, when it has one open. The
-   *   database adapter asks its question on that connection, so the answer belongs
-   *   to the same transaction as the write it guards; the auth-server adapter
+   *   database adapter asks its question on that connection, inside the
+   *   transaction of the write it guards (on that statement's own snapshot, with
+   *   no lock: the header says what that leaves open); the auth-server adapter
    *   ignores it, because its question is a network call.
    */
   check(actor: Actor, client?: LivenessClient): Promise<LivenessResult>;
@@ -163,29 +172,41 @@ export const NOT_LIVE_REFUSAL = {
   unavailable: { status: 503, code: 'session_check_unavailable' },
 } as const satisfies Record<Exclude<LivenessResult, 'live'>, { status: number; code: ErrorCode }>;
 
-/** Sends the refusal, or returns undefined when the session is live. */
-function refuseUnlessLive(reply: FastifyReply, state: LivenessResult): FastifyReply | undefined {
-  if (state === 'live') return undefined;
+/**
+ * Sends the refusal and answers `true`, or answers `false` when the session is
+ * live. Never the reply itself: a Fastify reply is a thenable, so an async
+ * function that returned it would resolve to `undefined` once the reply was
+ * sent, and a caller that awaited the guard could not tell a refusal from a
+ * pass — it would read `undefined` either way and carry on as though the
+ * session were still live, past a 401 or 503 already on the wire.
+ */
+function refuseUnlessLive(reply: FastifyReply, state: LivenessResult): boolean {
+  if (state === 'live') return false;
   const { status, code } = NOT_LIVE_REFUSAL[state];
-  return reply.code(status).send(errorBody(code));
+  reply.code(status).send(errorBody(code));
+  return true;
 }
 
 /**
- * Refuses a request whose session is no longer live. Returning the reply from a
- * hook or a handler stops the route there; undefined means carry on.
+ * Refuses a request whose session is no longer live. Resolves `true` when it
+ * refused (the 401 or 503 is already sent, and the caller must stop: return
+ * without writing, or throw so its transaction rolls back), `false` when the
+ * session is live. As a preHandler the value is not read: Fastify stops the
+ * route because the reply has been sent.
  */
 export type LiveSessionGuard = (
   request: FastifyRequest,
   reply: FastifyReply,
   /** The command's transaction client, when it has one open. */
   client?: LivenessClient,
-) => Promise<FastifyReply | undefined>;
+) => Promise<boolean>;
 
 /**
  * The guard §4.6 asks for. Given a command's transaction client it asks on that
- * connection, so the answer and the write it guards cannot be separated by a
- * sign-out; called with two arguments it is an ordinary Fastify preHandler, which
- * is how a route with no transaction of its own would use it.
+ * connection, inside the transaction and before the work it guards (the header
+ * says what that guarantees and what it leaves open); called with two arguments it
+ * is an ordinary Fastify preHandler, which is how a route with no transaction of
+ * its own would use it.
  */
 export function requireLiveSession(liveness: SessionLiveness): LiveSessionGuard {
   return async (request, reply, client) => refuseUnlessLive(reply, await liveness.check(actorOf(request), client));

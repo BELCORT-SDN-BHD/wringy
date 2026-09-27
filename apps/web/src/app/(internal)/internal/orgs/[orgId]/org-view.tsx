@@ -18,8 +18,10 @@ import {
 } from '@/components/ui/table';
 import type { Locale } from '@/i18n/config';
 
+import { CriticalCopyAlert, missingCriticalCopy } from '../../critical-copy-alert';
 import { InstantText } from '../../instant-text';
 import { ORG_ACTIONS } from '../../org-paths';
+import { RequestKeyField } from '../../request-key-field';
 import { ROLE_STYLE, StateBadge, styleOf } from '../../state-badge';
 
 /** `orgNameSchema`'s upper bound (packages/contracts/src/orgs.ts), as the input's own limit. */
@@ -55,6 +57,12 @@ export interface OrgViewProps {
  * column of identical "Remove"s a screen reader cannot tell apart. The name
  * starts with the visible label, so a voice command saying what is on screen
  * still finds it.
+ *
+ * M2-04 (m2-04-code-review.md R8, R9 rev 2): the invite form carries a request
+ * key that a language switch keeps; and the four membership confirmations here
+ * (change a role, remove, revoke, leave) are critical: when any key their label,
+ * sentence or outcome needs is missing in the active language, the submit is
+ * disabled and says so, rather than showing another language's copy.
  */
 export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
   const t = await getTranslations('internal');
@@ -63,6 +71,8 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
   const { org, self, members } = detail;
   const admin = self.role === 'admin';
   const invitations = admin ? (detail.invitations ?? []) : null;
+
+  const guard = await missingCriticalCopy(['roleChange', 'removeMember', 'revokeInvitation', 'leave'] as const);
 
   const roleBadge = (role: OrgRole) => (
     <StateBadge kind="role" code={role} style={styleOf(ROLE_STYLE, role)} label={t(`role.${role}`)} />
@@ -138,10 +148,13 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
                                   size="sm"
                                   variant="outline"
                                   aria-label={t('org.members.changeRoleFor', { name })}
+                                  disabled={guard.roleChange}
+                                  aria-disabled={guard.roleChange || undefined}
                                   data-testid="member-role-submit"
                                 >
                                   {t('org.members.changeRole')}
                                 </Button>
+                                {guard.roleChange ? <CriticalCopyAlert /> : null}
                               </form>
                               <form method="post" action={ORG_ACTIONS.remove(orgId, member.userId)} data-testid="member-remove-form">
                                 <Button
@@ -149,11 +162,14 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
                                   size="sm"
                                   variant="destructive"
                                   aria-label={t('org.members.removeFor', { name })}
+                                  disabled={guard.removeMember}
+                                  aria-disabled={guard.removeMember || undefined}
                                   data-testid="member-remove-submit"
                                 >
                                   <UserMinus aria-hidden="true" />
                                   {t('org.members.remove')}
                                 </Button>
+                                {guard.removeMember ? <CriticalCopyAlert /> : null}
                               </form>
                             </div>
                           )}
@@ -179,6 +195,7 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
             </CardHeader>
             <CardContent>
               <form method="post" action={ORG_ACTIONS.invite(orgId)} className="flex flex-col gap-4" data-testid="invite-form">
+                <RequestKeyField />
                 <div className="grid min-w-0 gap-4 sm:grid-cols-[minmax(0,1fr)_auto]">
                   <div className="flex min-w-0 flex-col gap-2">
                     <Label htmlFor="invite-email">{t('org.invite.emailLabel')}</Label>
@@ -251,11 +268,14 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
                               size="sm"
                               variant="destructive"
                               aria-label={t('org.invitations.revokeFor', { email: invitation.inviteeEmailNorm })}
+                              disabled={guard.revokeInvitation}
+                              aria-disabled={guard.revokeInvitation || undefined}
                               data-testid="invitation-revoke-submit"
                             >
                               <CircleX aria-hidden="true" />
                               {t('org.invitations.revoke')}
                             </Button>
+                            {guard.revokeInvitation ? <CriticalCopyAlert /> : null}
                           </form>
                         </TableCell>
                       </TableRow>
@@ -318,11 +338,20 @@ export async function OrgView({ orgId, detail, locale }: OrgViewProps) {
             <CardDescription>{t('org.leave.description')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <form method="post" action={ORG_ACTIONS.leave(orgId)} data-testid="leave-form">
-              <Button type="submit" variant="destructive" data-testid="leave-submit">
-                <DoorOpen aria-hidden="true" />
-                {t('org.leave.submit')}
-              </Button>
+            <form method="post" action={ORG_ACTIONS.leave(orgId)} className="flex flex-col gap-3" data-testid="leave-form">
+              <div>
+                <Button
+                  type="submit"
+                  variant="destructive"
+                  disabled={guard.leave}
+                  aria-disabled={guard.leave || undefined}
+                  data-testid="leave-submit"
+                >
+                  <DoorOpen aria-hidden="true" />
+                  {t('org.leave.submit')}
+                </Button>
+              </div>
+              {guard.leave ? <CriticalCopyAlert /> : null}
             </form>
           </CardContent>
         </Card>

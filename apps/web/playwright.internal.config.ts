@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * The M2 internal-build suite (M2-AC01, M2-AC02; kickoff-package.md §6.1, §8.8):
+ * The M2 internal-build suite (M2-AC01–M2-AC04; kickoff-package.md §6.1, §8.8):
  * `pnpm e2e:internal` from the repository root.
  *
  * Nothing is mocked except the identity provider, and that one is simulated
@@ -150,11 +150,29 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
     {
+      // M2-AC04 (docs/m2-internal/m2-04-code-review.md R13). Its rows write,
+      // arrange and read back Fiona's and Gopal's account language, which is
+      // shared by construction (one fixed uuid each), so they run in order in one
+      // worker (`fullyParallel: false`) and every row arranges the preference it
+      // starts from. It signs in Fiona and Gopal, whom `auth` and `orgs` never
+      // touch; Dave only to invite Fiona into an org of the row's own; and Mallory
+      // only to be refused, as both other projects do. So it runs BESIDE `auth`
+      // and `orgs`. It is the one project whose contexts meet the language prompt
+      // unanswered (fixtures.ts `answerLocalePrompt`). The six-run walk and the
+      // three-language rows re-run at 390 through `test.use({ viewport })`, which
+      // `openDevice` honours for the second device too.
+      name: 'locale',
+      testMatch: /locale\.spec\.ts$/,
+      fullyParallel: false,
+      dependencies: READING_PROJECTS,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
+    {
       // Takes the API's database access away and gives it back, so it runs
       // only after every project that reads through the API has finished.
       name: 'database-outage',
       testMatch: /database-outage\.spec\.ts/,
-      dependencies: [...READING_PROJECTS, 'auth', 'orgs'],
+      dependencies: [...READING_PROJECTS, 'auth', 'orgs', 'locale'],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
   ],

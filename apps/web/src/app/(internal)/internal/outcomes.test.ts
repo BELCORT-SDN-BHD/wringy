@@ -8,8 +8,12 @@ import { acceptLink, inviteCookieName, inviteCookieOptions } from './org-paths';
 import {
   CONFIRMATION_OUTCOMES,
   END_SESSION,
+  INTERNAL_OUTCOMES,
+  LOCALE_CONFIRMATION_OUTCOMES,
+  LOCALE_OUTCOMES,
   ORG_OUTCOMES,
   acceptPageState,
+  fromOfQuery,
   outcomeFromQuery,
   refusalOutcome,
   type OrgCommand,
@@ -87,10 +91,12 @@ describe('M2-AC03/3 outcomes: every outcome code has copy in all three languages
   });
 
   it('M2-AC03/3 outcomes: internal.outcomes has exactly one sentence per code in every locale', () => {
+    // Since M2-04 the catalogue also carries the language handler's four codes
+    // (m2-04-code-review.md R12); the org list itself is unchanged.
     for (const locale of LOCALES) {
       const outcomes = (messagesByLocale[locale].internal as unknown as { outcomes: Record<string, string> }).outcomes;
-      expect(Object.keys(outcomes).sort(), locale).toEqual([...ORG_OUTCOMES].sort());
-      for (const code of ORG_OUTCOMES) {
+      expect(Object.keys(outcomes).sort(), locale).toEqual([...INTERNAL_OUTCOMES].sort());
+      for (const code of INTERNAL_OUTCOMES) {
         expect(typeof outcomes[code], `${locale} ${code}`).toBe('string');
         expect(outcomes[code]!.trim(), `${locale} ${code}`).not.toBe('');
       }
@@ -128,6 +134,66 @@ describe('M2-AC03/2 outcomes: the page shows only a known outcome, and only the 
       expect(outcomeFromQuery({ outcome: value }), String(value)).toBeNull();
     }
     expect(outcomeFromQuery({})).toBeNull();
+  });
+});
+
+describe('M2-AC04/2 outcomes: the language handler’s codes and the from of a carried-over choice', () => {
+  it('M2-AC04/2 outcomes: the four language codes, each once, beside the org list and not in it', () => {
+    expect([...LOCALE_OUTCOMES]).toEqual(['locale_saved', 'locale_switched', 'locale_not_saved', 'locale_synced']);
+    expect(new Set(INTERNAL_OUTCOMES).size).toBe(ORG_OUTCOMES.length + LOCALE_OUTCOMES.length);
+    for (const code of LOCALE_OUTCOMES) expect(ORG_OUTCOMES as readonly string[], code).not.toContain(code);
+  });
+
+  it('M2-AC04/2 outcomes: every language code has one sentence in every locale; a not-saved one says it was not saved and sends the reader to the notice’s own Retry', () => {
+    const SAVED: Record<string, RegExp> = {
+      'en-MY': /^Language preference saved\.$/,
+      'ms-MY': /^Pilihan bahasa telah disimpan\.$/,
+      'zh-Hans-MY': /^语言偏好已保存。$/,
+    };
+    // The words that say the save did not happen, in each language's own catalogue.
+    const NOT_SAVED: Record<string, string> = {
+      'en-MY': 'could not be saved',
+      'ms-MY': 'tidak dapat disimpan',
+      'zh-Hans-MY': '未能保存',
+    };
+    for (const locale of LOCALES) {
+      const internal = messagesByLocale[locale].internal as unknown as {
+        outcomes: Record<string, string>;
+        locale: { status: { retry: string }; card: { title: string } };
+      };
+      const { outcomes } = internal;
+      for (const code of LOCALE_OUTCOMES) expect(outcomes[code]?.trim(), `${locale} ${code}`).not.toBe('');
+      expect(outcomes.locale_saved, locale).toMatch(SAVED[locale]!);
+      const notSaved = outcomes.locale_not_saved ?? '';
+      expect(notSaved, locale).toContain(NOT_SAVED[locale]!);
+      // Neither the saved sentence nor its claim, anywhere in it.
+      expect(notSaved, locale).not.toContain(outcomes.locale_saved!.replace(/[.。]$/, ''));
+      // The Retry is the unsaved notice's button, named by the word that button shows —
+      // not a Settings place: the org page, which shows this outcome too, has no Language card.
+      expect(notSaved, locale).toContain(internal.locale.status.retry);
+      const settings = internal.locale.card.title.split(' · ')[0]!.toLowerCase();
+      expect(settings.length, locale).toBeGreaterThan(0);
+      expect(notSaved.toLowerCase(), locale).not.toContain(settings);
+    }
+  });
+
+  it('M2-AC04/2 outcomes: OutcomeAlert shows the three form codes; locale_synced is left to the notice that carries Undo', () => {
+    for (const code of ['locale_saved', 'locale_switched', 'locale_not_saved']) {
+      expect(outcomeFromQuery({ outcome: code }), code).toBe(code);
+    }
+    expect(outcomeFromQuery({ outcome: 'locale_synced' })).toBeNull();
+    expect(outcomeFromQuery({ outcome: ['locale_saved', 'created'] })).toBe('locale_saved');
+    expect([...LOCALE_CONFIRMATION_OUTCOMES].sort()).toEqual(['locale_saved', 'locale_switched']);
+  });
+
+  it('M2-AC04/2 outcomes: from is the first value, and only a locale or none', () => {
+    expect(fromOfQuery({ from: 'ms-MY' })).toBe('ms-MY');
+    expect(fromOfQuery({ from: 'none' })).toBe('none');
+    expect(fromOfQuery({ from: ['zh-Hans-MY', 'none'] })).toBe('zh-Hans-MY');
+    for (const value of [undefined, '', 'NONE', 'ms', 'zh-hans-my', 'en-US', '<script>', 'toString', 'null']) {
+      expect(fromOfQuery({ from: value }), String(value)).toBeNull();
+    }
+    expect(fromOfQuery({})).toBeNull();
   });
 });
 

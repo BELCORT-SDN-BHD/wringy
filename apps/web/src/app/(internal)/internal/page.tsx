@@ -5,7 +5,6 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { loadWebEnv, tryLoadEnv } from '@wringy/config/web';
 import {
   internalCampaignsResponseSchema,
-  meResponseSchema,
   workerHealthResponseSchema,
   workspacesResponseSchema,
 } from '@wringy/contracts';
@@ -20,11 +19,13 @@ import {
 import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 import { accessTokenFromHeaders, apiFetch } from '@/lib/auth/api-client';
 import { appMode } from '@/lib/auth/mode';
+import { readMe } from '@/lib/locale/read';
 
 import { ApiFailureAlert } from './api-failure';
 import { readInternalApi, type ApiFailure } from './api-read';
 import { CampaignsSection } from './campaigns-section';
 import { readOf, redirectIfCallerRefused } from './identity-read';
+import { LocaleSection } from './locale-section';
 import { OutcomeAlert } from './outcome-alert';
 import { outcomeFromQuery } from './outcomes';
 import { SessionSection } from './session-section';
@@ -52,6 +53,13 @@ const PROBE_RESULTS = new Set<string>(['ok', 'revoked', 'unauthenticated', 'unav
  * read fails the same way the page still shows that state once (the M2-AC01
  * outage rows). `?outcome=` shows what an org command or an invitation just did
  * (`OutcomeAlert`; `left`, `forbidden`, the `invitation_*` refusals, …).
+ *
+ * The Language card (M2-04; m2-04-code-review.md R3, R5) sits beside the
+ * Session card and renders from the same `/me` answer. That read goes through
+ * `readMe()`, the per-request memoised reader the language resolution also uses,
+ * so the page makes one `/me` call, not two; and every read is started before
+ * the page awaits its translations, which wait on that same read for at most
+ * 1.5 s.
  *
  * Page states, each marked with `data-app-state`: `not-configured` (the web
  * server has no usable API_INTERNAL_URL), `api-unreachable`, `api-unavailable`
@@ -82,15 +90,34 @@ const PROBE_RESULTS = new Set<string>(['ok', 'revoked', 'unauthenticated', 'unav
  * and a sign-in are what show them (README "启动顺序"; known-issues.md).
  */
 export default async function InternalPage({ searchParams }: PageProps<'/internal'>) {
-  const t = await getTranslations('internal');
-  const requested = await getLocale();
-  const locale = isLocale(requested) ? requested : DEFAULT_LOCALE;
   // Server-only: the web process's own environment. The error names variables,
   // never values, and nothing here reaches the browser bundle.
   const env = tryLoadEnv(() => loadWebEnv());
+  const internal = appMode() === 'internal';
+  const token = internal && env.ok ? await accessTokenFromHeaders() : null;
+
+  // Started before the translations are awaited (they wait on the same `/me`).
+  // One round trip's worth of latency for all four reads, not four.
+  const setup = env.ok
+    ? {
+        ok: true as const,
+        reads: Promise.all([
+          internal ? readMe(token, env.env.API_INTERNAL_URL) : Promise.resolve(null),
+          internal
+            ? apiFetch('/me/workspaces', { baseUrl: env.env.API_INTERNAL_URL, token, schema: workspacesResponseSchema })
+            : Promise.resolve(null),
+          readInternalApi(env.env.API_INTERNAL_URL, '/internal/campaigns', internalCampaignsResponseSchema, { token }),
+          readInternalApi(env.env.API_INTERNAL_URL, '/internal/worker-health', workerHealthResponseSchema, { token }),
+        ]),
+      }
+    : { ok: false as const, problems: env.error.problems };
+
+  const t = await getTranslations('internal');
+  const requested = await getLocale();
+  const locale = isLocale(requested) ? requested : DEFAULT_LOCALE;
 
   let body: ReactNode;
-  if (!env.ok) {
+  if (!setup.ok) {
     body = (
       <Empty className="border" data-app-state="not-configured">
         <EmptyHeader>
@@ -103,28 +130,14 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
         <EmptyContent>
           <p className="font-mono text-xs text-muted-foreground">
             {t('state.notConfigured.variables', {
-              names: env.error.problems.map((problem) => problem.name).join(', '),
+              names: setup.problems.map((problem) => problem.name).join(', '),
             })}
           </p>
         </EmptyContent>
       </Empty>
     );
   } else {
-    const base = env.env.API_INTERNAL_URL;
-    const internal = appMode() === 'internal';
-    const token = internal ? await accessTokenFromHeaders() : null;
-
-    // One round trip's worth of latency for all four reads, not four.
-    const [meResult, workspacesResult, campaigns, workers] = await Promise.all([
-      internal
-        ? apiFetch('/me', { baseUrl: base, token, schema: meResponseSchema })
-        : Promise.resolve(null),
-      internal
-        ? apiFetch('/me/workspaces', { baseUrl: base, token, schema: workspacesResponseSchema })
-        : Promise.resolve(null),
-      readInternalApi(base, '/internal/campaigns', internalCampaignsResponseSchema, { token }),
-      readInternalApi(base, '/internal/worker-health', workerHealthResponseSchema, { token }),
-    ]);
+    const [meResult, workspacesResult, campaigns, workers] = await setup.reads;
 
     // A refusal is not a page state: it means this person should not be looking at
     // this page at all, so say why on the sign-in page instead (R4, R11).
@@ -160,6 +173,7 @@ export default async function InternalPage({ searchParams }: PageProps<'/interna
     ) : (
       <>
         {profile !== null ? <SessionSection profile={profile} probe={probe} /> : null}
+        {profile !== null ? <LocaleSection profile={profile} locale={locale} /> : null}
         {me !== null && !me.ok ? <ApiFailureAlert failure={me.failure} /> : null}
         {workspaces !== null ? <WorkspacesSection read={workspaces} /> : null}
         <CampaignsSection read={campaigns} locale={locale} />

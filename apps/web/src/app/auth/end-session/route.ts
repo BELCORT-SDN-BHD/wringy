@@ -43,6 +43,11 @@
  * The token is read the way the probe reads it — from the cookie, with no
  * refresh — because a refresh here would rotate the refresh token in a response
  * that is about to throw the session away.
+ *
+ * M2-04 (m2-04-code-review.md R6): the branch that ends the session also expires
+ * `wringy-locale-session`, the choice that session had not saved. Only that
+ * branch: a cross-site link to this path must change nothing, so no token, a 200
+ * and a 401 leave every language cookie alone.
  */
 
 import type { NextResponse } from 'next/server';
@@ -55,6 +60,7 @@ import { isInternalMode } from '@/lib/auth/mode';
 import { signInPath, type Outcome } from '@/lib/auth/outcomes';
 import { cookieJar, errorResponse, notFound, seeOther, signOutLocally } from '@/lib/auth/route-support';
 import { createRequestSupabase, isSecureOrigin, readStoredAccessToken } from '@/lib/auth/supabase-server';
+import { expireUnsaved } from '@/lib/locale/cookies';
 
 export async function GET(): Promise<NextResponse> {
   // The mode guard and the environment, exactly as the other handlers answer
@@ -78,6 +84,7 @@ export async function GET(): Promise<NextResponse> {
 
   const supabase = createRequestSupabase({ supabaseUrl, publishableKey, secure, cookies: jar.adapter });
   await signOutLocally(supabase, jar, secure);
+  expireUnsaved(jar, secure);
   return jar.applyTo(seeOther(signInPath({ outcome }), appOrigin));
 }
 

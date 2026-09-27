@@ -23,6 +23,7 @@ import { isInternalMode } from '@/lib/auth/mode';
 import { signInPath } from '@/lib/auth/outcomes';
 
 import { ApiFailureAlert } from '../../api-failure';
+import { CriticalCopyAlert, missingCriticalCopy } from '../../critical-copy-alert';
 import { InstantText } from '../../instant-text';
 import { ACCEPT_CONFIRM_PATH, END_SESSION_PATH, INTERNAL_PATH, orgPath } from '../../org-paths';
 import { acceptPageState, firstValue, type AcceptPageState } from '../../outcomes';
@@ -122,6 +123,8 @@ async function AcceptBody({
     case 'pending': {
       const { preview } = state;
       const role = t(`role.${preview.role}`);
+      // M2-04 R9: accepting is a critical confirmation; missing copy disables it rather than mixing languages.
+      const { acceptInvitation: copyMissing } = await missingCriticalCopy(['acceptInvitation'] as const);
       return (
         <Card className="min-w-0" data-app-state="invitation-pending">
           <CardHeader>
@@ -149,12 +152,19 @@ async function AcceptBody({
             </dl>
           </CardContent>
           <CardFooter>
-            <form method="post" action={ACCEPT_CONFIRM_PATH} className="w-full">
+            <form method="post" action={ACCEPT_CONFIRM_PATH} className="flex w-full flex-col gap-3">
               <input type="hidden" name="token" value={token ?? ''} />
-              <Button type="submit" className="w-full" data-testid="invitation-accept-submit">
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={copyMissing}
+                aria-disabled={copyMissing || undefined}
+                data-testid="invitation-accept-submit"
+              >
                 <UserCheck aria-hidden="true" />
                 {t('invitations.accept.submit')}
               </Button>
+              {copyMissing ? <CriticalCopyAlert /> : null}
             </form>
           </CardFooter>
         </Card>

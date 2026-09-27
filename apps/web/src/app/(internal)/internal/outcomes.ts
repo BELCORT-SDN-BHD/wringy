@@ -7,13 +7,17 @@
  * this module only names its answer so the page can say what happened and what
  * to do next. Every code has one sentence in all three locales under
  * `internal.outcomes.<code>` (outcomes.test.ts pins the parity), rendered by
- * `OutcomeAlert` on `/internal` and on the org page.
+ * `OutcomeAlert` on `/internal` and on the org page. M2-04 adds the language
+ * handler's four codes and the `from` of a carried-over choice
+ * (m2-04-code-review.md R12).
  *
- * Pure: no Next.js, no fetch, so the mapping is unit-tested directly.
+ * Pure: no Next.js, no fetch, so the mapping is unit-tested directly (and
+ * `locale-status.tsx` can read `from` on the client).
  */
 
 import type { InvitationPreviewResponse } from '@wringy/contracts';
 
+import { isLocale, type Locale } from '@/i18n/config';
 import type { ApiFailure, ApiResult } from '@/lib/auth/api-client';
 
 /**
@@ -72,6 +76,43 @@ export function isOrgOutcome(value: unknown): value is OrgOutcome {
   return typeof value === 'string' && (ORG_OUTCOMES as readonly string[]).includes(value);
 }
 
+/**
+ * What the language handler `POST /internal/locale` sends a plain form back
+ * with (M2-04; m2-04-code-review.md R4, R6, R12): saved to the account,
+ * switched for a guest (nothing to save on the server), switched but not saved
+ * (never the org `session_ended` copy, which says nothing was changed), and
+ * `locale_synced`, the callback's carry-over. `locale_synced` carries `from` and
+ * an Undo form, so `locale-status.tsx` renders it, never `OutcomeAlert`.
+ */
+export const LOCALE_OUTCOMES = ['locale_saved', 'locale_switched', 'locale_not_saved', 'locale_synced'] as const;
+
+export type LocaleOutcome = (typeof LOCALE_OUTCOMES)[number];
+
+/** Every code with a sentence under `internal.outcomes` (outcomes.test.ts pins the parity). */
+export const INTERNAL_OUTCOMES = [...ORG_OUTCOMES, ...LOCALE_OUTCOMES] as const;
+
+/** What `OutcomeAlert` shows: every code but `locale_synced`, which `locale-status.tsx` owns. */
+export type PageOutcome = OrgOutcome | Exclude<LocaleOutcome, 'locale_synced'>;
+
+/** The language outcomes that confirm a change; `locale_not_saved` reads as a problem. */
+export const LOCALE_CONFIRMATION_OUTCOMES: ReadonlySet<PageOutcome> = new Set<PageOutcome>(['locale_saved', 'locale_switched']);
+
+/** Every outcome that reads as a confirmation, org or language, so `OutcomeAlert` needs one check. */
+export const PAGE_CONFIRMATION_OUTCOMES: ReadonlySet<PageOutcome> = new Set<PageOutcome>([
+  ...CONFIRMATION_OUTCOMES,
+  ...LOCALE_CONFIRMATION_OUTCOMES,
+]);
+
+/**
+ * `LOCALE_OUTCOMES` minus `locale_synced`, which `locale-status.tsx` renders
+ * instead of `OutcomeAlert` (Standards T6): derived from the one list rather
+ * than copied, so a fifth language code cannot reach `OutcomeAlert` without
+ * this predicate — or the exclusion above — being told about it.
+ */
+function isPageLocaleOutcome(value: string): value is Exclude<LocaleOutcome, 'locale_synced'> {
+  return value !== 'locale_synced' && (LOCALE_OUTCOMES as readonly string[]).includes(value);
+}
+
 /** A page's `searchParams`, as Next hands them over. */
 export type Query = Record<string, string | string[] | undefined>;
 
@@ -80,10 +121,22 @@ export function firstValue(value: string | string[] | undefined): string | undef
   return Array.isArray(value) ? value[0] : value;
 }
 
-/** `?outcome=` when it names a known code; anything else is ignored rather than shown. */
-export function outcomeFromQuery(query: Query): OrgOutcome | null {
+/** `?outcome=` when it names a known code `OutcomeAlert` shows; anything else is ignored rather than shown. */
+export function outcomeFromQuery(query: Query): PageOutcome | null {
   const value = firstValue(query.outcome);
-  return isOrgOutcome(value) ? value : null;
+  if (isOrgOutcome(value)) return value;
+  return value !== undefined && isPageLocaleOutcome(value) ? value : null;
+}
+
+/**
+ * `?from=` of a `locale_synced` landing (R6): the account's previous preference,
+ * or `none` when it had none. Only the first value, and only a locale or `none`;
+ * anything else is null and the synced notice is dropped like an unknown code.
+ */
+export function fromOfQuery(query: Query): Locale | 'none' | null {
+  const value = firstValue(query.from);
+  if (value === 'none') return 'none';
+  return isLocale(value) ? value : null;
 }
 
 /** Not an outcome: the answer that ends the session through `/auth/end-session`, as `/internal` does. */

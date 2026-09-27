@@ -84,6 +84,8 @@ const WEB_M2_VITEST_FILTERS = [
   'src/app/(internal)/',
   'src/app/auth/',
   'src/lib/auth/',
+  'src/lib/locale/',
+  'src/lib/request-key',
   'src/proxy',
   'tests/unit/',
 ];

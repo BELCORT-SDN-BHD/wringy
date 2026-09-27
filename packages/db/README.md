@@ -46,7 +46,7 @@ import time, so a bundler keeps only what an app uses. `apps/worker`'s esbuild
 bundle relies on it to leave out the migration runner (node-pg-migrate) and
 `src/local-dev.ts`; keep new modules free of import-time effects.
 
-## Schema (M2-01, M2-02, M2-03)
+## Schema (M2-01, M2-02, M2-03, M2-04)
 
 | Migration | Creates | Rights |
 |---|---|---|
@@ -57,15 +57,17 @@ bundle relies on it to leave out the migration runner (node-pg-migrate) and
 | `0005_pgboss_grants` | Rights on schema `pgboss`, which `pnpm db:migrate` installs first | worker: USAGE, table DML, sequence use, EXECUTE (plus default privileges for later pg-boss objects); api: SELECT on `ops.pgmigrations` (and, until 0006, USAGE on `pgboss` and SELECT on `pgboss.version`) |
 | `0006_pgboss_runtime_bounds` | `ops.pgboss_schema_version` (a migrator-owned, non-updatable view of the pg-boss schema version); CHECK `wringy_queue_shared_table_only` on `pgboss.queue` (every queue unpartitioned, on the shared `job_common` table) | worker: `pgboss.version` SELECT plus UPDATE of the five run-time timestamps only, never `version`; nothing on the view. api: SELECT on the view; its USAGE on `pgboss` and SELECT on `pgboss.version` are revoked, so the API has no `pgboss` access (kickoff-package.md §4.11, §8.5) |
 | `0007_data_origin_immutable` | `ops.assert_data_origin_unchanged()` and a BEFORE UPDATE trigger on `app.orgs` and `app.campaigns`: a row's `data_origin` never changes (23514, constraint `data_origin_immutable`) | None |
-| `0008_profiles` | `app.profiles`: `id` = the verified token subject (no foreign key to the identity store, IT1), `display_name`, `contact_email`, `locale_pref` (CHECK `en-MY`/`ms-MY`/`zh-Hans-MY`) with `locale_pref_set_at`, `status` (CHECK `active`/`disabled`, default `active`), `last_sign_in_at`, `created_at`, `updated_at` with the shared `ops.touch_updated_at()` trigger. **No `data_origin` and no fixture trigger**: every user is a real identity (§3.5) | api: SELECT, INSERT, UPDATE (it upserts at each sign-in), narrowed to four columns by 0010; never DELETE. worker: nothing |
+| `0008_profiles` | `app.profiles`: `id` = the verified token subject (no foreign key to the identity store, IT1), `display_name`, `contact_email`, `locale_pref` (CHECK `en-MY`/`ms-MY`/`zh-Hans-MY`) with `locale_pref_set_at`, `status` (CHECK `active`/`disabled`, default `active`), `last_sign_in_at`, `created_at`, `updated_at` with the shared `ops.touch_updated_at()` trigger. **No `data_origin` and no fixture trigger**: every user is a real identity (§3.5) | api: SELECT, INSERT, UPDATE (it upserts at each sign-in), narrowed to column grants by 0010 and widened by the language preference pair in 0018; never DELETE. worker: nothing |
 | `0009_sign_in_allowlist` | `app.sign_in_allowlist(email_norm PK CHECK non-empty and already lower-cased, reason NOT NULL, added_by NOT NULL, added_at)`: who may sign in for the first time (ruling D13) | api: SELECT. Written only by the migrator, through `pnpm db:allowlist` |
-| `0010_profiles_column_grants` | No new object: 0008's table-level INSERT and UPDATE on `app.profiles` become **column** grants, so the runtime role cannot write `status` (ruling D12: only an operator disables an account) or the locale columns M2-04 owns | api: SELECT on the table; INSERT (`id`, `contact_email`, `display_name`, `last_sign_in_at`) and UPDATE (`contact_email`, `display_name`, `last_sign_in_at`) only; never DELETE. worker: nothing |
+| `0010_profiles_column_grants` | No new object: 0008's table-level INSERT and UPDATE on `app.profiles` become **column** grants, so the runtime role cannot write `status` (ruling D12: only an operator disables an account) or, until 0018, the locale columns | api: SELECT on the table; INSERT (`id`, `contact_email`, `display_name`, `last_sign_in_at`) and UPDATE (`contact_email`, `display_name`, `last_sign_in_at`) only; never DELETE. worker: nothing |
 | `0011_orgs_ownership` | On `app.orgs`: `created_by` (→ `app.profiles`, nullable: the seed's fixture orgs and M2-01's live test orgs have none), `updated_at` with the `ops.touch_updated_at()` trigger, `id DEFAULT gen_random_uuid()`, `data_origin DEFAULT 'live'`, and `orgs_id_created_by_key UNIQUE (id, created_by)`, the target of the creator link below. Expand only | api: SELECT (0003) plus INSERT (`name`, `created_by`) and UPDATE (`name`): it cannot choose an id, write `data_origin` or change the creator, and has no DELETE. UPDATE (`name`) is also what lets a command lock the org row. worker: nothing |
 | `0012_org_members` | `app.org_members`, PK (`org_id`, `user_id`): `role` admin/member, `status` active/removed, `grant_basis` org_created/invitation with `invitation_id` exactly for an invitation, `granted_by`, `granted_at`, the removal triple (all or none), the generated `creator_ref` and `org_members_creator_fkey (org_id, creator_ref) → orgs (id, created_by)` (an `org_created` row exists only for the org's own creator, granted by themselves), a partial index on the active rows' `user_id`, `updated_at` trigger | api: SELECT; INSERT (`org_id`, `user_id`, `role`, `grant_basis`, `invitation_id`, `granted_by`); UPDATE (`role`, `status`, `grant_basis`, `invitation_id`, `granted_by`, `granted_at`, `removed_by`, `removed_at`, `removal_basis`); never DELETE. worker: nothing |
 | `0013_org_invitations` | `app.org_invitations`: `invited_by` must be a member of that org (`org_invitations_inviter_fkey (org_id, invited_by) → org_members`), `invitee_email_norm` (non-empty, lower-cased), `role`, `token_hash` (sha256 hex, UNIQUE; the token is never stored), `status` pending/accepted/revoked with the accepted and revoked pairs set exactly in their state, `expires_at`, and one pending invitation per (org, address). Also `org_members_invitation_fkey (org_id, invitation_id) → org_invitations (org_id, id)`: an invitation of one org never backs a membership of another | api: SELECT; INSERT (`org_id`, `invited_by`, `invitee_email_norm`, `role`, `token_hash`, `expires_at`); UPDATE (`status`, `accepted_by`, `accepted_at`, `revoked_by`, `revoked_at`) only, never `role`, `expires_at` or `token_hash`; never DELETE. worker: nothing |
 | `0014_admin_scopes` | `app.admin_scopes`, PK (`user_id`, `org_id`, `capability`): `review` or `finance` on one org, with `granted_by_operator`, `reason`, `granted_at` | api: SELECT only; written by `pnpm db:grant` as the migrator. worker: nothing |
 | `0015_platform_grants` | `app.platform_grants`, PK (`user_id`, `capability`): `ops_runtime`, with `granted_by_operator`, `reason`, `granted_at` | api: SELECT only; written by `pnpm db:grant`. worker: nothing |
 | `0016_audit_log` | `app.audit_log`: identity `id`, `occurred_at`, `recorded_by` (DEFAULT `current_user`: the writing login), `actor_kind` user/system/bootstrap, `actor_user_id`, `actor_label`, `context_org_id`, `action` (`noun.verb`), `target_type`, `target_id`, `outcome` allowed/denied, `denial_code` (exactly when denied), `reason`, `summary` jsonb, `request_id`, `session_ref` (sha256 hex); a user row needs both correlation columns, a bootstrap row a label. No foreign keys, no index beyond the key | api: INSERT on every column but `id`, `occurred_at` and `recorded_by`, and nothing else: no SELECT (0001's default is revoked), UPDATE, DELETE or sequence privilege, so an insert cannot use RETURNING. worker: nothing |
+| `0017_profiles_locale_pair_check` | No new object but `profiles_locale_pref_pair_check CHECK ((locale_pref IS NULL) = (locale_pref_set_at IS NULL))` on `app.profiles`: the pair **is** the explicit flag (NULL in both is "no explicit choice", both set is a choice and when it was made), so the table refuses a preference without its instant and an instant without its preference (23514). No default and no trigger: the command writes both (M2-04 R1) | None |
+| `0018_profiles_locale_grants` | No new object: `UPDATE (locale_pref, locale_pref_set_at)` on `app.profiles`, what `POST /me/locale` writes after locking the caller's row (M2-04 R2) | api: UPDATE of the pair, added to 0010's column grants. Still no UPDATE of `status`, no INSERT naming either locale column (a first sign-in never carries a preference), no DELETE. worker: nothing |
 
 `app.profiles` and `app.sign_in_allowlist` carry no `data_origin`: a user is
 never a fixture, and the allow-list names real testers' addresses, so there is no
@@ -85,12 +87,28 @@ is fixed at creation (0007: 23514, constraint `data_origin_immutable`), so no
 UPDATE can pass a fixture row off as live or the reverse. To move data between
 origins, delete the row and insert a new one.
 
+**Which test checks each Down** (`test/migrations.int.test.ts`, M2-04 R1). The
+whole-chain fixed point (every migration after 0001 reverted and applied again)
+cannot see an incomplete Down on a table an older Down drops right after it:
+0003's Down drops `app.orgs` after 0011's, and 0008's Down drops `app.profiles`
+after 0017's and 0018's. Those Downs are checked by the at-0010 comparison, which
+reverts every migration newer than `0010` and compares the catalog (column ACLs
+and constraints included) with a database migrated only to `0010`; and whatever
+migration is newest is checked on its own against a database migrated to the one
+before it, a row that needs no edit when a migration is added. **`0010`'s own
+Down is covered by no test**: removing its REVOKE lines leaves every row green,
+because the only snapshot that reaches below it is the whole-chain one, and 0008's
+Down drops the table right after. That is accepted rather than fixed: 0010 is
+applied on every environment and is never edited (a migration's text is frozen
+once applied), and the rollback path that matters for it, staging and production,
+never runs a Down (the CLI refuses `down` outside local and CI).
+
 ## Roles
 
 | Role | Kind | Rights |
 |---|---|---|
 | `wringy_migrator` | login | Owns the database, `app`, `ops` and `pgboss`; runs all DDL and writes the marker and the fixture seed. On Supabase possibly `postgres` (unverified) |
-| `wringy_api` | NOLOGIN group | `USAGE` on `app` and `ops`; SELECT on the tables in `test/grant-manifest.ts` (not `app.audit_log`), the pg-boss schema version through `ops.pgboss_schema_version`. Its writes are column grants only: the sign-in's profile columns (0010) and the org, membership, invitation and audit columns of 0011–0016. No DELETE anywhere in `app`, no CREATE, nothing in `pgboss` |
+| `wringy_api` | NOLOGIN group | `USAGE` on `app` and `ops`; SELECT on the tables in `test/grant-manifest.ts` (not `app.audit_log`), the pg-boss schema version through `ops.pgboss_schema_version`. Its writes are column grants only: the sign-in's profile columns (0010), the org, membership, invitation and audit columns of 0011–0016, and the profile's language preference pair (0018). No DELETE anywhere in `app`, no CREATE, nothing in `pgboss` |
 | `wringy_worker` | NOLOGIN group | `USAGE` on `ops` and `pgboss`; SELECT on `ops.environment`; SELECT/INSERT/UPDATE on `ops.worker_heartbeat`; pg-boss DML and EXECUTE, except that `pgboss.version` is read-only apart from its run-time timestamps. Nothing in `app`, no CREATE, no TRUNCATE |
 | `wringy_api_login` | login, member of `wringy_api` | API process |
 | `wringy_worker_login` | login, member of `wringy_worker` | Worker process |
@@ -414,7 +432,9 @@ composite foreign key and the marker's constraints; and the seed being
 idempotent and refused where fixtures are not allowed.
 
 Integration titles carry `M2-AC02/2` for the identity objects: `app.profiles`
-inserted and updated by the API login and never deleted (42501), its locale and
+inserted and updated by the API login and never deleted (42501), `status` and an
+INSERT naming a locale column refused to it (42501) while the sign-in columns
+and, since 0018, the language preference pair are writable, its locale and
 status CHECKs, its `updated_at` trigger, an insert succeeding where fixtures are
 not allowed (it has no `data_origin`), and a catalog scan showing no such column
 and no fixture trigger (`profiles.int.test.ts`); the allow-list readable by the
@@ -444,8 +464,18 @@ the row locks the commands take, the fixture seed still applying after 0011, a
 `pnpm db:grant` writing each change with its audit row atomically, refusing a
 subject that has never signed in, and running end to end through its CLI entry
 (`grants-cli.int.test.ts`); the allow-list changes' pseudonymous audit rows
-(`allowlist.int.test.ts`); and reverting 0011–0016 leaving exactly the catalog of
-a database migrated only to `0010` (`migrations.int.test.ts`, `M2-AC01/2`).
+(`allowlist.int.test.ts`); and reverting every migration after 0010 (0011–0018)
+leaving exactly the catalog of a database migrated only to `0010`, and reverting
+the newest migration leaving exactly the catalog of a database migrated to the one
+before it (`migrations.int.test.ts`, `M2-AC01/2`).
+
+Integration titles carry `M2-AC04/2` for the language preference (M2-04 R13 *db
+int*, R15 a): the pair CHECK refusing a preference without its instant and an
+instant without its preference, in both directions, while the pair written
+together succeeds (`profiles.int.test.ts`); and the recovery row on a clone of its
+own, where reverting 0018 and 0017 leaves a saved preference readable by the API
+login, both its UPDATEs 42501 again and the CHECK gone, and migrating up again
+lets the API write it (`locale-recovery.int.test.ts`).
 
 Unit tests carry it for
 the installed pg-boss matching its exact pin, migration files that grant nothing

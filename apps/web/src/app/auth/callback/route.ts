@@ -26,12 +26,46 @@
  * Every response carries `noStore()`: this handler always writes cookies, and on
  * the refusal paths it writes them twice (the session, then its removal), which
  * is exactly where `@supabase/ssr`'s latched cache headers would go missing (R20).
+ *
+ * ## The language chosen on the sign-in page (M2-04; m2-04-code-review.md R6)
+ *
+ * A choice made on the sign-in page is carried into the account by the sign-in
+ * it belongs to, and nothing else is:
+ *
+ * - only after `POST /identity/sign-in` answered 200, and only when
+ *   `wringy-locale-carry` is present, valid and differs from the profile's
+ *   preference, `POST /me/locale` is called **with the token the exchange just
+ *   returned** — never the one the request arrived with, which on a shared device
+ *   may be somebody else's stale session;
+ * - saved: the landing URL carries `outcome=locale_synced` and
+ *   `from=<previous preference | none>`, set through `searchParams`, and the page
+ *   shows an undoable notice; not saved (a 401 included): `wringy-locale-session`
+ *   keeps the choice for this browsing session, stamped with the instant it was
+ *   made (`writeUnsaved`) so a newer save to the account outranks it, and the outcome is
+ *   `locale_not_saved`; `account.disabled`: the new session is signed out again
+ *   and the person is told the account is disabled, as for the sign-in itself;
+ * - the carry cookie is **spent** by a sign-in the API let in (used, equal to the
+ *   profile's preference, or invalid — an invalid value never reaches the API)
+ *   and by a refusal that names who was signing in (`not_allowed`, `disabled`,
+ *   a carry refused as `disabled`), so it never outlives the person it was
+ *   refused with. An attempt that ended before the API knew who it was — a
+ *   Google cancel, a flow Supabase no longer holds, an exchange error, a missing
+ *   code or token, a 5xx or an unreachable API — **keeps** it, so the retry
+ *   lands in the language just chosen; its ten-minute max-age still bounds it
+ *   (R6 rev 3);
+ * - `wringy-locale-session` is expired by every successful sign-in (it belonged to
+ *   whoever sat here before), unless this very callback wrote it for a failed
+ *   carry, and wherever a refusal signs the new session out again.
+ *
+ * With no carry cookie nothing is written: a guest preference left by an earlier
+ * browsing session is never written to an account.
  */
 
 import { NextResponse } from 'next/server';
 
-import { signInResponseSchema } from '@wringy/contracts';
+import { setLocaleResponseSchema, signInResponseSchema } from '@wringy/contracts';
 
+import { isLocale } from '@/i18n/config';
 import { apiFetch } from '@/lib/auth/api-client';
 import { safeNextPath } from '@/lib/auth/next-path';
 import { outcomeFromCallbackQuery, outcomeFromExchangeError, signInPath, type Outcome } from '@/lib/auth/outcomes';
@@ -40,6 +74,7 @@ import { isInternalMode } from '@/lib/auth/mode';
 import { internalAuthEnv } from '@/lib/auth/env';
 import { createRequestSupabase, isSecureOrigin } from '@/lib/auth/supabase-server';
 import { AUTH_NEXT_COOKIE, AUTH_NEXT_COOKIE_PATH } from '@/lib/auth/wire';
+import { LOCALE_CARRY_COOKIE, expireCarry, expireUnsaved, writeUnsaved } from '@/lib/locale/cookies';
 
 export async function GET(request: Request): Promise<NextResponse> {
   // The mode guard only; PKCE, not Origin, protects this endpoint. The two
@@ -54,7 +89,14 @@ export async function GET(request: Request): Promise<NextResponse> {
   const secure = isSecureOrigin(appOrigin);
   const jar = await cookieJar();
 
-  /** Leave with no session and an explanation. The next cookie goes too: this attempt is over. */
+  // The sign-in page's language choice. It is spent only once the API has answered
+  // for a person; an attempt that failed before that keeps it for the retry (R6 rev 3).
+  const carry = jar.read(LOCALE_CARRY_COOKIE);
+
+  /**
+   * Leave with no session and an explanation. The next cookie goes too: this attempt is over.
+   * The carry is left alone here: the caller spends it when the exit names a person.
+   */
   const giveUp = (outcome: Outcome): NextResponse => {
     jar.expire(AUTH_NEXT_COOKIE, { httpOnly: true, secure, sameSite: 'lax', path: AUTH_NEXT_COOKIE_PATH });
     return jar.applyTo(seeOther(signInPath({ outcome }), appOrigin));
@@ -87,15 +129,50 @@ export async function GET(request: Request): Promise<NextResponse> {
   });
 
   if (result.kind === 'ok') {
+    // The API let this person in: the carry is theirs, used below or not at all.
+    expireCarry(jar, secure);
     // Read the return path before expiring the cookie that carries it.
     const next = safeNextPath(jar.read(AUTH_NEXT_COOKIE));
     jar.expire(AUTH_NEXT_COOKIE, { httpOnly: true, secure, sameSite: 'lax', path: AUTH_NEXT_COOKIE_PATH });
-    return jar.applyTo(seeOther(next, appOrigin));
+    const landing = new URL(next, appOrigin);
+
+    // R6: carry the sign-in page's choice with THIS sign-in's token, only now that the API has let the person in.
+    const previous = result.data.profile.localePref;
+    let wroteUnsaved = false;
+    if (carry !== undefined && isLocale(carry) && carry !== previous) {
+      const carried = await apiFetch('/me/locale', {
+        baseUrl: apiInternalUrl,
+        token: accessToken,
+        method: 'POST',
+        body: { locale: carry },
+        schema: setLocaleResponseSchema,
+      });
+      if (carried.kind === 'ok') {
+        landing.searchParams.set('outcome', 'locale_synced');
+        landing.searchParams.set('from', previous ?? 'none');
+      } else if (carried.kind === 'error' && carried.status === 403 && carried.code === 'account.disabled') {
+        // Refused between the two calls: no session for a refused account survives.
+        await signOutLocally(supabase, jar, secure);
+        expireUnsaved(jar, secure);
+        return giveUp('disabled');
+      } else {
+        writeUnsaved(jar, carry, secure);
+        wroteUnsaved = true;
+        landing.searchParams.set('outcome', 'locale_not_saved');
+      }
+    }
+    // Whoever sat here before took their unsaved choice with them.
+    if (!wroteUnsaved) expireUnsaved(jar, secure);
+    return jar.applyTo(seeOther(landing.toString(), appOrigin));
   }
 
-  // The API refused this person. Undo the session we just created, then say why.
+  // The API refused this person, or could not answer. Undo the session we just created, then say why.
   const outcome = refusalOutcome(result);
   await signOutLocally(supabase, jar, secure);
+  expireUnsaved(jar, secure);
+  // A refusal names who was signing in, so their choice goes with them; a 5xx or an
+  // unreachable API says nothing about the person, so the retry keeps it.
+  if (outcome === 'not_allowed' || outcome === 'disabled') expireCarry(jar, secure);
   return giveUp(outcome);
 }
 

@@ -261,6 +261,43 @@
       }
     }
   },
+  "locale": {
+    "apply": "应用",
+    "card": {
+      "title": "设置 · 偏好语言",
+      "description": "保存到你的账号，在你登录的每台设备上使用。",
+      "fieldLabel": "偏好语言",
+      "save": "保存",
+      "notSet": "尚未设定",
+      "savedAs": "已保存：{name}",
+      "savedAt": "保存于 {time}"
+    },
+    "live": {
+      "pending": "正在切换语言…",
+      "savedAccount": "已切换并保存到账号",
+      "savedGuest": "已切换并保存到此浏览器",
+      "notSaved": "已切换语言，偏好尚未保存",
+      "notSwitched": "未能切换语言，请重试。",
+      "refused": "此浏览器拒绝保存该选择，因此语言没有切换。请允许 Cookie 后重试。",
+      "notSkipped": "未能记录跳过语言选择，请重试。"
+    },
+    "status": {
+      "unsaved": "你已切换为{name}，但该偏好尚未保存到账号。",
+      "retry": "重试",
+      "synced": "已保存为账号语言。",
+      "syncedFrom": "已按本次选择保存为账号语言（原为 {name}）。",
+      "change": "在设置中修改",
+      "undo": "撤销",
+      "regionLabel": "语言提示"
+    },
+    "prompt": {
+      "selectLabel": "语言",
+      "description": "之后可随时通过每个页面顶部的“语言”菜单修改。"
+    },
+    "critical": {
+      "unavailable": "当前语言的说明暂不可用；请切换到完整可用的语言后再确认。"
+    }
+  },
   "outcomes": {
     "created": "组织已创建。你是它的管理员。",
     "renamed": "组织名称已保存。",
@@ -285,6 +322,10 @@
     "invitation_expired": "该邀请已过期，你未被加入。请联系管理员重新发送。",
     "invitation_used": "该邀请已被使用，因此没有做任何更改。",
     "invitation_mismatch": "该邀请是发送给另一个地址的，你未被加入。",
-    "invalid_name": "无法使用该名称，因此没有做任何更改。请使用 1 到 100 个字符，不能只有空格，也不能包含隐藏的格式字符。"
+    "invalid_name": "无法使用该名称，因此没有做任何更改。请使用 1 到 100 个字符，不能只有空格，也不能包含隐藏的格式字符。",
+    "locale_saved": "语言偏好已保存。",
+    "locale_switched": "语言已切换。",
+    "locale_not_saved": "语言已切换，但偏好未能保存。请点击上方提示中的“重试”来保存。",
+    "locale_synced": "已保存为账号语言。"
   }
 }

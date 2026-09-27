@@ -17,6 +17,7 @@ import {
   invitationPreviewResponseSchema,
   invitationTokenBodySchema,
   leaveOrgResponseSchema,
+  localeSchema,
   meResponseSchema,
   orgDetailResponseSchema,
   orgInvitationParamsSchema,
@@ -30,6 +31,7 @@ import {
   renameOrgResponseSchema,
   revokeInvitationResponseSchema,
   sessionProbeResponseSchema,
+  setLocaleBodySchema,
   signInResponseSchema,
   workerHealthResponseSchema,
   workspacesResponseSchema,
@@ -168,6 +170,8 @@ const profile = {
   status: 'active',
   lastSignInAt: '2026-09-25T02:03:04.000Z',
   createdAt: '2026-09-20T08:00:00.000Z',
+  localePref: null,
+  localePrefSetAt: null,
 } satisfies Profile;
 
 describe('M2-AC02/2 identity responses are allow-lists', () => {
@@ -183,13 +187,12 @@ describe('M2-AC02/2 identity responses are allow-lists', () => {
     }
   });
 
-  it('M2-AC02/2 strips unknown keys, so no token, session id or locale row leaks out', () => {
+  it('M2-AC02/2 strips unknown keys, so no token, session id or debug field leaks out', () => {
     const leaky = {
       profile: {
         ...profile,
         accessToken: 'eyJ-DO-NOT-LEAK',
         sessionId: 'b7c8d9ea-1234-4567-89ab-cdef01234567',
-        localePref: 'zh-Hans-MY',
       },
       session: { expiresAt: '2026-09-25T03:03:04.000Z', refreshToken: 'rt-DO-NOT-LEAK' },
       debugSql: 'select * from app.profiles',
@@ -197,21 +200,23 @@ describe('M2-AC02/2 identity responses are allow-lists', () => {
     const parsed = meResponseSchema.parse(leaky);
     expect(parsed).toEqual({ profile, session: { expiresAt: '2026-09-25T03:03:04.000Z' } });
     const text = JSON.stringify(parsed);
-    for (const secret of ['DO-NOT-LEAK', 'sessionId', 'localePref', 'debugSql']) {
+    for (const secret of ['DO-NOT-LEAK', 'sessionId', 'debugSql']) {
       expect(text).not.toContain(secret);
     }
   });
 
-  it('M2-AC02/2 profileSchema alone names six fields and nothing else', () => {
+  it('M2-AC02/2 profileSchema names eight fields and nothing else: the six of M2-02 and, since M2-04, localePref and localePrefSetAt', () => {
     expect(Object.keys(profileSchema.shape).sort()).toEqual([
       'contactEmail',
       'createdAt',
       'displayName',
       'id',
       'lastSignInAt',
+      'localePref',
+      'localePrefSetAt',
       'status',
     ]);
-    expect(profileSchema.parse({ ...profile, localePref: 'ms-MY' })).toEqual(profile);
+    expect(profileSchema.parse({ ...profile, someUnknownKey: 'nope' })).toEqual(profile);
   });
 
   it('M2-AC02/2 rejects a missing field, a status outside the domain and an id that is not a UUID', () => {
@@ -227,6 +232,43 @@ describe('M2-AC02/2 identity responses are allow-lists', () => {
     expect(signInResponseSchema.safeParse({ profile: { ...profile, contactEmail: null } }).success).toBe(false);
     // The probe's `ok` is the literal true: a falsy answer can never look like a pass.
     expect(sessionProbeResponseSchema.safeParse({ ok: false, checkedAt: profile.lastSignInAt }).success).toBe(false);
+  });
+});
+
+// --- M2-04: the language preference on the account ---------------------------
+
+describe('M2-AC04/1 the locale schemas', () => {
+  it('M2-AC04/1 localeSchema accepts exactly the three codes and refuses en, en-US, zh-Hant-MY and an empty string', () => {
+    for (const code of ['en-MY', 'ms-MY', 'zh-Hans-MY'] as const) {
+      expect(localeSchema.safeParse(code).success).toBe(true);
+    }
+    for (const bad of ['en', 'en-US', 'zh-Hant-MY', '']) {
+      expect(localeSchema.safeParse(bad).success).toBe(false);
+    }
+  });
+
+  it('M2-AC04/1 setLocaleBodySchema strips a userId and refuses a missing or invalid locale', () => {
+    expect(setLocaleBodySchema.parse({ locale: 'ms-MY', userId: 'someone-elses-id' })).toEqual({ locale: 'ms-MY' });
+    expect(setLocaleBodySchema.safeParse({}).success).toBe(false);
+    expect(setLocaleBodySchema.safeParse({ locale: 'en-US' }).success).toBe(false);
+    expect(setLocaleBodySchema.safeParse({ locale: '' }).success).toBe(false);
+  });
+
+  it('M2-AC04/1 profileSchema requires both locale fields, accepts both null or a code with its instant, and refuses a non-locale localePref', () => {
+    // Both keys are required, even though their values may be null.
+    const withoutLocalePref: Record<string, unknown> = { ...profile };
+    delete withoutLocalePref.localePref;
+    expect(profileSchema.safeParse(withoutLocalePref).success).toBe(false);
+    const withoutLocalePrefSetAt: Record<string, unknown> = { ...profile };
+    delete withoutLocalePrefSetAt.localePrefSetAt;
+    expect(profileSchema.safeParse(withoutLocalePrefSetAt).success).toBe(false);
+    // Both null: nobody has chosen yet.
+    expect(profileSchema.parse(profile)).toEqual(profile);
+    // A code with its instant: an explicit choice on record.
+    const withPreference = { ...profile, localePref: 'zh-Hans-MY', localePrefSetAt: '2026-09-26T00:00:00.000Z' };
+    expect(profileSchema.parse(withPreference)).toEqual(withPreference);
+    // A non-locale localePref is refused outright.
+    expect(profileSchema.safeParse({ ...profile, localePref: 'en-US' }).success).toBe(false);
   });
 });
 

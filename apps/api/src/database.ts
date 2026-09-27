@@ -124,6 +124,11 @@ export async function withDatabase<T>(pool: Pool, fn: (client: PoolClient) => Pr
  * throw. The 503-versus-500 rule is unchanged: a lost connection becomes
  * DatabaseUnavailableError, anything else is rethrown as it is.
  *
+ * One transaction is not one snapshot. Under the READ COMMITTED below, each
+ * statement sees what had committed when it began, so a guard holds until COMMIT
+ * only for a row it locked. The liveness check locks nothing: a sign-out that
+ * commits after it is not seen by the write that follows (session-liveness.ts).
+ *
  * The isolation level is stated, never inherited (M2-03 R5 rev 3): READ
  * COMMITTED, whatever `default_transaction_isolation` the server, the database
  * or the role sets. R5's lock order depends on it — step 5 re-reads the caller's

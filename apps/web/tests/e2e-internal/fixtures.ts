@@ -25,9 +25,14 @@
  * then reads the project's own `baseURL`; that is how `outage.spec.ts` and
  * `database-outage.spec.ts` get a signed-in page on their instance.
  *
+ * THE LANGUAGE PROMPT (M2-04). `tagged` and `openDevice` start every context
+ * with the prompt answered, except in the `locale` project, whose rows are
+ * about the prompt (`answerLocalePrompt` says why).
+ *
  * This module deliberately imports nothing from `src/`: it is type-checked by
  * tests/e2e-internal/tsconfig.json as plain Node beside the fake auth server.
- * Locale cookies and evidence frames stay in support.ts.
+ * Setting the language, reading the locale cookies and evidence frames stay in
+ * support.ts.
  */
 import { createServer, request as httpRequest, type IncomingHttpHeaders, type IncomingMessage, type Server } from 'node:http';
 import { createHash, randomUUID } from 'node:crypto';
@@ -84,6 +89,50 @@ export const NEXT_COOKIE = 'wringy-auth-next';
 
 /** The prefix `@supabase/ssr` gives every cookie of its own, session and PKCE alike. */
 export const SESSION_COOKIE_PREFIX = 'sb-';
+
+/**
+ * The four language cookies of the internal build (m2-04-code-review.md §3, R3,
+ * R4, R6). `src/lib/locale/cookies.ts` is the one module of the app that names
+ * them; this module may import nothing from `src/`, so it mirrors the names the
+ * way `NEXT_COOKIE` mirrors the return-path cookie.
+ *
+ * - `guest`: the guest's explicit saved preference (script-readable, one year);
+ * - `session`: an explicit choice the signed-in account does not hold yet, as
+ *   `<locale>.<epoch ms>` (the instant it was made, so a newer account save wins);
+ * - `carry`: the choice made on the sign-in page, for the sign-in that starts now
+ *   (path `/auth`, ten minutes);
+ * - `prompt`: the language prompt was answered or skipped in this browsing session.
+ */
+export const LOCALE_COOKIES = {
+  guest: 'wringy-locale',
+  session: 'wringy-locale-session',
+  carry: 'wringy-locale-carry',
+  prompt: 'wringy-locale-prompt',
+} as const;
+export type LocaleCookieName = (typeof LOCALE_COOKIES)[keyof typeof LOCALE_COOKIES];
+
+/** The one project whose rows are about the language prompt, so the only one that meets it unanswered. */
+export const LOCALE_PROJECT = 'locale';
+
+/**
+ * Marks the language prompt as answered in `context`, for every project except
+ * `locale` (m2-04-code-review.md R13, §1).
+ *
+ * Every signed-in row of M2-01–03 resolves its language with `source: browser`
+ * (the runner's own context sends `Accept-Language: en-US`, and a hand-made one
+ * sends none, which is `source: default`), and those rows set no account
+ * preference; so without this cookie each of them would meet the M2-04 prompt
+ * above its page content. The prompt is M2-04's evidence, not theirs, so their
+ * contexts start with it answered. The cookie is written for the HEALTHY origin
+ * as the app writes it (httpOnly, SameSite=Lax); cookies are host-scoped, not
+ * port-scoped, so the outage instance sees it too.
+ */
+async function answerLocalePrompt(context: BrowserContext, projectName: string): Promise<void> {
+  if (projectName === LOCALE_PROJECT) return;
+  await context.addCookies([
+    { name: LOCALE_COOKIES.prompt, value: '1', url: HEALTHY_WEB_ORIGIN, httpOnly: true, sameSite: 'Lax' },
+  ]);
+}
 
 /**
  * A `sb-*` cookie that is NOT a session.
@@ -511,12 +560,23 @@ export interface SignedIn extends Device {
   user: FakeUser;
 }
 
+export interface OpenDeviceOptions {
+  /**
+   * The browser's language, as Playwright's `locale` context option: the context
+   * then sends exactly this one tag as `Accept-Language` (m2-04-code-review.md
+   * §1). Left out, a hand-made context sends no `Accept-Language` at all, which
+   * the internal build resolves as `source: default` — the "new device with no
+   * language of its own" of the M2-04 rows.
+   */
+  locale?: string;
+}
+
 /**
  * Opens a second browser for the rows that need two people, or the same person
  * twice. The suffix becomes part of its tag, so the two sets of auth calls stay
  * apart, and the context is closed when the test ends.
  */
-export type OpenDevice = (suffix: string) => Promise<Device>;
+export type OpenDevice = (suffix: string, options?: OpenDeviceOptions) => Promise<Device>;
 
 export interface InternalFixtures {
   /** A value unique to this test, stamped on every request the test's contexts make. */
@@ -552,8 +612,9 @@ export const test = base.extend<InternalFixtures>({
   control: async ({}, provide) => {
     await provide(authControl);
   },
-  tagged: async ({ context, page, tag, control }, provide) => {
+  tagged: async ({ context, page, tag, control }, provide, testInfo) => {
     await context.setExtraHTTPHeaders({ [TEST_TAG_HEADER]: tag });
+    await answerLocalePrompt(context, testInfo.project.name);
     await provide({ page, context, tag, control });
   },
   signedIn: async ({ tagged }, provide) => {
@@ -564,9 +625,9 @@ export const test = base.extend<InternalFixtures>({
     );
     await provide({ ...tagged, user: FAKE_USERS.alice });
   },
-  openDevice: async ({ browser, baseURL, tag, control, viewport }, provide) => {
+  openDevice: async ({ browser, baseURL, tag, control, viewport }, provide, testInfo) => {
     const opened: BrowserContext[] = [];
-    const open: OpenDevice = async (suffix) => {
+    const open: OpenDevice = async (suffix, { locale } = {}) => {
       const deviceTag = `${tag}-${suffix}`;
       const context = await browser.newContext({
         baseURL,
@@ -575,9 +636,12 @@ export const test = base.extend<InternalFixtures>({
         // override, so a second person's page is sized like the test's own
         // (m2-03-code-review.md §1 and R13: the 390/320 rows of the orgs spec).
         viewport,
+        // The browser's language, only when the row names one (see OpenDeviceOptions).
+        ...(locale === undefined ? {} : { locale }),
         extraHTTPHeaders: { [TEST_TAG_HEADER]: deviceTag },
       });
       opened.push(context);
+      await answerLocalePrompt(context, testInfo.project.name);
       return { page: await context.newPage(), context, tag: deviceTag, control };
     };
     await provide(open);

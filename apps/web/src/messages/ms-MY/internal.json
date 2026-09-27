@@ -261,6 +261,43 @@
       }
     }
   },
+  "locale": {
+    "apply": "Guna",
+    "card": {
+      "title": "Tetapan · Bahasa pilihan",
+      "description": "Disimpan pada akaun anda dan digunakan pada setiap peranti yang anda gunakan untuk log masuk.",
+      "fieldLabel": "Bahasa pilihan",
+      "save": "Simpan",
+      "notSet": "Belum ditetapkan",
+      "savedAs": "Disimpan: {name}",
+      "savedAt": "Disimpan {time}"
+    },
+    "live": {
+      "pending": "Menukar bahasa…",
+      "savedAccount": "Bahasa ditukar dan disimpan pada akaun anda",
+      "savedGuest": "Bahasa ditukar dan disimpan dalam pelayar ini",
+      "notSaved": "Bahasa ditukar, pilihan tidak disimpan",
+      "notSwitched": "Bahasa tidak dapat ditukar. Cuba lagi.",
+      "refused": "Pelayar ini enggan menyimpan pilihan itu, jadi bahasa tidak ditukar. Benarkan kuki dan cuba lagi.",
+      "notSkipped": "Pilihan untuk melangkau soalan bahasa tidak dapat direkodkan. Cuba lagi."
+    },
+    "status": {
+      "unsaved": "Anda telah menukar kepada {name}, tetapi pilihan itu belum disimpan pada akaun anda.",
+      "retry": "Cuba lagi",
+      "synced": "Disimpan sebagai bahasa akaun anda.",
+      "syncedFrom": "Disimpan sebagai bahasa akaun anda (sebelum ini {name}).",
+      "change": "Tukar dalam Tetapan",
+      "undo": "Buat asal",
+      "regionLabel": "Notis bahasa"
+    },
+    "prompt": {
+      "selectLabel": "Bahasa",
+      "description": "Anda boleh menukarnya pada bila-bila masa melalui menu Bahasa di bahagian atas setiap halaman."
+    },
+    "critical": {
+      "unavailable": "Penerangan untuk tindakan ini belum tersedia dalam bahasa semasa. Tukar kepada bahasa yang tersedia sepenuhnya sebelum mengesahkan."
+    }
+  },
   "outcomes": {
     "created": "Organisasi telah dicipta. Anda pentadbirnya.",
     "renamed": "Nama organisasi telah disimpan.",
@@ -285,6 +322,10 @@
     "invitation_expired": "Jemputan itu telah tamat tempoh, jadi anda tidak ditambah. Minta pentadbir untuk jemputan baharu.",
     "invitation_used": "Jemputan itu telah digunakan, jadi tiada apa-apa diubah.",
     "invitation_mismatch": "Jemputan itu dihantar kepada alamat lain, jadi anda tidak ditambah.",
-    "invalid_name": "Nama itu tidak boleh digunakan, jadi tiada apa-apa diubah. Gunakan 1 hingga 100 aksara, bukan ruang kosong sahaja, dan tanpa aksara pemformatan tersembunyi."
+    "invalid_name": "Nama itu tidak boleh digunakan, jadi tiada apa-apa diubah. Gunakan 1 hingga 100 aksara, bukan ruang kosong sahaja, dan tanpa aksara pemformatan tersembunyi.",
+    "locale_saved": "Pilihan bahasa telah disimpan.",
+    "locale_switched": "Bahasa telah ditukar.",
+    "locale_not_saved": "Bahasa telah ditukar, tetapi pilihan itu tidak dapat disimpan. Tekan Cuba lagi pada notis di atas untuk menyimpannya.",
+    "locale_synced": "Disimpan sebagai bahasa akaun anda."
   }
 }

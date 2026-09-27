@@ -19,6 +19,10 @@
  * migrator because the runtime role has no SELECT on it. `underBarrier` runs
  * requests that must contend for one org's lock at the same moment (the R13
  * barrier rows of authorize.int.test.ts and invitations.int.test.ts).
+ *
+ * M2-04 generalises the barrier to any row lock and adds `underProfileBarrier`,
+ * the same barrier on a person's profile row, for the language-preference
+ * command's rows in locale.int.test.ts (M2-04 R13 *api int*).
  */
 import pg from 'pg';
 import { expect } from 'vitest';
@@ -402,33 +406,61 @@ export function logsOfRequest(logs: LogCapture, requestId: string): Array<Record
   return logs.records.filter((record) => record.reqId === requestId);
 }
 
+/** The row lock a barrier holds: one statement, run as the migrator inside the barrier's transaction. */
+export interface BarrierLock {
+  sql: string;
+  params: unknown[];
+  /** Names the lock in the error raised when the requests never reach it. */
+  what: string;
+}
+
+export interface BarrierOptions {
+  /** Start each request only once every one before it waits on the lock. */
+  inOrder?: boolean;
+  /**
+   * Runs on the barrier's own transaction once every request waits, just before
+   * its COMMIT: an operator's change (disabling the account, say) that the
+   * waiting requests must meet when the lock is granted to them.
+   */
+  beforeCommit?: (barrier: pg.Client) => Promise<unknown>;
+}
+
+/** The org row, the one mutex every org command takes first (M2-03 R5). */
+function orgRowLock(orgId: string): BarrierLock {
+  return { sql: 'SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', params: [orgId], what: 'the org lock' };
+}
+
 /**
- * A barrier for the R13 concurrency rows. Holds `orgId`'s row `FOR UPDATE` as
- * the migrator in an open transaction, starts `requests`, waits until
- * `requests.length` API backends wait on a lock, commits, and returns the
- * responses — all inside the API's statement timeout. Both requests therefore
- * contend for the org lock at the same moment, every time. The wait is read from
- * `pg_stat_activity` every 25 ms as the cluster admin: PostgreSQL shows another
- * role's `wait_event_type` only to a superuser or a `pg_read_all_stats` member.
+ * A barrier for the R13 concurrency rows. Holds a row lock as the migrator in an
+ * open transaction — `orgId`'s row `FOR UPDATE` when given an org id, or any
+ * `BarrierLock` — starts `requests`, waits until `requests.length` API backends
+ * wait on a lock, commits, and returns the responses, all inside the API's
+ * statement timeout. Both requests therefore contend for the lock at the same
+ * moment, every time. The wait is read from `pg_stat_activity` every 25 ms as the
+ * cluster admin: PostgreSQL shows another role's `wait_event_type` only to a
+ * superuser or a `pg_read_all_stats` member.
  *
  * With `inOrder`, each request is started only once every one before it waits on
  * the lock, so they are granted it in the order given: PostgreSQL hands a row
  * lock to its waiters in the order they queued (the first waiter holds the tuple
- * lock, the others queue behind it).
+ * lock, the others queue behind it). `beforeCommit` runs on the barrier's
+ * transaction after the last request waits, so what it writes is committed
+ * together with the release.
  */
 export async function underBarrier<T>(
   db: TestDatabase,
-  orgId: string,
+  lockOrOrgId: BarrierLock | string,
   requests: Array<() => Promise<T>>,
-  { inOrder = false } = {},
+  { inOrder = false, beforeCommit }: BarrierOptions = {},
 ): Promise<T[]> {
+  const lock = typeof lockOrOrgId === 'string' ? orgRowLock(lockOrOrgId) : lockOrOrgId;
   const barrier = new pg.Client({ connectionString: db.urls.migrator, application_name: 'wringy-test-barrier' });
   await barrier.connect();
   let open = false;
   try {
     await barrier.query('BEGIN');
     open = true;
-    await barrier.query('SELECT id FROM app.orgs WHERE id = $1 FOR UPDATE', [orgId]);
+    await barrier.query(lock.sql, lock.params);
     const started = Date.now();
     const waitingOnTheLock = (count: number) =>
       withClientAt(cluster().adminUrl, async (admin) => {
@@ -439,7 +471,7 @@ export async function underBarrier<T>(
             [db.name, API_APPLICATION_NAME],
           );
           if ((rows[0]?.waiting ?? 0) >= count) return;
-          if (Date.now() - started > 3_000) throw new Error('the requests never reached the org lock');
+          if (Date.now() - started > 3_000) throw new Error(`the requests never reached ${lock.what}`);
           await new Promise((resolve) => setTimeout(resolve, 25));
         }
       });
@@ -458,6 +490,7 @@ export async function underBarrier<T>(
       pending.catch(() => {});
       await waitingOnTheLock(requests.length);
     }
+    if (beforeCommit !== undefined) await beforeCommit(barrier);
     await barrier.query('COMMIT');
     open = false;
     const responses = await pending;
@@ -467,4 +500,25 @@ export async function underBarrier<T>(
     if (open) await barrier.query('ROLLBACK').catch(() => {});
     await barrier.end();
   }
+}
+
+/**
+ * `underBarrier` on a person's profile row (M2-04 R13): the migrator holds
+ * `SELECT id FROM app.profiles WHERE id = $1 FOR UPDATE`, which every command
+ * that writes the profile waits on (`POST /me/locale` locks it `FOR NO KEY
+ * UPDATE` first). The operator's side of a race — disabling the account while
+ * the request waits — is `beforeCommit`.
+ */
+export function underProfileBarrier<T>(
+  db: TestDatabase,
+  userId: string,
+  requests: Array<() => Promise<T>>,
+  options: BarrierOptions = {},
+): Promise<T[]> {
+  return underBarrier(
+    db,
+    { sql: 'SELECT id FROM app.profiles WHERE id = $1 FOR UPDATE', params: [userId], what: 'the profile lock' },
+    requests,
+    options,
+  );
 }

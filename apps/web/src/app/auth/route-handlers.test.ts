@@ -77,6 +77,8 @@ const PROFILE = {
   status: 'active',
   lastSignInAt: '2026-09-25T01:00:00.000Z',
   createdAt: '2026-09-20T01:00:00.000Z',
+  localePref: null,
+  localePrefSetAt: null,
 };
 
 function internalEnv(): void {
@@ -354,6 +356,24 @@ describe('M2-AC02/1 callback: each way the provider leg can end shows its own lo
       const location = new URL(response.headers.get('location') as string);
       expect(location.origin, hostile).toBe(APP_ORIGIN);
       expect(location.pathname, hostile).toBe('/internal');
+    }
+  });
+
+  it('M2-AC02/3 callback: a next whose dot segments resolve to //host still lands on APP_ORIGIN', async () => {
+    // The callback resolves the stored path against APP_ORIGIN in one step and never
+    // re-parses the pathname it gets, so the `//evil.example` a dot segment leaves is
+    // a path on this origin, not a host (the locale handler's re-parse is the one that
+    // needed a second safeNextPath).
+    for (const hostile of ['/internal/..//evil.example', '/.//evil.example/x', '/%2e%2e//evil.example']) {
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-auth-next', hostile);
+      stubApi(() => json(200, { profile: PROFILE }));
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      const location = new URL(response.headers.get('location') as string);
+      expect(location.origin, hostile).toBe(APP_ORIGIN);
+      expect(location.host, hostile).toBe('127.0.0.1:3100');
     }
   });
 
@@ -662,6 +682,370 @@ describe('M2-AC02/2 disabled: GET /auth/end-session, the cookie write the /inter
     }
     for (const failure of ['api-unavailable', 'api-unreachable', 'unexpected'] as const) {
       expect(endingOutcome({ kind: 'failure', failure }), failure).toBeNull();
+    }
+  });
+});
+
+// --- M2-04: the language chosen on the sign-in page, and the unsaved choice ------
+
+/** The session cookie as `@supabase/ssr` writes it. */
+const storedSessionOf = (accessToken: string) =>
+  `base64-${Buffer.from(JSON.stringify({ access_token: accessToken }), 'utf8').toString('base64url')}`;
+
+/** True when `response` expires `name` (an empty value with Max-Age=0). */
+const expiresCookie = (response: Response, name: string): boolean =>
+  response.headers.getSetCookie().some((header) => header.startsWith(`${name}=;`) && /Max-Age=0/i.test(header));
+
+const setCookieOf = (response: Response, name: string) =>
+  (response as unknown as { cookies: { get(name: string): Record<string, unknown> | undefined } }).cookies.get(name);
+
+describe('M2-AC04/2 carry: the sign-in page’s choice is carried into the account by the sign-in it belongs to', () => {
+  const CARRIED = { profile: { ...PROFILE, localePref: 'zh-Hans-MY', localePrefSetAt: '2026-09-27T01:00:05.000Z' } };
+
+  /** Route the stub by path: the sign-in, then the locale command. */
+  const stubSignIn = (signInAnswer: () => Response, localeAnswer: () => Response = () => json(200, CARRIED)) =>
+    stubApi((url) => (url.endsWith('/me/locale') ? localeAnswer() : signInAnswer()));
+
+  const landing = (response: Response) => new URL(response.headers.get('location') as string);
+
+  it('M2-AC04/2 carry: a valid carry that differs is saved with the exchange’s token, and the landing says so with from', async () => {
+    authBehaviour.exchangeCodeForSession = writesSession;
+    incoming.set('wringy-auth-next', '/internal/invitations/accept?token=inviteToken_0123456789-abcdefghijklmnopqrst');
+    incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+    const apiCalls = stubSignIn(() =>
+      json(200, { profile: { ...PROFILE, localePref: 'ms-MY', localePrefSetAt: '2026-09-26T01:00:00.000Z' } }),
+    );
+
+    const response = await callback(get('/auth/callback?code=abc'));
+
+    expect(apiCalls.map((call) => call.url)).toEqual([
+      'http://127.0.0.1:3200/identity/sign-in',
+      'http://127.0.0.1:3200/me/locale',
+    ]);
+    expect((apiCalls[1]?.init.headers as Record<string, string>).authorization).toBe('Bearer token-abc');
+    expect(JSON.parse(String(apiCalls[1]?.init.body))).toEqual({ locale: 'zh-Hans-MY' });
+
+    const url = landing(response);
+    expect(url.origin).toBe(APP_ORIGIN);
+    expect(url.pathname).toBe('/internal/invitations/accept');
+    // The invitation's own query survives; the outcome and from are set, not concatenated.
+    expect(url.searchParams.get('token')).toBe('inviteToken_0123456789-abcdefghijklmnopqrst');
+    expect(url.searchParams.get('outcome')).toBe('locale_synced');
+    expect(url.searchParams.get('from')).toBe('ms-MY');
+
+    expect(expiresCookie(response, 'wringy-locale-carry'), 'the carry is used once').toBe(true);
+    expect(setCookieOf(response, 'wringy-locale-carry')?.path).toBe('/auth');
+    expect(expiresCookie(response, 'wringy-locale-session')).toBe(true);
+    expect(setCookieOf(response, SESSION_COOKIE)?.value, 'the new session stays').toBe('new-session');
+    expectNoStore(response);
+  });
+
+  it('M2-AC04/2 carry: an account with no preference lands with from=none', async () => {
+    authBehaviour.exchangeCodeForSession = writesSession;
+    incoming.set('wringy-locale-carry', 'ms-MY');
+    stubSignIn(() => json(200, { profile: PROFILE }));
+
+    const url = landing(await callback(get('/auth/callback?code=abc')));
+
+    expect(url.pathname).toBe('/internal');
+    expect(url.searchParams.get('outcome')).toBe('locale_synced');
+    expect(url.searchParams.get('from')).toBe('none');
+  });
+
+  it('M2-AC04/1 shared device: the carry uses the new sign-in’s token, never the stale session the browser arrived with', async () => {
+    // Somebody else's session is still in this browser; the exchange signs the new person in.
+    incoming.set(SESSION_COOKIE, storedSessionOf('token-of-somebody-else'));
+    incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+    authBehaviour.exchangeCodeForSession = writesSession;
+    const apiCalls = stubSignIn(() => json(200, { profile: PROFILE }));
+
+    await callback(get('/auth/callback?code=abc'));
+
+    const authorizations = apiCalls.map((call) => (call.init.headers as Record<string, string>).authorization);
+    expect(authorizations).toEqual(['Bearer token-abc', 'Bearer token-abc']);
+  });
+
+  it('M2-AC04/2 carry: a carry equal to the account’s preference, or none at all, calls nothing more and shows no notice', async () => {
+    for (const carry of ['ms-MY', undefined]) {
+      incoming.clear();
+      authBehaviour.exchangeCodeForSession = writesSession;
+      if (carry !== undefined) incoming.set('wringy-locale-carry', carry);
+      // A guest preference from an earlier browsing session: never carried.
+      incoming.set('wringy-locale', 'zh-Hans-MY');
+      const apiCalls = stubSignIn(() =>
+        json(200, { profile: { ...PROFILE, localePref: 'ms-MY', localePrefSetAt: '2026-09-26T01:00:00.000Z' } }),
+      );
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      expect(apiCalls.map((call) => call.url), String(carry)).toEqual(['http://127.0.0.1:3200/identity/sign-in']);
+      expect(response.headers.get('location'), String(carry)).toBe(`${APP_ORIGIN}/internal`);
+      expect(setCookieOf(response, 'wringy-locale'), 'the guest cookie is left as it is').toBeUndefined();
+    }
+  });
+
+  it('M2-AC04/2 carry: an invalid carry is expired without calling the API', async () => {
+    for (const carry of ['', 'en', 'zh-Hant-MY', '<script>']) {
+      incoming.clear();
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-locale-carry', carry);
+      const apiCalls = stubSignIn(() => json(200, { profile: PROFILE }));
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      expect(apiCalls, JSON.stringify(carry)).toHaveLength(1);
+      expect(expiresCookie(response, 'wringy-locale-carry'), JSON.stringify(carry)).toBe(true);
+      expect(landing(response).searchParams.get('outcome'), JSON.stringify(carry)).toBeNull();
+    }
+  });
+
+  it('M2-AC04/2 carry: a carry that could not be saved keeps the choice for this session and lands with locale_not_saved', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    for (const answer of [
+      () => json(401, { error: { code: 'auth.expired', message: 'x' } }),
+      () => json(503, { error: { code: 'database_unavailable', message: 'x' } }),
+      () => json(500, {}),
+    ]) {
+      incoming.clear();
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+      stubSignIn(() => json(200, { profile: PROFILE }), answer);
+
+      const before = Date.now();
+      const response = await callback(get('/auth/callback?code=abc'));
+      const after = Date.now();
+
+      const url = landing(response);
+      expect(url.searchParams.get('outcome')).toBe('locale_not_saved');
+      expect(url.searchParams.get('from')).toBeNull();
+      expect(setCookieOf(response, 'wringy-locale-session')).toMatchObject({ httpOnly: true, path: '/' });
+      // The unsaved choice carries the instant it was made (N1): `<locale>.<epoch ms>`.
+      const [locale, stamp] = String(setCookieOf(response, 'wringy-locale-session')?.value).split('.');
+      expect(locale).toBe('zh-Hans-MY');
+      expect(stamp).toMatch(/^\d+$/);
+      expect(Number(stamp)).toBeGreaterThanOrEqual(before);
+      expect(Number(stamp)).toBeLessThanOrEqual(after);
+      expect(expiresCookie(response, 'wringy-locale-carry')).toBe(true);
+      expect(setCookieOf(response, SESSION_COOKIE)?.value, 'the person is signed in all the same').toBe('new-session');
+    }
+  });
+
+  it('M2-AC04/2 carry: a carry refused as account.disabled signs the new session out, leaves no sb-* cookie and says disabled', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    authBehaviour.exchangeCodeForSession = writesSession;
+    authBehaviour.signOut = () => ({ error: { name: 'AuthRetryableFetchError' } });
+    incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+    stubSignIn(
+      () => json(200, { profile: PROFILE }),
+      () => json(403, { error: { code: 'account.disabled', message: 'x' } }),
+    );
+
+    const response = await callback(get('/auth/callback?code=abc'));
+
+    expect(landing(response).searchParams.get('outcome')).toBe('disabled');
+    expect(calls.signOut).toEqual([{ scope: 'local' }]);
+    const kept = response.headers.getSetCookie().filter((header) => header.startsWith('sb-') && !/Max-Age=0/i.test(header));
+    expect(kept).toEqual([]);
+    expect(expiresCookie(response, 'wringy-locale-carry')).toBe(true);
+    expect(expiresCookie(response, 'wringy-locale-session')).toBe(true);
+  });
+
+  /** True when `response` writes anything at all for `name` (a value or an expiry). */
+  const touches = (response: Response, name: string): boolean =>
+    response.headers.getSetCookie().some((header) => header.startsWith(`${name}=`));
+
+  it('M2-AC04/1 shared device: a refusal that names the person makes no locale call and spends the carry', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const answers: [string, () => Response][] = [
+      ['not_allowed', () => json(403, { error: { code: 'sign_in.not_allowed', message: 'x' } })],
+      ['disabled', () => json(403, { error: { code: 'account.disabled', message: 'x' } })],
+    ];
+    for (const [label, answer] of answers) {
+      incoming.clear();
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+      incoming.set('wringy-locale-session', 'ms-MY');
+      const apiCalls = stubSignIn(answer);
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      expect(apiCalls.map((call) => call.url), label).toEqual(['http://127.0.0.1:3200/identity/sign-in']);
+      expect(landing(response).searchParams.get('outcome'), label).toBe(label);
+      // The choice was this refused person's: it never reaches whoever signs in next.
+      expect(expiresCookie(response, 'wringy-locale-carry'), label).toBe(true);
+      // The new session was signed out again: whatever was unsaved goes with it.
+      expect(expiresCookie(response, 'wringy-locale-session'), label).toBe(true);
+      expect(landing(response).searchParams.get('from'), label).toBeNull();
+    }
+  });
+
+  it('M2-AC04/2 carry: a sign-in the API could not answer keeps the carry for the retry, and makes no locale call', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const answers: [string, () => void][] = [
+      ['500', () => stubSignIn(() => json(500, {}))],
+      ['503', () => stubSignIn(() => json(503, { error: { code: 'database_unavailable', message: 'x' } }))],
+      ['unreachable', () => vi.stubGlobal('fetch', () => Promise.reject(Object.assign(new Error('connect'), { code: 'ECONNREFUSED' })))],
+    ];
+    for (const [label, arrange] of answers) {
+      incoming.clear();
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+      incoming.set('wringy-locale-session', 'ms-MY');
+      arrange();
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      expect(landing(response).searchParams.get('outcome'), label).toBe('unexpected');
+      expect(touches(response, 'wringy-locale-carry'), `${label}: the carry is neither spent nor rewritten`).toBe(false);
+      // The new session was signed out again all the same, and whatever was unsaved with it.
+      expect(expiresCookie(response, 'wringy-locale-session'), label).toBe(true);
+    }
+  });
+
+  it('M2-AC04/2 carry: the exits before the API knows who it is keep the carry, and nothing else of the language', async () => {
+    const exits: [string, () => void][] = [
+      ['/auth/callback?error=access_denied', () => {}],
+      ['/auth/callback?error=server_error&error_code=flow_state_not_found', () => {}],
+      ['/auth/callback', () => {}],
+      [
+        '/auth/callback?code=abc',
+        () => (authBehaviour.exchangeCodeForSession = () => ({ data: null, error: { name: 'AuthApiError', code: 'flow_state_expired', status: 422 } })),
+      ],
+      [
+        '/auth/callback?code=abc',
+        () => (authBehaviour.exchangeCodeForSession = () => ({ data: null, error: { name: 'AuthApiError', code: 'bad_code_verifier', status: 400 } })),
+      ],
+      ['/auth/callback?code=abc', () => (authBehaviour.exchangeCodeForSession = () => ({ data: { session: null }, error: null }))],
+    ];
+    for (const [index, [path, arrange]] of exits.entries()) {
+      incoming.clear();
+      authBehaviour = {};
+      incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+      incoming.set('wringy-locale-session', 'ms-MY');
+      arrange();
+      const apiCalls = stubApi(() => json(200, {}));
+
+      const response = await callback(get(path));
+
+      const label = `${index}: ${path}`;
+      expect(response.status, label).toBe(303);
+      expect(touches(response, 'wringy-locale-carry'), `${label}: the carry is kept`).toBe(false);
+      // No session ended here, so the session choice is untouched too.
+      expect(setCookieOf(response, 'wringy-locale-session'), label).toBeUndefined();
+      expect(apiCalls, label).toHaveLength(0);
+    }
+  });
+
+  it('M2-AC04/2 carry: after a cancelled attempt, the retry carries the choice into the account and says what it replaced', async () => {
+    // Gopal (account ms-MY) chose Chinese on the sign-in page, then cancelled at Google.
+    incoming.set('wringy-locale-carry', 'zh-Hans-MY');
+    const firstCalls = stubApi(() => json(200, {}));
+
+    const cancelled = await callback(get('/auth/callback?error=access_denied'));
+
+    expect(landing(cancelled).searchParams.get('outcome')).toBe('cancelled');
+    expect(touches(cancelled, 'wringy-locale-carry'), 'the cancel keeps the carry').toBe(false);
+    expect(firstCalls).toHaveLength(0);
+
+    // He signs in again within the ten minutes; the browser still holds the carry.
+    authBehaviour.exchangeCodeForSession = writesSession;
+    const apiCalls = stubSignIn(() =>
+      json(200, { profile: { ...PROFILE, localePref: 'ms-MY', localePrefSetAt: '2026-09-26T01:00:00.000Z' } }),
+    );
+
+    const response = await callback(get('/auth/callback?code=abc'));
+
+    expect(apiCalls.map((call) => call.url)).toEqual(['http://127.0.0.1:3200/identity/sign-in', 'http://127.0.0.1:3200/me/locale']);
+    expect(JSON.parse(String(apiCalls[1]?.init.body))).toEqual({ locale: 'zh-Hans-MY' });
+    expect(landing(response).searchParams.get('outcome')).toBe('locale_synced');
+    expect(landing(response).searchParams.get('from')).toBe('ms-MY');
+    expect(expiresCookie(response, 'wringy-locale-carry'), 'spent by the sign-in that used it').toBe(true);
+  });
+
+  it('M2-AC04/2 carry: a sign-in the API let in spends the carry whether it was used, equal or invalid', async () => {
+    for (const carry of ['zh-Hans-MY', 'ms-MY', 'not-a-locale']) {
+      incoming.clear();
+      authBehaviour.exchangeCodeForSession = writesSession;
+      incoming.set('wringy-locale-carry', carry);
+      stubSignIn(() => json(200, { profile: { ...PROFILE, localePref: 'ms-MY', localePrefSetAt: '2026-09-26T01:00:00.000Z' } }));
+
+      const response = await callback(get('/auth/callback?code=abc'));
+
+      expect(expiresCookie(response, 'wringy-locale-carry'), carry).toBe(true);
+      expect(setCookieOf(response, 'wringy-locale-carry')?.path, carry).toBe('/auth');
+    }
+  });
+
+  it('M2-AC04/1 shared device: every successful sign-in expires the unsaved choice somebody before left behind', async () => {
+    authBehaviour.exchangeCodeForSession = writesSession;
+    incoming.set('wringy-locale-session', 'zh-Hans-MY');
+    stubSignIn(() => json(200, { profile: PROFILE }));
+
+    const response = await callback(get('/auth/callback?code=abc'));
+
+    expect(expiresCookie(response, 'wringy-locale-session')).toBe(true);
+    expect(setCookieOf(response, 'wringy-locale-session')).toMatchObject({ httpOnly: true, path: '/' });
+  });
+});
+
+describe('M2-AC04/1 shared device: ending a session takes its unsaved language choice with it', () => {
+  const languageCookies = (response: Response) =>
+    response.headers
+      .getSetCookie()
+      .map((header) => header.split('=')[0] as string)
+      .filter((name) => name.startsWith('wringy-locale'));
+
+  it('M2-AC04/1 shared device: sign-out expires wringy-locale-session and no other language cookie', async () => {
+    for (const confirmed of [true, false]) {
+      incoming.clear();
+      authBehaviour.signOut = () => ({ error: confirmed ? null : { name: 'AuthRetryableFetchError' } });
+      incoming.set(SESSION_COOKIE, 'good');
+      incoming.set('wringy-locale-session', 'zh-Hans-MY');
+      incoming.set('wringy-locale', 'ms-MY');
+      incoming.set('wringy-locale-prompt', '1');
+
+      const response = await signOut(post('/auth/sign-out'));
+
+      expect(expiresCookie(response, 'wringy-locale-session'), String(confirmed)).toBe(true);
+      expect(languageCookies(response), String(confirmed)).toEqual(['wringy-locale-session']);
+    }
+  });
+
+  it('M2-AC04/1 shared device: end-session expires it in its sign-out branch', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    incoming.set(SESSION_COOKIE, storedSessionOf('token-abc'));
+    incoming.set('wringy-locale-session', 'zh-Hans-MY');
+    stubApi(() => json(403, { error: { code: 'account.disabled', message: 'x' } }));
+
+    const response = await endSession();
+
+    expect(response.headers.get('location')).toBe(`${APP_ORIGIN}/internal/sign-in?outcome=disabled`);
+    expect(expiresCookie(response, 'wringy-locale-session')).toBe(true);
+    expect(languageCookies(response)).toEqual(['wringy-locale-session']);
+  });
+
+  it('M2-AC04/1 shared device: end-session with no token, a 200 or a 401 leaves every language cookie alone', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const LIVE = { profile: PROFILE, session: { expiresAt: '2026-09-25T02:00:00.000Z' } };
+    const arrangements: [string, () => void][] = [
+      ['no token', () => stubApi(() => json(200, {}))],
+      ['200', () => (incoming.set(SESSION_COOKIE, storedSessionOf('token-abc')), stubApi(() => json(200, LIVE)))],
+      [
+        '401',
+        () => (
+          incoming.set(SESSION_COOKIE, storedSessionOf('token-abc')),
+          stubApi(() => json(401, { error: { code: 'auth.expired', message: 'x' } }))
+        ),
+      ],
+    ];
+    for (const [label, arrange] of arrangements) {
+      incoming.clear();
+      incoming.set('wringy-locale-session', 'zh-Hans-MY');
+      arrange();
+
+      const response = await endSession();
+
+      expect(languageCookies(response), label).toEqual([]);
     }
   });
 });

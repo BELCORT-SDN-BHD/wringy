@@ -406,6 +406,8 @@ describe('M2-AC03 organisations and memberships through the API (simulated ident
         status: 'active',
         lastSignInAt: new Date().toISOString(),
         createdAt: new Date().toISOString(),
+        localePref: null,
+        localePrefSetAt: null,
       }),
     });
     await asMigrator(db, `UPDATE app.profiles SET status = 'disabled' WHERE id = $1`, [CAROL.userId]);

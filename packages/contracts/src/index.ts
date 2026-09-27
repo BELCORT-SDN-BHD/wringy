@@ -29,14 +29,27 @@ export type {
   WorkerState,
 } from './internal';
 export {
+  LOCALES,
   PROFILE_STATUSES,
+  localeSchema,
   meResponseSchema,
   profileSchema,
   profileStatusSchema,
   sessionProbeResponseSchema,
+  setLocaleBodySchema,
+  setLocaleResponseSchema,
   signInResponseSchema,
 } from './identity';
-export type { MeResponse, Profile, ProfileStatus, SessionProbeResponse, SignInResponse } from './identity';
+export type {
+  Locale,
+  MeResponse,
+  Profile,
+  ProfileStatus,
+  SessionProbeResponse,
+  SetLocaleBody,
+  SetLocaleResponse,
+  SignInResponse,
+} from './identity';
 export {
   INVITATION_LIFETIME_DAYS,
   INVITATION_PREVIEW_STATES,

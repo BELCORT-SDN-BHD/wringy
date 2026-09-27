@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { ApiFailureAlert } from './api-failure';
 import type { ApiRead } from './api-read';
 import { CREATE_ORG_PATH, orgPath } from './org-paths';
+import { RequestKeyField } from './request-key-field';
 import { ROLE_STYLE, StateBadge, styleOf } from './state-badge';
 
 /** `orgNameSchema`'s upper bound (packages/contracts/src/orgs.ts), as the input's own limit. */
@@ -29,6 +30,10 @@ const ORG_NAME_MAX_LENGTH = 100;
  *
  * Grants (`review`, `finance`, `ops_runtime`) stay in the response for M2-08 and
  * are not shown: nothing is operable behind them yet.
+ *
+ * The create form carries a request key (M2-04; m2-04-code-review.md R8): minted
+ * once on the client, kept across an in-place language switch with the name the
+ * person typed, and not read by the handler until M2-05 adds its consumer.
  */
 export async function WorkspacesSection({ read }: { read: ApiRead<WorkspacesResponse> }) {
   const t = await getTranslations('internal');
@@ -92,6 +97,7 @@ export async function WorkspacesSection({ read }: { read: ApiRead<WorkspacesResp
               className="flex flex-col gap-3 border-t pt-4 sm:flex-row sm:items-end"
               data-testid="create-org-form"
             >
+              <RequestKeyField />
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <Label htmlFor="create-org-name">{t('workspaces.create.nameLabel')}</Label>
                 <Input
