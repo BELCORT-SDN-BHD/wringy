@@ -287,7 +287,8 @@
       "synced": "Saved as your account language.",
       "syncedFrom": "Saved as your account language (was {name}).",
       "change": "Change in Settings",
-      "undo": "Undo"
+      "undo": "Undo",
+      "regionLabel": "Language notice"
     },
     "prompt": {
       "selectLabel": "Language"

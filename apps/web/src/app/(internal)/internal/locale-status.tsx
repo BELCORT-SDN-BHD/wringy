@@ -18,6 +18,12 @@
  *   not happen. With a previous language it offers Undo; always a way to the
  *   Language card.
  *
+ * Each notice is its own named region (`<section aria-label>`,
+ * `internal.locale.status.regionLabel`), rendered only while it shows. They sit
+ * between the banner and each page's `<main>`, and a `role="alert"` present when
+ * a document loads is not announced, so without a landmark of their own a
+ * screen-reader user moving by landmarks would skip the only Retry.
+ *
  * Both forms post to `POST /internal/locale` without JavaScript and go through
  * the in-place switch with it. A switch that succeeds removes the notice its
  * button sits in, so focus there moves to the header switcher before the
@@ -89,7 +95,7 @@ function UnsavedNotice({ locale }: { locale: Locale }) {
   const names = useTranslations('common.locale');
 
   return (
-    <div className={FRAME} {...TRANSIENT_PROPS}>
+    <section aria-label={t('regionLabel')} className={FRAME} {...TRANSIENT_PROPS}>
       <Alert variant="destructive" data-testid="locale-status-unsaved" data-locale={locale}>
         <CircleAlert aria-hidden="true" />
         <AlertTitle className="wrap-break-word">
@@ -103,7 +109,7 @@ function UnsavedNotice({ locale }: { locale: Locale }) {
           </ChooseForm>
         </AlertDescription>
       </Alert>
-    </div>
+    </section>
   );
 }
 
@@ -118,7 +124,7 @@ function SyncedNotice({ accountPreference }: { accountPreference: AccountPrefere
   if (from === null || accountPreference !== locale || from === locale) return null;
 
   return (
-    <div className={FRAME} {...TRANSIENT_PROPS}>
+    <section aria-label={t('regionLabel')} className={FRAME} {...TRANSIENT_PROPS}>
       <Alert data-testid="locale-status-synced" data-from={from}>
         <CircleCheck aria-hidden="true" />
         <AlertTitle className="wrap-break-word">
@@ -137,6 +143,6 @@ function SyncedNotice({ accountPreference }: { accountPreference: AccountPrefere
           </Link>
         </AlertDescription>
       </Alert>
-    </div>
+    </section>
   );
 }

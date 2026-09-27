@@ -287,7 +287,8 @@
       "synced": "Disimpan sebagai bahasa akaun anda.",
       "syncedFrom": "Disimpan sebagai bahasa akaun anda (sebelum ini {name}).",
       "change": "Tukar dalam Tetapan",
-      "undo": "Buat asal"
+      "undo": "Buat asal",
+      "regionLabel": "Notis bahasa"
     },
     "prompt": {
       "selectLabel": "Bahasa"

@@ -287,7 +287,8 @@
       "synced": "已保存为账号语言。",
       "syncedFrom": "已按本次选择保存为账号语言（原为 {name}）。",
       "change": "在设置中修改",
-      "undo": "撤销"
+      "undo": "撤销",
+      "regionLabel": "语言提示"
     },
     "prompt": {
       "selectLabel": "语言"
