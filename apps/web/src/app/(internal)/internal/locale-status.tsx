@@ -19,7 +19,9 @@
  *   Language card.
  *
  * Both forms post to `POST /internal/locale` without JavaScript and go through
- * the in-place switch with it.
+ * the in-place switch with it. A switch that succeeds removes the notice its
+ * button sits in, so focus there moves to the header switcher before the
+ * refresh (`TRANSIENT_PROPS`).
  */
 
 import { CircleAlert, CircleCheck } from 'lucide-react';
@@ -35,7 +37,7 @@ import type { AccountPreference } from '@/lib/locale/resolve';
 
 import { SLOT, withSlot } from './embed';
 import { LOCALE_ENDPOINT } from './locale-switch-logic';
-import { useLocaleSwitch } from './locale-switch-provider';
+import { TRANSIENT_PROPS, useLocaleSwitch } from './locale-switch-provider';
 import { fromOfQuery } from './outcomes';
 
 /** Where the synced notice's "change" link goes: the Language card on `/internal`. */
@@ -87,7 +89,7 @@ function UnsavedNotice({ locale }: { locale: Locale }) {
   const names = useTranslations('common.locale');
 
   return (
-    <div className={FRAME}>
+    <div className={FRAME} {...TRANSIENT_PROPS}>
       <Alert variant="destructive" data-testid="locale-status-unsaved" data-locale={locale}>
         <CircleAlert aria-hidden="true" />
         <AlertTitle className="wrap-break-word">
@@ -116,7 +118,7 @@ function SyncedNotice({ accountPreference }: { accountPreference: AccountPrefere
   if (from === null || accountPreference !== locale || from === locale) return null;
 
   return (
-    <div className={FRAME}>
+    <div className={FRAME} {...TRANSIENT_PROPS}>
       <Alert data-testid="locale-status-synced" data-from={from}>
         <CircleCheck aria-hidden="true" />
         <AlertTitle className="wrap-break-word">

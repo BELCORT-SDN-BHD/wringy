@@ -27,6 +27,9 @@
  *   stale answer is not acted on, but it is remembered (`wrote`), and a newest
  *   request that then fails re-renders what the server now holds instead of
  *   leaving the page in a language nothing holds any more.
+ * - **Skip** records nothing but the prompt's answer. It has its own pending
+ *   flag, so a second press while it is in flight sends nothing, and a failure
+ *   is announced (`not-skipped`) instead of passing in silence.
  */
 
 import { isLocale, type Locale } from '@/i18n/config';
@@ -56,8 +59,15 @@ export interface SkippedBody {
   readonly skipped: true;
 }
 
+/**
+ * The header switcher's `<select>` id. Before a refresh removes the control
+ * that has focus (the prompt's Continue and Skip, Retry, Undo), focus moves
+ * here: the header is on every internal page and a refresh keeps it.
+ */
+export const LOCALE_SWITCHER_ID = 'internal-locale-switcher';
+
 /** What the live region says, as `data-result`. Empty when nothing has happened yet. */
-export type LiveResult = 'saved-account' | 'saved-guest' | 'not-saved' | 'not-switched' | 'refused' | 'pending' | '';
+export type LiveResult = 'saved-account' | 'saved-guest' | 'not-saved' | 'not-switched' | 'refused' | 'not-skipped' | 'pending' | '';
 
 export interface SwitchState {
   /** The value of the request in flight, or null. */
@@ -74,9 +84,11 @@ export interface SwitchState {
    * the server may now render a language the page does not show yet.
    */
   readonly wrote: boolean;
+  /** A Skip is in flight: another press sends nothing until it settles. */
+  readonly skipping: boolean;
 }
 
-export const IDLE: SwitchState = { inFlight: null, queued: null, shown: null, result: '', reason: null, wrote: false };
+export const IDLE: SwitchState = { inFlight: null, queued: null, shown: null, result: '', reason: null, wrote: false, skipping: false };
 
 /** One answer, as the client reads it. */
 export type SwitchAnswer =
@@ -168,6 +180,31 @@ export function settle(state: SwitchState, answer: SwitchAnswer, guestStored: (l
 function wroteBy(answer: SwitchAnswer, guestStored: (locale: Locale) => boolean): boolean {
   if (answer.kind !== 'switched') return false;
   return answer.scope === 'account' || guestStored(answer.locale);
+}
+
+/** What a Skip press does: `send` is false while one is already in flight. */
+export interface SkipStep {
+  readonly state: SwitchState;
+  readonly send: boolean;
+}
+
+/**
+ * Skip pressed. A second press while the first is in flight sends nothing. A
+ * previous "could not skip" is cleared, so a second failure is announced again.
+ */
+export function skip(state: SwitchState): SkipStep {
+  if (state.skipping) return { state, send: false };
+  return { state: { ...state, skipping: true, result: state.result === 'not-skipped' ? '' : state.result }, send: true };
+}
+
+/**
+ * The Skip's answer. A 200 set the prompt cookie: re-render, and the prompt is
+ * gone. Anything else recorded nothing: the prompt stays and the live region
+ * says the answer could not be recorded.
+ */
+export function settleSkip(state: SwitchState, ok: boolean): Step {
+  if (ok) return { state: { ...state, skipping: false }, post: null, effect: 'refresh' };
+  return { state: { ...state, skipping: false, result: 'not-skipped', reason: null }, post: null, effect: 'none' };
 }
 
 const isReason = (value: unknown): value is SwitchReason =>

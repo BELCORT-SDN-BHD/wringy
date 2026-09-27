@@ -278,7 +278,8 @@
       "savedGuest": "已切换并保存到此浏览器",
       "notSaved": "已切换语言，偏好尚未保存",
       "notSwitched": "未能切换语言，请重试。",
-      "refused": "此浏览器拒绝保存该选择，因此语言没有切换。请允许 Cookie 后重试。"
+      "refused": "此浏览器拒绝保存该选择，因此语言没有切换。请允许 Cookie 后重试。",
+      "notSkipped": "未能记录跳过语言选择，请重试。"
     },
     "status": {
       "unsaved": "你已切换为{name}，但该偏好尚未保存到账号。",

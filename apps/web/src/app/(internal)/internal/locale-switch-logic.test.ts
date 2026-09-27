@@ -7,6 +7,8 @@ import {
   answerOf,
   choose,
   settle,
+  settleSkip,
+  skip,
   switchForm,
   withoutLocaleOutcome,
   type SwitchAnswer,
@@ -40,7 +42,7 @@ describe('M2-AC04/2 switch: one request in flight, and a newer choice replaces t
     const step = choose(IDLE, 'zh-Hans-MY');
     expect(step.post).toBe('zh-Hans-MY');
     expect(step.effect).toBe('none');
-    expect(step.state).toEqual({ inFlight: 'zh-Hans-MY', queued: null, shown: 'zh-Hans-MY', result: 'pending', reason: null, wrote: false });
+    expect(step.state).toEqual({ ...IDLE, inFlight: 'zh-Hans-MY', shown: 'zh-Hans-MY', result: 'pending' });
   });
 
   it('M2-AC04/2 switch: choices made while one is in flight post nothing; the newest replaces the pending value', () => {
@@ -71,7 +73,7 @@ describe('M2-AC04/2 switch: one request in flight, and a newer choice replaces t
 
     const fresh = settle(stale.state, switched({ locale: 'ms-MY' }), stored);
     expect(fresh).toMatchObject({ post: null, effect: 'refresh' });
-    expect(fresh.state).toEqual({ inFlight: null, queued: null, shown: 'ms-MY', result: 'saved-account', reason: null, wrote: false });
+    expect(fresh.state).toEqual({ ...IDLE, shown: 'ms-MY', result: 'saved-account' });
   });
 
   it('M2-AC04/2 switch: two quick choices where the superseded one was written and the newest fails — the page re-renders what the server holds', () => {
@@ -118,7 +120,7 @@ describe('M2-AC04/2 switch: the echo rule — only the answer to what this clien
   it('M2-AC04/2 switch: a failed request (transport, a refusal, a redirect) keeps the old language and says so', () => {
     const step = settle(inFlight('ms-MY'), { kind: 'failed' }, stored);
     expect(step).toMatchObject({ post: null, effect: 'none' });
-    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'not-switched', reason: null, wrote: false });
+    expect(step.state).toEqual({ ...IDLE, result: 'not-switched' });
   });
 
   it('M2-AC04/2 switch: switched but not saved re-renders (the server shows the notice), and names the reason', () => {
@@ -153,7 +155,7 @@ describe('M2-AC04/2 switch: refused storage — a guest switch the browser would
     });
     expect(asked).toEqual(['ms-MY']);
     expect(step).toMatchObject({ effect: 'none', post: null });
-    expect(step.state).toEqual({ inFlight: null, queued: null, shown: null, result: 'refused', reason: null, wrote: false });
+    expect(step.state).toEqual({ ...IDLE, result: 'refused' });
   });
 
   it('M2-AC04/2 switch: an account answer never consults the guest cookie', () => {
@@ -173,6 +175,41 @@ describe('M2-AC04/2 switch: refused storage — a guest switch the browser would
     expect(guestCookieHolds('wringy-locale-x=ms-MY', 'ms-MY')).toBe(false);
     expect(guestCookieHolds('xwringy-locale=ms-MY', 'ms-MY')).toBe(false);
     expect(guestCookieHolds('', 'ms-MY')).toBe(false);
+  });
+});
+
+describe('M2-AC04/1 switch: Skip has a pending state and says when it could not be recorded', () => {
+  it('M2-AC04/1 switch: a Skip is sent once; a second press while it is in flight sends nothing', () => {
+    const first = skip(IDLE);
+    expect(first.send).toBe(true);
+    expect(first.state).toEqual({ ...IDLE, skipping: true });
+
+    const again = skip(first.state);
+    expect(again.send).toBe(false);
+    expect(again.state).toBe(first.state);
+  });
+
+  it('M2-AC04/1 switch: an answered Skip re-renders without the prompt and says nothing', () => {
+    const step = settleSkip(skip(IDLE).state, true);
+    expect(step).toEqual({ state: IDLE, post: null, effect: 'refresh' });
+  });
+
+  it('M2-AC04/1 switch: a failed Skip keeps the prompt, says it could not be recorded, and can be pressed again, which clears that sentence', () => {
+    const failed = settleSkip(skip(IDLE).state, false);
+    expect(failed).toEqual({ state: { ...IDLE, result: 'not-skipped' }, post: null, effect: 'none' });
+
+    const retried = skip(failed.state);
+    expect(retried.send).toBe(true);
+    // Cleared, so a second failure is a change the live region announces again.
+    expect(retried.state).toEqual({ ...IDLE, skipping: true, result: '' });
+  });
+
+  it('M2-AC04/1 switch: a Skip leaves a choice in flight alone, and a choice settling leaves the Skip in flight', () => {
+    const choosing = choose(IDLE, 'ms-MY').state;
+    const skipping = skip(choosing);
+    expect(skipping.state).toMatchObject({ inFlight: 'ms-MY', result: 'pending', skipping: true });
+    expect(settle(skipping.state, switched(), stored).state).toMatchObject({ skipping: true, result: 'saved-account' });
+    expect(settleSkip(skipping.state, true).state).toMatchObject({ inFlight: 'ms-MY', skipping: false, result: 'pending' });
   });
 });
 

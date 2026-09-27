@@ -23,6 +23,10 @@
  * A disabled account leaves through `/auth/end-session`; an expired token
  * (`session_ended`) re-renders, which renews the session through the proxy and
  * shows the server-rendered "not saved · Retry" notice.
+ *
+ * A Skip goes through the same state: while it is in flight another press sends
+ * nothing, and when it fails the live region says so. Before any refresh, focus
+ * inside a control the refresh may remove moves to the header switcher.
  */
 
 import { createContext, useContext, useRef, useState, useTransition, type ReactNode } from 'react';
@@ -34,9 +38,12 @@ import { guestCookieHolds } from '@/lib/locale/cookies';
 import {
   IDLE,
   LOCALE_ENDPOINT,
+  LOCALE_SWITCHER_ID,
   answerOf,
   choose as chooseStep,
   settle,
+  settleSkip,
+  skip as skipStep,
   switchForm,
   withoutLocaleOutcome,
   type Step,
@@ -60,6 +67,20 @@ export function useLocaleSwitch(): LocaleSwitch {
   const value = useContext(LocaleSwitchContext);
   if (value === null) throw new Error('useLocaleSwitch() is used outside <LocaleSwitchProvider>.');
   return value;
+}
+
+/**
+ * Spread on an element a refresh can remove — the prompt (Continue, Skip) and
+ * the two notices (Retry, Undo). When focus is inside one as a refresh starts,
+ * it moves to the header switcher first, so it is not dropped on `<body>` when
+ * the control disappears.
+ */
+export const TRANSIENT_PROPS = { 'data-locale-transient': '' } as const;
+
+function keepFocusThroughRefresh(): void {
+  const focused = document.activeElement;
+  if (!(focused instanceof HTMLElement) || focused.closest('[data-locale-transient]') === null) return;
+  document.getElementById(LOCALE_SWITCHER_ID)?.focus();
 }
 
 /** POST to the handler as the client, asking for JSON. Never throws. */
@@ -110,6 +131,7 @@ export function LocaleSwitchProvider({ children }: { children: ReactNode }) {
    * refresh that follows asks for the stripped URL and `useSearchParams` sees it.
    */
   function refresh(): void {
+    keepFocusThroughRefresh();
     const consumed = withoutLocaleOutcome(window.location.href);
     if (consumed !== null) window.history.replaceState(null, '', consumed);
     startRefresh(() => router.refresh());
@@ -121,14 +143,20 @@ export function LocaleSwitchProvider({ children }: { children: ReactNode }) {
     run(settle(machine.current, answer, (value) => guestCookieHolds(document.cookie, value)));
   }
 
+  async function sendSkip(locale: Locale): Promise<void> {
+    const answered = await postChoice(switchForm('skip', locale, pathname));
+    run(settleSkip(machine.current, answered !== null && answered.status === 200));
+  }
+
   const value: LocaleSwitch = {
     state,
     refreshing,
     choose: (locale) => run(chooseStep(machine.current, locale)),
     skip: (locale) => {
-      void postChoice(switchForm('skip', locale, pathname)).then((answered) => {
-        if (answered !== null && answered.status === 200) startRefresh(() => router.refresh());
-      });
+      const step = skipStep(machine.current);
+      machine.current = step.state;
+      setState(step.state);
+      if (step.send) void sendSkip(locale);
     },
   };
 

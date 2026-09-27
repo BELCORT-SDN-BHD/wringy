@@ -22,7 +22,9 @@
  * prompt and the Language card name their selects themselves.
  *
  * The polite live region beside it says what the last switch did, in the
- * language the page is in once it has re-rendered.
+ * language the page is in once it has re-rendered, and when the prompt's Skip
+ * could not be recorded. The select carries `LOCALE_SWITCHER_ID`: focus comes
+ * here when a refresh is about to remove the control that had it.
  */
 
 import { useState } from 'react';
@@ -33,7 +35,7 @@ import { Button } from '@/components/ui/button';
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
 import { LOCALES, isLocale, type Locale } from '@/i18n/config';
 
-import { LOCALE_ENDPOINT, type LiveResult } from './locale-switch-logic';
+import { LOCALE_ENDPOINT, LOCALE_SWITCHER_ID, type LiveResult } from './locale-switch-logic';
 import { useLocaleSwitch } from './locale-switch-provider';
 
 /** The live region's sentence per result (`internal.locale.live.*`). */
@@ -44,6 +46,7 @@ const LIVE_KEYS: Record<Exclude<LiveResult, ''>, string> = {
   'not-saved': 'notSaved',
   'not-switched': 'notSwitched',
   refused: 'refused',
+  'not-skipped': 'notSkipped',
 };
 
 /** A selection not applied yet, and the language the page was in when it was made. */
@@ -92,6 +95,7 @@ export function LocaleSwitcher() {
         <input type="hidden" name="intent" value="choose" />
         <input type="hidden" name="next" value={pathname} />
         <NativeSelect
+          id={LOCALE_SWITCHER_ID}
           name="locale"
           size="sm"
           value={shown}

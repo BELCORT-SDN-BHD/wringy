@@ -278,7 +278,8 @@
       "savedGuest": "Language switched and saved to this browser",
       "notSaved": "Language switched, preference not saved",
       "notSwitched": "The language could not be switched. Try again.",
-      "refused": "This browser refused to store the choice, so the language was not switched. Allow cookies and try again."
+      "refused": "This browser refused to store the choice, so the language was not switched. Allow cookies and try again.",
+      "notSkipped": "Skipping the language question could not be recorded. Try again."
     },
     "status": {
       "unsaved": "You switched to {name}, but the preference is not saved to your account yet.",

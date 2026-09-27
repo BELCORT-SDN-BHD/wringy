@@ -278,7 +278,8 @@
       "savedGuest": "Bahasa ditukar dan disimpan dalam pelayar ini",
       "notSaved": "Bahasa ditukar, pilihan tidak disimpan",
       "notSwitched": "Bahasa tidak dapat ditukar. Cuba lagi.",
-      "refused": "Pelayar ini enggan menyimpan pilihan itu, jadi bahasa tidak ditukar. Benarkan kuki dan cuba lagi."
+      "refused": "Pelayar ini enggan menyimpan pilihan itu, jadi bahasa tidak ditukar. Benarkan kuki dan cuba lagi.",
+      "notSkipped": "Pilihan untuk melangkau soalan bahasa tidak dapat direkodkan. Cuba lagi."
     },
     "status": {
       "unsaved": "Anda telah menukar kepada {name}, tetapi pilihan itu belum disimpan pada akaun anda.",
