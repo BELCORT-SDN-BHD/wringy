@@ -31,8 +31,8 @@
  *   somebody else left behind (live, revoked, and on the not-found page);
  * - M2-AC04/2: the six-run walk (choose → save → new device → failure → retry),
  *   a transport failure, refused storage, a sign-in's choice over the account
- *   value with Undo, the invitee, the idle tab, guest persistence, two quick
- *   choices;
+ *   value with Undo, the same choice kept through a cancelled sign-in, the
+ *   invitee, the idle tab, guest persistence, two quick choices;
  * - M2-AC04/3: the three languages at 1440 and 390 (the evidence frames; the
  *   card in place and without JavaScript; a language outcome consumed by the
  *   next switch), the keyboard on the header switcher, the typed input and the
@@ -60,6 +60,7 @@ import {
   SIGN_IN_ROOT,
   TESTIDS,
   WEB_ROUTES,
+  cancelSignIn,
   expect,
   onlySessionOf,
   sessionCookieNames,
@@ -542,7 +543,7 @@ test.describe('M2-AC04 the language preference: suggestion, prompt and the share
     const refusal = await signInFrom(refused.page, 'mallory');
     expect(refusal.pathname).toBe(WEB_ROUTES.signInPage);
     expect(refusal.searchParams.get('outcome')).toBe('not_allowed');
-    expect((await localeCookies(refused.context))[LOCALE_COOKIES.carry], 'every exit of the callback expires the carry').toBeUndefined();
+    expect((await localeCookies(refused.context))[LOCALE_COOKIES.carry], 'a refusal that names the person spends the carry').toBeUndefined();
 
     await signInFrom(refused.page, 'gopal');
     await expectBodyLocale(refused.page, 'ms-MY', 'account');
@@ -853,6 +854,52 @@ test.describe('M2-AC04 the language preference: what is saved, where, and what h
     await expect(syncedNotice(page)).toHaveCount(0);
     await expect(switcher(page), 'focus left the notice for the header before the notice went').toBeFocused();
     await expectNoLocaleOutcome(page, 'the synced landing was consumed by the Undo');
+
+    expect(problems).toEqual([]);
+  });
+
+  /**
+   * critic-4: an attempt that ends before the API knows who was signing in (here a
+   * cancel at the provider, `error=access_denied`) keeps the carry, so the retry
+   * within its ten minutes lands in the language just chosen rather than silently
+   * in the account's older one (R6 rev 3).
+   */
+  test('M2-AC04/2 simulated cancelled sign-in keeps the choice: Gopal chooses Chinese on the sign-in page, cancels at the provider, signs in again and lands in Chinese, told it replaced Bahasa Melayu', async ({
+    tagged,
+  }) => {
+    test.setTimeout(90_000);
+    await setAccountPreference(GOPAL, 'ms-MY');
+    const before = await readAccountPreference(GOPAL.id);
+    const { page, context } = tagged;
+    const problems = watchConsole(page);
+
+    await page.goto(WEB_ROUTES.signInPage);
+    await chooseInPrompt(page, 'zh-Hans-MY', 'guest');
+    expect((await localeCookies(context))[LOCALE_COOKIES.carry]).toBe('zh-Hans-MY');
+
+    // He starts signing in and cancels at the simulated consent screen.
+    const cancelled = new URL(await cancelSignIn(page));
+    expect(cancelled.pathname).toBe(WEB_ROUTES.signInPage);
+    expect(cancelled.searchParams.get('outcome')).toBe('cancelled');
+    await expect(page.locator(SIGN_IN_ROOT)).toHaveAttribute('data-outcome', 'cancelled');
+    await expect(page.getByTestId(TESTIDS.signInOutcome)).toContainText(internalCopy('zh-Hans-MY', 'signIn.outcomes.cancelled.title'));
+    await expectBodyLocale(page, 'zh-Hans-MY', 'guest');
+    expect((await localeCookies(context))[LOCALE_COOKIES.carry], 'a cancel names nobody, so the carry is kept for the retry').toBe(
+      'zh-Hans-MY',
+    );
+    expect(await readAccountPreference(GOPAL.id), 'nothing was written by the cancelled attempt').toEqual(before);
+
+    // The retry, well within the carry's ten minutes.
+    const landed = await signInFrom(page, 'gopal');
+    expect(landed.pathname).toBe(WEB_ROUTES.internal);
+    expect(landed.searchParams.get('outcome')).toBe('locale_synced');
+    expect(landed.searchParams.get('from')).toBe('ms-MY');
+    await expectBodyLocale(page, 'zh-Hans-MY', 'account');
+    const synced = syncedNotice(page);
+    await expect(synced).toHaveAttribute('data-from', 'ms-MY');
+    await expect(synced).toContainText(internalCopy('zh-Hans-MY', 'locale.status.syncedFrom').replace('{name}', localeName('ms-MY')));
+    await expect.poll(async () => (await readAccountPreference(GOPAL.id))?.localePref).toBe('zh-Hans-MY');
+    expect((await localeCookies(context))[LOCALE_COOKIES.carry], 'the sign-in the API let in spent the carry').toBeUndefined();
 
     expect(problems).toEqual([]);
   });
