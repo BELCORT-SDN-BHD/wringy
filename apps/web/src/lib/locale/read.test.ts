@@ -4,6 +4,7 @@ import type { AddressInfo } from 'node:net';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { ApiResult } from '@/lib/auth/api-client';
+import { ACCESS_TOKEN_HEADER } from '@/lib/auth/wire';
 import type { MeResponse } from '@wringy/contracts';
 
 /**
@@ -12,15 +13,27 @@ import type { MeResponse } from '@wringy/contracts';
  * and on timeout the order continues without the account. `control.failNext`
  * cannot stall the API and the outage instance's closed port answers at once,
  * so the stall is proven here: once with fake timers, once against a real
- * server that sleeps.
+ * server that sleeps, and once through `resolveInternalLocale()` itself.
+ *
+ * The bound is the language's only. `/internal`'s page awaits the same `/me`
+ * read for its own content under `apiFetch`'s 5 s, so a slow `/me` delays that
+ * page's render past 1.5 s; the last row pins exactly that.
  */
 
+/** What `next/headers` hands the code under test: the request's cookies and headers. */
+const request = vi.hoisted(() => ({ cookies: new Map<string, string>(), headers: new Headers() }));
+
 vi.mock('next/headers', () => ({
-  cookies: () => Promise.resolve({ get: () => undefined, getAll: () => [] }),
-  headers: () => Promise.resolve(new Headers()),
+  cookies: () =>
+    Promise.resolve({
+      get: (name: string) => (request.cookies.has(name) ? { name, value: request.cookies.get(name) } : undefined),
+      getAll: () => [...request.cookies].map(([name, value]) => ({ name, value })),
+    }),
+  headers: () => Promise.resolve(request.headers),
 }));
 
-const { ACCOUNT_READ_BUDGET_MS, accountPreferenceOf, accountPreferenceWithin, readMe } = await import('./read');
+const { ACCOUNT_READ_BUDGET_MS, accountPreferenceOf, accountPreferenceWithin, readMe, resolveInternalLocale } =
+  await import('./read');
 
 const PROFILE = {
   id: '00000000-0000-4000-8000-000000000001',
@@ -39,6 +52,9 @@ let server: Server | null = null;
 afterEach(async () => {
   vi.useRealTimers();
   vi.restoreAllMocks();
+  vi.unstubAllEnvs();
+  request.cookies.clear();
+  request.headers = new Headers();
   if (server !== null) {
     server.closeAllConnections();
     await new Promise<void>((resolve) => server?.close(() => resolve()));
@@ -112,4 +128,45 @@ describe('M2-AC04/1 API stalled: the language does not wait for a slow account r
     expect(await accountPreferenceWithin(readMe('token-for-the-simulated-caller', base))).toBe('ms-MY');
     expect(performance.now() - started).toBeLessThan(ACCOUNT_READ_BUDGET_MS);
   });
+
+  it('M2-AC04/1 API stalled: with /me answering at 3 s, the language is resolved at 1.5 s without the account, and the page’s own read still completes with the profile', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const base = await sleepyApi(3_000);
+    const token = 'token-for-the-simulated-caller';
+    vi.stubEnv('WRINGY_APP_MODE', 'internal');
+    vi.stubEnv('WRINGY_ENV', 'ci');
+    vi.stubEnv('API_INTERNAL_URL', base);
+    vi.stubEnv('SUPABASE_URL', 'https://project.supabase.co');
+    vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_fake_0123456789abcdef');
+    vi.stubEnv('APP_ORIGIN', 'http://127.0.0.1:3100');
+    // A signed-in render (the proxy's token header) in a browser that holds a guest choice.
+    request.headers = new Headers({ [ACCESS_TOKEN_HEADER]: token, 'accept-language': 'ms' });
+    request.cookies.set('wringy-locale', 'zh-Hans-MY');
+
+    const started = performance.now();
+    // `/internal`'s page starts its `/me` read before it awaits its translations
+    // (page.tsx). Outside a React request `cache()` does not memoise, so this is a
+    // second call of the same reader rather than the shared promise.
+    const pageRead = readMe(token, base);
+    const resolved = await resolveInternalLocale();
+    const resolvedAfter = performance.now() - started;
+
+    expect(resolved).toMatchObject({
+      locale: 'zh-Hans-MY',
+      source: 'guest',
+      accountPreference: 'unknown',
+      unsaved: null,
+      showPrompt: false,
+    });
+    expect(resolvedAfter).toBeGreaterThanOrEqual(ACCOUNT_READ_BUDGET_MS - 50);
+    expect(resolvedAfter).toBeLessThan(ACCOUNT_READ_BUDGET_MS + 1_000);
+
+    // The bound is the language's only: the page's read keeps apiFetch's 5 s and
+    // answers when `/me` does, with the preference the language went without.
+    const page = await pageRead;
+    const pageAfter = performance.now() - started;
+    expect(page.kind).toBe('ok');
+    expect(accountPreferenceOf(page)).toBe('ms-MY');
+    expect(pageAfter).toBeGreaterThanOrEqual(3_000 - 50);
+  }, 15_000);
 });

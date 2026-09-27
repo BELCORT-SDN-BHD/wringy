@@ -18,6 +18,14 @@
  * continues (the guest cookie, the browser, English), while the read itself keeps
  * running for the page that needs its answer.
  *
+ * The bound decides the language, not the render. `/internal`'s page awaits the
+ * same `/me` read for its own content (the profile, the Language card) under
+ * `apiFetch`'s 5 s, so when `/me` answers between 1.5 s and 5 s that page renders
+ * when it answers, in the language resolved without the account, while its card
+ * shows the saved preference from the same answer. No other internal page awaits
+ * `/me`, so a slow `/me` holds them for 1.5 s at most (`read.test.ts` pins both
+ * halves: the language at 1.5 s, the page's read when `/me` answers).
+ *
  * ## Where the token comes from, and one caveat
  *
  * The token is `accessTokenFromHeaders()`, which `proxy.ts` sets from a session it

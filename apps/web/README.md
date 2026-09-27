@@ -385,7 +385,11 @@ the layout, the metadata and every page agree:
    shows beside a card that says "Saved";
 2. the account's `profiles.locale_pref`, from `GET /me` through `readMe()` — one memoised read per
    request that `/internal`'s page shares — raced against a **1.5 s** bound: on timeout or any failure
-   it is `unknown` and the order continues (the read keeps running for the page);
+   it is `unknown` and the order continues (the read keeps running for the page). The bound decides
+   the language, not the render: `/internal`'s page awaits the same read for its own content under
+   `apiFetch`'s 5 s, so a `/me` answering between 1.5 s and 5 s renders that page when it answers, in
+   the language resolved without the account, beside a card showing the saved preference; no other
+   internal page awaits `/me`;
 3. `wringy-locale`;
 4. `Accept-Language` as a suggestion only (`accept-language.ts`: q-values, then header order; `en*`,
    `ms*`, `zh`/`zh-Hans*`/`zh-CN`/`zh-SG`/`zh-MY`; Traditional Chinese matches nothing);
