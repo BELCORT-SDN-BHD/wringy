@@ -291,7 +291,8 @@
       "regionLabel": "Notis bahasa"
     },
     "prompt": {
-      "selectLabel": "Bahasa"
+      "selectLabel": "Bahasa",
+      "description": "Anda boleh menukarnya pada bila-bila masa melalui menu Bahasa di bahagian atas setiap halaman."
     },
     "critical": {
       "unavailable": "Penerangan untuk tindakan ini belum tersedia dalam bahasa semasa. Tukar kepada bahasa yang tersedia sepenuhnya sebelum mengesahkan."
@@ -324,7 +325,7 @@
     "invalid_name": "Nama itu tidak boleh digunakan, jadi tiada apa-apa diubah. Gunakan 1 hingga 100 aksara, bukan ruang kosong sahaja, dan tanpa aksara pemformatan tersembunyi.",
     "locale_saved": "Pilihan bahasa telah disimpan.",
     "locale_switched": "Bahasa telah ditukar.",
-    "locale_not_saved": "Bahasa telah ditukar, tetapi pilihan itu tidak dapat disimpan. Cuba lagi daripada tetapan bahasa.",
+    "locale_not_saved": "Bahasa telah ditukar, tetapi pilihan itu tidak dapat disimpan. Tekan Cuba lagi pada notis di atas untuk menyimpannya.",
     "locale_synced": "Disimpan sebagai bahasa akaun anda."
   }
 }

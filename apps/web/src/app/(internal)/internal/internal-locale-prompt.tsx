@@ -35,7 +35,7 @@ import { LOCALES, isLocale, type Locale } from '@/i18n/config';
 import { LOCALE_ENDPOINT } from './locale-switch-logic';
 import { TRANSIENT_PROPS, useLocaleSwitch } from './locale-switch-provider';
 
-/** The prompt's copy in one language: `common.localePrompt.*` and `internal.locale.prompt.selectLabel`. */
+/** The prompt's copy in one language: `common.localePrompt.*` but its description, and `internal.locale.prompt.*`. */
 export interface PromptCopy {
   readonly title: string;
   readonly description: string;

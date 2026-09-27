@@ -291,7 +291,8 @@
       "regionLabel": "Language notice"
     },
     "prompt": {
-      "selectLabel": "Language"
+      "selectLabel": "Language",
+      "description": "You can change this anytime with the Language menu at the top of every page."
     },
     "critical": {
       "unavailable": "The explanation for this action is not available in the current language yet. Switch to a fully available language before confirming."
@@ -324,7 +325,7 @@
     "invalid_name": "That name could not be used, so nothing was changed. Use 1 to 100 characters, not only spaces, and no hidden formatting characters.",
     "locale_saved": "Language preference saved.",
     "locale_switched": "Language switched.",
-    "locale_not_saved": "Language switched, but the preference could not be saved. Retry from the language settings.",
+    "locale_not_saved": "Language switched, but the preference could not be saved. Press Retry in the notice above to save it.",
     "locale_synced": "Saved as your account language."
   }
 }
