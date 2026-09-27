@@ -158,9 +158,17 @@ captured log line contains the token or the session id.
 
 A revoked session's access token stays valid until its `exp`, so the token alone
 cannot answer "is this session still live?". Reads accept that and rely on the
-token (they are valid for at most its lifetime); every state-changing command asks,
-**inside its own transaction**, so the answer and the write cannot be separated by
-a sign-out. `SESSION_LIVENESS` names the adapter (required, no default):
+token (they are valid for at most its lifetime); every state-changing command asks
+**on its own transaction, immediately before its work**. That guarantees two
+things: a session revoked before the check is refused and nothing is written, and
+one revoked after it is refused on the next command. It does not hold the session
+until COMMIT: commands run READ COMMITTED and `platform.session_is_live` is a plain
+SELECT that locks nothing, so a sign-out that commits between the check and COMMIT
+neither waits for the command nor is seen by its write, and the write lands. With
+`auth_server` the question is a network call with no link to the transaction at
+all. Whether M3's fund-sensitive commands need more (asking again just before
+COMMIT, or a lock) is left to M3 (known-issues §M2-04). `SESSION_LIVENESS` names
+the adapter (required, no default):
 
 | Value | Asks | Works where |
 |---|---|---|
@@ -183,7 +191,10 @@ The guard resolves a boolean, never the reply: a Fastify reply is a thenable, so
 an async guard that returned it resolved to `undefined` once the 401 was sent,
 and a command that awaited it carried on (found by M2-04; an integration row in
 `session-liveness.int.test.ts` proves a guarded command writes nothing and runs
-no further statement after a revoked verdict).
+no further statement after a revoked verdict). Which connection asked is proven
+separately: a recording port in the same file answers `live` only when it is
+handed a client that is inside an open transaction, and the sign-in, the probe
+and `POST /me/locale` each pass through it.
 
 ### Org scoping and locks
 

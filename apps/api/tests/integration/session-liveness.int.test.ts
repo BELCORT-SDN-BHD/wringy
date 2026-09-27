@@ -115,7 +115,7 @@ describe('M2-AC02 session liveness, database adapter', () => {
     };
 
     // Given the command's transaction client, the adapter asks on *that* client,
-    // so the answer and the write it guards cannot be separated (§4.6).
+    // inside the transaction of the write it guards (§4.6).
     const asked: string[] = [];
     const recording: LivenessClient = {
       query: async (sql) => {

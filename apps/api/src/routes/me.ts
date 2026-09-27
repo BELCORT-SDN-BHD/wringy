@@ -132,8 +132,10 @@ export const meRoutes: FastifyPluginAsyncZod<MeRoutesOptions> = async (app, { po
     },
     async (request, reply) => {
       const outcome = await withTransaction(pool, async (client) => {
-        // The guard asks on this client, inside this transaction: nothing can be
-        // signed out between the answer and the work the answer allows.
+        // The guard asks on this client, inside this transaction, before anything
+        // else runs: a session revoked before this point is refused here. It locks
+        // nothing, so one revoked after it is refused on the next command, not this
+        // one (session-liveness.ts).
         // `true` means the 401 or 503 is already sent: stop here, so nothing
         // after the verdict runs (no lock, no clock read, no second send).
         if (await liveSession(request, reply, client)) return { refused: reply };
