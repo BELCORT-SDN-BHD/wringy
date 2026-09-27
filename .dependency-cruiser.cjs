@@ -115,7 +115,7 @@ module.exports = {
     {
       name: 'internal-not-to-demo',
       comment:
-        'The (internal) build never mounts the demo: no store, no demo engine/seed/scenarios (nor the @/domain barrel that re-exports them), no demo toolbar or demo providers. M2-02 R17 widens this to the proxy, the auth library and the auth route handlers, which are internal-build code living outside the (internal) route group.',
+        'The (internal) build never mounts the demo: no store, no demo engine/seed/scenarios (nor the @/domain barrel that re-exports them), no demo toolbar or demo providers. M2-02 R17 widens this to the proxy, the auth library and the auth route handlers, which are internal-build code living outside the (internal) route group; M2-04 R11 to the language library and the request-key mint.',
       severity: 'error',
       from: {
         path: [
@@ -123,6 +123,8 @@ module.exports = {
           '^apps/web/src/proxy\\.ts$',
           '^apps/web/src/lib/auth/',
           '^apps/web/src/app/auth/',
+          '^apps/web/src/lib/locale/',
+          '^apps/web/src/lib/request-key',
         ],
       },
       to: {
